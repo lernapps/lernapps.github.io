@@ -15,6 +15,7 @@ summary:focus-visible { outline: 3px solid var(--farbe-fokus); outline-offset: 2
 .leise { color: var(--farbe-text-leise); font-size: 0.9rem; }
 .hinweis { background: var(--farbe-gelb-hell); padding: 0.6rem 0.9rem; border-radius: var(--radius); margin: 0 0 1rem; }
 .tabelle-scroll { overflow-x: auto; }
+code { overflow-wrap: anywhere; }
 th, td { vertical-align: top; }
 
 /* Filter */
