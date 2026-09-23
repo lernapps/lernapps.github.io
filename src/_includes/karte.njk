@@ -1,0 +1,43 @@
+{#- Seitengerüst der Mathe-Karte (/karte/): Menü der Karte, Mathe-Blau, Kern-CSS plus css/karte.css. -#}
+{%- set farbe = fachfarben.mathe -%}
+{%- set menue = [["index.html", "Karte"], ["karte-statisch.html", "Liste"], ["apps.html", "Apps"], ["laender.html", "Länder"], ["ueber.html", "Über"]] -%}
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ seitenTitel }} – Mathe-Karte</title>
+  <meta name="description" content="{{ beschreibung }}">
+  <link rel="canonical" href="{{ site.basis }}karte/{{ '' if seite == 'index.html' else seite }}">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <meta name="theme-color" content="{{ farbe.primaer }}">
+  <link rel="stylesheet" href="../kern/css/stil.css">
+  <link rel="stylesheet" href="css/karte.css">
+  <style>:root { --farbe-primaer: {{ farbe.primaer }}; --farbe-primaer-dunkel: {{ farbe.dunkel }}; }</style>
+</head>
+<body>
+  <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
+  <header class="kopf">
+    <a class="marke" href="index.html">Mathe-Karte</a>
+    <nav class="themen" aria-label="Seiten der Karte">
+      <ul>
+        {%- for m in menue %}
+        <li><a href="{{ m[0] }}"{% if m[0] == seite %} aria-current="page"{% endif %}>{{ m[1] }}</a></li>
+        {%- endfor %}
+        <li><a href="../">Alle Lern-Apps</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="inhalt">
+{{ content | safe }}
+  </main>
+
+  <footer class="fuss">
+    <p>Mathe-Karte · {{ site.titel }} Version {{ site.version }} · <a href="karte-statisch.html">Statische Liste</a> · <a href="{{ site.repo }}/tree/main/src/karte">Quellcode auf GitHub</a> · <a href="ueber.html#datenschutz">Datenschutz</a> · <a href="llms.txt">llms.txt</a> · <a href="../">Alle Lern-Apps</a></p>
+  </footer>
+{%- if skript %}
+  <script type="module" src="{{ skript }}"></script>
+{%- endif %}
+</body>
+</html>

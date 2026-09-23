@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lernapps.github.io/karte/schemas/kompetenz.schema.json",
+  "title": "Kompetenz",
+  "description": "Frontmatter einer Datei unter data/kompetenzen/. Ein Knoten der Kompetenzkarte; höchstens eine Hierarchieebene über parent.",
+  "type": "object",
+  "required": ["id", "titel", "leitidee", "kmk-standard", "schluesselwoerter"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
+    "titel": { "type": "string", "minLength": 1 },
+    "leitidee": { "type": "string", "description": "id einer Leitidee" },
+    "parent": { "type": "string", "description": "id einer Kompetenz ohne eigenen parent" },
+    "kmk-standard": { "type": "string", "description": "Wortlaut des KMK-Standards oder leer bei landesspezifischer Verfeinerung" },
+    "schluesselwoerter": { "type": "array", "items": { "type": "string" } }
+  }
+}

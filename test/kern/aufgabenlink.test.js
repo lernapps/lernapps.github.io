@@ -21,3 +21,8 @@ test("aufgabenHref: Parameter mit Komma, Aufgabennummer als seed am Ende", () =>
   assert.equal(aufgabenHref("beispiel.html", { wert: 2.5, von: "m" }, 42), "beispiel.html?wert=2%2C5&von=m&seed=42");
   assert.equal(aufgabenHref("beispiel.html", {}, 7), "beispiel.html?seed=7");
 });
+
+test("leseVorgaben liest Texte, die mit einer Ziffer beginnen (Urneninhalt 3r2b1g)", () => {
+  assert.deepEqual(leseVorgaben("?urne=3r2b1g&modus=ohne", [], ["urne", "modus"]), { urne: "3r2b1g", modus: "ohne" });
+  assert.deepEqual(leseVorgaben("?urne=-3r", [], ["urne"]), {});
+});

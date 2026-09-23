@@ -1,0 +1,48 @@
+---
+seite: index.html
+seitenTitel: Lehrpläne Sek I und was Apps davon abdecken
+beschreibung: Karte der Mathe-Lehrpläne der Sekundarstufe I – welche Kompetenzen Lern-Apps schon üben und wo Lücken sind. Ohne Server, ohne Tracking.
+skript: js/start.js
+---
+{#- Die Karte: ohne JS die vollständige Liste (karte-liste.njk), mit JS ersetzt js/start.js sie durch Filter, Baum und Detail. -#}
+    <h1>Die Karte</h1>
+    <p>Diese Karte zeigt die Mathe-Kompetenzen der Sekundarstufe I entlang der fünf KMK-Leitideen und
+    dazu, welche Lern-Apps eine Kompetenz schon üben und wo noch keine App eingetragen ist.
+    Sie zeigt nicht, wie gut eine App ist und nicht, ob ein Land, das noch niemand erfasst hat,
+    eine Kompetenz lehrt: „noch nicht erfasst“ heißt, die Karte weiß es nicht; „keine App“ heißt,
+    die Kompetenz ist erfasst, aber keine eingetragene App übt sie.</p>
+
+    <noscript><p>Ohne JavaScript siehst du unten alle Kompetenzen mit Jahrgang nach Hessen; ein Klick auf eine
+    Kompetenz klappt KMK-Standard, Beschreibung und Apps auf. Filter nach Land, Jahrgang und Leitidee brauchen JavaScript.</p></noscript>
+
+    <form class="filter" id="filter" aria-label="Karte filtern" hidden>
+      <label>Land
+        <select name="land" id="land"></select>
+      </label>
+      <label>Jahrgang
+        <select name="jahrgang" id="jahrgang">
+          <option value="">alle</option>
+          {%- for j in [5, 6, 7, 8, 9, 10] %}
+          <option value="{{ j }}">{{ j }}</option>
+          {%- endfor %}
+        </select>
+      </label>
+      <label>Leitidee
+        <select name="leitidee" id="leitidee"><option value="">alle</option></select>
+      </label>
+      <label class="schalter">
+        <input type="checkbox" name="luecken" id="luecken"> Nur Lücken zeigen
+      </label>
+    </form>
+
+    <div id="hinweis-land" class="hinweis" hidden></div>
+    <p class="zusammenfassung" id="zusammenfassung" aria-live="polite">{{ karte.ansicht.zusammenfassung }}</p>
+
+    <div id="karte" data-mithelfen="{{ site.repo }}/blob/main/src/karte/daten/README.md">
+{% include "karte-liste.njk" %}
+    </div>
+
+    <dialog class="detail" id="detail" aria-labelledby="detail-titel">
+      <button type="button" class="schliessen" id="detail-schliessen" aria-label="Schließen">✕</button>
+      <div id="detail-inhalt"></div>
+    </dialog>

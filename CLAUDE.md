@@ -39,6 +39,14 @@ untouched and keep running until they are migrated.
 - `src/_includes/basis.njk` (head, menu with number badges, footer with site version, subject colour) and
   `kompetenz.njk` (Warum / Regel / Beispiel / Video / Bild / Übung from front matter). `src/start.njk`,
   `src/test.njk` and `src/manifest.njk` paginate over all apps; `src/index.njk` and `src/llms.njk` are the overview.
+- `src/karte/` – the Mathe-Karte at `/karte/` (not an app: no `app.config.js`). Curriculum data as flat-front-matter
+  Markdown in `src/karte/daten/` (ignored as pages, read by `karte.11tydata.js` → `lib/karte/laden.js`; data model in
+  `src/karte/daten/README.md`). Pages are static (`index`, `karte-statisch`, `apps`, `laender`, `ueber`, `llms.txt`,
+  `data.json`); `js/start.js` turns the static list into the interactive map. URL parameters `land`, `jahrgang`,
+  `leitidee`, `luecken`, `knoten` and the shape of `data.json` are a public contract (`src/karte/llms.njk`).
+- An app appears on the map when its config has `APP.kartenEintrag` (edugo fields: `aktiv-level`, `backend`,
+  `external-requests`, `dsgvo`, `evidence`, `jahrgaenge`, `lizenz`, `stand`) and competencies carry `kartenKnoten: [<node
+  id>]`. Unknown node ids fail the build. Apps outside the repo: `src/karte/daten/externe-eintraege.js`.
 - `lib/` – build-time Node code: `apps.js` (loads every `src/*/js/app.config.js`), `bild.js` (static SVG),
   `fachfarben.js`, `versionierung.js`, `pruefungen.js`, `adressen.js`, `app-daten.js`.
 - `test/kern/`, `test/build/`, `test/apps/` (generator contract for every competency of every app) and

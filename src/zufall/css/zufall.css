@@ -1,0 +1,13 @@
+/* Zufall-Trainer: Bilder in natürlicher Größe (Bäume sind breit), bei Bedarf waagerecht scrollen. */
+#visualisierung, .test-bild, .bauer { overflow-x: auto; }
+svg.vis[width] { width: auto; max-width: none; height: auto; }
+.baum-blatt[role="button"] { cursor: pointer; }
+/* Auswahl nur als Rahmen, nie als Fläche – der Knoten darunter bleibt lesbar. */
+.baum-blatt[role="button"]:hover .baum-treffer, .baum-blatt[aria-pressed="true"] .baum-treffer { stroke: #ff8f00; stroke-width: 2; }
+.baum-blatt[role="button"]:focus { outline: none; }
+.baum-blatt[role="button"]:focus-visible .baum-treffer { stroke: #1d4ed8; stroke-width: 3; }
+/* Lange Wörter (Gegenwahrscheinlichkeit) auf 360 px trennen. */
+h1, h2 { hyphens: auto; overflow-wrap: break-word; }
+.konfig { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: end; }
+.konfig label, .konfig fieldset { display: flex; flex-direction: column; gap: 0.25rem; }
+.konfig fieldset { border: 0; padding: 0; margin: 0; }

@@ -1,0 +1,11 @@
+---
+seite: karte-statisch.html
+seitenTitel: Statische Liste
+beschreibung: Statische Liste aller Kompetenzen der Mathe-Karte (Sek I) mit Status der App-Abdeckung und Jahrgang nach Lehrplan Hessen.
+---
+    <h1>Mathe-Karte – statische Liste</h1>
+    <p>Alle {{ karte.ansicht.anzahl }} Kompetenzen der Sekundarstufe I nach den fünf KMK-Leitideen, mit Jahrgang nach
+    Hessen (Gymnasium) und dem Stand der App-Abdeckung. Diese Seite kommt ohne JavaScript aus; die
+    <a href="index.html">interaktive Karte</a> bietet Filter nach Land, Jahrgang und Leitidee.</p>
+    <p class="zusammenfassung">{{ karte.ansicht.zusammenfassung }}</p>
+{% include "karte-liste.njk" %}

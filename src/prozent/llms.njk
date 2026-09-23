@@ -1,0 +1,256 @@
+---
+permalink: "{{ page.filePathStem }}.txt"
+layout: false
+eleventyExcludeFromCollections: true
+---
+# Prozent-Trainer – Hinweise für einen KI-Tutor
+
+Basis-URL: {{ app.basisUrl }}
+Weitere Lern-Apps (jede mit eigener llms.txt) stehen auf der Übersicht, als Text unter {{ site.basis }}llms.txt:
+{{ site.basis }}
+
+## Was die App ist
+
+Ein statischer, interaktiver Mathe-Trainer für die Prozentrechnung (Klasse 8,
+Gymnasium Hessen, Vorbereitung auf einen Mathe-Wettbewerb). Sieben Kompetenzseiten,
+jede mit: Warum-Absatz, Formel, ausgerechnetem Beispiel, SVG-Bild (Hunderterfeld oder
+Balken) und einem Aufgabengenerator mit Sofort-Feedback, Tipp, "Lösung zeigen/verbergen",
+"Neue Aufgabe" und einem Zähler richtig/gesamt für die Sitzung.
+
+## Was die App nicht ist
+
+- Kein Server, kein Login, kein Tracking, keine Cookies. Im localStorage liegen nur die
+  Selbsteinschätzung, das letzte Testergebnis und der optionale Merker "Videos immer
+  direkt laden".
+- Keine externen Requests, bis der Lernende ein Video startet; dann lädt
+  youtube-nocookie.com (Daten gehen an Google). Die Lehrerschmidt-Videos sind als
+  Zwei-Klick-Karten eingebettet: erst ein lokal gezeichneter Platzhalter, das Video
+  selbst kommt erst nach Klick auf "Video laden und abspielen".
+- Die App kennt den Lernenden nicht und meldet nichts zurück. Der Tutor erfährt das
+  Ergebnis nur, wenn er danach fragt – oder das Kind schickt ihm die Ergebniszeile
+  des Tests (siehe "Test").
+- Keine Noten, keine Zeitmessung. Der Test liefert je Kompetenz nur sicher / teils /
+  üben.
+
+## Regeln für den Tutor
+
+- Die App ist das Arbeitsblatt, der Chat das Gespräch darüber: Bilder und Aufgaben verlinken statt im Chat rechnen zu lassen, spätestens jede dritte Antwort mit einem Link auf eine konkrete Aufgabe oder ein Bild. Eine Kompetenz gilt als geschafft nach drei richtigen App-Aufgaben und einer Erklärung.
+- Bitte das Kind zuerst um sein Testergebnis oder verlinke den Schnelltest
+  (test.html?nr=<Nummer>&modus=schnell). Beginne bei der ersten Kompetenz mit ✗,
+  dann ~. Nie die Testaufgaben vorab verraten.
+- Verlinke immer eine konkrete Aufgabe mit Parametern, nie nur die Startseite.
+- Jede Aufgabe hat eine Nummer. Sag dem Kind "Mach Aufgabe Nr. 42" und schick den Link
+  mit `seed=42`. Nennt das Kind eine Nummer, öffnest du dieselbe Aufgabe über den Link.
+- Nach jeder verlinkten Aufgabe: frag, was herauskam, und lass den Rechenweg in
+  eigenen Worten erklären. Die App meldet dem Tutor nichts.
+- Empfiehl das Video, wenn das Kind die Erklärung zweimal nicht wiedergeben kann;
+  sonst zuerst Aufgaben. Verlinke dann den Anker `#video` der Seite.
+
+## URL-Parameter und Anker (alle Seiten)
+
+- Aufgabennummer (URL-Parameter `seed=` oder `nr=`, ganze Zahl; stehen beide da, gilt
+  `seed`): macht den Generator deterministisch. Ohne Aufgabennummer wählt die App eine
+  zufällige Nummer von 1 bis 9999.
+- Zahlen in URL-Parametern mit Punkt oder Komma: `p=12.5` und `p=12,5` gehen beide.
+  Ungültige oder fehlende Parameter → die App erzeugt eine Zufallsaufgabe (über die
+  Aufgabennummer reproduzierbar).
+- Anker auf jeder Kompetenzseite: `#warum` (Warum-Absatz), `#formel` (Formel; liegt im
+  Abschnitt `#regel`, beide Anker gehen), `#beispiel` (Beispiel), `#video` (Lehrerschmidt-Video als Zwei-Klick-Karte oder
+  Hinweis, dass es keines gibt), `#visualisierung` (Bild), `#uebung` (Aufgabengenerator).
+- Unter jeder Aufgabe steht "Aufgabe Nr. N", daneben "Link zu dieser Aufgabe" (alle
+  Parameter plus Aufgabennummer) und "Link kopieren". Der Lernende kann dir die Nummer
+  sagen oder den Link schicken.
+
+## Antwortformate, die der Prüfer akzeptiert
+
+Eingaben werden tolerant gelesen: "12,5", "12.5", "12,5 %", "12,50", "30 €", "1.250,5".
+Prozentsätze mit oder ohne %-Zeichen, Geldbeträge mit oder ohne Einheit.
+
+Zahlen eingeben – eine Regel für alle Zahlenfelder:
+- Rundungsvorgabe: Muss gerundet werden, steht unter dem Feld "Runde auf eine
+  Nachkommastelle oder gib einen Bruch an." (Prozentsatz: 1 Stelle) bzw. "Runde auf zwei
+  Nachkommastellen." (Geld in €: 2 Stellen, ohne "Bruch"; andere Größen: 2 Stellen mit
+  "oder gib einen Bruch an"). Ist das Ergebnis glatt (30 €, 25 %), fehlt der Hinweis.
+- Die Toleranz folgt den getippten Stellen: richtig ist der exakte Wert oder der exakte Wert
+  kaufmännisch gerundet auf so viele Stellen, wie getippt – mindestens die geforderten.
+  Beispiel 10 von 30 in Prozent: "33,3", "33,33", "100/3" richtig; "33,4" falsch;
+  "33" ist zu grob. Abschneiden ist falsch (2/3 → "0,67", nicht "0,66").
+- Zu grob gerundet ist kein Fehler: Die App zeigt neutral (gelb, nicht rot) "Fast – runde
+  auf eine Nachkommastelle." und zählt den Versuch nicht. Im Test zählt es als falsch.
+- Brüche und Rechenterme gehen in jedem Zahlenfeld, auch bei Geld: "100/3", "100/3 %",
+  "250*12/100", "80*0,75", "(1/2)^2", "1-1/6", Wurzeln "sqrt(40)" oder "√2" und "pi"/"π".
+  Ein Term zählt als exakt; bei Geld muss sein Wert auf den Cent stimmen. Gemischte Zahlen
+  ("3 1/3") nimmt die App nicht, sie bittet um "10/3".
+- Tippt das Kind einen Term oder Bruch, zeigt die App darunter live den Wert ("= 30 €",
+  "≈ 33,33 %"). Bei reinen Zahlen erscheint nichts.
+- Hinweis-Codes (keine Fehler): "zu-grob-gerundet", "gemischte-zahl",
+  "ausdruck-statt-zahl" (nur in Feldern, die das Ausrechnen verlangen – im Prozent-Trainer
+  derzeit keine).
+- Typische Fehler erkennt die App mit derselben Stellenregel, auch wenn das Kind den
+  falschen Wert gerundet eingibt.
+
+## Typische Fehler (die App gibt dazu gezielte Rückmeldung)
+
+- Durch den Teil statt durch das Ganze geteilt (Bezugsgröße verwechselt).
+- Prozentsatz als Dezimalzahl (0,25 statt 25) oder Prozentwert ohne ": 100".
+- Rest statt Anteil (G − W statt W) oder nur die Veränderung statt des neuen Werts.
+- Beim Rückwärtsrechnen die Prozente auf den neuen statt auf den alten Wert bezogen.
+- Beim Vergleich den Unterschied (30) oder das Verhältnis (125) statt 25 % angegeben.
+Die Fehlercodes je Seite stehen unten bei den Seiten.
+
+## Startseite
+
+URL: {{ app.basisUrl }}index.html
+Checkliste der sieben Kompetenzen mit Selbsteinschätzung pro Zeile:
+Sicher / Teils / Noch üben (Radiobuttons, localStorage, Schlüssel
+`{{ app.id }}.selbsteinschaetzung`). Der Tutor kann den Lernenden bitten, seine
+Einschätzung vorzulesen, um zu entscheiden, wo er anfängt. Für Aufgaben nicht
+hierhin verlinken.
+
+## Test
+
+URL: {{ app.basisUrl }}test.html
+Ein Diagnosetest über alle sieben Kompetenzen in Checklisten-Reihenfolge, ohne Tipp,
+ohne Lösung, ohne Zeitmessung. Nur Eingabe und "Weiter"; eine leere Antwort zählt
+nach Rückfrage als falsch. "Abbrechen" führt zur Startseite, ohne zu speichern.
+- Modi: `modus=voll` (Standard) – zwei Aufgaben je Kompetenz, 14 Aufgaben;
+  `modus=schnell` – eine Aufgabe je Kompetenz, 7 Aufgaben. Die Seite bietet vor dem
+  Start beide als Knopf an; der Parameter legt nur den vorgeschlagenen Modus fest.
+- Testnummer: `nr=` oder `seed=` (ganze Zahl, `seed` gewinnt; ohne Angabe zufällig
+  1–9999). Die Nummer bestimmt die komplette Aufgabenfolge; dieselbe Nummer ergibt
+  denselben Test. Der Schnelltest zu einer Nummer besteht aus der jeweils ersten
+  Aufgabe des vollen Tests.
+- Beispiel: {{ app.basisUrl }}test.html?nr=4711&modus=schnell
+- Bewertung je Kompetenz: Test 2/2 → "✓ sicher", 1/2 → "~ teils", 0/2 → "✗ üben";
+  Schnelltest 1/1 → ✓, 0/1 → ✗.
+- Ergebniszeile (das Kind kopiert sie und schickt sie dir):
+  `Test Nr. 4711 (Prozent-Trainer, Schnelltest): 1 ✓ 2 ✓ 3 ✗ 4 ✓ 5 ~ 6 ✓ 7 ✓`
+  Die Ziffern sind die Kompetenznummern der Checkliste. Bei der Nummer kannst du
+  denselben Test unter test.html?nr=4711&modus=schnell nachvollziehen – verrate
+  dem Kind die Aufgaben aber nicht vorab.
+- Das letzte Ergebnis liegt im localStorage (`{{ app.id }}.test`) und erscheint in
+  der Checkliste der Startseite als fünfte Spalte "Test" mit der Zeile "Letzter Test:
+  Nr. 4711, Schnelltest, 23.09.2026".
+
+## Seiten
+
+### 1 Grundbegriffe erkennen – {{ app.basisUrl }}grundbegriffe.html
+Kompetenz: Grundwert (G, das Ganze, 100 %), Prozentwert (W, der Teil) und
+Prozentsatz (p %) in einer Textaufgabe erkennen.
+Aufgabe: Textaufgabe mit zwei gegebenen Zahlen und einer gesuchten Größe; jede wird
+per Auswahlfeld G, W oder p zugeordnet.
+Parameter: `gesucht=g|w|p` (welche Größe gesucht ist), `seed`.
+Beispiel: {{ app.basisUrl }}grundbegriffe.html?gesucht=g&seed=42
+Typische Fehler, die der Checker meldet: G und W vertauscht ("g-w-vertauscht"),
+unvollständige Zuordnung.
+Video (#video): "Dreisatz - Grundwert - Prozentwert - Prozentsatz | Lehrerschmidt | Klasse 7"
+https://www.youtube.com/watch?v=tsAZSNrwJLE
+Die App bettet es erst nach einem Klick ein (youtube-nocookie.com).
+
+### 2 Prozentsatz berechnen – {{ app.basisUrl }}prozentsatz.html
+Formel: p % = W / G · 100
+Parameter: `g` (Grundwert), `w` (Prozentwert), `seed`. Nur mit g UND w wird die
+Aufgabe vorbelegt.
+Beispiel: {{ app.basisUrl }}prozentsatz.html?g=80&w=20&seed=1
+(Lösung 25 %)
+Typische Fehler: "dezimal-statt-prozent" (0,25 statt 25), "bezugsgroesse-verwechselt"
+(G / W statt W / G, hier 400).
+Video (#video): "Prozentsatz berechnen - Prozentrechnung mit Formel - Mathematik einfach erklärt | Lehrerschmidt"
+https://www.youtube.com/watch?v=YdBcJa8-81s
+Die App bettet es erst nach einem Klick ein (youtube-nocookie.com).
+
+### 3 Prozentwert berechnen – {{ app.basisUrl }}prozentwert.html
+Formel: W = G · p / 100
+Parameter: `g` (Grundwert), `p` (Prozentsatz), `seed`.
+Beispiel: {{ app.basisUrl }}prozentwert.html?g=250&p=12&seed=42
+(Lösung 30)
+Typische Fehler: "prozent-statt-dezimal" (nicht durch 100 geteilt, 3000 statt 30),
+"rest-statt-anteil" (G − W statt W, 220 statt 30).
+Video (#video): "Prozentwert berechnen - Prozentrechnung mit Formel - Mathematik einfach erklärt | Lehrerschmidt"
+https://www.youtube.com/watch?v=XDvDfzdP_Fc
+Die App bettet es erst nach einem Klick ein (youtube-nocookie.com).
+
+### 4 Grundwert berechnen – {{ app.basisUrl }}grundwert.html
+Formel: G = W · 100 / p
+Parameter: `w` (Prozentwert), `p` (Prozentsatz), `seed`.
+Beispiel: {{ app.basisUrl }}grundwert.html?w=30&p=12&seed=5
+(Lösung 250)
+Typische Fehler: "prozentwert-statt-grundwert" (W · p / 100 gerechnet, 3,6 statt 250),
+"nur-ein-prozent" (bei 1 % stehen geblieben, 2,5 statt 250).
+Video (#video): "Grundwert berechnen - Prozentrechnung mit Formel - Mathematik einfach erklärt | Lehrerschmidt"
+https://www.youtube.com/watch?v=gtEAmp8-K-8
+Die App bettet es erst nach einem Klick ein (youtube-nocookie.com).
+
+### 5 Prozentuale Zunahme und Abnahme – {{ app.basisUrl }}veraenderung.html
+Formel: neuer Wert = alter Wert · (1 ± p/100); rückwärts: alter Wert = neuer Wert : Faktor
+Zwei Aufgabentypen: "neu" (neuer Wert gesucht) und "alt" (alter Wert gesucht,
+vermehrter/verminderter Grundwert).
+Parameter: `alt`, `p`, `richtung=plus|minus` → Typ "neu";
+`neu`, `p`, `richtung=plus|minus` → Typ "alt"; `typ=neu|alt` erzwingt den Typ mit
+Zufallszahlen; `seed`.
+Beispiele:
+{{ app.basisUrl }}veraenderung.html?alt=80&p=25&richtung=minus&seed=3
+(Lösung 60)
+{{ app.basisUrl }}veraenderung.html?neu=100&p=25&richtung=plus&seed=3
+(Lösung 80)
+Typische Fehler: "richtung-verwechselt" (erhöht statt gesenkt), "nur-prozentwert"
+(nur die Veränderung, nicht der neue Wert), "grundwert-neuer-wert" (die Prozente
+auf den neuen statt auf den alten Wert bezogen – der Klassiker beim Rückwärtsrechnen).
+Videos: #video "Rabatt, Nachlass, Preissenkung berechnen | Prozentrechnung - einfach erklärt | Lehrerschmidt"
+https://www.youtube.com/watch?v=7qPr-ik4wp8
+und #video-2 (am Ende des Beispiels) "Preiserhöhung, Aufschlag berechnen | Prozentrechnung - einfach erklärt | Lehrerschmidt"
+https://www.youtube.com/watch?v=hyKgJKGCjHc
+Die App bettet sie erst nach einem Klick ein (youtube-nocookie.com).
+
+### 6 Zwei Werte vergleichen – {{ app.basisUrl }}vergleich.html
+Regel: p % = Unterschied / Bezugsgröße · 100; die Bezugsgröße (100 %) steht im Satz
+nach "als". "A ist 25 % größer als B" und "B ist 20 % kleiner als A" gehören zu
+denselben Zahlen (150 und 120).
+Parameter: `a`, `b` (die zwei Werte), `frage=groesser|kleiner`, `seed`.
+Beispiele:
+{{ app.basisUrl }}vergleich.html?a=120&b=150&frage=groesser&seed=1
+(Lösung 25 %) und ...&frage=kleiner (Lösung 20 %).
+Typische Fehler: "bezugsgroesse-verwechselt" (durch den falschen Wert geteilt – die
+Antwort auf die andere Frage), "differenz-statt-prozent" (30 statt 25),
+"verhaeltnis-statt-unterschied" (125 statt 25).
+Video: keins. Unter #video steht nur der Hinweis, dass es zu dieser Frage kein
+Lehrerschmidt-Video gibt.
+
+### 7 Sachaufgaben übersetzen – {{ app.basisUrl }}sachaufgaben.html
+Kompetenz: Sachaufgabe in eine Gleichung oder einen Dreisatz übersetzen.
+Typ "gleichung": Text, drei Gleichungen zur Auswahl (die richtige steht an
+wechselnder Stelle), dann das Ergebnis berechnen.
+Typ "dreisatz": Tabelle 100 % → G, 1 % → ?, p % → ? ausfüllen.
+Parameter: `typ=gleichung|dreisatz`; für gleichung `gesucht=g|w|p`; für dreisatz
+`g` (Grundwert) und `p` (Prozentsatz); `seed`.
+Beispiele:
+{{ app.basisUrl }}sachaufgaben.html?typ=gleichung&gesucht=w&seed=3
+{{ app.basisUrl }}sachaufgaben.html?typ=dreisatz&g=300&p=12&seed=1
+(1 % = 3, 12 % = 36)
+Typische Fehler: "gleichung-falsch" (Formel für die falsche Größe gewählt),
+"ergebnis-falsch" (Gleichung richtig, Rechnung nicht), unvollständige Tabelle.
+Video (#video): "Prozentrechnung - Prozentsatz berechnen mit Formel / mit Dreisatz | Lehrerschmidt"
+https://www.youtube.com/watch?v=fvzgrNy9S0Q
+Die App bettet es erst nach einem Klick ein (youtube-nocookie.com).
+
+## Parameter-Übersicht
+
+| Seite              | Parameter                                   | Beispiel                                  |
+|--------------------|---------------------------------------------|-------------------------------------------|
+| test.html          | nr (oder seed), modus=voll/schnell           | ?nr=4711&modus=schnell                    |
+| grundbegriffe.html | gesucht=g/w/p, seed                          | ?gesucht=g&seed=42                        |
+| prozentsatz.html   | g, w, seed                                   | ?g=80&w=20&seed=1                         |
+| prozentwert.html   | g, p, seed                                   | ?g=250&p=12&seed=42                       |
+| grundwert.html     | w, p, seed                                   | ?w=30&p=12&seed=5                         |
+| veraenderung.html  | alt/neu, p, richtung=plus/minus, typ, seed   | ?alt=80&p=25&richtung=minus&seed=3        |
+| vergleich.html     | a, b, frage=groesser/kleiner, seed           | ?a=120&b=150&frage=groesser&seed=1        |
+| sachaufgaben.html  | typ=gleichung/dreisatz, gesucht, g, p, seed  | ?typ=dreisatz&g=300&p=12&seed=1           |
+
+Die Aufgabennummer allein (`seed=` oder `nr=`, ohne Zahlenparameter) erzeugt auf jeder
+Seite eine reproduzierbare Zufallsaufgabe. "Neue Aufgabe" erzeugt eine neue Aufgabe mit
+eigener Aufgabennummer; der Link
+"Link zu dieser Aufgabe" unter jeder Aufgabe enthält die Parameter zum Nachvollziehen.
+
+## Tutor-Prompt
+
+{{ app.basisUrl }}tutor.md

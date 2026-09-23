@@ -1,0 +1,32 @@
+{#- Statische Liste der Karte (ohne JS vollständig): Leitidee → Knoten → Kinder, je Knoten aufklappbar mit
+    KMK-Standard, Beschreibung, Schlüsselwörtern und Apps. Werte aus karte.ansicht (lib/karte/laden.js). -#}
+{%- macro knoten(n) %}
+<li id="{{ n.kompetenz.id }}"><details><summary><strong>{{ n.kompetenz.titel | e }}</strong>{% if n.jahrgaenge %} · Jahrgang {{ n.jahrgaenge }}{% endif %} · {{ n.status }}</summary>
+<div>
+{%- if n.kompetenz["kmk-standard"] %}
+<blockquote><strong>KMK-Standard:</strong> {{ n.kompetenz["kmk-standard"] | e }}</blockquote>
+{%- else %}
+<p class="leise">Kein KMK-Standard: landesspezifische Verfeinerung.</p>
+{%- endif %}
+{{ n.kompetenz.beschreibung | absaetze | safe }}
+{%- if n.kompetenz.schluesselwoerter.length %}
+<p class="leise">Schlüsselwörter: {{ n.kompetenz.schluesselwoerter | join(", ") | e }}</p>
+{%- endif %}
+<p>{% if n.apps.length %}Apps: {% for e in n.apps %}<a href="{{ e.url }}">{{ e.titel | e }}</a>{{ ", " if not loop.last }}{% endfor %}{% else %}Noch keine App übt diese Kompetenz. <a href="apps.html#eintragen">App eintragen</a>{% endif %}
+· <a href="index.html?land=HE&amp;knoten={{ n.kompetenz.id }}">In der interaktiven Karte</a></p>
+</div></details>
+{%- if n.kinder.length %}
+<ul class="liste">
+{%- for c in n.kinder %}{{ knoten(c) }}{% endfor %}
+</ul>
+{%- endif %}
+</li>
+{%- endmacro %}
+{%- for l in karte.ansicht.baum %}
+<section class="leitidee" id="{{ l.leitidee.id }}">
+  <h2>{{ l.leitidee.titel }}</h2>
+  <ul class="baum liste">
+  {%- for n in l.knoten %}{{ knoten(n) }}{% endfor %}
+  </ul>
+</section>
+{%- endfor %}

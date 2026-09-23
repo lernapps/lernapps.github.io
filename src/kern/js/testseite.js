@@ -6,7 +6,7 @@ import { erzeugeZufall, leseSeed, zufaelligeAufgabennummer } from "./zufall.js";
 import {
   nummeriere, MODI, MODUS_NAMEN, SYMBOLE, STUFEN_NAMEN, leseModus, testAufgaben, fasseZusammen, ergebnisZeile, testLink,
 } from "./testablauf.js";
-import { erzeugeTestaufgabe, pruefeTestaufgabe, istLeer } from "./testaufgaben.js";
+import { erzeugeTestaufgabe, pruefeTestaufgabe, istLeer, bildFuer } from "./testaufgaben.js";
 import { el, zeigeEingaben, zeigeAufgabentext, lieseAntworten } from "./aufgabe-eingabe.js";
 import { kopiereText } from "./aufgabenlink.js";
 import { erzeugeSpeicher } from "./storage.js";
@@ -31,6 +31,7 @@ export function starteTestseite({ app, kompetenzen, generatoren }) {
   const kompetenzP = $("[data-kompetenz]");
   const text = $("[data-aufgabe-text]");
   const felder = $("[data-felder]");
+  const bild = $("[data-test-bild]");
   const form = aufgabeBox.querySelector("form");
 
   $("[data-test-nr]").textContent = String(nr);
@@ -50,9 +51,19 @@ export function starteTestseite({ app, kompetenzen, generatoren }) {
     stand.textContent = `Aufgabe ${position + 1} von ${folge.length}`;
     kompetenzP.textContent = `Kompetenz ${k.nr}: ${k.titel}`;
     zeigeAufgabentext(text, aufgabe);
+    zeigeBild(aufgabe);
     zeigeEingaben(felder, aufgabe, "test");
     form.querySelector("input, select")?.focus({ preventScroll: true });
     window.scrollTo({ top: 0 });
+  }
+
+  function zeigeBild(aufgabe) {
+    const zeichne = bildFuer(generatoren, aufgabe);
+    if (!bild) return;
+    bild.hidden = !zeichne;
+    const svg = bild.querySelector("svg");
+    svg.replaceChildren();
+    if (zeichne) zeichne(svg, aufgabe);
   }
 
   function ergebnisZeileFuer(k, stufe) {

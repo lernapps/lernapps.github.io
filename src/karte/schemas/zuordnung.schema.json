@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lernapps.github.io/karte/schemas/zuordnung.schema.json",
+  "title": "Zuordnung",
+  "description": "Frontmatter einer Datei unter data/zuordnungen/. Der Body ist eine Markdown-Tabelle mit den Spalten kompetenz | jahrgang | einheit | pflicht; jede Zeile ordnet eine Kompetenz einem Jahrgang und einer Lehrplan-Einheit zu.",
+  "type": "object",
+  "required": ["lehrplan"],
+  "additionalProperties": false,
+  "properties": {
+    "lehrplan": { "type": "string", "description": "id eines Lehrplans" }
+  },
+  "$defs": {
+    "zeile": {
+      "type": "object",
+      "required": ["kompetenz", "jahrgang", "einheit", "pflicht"],
+      "properties": {
+        "kompetenz": { "type": "string", "description": "id einer Kompetenz" },
+        "jahrgang": { "type": "string", "pattern": "^(5|6|7|8|9|10|5/6|7/8|9/10)$" },
+        "einheit": { "type": "string", "description": "Nummer der Lehrplan-Einheit, z. B. 7.1, oder - wenn keine" },
+        "pflicht": { "type": "string", "enum": ["ja", "nein"] }
+      }
+    }
+  }
+}

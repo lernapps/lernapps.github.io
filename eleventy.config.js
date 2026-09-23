@@ -10,6 +10,7 @@ import site from "./src/_data/site.js";
 import { ladeApps } from "./lib/apps.js";
 import { zeichneBild } from "./lib/bild.js";
 import { versionsHash, versioniere } from "./lib/versionierung.js";
+import { richteKarteEin } from "./lib/karte/eleventy.js";
 import { pruefeExterneRessourcen, pruefeExterneImporte, pruefeZeilen, pruefeLlms, pruefeKompetenzen } from "./lib/pruefungen.js";
 
 const QUELLE = "src";
@@ -46,10 +47,10 @@ function pruefe(apps, ausgabe) {
   return fehler;
 }
 
-/** ?v=<Hash über alle ausgelieferten JS/CSS> an jede lokale Referenz in JS und HTML. */
+/** ?v=<Hash über alle ausgelieferten JS/CSS/JSON> an jede lokale Referenz in JS und HTML (JSON: data.json der Karte). */
 function versioniereAusgabe(ausgabe) {
   const dateien = alleDateien(ausgabe);
-  const v = versionsHash(dateien.filter((p) => /\.(js|css)$/.test(p)).map((p) => [path.relative(ausgabe, p), fs.readFileSync(p)]));
+  const v = versionsHash(dateien.filter((p) => /\.(js|css|json)$/.test(p)).map((p) => [path.relative(ausgabe, p), fs.readFileSync(p)]));
   for (const p of dateien) {
     const art = p.endsWith(".js") ? "js" : p.endsWith(".html") ? "html" : undefined;
     if (art) fs.writeFileSync(p, versioniere(fs.readFileSync(p, "utf8"), v, art));
@@ -69,6 +70,7 @@ export default async function (eleventyConfig) {
     eleventyConfig.ignores.add(`src/${a.pfad}/test/**`);
   }
   eleventyConfig.ignores.add("src/kern/**");
+  richteKarteEin(eleventyConfig);
   eleventyConfig.on("eleventy.after", ({ dir }) => {
     const fehler = pruefe(apps, dir.output);
     if (fehler.length) throw new Error(`Build-Prüfung: ${fehler.length} Fehler\n  ✗ ${fehler.join("\n  ✗ ")}`);

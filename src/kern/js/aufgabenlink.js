@@ -45,7 +45,7 @@ export function aufgabenzeile(nummer, href) {
   return [`Aufgabe Nr. ${nummer} · `, link, knopf];
 }
 
-/** Liest benannte URL-Parameter: `zahlen` müssen positive Zahlen sein, `texte` nur Kleinbuchstaben, Ziffern, Bindestrich. */
+/** Liest benannte URL-Parameter: `zahlen` müssen positive Zahlen sein, `texte` nur Kleinbuchstaben, Ziffern, Bindestrich (nicht vorn). */
 export function leseVorgaben(query, zahlen = [], texte = []) {
   const params = new URLSearchParams(query || "");
   const vorgaben = {};
@@ -55,7 +55,7 @@ export function leseVorgaben(query, zahlen = [], texte = []) {
   }
   for (const name of texte) {
     const roh = (params.get(name) || "").trim().toLowerCase();
-    if (/^[a-z][a-z0-9-]*$/.test(roh)) vorgaben[name] = roh;
+    if (/^[a-z0-9][a-z0-9-]*$/.test(roh)) vorgaben[name] = roh;
   }
   return vorgaben;
 }

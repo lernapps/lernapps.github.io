@@ -1,0 +1,39 @@
+---
+seite: laender.html
+seitenTitel: Die Länder
+beschreibung: Die 16 Mathe-Lehrpläne (Gymnasium, Sek I) auf der Mathe-Karte und wie weit sie erfasst sind.
+---
+{%- set ERFASST = { nein: "–", teilweise: "teilweise", vollstaendig: "✓" } -%}
+    <h1>Die Länder</h1>
+    <p>Die Kompetenzknoten der Karte sind länderübergreifend; jedes Land ordnet sie seinen Jahrgängen und
+    Lehrplaneinheiten zu. „Erfasst“ heißt, diese Zuordnung liegt vor. Für ein nicht erfasstes Land weiß
+    die Karte nur, welches Dokument gilt, nicht, was darin steht.</p>
+
+    <p class="leise" id="laender-stand">{{ karte.ansicht.erfasst }} von {{ karte.ansicht.lehrplaene.length }} Ländern erfasst (Gymnasium, Sek I).</p>
+    <div class="tabelle-scroll">
+      <table id="laender">
+        <thead><tr><th>Land</th><th>Erfasst</th><th>Dokument</th><th>Stand</th><th>Zuordnungen</th></tr></thead>
+        <tbody>
+        {%- for p in karte.ansicht.lehrplaene %}
+          {%- set erfasst = p.erfasst != "nein" %}
+          <tr>
+            <td>{% if erfasst %}<a href="index.html?land={{ p.land }}">{{ p.landname }}</a>{% else %}{{ p.landname }}{% endif %}</td>
+            <td aria-label="{{ 'erfasst' if erfasst else 'noch nicht erfasst' }}">{{ ERFASST[p.erfasst] }}</td>
+            <td><a href="{{ p.url }}">{{ p.dokument | e }}</a></td>
+            <td>{{ p.stand if p.stand !== "" else "–" }}</td>
+            <td>{{ (p.zeilen ~ " Zeilen") if erfasst else "–" }}</td>
+          </tr>
+        {%- endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="mithelfen">Mithelfen</h2>
+    <div class="kasten">
+      <p>Ein Land erfassen heißt: den Lehrplan lesen und jede Einheit einem Kompetenzknoten zuordnen. Das Ergebnis
+      ist eine Tabelle <code>kompetenz | jahrgang | einheit | pflicht</code> in
+      <code>src/karte/daten/zuordnungen/&lt;land&gt;-gymnasium.md</code>, dazu <code>erfasst: vollstaendig</code> (oder
+      <code>teilweise</code>) im Lehrplan-Stub. Ein Pull Request, zwei Dateien.</p>
+      <p>Fehlt ein Inhalt als Knoten, legst du ihn neu an und begründest ihn in den Offenen Punkten.
+      Anleitung: <a href="{{ site.repo }}/blob/main/src/karte/daten/README.md">Datenmodell auf GitHub</a>.</p>
+    </div>

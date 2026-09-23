@@ -11,8 +11,8 @@ Kein Server, kein Tracking, keine externen Requests vor dem Klick auf ein Video.
 npm ci          # Eleventy (exakt gepinnt) installieren
 npm test        # Unit- und Vertragstests
 npm run build   # _site bauen; bricht bei Regelverstößen ab
-npm run serve   # lokal ansehen: http://localhost:8080/lern-apps/
+npm run serve   # lokal ansehen: http://localhost:8080/
 ```
 
-Apps: [Binomische Formeln](src/binom/) (Mathe, Klasse 8). Wie man eine App oder Kompetenz anlegt, steht in
+Apps: [Binomische Formeln](src/binom/) (Mathe, Klasse 8), [Prozent-Trainer](src/prozent/) (Mathe, Klasse 8), [Zufall-Trainer](src/zufall/) (Mathe, Klasse 8, Wahrscheinlichkeitsrechnung). Wie man eine App oder Kompetenz anlegt, steht in
 [CLAUDE.md](CLAUDE.md).

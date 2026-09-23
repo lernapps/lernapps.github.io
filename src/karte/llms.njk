@@ -1,0 +1,91 @@
+---
+permalink: karte/llms.txt
+layout: false
+eleventyExcludeFromCollections: true
+---
+# Mathe-Karte – Hinweise für KI-Tutoren und Agenten
+
+Basis-URL: {{ site.basis }}karte/
+Quellcode: {{ site.repo }}/tree/main/src/karte
+Teil der Lern-Apps ({{ site.basis }}, Übersicht aller Apps: {{ site.basis }}llms.txt).
+Apps auf der Karte (jede mit eigener llms.txt):
+{%- for e in karte.daten.eintraege %}
+- {{ e.titel }}: {{ e.url }}
+{%- endfor %}
+
+## Was die Karte ist
+
+Eine statische Karte der Mathe-Kompetenzen der Sekundarstufe I (Gymnasium), geordnet nach
+den fünf KMK-Leitideen (Bildungsstandards ESA/MSA vom 23.06.2022). Jeder Knoten ist eine
+Kompetenz mit KMK-Standard, Beschreibung und Schlüsselwörtern. Je Land ordnet eine
+Zuordnungstabelle die Knoten Jahrgang und Lehrplaneinheit zu (bisher nur Hessen, G9).
+Lern-Apps sind als Einträge auf Knoten abgebildet; daraus ergibt sich je Knoten ein
+Status, der die Lücken sichtbar macht.
+
+Kein Server, kein Login, kein Tracking, keine Cookies, kein localStorage, keine externen
+Anfragen. Die Ansicht steht vollständig in der URL.
+
+## Status lesen
+
+- `keine`: Knoten erfasst, aber keine eingetragene App übt ihn (die Lücke).
+- `ungeprueft`: mindestens eine App eingetragen, keine mit `dsgvo: green`.
+- `gruen`: mindestens eine App mit `dsgvo: green` (kein Backend, keine externen Anfragen, geprüft).
+
+Zwei Arten von "nichts": `erfasst: nein` bei einem Lehrplan heißt "Land noch nicht erfasst,
+die Karte weiß nichts". `status: keine` bei einer Kompetenz heißt "erfasst, aber keine App".
+
+## URL-Grammatik (öffentlicher Vertrag, Parameter werden nie umbenannt)
+
+index.html?land=HE&jahrgang=8&leitidee=daten-und-zufall&luecken=1&knoten=prozent-grundwert
+
+- `land`: Länderkürzel BW BY BE BB HB HH HE MV NI NW RP SL ST SN SH TH (Standard HE).
+  Nicht erfasste Länder zeigen alle Knoten ohne Jahrgang und einen Hinweis.
+- `jahrgang`: 5–10, weglassen = alle. Doppeljahrgänge wie "5/6" treffen beide Jahrgänge.
+- `leitidee`: zahl-und-operation | groessen-und-messen | raum-und-form |
+  funktionaler-zusammenhang | daten-und-zufall, weglassen = alle.
+- `luecken=1`: nur Knoten mit status keine.
+- `knoten=<kompetenz-id>`: öffnet das Detail dieses Knotens (KMK-Standard, Beschreibung,
+  Zuordnung im gewählten Land, Apps mit Link).
+
+Beispiele:
+- Lücken in Hessen, Jahrgang 8: index.html?land=HE&jahrgang=8&luecken=1
+- Ein Knoten direkt: index.html?land=HE&knoten=zufall-baumdiagramm
+- Weitere Seiten: apps.html (alle Einträge), laender.html (Erfassungsstand), karte-statisch.html
+  (JS-freie Liste), ueber.html (Zweck, Quellen, Datenschutz). Alle Seiten sind ohne JavaScript
+  vollständig lesbar; index.html enthält dieselbe Liste wie karte-statisch.html, jeder Knoten mit
+  Anker #<kompetenz-id>.
+
+## Eine Kompetenz per Stichwort finden
+
+data.json laden, in `kompetenzen` nach `titel`, `schluesselwoerter` und `beschreibung` suchen
+(Groß-/Kleinschreibung ignorieren). Beispiel: "Grundwert" trifft `prozent-grundwert`, "Pfadregel"
+trifft `zufall-pfadregel-1` und `zufall-pfadregel-2`. Dann mit `knoten=<id>` verlinken.
+Eltern-Knoten (Feld `parent`) sind Überbegriffe; Kinder sind die übbaren Teilkompetenzen.
+
+## JSON-Endpunkt
+
+GET data.json (gleicher Ursprung, ~120 KB, ohne Zeitstempel, `version` = Version der Lern-Apps):
+
+{
+  "version": "{{ site.version }}",
+  "leitideen":   [{ id, titel, quelle, reihenfolge, beschreibung }],
+  "kompetenzen": [{ id, titel, leitidee, parent?, "kmk-standard", schluesselwoerter[],
+                    beschreibung, abdeckung[eintrag-id], status }],
+  "lehrplaene":  [{ id, land, landname, schulform, stufe, dokument, url, stand, erfasst,
+                    beschreibung }],
+  "zuordnungen": [{ lehrplan, zeilen: [{ kompetenz, jahrgang, einheit, pflicht }] }],
+  "eintraege":   [{ id, titel, url, quellcode, kompetenzen[], "aktiv-level", backend,
+                    "external-requests", dsgvo, evidence, jahrgaenge[], lizenz, stand,
+                    beschreibung }]
+}
+
+`aktiv-level`: 1 Create, 2 Solve, 3 Collaborate, 4 Reflect, 5 Receive (edugo-Skala).
+`jahrgang` in Zuordnungen ist ein String ("7" oder "5/6"); `einheit` ist die G9-Nummer
+("7.1") oder "-"; `pflicht` ist "ja" oder "nein" (fakultativ).
+
+## Mitmachen
+
+Eine App eintragen oder ein Land erfassen: {{ site.repo }}/blob/main/src/karte/daten/README.md
+beschreibt die Dateien; ein Pull Request genügt. Apps aus dem Repository tragen ihre Karten-Daten
+in der eigenen Konfiguration (APP.kartenEintrag, kartenKnoten je Kompetenz). `npm test` und
+`npm run build` bauen und prüfen data.json.

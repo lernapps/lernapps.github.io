@@ -1,0 +1,51 @@
+---
+seite: apps.html
+seitenTitel: Die Apps
+beschreibung: Alle Apps auf der Mathe-Karte mit den Kompetenzen, die sie üben, Aktiv-Level und DSGVO-Ampel.
+---
+{%- set n = karte.ansicht.eintraege.length -%}
+    <h1>Die Apps</h1>
+    <p>Jede eingetragene App übt eine oder mehrere Kompetenzen der Karte. Die Karte bewertet nicht,
+    wie gut eine App ist; sie hält fest, was die App laut Eintrag abdeckt, wie aktiv sie Lernende
+    fordert (Aktiv-Level 1 Create bis 5 Receive) und ob sie ohne Server und ohne externe Anfragen auskommt.</p>
+    <p class="leise">{{ n }} {{ "App" if n == 1 else "Apps" }} eingetragen.</p>
+
+    <div class="app-liste" id="apps">
+    {%- for e in karte.ansicht.eintraege %}
+      <article class="app-karte" id="app-{{ e.id }}">
+        <h3><a href="{{ e.url }}">{{ e.titel | e }}</a></h3>
+        <div class="meta">
+          <span class="badge">Aktiv-Level {{ e["aktiv-level"] }} · {{ karteTexte.aktivLevel[e["aktiv-level"]] }}</span>
+          <span class="chip dsgvo-{{ e.dsgvo }}">{{ karteTexte.dsgvo[e.dsgvo] }}</span>
+          <span class="leise">{{ karteTexte.anfragen[e["external-requests"]] }}</span>
+        </div>
+        <p>{{ e.beschreibung | e }}</p>
+        <p>{{ e.knoten.length }} {{ "Kompetenz" if e.knoten.length == 1 else "Kompetenzen" }} der Karte{% if e.jahrgaenge.length %} · Jahrgang {{ e.jahrgaenge | join(", ") }}{% endif %}:</p>
+        <ul>
+        {%- for k in e.knoten %}
+          <li><a href="index.html?land=HE&amp;knoten={{ k.id }}">{{ k.titel | e }}</a></li>
+        {%- endfor %}
+        </ul>
+        <p class="leise"><a href="{{ e.url }}">App öffnen</a>{% if e.quellcode %} · <a href="{{ e.quellcode }}">Quellcode</a>{% endif %}{% if e.stand %} · Stand {{ e.stand }}{% endif %}</p>
+      </article>
+    {%- endfor %}
+    </div>
+
+    <h2 id="eintragen">App eintragen</h2>
+    <div class="kasten">
+      <p>Kein Formular, kein Server: das Repository ist die Datenbank. Ein Pull Request genügt.</p>
+      <ul>
+        <li><strong>App aus diesem Repository:</strong> in <code>src/&lt;app&gt;/js/app.config.js</code> das Objekt
+          <code>APP.kartenEintrag</code> setzen und je Kompetenz <code>kartenKnoten</code> mit den ids der Knoten, die sie übt.
+          Titel, Adresse und Beschreibung kommen aus <code>APP</code>.</li>
+        <li><strong>App von anderswo:</strong> ein Eintrag mit <code>id</code>, <code>titel</code>, <code>url</code>,
+          <code>quellcode</code> und <code>kompetenzen</code> in <code>src/karte/daten/externe-eintraege.js</code>.</li>
+        <li>Felder: <code>aktiv-level</code> 1–5, <code>backend</code> (none / optional / required),
+          <code>external-requests</code> (none / on-consent / always), <code>dsgvo</code> (green / amber / red / unknown),
+          <code>evidence</code>, <code>jahrgaenge</code>, <code>lizenz</code>, <code>stand</code>.
+          Jede Knoten-id muss existieren, sonst bricht der Build ab.</li>
+      </ul>
+      <p><code>dsgvo: green</code> vergibt nicht der Eintrag selbst, sondern eine Prüfung: kein Backend, keine externen
+      Anfragen, Netzwerk-Audit. Bis dahin steht die App als „ungeprüft“ auf der Karte.</p>
+      <p>Alle Felder: <a href="{{ site.repo }}/blob/main/src/karte/daten/README.md">Datenmodell auf GitHub</a>.</p>
+    </div>
