@@ -1,0 +1,76 @@
+/* Mathe-Karte: nur was über den Kern (kern/css/stil.css) hinausgeht – Filter, Chips, Baum, Detail, App-Karten. */
+:root {
+  --farbe-text-leise: #4b5563;
+  --farbe-gruen: #166534;
+  --farbe-gruen-hell: #dcfce7;
+  --farbe-gelb: #92400e;
+  --farbe-gelb-hell: #fef3c7;
+  --farbe-grau: #374151;
+  --farbe-grau-hell: #e5e7eb;
+  --farbe-rot: #b91c1c;
+  --farbe-rot-hell: #fee2e2;
+}
+
+summary:focus-visible { outline: 3px solid var(--farbe-fokus); outline-offset: 2px; }
+.leise { color: var(--farbe-text-leise); font-size: 0.9rem; }
+.hinweis { background: var(--farbe-gelb-hell); padding: 0.6rem 0.9rem; border-radius: var(--radius); margin: 0 0 1rem; }
+.tabelle-scroll { overflow-x: auto; }
+th, td { vertical-align: top; }
+
+/* Filter */
+.filter { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 0.6rem 1rem; margin: 0 0 1rem; padding: 0.75rem; background: var(--farbe-flaeche); border-radius: var(--radius); }
+.filter label { display: flex; flex-direction: column; gap: 0.2rem; font-size: 0.9rem; font-weight: 600; flex: 1 1 100%; min-width: 0; }
+.filter label.schalter { flex-direction: row; align-items: center; gap: 0.5rem; min-height: 2.5rem; flex: 0 0 auto; white-space: nowrap; }
+.filter select { width: 100%; font: inherit; padding: 0.4rem 0.5rem; border: 1px solid var(--farbe-rand); border-radius: 0.35rem; background: #fff; min-height: 2.5rem; max-width: 100%; }
+.filter input[type="checkbox"] { width: 1.3rem; height: 1.3rem; }
+.zusammenfassung { font-weight: 600; margin: 0 0 1rem; }
+
+/* Chips und Badges */
+.chip { display: inline-block; font-size: 0.78rem; font-weight: 600; line-height: 1.3; padding: 0.15rem 0.55rem; border-radius: 999px; white-space: nowrap; }
+.chip.keine, .chip.dsgvo-unknown { background: var(--farbe-grau-hell); color: var(--farbe-grau); }
+.chip.ungeprueft, .chip.dsgvo-amber { background: var(--farbe-gelb-hell); color: var(--farbe-gelb); }
+.chip.gruen, .chip.dsgvo-green { background: var(--farbe-gruen-hell); color: var(--farbe-gruen); }
+.chip.dsgvo-red { background: var(--farbe-rot-hell); color: var(--farbe-rot); }
+.badge { display: inline-block; font-size: 0.8rem; font-weight: 600; padding: 0.05rem 0.45rem; border: 1px solid var(--farbe-primaer); color: var(--farbe-primaer); border-radius: 0.3rem; white-space: nowrap; }
+.badge.fakultativ { border-style: dashed; }
+.badge .einheit { font-weight: 400; color: var(--farbe-text-leise); margin-left: 0.25rem; }
+
+/* Baum (interaktiv) und Liste (statisch) */
+.leitidee > h2 { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem; }
+.leitidee > h2 .leise { font-weight: 400; }
+ul.baum, ul.baum ul { list-style: none; margin: 0; padding: 0; }
+ul.baum ul { margin-left: 1rem; border-left: 2px solid var(--farbe-grau-hell); padding-left: 0.5rem; }
+li.knoten { margin: 0.2rem 0; }
+button.knoten-zeile {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem 0.5rem; width: 100%; text-align: left;
+  font: inherit; color: inherit; background: none; border: 1px solid transparent; border-radius: var(--radius);
+  padding: 0.4rem 0.5rem; cursor: pointer; min-height: 2.5rem;
+}
+button.knoten-zeile:hover, button.knoten-zeile:focus { background: var(--farbe-flaeche); color: inherit; border-color: var(--farbe-rand); }
+button.knoten-zeile[aria-expanded="true"] { background: #eff6ff; border-color: var(--farbe-primaer); }
+button.knoten-zeile .titel { flex: 1 1 12rem; }
+li.knoten.kontext > button.knoten-zeile .titel { color: var(--farbe-text-leise); font-style: italic; }
+.leer { color: var(--farbe-text-leise); font-style: italic; }
+ul.liste details { padding: 0.3rem 0.5rem; border-radius: var(--radius); }
+ul.liste details[open] { background: var(--farbe-flaeche); }
+ul.liste summary { cursor: pointer; }
+ul.liste details > div { padding: 0.4rem 0 0.2rem; }
+
+/* Detail (Dialog der interaktiven Karte und aufgeklappte Knoten der Liste) */
+dialog.detail { border: 1px solid var(--farbe-rand); border-radius: var(--radius); padding: 1rem; max-width: 40rem; width: calc(100% - 2rem); max-height: calc(100% - 2rem); overflow: auto; }
+dialog.detail::backdrop { background: rgba(0, 0, 0, 0.35); }
+dialog.detail h2 { margin: 0 2.5rem 0.25rem 0; border: 0; padding: 0; }
+dialog.detail .schliessen { position: absolute; top: 0.6rem; right: 0.6rem; }
+dialog.detail blockquote, ul.liste blockquote { margin: 0 0 0.9rem; padding: 0.5rem 0.9rem; border-left: 4px solid var(--farbe-primaer); background: var(--farbe-flaeche); font-size: 0.95rem; }
+dialog.detail ul { margin: 0 0 0.9rem; padding-left: 1.2rem; }
+div.app-liste { display: grid; gap: 0.75rem; }
+.app-karte { border: 1px solid var(--farbe-rand); border-left: 0.5rem solid var(--farbe-primaer); border-radius: var(--radius); padding: 0.75rem 0.9rem; }
+.app-karte h3 { margin: 0 0 0.3rem; }
+.app-karte .meta { display: flex; flex-wrap: wrap; gap: 0.35rem 0.6rem; align-items: center; font-size: 0.9rem; margin: 0.3rem 0; }
+.app-karte p { margin: 0.4rem 0 0; }
+.kasten { border: 1px solid var(--farbe-rand); border-radius: var(--radius); padding: 0.75rem 0.9rem; margin: 1rem 0; background: var(--farbe-flaeche); }
+
+@media (min-width: 40rem) {
+  .filter label { flex: 1 1 10rem; }
+  .filter label.schalter { flex: 0 0 auto; }
+}

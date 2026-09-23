@@ -2,7 +2,8 @@
  * ÜBERGANG: Einträge der Karte für Apps, die noch nicht aus ihrem eigenen Repository ins Monorepo gezogen sind.
  * Werte aus mathe-karte/data/eintraege/*.md (Stand 0.2.1). Sobald src/<pfad>/ existiert, zeigt der Eintrag
  * automatisch auf die Monorepo-Adresse. Trägt die App dann selbst APP.kartenEintrag und kartenKnoten, bricht der
- * Build ab, bis der Eintrag hier gelöscht ist (lib/karte/eintraege.js). Ziel: diese Datei ist leer und verschwindet.
+ * Build ab, bis der Eintrag hier gelöscht ist (lib/karte/eintraege.js). Einträge ohne pfad sind Apps, die nie ins
+ * Monorepo kommen (fremde Community-Apps); für sie bleibt diese Datei der Ort.
  */
 export default [
   {
