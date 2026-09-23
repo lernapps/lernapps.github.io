@@ -60,19 +60,26 @@ const HINWEIS = "Beim Start werden Daten (u. a. deine IP-Adresse) an YouTube/Goo
 const GELADEN = "Video von YouTube geladen – Daten wurden an Google übertragen.";
 
 /** Lokal gezeichnetes Play-Symbol – kein Vorschaubild von ytimg. */
+/** Neutrales Play-Symbol (Kreis in der Fachfarbe, weißes Dreieck) – bewusst nicht die Logo-Form von YouTube. */
+export const PLAY_SYMBOL = Object.freeze({
+  viewBox: "0 0 48 48",
+  kreis: Object.freeze({ cx: 24, cy: 24, r: 22 }),
+  dreieck: "M19 14v20l16-10z",
+});
+
 function playSymbol() {
   const ns = "http://www.w3.org/2000/svg";
   const svg = document.createElementNS(ns, "svg");
-  svg.setAttribute("viewBox", "0 0 68 48");
+  svg.setAttribute("viewBox", PLAY_SYMBOL.viewBox);
   svg.setAttribute("aria-hidden", "true");
   svg.setAttribute("class", "video-play");
-  const rahmen = document.createElementNS(ns, "path");
-  rahmen.setAttribute("d", "M66.5 7.7c-.8-2.9-3-5.2-5.9-6C55.4.3 34 .3 34 .3S12.6.3 7.4 1.7c-2.9.8-5.1 3.1-5.9 6C.1 13 .1 24 .1 24s0 11 1.4 16.3c.8 2.9 3 5.2 5.9 6 5.2 1.4 26.6 1.4 26.6 1.4s21.4 0 26.6-1.4c2.9-.8 5.1-3.1 5.9-6C67.9 35 67.9 24 67.9 24s0-11-1.4-16.3z");
-  rahmen.setAttribute("style", "fill: var(--farbe-primaer)");
+  const kreis = document.createElementNS(ns, "circle");
+  for (const [k, v] of Object.entries(PLAY_SYMBOL.kreis)) kreis.setAttribute(k, String(v));
+  kreis.setAttribute("style", "fill: var(--farbe-primaer)");
   const dreieck = document.createElementNS(ns, "path");
-  dreieck.setAttribute("d", "M27 34l18-10-18-10z");
+  dreieck.setAttribute("d", PLAY_SYMBOL.dreieck);
   dreieck.setAttribute("fill", "#fff");
-  svg.append(rahmen, dreieck);
+  svg.append(kreis, dreieck);
   return svg;
 }
 
