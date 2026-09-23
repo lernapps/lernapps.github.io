@@ -118,7 +118,7 @@ export default async function (eleventyConfig) {
   eleventyConfig.addPlugin(RenderPlugin);
   eleventyConfig.addFilter("urlkodiert", (s) => encodeURIComponent(s));
   eleventyConfig.addAsyncShortcode("bild", (pfad, kompetenz, bild) => zeichneBild({ ordner: path.join(QUELLE, pfad), kompetenz, bild }));
-  eleventyConfig.addPassthroughCopy({ "src/kern": "kern", "src/favicon.svg": "favicon.svg" });
+  eleventyConfig.addPassthroughCopy({ "src/kern": "kern", "src/favicon.svg": "favicon.svg", "src/favicon.ico": "favicon.ico" });
   for (const a of apps) {
     eleventyConfig.addPassthroughCopy({ [`src/${a.pfad}/js`]: `${a.pfad}/js`, [`src/${a.pfad}/*.{png,svg}`]: a.pfad });
     if (a.css) eleventyConfig.addPassthroughCopy({ [`src/${a.pfad}/css`]: `${a.pfad}/css` });
