@@ -51,6 +51,7 @@ Neue Kern- und Build-Entscheidungen brauchen ein ADR hier (`CLAUDE.md`, „Archi
 | <<adr-017,ADR-017>> | Kompetenzseiten aus Markdown-Front-Matter mit festem Gerüst, Regeln als Build-Fehler | Accepted
 | <<adr-018,ADR-018>> | Mathe-Karte im Monorepo, App-Einträge aus den App-Konfigurationen | Accepted
 | <<adr-019,ADR-019>> | Neutrales Play-Symbol statt der Logo-Form von YouTube | Accepted
+| <<adr-020,ADR-020>> | Keine Volltextsuche; Navigation über Bundesland, Klassenstufe und Fach | Accepted
 |===
 
 include::_adr-vorlage.adoc[]

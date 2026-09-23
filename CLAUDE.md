@@ -3,7 +3,7 @@
 All learning apps (Mathe, Physik, Chemie; about 20 per school year) and later the Mathe-Karte live in this one
 repository: one shared kern, one layout, one build (Eleventy 3.1.6), deployed to GitHub Pages at
 `https://lernapps.github.io/`. The old single-app repos (`raifdmueller.github.io/*-trainer`, `mathe-karte`,
-`lern-app-template`) are being deleted (decided 23.09.2026): never link to them or rely on them.
+`lern-app-template`) were deleted on 23.09.2026: never link to them or rely on them.
 
 ## Project rules
 - Output is static HTML. Every page is fully readable without JavaScript – text AND picture. JS only powers exercises,
@@ -85,7 +85,7 @@ repository: one shared kern, one layout, one build (Eleventy 3.1.6), deployed to
 4. Add the entry to `KOMPETENZEN` in `src/<app>/js/app.config.js` (`id`, `titel`, `kurz`, `seite: "<id>.html"`,
    `generator: "./aufgaben/<id>.js"`). Menu, checklist, test and overview pick it up.
 5. `src/<app>/<id>.md` with front matter only: `kompetenz`, `beschreibung`, `warum`, `regel`, `beispiel` (Markdown or
-   HTML), `video: { id, titel, kanal }` or `ohneVideo`, `bild: { text, funktion, seed, geloest, vorgaben, uebung, uebungFunktion }` (`text` describes the example only – the picture never changes; the exercise draws its own picture captioned "Bild zur Aufgabe Nr. N", `uebung` is an optional extra sentence for that caption; `uebungFunktion` optionally draws the exercise picture with a different function from the same module).
+   HTML), `video: { id, titel, kanal }` or `ohneVideo`, optional `serlo: { url, titel }` (a verified `https://de.serlo.org/…` article, rendered as a plain link after the video; the build rejects other hosts), `bild: { text, funktion, seed, geloest, vorgaben, uebung, uebungFunktion }` (`text` describes the example only – the picture never changes; the exercise draws its own picture captioned "Bild zur Aufgabe Nr. N", `uebung` is an optional extra sentence for that caption; `uebungFunktion` optionally draws the exercise picture with a different function from the same module).
 6. Document page, URL parameters and deep links in `src/<app>/llms.njk` (use `{{ app.basisUrl }}`, never a
    literal URL); mention it in `tutor.njk` if the tutor should send learners there.
 7. `npm test && npm run build`, then check the page in the browser.

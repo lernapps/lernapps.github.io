@@ -1,5 +1,6 @@
 ---
 kompetenz: sachaufgaben
+serlo: { url: 'https://de.serlo.org/mathe/174159/mehrschrittige-anwendungsaufgaben-zur-prozentrechnung', titel: 'Mehrschrittige Anwendungsaufgaben zur Prozentrechnung' }
 beschreibung: 'Sachaufgaben zur Prozentrechnung in eine Gleichung oder einen Dreisatz übersetzen: Gleichung wählen, Dreisatz-Tabelle ausfüllen, Sofort-Feedback.'
 warum: |
   <p>Im Wettbewerb steht nie „Berechne W“, sondern eine Geschichte mit Zahlen. Die eigentliche Kunst ist die Übersetzung: aus dem Text eine Gleichung oder einen Dreisatz machen. Danach ist es nur noch Rechnen. Beide Wege führen zum Ziel – der Dreisatz ist sicher, die Gleichung ist schnell.</p>

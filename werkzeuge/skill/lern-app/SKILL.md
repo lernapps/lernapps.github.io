@@ -25,9 +25,11 @@ You need: **topic**, **Land**, **Schulform**, **Jahrgang**, and whether the user
 3. Write 5–9 competencies as "Ich kann …" statements, one observable skill each. More than 9 → split into two sibling apps (Prozent and Zufall were one worksheet, two apps).
 4. Show the list to the user and get a yes before Phase 2.
 
-## Phase 2 — Videos (optional, verified)
+## Phase 2 — Videos and serlo links (optional, verified)
 
 Search the channel the user trusts (default: Lehrerschmidt; ask for Physik/Chemie, e.g. "Lehrerschmidt", "musstewissen Physik/Chemie", "simpleclub"). Verify every ID with `curl -s "https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=<id>&format=json"` and check `author_name`. Never use an ID you did not verify. No verified video → no card; set `ohneVideo: "<one-line note>"` in the front matter instead. Details: `references/videos.md`.
+
+The same way, look up one serlo.org article per competency as a second explanation (free, ad-free, no login; Serlo Education e.V.). Fetch every URL with curl: status 200, the article itself (not a search or a generic page), and content that covers exactly this competency. Prefer `https://de.serlo.org/mathe/<id>/<slug>`. No good match → leave `serlo` out and name the page in the PR; never force a weak match. Details: `references/serlo.md`.
 
 ## Phase 3 — App folder on a feature branch in its own worktree
 
@@ -58,7 +60,7 @@ Follow "New competency" in `CLAUDE.md`, test-first:
 - **Numbers**: one rule for numeric answers (`src/kern/js/zahlantwort.js`): declare `art` and `stellen`, build with `zahlenfeld`, check with `pruefeZahlAntwort`, diagnose with `passtZu`. No per-call tolerances.
 - **Algebra**: field type `variablenterm` with `form: "ausmultipliziert"` or `"faktorisiert"`, and `passtZuTerm` to diagnose typical wrong terms. A wrong form is only a neutral hint, and "faktorisiert" is coarse — for factorising tasks also check the product structure in the app's checker.
 - **Picture** (`src/<app>/js/vis/<id>.js`, `zeichne…(svg, aufgabe, ergebnis)` with `svgEl`): the same function renders the static SVG at build time and redraws it in the browser; never touch `document`. Sciences live here — see `references/visualisierungen.md`.
-- **Page** `src/<app>/<id>.md`, front matter only (layout `kompetenz.njk`): `kompetenz`, `beschreibung`, `warum` (2–3 sentences), `regel`, `beispiel`, `video: { id, titel, kanal }` or `ohneVideo`, `bild: { text, funktion, seed, … }`. The page shows Warum, Regel, Beispiel, Bild, Video, Übung in this order. Everything but the exercise reads without JavaScript.
+- **Page** `src/<app>/<id>.md`, front matter only (layout `kompetenz.njk`): `kompetenz`, `beschreibung`, `warum` (2–3 sentences), `regel`, `beispiel`, `video: { id, titel, kanal }` or `ohneVideo`, `bild: { text, funktion, seed, … }`, optional `serlo: { url, titel }`. The page shows Warum, Regel, Beispiel, Bild, Video, serlo link (if any), Übung in this order. Everything but the exercise reads without JavaScript.
 - **Config**: entry in `KOMPETENZEN` (`id`, `titel`, `kurz`, `seite`, `generator`, for Mathe `kartenKnoten`). The menu numbers entries itself, so `kurz` is a formula or keyword ("(a+b)²", "Ausklammern"), never an ordinal like "1. Formel".
 - `npm test && npm run build` green, commit, next competency.
 
@@ -70,7 +72,7 @@ Brief sub-agents with `references/agent-auftrag.md` when you parallelise. Rough 
 
 - `llms.njk` (→ `llms.txt`): every page with its URL (`{{ app.basisUrl }}`, never a literal), rule, URL parameters with one example link, typical mistakes, answer formats, test section. The tutor must be able to build a link to a specific task from this file alone. The build fails if a page is missing.
 - **Tutor links and llms.txt must match the generators**: every parameter documented there must exist in `URL_ZAHLEN`/`URL_TEXTE` and vice versa, every `fehler` id named must be one the checker returns. A build check for this is coming (PR `feat/pruefungen`); until it lands, check by hand.
-- `tutor.njk` (→ `tutor.md`): keep the generic method block from `src/binom/tutor.njk` verbatim; fill topic, the competency checklist, a subject-specific "Warum hinter dem Warum" example, and the video rule. Under 120 lines, German, second person singular.
+- `tutor.njk` (→ `tutor.md`): keep the generic method block from `src/binom/tutor.njk` verbatim; fill topic, the competency checklist, a subject-specific "Warum hinter dem Warum" example, the video rule and the serlo rule. Under 120 lines, German, second person singular.
 - The claude.ai link (`https://claude.ai/new?q=` + URL-encoded `Lade <app-URL>tutor.md und unterrichte mich danach. …`) is rendered by the start page via TalkItOver with a plain `<a>` fallback; nothing to do per app.
 - URL parameters, anchors and `seed`/`nr` are a public contract: never rename existing ones.
 
@@ -104,6 +106,6 @@ End with: app URL, the PR URL, the claude.ai tutor link, the Schnelltest link, a
 - Parallel agents each get their own port (8080, 8081, 8082, …) and their own browser context; otherwise one agent tests the other's app.
 - Stop dev servers by PID (`kill <PID>`), never with `pkill -f` — it kills other agents' servers (and on the Pironman your own SSH session).
 - Imports carry `?v=<content hash>`, added by the build. A hand-written `?v=` or a stale cached module means one module loads twice under two URLs.
-- The old single-app repos (`raifdmueller.github.io/*-trainer`, `mathe-karte`, `lern-app-template`) are being deleted (decided 23.09.2026). Never link to them or copy from them; everything lives in the monorepo.
+- The old single-app repos (`raifdmueller.github.io/*-trainer`, `mathe-karte`, `lern-app-template`) were deleted on 23.09.2026. Never link to them or copy from them; everything lives in the monorepo.
 - Enable Pages only after the first merge: a deploy of placeholder content gets cached (max-age=600) and later mixes with the real app — dead test buttons. For the existing monorepo Pages is already on; this matters only for a new site.
 - A repo named `<org>.github.io` gets Pages auto-enabled in legacy branch mode. Switch it to GitHub Actions with `gh api -X PUT repos/<o>/<r>/pages -f build_type=workflow` (POST fails because Pages already exists). Only relevant when setting up a new org site.

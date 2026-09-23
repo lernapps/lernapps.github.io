@@ -12,7 +12,7 @@ import { ladeApps } from "./lib/apps.js";
 import { zeichneBild } from "./lib/bild.js";
 import { versionsHash, versioniere } from "./lib/versionierung.js";
 import { richteKarteEin } from "./lib/karte/eleventy.js";
-import { pruefeZeilen, pruefeLlms, pruefeKompetenzen, pruefeMeldeLink } from "./lib/pruefungen.js";
+import { pruefeZeilen, pruefeLlms, pruefeKompetenzen, pruefeMeldeLink, pruefeSerloLinks } from "./lib/pruefungen.js";
 import { pruefeAusgabe } from "./lib/pruefe-ausgabe.js";
 import { findeLinks, pruefeLink, pruefeVorgaben, pruefeParameterDoku, pruefeUebersicht, dokumentierteWerte } from "./lib/llms-vertrag.js";
 import { leseVorgaben } from "./src/kern/js/aufgabenlink.js";
@@ -43,7 +43,10 @@ function pruefe(apps, ausgabe) {
   for (const p of textDateien) fehler.push(...pruefeZeilen(p, fs.readFileSync(p, "utf8")));
   const dateien = alleDateien(ausgabe);
   fehler.push(...pruefeAusgabe(dateien, (p) => fs.readFileSync(p, "utf8")));
-  for (const p of dateien.filter((d) => d.endsWith(".html"))) fehler.push(...pruefeMeldeLink(p, fs.readFileSync(p, "utf8"), site.repo));
+  for (const p of dateien.filter((d) => d.endsWith(".html"))) {
+    const html = fs.readFileSync(p, "utf8");
+    fehler.push(...pruefeMeldeLink(p, html, site.repo), ...pruefeSerloLinks(p, html));
+  }
   for (const app of apps) {
     const ordner = path.join(QUELLE, app.pfad);
     fehler.push(...pruefeKompetenzen(app.pfad, app.kompetenzen, (p) => fs.existsSync(path.join(ordner, p))));

@@ -1,5 +1,6 @@
 ---
 kompetenz: erste-binomische
+serlo: { url: 'https://de.serlo.org/mathe/1499/binomische-formeln', titel: 'Binomische Formeln' }
 beschreibung: 'Erste binomische Formel: (a + b)² = a² + 2ab + b². Erklärung mit Flächenbild, Beispiel, Video und Übungsaufgaben mit Sofort-Feedback.'
 warum: |
   <p>Quadrate von Summen wie (x + 4)² tauchen ständig auf: bei Flächen, bei Gleichungen und später bei Parabeln. Du kannst sie immer als (x + 4)(x + 4) ausmultiplizieren – aber mit der Formel geht es in einer Zeile und ohne Vorzeichen-Chaos. Außerdem schützt dich die Formel vor dem häufigsten Fehler überhaupt: (a + b)² ist <strong>nicht</strong> a² + b².</p>

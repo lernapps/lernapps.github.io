@@ -1,5 +1,6 @@
 ---
 kompetenz: grundbegriffe
+serlo: { url: 'https://de.serlo.org/mathe/36750/einfuehrung-in-grundwert-prozentwert-und-prozentsatz', titel: 'Einführung in Grundwert, Prozentwert und Prozentsatz' }
 beschreibung: 'Grundwert, Prozentwert und Prozentsatz in Textaufgaben erkennen: Erklärung, Beispiel und Zuordnungsübungen mit Sofort-Feedback.'
 warum: |
   <p>Die meisten Fehler in der Prozentrechnung passieren, bevor überhaupt gerechnet wird: Man setzt die Zahlen an die falsche Stelle. Wer in jeder Textaufgabe sofort sieht, was das Ganze, der Teil und der Prozentsatz ist, hat die Aufgabe schon halb gelöst – und weiß, welche Formel dran ist.</p>

@@ -1,5 +1,6 @@
 ---
 kompetenz: veraenderung
+serlo: { url: 'https://de.serlo.org/mathe/116824/der-verminderte-und-vermehrte-grundwert', titel: 'Der verminderte und vermehrte Grundwert' }
 beschreibung: 'Neuer Wert bei Erhöhung oder Senkung um p %, und rückwärts der alte Wert. Faktor-Methode, Beispiele, Balken-Bild und Übungen.'
 warum: |
   <p>Preise steigen, Rabatte senken, Gehälter wachsen, die Mehrwertsteuer kommt obendrauf: Fast jede Prozentaufgabe im Alltag ist eine Veränderung. Der Trick ist der Faktor – mit ihm rechnest du eine Erhöhung oder Senkung in einem Schritt, und du kannst sie auch rückwärts rechnen.</p>

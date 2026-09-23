@@ -38,7 +38,7 @@ Build-Schritt, aber nur zur Build-Zeit (TC-1, xref:09_architecture_decisions.ado
 | ID | Randbedingung | Quelle
 | OC-1 | Entwicklung überwiegend durch Claude Code; eine Person prüft und merged. | `CLAUDE.md`
 | OC-2 | TDD, Conventional Commits, Feature-Branches, Dateien einzeln adden; `npm test` und `npm run build` grün bei jedem Commit. | `CLAUDE.md` Project rules
-| OC-3 | Kern-Änderungen geschehen im Monorepo und erreichen alle Apps mit einem Commit. Die alten Einzel-Repos (`binom-trainer`, `prozent-trainer`, `zufall-trainer`, `mathe-karte`, `lern-app-template`, `lern-app-skill`) bleiben unberührt, bis sie gelöscht sind (R-016). | `CLAUDE.md` Einleitung
+| OC-3 | Kern-Änderungen geschehen im Monorepo und erreichen alle Apps mit einem Commit. Die alten Einzel-Repos (`binom-trainer`, `prozent-trainer`, `zufall-trainer`, `mathe-karte`, `lern-app-template`, `lern-app-skill`) sind am 23.09.2026 gelöscht worden (R-016 erledigt). | `CLAUDE.md` Einleitung
 | OC-4 | Öffentliches Repository in der Organisation `lernapps`. Keine Lizenzdatei; die Lizenz ist offen (xref:11_technical_risks.adoc#r-018[R-018]). Keine persönlichen Daten aus Arbeitsblättern ins Repo. | Repository-Wurzel ohne `LICENSE`
 | OC-5 | Keine fremden Marken verändern oder nachbilden; fremde Logos nur unverändert und nur, wo nötig. | Commit `94a6f35`, PR #3 (xref:09_architecture_decisions.adoc#adr-019[ADR-019])
 |===

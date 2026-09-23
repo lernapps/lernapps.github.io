@@ -64,6 +64,7 @@ in Node.
 | M-13 | docToolchain am festen Commit `6de96fb7…`, nicht an einem Zweig; der Cache hängt am SHA. | T-012 (teilweise) | `scripts/dtc-v4.sh`; `.github/workflows/pages.yml`
 | M-14 | Die Doku lädt nichts von fremden Hosts: Theme-CSS ohne CDN-Importe, Schriften und Symbole lokal. | T-007 | `src/site/assets/css/`; TD-10
 | M-15 | Branch-Schutz für `main`, seit 23.09.2026: PR-Pflicht, Pflicht-Check `test-und-build`, kein Force-Push, kein Löschen. Admins dürfen ihn umgehen. Die Zwei-Faktor-Pflicht für die Organisation ist zurückgestellt, bis weitere Personen mitarbeiten (`two_factor_requirement_enabled: false`, `gh api orgs/lernapps`, 23.09.2026). | T-001 (teilweise), T-011, T-013 (teilweise) | `gh api repos/lernapps/lernapps.github.io/branches/main/protection`; xref:11_technical_risks.adoc#r-017[R-017]
+| M-17 | Die zweite Erklärung bei serlo.org ist ein reiner Link (`<a rel="noopener">` unter `#serlo`): kein iframe, kein Vorschaubild, keine Anfrage vor dem Klick. Erst der Klick des Kindes öffnet de.serlo.org; dann erfährt serlo.org (Serlo Education e.V., gemeinnützig, werbefrei, ohne Anmeldung) IP-Adresse und Browserdaten wie bei jedem Link. Der Build lässt unter `#serlo` nur `https://de.serlo.org/…` zu, ohne Netzabruf. | T-007 | `src/_includes/kompetenz.njk`; `lib/pruefungen.js` (`pruefeSerloLinks`)
 | M-16 | Rückmeldung nur über einen Link auf GitHub Issues. Die Seite lädt nichts von GitHub; erst der Klick des Kindes oder der Eltern öffnet GitHub. GitHub verlangt ein Konto und ein Mindestalter von 13 Jahren; jüngere Kinder brauchen die Eltern. Entschieden am 23.09.2026, noch nicht umgesetzt. | T-007 (hält den Link frei von Einbettungen) | xref:03_context_and_scope.adoc#section-technical-context[Kapitel 3]
 |===
 
@@ -259,7 +260,8 @@ nicht.
 
 Entschieden in xref:09_architecture_decisions.adoc#adr-017[ADR-017]. `src/<app>/<id>.md` enthält nur
 Front Matter: `kompetenz`, `beschreibung`, `warum`, `regel`, `beispiel` (Markdown oder HTML),
-`video: { id, titel, kanal }` oder `ohneVideo`, `bild: { text, funktion, seed, geloest, vorgaben }`.
+`video: { id, titel, kanal }` oder `ohneVideo`, `bild: { text, funktion, seed, geloest, vorgaben }`,
+optional `serlo: { url, titel }` (ein geprüfter serlo.org-Artikel als zweite Erklärung nach dem Video, 8.2 M-17).
 `src/_includes/kompetenz.njk` setzt daraus immer dieselben Abschnitte mit denselben Ankern, in dieser Reihenfolge: Warum, Regel,
 Beispiel, Bild, Video, Übung. Der Build
 verlangt je Kompetenz Seite, Generator und Test (`lib/pruefungen.js:36-49`) und dass `llms.txt` jede

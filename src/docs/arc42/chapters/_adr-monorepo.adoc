@@ -1,4 +1,4 @@
-// ADR-012 bis ADR-019: Entscheidungen des Monorepos lern-apps.
+// ADR-012 bis ADR-020: Entscheidungen des Monorepos lern-apps.
 // Wird von 09_architecture_decisions.adoc eingebunden (Unterstrich: keine eigene Seite).
 
 [[adr-012]]
@@ -38,8 +38,8 @@ Node-Skript statt Eleventy wurde nicht bewertet; ob es weniger Pflege kostet als
 Abhängigkeit, ist `?`.
 
 *Konsequenzen.* Eine Kern-Korrektur ist ein Commit für alle Apps. Das Repo hängt an Eleventy
-(xref:11_technical_risks.adoc#r-015[R-015]). Die alten Einzel-Repos laufen parallel weiter, bis sie
-gelöscht sind, und veralten (xref:11_technical_risks.adoc#r-016[R-016]). Ein Fehler im Build oder Kern trifft alle Apps
+(xref:11_technical_risks.adoc#r-015[R-015]). Die alten Einzel-Repos liefen parallel weiter und veralteten, bis sie am
+23.09.2026 gelöscht wurden (xref:11_technical_risks.adoc#r-016[R-016], erledigt). Ein Fehler im Build oder Kern trifft alle Apps
 zugleich (xref:11_technical_risks.adoc#r-004[R-004]); dafür prüft der Vertragstest jede Kompetenz jeder
 App. Ein gescheiterter Doku-Build hält jetzt das Deployment aller Apps an
 (xref:11_technical_risks.adoc#r-011[R-011]).
@@ -232,8 +232,8 @@ unbekannter Knoten bricht den Build (`lib/karte/eintraege.js:37-50`). Die Karte 
 |===
 
 *Konsequenzen.* Titel und Adressen auf der Karte stimmen immer mit der App überein. Das Monorepo trägt
-jetzt auch die Lehrplandaten von 16 Ländern. Die alte Karte läuft parallel weiter
-(xref:11_technical_risks.adoc#r-016[R-016]); Einträge nennen `lizenz: ""`
+jetzt auch die Lehrplandaten von 16 Ländern. Die alte Karte lief parallel weiter, bis sie am
+23.09.2026 gelöscht wurde (xref:11_technical_risks.adoc#r-016[R-016]); Einträge nennen `lizenz: ""`
 (xref:11_technical_risks.adoc#r-018[R-018]).
 
 [[adr-019]]
@@ -266,3 +266,41 @@ Markenrichtlinien.
 *Konsequenzen.* Kein Markenproblem in der Videokarte. Die Stichprobe war keine vollständige Prüfung auf
 Übernahmen; zusammen mit der offenen Lizenz steht das in
 xref:11_technical_risks.adoc#r-018[R-018].
+
+[[adr-020]]
+=== ADR-020: Keine Volltextsuche; Navigation über Bundesland, Klassenstufe und Fach
+
+*Kontext.* Mit rund 20 Apps je Schuljahr wächst die Zahl der Kompetenzseiten schnell. Die naheliegende
+Antwort wäre eine Suche. Ein Kind weiß aber meist nicht, wie das Thema heißt, sondern nur, in welcher
+Klasse es ist und welches Fach gerade dran ist. Auf serlo.org war zu beobachten, dass Suchvorschläge
+ins Leere führen können: Ein Vorschlag, der auf keine passende Seite zeigt, ist für ein Kind ein
+eigenes Risiko, weil es aufgibt, statt weiterzuklicken.
+
+*Entscheidung.* Es gibt keine Volltextsuche. Das Kind wählt Bundesland, Klassenstufe und Fach; das
+grenzt die Auswahl auf eine Handvoll Kompetenzen ein. Die Mathe-Karte trägt diese Navigation mit ihren
+URL-Parametern `land` und `jahrgang` (xref:08_concepts.adoc#section-karte-datenmodell[8.14]); jede
+Auswahl führt auf eine Seite, die es gibt.
+
+*Status.* Accepted. Vom Product Owner entschieden am 23.09.2026.
+
+[cols="2,1,1,1",options="header"]
+|===
+| Ziel | Navigation Land/Klasse/Fach (Referenz) | Pagefind (statischer Suchindex) | Filter auf der Mathe-Karte
+| QZ-1 Datenschutz | 0 | 0 | 0
+| QZ-2 Tutor-Anschluss | 0 | 0 | 0
+| QZ-3 Richtige Rückmeldung | 0 | 0 | 0
+| QZ-4 Neue Apps schnell | 0 | −1 | 0
+| QZ-5 Zugänglich | 0 | −1 | ?
+| *Summe* | *0* | *−2* | *?*
+|===
+
+Pagefind liefe lokal und ohne fremde Hosts (QZ-1 0), bräuchte aber einen zusätzlichen Index-Schritt und
+eine weitere Abhängigkeit im Build (QZ-4 −1). Die Suche funktioniert nur mit JavaScript, und Treffer
+ohne passende Seite führen ein Kind ins Leere (QZ-5 −1). Ein Freitext-Filter auf der Mathe-Karte kostet
+wenig; ob er Kindern hilft oder dieselben Leerläufe erzeugt, ist `?` und bräuchte einen Test mit
+Kindern.
+
+*Konsequenzen.* Die Navigation bleibt statisch und ohne JavaScript lesbar. Wird eine Kombination aus
+Land, Klasse und Fach so groß, dass sie mehr als eine Handvoll Kompetenzen zeigt, reicht sie nicht mehr;
+dieses Risiko steht als xref:11_technical_risks.adoc#r-020[R-020] in Kapitel 11. Die Entscheidung wird
+dann neu bewertet, zuerst mit dem Filter auf der Karte.

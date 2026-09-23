@@ -1,5 +1,6 @@
 ---
 kompetenz: pfadregel-2
+serlo: { url: 'https://de.serlo.org/mathe/189811/pfadregeln', titel: 'Pfadregeln' }
 beschreibung: 'Zweite Pfadregel (Summenregel): Pfade eines Ereignisses addieren. Mit anklickbarem Baum, Beispiel, Video und Übungsaufgaben.'
 warum: |
   <p>Viele Fragen passen nicht zu einem einzigen Pfad: „genau einmal rot“ kann rot-blau oder blau-rot sein. Die zweite Pfadregel sagt, wie du solche Pfade zusammenrechnest. Und darauf kommt es an: das Ereignis in Worten richtig in Pfade zu übersetzen.</p>

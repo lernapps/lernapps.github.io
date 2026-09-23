@@ -243,6 +243,7 @@ footer.fuss .melden a { color: inherit; }
 .video-play { width: 3.5rem; height: auto; }
 .video-titel { font-weight: 600; margin: 0.6rem 0 0.2rem; }
 .video-kanal { color: #4b5563; font-size: 0.95rem; margin: 0 0 0.4rem; }
+.serlo-link p { margin: 0.5rem 0 0; }
 .video-hinweis { font-size: 0.9rem; color: #4b5563; }
 .video-merken { font-size: 0.95rem; margin: 0.25rem 0 0; }
 .video-merken label { cursor: pointer; }

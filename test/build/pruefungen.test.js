@@ -1,7 +1,7 @@
 // Use Case: Build bricht ab, wenn eine Regel verletzt ist (früher scripts/pruefe.mjs).
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { pruefeExterneRessourcen, pruefeExterneImporte, pruefeZeilen, pruefeLlms, pruefeKompetenzen, pruefeMeldeLink } from "../../lib/pruefungen.js";
+import { pruefeExterneRessourcen, pruefeExterneImporte, pruefeZeilen, pruefeLlms, pruefeKompetenzen, pruefeMeldeLink, pruefeSerloLinks } from "../../lib/pruefungen.js";
 
 test("externe Ressourcen in script/link/img/iframe sind Fehler, Links und Canonical nicht", () => {
   assert.deepEqual(pruefeExterneRessourcen("a.html", `<link rel="canonical" href="https://x.org/"><a href="https://x.org">x</a>`), []);
@@ -43,4 +43,13 @@ test("jede Seite hat den Melde-Link auf GitHub Issues", () => {
   const repo = "https://github.com/o/r";
   assert.deepEqual(pruefeMeldeLink("a.html", `<footer><a href="${repo}/issues/new?title=x">melden</a></footer>`, repo), []);
   assert.match(pruefeMeldeLink("a.html", "<footer></footer>", repo)[0], /a\.html: Melde-Link/);
+});
+
+test("serlo-Links in #serlo zeigen nur auf https://de.serlo.org/…", () => {
+  const seite = (href) => `<section id="serlo"><p>Noch eine Erklärung: <a href="${href}" rel="noopener">X</a> bei serlo.org</p></section>`;
+  assert.deepEqual(pruefeSerloLinks("a.html", seite("https://de.serlo.org/mathe/1573/prozentrechnung")), []);
+  assert.deepEqual(pruefeSerloLinks("a.html", "<p>ohne serlo</p>"), []);
+  for (const falsch of ["http://de.serlo.org/mathe/1", "https://serlo.org/mathe/1", "https://de.serlo.org.evil.com/x", "de.serlo.org/mathe/1", "https://de.serlo.org/", ""]) {
+    assert.equal(pruefeSerloLinks("a.html", seite(falsch)).length, 1, falsch);
+  }
 });
