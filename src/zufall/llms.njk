@@ -1,0 +1,279 @@
+---
+permalink: "{{ page.filePathStem }}.txt"
+layout: false
+eleventyExcludeFromCollections: true
+---
+# Zufall-Trainer – Hinweise für einen KI-Tutor
+
+Basis-URL: {{ app.basisUrl }}
+Weitere Lern-Apps (jede mit eigener llms.txt) stehen auf der Übersicht, als Text unter {{ site.basis }}llms.txt:
+{{ site.basis }}
+
+## Was die App ist
+
+Ein statischer, interaktiver Mathe-Trainer für die Wahrscheinlichkeitsrechnung
+(Klasse 8, Gymnasium Hessen, Vorbereitung auf einen Mathe-Wettbewerb). Die Lernende
+ist etwa 13 Jahre alt und spricht Deutsch. Acht Kompetenzseiten, jede mit:
+Warum-Absatz, Regel, ausgerechnetem Beispiel, Video-Karte, SVG-Bild (Urne, Menge oder Baum;
+ohne JavaScript sichtbar, in der Übung geht es mit der Aufgabe mit) und
+einem Aufgabengenerator mit Sofort-Feedback, Tipp, "Lösung zeigen/verbergen", "Neue Aufgabe"
+und einem Zähler richtig/gesamt für die Sitzung.
+
+## Was die App nicht ist
+
+- Kein Server, kein Login, kein Tracking, keine Cookies. Im localStorage liegen nur die
+  Selbsteinschätzung, das letzte Testergebnis und der optionale Merker "Videos immer
+  direkt laden".
+- Keine externen Requests, bis der Lernende ein Video startet; dann lädt
+  youtube-nocookie.com (Daten gehen an Google). Die Lehrerschmidt-Videos sind als
+  Zwei-Klick-Karten unter dem Anker `#video` eingebettet: erst ein lokal gezeichneter
+  Platzhalter, das Video selbst kommt erst nach Klick auf "Video laden und abspielen".
+- Die App ist kein Kurs und kein Chat. Sie erklärt nicht adaptiv, sie stellt Aufgaben
+  und prüft Antworten. Das Erklären, Nachfragen und Besprechen ist deine Aufgabe.
+- Die App kennt den Lernenden nicht und meldet nichts zurück. Der Tutor erfährt das
+  Ergebnis nur, wenn er danach fragt – oder das Kind schickt ihm die Ergebniszeile
+  des Tests (siehe "Test").
+- Keine Noten, keine Zeitmessung. Der Test liefert je Kompetenz nur sicher / teils /
+  üben.
+
+## Regeln für den Tutor
+
+- Die App ist das Arbeitsblatt, der Chat das Gespräch darüber: Bilder und Aufgaben verlinken statt im Chat rechnen zu lassen, spätestens jede dritte Antwort mit einem Link auf eine konkrete Aufgabe oder ein Bild. Eine Kompetenz gilt als geschafft nach drei richtigen App-Aufgaben und einer Erklärung.
+- Bitte das Kind zuerst um sein Testergebnis oder verlinke den Schnelltest
+  (test.html?nr=<Nummer>&modus=schnell). Beginne bei der ersten Kompetenz mit ✗,
+  dann ~. Nie die Testaufgaben vorab verraten.
+- Verlinke immer eine konkrete Aufgabe mit Parametern, nie nur die Startseite.
+- Jede Aufgabe hat eine Nummer. Sag dem Kind "Mach Aufgabe Nr. 42" und schick den Link
+  mit `seed=42`. Nennt das Kind eine Nummer, öffnest du dieselbe Aufgabe über den Link.
+- Nach jeder verlinkten Aufgabe: frag, was herauskam, und lass den Rechenweg in
+  eigenen Worten erklären. Die App meldet dem Tutor nichts.
+- Empfiehl das Video, wenn das Kind die Erklärung zweimal nicht wiedergeben kann;
+  sonst zuerst Aufgaben. Verlinke dann den Anker `#video` der Seite.
+
+## URL-Parameter und Anker (alle Seiten)
+
+- Aufgabennummer (URL-Parameter `seed=` oder `nr=`, ganze Zahl; stehen beide da, gilt
+  `seed`): macht den Generator deterministisch. Ohne Aufgabennummer wählt die App eine
+  zufällige Nummer von 1 bis 9999.
+- Anker auf jeder Kompetenzseite: `#warum`, `#regel` (die Regel), `#beispiel`
+  (Rechenbeispiel), `#video` (Lehrerschmidt-Video als Zwei-Klick-Karte oder Hinweis, dass
+  es keines gibt), `#visualisierung` (das Bild), `#uebung` (Aufgabengenerator).
+- Unter jeder Aufgabe steht "Aufgabe Nr. N", daneben "Link zu dieser Aufgabe" und "Link
+  kopieren". Der Link enthält die Parameter aus der aufgerufenen Adresse plus die
+  Nummer; Nummer und Parameter zusammen ergeben immer dieselbe Aufgabe. Die Lernende
+  kann dir die Nummer sagen oder den Link schicken.
+- "Neue Aufgabe" würfelt eine neue Nummer und vergisst die Parameter aus der Adresse
+  (auch `schwer=1`). Für eine bestimmte Art von Aufgabe schickst du wieder einen Link.
+
+Zufallsversuche (Baum-Seiten 3, 4, 6, 7, 8 und „mindestens einmal“ auf Seite 2):
+
+- `experiment=urne|muenze|wuerfel` (wuerfel = Würfel mit „6“ / „keine 6“)
+- `urne=3r2b1g` – Urneninhalt: Anzahl + Farbbuchstabe, beliebig viele Paare.
+  Farben: r rot, b blau, g gelb, n grün, s schwarz, w weiß, l lila.
+  `urne=` allein setzt experiment=urne.
+- `zuege=2|3` – Zahl der Züge/Würfe. Kurzformen: `muenze=3` = experiment=muenze&zuege=3,
+  `wuerfel=2` = experiment=wuerfel&zuege=2 (nur auf Baum-Seiten).
+- `modus=mit|ohne` – mit oder ohne Zurücklegen (nur bei Urne wirksam).
+- `ereignis=<Code>` – Ergebnis-Ids: Urne = Farbbuchstabe; Münze = k (Kopf), z (Zahl);
+  Würfel = s (Sechs), k (keine Sechs).
+  - Reihenfolge: `rb` = erst rot, dann blau; `kzk` = Kopf, Zahl, Kopf (Länge = zuege)
+  - `genau1r` = genau einmal rot; `genau2b` = genau zweimal blau
+  - `mind1r` = mindestens einmal rot; `hoechstens1r` = höchstens einmal rot
+  - `keinr` = kein einziges Mal rot
+  - `beidegleich` / `allegleich` = alle Züge gleich; `verschieden` = alle verschieden
+
+Passt ein Parameter nicht (unbekannte Farbe, Ereignis zu lang), wählt die App
+stillschweigend eine gültige Alternative. Prüf deine Links deshalb auf Tippfehler.
+
+## Antwortformate, die der Prüfer akzeptiert
+
+Bruch (`1/6`, auch ungekürzt `2/12`), Dezimalzahl mit Komma oder Punkt (`0,1667`,
+`0.17`), Prozent (`16,7 %`, `17%`), Rechenausdrücke mit + − · * / : ^ und Klammern
+(`1/2*1/3`, `1/6+1/6`, `1-(5/6)^3`, `3/6 · 2/5`), Wurzeln (`sqrt(1/4)`, `√(1/4)`) und
+`pi`/`π`. Kein Ausrechnen nötig: Produkt, Summe und Potenz gelten als Antwort (exakt).
+
+Zahlen eingeben – die Rundungsregel:
+- Muss gerundet werden, steht unter dem Feld "Gib einen Bruch an oder runde auf zwei
+  Nachkommastellen." Geht die Lösung ohne Runden (1/4 = 0,25), fehlt der Hinweis.
+- Die Toleranz folgt den getippten Stellen: richtig ist der exakte Wert oder der exakte Wert
+  kaufmännisch gerundet auf so viele Stellen, wie getippt – mindestens zwei. Für 1/6:
+  "0,17", "0,167", "16,7 %", "17 %" richtig; "0,16" falsch (abschneiden ist kein Runden).
+  Prozent zählt zwei Stellen mehr ("17 %" = 0,17).
+- Zu grob gerundet ("0,2" für 1/6) ist kein Fehler: Die App zeigt neutral (gelb, nicht
+  rot) "Fast – runde auf zwei Nachkommastellen." und zählt den Versuch nicht. Im Test zählt
+  es als falsch. Hinweis-Codes: "zu-grob-gerundet", "gemischte-zahl" (gemischte Zahlen wie
+  "1 1/2" nimmt die App nicht; sie bittet um "3/2").
+- Tippt das Kind einen Bruch oder Term, zeigt die App darunter live den Wert ("≈ 0,17",
+  "= 0,5"). Bei reinen Zahlen erscheint nichts.
+
+## Typische Fehler (die App gibt dazu gezielte Rückmeldung)
+
+- Pfade addiert statt multipliziert (1. Pfadregel): „3/6 + 2/5“ statt „3/6 · 2/5“.
+- Ohne Zurücklegen den Nenner nicht verkleinert: zweiter Zug wieder /6 statt /5.
+- „Mindestens einmal“ ohne Gegenereignis: alle Pfade einzeln statt 1 − P(kein Mal).
+- Reihenfolge vergessen bei „genau einmal“: nur rot-blau, nicht auch blau-rot.
+- Farben statt Kugeln gezählt: bei 3 rot, 2 blau, 1 gelb ist P(rot) = 3/6, nicht 1/3.
+- P(E) statt P(nicht E) angegeben.
+
+## Startseite
+
+URL: {{ app.basisUrl }}index.html
+Checkliste der acht Kompetenzen mit Selbsteinschätzung pro Zeile:
+Sicher / Teils / Noch üben (Radiobuttons, localStorage, Schlüssel
+`{{ app.id }}.selbsteinschaetzung`). Der Tutor kann die Lernende bitten, ihre
+Einschätzung vorzulesen, um zu entscheiden, wo er anfängt. Für Aufgaben nicht
+hierhin verlinken.
+
+## Test
+
+URL: {{ app.basisUrl }}test.html
+Ein Diagnosetest über alle acht Kompetenzen in Checklisten-Reihenfolge, ohne Tipp,
+ohne Lösung, ohne Zeitmessung. Jede Aufgabe zeigt ihr Bild (Menge, Urne oder Baum).
+Nur Eingabe (Textfeld oder Term wählen) und "Weiter"; eine leere Antwort zählt nach
+Rückfrage als falsch.
+"Abbrechen" führt zur Startseite, ohne zu speichern.
+- Modi: `modus=voll` (Standard) – zwei Aufgaben je Kompetenz, 16 Aufgaben;
+  `modus=schnell` – eine Aufgabe je Kompetenz, 8 Aufgaben. Die Seite bietet vor dem
+  Start beide als Knopf an; der Parameter legt nur den vorgeschlagenen Modus fest.
+- Testnummer: `nr=` oder `seed=` (ganze Zahl, `seed` gewinnt; ohne Angabe zufällig
+  1–9999). Die Nummer bestimmt die komplette Aufgabenfolge; dieselbe Nummer ergibt
+  denselben Test. Der Schnelltest zu einer Nummer besteht aus der jeweils ersten
+  Aufgabe des vollen Tests.
+- Aufgaben je Kompetenz: wie auf der jeweiligen Seite; 6 = P(E) über die Pfade
+  berechnen (`art=pfade`); 7 = passenden Term wählen; 8 = "genau einmal", "beide
+  gleich" oder "mindestens einmal" bei zwei Zügen mit Zurücklegen.
+- Beispiel: {{ app.basisUrl }}test.html?nr=4711&modus=schnell
+- Bewertung je Kompetenz: Test 2/2 → "✓ sicher", 1/2 → "~ teils", 0/2 → "✗ üben";
+  Schnelltest 1/1 → ✓, 0/1 → ✗.
+- Ergebniszeile (das Kind kopiert sie und schickt sie dir):
+  `Test Nr. 4711 (Zufall-Trainer, Schnelltest): 1 ✓ 2 ✓ 3 ✗ 4 ✓ 5 ~ 6 ✓ 7 ✓ 8 ✗`
+  Die Ziffern sind die Kompetenznummern der Checkliste. Bei der Nummer kannst du
+  denselben Test unter test.html?nr=4711&modus=schnell nachvollziehen – verrate
+  dem Kind die Aufgaben aber nicht vorab.
+- Das letzte Ergebnis liegt im localStorage (`{{ app.id }}.test`) und erscheint in
+  der Checkliste der Startseite als fünfte Spalte "Test" mit der Zeile "Letzter Test:
+  Nr. 4711, Schnelltest, 23.09.2026".
+
+## Seiten
+
+### 1 Laplace-Formel – {{ app.basisUrl }}laplace.html
+
+Kompetenz: P(E) = günstige / mögliche Ergebnisse anwenden.
+Regel: Alle Ergebnisse gleich wahrscheinlich; zählen, dann teilen.
+Parameter: `experiment=wuerfel|urne|gluecksrad|karten|lose|zweiwuerfel`
+- wuerfel: `ereignis=gerade|ungerade|mind5|hoechstens2|sechs|keine6|prim|groesser3`
+  (Kurzform `wuerfel=gerade`)
+- urne: `urne=3r2b1g&ereignis=r` (Farbe der gefragten Kugel)
+- gluecksrad: `rad=2r1b1g&ereignis=r` (Felder wie Urneninhalt)
+- karten (32er Skatblatt): `ereignis=herz|pik|bube|ass|bild|rot`
+- lose: `lose=20&gewinne=5`
+- zweiwuerfel (schwerer): `ereignis=summe4` … `summe10` oder `pasch`; `schwer=1`
+  lässt den Zufall auch zwei Würfel wählen.
+Video (`#video`): „einstufiger Zufallsversuch | Wahrscheinlichkeitsrechnung - einfach erklärt | Lehrerschmidt“,
+https://www.youtube.com/watch?v=rkLmLaFHodo – die App bettet es erst nach einem Klick ein.
+Im Video fällt das Wort „Laplace“ nicht; gemeint ist dasselbe.
+Beispiel: {{ app.basisUrl }}laplace.html?experiment=urne&urne=3r2b1g&ereignis=b&seed=4#uebung
+
+### 2 Gegenereignis – {{ app.basisUrl }}gegenereignis.html
+
+Kompetenz: P(nicht E) = 1 − P(E), besonders für „mindestens einmal“.
+Drei Aufgabenarten:
+- `p=1/6` – P(E) ist gegeben, gesucht P(nicht E). Auch `p=0,3` oder `p=45` (eine Zahl
+  über 1 gilt als Prozent). Die Aufgabe zeigt P(E) immer als gekürzten Bruch.
+- Laplace-Parameter wie auf Seite 1 (`experiment=…&ereignis=…`) – gesucht ist das
+  Gegenereignis des genannten Ereignisses.
+- `experiment=wuerfel|muenze|urne&zuege=2|3&ereignis=mind1<id>` (+ `urne=`, `modus=`)
+  – „mindestens einmal“ über 1 − P(kein Mal).
+Video: keines (`#video` enthält nur den Hinweis, dass die Erklärung oben reicht).
+Beispiel: {{ app.basisUrl }}gegenereignis.html?experiment=wuerfel&zuege=3&ereignis=mind1s&seed=1#uebung
+
+### 3 Baumdiagramm – {{ app.basisUrl }}baumdiagramm.html
+
+Kompetenz: Baumdiagramm zu einem mehrstufigen Zufallsversuch zeichnen.
+Regel: Je Stufe Zweige zu allen Ergebnissen; Zweige an einem Knoten ergeben 1.
+Der Abschnitt `#bauen` (nur mit JavaScript) zeichnet den vollständigen Baum zur
+gewählten Einstellung; "Übung mit diesem Baum" lädt die Seite mit diesen Parametern.
+`#uebung` versteckt 2–4 Zweigwahrscheinlichkeiten (a, b, c, d) zum Eintragen.
+Parameter: `experiment`, `urne`, `zuege`, `modus` (siehe Grammatik).
+Video (`#video`): „Baumdiagramm | mehrstufiger Zufallsversuch | Wahrscheinlichkeit | Stochastik | Lehrerschmidt“,
+https://www.youtube.com/watch?v=mBknBnww5fA – die App bettet es erst nach einem Klick ein.
+Beispiel: {{ app.basisUrl }}baumdiagramm.html?urne=3r2b1g&zuege=3&modus=ohne&seed=7#uebung
+
+### 4 Erste Pfadregel – {{ app.basisUrl }}pfadregel-1.html
+
+Kompetenz: Entlang eines Pfades multiplizieren.
+Regel: P(Pfad) = Produkt der Zweigwahrscheinlichkeiten. Der Pfad ist im Baum markiert.
+Parameter: `experiment`, `urne`, `zuege`, `modus`, `ereignis=<Reihenfolge>` (z. B. `rb`, `kzk`, `sk`).
+Video (`#video`): „Produktregel | Wahrscheinlichkeitsrechnung - einfach erklärt | Lehrerschmidt“,
+https://www.youtube.com/watch?v=fLPxMfgUxVk – die App bettet es erst nach einem Klick ein.
+Beispiel: {{ app.basisUrl }}pfadregel-1.html?urne=3r2b1g&zuege=2&modus=ohne&ereignis=rb&seed=3#uebung
+
+### 5 Ziehen ohne Zurücklegen – {{ app.basisUrl }}ohne-zuruecklegen.html
+
+Kompetenz: Beim Ziehen ohne Zurücklegen ändern sich Zähler und Nenner.
+Regel: Nenner sinkt bei jedem Zug um 1; Zähler nur, wenn diese Farbe gezogen wurde.
+Die Aufgabe fragt immer beide Werte: mit und ohne Zurücklegen.
+Parameter: `urne=3r2b1g`, `erster=<Farbe>` (erste gezogene Kugel), `zweiter=<Farbe>`
+(gefragte zweite Kugel), `art=zweig` (P der zweiten Kugel) oder `art=pfad` (P(erster, dann zweiter)).
+Video: keines; `#video` verweist auf das Baumdiagramm-Video (baumdiagramm.html#video).
+Beispiel: {{ app.basisUrl }}ohne-zuruecklegen.html?urne=3r2b1g&erster=r&zweiter=b&art=zweig&seed=3#uebung
+
+### 6 Zweite Pfadregel – {{ app.basisUrl }}pfadregel-2.html
+
+Kompetenz: Pfade eines Ereignisses addieren. Die Regel-Abschnitte `#formen` (Produkt,
+Summe, Potenz) und `#uebersetzen` (Ereignisse in Pfade) stehen hier; geübt werden sie
+auf den Seiten 7 und 8.
+- `art=pfade`: Die Lernende kann die passenden Pfade im Baum anklicken (orange) und
+  rechnet P(E). Entscheidend ist P(E); sind die angeklickten Pfade falsch, sagt die
+  App, wie viele fehlen oder zu viel sind.
+- `art=term`: drei Terme, einer passt; die falschen bilden typische Fehler ab.
+- Ohne `art` wählt der Zufall.
+Parameter: `experiment`, `urne`, `zuege`, `modus`, `ereignis` (genau…, mind…, kein…,
+beidegleich, verschieden – siehe Grammatik), `art`.
+Video (`#video`): „Summenregel | Wahrscheinlichkeitsrechnung | Mathematik | Lehrerschmidt“,
+https://www.youtube.com/watch?v=Pi1M1F2l024 – die App bettet es erst nach einem Klick ein.
+Beispiele:
+{{ app.basisUrl }}pfadregel-2.html?urne=3r2b1g&zuege=2&modus=ohne&ereignis=genau1r&art=pfade&seed=3#uebung
+{{ app.basisUrl }}pfadregel-2.html?urne=3r2b1g&zuege=2&modus=mit&ereignis=beidegleich&art=term&seed=5#uebung
+
+### 7 Produkt, Summe, Potenz – {{ app.basisUrl }}ergebnisformen.html
+
+Kompetenz: Ergebnisse als Produkt, Summe oder Potenz stehen lassen und den passenden
+Term erkennen. Aufgabe wie `pfadregel-2.html?art=term`: drei Terme, einer passt.
+Parameter: `experiment`, `urne`, `zuege`, `modus`, `ereignis`.
+Video: dasselbe wie Seite 6.
+Beispiel: {{ app.basisUrl }}ergebnisformen.html?urne=3r2b&zuege=2&modus=ohne&ereignis=genau1r&seed=2#uebung
+
+### 8 In Pfade übersetzen – {{ app.basisUrl }}pfade-uebersetzen.html
+
+Kompetenz: „genau einmal“, „beide gleich“, „mindestens einmal“ in Pfade übersetzen.
+Ohne Parameter: Urne, zwei Züge mit Zurücklegen, eines der drei Ereignisse. Mit
+Parametern (`experiment`, `urne`, `zuege`, `modus`, `ereignis`) gilt die Vorgabe.
+Pfade anklicken wie auf Seite 6.
+Video: dasselbe wie Seite 6.
+Beispiel: {{ app.basisUrl }}pfade-uebersetzen.html?urne=3r2b1g&zuege=2&modus=mit&ereignis=genau1r&seed=8#uebung
+
+## Parameter-Übersicht
+
+| Seite                  | Parameter                                              | Beispiel                                              |
+|------------------------|--------------------------------------------------------|-------------------------------------------------------|
+| test.html              | nr (oder seed), modus=voll/schnell                     | ?nr=4711&modus=schnell                                |
+| laplace.html           | experiment, ereignis, urne, rad, lose, gewinne, schwer, seed | ?experiment=urne&urne=3r2b1g&ereignis=b&seed=4  |
+| gegenereignis.html     | p oder experiment, ereignis, zuege, urne, modus, seed  | ?experiment=wuerfel&zuege=3&ereignis=mind1s&seed=1    |
+| baumdiagramm.html      | experiment, urne, zuege, modus, seed                   | ?urne=3r2b1g&zuege=3&modus=ohne&seed=7                |
+| pfadregel-1.html       | experiment, urne, zuege, modus, ereignis, seed         | ?urne=3r2b1g&zuege=2&modus=ohne&ereignis=rb&seed=3    |
+| ohne-zuruecklegen.html | urne, erster, zweiter, art=zweig/pfad, seed            | ?urne=3r2b1g&erster=r&zweiter=b&art=zweig&seed=3      |
+| pfadregel-2.html       | experiment, urne, zuege, modus, ereignis, art=pfade/term, seed | ?urne=3r2b1g&zuege=2&modus=ohne&ereignis=genau1r&art=pfade&seed=3 |
+| ergebnisformen.html    | experiment, urne, zuege, modus, ereignis, seed         | ?urne=3r2b&zuege=2&modus=ohne&ereignis=genau1r&seed=2 |
+| pfade-uebersetzen.html | experiment, urne, zuege, modus, ereignis, seed         | ?urne=3r2b1g&zuege=2&modus=mit&ereignis=genau1r&seed=8 |
+
+Die Aufgabennummer allein (`seed=` oder `nr=`, ohne weitere Parameter) erzeugt auf jeder
+Seite eine reproduzierbare Zufallsaufgabe. "Neue Aufgabe" erzeugt eine neue Aufgabe mit
+eigener Aufgabennummer (ohne die Parameter der Adresse); der Link
+"Link zu dieser Aufgabe" unter jeder Aufgabe führt genau zu dieser Aufgabe zurück.
+
+## Tutor-Prompt
+
+{{ app.basisUrl }}tutor.md
+
+Für Menschen: Übersicht {{ app.basisUrl }}index.html, Test {{ app.basisUrl }}test.html.

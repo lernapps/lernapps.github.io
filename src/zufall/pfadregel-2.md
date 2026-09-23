@@ -1,0 +1,52 @@
+---
+kompetenz: pfadregel-2
+beschreibung: 'Zweite Pfadregel (Summenregel): Pfade eines Ereignisses addieren. Mit anklickbarem Baum, Beispiel, Video und Übungsaufgaben.'
+warum: |
+  <p>Viele Fragen passen nicht zu einem einzigen Pfad: „genau einmal rot“ kann rot-blau oder blau-rot sein. Die zweite Pfadregel sagt, wie du solche Pfade zusammenrechnest. Und darauf kommt es an: das Ereignis in Worten richtig in Pfade zu übersetzen.</p>
+regel: |
+  <p><strong>2. Pfadregel (Summenregel):</strong> Gehören mehrere Pfade zu einem Ereignis, dann <strong>addierst</strong> du ihre Pfadwahrscheinlichkeiten.</p>
+  <div class="formel"><code>P(E) = P(Pfad 1) + P(Pfad 2) + …</code></div>
+  <p>Merkhilfe: <strong>entlang</strong> des Pfades <strong>mal</strong>, <strong>über</strong> mehrere Pfade <strong>plus</strong>.</p>
+  <h3 id="formen">Ergebnisse als Produkt, Summe oder Potenz</h3>
+  <p>Du musst nicht alles ausrechnen. Diese Schreibweisen sind vollständige Antworten:</p>
+  <ul>
+  <li>Produkt: <code>1/2 · 1/3</code></li>
+  <li>Summe von Produkten: <code>1/2 · 1/3 + 1/3 · 1/2</code></li>
+  <li>Potenz, wenn derselbe Faktor mehrmals vorkommt: <code>(5/6)³</code> statt 5/6 · 5/6 · 5/6</li>
+  </ul>
+  <p>Der Trainer akzeptiert alle Formen. Üben: <a href="ergebnisformen.html">Produkt, Summe, Potenz</a>.</p>
+  <h3 id="uebersetzen">Ereignisse in Pfade übersetzen</h3>
+  <table>
+  <thead><tr><th scope="col">Ereignis in Worten</th><th scope="col">Welche Pfade?</th></tr></thead>
+  <tbody>
+  <tr><th scope="row">genau einmal rot (2 Züge)</th><td>rot-nicht rot <em>und</em> nicht rot-rot. Die Reihenfolge nicht vergessen: zwei Pfade!</td></tr>
+  <tr><th scope="row">beide gleich</th><td>rot-rot, blau-blau, gelb-gelb: ein Pfad pro Farbe.</td></tr>
+  <tr><th scope="row">mindestens einmal rot</th><td>Alle Pfade mit rot – oder schneller: 1 − P(kein rot) (Kompetenz 2).</td></tr>
+  <tr><th scope="row">kein rot</th><td>Alle Pfade ohne rot.</td></tr>
+  </tbody>
+  </table>
+  <p>Üben: <a href="pfade-uebersetzen.html">In Pfade übersetzen</a>.</p>
+beispiel: |
+  <p>Urne mit 3 roten, 2 blauen und 1 gelben Kugel, zweimal ziehen <strong>ohne Zurücklegen</strong>. Wie groß ist P(genau einmal rot)?</p>
+  <ol>
+  <li>Pfade finden: rot-blau, rot-gelb, blau-rot, gelb-rot. (rot-rot ist <em>zweimal</em> rot, gehört nicht dazu.)</li>
+  <li>Jeden Pfad multiplizieren: 3/6 · 2/5, 3/6 · 1/5, 2/6 · 3/5, 1/6 · 3/5.</li>
+  <li>Addieren: 6/30 + 3/30 + 6/30 + 3/30 = 18/30 = 3/5.</li>
+  </ol>
+  <p>Kürzer: „genau einmal rot“ = rot-nichtrot + nichtrot-rot = 3/6 · 3/5 + 3/6 · 3/5 = 2 · 9/30 = 3/5.</p>
+video:
+  id: Pi1M1F2l024
+  titel: Summenregel | Wahrscheinlichkeitsrechnung | Mathematik | Lehrerschmidt
+  kanal: Lehrerschmidt
+bild:
+  text: 'Der Baum aus dem Beispiel. Orange sind die vier Pfade von „genau einmal rot“, rechts stehen alle Pfadwahrscheinlichkeiten. In der Übung klickst du die Pfade selbst an: Klick auf das Ende eines Pfades.'
+  funktion: zeichnePfadregel2
+  seed: 3
+  geloest: true
+  vorgaben:
+    urne: 3r2b1g
+    zuege: 2
+    modus: ohne
+    ereignis: genau1r
+    art: pfade
+---

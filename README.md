@@ -14,5 +14,5 @@ npm run build   # _site bauen; bricht bei Regelverstößen ab
 npm run serve   # lokal ansehen: http://localhost:8080/lern-apps/
 ```
 
-Apps: [Binomische Formeln](src/binom/) (Mathe, Klasse 8). Wie man eine App oder Kompetenz anlegt, steht in
+Apps: [Binomische Formeln](src/binom/) (Mathe, Klasse 8), [Zufall-Trainer](src/zufall/) (Mathe, Klasse 8, Wahrscheinlichkeitsrechnung). Wie man eine App oder Kompetenz anlegt, steht in
 [CLAUDE.md](CLAUDE.md).
