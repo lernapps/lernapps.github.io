@@ -29,7 +29,7 @@ LAYOUT_WITH_LEGEND()
 title Fachlicher Kontext der Lern-Apps
 
 Person(kind, "Lernende", "Kind, ~13 Jahre, übt im Browser")
-Person(autor, "App-Autor:in", "Mensch mit Claude Code")
+Person(autor, "App-Autor:in", "Mensch mit Claude Code und dem Skill lern-app")
 
 System(lernapps, "Lern-Apps", "Monorepo lernapps.github.io: Apps, Mathe-Karte, Übersicht, Doku; Build mit Eleventy")
 
@@ -66,9 +66,11 @@ Rel(lernapps, pages, "wird ausgeliefert als ein Artefakt", "deploy-pages")
 | Paketquellen | Anfragen von `npm ci` und `scripts/dtc-v4.sh` | Eleventy 3.1.6 samt transitiven Paketen (`package-lock.json`); docToolchain `main-4.x@6de96fb7` und seine Gradle-Abhängigkeiten
 |===
 
-Die alten Einzel-Repos (`raifdmueller.github.io/<app>/`) und die alte Mathe-Karte laufen parallel
-weiter, sind aber nicht Teil des Systems und werden von ihm nicht verlinkt; das Risiko steht als
-xref:11_technical_risks.adoc#r-016[R-016] in Kapitel 11.
+Der Skill `lern-app`, mit dem die Autor:in neue Apps anlegt, ist kein Nachbar mehr: Er liegt seit PR #7
+im Monorepo unter `werkzeuge/skill/lern-app/`. Die alten Einzel-Repos (`raifdmueller.github.io/<app>/`),
+die alte Mathe-Karte, die Vorlage `lern-app-template` und das alte Skill-Repo `lern-app-skill` laufen
+noch, bis sie gelöscht sind. Sie sind nicht Teil des Systems und werden von ihm nicht verlinkt; das
+Risiko steht als xref:11_technical_risks.adoc#r-016[R-016] in Kapitel 11.
 
 [[section-technical-context]]
 === Technischer Kontext: HTTPS-GET, ein Deep Link, ein iframe und zwei Paketquellen

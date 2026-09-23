@@ -76,7 +76,7 @@ entsteht deterministisch aus einer Aufgabennummer (`seed`/`nr`, mulberry32). Der
 (`src/llms.njk`) und der Karte (`src/karte/llms.njk`) dazu; alle Adressen darin leitet der Build aus
 der Basis-URL ab (ADR-015). URL-Parameter und Anker sind öffentlicher Vertrag.
 
-*Status.* Accepted (inferred).
+*Status.* Accepted. Vom Product Owner bestätigt am 23.09.2026.
 
 [cols="2,1,1,1",options="header"]
 |===
@@ -121,7 +121,7 @@ Merker „Videos immer direkt laden“ gilt je App (`<APP.id>.video-direkt`).
 
 *Konsequenzen.* Null fremde Requests bis zum Klick; danach erfährt Google die IP-Adresse
 (xref:11_technical_risks.adoc#r-009[R-009]). Der Merker gilt auf geteilten Geräten für alle
-(xref:11_technical_risks.adoc#r-008[R-008]). Je Seite ist nur ein Video vorgesehen (TD-17).
+(xref:11_technical_risks.adoc#r-008[R-008]). Je Seite ist nur ein Video vorgesehen (TD-17, zurückgestellt, bis eine Seite ein zweites braucht).
 
 [[adr-006]]
 === ADR-006: Zahlenantworten: Rundung nach getippten Stellen, eigener Term-Auswerter, Live-Vorschau
@@ -150,7 +150,7 @@ xref:08_concepts.adoc#section-zahlen-eingeben[8.7].
 
 *Konsequenzen.* Der Prüfer ist Kern-Code; ein Fehler darin trifft alle Apps, eine Korrektur aber auch
 alle auf einmal (xref:11_technical_risks.adoc#r-004[R-004]). Die Vorschau zeigt „≈“ auch dort, wo der
-Wert exakt ist (TD-18).
+Wert exakt ist (TD-18); die Korrektur ist beschlossen, ein PR in Arbeit.
 
 [[adr-007]]
 === ADR-007: Diagnosetest ohne Noten, Ergebniszeile für den Tutor, nur im localStorage
@@ -163,7 +163,7 @@ zwei Aufgaben (Test) oder eine (Schnelltest) ohne Tipp, Lösung und Zeitmessung
 (`src/kern/js/testablauf.js:9`). Ergebnis je Kompetenz: ✓, ~, ✗; am Ende eine Zeile
 `Test Nr. 4711 (<App>, Schnelltest): 1 ✓ 2 ~ 3 ✗`. Das letzte Ergebnis liegt nur im `localStorage`.
 
-*Status.* Accepted (inferred).
+*Status.* Accepted. Vom Product Owner bestätigt am 23.09.2026.
 
 [cols="2,1,1,1",options="header"]
 |===
@@ -192,8 +192,8 @@ tatsächliche Ausgabe, nicht die Quellen. Regeln, die das Layout überflüssig m
 Footer-Version, Farbe an vier Stellen), sind entfallen. Unit-Tests der Regeln stehen in
 `test/build/pruefungen.test.js`.
 
-*Status.* Accepted (inferred). Den Umzug in den Build hat ADR-012 nötig gemacht; die Begründung für
-„Build-Fehler statt Warnung“ ist erschlossen.
+*Status.* Accepted. Vom Product Owner bestätigt am 23.09.2026. Den Umzug in den Build hat ADR-012 nötig gemacht; „Build-Fehler statt Warnung“ war
+erschlossen und ist damit bestätigt.
 
 [cols="2,1,1,1",options="header"]
 |===

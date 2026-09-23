@@ -57,8 +57,8 @@ auch hier.
 | Mathe-Karte | Karte der Mathe-Kompetenzen nach KMK-Leitideen und Lehrplänen mit den Apps, die sie üben. | `src/karte/`, `lib/karte/`
 | Knoten | Eine Kompetenz der Mathe-Karte; Ziel von `kartenKnoten`. | `src/karte/daten/kompetenzen/<id>.md`
 | Karten-Eintrag | Die edugo-Felder einer App auf der Karte. | `APP.kartenEintrag`, `eintragAusApp`
-| Einzel-Repo | Eine App in eigenem Repository unter `raifdmueller.github.io`; Vorgänger des Monorepos, läuft parallel. | –
-| Vorlage | Das frühere Template-Repository `raifdmueller/lern-app-template`, aus dem diese Doku stammt. | –
+| Einzel-Repo | Eine App in eigenem Repository unter `raifdmueller.github.io`; Vorgänger des Monorepos, läuft noch, bis es gelöscht ist (R-016). | –
+| Vorlage | Das frühere Template-Repository `raifdmueller/lern-app-template`, aus dem diese Doku stammt. Abgelöst durch das Monorepo; die Löschung steht bevor (R-016). | –
 | Slice, Scheibe | Vertikaler Schnitt durch alle Schichten; bei Kompetenzen: Seite, Generator, Bild, Test, Checkliste, Menü, `llms.txt`. | –
 | Spike | Zeitlich begrenztes Wegwerf-Experiment; hier der Monorepo-Spike mit 20 Apps (ADR-012). | –
 | edugo | Vorhaben einer Plattform, die Bildungs-Micro-Apps über eine Kompetenzkarte verbindet. | –

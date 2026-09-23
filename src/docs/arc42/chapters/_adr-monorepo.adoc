@@ -38,8 +38,8 @@ Node-Skript statt Eleventy wurde nicht bewertet; ob es weniger Pflege kostet als
 Abhängigkeit, ist `?`.
 
 *Konsequenzen.* Eine Kern-Korrektur ist ein Commit für alle Apps. Das Repo hängt an Eleventy
-(xref:11_technical_risks.adoc#r-015[R-015]). Die alten Einzel-Repos laufen parallel weiter und
-veralten (xref:11_technical_risks.adoc#r-016[R-016]). Ein Fehler im Build oder Kern trifft alle Apps
+(xref:11_technical_risks.adoc#r-015[R-015]). Die alten Einzel-Repos laufen parallel weiter, bis sie
+gelöscht sind, und veralten (xref:11_technical_risks.adoc#r-016[R-016]). Ein Fehler im Build oder Kern trifft alle Apps
 zugleich (xref:11_technical_risks.adoc#r-004[R-004]); dafür prüft der Vertragstest jede Kompetenz jeder
 App. Ein gescheiterter Doku-Build hält jetzt das Deployment aller Apps an
 (xref:11_technical_risks.adoc#r-011[R-011]).
@@ -56,7 +56,7 @@ App-Konfiguration: Die Seite reicht `APP`, `KOMPETENZEN` und Generatoren hinein
 (`starteSeite`, `starteStartseite`, `starteTestseite`, `erzeugeSpeicher(praefix)`,
 `initVideos(praefix)`). Keine Symlinks, keine Kopien je App. Commit `fec2b1e`.
 
-*Status.* Accepted (inferred).
+*Status.* Accepted. Vom Product Owner bestätigt am 23.09.2026.
 
 [cols="2,1,1,1",options="header"]
 |===
@@ -89,7 +89,7 @@ Pfad und Inhalt aller ausgelieferten JS-, CSS- und JSON-Dateien und hängt `?v=<
 Referenz in HTML und JS (`lib/versionierung.js:9-28`, `eleventy.config.js`). In den Quellen steht nie
 `?v=`. Die Site-Version im Footer kommt getrennt davon aus `package.json`.
 
-*Status.* Accepted (inferred).
+*Status.* Accepted. Vom Product Owner bestätigt am 23.09.2026.
 
 [cols="2,1,1,1,1",options="header"]
 |===
@@ -157,7 +157,7 @@ SVG gezeichnet. Ohne JS fehlte es dann, oder die Handzeichnung passte nicht zur 
 die Seite (`lib/bild.js:14-26`); im Browser zeichnet sie zu jeder Aufgabe neu. Keine handgezeichneten
 SVGs.
 
-*Status.* Accepted (inferred).
+*Status.* Accepted. Vom Product Owner bestätigt am 23.09.2026.
 
 [cols="2,1,1,1,1",options="header"]
 |===
@@ -188,7 +188,7 @@ oder `ohneVideo`, `bild`). `src/_includes/kompetenz.njk` setzt immer dasselbe Ge
 Ankern; Start-, Test- und Manifest-Seite entstehen per Pagination über alle Apps. Der Build verlangt je
 Kompetenz Seite, Generator und Test und bricht sonst ab (`lib/pruefungen.js:36-49`).
 
-*Status.* Accepted (inferred).
+*Status.* Accepted. Vom Product Owner bestätigt am 23.09.2026.
 
 [cols="2,1,1,1",options="header"]
 |===
@@ -202,8 +202,9 @@ Kompetenz Seite, Generator und Test und bricht sonst ab (`lib/pruefungen.js:36-4
 |===
 
 *Konsequenzen.* Eine neue Kompetenz ist klein, aber das Anlegen der Dateien ist Handarbeit; das
-Hilfsskript der Vorlage ist noch nicht portiert (TD-20). Längere HTML-Abschnitte im Front Matter sind
-unhandlich; mehrere Videos je Seite sieht das Gerüst nicht vor (TD-17). Accepted without tracked risk.
+Hilfsskript der Vorlage kommt mit der nächsten App (TD-20). Längere HTML-Abschnitte im Front Matter
+sind unhandlich; mehrere Videos je Seite sieht das Gerüst nicht vor, und das bleibt so, bis eine Seite
+ein zweites braucht (TD-17). Accepted without tracked risk.
 
 [[adr-018]]
 === ADR-018: Mathe-Karte im Monorepo, App-Einträge aus den App-Konfigurationen
@@ -217,7 +218,7 @@ laufen.
 `kartenKnoten` je Kompetenz. Titel, Adresse, Quellcode und Beschreibung kommen aus `APP`. Ein
 unbekannter Knoten bricht den Build (`lib/karte/eintraege.js:37-50`). Die Karte ist keine App.
 
-*Status.* Accepted (inferred).
+*Status.* Accepted. Vom Product Owner bestätigt am 23.09.2026.
 
 [cols="2,1,1,1",options="header"]
 |===
@@ -245,8 +246,7 @@ Markenrichtlinien von YouTube nicht erlauben (PR #3, Commit `94a6f35`).
 *Entscheidung.* Die Videokarte zeigt ein neutrales Symbol, einen Kreis mit Dreieck
 (`PLAY_SYMBOL`, `src/kern/js/video.js:62-80`, mit Test). Der Hinweis nennt YouTube als Text.
 
-*Status.* Accepted (inferred). Die Begründung steht in PR #3; eine ausdrückliche Bestätigung des
-Nutzers ist nicht dokumentiert.
+*Status.* Accepted. Vom Product Owner bestätigt am 23.09.2026. Die Begründung steht in PR #3.
 
 [cols="2,1,1,1",options="header"]
 |===

@@ -29,7 +29,7 @@ LAYOUT_WITH_LEGEND()
 title Ebene 1: Bausteine des Monorepos lern-apps
 
 Person(kind, "Lernende", "Kind, ~13 Jahre")
-Person(autor, "App-Autor:in", "Mensch mit Claude Code")
+Person(autor, "App-Autor:in", "Mensch mit Claude Code und dem Skill lern-app")
 
 System_Boundary(lernapps, "Lern-Apps (Monorepo lernapps.github.io)") {
   Container(build, "Build", "Node, Eleventy 3.1.6", "lib/, eleventy.config.js: Apps laden, Bilder zeichnen, prüfen, ?v= setzen")
@@ -72,6 +72,11 @@ Rel(ci, pages, "ein Artefakt: _site + _site/docs")
 
 Die externen Nachbarn sind dieselben sechs Systeme und zwei Personen wie im
 xref:03_context_and_scope.adoc#section-business-context[fachlichen Kontext].
+
+Der Skill `lern-app` liegt im Monorepo unter `werkzeuge/skill/lern-app/` (PR #7). Er ist Werkzeug der
+Autor:in, kein Baustein der Site: Er wird weder gebaut noch ausgeliefert, sondern nach
+`~/.claude/skills/` verlinkt. Eine eigene Vorlage gibt es nicht mehr; eine neue App entsteht als Ordner
+`src/<app>/`.
 
 [cols="2,4,3,3",options="header"]
 |===

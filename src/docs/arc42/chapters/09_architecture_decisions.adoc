@@ -14,13 +14,14 @@ ifndef::imagesdir[:imagesdir: ../../images]
 Die ADRs folgen Michael Nygard: Kontext, Entscheidung, Status, Konsequenzen. Jede enthält eine
 Pugh-Matrix gegen die Qualitätsziele QZ-1 bis QZ-5 aus
 xref:01_introduction_and_goals.adoc#section-quality-goals[Kapitel 1.2]. Referenz (0) ist die gewählte
-Option; eine Alternative ist besser (+1), gleich (0) oder schlechter (−1). `?` heißt: Das Urteil braucht
-das Team. Die Konsequenzen nennen die Risiken aus
+Option; eine Alternative ist besser (+1), gleich (0) oder schlechter (−1). `?` heißt: Das Urteil ist
+offen. Alle `?`-Zellen betreffen verworfene Alternativen und ändern die Wahl nicht; der Product Owner
+hat sie am 23.09.2026 so akzeptiert, wie sie stehen. Die Konsequenzen nennen die Risiken aus
 xref:11_technical_risks.adoc#section-risks[Kapitel 11].
 
 Status: „Accepted“ heißt, der Nutzer hat entschieden oder bestätigt (für ADR-001 bis ADR-011 aus der
-Vorlage übernommen). „Accepted (inferred)“ heißt, die Entscheidung steht im Code, die Begründung ist
-erschlossen und vom Nutzer nicht eigens bestätigt. „Superseded by ADR-0xx“ heißt, eine spätere
+Vorlage übernommen). Die ADRs, die bis dahin „Accepted (inferred)“ hießen (ADR-004, ADR-007, ADR-008,
+ADR-013, ADR-014, ADR-016 bis ADR-019), hat der Product Owner am 23.09.2026 bestätigt. „Superseded by ADR-0xx“ heißt, eine spätere
 Entscheidung hat sie ersetzt; der Text bleibt zur Nachvollziehbarkeit stehen.
 
 Neue Kern- und Build-Entscheidungen brauchen ein ADR hier (`CLAUDE.md`, „Architecture“).
@@ -34,22 +35,22 @@ Neue Kern- und Build-Entscheidungen brauchen ein ADR hier (`CLAUDE.md`, „Archi
 | <<adr-001,ADR-001>> | Statische Site auf GitHub Pages, kein Backend | Accepted
 | <<adr-002,ADR-002>> | Vanilla-JavaScript-ES-Module ohne Framework und ohne Build | Superseded by ADR-012
 | <<adr-003,ADR-003>> | Kern als GitHub-Template, in Apps kopiert | Superseded by ADR-012
-| <<adr-004,ADR-004>> | Tutor-Schnittstelle aus llms.txt, tutor.md und Deep Links mit Aufgabennummer | Accepted (inferred)
+| <<adr-004,ADR-004>> | Tutor-Schnittstelle aus llms.txt, tutor.md und Deep Links mit Aufgabennummer | Accepted
 | <<adr-005,ADR-005>> | YouTube per Zwei-Klick mit lokalem Platzhalter, youtube-nocookie nach Klick | Accepted
 | <<adr-006,ADR-006>> | Zahlenantworten: Rundung nach getippten Stellen, eigener Term-Auswerter, Live-Vorschau | Accepted
-| <<adr-007,ADR-007>> | Diagnosetest ohne Noten, Ergebniszeile für den Tutor, nur im localStorage | Accepted (inferred)
-| <<adr-008,ADR-008>> | Eigene Strukturprüfung ohne Abhängigkeiten; im Monorepo als Build-Fehler | Accepted (inferred)
+| <<adr-007,ADR-007>> | Diagnosetest ohne Noten, Ergebniszeile für den Tutor, nur im localStorage | Accepted
+| <<adr-008,ADR-008>> | Eigene Strukturprüfung ohne Abhängigkeiten; im Monorepo als Build-Fehler | Accepted
 | <<adr-009,ADR-009>> | Terme mit Variablen: eigener Parser, Gleichwertigkeit an festen Prüfstellen, Formprüfung am Syntaxbaum | Accepted
 | <<adr-010,ADR-010>> | Versionsnummer `?v=<APP_VERSION>` an allen Importen, Skripten und Stylesheets | Superseded by ADR-014
 | <<adr-011,ADR-011>> | Primärfarbe folgt dem Fach, eine Tabelle, geprüft im Build | Accepted
 | <<adr-012,ADR-012>> | Monorepo mit Eleventy 3.1.6, exakt gepinnt | Accepted
-| <<adr-013,ADR-013>> | Kern einmal ausgeliefert, App-Konfiguration per Dependency Inversion | Accepted (inferred)
-| <<adr-014,ADR-014>> | `?v=<Inhalts-Hash>` setzt der Build | Accepted (inferred)
+| <<adr-013,ADR-013>> | Kern einmal ausgeliefert, App-Konfiguration per Dependency Inversion | Accepted
+| <<adr-014,ADR-014>> | `?v=<Inhalts-Hash>` setzt der Build | Accepted
 | <<adr-015,ADR-015>> | Basis-URL an genau einer Stelle; Organisation lernapps, Repo lernapps.github.io | Accepted
-| <<adr-016,ADR-016>> | Bilder aus derselben Zeichenfunktion für Build (Mini-DOM) und Browser | Accepted (inferred)
-| <<adr-017,ADR-017>> | Kompetenzseiten aus Markdown-Front-Matter mit festem Gerüst, Regeln als Build-Fehler | Accepted (inferred)
-| <<adr-018,ADR-018>> | Mathe-Karte im Monorepo, App-Einträge aus den App-Konfigurationen | Accepted (inferred)
-| <<adr-019,ADR-019>> | Neutrales Play-Symbol statt der Logo-Form von YouTube | Accepted (inferred)
+| <<adr-016,ADR-016>> | Bilder aus derselben Zeichenfunktion für Build (Mini-DOM) und Browser | Accepted
+| <<adr-017,ADR-017>> | Kompetenzseiten aus Markdown-Front-Matter mit festem Gerüst, Regeln als Build-Fehler | Accepted
+| <<adr-018,ADR-018>> | Mathe-Karte im Monorepo, App-Einträge aus den App-Konfigurationen | Accepted
+| <<adr-019,ADR-019>> | Neutrales Play-Symbol statt der Logo-Form von YouTube | Accepted
 |===
 
 include::_adr-vorlage.adoc[]
