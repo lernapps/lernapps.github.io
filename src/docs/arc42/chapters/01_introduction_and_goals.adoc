@@ -1,0 +1,88 @@
+:jbake-title: Einführung und Ziele
+:jbake-type: page_toc
+:jbake-status: published
+:jbake-menu: arc42
+:jbake-order: 1
+:filename: /chapters/01_introduction_and_goals.adoc
+ifndef::imagesdir[:imagesdir: ../../images]
+
+:toc:
+
+[[section-introduction-and-goals]]
+== Einführung und Ziele: Die Apps üben, Claude unterrichtet, ein Repository hält alles zusammen
+
+Die Lern-Apps sind kleine, statische Trainer zu je einem Schulthema. Ein Kind von etwa 13 Jahren übt
+darin Kompetenzen wie „Prozentwert berechnen“ oder „Pfadregeln anwenden“. Unterrichtet wird es nicht
+von der App, sondern von Claude auf claude.ai: Die App liefert Erklärung, Bild, beliebig viele Aufgaben
+und einen Diagnosetest, der Tutor führt das Gespräch und verlinkt gezielt einzelne Aufgaben. Pro
+Schuljahr sollen rund 20 Apps entstehen (Mathe, Physik, Chemie). Damit das bei einer Person mit einem
+KI-Agenten tragbar bleibt, liegen alle Apps in einem Monorepo mit einem Kern, einem Layout und einem
+Build (xref:09_architecture_decisions.adoc#adr-012[ADR-012]). Die Apps sind zugleich ein Versuch für
+edugo, eine Plattform, die Bildungs-Micro-Apps über eine Kompetenzkarte verbindet; die Mathe-Karte
+liegt deshalb im selben Repository (xref:09_architecture_decisions.adoc#adr-018[ADR-018]).
+
+[[section-requirements-overview]]
+=== Aufgabenstellung: Aus einem Lehrplanthema wird eine App, aus einer Kompetenz ein paar Dateien
+
+Das Monorepo soll drei Dinge leisten.
+
+. *Üben ohne Anmeldung.* Jede Kompetenz hat eine Seite mit Warum, Regel, Beispiel, Video, Bild und
+  einem Aufgabengenerator mit Sofort-Feedback, Tipp und Lösungsweg. Eine Checkliste mit
+  Selbsteinschätzung und ein Test (voll oder schnell) zeigen, wo das Kind steht. Text und Bild sind
+  ohne JavaScript lesbar.
+. *Anschluss an einen KI-Tutor.* Jede Aufgabe trägt eine vorlesbare Aufgabennummer; der Tutor kennt
+  über `llms.txt` alle Seiten, URL-Parameter und typischen Fehler und kann deshalb eine konkrete
+  Aufgabe verlinken. `tutor.md` ist der Prompt, mit dem das Kind die Sitzung startet.
+. *Neue Apps und Kompetenzen aus einem Guss.* Eine neue Kompetenz besteht aus drei Dateien und einer
+  Zeile in der App-Konfiguration; Menü, Checkliste, Test, Übersicht, Manifest und Karten-Eintrag
+  entstehen im Build. Eine Korrektur am Kern ist ein Commit für alle Apps.
+
+Die fachlichen Anwendungsfälle, auf die sich Tests und Szenarien beziehen:
+
+[cols="1,3,2",options="header"]
+|===
+| ID | Anwendungsfall | Umgesetzt in
+| UC-1 | Eine Aufgabe üben: lösen, prüfen, Tipp, Lösung, neue Aufgabe | `src/kern/js/ui.js`, `src/<app>/js/aufgaben/<id>.js`
+| UC-2 | Eine Aufgabe über ihre Nummer und URL-Parameter wieder öffnen | `src/kern/js/zufall.js`, `src/kern/js/aufgabenlink.js`
+| UC-3 | Zahlen eingeben: Rundungsregel, Brüche und Terme, Live-Vorschau | `src/kern/js/zahlantwort.js`, `src/kern/js/bruch.js`
+| UC-T | Terme mit Variablen eingeben: Gleichwertigkeit, Form, Fehlterme, Vorschau | `src/kern/js/variablenterm.js`, `src/kern/js/termantwort.js`
+| UC-4 | Test oder Schnelltest machen und die Ergebniszeile an den Tutor schicken | `src/kern/js/testablauf.js`, `src/kern/js/testseite.js`, `src/test.njk`
+| UC-5 | Sich selbst einschätzen und den letzten Test in der Checkliste sehen | `src/kern/js/startseite.js`, `src/kern/js/storage.js`, `src/start.njk`
+| UC-6 | Ein Video erst nach Zustimmung laden | `src/kern/js/video.js`, `src/_includes/kompetenz.njk`
+| UC-7 | Eine Tutor-Sitzung auf claude.ai starten; Tutor und Mensch finden Apps, Karte und Doku | `src/start.njk`, `src/<app>/tutor.njk`, `src/<app>/llms.njk`, `src/llms.njk`, `src/kern/vendor/talkitover.js`
+| UC-8 | Eine neue Kompetenz anlegen; der Build prüft, ob sie vollständig ist | `CLAUDE.md` („New competency“), `lib/pruefungen.js`, `test/apps/vertrag.test.js`
+| UC-9 | Auf der Mathe-Karte sehen, welche Kompetenzen eine App übt und wo Lücken sind | `src/karte/`, `lib/karte/`
+|===
+
+[[section-quality-goals]]
+=== Qualitätsziele: Datenschutz geht vor, dann der Tutor
+
+Fünf Qualitätsziele treiben die Architektur. Sie sind aus der Vorlage übernommen; die Reihenfolge ist
+aus Code und Regeln erschlossen und vom Nutzer noch nicht bestätigt (offene Frage in
+xref:11_technical_risks.adoc#section-open-questions[Kapitel 11]). Kapitel
+xref:04_solution_strategy.adoc#section-solution-strategy[4] ordnet jedem Ziel einen Lösungsansatz zu,
+Kapitel xref:10_quality_requirements.adoc#section-quality-scenarios[10] macht sie mit Szenarien messbar.
+
+[cols="1,2,4",options="header"]
+|===
+| ID | Qualitätsziel (ISO/IEC 25010) | Warum es die Architektur treibt
+| QZ-1 | *Datenschutz by Design* (Sicherheit: Vertraulichkeit) | Die Nutzer sind Kinder. Keine App darf etwas über sie an Dritte geben: kein Server, kein Tracking, keine Anfrage an fremde Hosts, bis das Kind ein Video startet.
+| QZ-2 | *Tutor-Anschlussfähigkeit* (Kompatibilität: Interoperabilität) | Der Tutor ist ein LLM auf fremder Infrastruktur, das die Apps nur über Links und Texte kennt. URL-Parameter, Anker, Aufgabennummern und Adressen sind ein öffentlicher Vertrag und müssen reproduzierbar und stabil sein.
+| QZ-3 | *Fachlich richtige Rückmeldung* (Funktionale Eignung: Korrektheit) | Ein Kind, dem die App eine richtige Antwort als falsch meldet, verliert das Vertrauen. Brüche rechnen exakt, gerundet wird nach einer einzigen Regel, und alle Apps prüfen mit demselben Kern.
+| QZ-4 | *Neue Apps und Kompetenzen schnell und einheitlich* (Wartbarkeit: Wiederverwendbarkeit, Modifizierbarkeit) | Rund 20 Apps je Schuljahr, gebaut von einem KI-Agenten. Das gelingt nur, wenn das Generische einmal existiert, eine Korrektur alle Apps erreicht und der Build jede Abweichung meldet.
+| QZ-5 | *Zugänglich auf jedem Gerät* (Benutzbarkeit: Zugänglichkeit) | Kinder üben auf dem Handy und auf Schulgeräten. Mobile-first ab 360 px, Text und Bild ohne JavaScript lesbar, bedienbar per Tastatur.
+|===
+
+[[section-stakeholder]]
+=== Stakeholder: Das Kind lernt, Claude und Claude Code arbeiten mit
+
+[cols="2,3,4",options="header"]
+|===
+| Rolle | Wer | Erwartung an die Architektur
+| Lernende | Kind, etwa 13 Jahre, Klasse 7–8, Gymnasium Hessen | Aufgaben sofort, ohne Konto; ehrliche Rückmeldung; keine Noten; nichts wird über es gesammelt.
+| Eltern | begleiten das Lernen, geben den Tutor-Link | Keine Datenweitergabe ohne Klick; verständliche Datenschutz-Angabe.
+| Tutor | Claude auf claude.ai, gestartet mit `tutor.md` einer App | Vollständige, stabile Beschreibung in `llms.txt`; Aufgaben per Link reproduzierbar; Testergebnis als eine Textzeile.
+| App-Autor:in | Ralf D. Müller, zusammen mit Claude Code | Neue App als Ordner, neue Kompetenz als drei Dateien und eine Zeile; `npm test` und `npm run build` sagen, was fehlt; Dateien unter 500 Zeilen.
+| Lehrkraft, Schule | mögliche Nutzer auf Schulgeräten | Kein Login, kein Server, DSGVO-Frage beantwortbar; Lizenz klar (heute offen, xref:11_technical_risks.adoc#r-018[R-018]).
+| edugo | Plattform-Vorhaben, das Micro-Apps verbindet | Apps nach einem Muster, eingetragen in der Mathe-Karte mit ehrlicher Angabe zu `backend`, `external-requests` und `dsgvo`.
+|===

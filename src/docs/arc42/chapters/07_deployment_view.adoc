@@ -1,0 +1,108 @@
+:jbake-title: Verteilungssicht
+:jbake-type: page_toc
+:jbake-status: published
+:jbake-menu: arc42
+:jbake-order: 7
+:filename: /chapters/07_deployment_view.adoc
+ifndef::imagesdir[:imagesdir: ../../images]
+
+:toc:
+
+[[section-deployment-view]]
+== Verteilungssicht: Ein Push auf main, ein Artefakt, GitHub Pages liefert Apps und Doku aus
+
+Die Apps laufen vollständig im Browser des Kindes. GitHub baut und liefert aus; es gibt keinen
+Rechner, den jemand betreiben muss. Ein Workflow baut die Site mit Eleventy und diese Doku mit
+docToolchain und legt beides in ein einziges Pages-Artefakt.
+
+[[section-infrastructure-level-1]]
+=== Infrastruktur Ebene 1: GitHub baut, Pages liefert, der Browser rechnet
+
+[plantuml, target=verteilung, format=svg]
+....
+@startuml
+!include <C4/C4_Deployment>
+LAYOUT_LEFT_RIGHT()
+title Verteilung der Lern-Apps
+
+Deployment_Node(dev, "Rechner der Autor:in", "WSL/Linux, Node 22, Java 17, Graphviz") {
+  Container(clone, "Arbeitskopie", "git", "npm test, npm run build, npm run serve, scripts/dtc-v4.sh generateSite")
+}
+Deployment_Node(gh, "GitHub", "github.com") {
+  Deployment_Node(repo, "Repository lernapps/lernapps.github.io", "public, Organisation lernapps") {
+    Container(src, "Quellen", "JS, Nunjucks, Markdown, AsciiDoc")
+  }
+  Deployment_Node(runner, "Actions-Runner", "ubuntu-latest") {
+    Container(ci, "pruefen.yml", "Node 22", "npm test, npm run build bei Push und PR")
+    Container(deploy, "pages.yml", "Node 22, Java 17, Graphviz, docToolchain v4 (main-4.x@6de96fb7)", "Site + Doku bauen, ein Artefakt deployen (nur main)")
+  }
+  Deployment_Node(ghpages, "GitHub Pages", "HTTPS, lernapps.github.io, Quelle: GitHub Actions") {
+    Container(site, "/", "statisch", "Übersicht, /kern/, /<app>/, /karte/, llms.txt")
+    Container(docs, "/docs/", "statisch", "arc42-Microsite")
+  }
+}
+Deployment_Node(geraet, "Gerät der Lernenden", "Handy, Tablet, Schul-PC") {
+  Deployment_Node(browser, "Browser", "ES-Module, localStorage") {
+    Container(laufzeit, "App zur Laufzeit", "JS", "Kern + Fachmodule")
+  }
+}
+System_Ext(claude, "claude.ai", "Tutor")
+System_Ext(yt, "YouTube", "youtube-nocookie.com")
+System_Ext(pakete, "Paketquellen", "npm-Registry, GitHub, Maven")
+
+Rel(clone, src, "git push (Feature-Branch, PR)")
+Rel(src, ci, "Push, PR")
+Rel(src, deploy, "Push auf main")
+Rel(deploy, pakete, "npm ci; docToolchain (Cache je Commit)")
+Rel(deploy, site, "_site")
+Rel(deploy, docs, "build/microsite/output → _site/docs/")
+Rel(laufzeit, site, "HTTPS GET")
+Rel(claude, site, "GET tutor.md, llms.txt")
+Rel(laufzeit, yt, "iframe nach Klick")
+@enduml
+....
+
+[cols="2,4",options="header"]
+|===
+| Element | Zweck und Zuordnung
+| Repository | `lernapps/lernapps.github.io`, öffentlich, in der Organisation `lernapps`. Der Name `<org>.github.io` macht die Site zur Organisations-Site an der Wurzel `https://lernapps.github.io/` (xref:09_architecture_decisions.adoc#adr-015[ADR-015]).
+| `pruefen.yml` | Bei jedem Push und PR: `npm ci`, `npm test`, `npm run build` (inklusive Build-Prüfungen). Berechtigung nur `contents: read`. Baut die Doku nicht (xref:11_technical_risks.adoc#section-technical-debt[TD-22]).
+| `pages.yml` | Bei Push auf `main` und manuell: `npm ci`, `npm test`, `npm run build`; danach Java 17, Graphviz und `scripts/dtc-v4.sh generateSite`. docToolchain v4 ist unveröffentlicht; das Skript holt `main-4.x` am festen Commit `6de96fb7` und baut dessen `lib/` (TD-9). `actions/cache` hält Checkout samt `lib/` und die Gradle-Abhängigkeiten je gepinntem Commit vor. Der Schritt „Doku nach _site/docs legen“ kopiert `build/microsite/output/` nach `_site/docs/`, löscht `landingpage.gsp` (TD-16) und lädt `_site` als ein Artefakt hoch. Berechtigungen `pages: write`, `id-token: write`.
+| GitHub Pages | Liefert `https://lernapps.github.io/` und `…/docs/` aus. Quelle „GitHub Actions“ (heute `build_type: workflow`, per `gh api repos/lernapps/lernapps.github.io/pages` geprüft am 23.09.2026). Jede Datei kommt mit `Cache-Control: max-age=600`; deshalb setzt der Build `?v=<Hash>` (xref:09_architecture_decisions.adoc#adr-014[ADR-014]).
+| Browser | Führt Kern und Fachmodule aus; speichert nur im `localStorage`. Braucht ES-Module und `import()`. Je App erlaubt `manifest.webmanifest` „Zum Startbildschirm hinzufügen“.
+|===
+
+[[section-pages-branch-mode]]
+=== Stolperstein: Ein Repo `<org>.github.io` schaltet Pages im Branch-Modus ein
+
+Wer ein Repository mit dem Namen `<org>.github.io` anlegt, bekommt GitHub Pages automatisch
+eingeschaltet, und zwar im Modus „Deploy from a branch“. Dann liefert Pages die Quellen aus `main`
+aus, nicht die Ausgabe von `pages.yml`: Die Seiten wären Nunjucks-Rohtext, und `deploy-pages` schlägt
+fehl. Die Quelle muss einmal auf „GitHub Actions“ umgestellt werden:
+
+[source,bash]
+----
+gh api -X PUT repos/lernapps/lernapps.github.io/pages -f build_type=workflow
+gh api repos/lernapps/lernapps.github.io/pages --jq .build_type   # erwartet: workflow
+----
+
+Für ein Repository ohne Pages lautet der erste Aufruf `gh api -X POST …/pages -f build_type=workflow`
+(`CLAUDE.md`, „Build, test, deploy“).
+
+=== Ein Deployment wechselt alle URLs auf einmal
+
+GitHub Pages erlaubt dem Browser, jede Datei zehn Minuten lang ohne Rückfrage aus dem Cache zu nehmen,
+jede für sich. Der Build hängt deshalb an jede lokale Referenz `?v=<Hash über alle JS/CSS/JSON>`; ändert
+sich eine ausgelieferte Datei, zeigen alle Seiten auf neue URLs, die kein Cache kennt. Nur die
+HTML-Seite selbst kann bis zu zehn Minuten alt sein (xref:11_technical_risks.adoc#r-013[R-013]).
+
+=== Lokal: fünf Befehle genügen
+
+[source,bash]
+----
+npm ci                          # Eleventy 3.1.6 exakt nach package-lock.json
+npm test                        # Unit-, Vertrags- und Build-Tests
+npm run build                   # _site/, bricht bei Regelverstößen ab
+npm run serve                   # Dev-Server
+scripts/dtc-v4.sh generateSite  # Doku nach build/microsite/output/ (holt beim ersten Mal docToolchain v4)
+----

@@ -1,0 +1,268 @@
+// ADR-012 bis ADR-019: Entscheidungen des Monorepos lern-apps.
+// Wird von 09_architecture_decisions.adoc eingebunden (Unterstrich: keine eigene Seite).
+
+[[adr-012]]
+=== ADR-012: Monorepo mit Eleventy 3.1.6, exakt gepinnt
+
+*Kontext.* Pro Schuljahr sollen rund 20 Apps entstehen. Mit Vorlage und Kopie (ADR-003) hätte jede
+Korrektur am Kern 20 Commits in 20 Repos bedeutet, und jede vergessene Kopie hätte Apps
+unterschiedlich prüfen lassen (ehemals R-001). Wiederholtes HTML (Kopf, Menü, Footer, Checkliste)
+musste in jeder Seite von Skripten gleich gehalten werden (ADR-002). Ein Spike mit 20 künstlichen Apps
+hat gemessen: Build aller 20 Apps ≈ 1,5 s; eine neue Kompetenz = 3 Dateien + 1 Zeile (Messwerte vom
+Nutzer, der Spike-Code ist verworfen). Der heutige Build mit 3 Apps und Karte braucht 0,41 s (45 Seiten,
+Messung 23.09.2026).
+
+*Entscheidung.* Alle Apps und die Mathe-Karte liegen in einem Repository. Eleventy 3.1.6 baut daraus
+statisches HTML; es ist die einzige npm-Abhängigkeit und exakt gepinnt
+(`npm install --save-dev --save-exact`), gebaut wird nur über `npm run build`. Im Browser bleibt es bei
+Vanilla-ES-Modulen ohne Framework. Die alten Einzel-Repos bleiben unberührt, bis sie abgelöst sind.
+
+*Status.* Accepted. Entschieden vom Nutzer nach dem Spike.
+
+[cols="2,1,1,1,1",options="header"]
+|===
+| Ziel | Monorepo + Eleventy (Referenz) | Einzel-Repos, Kern kopiert (bisher) | Einzel-Repos, Kern als npm-Paket | Monorepo mit Hugo
+| QZ-1 Datenschutz | 0 | 0 | 0 | 0
+| QZ-2 Tutor-Anschluss | 0 | 0 | 0 | 0
+| QZ-3 Richtige Rückmeldung | 0 | -1 | 0 | 0
+| QZ-4 Neue Apps schnell | 0 | -1 | -1 | -1
+| QZ-5 Zugänglich | 0 | 0 | 0 | -1
+| *Summe* | *0* | *-2* | *-1* | *-2*
+|===
+
+Kopierte Kerne driften (QZ-3 −1) und kosten 20 Commits je Korrektur (QZ-4 −1). Ein npm-Paket verteilt
+Korrekturen sicher, verlangt aber 20 Versionsanhebungen und 20 Deployments je Kern-Release (QZ-4 −1).
+Hugo ist schnell, kann aber die JavaScript-Generatoren und Zeichenfunktionen nicht ausführen; ohne sie
+gäbe es kein Bild ohne JavaScript (QZ-5 −1, ADR-016) und zwei Sprachen im Repo (QZ-4 −1). Ein eigenes
+Node-Skript statt Eleventy wurde nicht bewertet; ob es weniger Pflege kostet als eine gepinnte
+Abhängigkeit, ist `?`.
+
+*Konsequenzen.* Eine Kern-Korrektur ist ein Commit für alle Apps. Das Repo hängt an Eleventy
+(xref:11_technical_risks.adoc#r-015[R-015]). Die alten Einzel-Repos laufen parallel weiter und
+veralten (xref:11_technical_risks.adoc#r-016[R-016]). Ein Fehler im Build oder Kern trifft alle Apps
+zugleich (xref:11_technical_risks.adoc#r-004[R-004]); dafür prüft der Vertragstest jede Kompetenz jeder
+App. Ein gescheiterter Doku-Build hält jetzt das Deployment aller Apps an
+(xref:11_technical_risks.adoc#r-011[R-011]).
+
+[[adr-013]]
+=== ADR-013: Kern einmal ausgeliefert, App-Konfiguration per Dependency Inversion
+
+*Kontext.* In der Vorlage importierte der Kern `js/app.config.js` über einen festen relativen Pfad. Im
+Monorepo gibt es viele Konfigurationen, aber der Kern soll nur einmal existieren.
+
+*Entscheidung.* `src/kern/` wird einmal nach `/kern/` kopiert (`eleventy.config.js`, Passthrough). Apps
+importieren ihn relativ (`../kern/js/seite.js` von einer Seite). Der Kern importiert nie eine
+App-Konfiguration: Die Seite reicht `APP`, `KOMPETENZEN` und Generatoren hinein
+(`starteSeite`, `starteStartseite`, `starteTestseite`, `erzeugeSpeicher(praefix)`,
+`initVideos(praefix)`). Keine Symlinks, keine Kopien je App. Commit `fec2b1e`.
+
+*Status.* Accepted (inferred).
+
+[cols="2,1,1,1",options="header"]
+|===
+| Ziel | Kern einmal, DI (Referenz) | Kern importiert Konfiguration, Kopie je App im Build | Kern importiert Konfiguration über Import-Map je Seite
+| QZ-1 Datenschutz | 0 | 0 | 0
+| QZ-2 Tutor-Anschluss | 0 | 0 | 0
+| QZ-3 Richtige Rückmeldung | 0 | 0 | 0
+| QZ-4 Neue Apps schnell | 0 | 0 | -1
+| QZ-5 Zugänglich | 0 | 0 | 0
+| *Summe* | *0* | *0* | *-1*
+|===
+
+Die Kopie je App ist gegen die Ziele gleichwertig. Den Ausschlag gibt, dass derselbe Kern unter einer
+URL im Browser-Cache für alle Apps liegt und reine, konfigurationsfreie Module ohne Tricks testbar sind.
+Eine Import-Map müsste in jeder Seite gepflegt werden (QZ-4 −1).
+
+*Konsequenzen.* Der Kern ist ohne App testbar; jede Kern-Funktion bekommt ihre Abhängigkeiten als
+Parameter. Eine Änderung an einer Kern-Signatur trifft alle Apps; der Vertragstest fängt das
+(xref:11_technical_risks.adoc#r-004[R-004]). Accepted without further tracked risk.
+
+[[adr-014]]
+=== ADR-014: `?v=<Inhalts-Hash>` setzt der Build
+
+*Kontext.* Das Cache-Problem von ADR-010 besteht weiter (`max-age=600`). ADR-010 verlangte, die Version
+von Hand zu heben; wer es vergaß, lieferte neuen Inhalt unter alter URL (ehemals R-014). Mit dem Build
+(ADR-012) lässt sich die Nummer aus dem Inhalt ableiten.
+
+*Entscheidung.* Nach dem Schreiben von `_site` bildet der Build einen SHA-256-Hash (8 Hex-Zeichen) über
+Pfad und Inhalt aller ausgelieferten JS-, CSS- und JSON-Dateien und hängt `?v=<Hash>` an jede lokale
+Referenz in HTML und JS (`lib/versionierung.js:9-28`, `eleventy.config.js`). In den Quellen steht nie
+`?v=`. Die Site-Version im Footer kommt getrennt davon aus `package.json`.
+
+*Status.* Accepted (inferred).
+
+[cols="2,1,1,1,1",options="header"]
+|===
+| Ziel | Inhalts-Hash vom Build (Referenz) | `?v=<Version>` von Hand (ADR-010) | Hash im Dateinamen (Bundler) | Nichts tun
+| QZ-1 Datenschutz | 0 | 0 | 0 | 0
+| QZ-2 Tutor-Anschluss | 0 | 0 | 0 | -1
+| QZ-3 Richtige Rückmeldung | 0 | -1 | 0 | -1
+| QZ-4 Neue Apps schnell | 0 | -1 | -1 | +1
+| QZ-5 Zugänglich | 0 | 0 | 0 | -1
+| *Summe* | *0* | *-2* | *-1* | *-2*
+|===
+
+Die Version von Hand lässt vergessene Anhebungen zu; dann rechnet ein alter Prüfer im Browser weiter
+(QZ-3 −1, QZ-4 −1). Hash-Dateinamen sind die Standardlösung, brauchen aber einen Bundler oder ein
+Plugin und ändern jeden Importpfad (QZ-4 −1).
+
+*Konsequenzen.* Keine Handarbeit, keine vergessene Version. Ein Hash für die ganze Site: Ändert sich eine
+Datei, laden alle Apps alle Module neu; bei rund 20 kleinen Modulen je App in Kauf genommen. Die alte
+HTML-Seite im Cache bleibt ein Fenster von bis zu 10 Minuten
+(xref:11_technical_risks.adoc#r-013[R-013]).
+
+[[adr-015]]
+=== ADR-015: Basis-URL an genau einer Stelle; Organisation lernapps, Repo lernapps.github.io
+
+*Kontext.* Die Adresse steckt in Canonicals, `llms.txt`, `tutor.md`, dem claude.ai-Link, Quellcode-Links
+und im `pathPrefix`. Ein Umzug (etwa vom persönlichen Konto in eine Organisation) hätte sonst dutzende
+Stellen geändert, und jede vergessene Stelle bricht einen Tutor-Link.
+
+*Entscheidung.* Die Basis-URL steht nur in `src/_data/site.js:9`; `lib/adressen.js` leitet alles andere
+ab, auch das Repository einer Organisations-Site an der Wurzel (Commit `ef00de2`). Die Site liegt in
+der GitHub-Organisation `lernapps` im Repository `lernapps.github.io` und ist damit unter
+`https://lernapps.github.io/` erreichbar (Commit `60c307a`).
+
+*Status.* Accepted. Organisation und Repository hat der Nutzer entschieden.
+
+[cols="2,1,1,1",options="header"]
+|===
+| Ziel | Eine Stelle, Org-Site (Referenz) | Adresse literal an jeder Stelle | Eigene Domain
+| QZ-1 Datenschutz | 0 | 0 | ?
+| QZ-2 Tutor-Anschluss | 0 | -1 | +1
+| QZ-3 Richtige Rückmeldung | 0 | 0 | 0
+| QZ-4 Neue Apps schnell | 0 | -1 | -1
+| QZ-5 Zugänglich | 0 | 0 | 0
+| *Summe* | *0* | *-2* | *0 + ?*
+|===
+
+Eine eigene Domain machte Links unabhängig von GitHub (QZ-2 +1), kostet aber Geld und DNS-Pflege
+(QZ-4 −1); ob ein Registrar oder DNS-Anbieter etwas über Besucher erfährt, ist `?`.
+
+*Konsequenzen.* Ein Umzug ist eine Zeile. Die Organisation unabhängig vom persönlichen Konto macht
+weitere Mitwirkende möglich, verlangt aber heute keine Zwei-Faktor-Anmeldung
+(xref:11_technical_risks.adoc#r-017[R-017]). Ein Repo `<org>.github.io` schaltet Pages im Branch-Modus
+ein; das muss einmal auf „GitHub Actions“ umgestellt werden
+(xref:07_deployment_view.adoc#section-pages-branch-mode[Kapitel 7]). Die alten Adressen unter
+`raifdmueller.github.io` bleiben bestehen (xref:11_technical_risks.adoc#r-016[R-016]).
+
+[[adr-016]]
+=== ADR-016: Bilder aus derselben Zeichenfunktion für Build (Mini-DOM) und Browser
+
+*Kontext.* In den Einzel-Apps entstand das Bild erst mit JavaScript oder war zusätzlich von Hand als
+SVG gezeichnet. Ohne JS fehlte es dann, oder die Handzeichnung passte nicht zur Aufgabe.
+
+*Entscheidung.* Zeichenfunktionen `zeichne…(svg, aufgabe, ergebnis)` nutzen nur `svgEl` aus
+`src/kern/js/svg.js`. Im Build läuft dieselbe Funktion gegen ein Mini-DOM und schreibt statisches SVG in
+die Seite (`lib/bild.js:14-26`); im Browser zeichnet sie zu jeder Aufgabe neu. Keine handgezeichneten
+SVGs.
+
+*Status.* Accepted (inferred).
+
+[cols="2,1,1,1,1",options="header"]
+|===
+| Ziel | Eine Funktion, Mini-DOM (Referenz) | Handgezeichnetes SVG + JS-Zeichnung | Nur JS-Bild | Headless-Browser im Build
+| QZ-1 Datenschutz | 0 | 0 | 0 | 0
+| QZ-2 Tutor-Anschluss | 0 | 0 | 0 | 0
+| QZ-3 Richtige Rückmeldung | 0 | -1 | 0 | 0
+| QZ-4 Neue Apps schnell | 0 | -1 | +1 | -1
+| QZ-5 Zugänglich | 0 | 0 | -1 | 0
+| *Summe* | *0* | *-2* | *0* | *-1*
+|===
+
+„Nur JS“ spart das Mini-DOM, verfehlt aber die Randbedingung TC-3 (Bild ohne JS); ein Headless-Browser
+bringt eine schwere Abhängigkeit und langsame Builds.
+
+*Konsequenzen.* Zeichenfunktionen dürfen `document` nicht anfassen. Das Mini-DOM kann nur, was die
+Zeichenfunktionen brauchen, und kann vom Browser-DOM abweichen
+(xref:11_technical_risks.adoc#r-019[R-019]).
+
+[[adr-017]]
+=== ADR-017: Kompetenzseiten aus Markdown-Front-Matter mit festem Gerüst, Regeln als Build-Fehler
+
+*Kontext.* In der Vorlage war jede Kompetenzseite eine HTML-Datei mit Kopf, Menü und Footer; Skripte
+hielten die Kopien gleich. Der Tutor verlässt sich auf feste Anker (`#warum` … `#uebung`).
+
+*Entscheidung.* `src/<app>/<id>.md` enthält nur Front Matter (`warum`, `regel`, `beispiel`, `video`
+oder `ohneVideo`, `bild`). `src/_includes/kompetenz.njk` setzt immer dasselbe Gerüst mit denselben
+Ankern; Start-, Test- und Manifest-Seite entstehen per Pagination über alle Apps. Der Build verlangt je
+Kompetenz Seite, Generator und Test und bricht sonst ab (`lib/pruefungen.js:36-49`).
+
+*Status.* Accepted (inferred).
+
+[cols="2,1,1,1",options="header"]
+|===
+| Ziel | Front Matter + Gerüst + Build-Fehler (Referenz) | HTML je Seite (Vorlage) | Freies Markdown mit eigenem Aufbau
+| QZ-1 Datenschutz | 0 | 0 | 0
+| QZ-2 Tutor-Anschluss | 0 | 0 | -1
+| QZ-3 Richtige Rückmeldung | 0 | 0 | 0
+| QZ-4 Neue Apps schnell | 0 | -1 | 0
+| QZ-5 Zugänglich | 0 | 0 | -1
+| *Summe* | *0* | *-1* | *-2*
+|===
+
+*Konsequenzen.* Eine neue Kompetenz ist klein, aber das Anlegen der Dateien ist Handarbeit; das
+Hilfsskript der Vorlage ist noch nicht portiert (TD-20). Längere HTML-Abschnitte im Front Matter sind
+unhandlich; mehrere Videos je Seite sieht das Gerüst nicht vor (TD-17). Accepted without tracked risk.
+
+[[adr-018]]
+=== ADR-018: Mathe-Karte im Monorepo, App-Einträge aus den App-Konfigurationen
+
+*Kontext.* Die Mathe-Karte lag in einem eigenen Repo; Apps wurden per PR mit einer eigenen
+Eintragsdatei eingetragen. Titel, Adresse und Kompetenzen standen damit doppelt und konnten auseinander
+laufen.
+
+*Entscheidung.* Die Karte liegt unter `src/karte/` und wird von Eleventy gebaut (Commits `e6123d1`,
+`cfcfb9e`). Eine App trägt ihren Eintrag selbst: `APP.kartenEintrag` mit den edugo-Feldern und
+`kartenKnoten` je Kompetenz. Titel, Adresse, Quellcode und Beschreibung kommen aus `APP`. Ein
+unbekannter Knoten bricht den Build (`lib/karte/eintraege.js:37-50`). Die Karte ist keine App.
+
+*Status.* Accepted (inferred).
+
+[cols="2,1,1,1",options="header"]
+|===
+| Ziel | Im Monorepo, Eintrag aus der App (Referenz) | Eigenes Repo, Eintrag per PR (bisher) | Im Monorepo, Eintrag als eigene Datei
+| QZ-1 Datenschutz | 0 | 0 | 0
+| QZ-2 Tutor-Anschluss | 0 | -1 | -1
+| QZ-3 Richtige Rückmeldung | 0 | 0 | 0
+| QZ-4 Neue Apps schnell | 0 | -1 | 0
+| QZ-5 Zugänglich | 0 | 0 | 0
+| *Summe* | *0* | *-2* | *-1*
+|===
+
+*Konsequenzen.* Titel und Adressen auf der Karte stimmen immer mit der App überein. Das Monorepo trägt
+jetzt auch die Lehrplandaten von 16 Ländern. Die alte Karte läuft parallel weiter
+(xref:11_technical_risks.adoc#r-016[R-016]); Einträge nennen `lizenz: ""`
+(xref:11_technical_risks.adoc#r-018[R-018]).
+
+[[adr-019]]
+=== ADR-019: Neutrales Play-Symbol statt der Logo-Form von YouTube
+
+*Kontext.* Eine Stichprobe auf Übernahmen fand als einzigen wörtlichen Treffer die Play-Button-Form
+von YouTube in der Videokarte, eingefärbt in der Fachfarbe: formal ein verändertes Markenlogo, was die
+Markenrichtlinien von YouTube nicht erlauben (PR #3, Commit `94a6f35`).
+
+*Entscheidung.* Die Videokarte zeigt ein neutrales Symbol, einen Kreis mit Dreieck
+(`PLAY_SYMBOL`, `src/kern/js/video.js:62-80`, mit Test). Der Hinweis nennt YouTube als Text.
+
+*Status.* Accepted (inferred). Die Begründung steht in PR #3; eine ausdrückliche Bestätigung des
+Nutzers ist nicht dokumentiert.
+
+[cols="2,1,1,1",options="header"]
+|===
+| Ziel | Neutrales Symbol (Referenz) | Logo-Form in Fachfarbe (bisher) | Offizielles Logo unverändert, lokal
+| QZ-1 Datenschutz | 0 | 0 | 0
+| QZ-2 Tutor-Anschluss | 0 | 0 | 0
+| QZ-3 Richtige Rückmeldung | 0 | 0 | 0
+| QZ-4 Neue Apps schnell | 0 | 0 | 0
+| QZ-5 Zugänglich | 0 | 0 | ?
+| *Summe* | *0* | *0, verletzt OC-5* | *?*
+|===
+
+Gegen die Qualitätsziele sind die Optionen gleich. Den Ausschlag gibt die Randbedingung OC-5; ob das
+unveränderte Logo das Video besser erkennbar macht, ist `?`, verlangt aber die Einhaltung der
+Markenrichtlinien.
+
+*Konsequenzen.* Kein Markenproblem in der Videokarte. Die Stichprobe war keine vollständige Prüfung auf
+Übernahmen; zusammen mit der offenen Lizenz steht das in
+xref:11_technical_risks.adoc#r-018[R-018].

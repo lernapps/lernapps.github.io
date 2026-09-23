@@ -1,0 +1,227 @@
+:jbake-title: Bausteinsicht
+:jbake-type: page_toc
+:jbake-status: published
+:jbake-menu: arc42
+:jbake-order: 5
+:filename: /chapters/05_building_block_view.adoc
+ifndef::imagesdir[:imagesdir: ../../images]
+
+:toc:
+
+[[section-building-block-view]]
+== Bausteinsicht: Fachliches je App-Ordner, Generisches einmal im Kern, Layout und Build
+
+Die Bausteine folgen einer Linie: Was je App anders ist, steht in `src/<app>/`. Was alle Apps teilen,
+steht einmal im Kern (`src/kern/`), im Layout (`src/_includes/`, `src/*.njk`) und im Build (`lib/`).
+Die Abhängigkeit zeigt vom Fachlichen zum Kern, nie umgekehrt: Der Kern importiert keine
+App-Konfiguration; die Seite reicht `APP`, `KOMPETENZEN` und Generatoren hinein
+(xref:09_architecture_decisions.adoc#adr-013[ADR-013]). Der Build liest die App-Konfigurationen und
+erzeugt daraus alles, was eine App sonst von Hand pflegen müsste.
+
+[[section-whitebox-overall-system]]
+=== Ebene 1: Whitebox Lern-Apps
+
+[plantuml, target=bausteine-ebene-1, format=svg]
+....
+@startuml
+!include <C4/C4_Container>
+LAYOUT_WITH_LEGEND()
+title Ebene 1: Bausteine des Monorepos lern-apps
+
+Person(kind, "Lernende", "Kind, ~13 Jahre")
+Person(autor, "App-Autor:in", "Mensch mit Claude Code")
+
+System_Boundary(lernapps, "Lern-Apps (Monorepo lernapps.github.io)") {
+  Container(build, "Build", "Node, Eleventy 3.1.6", "lib/, eleventy.config.js: Apps laden, Bilder zeichnen, prüfen, ?v= setzen")
+  Container(layout, "Layout", "Nunjucks", "src/_includes/, src/start.njk, test.njk, manifest.njk, index.njk, llms.njk")
+  Container(kern, "Kern", "ES-Module, CSS", "src/kern/ → /kern/: Zufall, Zahlen, Prüfung, Trainer, Test, Video, Speicher, SVG")
+  Container(apps, "Apps", "ES-Module, Markdown, Nunjucks", "src/<app>/: app.config.js, <id>.md, aufgaben/, vis/, llms.njk, tutor.njk")
+  Container(karte, "Mathe-Karte", "Markdown-Daten, Nunjucks, ES-Module", "src/karte/, lib/karte/ → /karte/")
+  Container(doku, "Architektur-Doku", "AsciiDoc, docToolchain v4", "src/docs/, src/site/ → /docs/")
+  Container(ci, "Tests und CI", "node --test, GitHub Actions", "test/, src/<app>/test/, .github/workflows/")
+  ContainerDb(speicher, "Browser-Speicher", "localStorage", "Selbsteinschätzung, letzter Test, Video-Merker")
+}
+
+System_Ext(claude, "claude.ai", "Tutor")
+System_Ext(youtube, "YouTube", "youtube-nocookie.com")
+System_Ext(github, "GitHub", "Organisation lernapps, Actions")
+System_Ext(pages, "GitHub Pages", "lernapps.github.io")
+System_Ext(pakete, "Paketquellen", "npm, docToolchain/Maven")
+
+Rel(kind, layout, "öffnet erzeugte Seiten", "HTTPS")
+Rel(layout, kern, "bindet ein, reicht APP und KOMPETENZEN hinein", "<script type=module>")
+Rel(apps, kern, "importiert relativ, erfüllt Generator-Vertrag")
+Rel(build, apps, "liest app.config.js, zeichnet Bilder")
+Rel(build, layout, "rendert")
+Rel(build, karte, "lädt und prüft Kartendaten")
+Rel(karte, apps, "App-Einträge aus kartenEintrag/kartenKnoten")
+Rel(kern, speicher, "liest/schreibt", "try/catch")
+Rel(kern, youtube, "iframe nach Klick")
+Rel(claude, apps, "liest tutor.md, llms.txt")
+Rel(autor, github, "PR, Merge")
+Rel(github, ci, "startet Workflows")
+Rel(ci, build, "npm test, npm run build")
+Rel(ci, doku, "scripts/dtc-v4.sh generateSite")
+Rel(build, pakete, "npm ci")
+Rel(doku, pakete, "docToolchain, Gradle")
+Rel(ci, pages, "ein Artefakt: _site + _site/docs")
+@enduml
+....
+
+Die externen Nachbarn sind dieselben fünf Systeme und zwei Personen wie im
+xref:03_context_and_scope.adoc#section-business-context[fachlichen Kontext].
+
+[cols="2,4,3,3",options="header"]
+|===
+| Baustein | Verantwortung | Schnittstelle | Quellort
+| [[bb-build]]Build
+| Lädt jede App aus ihrer Konfiguration und ergänzt Adressen, Fachfarbe und Kompetenznummern; zeichnet statische Bilder; bindet die Karte ein; prüft Regeln und bricht bei Verstößen ab; hängt `?v=<Hash>` an jede lokale Referenz. Siehe Ebene 2.
+| `npm run build` → `_site/`; Eleventy-Daten `apps`, `site`, `fachfarben`; Shortcode `bild`; Funktionen `ladeApps`, `leiteAdressenAb`, `fachfarbe`, `zeichneBild`, `versionsHash`, `versioniere`, `pruefe*`
+| `eleventy.config.js`, `lib/*.js`, `src/_data/`
+| [[bb-layout]]Layout
+| Erzeugt Kopf, Menü mit Nummern-Plaketten, Footer mit Site-Version, Fachfarbe, das Gerüst jeder Kompetenzseite (Warum, Regel, Beispiel, Video, Bild, Übung) sowie Start-, Test- und Manifest-Seite jeder App per Pagination; dazu Übersicht und `llms.txt` der Wurzel.
+| Front Matter der Kompetenzseiten; Anker `#warum`, `#regel`, `#beispiel`, `#video`, `#visualisierung`, `#uebung`; `data-*`-Attribute für den Kern
+| `src/_includes/basis.njk`, `kompetenz.njk`; `src/start.njk`, `src/test.njk`, `src/manifest.njk`, `src/index.njk`, `src/llms.njk`
+| [[bb-kern]]Kern
+| Alles Generische im Browser: Aufgabennummer, Zahlen und Terme lesen und prüfen, Eingabefelder, Übungsrahmen, Test, Videos, Speicher, Mini-DOM für SVG. Einmal unter `/kern/` ausgeliefert. Kennt keine App. Siehe Ebene 2.
+| `starteSeite({ app, modul, visualisiere })`, `starteStartseite({ app })`, `starteTestseite({ app, kompetenzen, generatoren })`, `erzeugeSpeicher(praefix)`, `initVideos(praefix)`, `svgEl`
+| `src/kern/js/`, `src/kern/css/stil.css`, `src/kern/vendor/talkitover.js`
+| [[bb-apps]]Apps
+| Das Fachliche je Thema: Konfiguration, eine Markdown-Seite je Kompetenz, Generator mit Prüfer, Zeichenfunktion, Tests, Texte für den Tutor, Icons. Heute `binom`, `prozent`, `zufall`.
+| `APP`, `KOMPETENZEN` (reine Daten); `erzeugeAufgabe(zufall, vorgaben)`, `pruefeAntwort(aufgabe, antworten)`, optional `URL_ZAHLEN`, `URL_TEXTE`, `testVorgaben`; `zeichne…(svg, aufgabe, ergebnis)`; `llms.txt`, `tutor.md`
+| `src/<app>/js/app.config.js`, `src/<app>/<id>.md`, `src/<app>/js/aufgaben/`, `src/<app>/js/vis/`, `src/<app>/llms.njk`, `src/<app>/tutor.njk`, `src/<app>/test/`
+| [[bb-karte]]Mathe-Karte
+| Mathe-Kompetenzen der Sekundarstufe I nach KMK-Leitideen und Lehrplänen (16 Länder, Gymnasium) als statische Seiten, `data.json` und interaktive Karte; App-Einträge kommen aus den App-Konfigurationen. Kein App-Ordner (keine `app.config.js`).
+| URL-Parameter `land`, `jahrgang`, `leitidee`, `luecken`, `knoten`; `karte/data.json`; `karte/llms.txt`; Build-Fehler bei unbekanntem Knoten
+| `src/karte/` (Daten in `src/karte/daten/`), `lib/karte/`
+| [[bb-doku]]Architektur-Doku
+| Diese arc42-Dokumentation mit ADRs; eigenes Theme-Overlay ohne CDN-Ressourcen.
+| `scripts/dtc-v4.sh generateSite` → `build/microsite/output/`, ausgeliefert unter `/docs/`
+| `src/docs/`, `src/site/`, `docToolchainConfig.groovy`, `dtcw`, `scripts/dtc-v4.sh`
+| [[bb-ci]]Tests und CI
+| Unit-Tests für Kern, Build und Karte; Generator-Vertrag für jede Kompetenz jeder App; Test und Build bei jedem Push und PR; Deployment von Site und Doku.
+| `npm test` (297 Tests), `npm run build`; Workflows `pruefen.yml`, `pages.yml`
+| `test/kern/`, `test/build/`, `test/apps/`, `src/<app>/test/`, `src/karte/test/`, `.github/workflows/`
+| [[bb-speicher]]Browser-Speicher
+| Merkt Selbsteinschätzung, letzten Test und Video-Merker, nur im Browser des Kindes.
+| Schlüssel `<APP.id>.selbsteinschaetzung`, `<APP.id>.test`, `<APP.id>.video-direkt`, `talkitover.provider`
+| `localStorage`; Zugriff nur über `src/kern/js/storage.js`, `src/kern/js/video.js`, `src/kern/vendor/talkitover.js`
+|===
+
+[[section-level-2-build]]
+=== Ebene 2: Whitebox Build
+
+[plantuml, target=bausteine-ebene-2-build, format=svg]
+....
+@startuml
+!include <C4/C4_Component>
+LAYOUT_TOP_DOWN()
+title Ebene 2: Komponenten des Builds (lib/, eleventy.config.js)
+
+Container(apps, "Apps", "src/<app>/")
+Container(layout, "Layout", "src/_includes/")
+Container(kern, "Kern", "src/kern/js/svg.js, zufall.js")
+Container(karte, "Mathe-Karte", "src/karte/")
+
+Container_Boundary(build, "Build") {
+  Component(config, "Eleventy-Konfiguration", "eleventy.config.js", "Ignores, Passthrough, Shortcode bild, Hook eleventy.after")
+  Component(site, "Adressen", "src/_data/site.js, lib/adressen.js", "Basis-URL → pathPrefix, appUrl, repo, quellcode")
+  Component(ladeApps, "App-Lader", "lib/apps.js, lib/app-daten.js", "src/*/js/app.config.js → apps[]")
+  Component(farben, "Fachfarben", "lib/fachfarben.js", "Fach → Farbe, WCAG-Kontrast")
+  Component(bild, "Bild", "lib/bild.js", "Generator + Zeichenfunktion → statisches SVG")
+  Component(karteLib, "Karten-Lader", "lib/karte/", "Daten laden, Einträge aus Apps, Referenzen prüfen")
+  Component(pruef, "Prüfungen", "lib/pruefungen.js", "externe Ressourcen, Zeilen, Kompetenz-Dateien, llms.txt")
+  Component(version, "Versionierung", "lib/versionierung.js", "Hash über JS/CSS/JSON, ?v= anhängen")
+}
+
+Rel(config, ladeApps, "ladeApps")
+Rel(ladeApps, site, "appUrl, quellcode")
+Rel(ladeApps, farben, "fachfarbe(APP.fach)")
+Rel(ladeApps, apps, "import app.config.js")
+Rel(config, bild, "Shortcode bild")
+Rel(bild, apps, "erzeugeAufgabe, zeichne…")
+Rel(bild, kern, "erzeugeZufall, leeresSvg, alsSvgText")
+Rel(config, layout, "rendert mit apps, site")
+Rel(karteLib, karte, "liest src/karte/daten/")
+Rel(karteLib, ladeApps, "apps → eintraege")
+Rel(config, pruef, "eleventy.after")
+Rel(config, version, "eleventy.after")
+@enduml
+....
+
+[cols="2,4,3",options="header"]
+|===
+| Komponente | Verantwortung | Quelle
+| Eleventy-Konfiguration | Verdrahtet alles: `src/kern` → `/kern/` (Passthrough), je App `js/`, Icons und CSS; ignoriert Tests, Karten-Daten, `src/docs` und `src/site`; ruft nach dem Schreiben Prüfungen und Versionierung auf. | `eleventy.config.js`
+| Adressen | Die einzige Basis-URL und alles daraus Abgeleitete (xref:09_architecture_decisions.adoc#adr-015[ADR-015]). | `src/_data/site.js:9`, `lib/adressen.js:7-24`
+| App-Lader | Jeder Ordner mit `js/app.config.js` ist eine App; prüft `id`, `pfad`, `titel`; nummeriert Kompetenzen. | `lib/apps.js:12-39`, `lib/app-daten.js`
+| Fachfarben | Tabelle der fünf Fächer; unbekanntes Fach bricht den Build (xref:09_architecture_decisions.adoc#adr-011[ADR-011]). | `lib/fachfarben.js:6-12`, `:29-32`
+| Bild | Führt Generator und Zeichenfunktion in Node aus und schreibt das SVG in die Seite (xref:09_architecture_decisions.adoc#adr-016[ADR-016]). | `lib/bild.js:14-26`
+| Karten-Lader | Lädt Leitideen, Kompetenzen, Lehrpläne, Zuordnungen; baut Einträge aus Apps; prüft Knoten (xref:09_architecture_decisions.adoc#adr-018[ADR-018]). | `lib/karte/laden.js:53-56`, `lib/karte/eintraege.js:15-63`
+| Prüfungen | Regeln als reine Funktionen; jeder Fund bricht den Build (xref:09_architecture_decisions.adoc#adr-008[ADR-008], xref:09_architecture_decisions.adoc#adr-017[ADR-017]). | `lib/pruefungen.js`
+| Versionierung | Ein Hash über alle ausgelieferten JS/CSS/JSON; `?v=` an Importen, `<script src>`, `<link href>` und Inline-Modulen (xref:09_architecture_decisions.adoc#adr-014[ADR-014]). | `lib/versionierung.js:9-28`
+|===
+
+[[section-level-2]]
+=== Ebene 2: Whitebox Kern
+
+[plantuml, target=bausteine-ebene-2-kern, format=svg]
+....
+@startuml
+!include <C4/C4_Component>
+LAYOUT_TOP_DOWN()
+title Ebene 2: Komponenten des Kerns (src/kern/js/)
+
+Container(layout, "Layout", "erzeugte Seiten")
+Container(apps, "Apps", "aufgaben/, vis/, app.config.js")
+ContainerDb(speicher, "Browser-Speicher", "localStorage")
+
+Container_Boundary(kern, "Kern") {
+  Component(seitenstart, "Seitenstart", "seite.js, startseite.js", "Videos, URL lesen, Trainer starten; Checkliste")
+  Component(trainer, "Trainer", "ui.js, loesung-schalter.js", "Aufgabe zeigen, prüfen, Tipp, Lösung, Zähler")
+  Component(eingabe, "Eingabe", "aufgabe-eingabe.js", "Feldtypen, auslesen, markieren; Live-Vorschau")
+  Component(zahlen, "Zahlen und Terme", "zahlen.js, bruch.js, zahlantwort.js, variablenterm.js, termantwort.js", "Brüche, Term-Auswerter, Rundungsregel")
+  Component(pruefung, "Prüfergebnis", "pruefung.js", "{ korrekt, fehler, felder, meldung }")
+  Component(zufall, "Zufall", "zufall.js", "mulberry32, Aufgabennummer")
+  Component(link, "Aufgabenlink", "aufgabenlink.js", "Vorgaben lesen, Link bauen, kopieren")
+  Component(test, "Test", "testablauf.js, testaufgaben.js, testseite.js", "Aufgabenfolge, Bewertung, Ergebniszeile")
+  Component(video, "Video", "video.js", "Zwei-Klick-Karte, neutrales Play-Symbol")
+  Component(storage, "Speicher", "storage.js", "erzeugeSpeicher(praefix)")
+  Component(svg, "SVG", "svg.js", "svgEl; Mini-DOM im Build, echtes DOM im Browser")
+}
+
+Rel(layout, seitenstart, "starteSeite({ app, modul, visualisiere })")
+Rel(layout, test, "starteTestseite({ app, kompetenzen, generatoren })")
+Rel(seitenstart, zufall, "leseSeed")
+Rel(seitenstart, link, "leseVorgaben")
+Rel(seitenstart, video, "initVideos(praefix)")
+Rel(seitenstart, trainer, "starteTrainer")
+Rel(seitenstart, storage, "Checkliste")
+Rel(trainer, apps, "erzeugeAufgabe, pruefeAntwort, zeichne…")
+Rel(trainer, eingabe, "zeigeEingaben, lieseAntworten")
+Rel(trainer, pruefung, "wirdGezaehlt")
+Rel(apps, zahlen, "zahlenfeld, pruefeZahlAntwort, passtZu")
+Rel(apps, svg, "svgEl")
+Rel(pruefung, zahlen, "pruefeZahlAntwort")
+Rel(test, zufall, "erzeugeZufall(nr)")
+Rel(test, storage, "speichereTest")
+Rel(storage, speicher, "try/catch")
+Rel(video, speicher, "video-direkt")
+@enduml
+....
+
+[cols="2,4,4,2",options="header"]
+|===
+| Komponente | Verantwortung | Schnittstelle (Auswahl) | Quelle
+| Seitenstart | Bereitet Videos vor, liest `seed`/`nr` und Vorgaben aus der URL, startet den Trainer. Auf der Startseite: Selbsteinschätzung laden und speichern, letzten Test zeigen. | `starteSeite({ app, modul, visualisiere })`, `starteStartseite({ app })` | `src/kern/js/seite.js:15`, `src/kern/js/startseite.js:20`
+| Trainer | Übungsoberfläche: Aufgabe, Prüfen, Tipp, Lösung zeigen/verbergen, Neue Aufgabe, Zähler. Hinweise neutral, nicht als Versuch gezählt. | `starteTrainer(…)`; `loesungZustand`, `schalteLoesung` | `src/kern/js/ui.js`, `src/kern/js/loesung-schalter.js`
+| Eingabe | Feldtypen `zahl`, `bruch`/`term`, `variablenterm`, `auswahl`, `radio`, Tabellen; Live-Vorschau nach 150 ms. | `zeigeEingaben`, `lieseAntworten`, `markiereFelder` | `src/kern/js/aufgabe-eingabe.js:17`
+| Zahlen und Terme | Deutsche Zahlen, exakte Brüche, Term-Auswerter ohne `eval`, Rundungsregel; Terme mit Variablen (ADR-006, ADR-009). | `pruefeZahlAntwort`, `passtZu`, `zahlenfeld`, `vorschau`; `pruefeTermAntwort`, `passtZuTerm` | `src/kern/js/zahlen.js`, `bruch.js`, `zahlantwort.js`, `variablenterm.js`, `termantwort.js`
+| Prüfergebnis | Einheitliches Ergebnis aller Prüfer; entscheidet, was zählt. | `ergebnisFuer`, `ergebnisAusFeldern`, `istHinweis`, `wirdGezaehlt` | `src/kern/js/pruefung.js:73`
+| Zufall | Deterministischer Zufall aus der Aufgabennummer; zufällige Nummer 1–9999. | `erzeugeZufall(seed)`, `leseSeed` | `src/kern/js/zufall.js:14-16`, `:47`
+| Aufgabenlink | Zeile „Aufgabe Nr. N · Link · Link kopieren“; Vorgaben validieren; kopieren mit Rückfall. | `aufgabenzeile`, `leseVorgaben`, `kopiereText` | `src/kern/js/aufgabenlink.js`
+| Test | Test und Schnelltest aus der Testnummer; Bild im Test über den Aufgaben-Vertrag; Ergebniszeile. | `starteTestseite(…)`, `testAufgaben(nr, modus)`, `erzeugeTestaufgabe`, `bildFuer` | `src/kern/js/testseite.js:15`, `testablauf.js:9`, `testaufgaben.js:10-28`
+| Video | Zwei-Klick-Karte mit neutralem Play-Symbol; iframe erst nach Klick; Merker je App. | `initVideos(praefix)`, `baueEmbedUrl`, `PLAY_SYMBOL` | `src/kern/js/video.js:12`, `:64`, `:127`
+| Speicher | Einziger Zugang zu Selbsteinschätzung und letztem Test, mit App-Präfix; `false` statt Ausnahme. | `erzeugeSpeicher(praefix)` → `lade…`, `speichere…` | `src/kern/js/storage.js:36`
+| SVG | Erzeugt SVG-Elemente; im Build ein Mini-DOM, im Browser `document`. Zeichenfunktionen nutzen nur `svgEl`. | `svgEl`, `leeresSvg`, `alsSvgText` | `src/kern/js/svg.js:45-59`
+|===

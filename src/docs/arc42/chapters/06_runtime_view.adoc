@@ -1,0 +1,255 @@
+:jbake-title: Laufzeitsicht
+:jbake-type: page_toc
+:jbake-status: published
+:jbake-menu: arc42
+:jbake-order: 6
+:filename: /chapters/06_runtime_view.adoc
+ifndef::imagesdir[:imagesdir: ../../images]
+
+:toc:
+
+[[section-runtime-view]]
+== Laufzeitsicht: Der Build erledigt die Arbeit, im Browser trägt das Kind jede Information
+
+Zwei Laufzeiten gibt es: den Build auf dem Rechner der Autor:in oder in GitHub Actions und den Browser
+des Kindes. Kein Szenario hat einen Server der Apps als Beteiligten. Wo App und Tutor Daten
+austauschen, trägt das Kind sie: als Link, als Aufgabennummer oder als Ergebniszeile. Die Tabelle am
+Ende zeigt, welcher Baustein aus xref:05_building_block_view.adoc#section-building-block-view[Kapitel 5]
+in welchem Szenario vorkommt.
+
+[[section-rt-build]]
+=== Szenario 1: Der Build macht aus App-Ordnern eine geprüfte Site
+
+[plantuml, target=laufzeit-build, format=svg]
+....
+@startuml
+autonumber
+actor "App-Autor:in / CI" as autor
+participant "Build\n(eleventy.config.js)" as cfg
+participant "Build\n(lib/apps.js)" as apps
+participant "Apps\n(src/<app>/)" as app
+participant "Mathe-Karte\n(lib/karte, src/karte)" as karte
+participant "Layout\n(src/_includes, *.njk)" as layout
+participant "Build\n(lib/bild.js)" as bild
+participant "Kern\n(svg.js, zufall.js)" as kern
+participant "Build\n(pruefungen, versionierung)" as nach
+
+autor -> cfg : npm run build
+cfg -> apps : ladeApps({ quelle: "src", adressen: site })
+apps -> app : import js/app.config.js (je Ordner)
+apps --> cfg : apps[] mit basisUrl, farbe, kompetenzen[nr]
+cfg -> karte : karte.11tydata.js → ladeKarte(apps)
+karte --> cfg : Knoten, Einträge aus kartenEintrag/kartenKnoten
+cfg -> layout : rendert Übersicht, je App start/test/manifest, je <id>.md kompetenz.njk
+layout -> bild : {% bild app.pfad, k, bild %}
+bild -> app : erzeugeAufgabe(erzeugeZufall(seed)), zeichne…(svg, aufgabe)
+bild -> kern : leeresSvg, svgEl (Mini-DOM), alsSvgText
+bild --> layout : <svg …> statisch in der Seite
+cfg -> nach : eleventy.after: pruefe(apps, _site)
+alt mindestens ein Regelverstoß
+  nach --> autor : "Build-Prüfung: n Fehler" – Exit-Code ≠ 0
+else alles gut
+  nach -> nach : versionsHash(JS/CSS/JSON) → versioniere(HTML, JS)
+  nach --> autor : "[lern-apps] 3 App(s) geprüft, ?v=8cb344d1"
+end
+@enduml
+....
+
+Gemessen am 23.09.2026: 45 Seiten, 103 kopierte Dateien, Eleventy meldet 0,41 s (Konsolenausgabe
+von `npm run build`).
+
+[[section-rt-aufgabe]]
+=== Szenario 2: Der Tutor verlinkt eine Aufgabe, das Kind löst sie
+
+Claude schickt „Mach Aufgabe Nr. 42“ mit einem Link wie
+`https://lernapps.github.io/binom/erste-binomische.html?seed=42`. Das Kind öffnet ihn und tippt.
+
+[plantuml, target=laufzeit-aufgabe, format=svg]
+....
+@startuml
+autonumber
+actor "Lernende" as kind
+participant "Layout\n(erzeugte Seite)" as seite
+participant "Kern: Seitenstart\n(seite.js)" as start
+participant "Kern: Zufall /\nAufgabenlink" as zufall
+participant "Kern: Trainer\n(ui.js)" as trainer
+participant "Apps\n(aufgaben/<id>.js, vis/<id>.js)" as app
+participant "Kern: Zahlen und Terme,\nPrüfergebnis" as zahlen
+
+kind -> seite : öffnet Link mit seed=42
+note right of seite : Text und Bild sind schon da (statisch)
+seite -> start : starteSeite({ app: APP, modul, visualisiere })
+start -> zufall : leseSeed → 42; leseVorgaben(query, URL_ZAHLEN, URL_TEXTE)
+start -> trainer : starteTrainer({ seed: 42, vorgaben })
+trainer -> app : erzeugeAufgabe(erzeugeZufall(42), vorgaben)
+trainer -> app : zeichne…(svg, aufgabe) – dieselbe Funktion wie im Build
+kind -> trainer : tippt Antwort, "Prüfen"
+trainer -> app : pruefeAntwort(aufgabe, antworten)
+app -> zahlen : pruefeTermAntwort / pruefeZahlAntwort
+zahlen --> trainer : { korrekt, fehler, felder, meldung }
+trainer -> kind : Meldung (richtig / Hinweis neutral / falsch), Zähler
+@enduml
+....
+
+[[section-rt-test]]
+=== Szenario 3: Tutor-Sitzung und Schnelltest, Ergebniszeile an den Tutor
+
+[plantuml, target=laufzeit-test, format=svg]
+....
+@startuml
+autonumber
+actor "Lernende" as kind
+participant "Layout\n(start.njk, test.njk)" as seite
+participant "claude.ai" as claude
+participant "GitHub Pages" as pages
+participant "Kern: Test\n(testseite.js)" as test
+participant "Apps\n(Generatoren)" as app
+participant "Kern: Speicher\n(storage.js)" as storage
+participant "Browser-Speicher" as ls
+
+kind -> seite : Startseite der App, "Mit Claude lernen"
+seite -> claude : https://claude.ai/new?q=Lade <App>/tutor.md …
+claude -> pages : GET tutor.md, llms.txt
+claude -> kind : Link <App>/test.html?nr=4711&modus=schnell
+kind -> seite : öffnet test.html
+seite -> test : starteTestseite({ app, kompetenzen, generatoren })
+loop je Kompetenz (1 Aufgabe im Schnelltest)
+  test -> app : erzeugeAufgabe(erzeugeZufall(seed aus 4711))
+  kind -> test : Antwort, "Weiter"
+  test -> app : pruefeAntwort(…).korrekt
+end
+test -> storage : speichereTest({ nr, modus, datum, ergebnis })
+storage -> ls : setItem("<APP.id>.test", …)
+test -> kind : "Test Nr. 4711 (<App>, Schnelltest): 1 ✓ 2 ~ 3 ✗"
+kind -> claude : fügt die Zeile ein
+@enduml
+....
+
+[[section-rt-video]]
+=== Szenario 4: Ein Video lädt erst nach dem Klick
+
+[plantuml, target=laufzeit-video, format=svg]
+....
+@startuml
+autonumber
+actor "Lernende" as kind
+participant "Layout\n(kompetenz.njk)" as seite
+participant "Kern: Video\n(video.js)" as video
+participant "Browser-Speicher" as ls
+participant "YouTube\n(youtube-nocookie.com)" as yt
+
+seite -> video : initVideos(APP.id)
+video -> ls : getItem("<APP.id>.video-direkt")
+alt Merker nicht gesetzt
+  video -> seite : Platzhalter: neutrales Play-Symbol (Kreis + Dreieck), Titel, Kanal, Hinweis
+  note right of seite : 0 Requests an fremde Hosts
+  kind -> video : "Video laden und abspielen" (optional: Merken)
+end
+video -> seite : <iframe src="https://www.youtube-nocookie.com/embed/<id>?autoplay=1">
+seite -> yt : GET embed (IP-Adresse geht an Google)
+@enduml
+....
+
+[[section-rt-kompetenz]]
+=== Szenario 5: Eine neue Kompetenz entsteht und geht mit der Doku live
+
+[plantuml, target=laufzeit-kompetenz, format=svg]
+....
+@startuml
+autonumber
+actor "App-Autor:in\n(mit Claude Code)" as autor
+participant "Apps\n(src/<app>/)" as app
+participant "Tests und CI" as ci
+participant "Build" as build
+participant "Architektur-Doku\n(scripts/dtc-v4.sh)" as doku
+participant "GitHub Pages" as pages
+
+autor -> app : test/<id>.test.js (rot)
+autor -> app : js/aufgaben/<id>.js, js/vis/<id>.js
+autor -> app : 1 Zeile in KOMPETENZEN (+ kartenKnoten)
+autor -> app : <id>.md mit Front Matter
+autor -> ci : npm test (Generator-Vertrag, Seeds 1–20)
+autor -> build : npm run build (Seite, Menü, Checkliste, Test, Karte)
+autor -> ci : Feature-Branch, PR → pruefen.yml
+opt Kern- oder Build-Entscheidung geändert
+  autor -> doku : ADR in Kapitel 9 ergänzen
+end
+ci -> build : pages.yml nach Merge: npm test, npm run build
+ci -> doku : generateSite → build/microsite/output
+ci -> pages : _site + _site/docs als ein Artefakt
+@enduml
+....
+
+[[section-rt-fehler]]
+=== Szenario 6: Fehler und Wiederherstellung: Der Build hält an, der Browser fällt zurück
+
+Fehler im Build halten die Auslieferung an, bevor ein Kind sie sieht. Fehler im Browser enden in einem
+Rückfall, den das Kind sieht und selbst auflösen kann.
+
+[plantuml, target=laufzeit-fehler, format=svg]
+....
+@startuml
+autonumber
+actor "App-Autor:in" as autor
+participant "Build\n(lib/karte, lib/pruefungen)" as build
+participant "Mathe-Karte\n(Daten)" as karte
+actor "Lernende" as kind
+participant "Layout\n(alte, gecachte Seite)" as seite
+participant "Kern" as kern
+participant "Browser-Speicher" as ls
+participant "GitHub Pages" as pages
+
+group Unbekannter Karten-Knoten
+  autor -> build : kartenKnoten: ["gibt-es-nicht"] in app.config.js
+  build -> karte : Knoten-ids aus src/karte/daten/kompetenzen/
+  build --> autor : "Mathe-Karte: Datenprüfung fehlgeschlagen: … ist kein Knoten der Karte" – Build rot
+  autor -> build : id korrigiert → Build grün
+end
+group Cache nach einem Deployment
+  kind -> seite : HTML bis zu 10 min alt aus dem Browser-Cache
+  seite -> pages : GET kern/js/seite.js?v=<alter Hash>
+  pages --> seite : Datei der neuen Version (Pages ignoriert die Query)
+  note right of seite : Einzelfall R-013; neu laden holt die neue Seite,\nderen URLs tragen den neuen Hash
+  kind -> seite : neu laden → alle URLs ?v=<neuer Hash>
+end
+group localStorage gesperrt
+  kern -> ls : setItem
+  ls --> kern : Exception
+  kern -> kind : "Konnte … nicht speichern. Kopier dir die Zeile."
+end
+group Ungültige URL-Parameter
+  kind -> kern : …?seed=abc&wert=-5
+  kern -> kind : Zufallsaufgabe mit neuer Aufgabennummer 1–9999
+end
+@enduml
+....
+
+[cols="2,4",options="header"]
+|===
+| Fehlerfall | Verhalten und Quelle
+| Unbekannter Karten-Knoten | `pruefeAppEintrag` meldet Datei und Knoten; `ladeKarte` wirft, der Build bricht ab (`lib/karte/eintraege.js:46`, `lib/karte/laden.js:53-56`). Auch ein Übergangseintrag für eine App, die ihren Eintrag schon selbst trägt, bricht ab (`lib/karte/eintraege.js:57-59`).
+| Regelverstoß im Build | Externe Ressource, Datei über 500 Zeilen, fehlende Kompetenz-Datei, Seite fehlt in `llms.txt`: `eleventy.config.js` wirft mit allen Funden; nichts wird deployt.
+| Unbekanntes Fach, falsche App-Konfiguration | `fachfarbe` wirft (`lib/fachfarben.js:29-32`); `pruefeAppKonfig` meldet fehlende `id`, `titel` oder falschen `pfad` (`lib/apps.js:12-18`).
+| Cache nach Deployment | Neue Seiten fordern nur URLs mit neuem Hash an (xref:08_concepts.adoc#section-auslieferung[8.10]). Nur eine alte, gecachte HTML-Seite kann für einen Aufruf alte und neue Module mischen (xref:11_technical_risks.adoc#r-013[R-013]); neu laden behebt es.
+| Doku-Build scheitert | `pages.yml` bricht ab, bevor das Artefakt entsteht; die zuletzt deployte Fassung bleibt online (xref:11_technical_risks.adoc#r-011[R-011]).
+| `localStorage` gesperrt oder voll | Alle Zugriffe in `try/catch`; Laden liefert einen leeren Wert, Speichern `false`; die Seite sagt es dem Kind (`src/kern/js/storage.js:17-21`).
+| Ungültige oder fehlende URL-Parameter | `leseSeed` akzeptiert nur Ziffern, sonst Zufallsnummer (`src/kern/js/zufall.js:47`); `leseVorgaben` übernimmt nur gültige Werte; `leseModus` fällt auf `voll` zurück (`src/kern/js/testablauf.js:15-18`).
+| Zwischenablage verweigert | `kopiereText` markiert den Text (`src/kern/js/aufgabenlink.js`).
+| claude.ai kann `tutor.md` nicht laden | Außerhalb des Systems. Rückfall: TalkItOver-Provider „copy“ kopiert den Prompt; `llms.txt` ist auf der Startseite verlinkt (xref:11_technical_risks.adoc#r-002[R-002]).
+|===
+
+[[section-rt-abdeckung]]
+=== Jeder Baustein kommt in einem Szenario vor
+
+[cols="3,1,1,1,1,1,1",options="header"]
+|===
+| Baustein (Kapitel 5) | S1 | S2 | S3 | S4 | S5 | S6
+| Build | x | | | | x | x
+| Layout | x | x | x | x | | x
+| Kern | x | x | x | x | | x
+| Apps | x | x | x | | x |
+| Mathe-Karte | x | | | | | x
+| Architektur-Doku | | | | | x |
+| Tests und CI | x | | | | x |
+| Browser-Speicher | | | x | x | | x
+|===
