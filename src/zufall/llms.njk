@@ -176,6 +176,9 @@ Parameter: `experiment=wuerfel|urne|gluecksrad|karten|lose|zweiwuerfel`
 Video (`#video`): „einstufiger Zufallsversuch | Wahrscheinlichkeitsrechnung - einfach erklärt | Lehrerschmidt“,
 https://www.youtube.com/watch?v=rkLmLaFHodo – die App bettet es erst nach einem Klick ein.
 Im Video fällt das Wort „Laplace“ nicht; gemeint ist dasselbe.
+In der Übung ist das Bild neutral: Das Kind klickt die günstigen Ergebnisse selbst an (Zähler
+„2 von 6 markiert“). Die Markierung wird nicht geprüft; „Lösung zeigen“ oder eine richtige Antwort
+zeigt die richtige Markierung. Das Bild unter `#visualisierung` bleibt das markierte Beispiel.
 Beispiel: {{ app.basisUrl }}laplace.html?experiment=urne&urne=3r2b1g&ereignis=b&seed=4#uebung
 
 ### 2 Gegenereignis – {{ app.basisUrl }}gegenereignis.html
@@ -191,6 +194,8 @@ Drei Aufgabenarten:
 `art=direkt|einfach|mindestens` wählt nur die Aufgabenart (Zahlen zufällig); ein Parameter
 von oben geht vor.
 Video: keines (`#video` enthält nur den Hinweis, dass die Erklärung oben reicht).
+In der Übung (`art=einfach`) ist die Ergebnismenge neutral; das Kind markiert die Ergebnisse von E selbst
+und rechnet 1 − P(E). Auf der Testseite sind Laplace- und einfache Gegenereignis-Bilder neutral.
 Beispiel: {{ app.basisUrl }}gegenereignis.html?experiment=wuerfel&zuege=3&ereignis=mind1s&seed=1#uebung
 
 ### 3 Baumdiagramm – {{ app.basisUrl }}baumdiagramm.html

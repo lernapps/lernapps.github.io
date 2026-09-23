@@ -14,3 +14,7 @@ test("Warum, Regel, Beispiel, Video und Bild stehen in einem offenen <details id
   for (const id of ["warum", "regel", "beispiel", "video", "visualisierung"]) assert.ok(innen.includes(`id="${id}"`), id);
   assert.ok(layout.indexOf('id="uebung"') > ende);
 });
+
+test("die Übung zeichnet mit bild.uebungFunktion, wenn es eine gibt, sonst mit bild.funktion", () => {
+  assert.match(layout, /zeichne: \{\{ bild\.uebungFunktion or bild\.funktion \}\}/);
+});

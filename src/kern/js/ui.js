@@ -11,7 +11,8 @@ import { el, zeigeEingaben, zeigeAufgabentext, lieseAntworten, markiereFelder } 
  * Startet einen Trainer im Element `wurzel`.
  * modul: { erzeugeAufgabe(zufall, vorgaben), pruefeAntwort(aufgabe, antworten) }
  * seed: optionaler Seed für die erste Aufgabe; vorgaben: Zahlen aus der URL (nur erste Aufgabe).
- * zeichne(svg, aufgabe, ergebnis|undefined): Zeichenfunktion für das Bild zur Aufgabe (optional);
+ * zeichne(svg, aufgabe, ergebnis|undefined, status): Zeichenfunktion für das Bild zur Aufgabe (optional); status(text)
+ * schreibt eine Zeile unter das Bild (aria-live), z. B. "2 von 6 markiert";
  * bildHinweis: Satz hinter der Beschriftung (Front Matter bild.uebung, optional).
  */
 export function starteTrainer({ wurzel, modul, seed, vorgaben = {}, zeichne, bildHinweis, seitenPfad = "" }) {
@@ -36,14 +37,16 @@ export function starteTrainer({ wurzel, modul, seed, vorgaben = {}, zeichne, bil
   const zaehlerP = el("p", { class: "zaehler" }, ["Richtig: ", richtigSpan, " von ", gesamtSpan, " Aufgaben in dieser Sitzung."]);
   const seedP = el("p", { class: "aufgabenlink" });
   const bildSvg = leeresSvg({ class: "vis" });
+  const bildStatus = el("p", { class: "bild-status", "aria-live": "polite" });
   const bildText = el("figcaption", { class: "vis-beschriftung" });
-  const bild = zeichne ? [el("figure", { class: "aufgabe-bild", id: "aufgabenbild" }, [bildSvg, bildText])] : [];
+  const bild = zeichne ? [el("figure", { class: "aufgabe-bild", id: "aufgabenbild" }, [bildSvg, bildStatus, bildText])] : [];
   wurzel.append(text, ...bild, form, feedback, tippText, loesungText, zaehlerP, seedP);
 
   function visualisiere(a, ergebnis) {
     if (!zeichne) return;
     bildSvg.replaceChildren();
-    zeichne(bildSvg, a, ergebnis);
+    bildStatus.textContent = "";
+    zeichne(bildSvg, a, ergebnis, (t) => { bildStatus.textContent = t; });
     bildText.textContent = bildBeschriftung(a, ergebnis, bildHinweis);
   }
 

@@ -1,12 +1,15 @@
 /*
  * Bild zu Kompetenz 2: direkt – ein Streifen, aufgeteilt in P(E) und P(nicht E); einfach – die Ergebnismenge mit
  * umgedrehter Markierung (orange = nicht E); mindestens – der Baum, der eine Pfad des Gegenereignisses markiert.
+ * Übung (zeichneGegenereignisMarkierbar): bei "einfach" markiert das Kind E selbst, wie auf der Laplace-Seite.
+ * Testseite (zeichneGegenereignisTest): bei "einfach" neutral.
  */
 import { svgEl } from "../../../kern/js/svg.js";
 import { formatBruch, zuDezimal } from "../../../kern/js/bruch.js";
 import { ereignisPfade } from "../modell/baum.js";
 import { gruppe, rahmen, BETONT } from "./rahmen.js";
-import { zeichneMengeIn } from "./menge.js";
+import { zeichneMengeIn, MENGEN_TITEL, platzFuer } from "./menge.js";
+import { zeichneMengeMarkierbar } from "./laplace.js";
 import { zeichneBaumIn } from "./baum.js";
 
 function streifen(svg, aufgabe, geloest) {
@@ -38,4 +41,25 @@ export function zeichneGegenereignis(svg, aufgabe, ergebnis) {
   const hervorgehoben = new Set(ereignisPfade(aufgabe.baum, aufgabe.gegen).map((k) => k.id));
   const { breite, hoehe } = zeichneBaumIn(g, aufgabe.baum, { hervorgehoben, zeigePfad: geloest });
   rahmen(svg, breite, hoehe, `Baumdiagramm; orange: der einzige Pfad des Gegenereignisses „${aufgabe.gegen.name}“`, g);
+}
+
+export function zeichneGegenereignisMarkierbar(svg, aufgabe, ergebnis, status = () => {}) {
+  if (aufgabe.art !== "einfach") { zeichneGegenereignis(svg, aufgabe, ergebnis); return; }
+  const n = aufgabe.menge.elemente.length;
+  const e = aufgabe.menge.elemente.filter((x) => x.guenstig).length;
+  if (!ergebnis?.korrekt) {
+    zeichneMengeMarkierbar(svg, aufgabe, status, `klick die Ergebnisse von E an: ${aufgabe.menge.ereignisName}`);
+    return;
+  }
+  const g = gruppe();
+  const { breite, hoehe } = zeichneMengeIn(g, aufgabe.menge, { maxBreite: platzFuer(svg) });
+  rahmen(svg, breite, hoehe, `Orange umrandet: die Ergebnisse von E; die übrigen gehören zu „nicht E“`, g);
+  status(`Lösung: E hat ${e} von ${n} Ergebnissen, „nicht E“ die übrigen ${n - e}`);
+}
+
+export function zeichneGegenereignisTest(svg, aufgabe, ergebnis) {
+  if (aufgabe.art !== "einfach") { zeichneGegenereignis(svg, aufgabe, ergebnis); return; }
+  const g = gruppe();
+  const { breite, hoehe } = zeichneMengeIn(g, aufgabe.menge, { neutral: true, maxBreite: platzFuer(svg) });
+  rahmen(svg, breite, hoehe, MENGEN_TITEL[aufgabe.menge.art], g);
 }

@@ -1,6 +1,6 @@
 /*
  * Kompetenz 1: Laplace-Formel – P(E) = günstige / mögliche Ergebnisse.
- * Modell: eine Ergebnismenge { art, elemente: [{ id, label, guenstig, farbe }], ereignisName }. Reine Funktionen, kein DOM.
+ * Modell: eine Ergebnismenge { art, elemente: [{ id, label, name, guenstig, farbe }], ereignisName }; name = Vorlesename. Reine Funktionen, kein DOM.
  * URL-Parameter (öffentlicher Vertrag, llms.txt): experiment=wuerfel|urne|gluecksrad|karten|lose|zweiwuerfel, ereignis,
  * urne, rad, lose, gewinne, schwer, Kurzform wuerfel=<Ereignis>, seed/nr.
  */
@@ -8,7 +8,8 @@ import { bruch, formatBruch } from "../../../kern/js/bruch.js";
 import { FARBEN, parseUrne, elementarErgebnisse, urne, gluecksrad } from "../modell/experimente.js";
 import { pruefeEinFeld, wahrscheinlichkeitsFeld, vorgabeOder, URNEN_VORLAGEN, trifft } from "./gemeinsam.js";
 
-export { zeichneLaplace as zeichneBild } from "../vis/laplace.js";
+// Testseite: neutrales Bild – eine Vorab-Markierung würde die Antwort verraten.
+export { zeichneLaplaceNeutral as zeichneBild } from "../vis/laplace.js";
 
 export const THEMA = "laplace";
 export const URL_ZAHLEN = ["lose", "gewinne", "schwer"];
@@ -43,13 +44,20 @@ export const LAPLACE_EREIGNISSE = {
 
 const KARTEN_FARBEN = [["Kreuz", "♣", "#212121"], ["Pik", "♠", "#212121"], ["Herz", "♥", "#c62828"], ["Karo", "♦", "#c62828"]];
 const KARTEN_WERTE = ["7", "8", "9", "10", "B", "D", "K", "A"];
+const WERT_NAMEN = { B: "Bube", D: "Dame", K: "König", A: "Ass" };
 
 function mengeWuerfel(code) {
   const ev = LAPLACE_EREIGNISSE.wuerfel[code] || LAPLACE_EREIGNISSE.wuerfel.gerade;
   return {
     art: "wuerfel", kontext: "Du würfelst einmal mit einem normalen Würfel.", ereignisName: ev.name, code,
-    elemente: [1, 2, 3, 4, 5, 6].map((n) => ({ id: String(n), label: String(n), guenstig: ev.test(n) })),
+    elemente: [1, 2, 3, 4, 5, 6].map((n) => ({ id: String(n), label: String(n), name: `Würfelseite ${n}`, guenstig: ev.test(n) })),
   };
+}
+
+// "blaue Kugel 2", "rotes Feld 1"; lila bleibt ungebeugt.
+function vorlesename(e, art) {
+  const endung = e.name === "lila" ? "" : art === "urne" ? "e" : "es";
+  return `${e.name}${endung} ${art === "urne" ? "Kugel" : "Feld"} ${e.nummer}`;
 }
 
 function mengeFarben(exp, code, art) {
@@ -61,7 +69,7 @@ function mengeFarben(exp, code, art) {
   return {
     art, kontext, code: ev, spec: exp.spec,
     ereignisName: art === "urne" ? `eine ${name}e Kugel` : `ein ${name}es Feld`,
-    elemente: elementarErgebnisse(exp).map((e, i) => ({ id: `${e.id}${i}`, label: e.name, farbe: e.farbe, guenstig: e.id === ev })),
+    elemente: elementarErgebnisse(exp).map((e, i) => ({ id: `${e.id}${i}`, label: e.name, name: vorlesename(e, art), farbe: e.farbe, guenstig: e.id === ev })),
   };
 }
 
@@ -69,21 +77,21 @@ function mengeKarten(code) {
   const ev = LAPLACE_EREIGNISSE.karten[code] || LAPLACE_EREIGNISSE.karten.herz;
   const elemente = [];
   for (const [farbe, symbol, hex] of KARTEN_FARBEN) for (const wert of KARTEN_WERTE) {
-    elemente.push({ id: `${farbe}${wert}`, label: `${symbol}${wert}`, farbe: hex, guenstig: ev.test({ farbe, wert }) });
+    elemente.push({ id: `${farbe}${wert}`, label: `${symbol}${wert}`, name: `${farbe} ${WERT_NAMEN[wert] ?? wert}`, farbe: hex, guenstig: ev.test({ farbe, wert }) });
   }
   return { art: "karten", kontext: "Ein Skatspiel hat 32 Karten: je 8 Karten in Kreuz, Pik, Herz und Karo (7, 8, 9, 10, Bube, Dame, König, Ass). Du ziehst eine Karte.", ereignisName: ev.name, code, elemente };
 }
 
 function mengeLose(lose, gewinne) {
   const elemente = [];
-  for (let i = 1; i <= lose; i++) elemente.push({ id: `l${i}`, label: String(i), guenstig: i <= gewinne });
+  for (let i = 1; i <= lose; i++) elemente.push({ id: `l${i}`, label: String(i), name: `Los ${i}`, guenstig: i <= gewinne });
   return { art: "lose", kontext: `Beim Klassenfest gibt es ${lose} Lose, davon sind ${gewinne} Gewinne. Du kaufst ein Los.`, ereignisName: "einen Gewinn", code: "gewinn", lose, gewinne, elemente };
 }
 
 function mengeZweiWuerfel(code) {
   const ev = LAPLACE_EREIGNISSE.zweiwuerfel[code] || LAPLACE_EREIGNISSE.zweiwuerfel.summe7;
   const elemente = [];
-  for (let a = 1; a <= 6; a++) for (let b = 1; b <= 6; b++) elemente.push({ id: `${a}${b}`, label: `${a}|${b}`, guenstig: ev.test(a, b) });
+  for (let a = 1; a <= 6; a++) for (let b = 1; b <= 6; b++) elemente.push({ id: `${a}${b}`, label: `${a}|${b}`, name: `rot ${a}, blau ${b}`, guenstig: ev.test(a, b) });
   return { art: "zweiwuerfel", kontext: "Du würfelst mit zwei Würfeln (einem roten und einem blauen). Jedes Paar ist ein eigenes Ergebnis – es gibt 36.", ereignisName: ev.name, code, elemente };
 }
 

@@ -54,8 +54,8 @@ layout: basis.njk
     import { starteSeite } from "../kern/js/seite.js";
     import * as modul from "./{{ k.modulPfad }}";
 {%- if bild %}
-    import { {{ bild.funktion }} } from "./js/vis/{{ bild.modul or k.id }}.js";
-    starteSeite({ app: APP, modul, zeichne: {{ bild.funktion }}, bildHinweis: {{ (bild.uebung or "") | dump | safe }} });
+    import { {{ bild.uebungFunktion or bild.funktion }} } from "./js/vis/{{ bild.modul or k.id }}.js";
+    starteSeite({ app: APP, modul, zeichne: {{ bild.uebungFunktion or bild.funktion }}, bildHinweis: {{ (bild.uebung or "") | dump | safe }} });
 {%- else %}
     starteSeite({ app: APP, modul });
 {%- endif %}

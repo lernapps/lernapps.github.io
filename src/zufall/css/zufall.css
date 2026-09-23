@@ -2,6 +2,11 @@
 #visualisierung, .aufgabe-bild, .test-bild, .bauer { overflow-x: auto; }
 svg.vis[width] { width: auto; max-width: none; height: auto; }
 .baum-blatt[role="button"] { cursor: pointer; }
+/* Laplace-Übung: Ergebnisse markieren. Markiert = Rahmen + Haken (im SVG), Fokus = gestrichelter dunkler Rahmen. */
+.markierbar { cursor: pointer; }
+.markierbar:focus { outline: none; }
+.markierbar:focus-visible .markier-rahmen { stroke: #1a1a1a; stroke-dasharray: 4 3; }
+.markierbar[aria-pressed="true"]:focus-visible .markier-rahmen { stroke: #1d4ed8; stroke-width: 5; stroke-dasharray: none; }
 /* Auswahl nur als Rahmen, nie als Fläche – der Knoten darunter bleibt lesbar. */
 .baum-blatt[role="button"]:hover .baum-treffer, .baum-blatt[aria-pressed="true"] .baum-treffer { stroke: #ff8f00; stroke-width: 2; }
 .baum-blatt[role="button"]:focus { outline: none; }

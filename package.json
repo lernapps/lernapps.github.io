@@ -1,6 +1,6 @@
 {
   "name": "lern-apps",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Lern-Apps für Mathe, Physik und Chemie – statisches HTML, ein Kern, gebaut mit Eleventy.",
   "private": true,
   "type": "module",
