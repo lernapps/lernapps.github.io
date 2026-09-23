@@ -49,6 +49,9 @@ untouched and keep running until they are migrated.
   id>]`. Unknown node ids fail the build. Apps outside the repo: `src/karte/daten/externe-eintraege.js`.
 - `lib/` – build-time Node code: `apps.js` (loads every `src/*/js/app.config.js`), `bild.js` (static SVG),
   `fachfarben.js`, `versionierung.js`, `pruefungen.js`, `adressen.js`, `app-daten.js`.
+- `werkzeuge/skill/lern-app/` – the Claude skill that turns a curriculum topic into a new app here (workflow around
+  this file: worktree, competencies, videos, PR). Outside `src/`, so Eleventy ignores it; the line limit still applies.
+  Install: `ln -s <repo>/werkzeuge/skill/lern-app ~/.claude/skills/lern-app`.
 - `test/kern/`, `test/build/`, `test/apps/` (generator contract for every competency of every app) and
   `src/<app>/test/`.
 
