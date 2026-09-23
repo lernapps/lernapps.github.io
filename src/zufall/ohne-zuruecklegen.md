@@ -25,7 +25,7 @@ beispiel: |
   <p>Damit wird zum Beispiel P(rot, dann rot) mit Zurücklegen 3/6 · 3/6 = 9/36 = 1/4, aber ohne Zurücklegen 3/6 · 2/5 = 6/30 = 1/5.</p>
 ohneVideo: 'Zu dieser Frage gibt es kein Lehrerschmidt-Video; die Erklärung oben reicht. Das Video auf der Seite „Baumdiagramm“ zeigt den Aufbau eines Baums; die Änderung der Brüche übt die Aufgabe hier.'
 bild:
-  text: 'Oben die Urne vor und nach dem ersten Zug (rot gezogen), darunter beide Bäume. Der Pfad rot-blau ist orange: mit Zurücklegen 3/6 · 2/6, ohne Zurücklegen 3/6 · 2/5. In der Übung zeigt das Bild die aktuelle Aufgabe.'
+  text: 'Oben die Urne vor und nach dem ersten Zug (rot gezogen), darunter beide Bäume. Der Pfad rot-blau ist orange: mit Zurücklegen 3/6 · 2/6, ohne Zurücklegen 3/6 · 2/5.'
   funktion: zeichneOhneZuruecklegen
   seed: 1
   geloest: true

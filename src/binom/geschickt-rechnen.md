@@ -25,7 +25,7 @@ video:
   titel: 'Nur für NERDS: Kopfrechnen mit den binomischen Formeln! | Lehrerschmidt'
   kanal: Lehrerschmidt
 bild:
-  text: '49² als Fläche: Vom Quadrat 50² = 2500 werden zwei Streifen 50 · 1 = 50 abgezogen, die doppelt abgezogene Ecke 1² = 1 kommt zurück: 2500 − 100 + 1 = 2401. In der Übung zeigt das Bild die aktuelle Aufgabe.'
+  text: '49² als Fläche: Vom Quadrat 50² = 2500 werden zwei Streifen 50 · 1 = 50 abgezogen, die doppelt abgezogene Ecke 1² = 1 kommt zurück: 2500 − 100 + 1 = 2401.'
   funktion: zeichneGeschicktRechnen
   seed: 1
   geloest: true

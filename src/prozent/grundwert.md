@@ -25,7 +25,7 @@ video:
   titel: 'Grundwert berechnen - Prozentrechnung mit Formel - Mathematik einfach erklärt | Lehrerschmidt'
   kanal: Lehrerschmidt
 bild:
-  text: 'Die blauen Kästchen sind der bekannte Teil. Gesucht ist, wofür alle 100 Kästchen stehen. In der Übung zeigt das Bild die aktuelle Aufgabe.'
+  text: 'Die blauen Kästchen sind der bekannte Teil. Gesucht ist, wofür alle 100 Kästchen stehen.'
   funktion: zeichneGrundwert
   seed: 3
   geloest: true

@@ -24,7 +24,7 @@ video:
   titel: 3.binomische Formel - ganz einfach erklärt mit Beispielen! | Lehrerschmidt
   kanal: Lehrerschmidt
 bild:
-  text: 'Oben: das Quadrat x², aus dem die Ecke 4² = 16 fehlt. Der Rest besteht aus zwei Teilen. Unten: Das gelbe Teil ist gedreht und rechts angelegt – jetzt ist es ein Rechteck mit den Seiten x + 4 und x − 4. Gleiche Teile, gleiche Fläche: (x + 4)(x − 4) = x² − 16. In der Übung zeigt das Bild die aktuelle Aufgabe.'
+  text: 'Oben: das Quadrat x², aus dem die Ecke 4² = 16 fehlt. Der Rest besteht aus zwei Teilen. Unten: Das gelbe Teil ist gedreht und rechts angelegt – jetzt ist es ein Rechteck mit den Seiten x + 4 und x − 4. Gleiche Teile, gleiche Fläche: (x + 4)(x − 4) = x² − 16.'
   funktion: zeichneDritteBinomische
   seed: 1
   geloest: true

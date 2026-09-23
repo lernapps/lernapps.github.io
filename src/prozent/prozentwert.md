@@ -25,7 +25,7 @@ video:
   titel: 'Prozentwert berechnen - Prozentrechnung mit Formel - Mathematik einfach erklärt | Lehrerschmidt'
   kanal: Lehrerschmidt
 bild:
-  text: 'Das Hunderterfeld ist der Grundwert: 100 Kästchen = 100 %. Die blauen Kästchen sind der Prozentwert. In der Übung zeigt das Bild die aktuelle Aufgabe.'
+  text: 'Das Hunderterfeld ist der Grundwert: 100 Kästchen = 100 %. Die blauen Kästchen sind der Prozentwert.'
   funktion: zeichneProzentwert
   seed: 3
   geloest: true

@@ -24,7 +24,7 @@ video:
   titel: Ausmultiplizieren | Klammern auflösen -  Termen und Gleichungen - Mathematik | Lehrerschmidt
   kanal: Lehrerschmidt
 bild:
-  text: 'Ein Rechteck mit den Seiten x + 3 und x + 5 zerfällt in vier Teilflächen: x², 5x, 3x und 15. Zusammen sind sie (x + 3)(x + 5). In der Übung zeigt das Bild die aktuelle Aufgabe.'
+  text: 'Ein Rechteck mit den Seiten x + 3 und x + 5 zerfällt in vier Teilflächen: x², 5x, 3x und 15. Zusammen sind sie (x + 3)(x + 5).'
   funktion: zeichneKlammernMultiplizieren
   seed: 1
   geloest: true

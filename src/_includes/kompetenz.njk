@@ -52,8 +52,7 @@ layout: basis.njk
     import * as modul from "./{{ k.modulPfad }}";
 {%- if bild %}
     import { {{ bild.funktion }} } from "./js/vis/{{ bild.modul or k.id }}.js";
-    const svg = document.getElementById("vis");
-    starteSeite({ app: APP, modul, visualisiere: (aufgabe, ergebnis) => {{ bild.funktion }}(svg, aufgabe, ergebnis) });
+    starteSeite({ app: APP, modul, zeichne: {{ bild.funktion }}, bildHinweis: {{ (bild.uebung or "") | dump | safe }} });
 {%- else %}
     starteSeite({ app: APP, modul });
 {%- endif %}

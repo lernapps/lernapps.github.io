@@ -23,7 +23,7 @@ video:
   titel: 1.binomische Formel - mit grafischer Erklärung | Lehrerschmidt
   kanal: Lehrerschmidt
 bild:
-  text: Ein Quadrat mit der Seite x + 4 zerfällt in das Quadrat x², das Quadrat 16 und zwei gleiche Streifen 4x. Die zwei Streifen sind das Mittelglied 2 · 4x = 8x. In der Übung zeigt das Bild die aktuelle Aufgabe.
+  text: Ein Quadrat mit der Seite x + 4 zerfällt in das Quadrat x², das Quadrat 16 und zwei gleiche Streifen 4x. Die zwei Streifen sind das Mittelglied 2 · 4x = 8x.
   funktion: zeichneErsteBinomische
   seed: 1
   geloest: true

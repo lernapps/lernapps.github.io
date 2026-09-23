@@ -31,7 +31,7 @@ video:
   titel: 'Dreisatz - Grundwert - Prozentwert - Prozentsatz | Lehrerschmidt | Klasse 7'
   kanal: Lehrerschmidt
 bild:
-  text: 'Das ganze Feld ist der Grundwert, die blauen Kästchen sind der Prozentwert, die Anzahl der blauen Kästchen ist der Prozentsatz. In der Übung zeigt das Bild die aktuelle Aufgabe.'
+  text: 'Das ganze Feld ist der Grundwert, die blauen Kästchen sind der Prozentwert, die Anzahl der blauen Kästchen ist der Prozentsatz.'
   funktion: zeichneGrundbegriffe
   seed: 42
   geloest: false

@@ -22,7 +22,7 @@ video:
   titel: einstufiger Zufallsversuch | Wahrscheinlichkeitsrechnung - einfach erklärt | Lehrerschmidt
   kanal: Lehrerschmidt
 bild:
-  text: 'Die Urne aus dem zweiten Beispiel: 6 Kugeln, die zwei blauen sind orange umrandet. P(blau) = 2/6. Im Video heißt es nicht „Laplace“, gemeint ist dasselbe. In der Übung zeigt das Bild die aktuelle Aufgabe.'
+  text: 'Die Urne aus dem zweiten Beispiel: 6 Kugeln, die zwei blauen sind orange umrandet. P(blau) = 2/6. Im Video heißt es nicht „Laplace“, gemeint ist dasselbe.'
   funktion: zeichneLaplace
   seed: 1
   vorgaben:

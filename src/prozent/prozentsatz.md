@@ -25,7 +25,7 @@ video:
   titel: 'Prozentsatz berechnen - Prozentrechnung mit Formel - Mathematik einfach erklärt | Lehrerschmidt'
   kanal: Lehrerschmidt
 bild:
-  text: 'Der ganze Balken ist der Grundwert (100 %). Der blaue Teil zeigt den Prozentwert – die Frage ist, wie viele Hundertstel das sind. In der Übung zeigt das Bild die aktuelle Aufgabe.'
+  text: 'Der ganze Balken ist der Grundwert (100 %). Der blaue Teil zeigt den Prozentwert – die Frage ist, wie viele Hundertstel das sind.'
   funktion: zeichneProzentsatz
   seed: 3
   geloest: true
