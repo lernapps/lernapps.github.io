@@ -1,0 +1,113 @@
+:jbake-title: Risiken und technische Schulden
+:jbake-type: page_toc
+:jbake-status: published
+:jbake-menu: arc42
+:jbake-order: 11
+:filename: /chapters/11_technical_risks.adoc
+ifndef::imagesdir[:imagesdir: ../../images]
+
+:toc:
+
+[[section-technical-risks]]
+== Risiken und technische Schulden: Die alten Einzel-Repos und der fremde Tutor wiegen am schwersten
+
+Das Monorepo hat zwei große Risiken der Vorlage beseitigt: Der Kern driftet nicht mehr (ehemals R-001),
+und keine Version wird mehr vergessen (ehemals R-014). Dafür sind neue entstanden: eine Abhängigkeit
+beim Build, eine Organisation ohne Zwei-Faktor-Pflicht und die alten Einzel-Repos, die neben dem
+Monorepo weiterlaufen. Der Product Owner hat am 23.09.2026 über mehrere Risiken und Schulden
+entschieden; die Tabellen nennen jeweils die Entscheidung.
+
+[[section-risks]]
+=== Risiken
+
+Wahrscheinlichkeit (W) und Auswirkung (A) in drei Stufen: niedrig = 1, mittel = 2, hoch = 3.
+Priorität = W × A: 6–9 hoch, 3–4 mittel, 1–2 niedrig. Die Tabelle ist nach Priorität geordnet. Die
+Einschätzungen von W und A sind abgeleitet, nicht vom Team bestätigt.
+
+Seit dem 23.09.2026 schützt ein Branch-Schutz `main` (8.2 M-15): PR-Pflicht, Pflicht-Check
+`test-und-build`, kein Force-Push, kein Löschen. Admins dürfen ihn umgehen. Er mindert R-004, R-005,
+R-015 und R-017.
+
+[cols="1,4,1,1,1,4",options="header"]
+|===
+| ID | Risiko | W | A | Prio | Maßnahme
+| [[r-016]]R-016 | *Alte Einzel-Repos laufen parallel.* `binom-trainer`, `prozent-trainer`, `zufall-trainer`, `mathe-karte`, `lern-app-template` und `lern-app-skill` unter `raifdmueller/` sind noch online. Kern-Korrekturen erreichen sie nicht; Tutor-Links, Lesezeichen und Suchmaschinen zeigen weiter auf veraltete Fassungen; wer dort etwas ändert, pflegt doppelt. | 3 | 2 | hoch (6) | Skill migriert, Löschung steht unmittelbar bevor. Der Skill liegt seit PR #7 unter `werkzeuge/skill/lern-app/` im Monorepo; die sechs alten Repos werden gelöscht (beschlossen am 23.09.2026, noch nicht ausgeführt). Bis dahin gilt die Regel „alte Repos nicht ändern“ (`CLAUDE.md`; xref:08_concepts.adoc#section-adressen[8.15]).
+| [[r-002]]R-002 | *Tutor-Anbindung bricht.* claude.ai lädt `tutor.md` nicht oder ändert den Parameter `?q=`. | 2 | 3 | hoch (6) | Statischer Fallback-Link und `llms.txt`-Link auf jeder Startseite; TalkItOver-Provider „copy“ (xref:06_runtime_view.adoc#section-rt-fehler[Szenario 6]; QS-16). Der Product Owner beobachtet formlos beim Arbeiten mit dem Tutor, ob claude.ai `tutor.md` lädt (entschieden am 23.09.2026).
+| [[r-004]]R-004 | *Falsche Rückmeldung in allen Apps zugleich.* Ein Fehler im Kern-Prüfer oder in einem Generator meldet eine richtige Antwort als falsch; im Monorepo trifft ein Kern-Fehler sofort jede App. | 2 | 2 | mittel (4) | Eine Rundungsregel mit Business Rules (xref:08_concepts.adoc#section-zahlen-eingeben[8.7]; QS-6, QS-7); Vertragstest für jede Kompetenz jeder App (xref:08_concepts.adoc#section-test-concept[8.3]); der Pflicht-Check `test-und-build` verhindert den Merge bei rotem Test (8.2 M-15). Rundung und Formregeln fachlich bestätigt (23.09.2026).
+| [[r-003]]R-003 | *Aufgabennummer zeigt eine andere Aufgabe.* Ein geänderter Generator oder umbenannter Parameter bricht alte Tutor-Links. | 2 | 2 | mittel (4) | Vertrag im `llms.njk` jeder App (xref:08_concepts.adoc#section-aufgabennummer[8.9]); QS-3. *Bewusst akzeptiert:* Der Product Owner hat am 23.09.2026 entschieden, keinen Test einzuführen, der Aufgaben alter Nummern einfriert. Ein alter Tutor-Link kann nach einer Generator-Änderung eine andere Aufgabe zeigen.
+| [[r-015]]R-015 | *Eleventy als Abhängigkeit.* Ein Update bricht den Build, das Projekt wird aufgegeben, oder eine kompromittierte Version einer transitiven Abhängigkeit schleust Code in die Ausgabe (T-012). | 2 | 2 | mittel (4) | Exakt gepinnt, `package-lock.json`, `npm ci` (xref:08_concepts.adoc#section-security[8.2] M-12); Build-Prüfung auf externe Ressourcen (M-02; QS-2). Die Ausgabe ist reines HTML, das auch ohne Eleventy weiterläuft. Ein Update, das den Build bricht, kommt wegen des Pflicht-Checks nicht nach `main` (8.2 M-15).
+| [[r-018]]R-018 | *Lizenz offen.* Das Repository hat keine `LICENSE`; die Karten-Einträge nennen `lizenz: ""`. Schulen, Lehrkräfte und edugo dürfen Inhalte und Code rechtlich nicht weiterverwenden; eingebundene Fremdinhalte (TalkItOver, Lehrplantexte, Video-Verweise) sind nicht systematisch geprüft, die Stichprobe zu ADR-019 war nur eine Stichprobe. | 2 | 2 | mittel (4) | [OPEN] Weiter offen (Stand 23.09.2026). Lizenz festlegen (Code und Inhalte getrennt?), `LICENSE` anlegen, `kartenEintrag.lizenz` füllen. Lizenz von TalkItOver steht im Dateikopf (8.2 M-06).
+| [[r-011]]R-011 | *Doku-Build blockiert das Deployment aller Apps.* `pages.yml` baut Site und Doku in einem Lauf; scheitert docToolchain (Download, Java, PlantUML, Gradle-Build des unveröffentlichten v4, TD-9), geht keine App-Änderung live. `pruefen.yml` baut die Doku nicht (TD-22). | 2 | 2 | mittel (4) | Die zuletzt deployte Fassung bleibt online; der Fehler steht im Actions-Log (xref:08_concepts.adoc#section-observability[8.4]); Cache je gepinntem Commit (8.2 M-13). Beschlossen: Doku-Build in PRs, die `src/docs` ändern (TD-22, in Umsetzung). Scheitert der Doku-Build, behebt Claude ihn per PR, der Product Owner merged; der Branch-Schutz erzwingt den PR (8.2 M-15; entschieden am 23.09.2026).
+| [[r-017]]R-017 | *Organisation ohne Zwei-Faktor-Pflicht* (`two_factor_requirement_enabled: false`, 23.09.2026). Ein übernommenes Mitgliedskonto ändert alle Apps (T-001). | 1 | 3 | mittel (3) | Zurückgestellt am 23.09.2026: Die 2FA-Pflicht kommt, sobald weitere Personen mitarbeiten. Branch-Schutz für `main` aktiv seit 23.09.2026, Admins dürfen ihn umgehen (8.2 M-15). PR-Pflicht und minimale Workflow-Rechte (M-08, M-11).
+| [[r-005]]R-005 | *Konto oder Token übernommen* (T-001): veränderte Apps oder `tutor.md` für alle Kinder. | 1 | 3 | mittel (3) | Wie R-017; zusätzlich 8.2 M-08, M-11.
+| [[r-006]]R-006 | *Prompt Injection* über `tutor.md`/`llms.txt` (T-002). | 1 | 3 | mittel (3) | Review jedes PRs, `tutor.md` < 120 Zeilen, enge Rolle (8.2 M-08, M-09).
+| [[r-007]]R-007 | *Kompromittierte `talkitover.js`* beim nächsten Update (T-004). | 1 | 3 | mittel (3) | Vendored statt CDN, Diff im PR (8.2 M-06). [OPEN] Keine Prüfsumme gegen die Quelle.
+| [[r-008]]R-008 | *Geteiltes Schulgerät* zeigt Selbsteinschätzung, letzten Test und Video-Merker (T-006). | 2 | 1 | niedrig (2) | Nur Stufen, keine Namen (8.2 M-07).
+| [[r-009]]R-009 | *YouTube nach Klick* erhält IP-Adresse und Browserdaten (T-005). | 2 | 1 | niedrig (2) | Zwei-Klick mit Hinweis, youtube-nocookie (8.2 M-03; QS-1).
+| [[r-010]]R-010 | *GitHub Pages ändert sich oder fällt aus.* | 1 | 2 | niedrig (2) | `_site/` läuft auf jedem statischen Webserver; die Adresse ist eine Zeile (8.15; QS-23).
+| [[r-012]]R-012 | *Termprüfung irrt* an den Prüfstellen oder bei der Form (ADR-009). | 1 | 2 | niedrig (2) | Feste Prüfstellen, Form nur als Hinweis (8.7.1; QS-19). Formregeln vom Domain Expert bestätigt (23.09.2026).
+| [[r-013]]R-013 | *Alte Seite nach Deployment.* Eine bis zu zehn Minuten alte HTML-Seite im Cache fordert URLs ihres alten Hashes an; Pages liefert die neuen Dateien. | 1 | 2 | niedrig (2) | `?v=<Hash>` an jeder Referenz (xref:08_concepts.adoc#section-auslieferung[8.10]; QS-20); neu laden hilft. [OPEN] `max-age=600` für HTML lässt sich auf Pages nicht ändern.
+| [[r-019]]R-019 | *Mini-DOM weicht vom Browser ab.* Eine Zeichenfunktion nutzt etwas, das `svg.js` im Build anders abbildet; statisches und interaktives Bild unterscheiden sich (ADR-016). | 1 | 1 | niedrig (1) | Nur `svgEl`, nie `document` in `js/vis/` (xref:08_concepts.adoc#section-bilder[8.12]); `test/kern/svg.test.js`, `test/build/bild.test.js`; Browser-Check.
+|===
+
+Entfallen: R-001 „Kern driftet“ (durch ADR-012 und ADR-013; in den alten Repos lebt es als R-016 weiter)
+und R-014 „Version nicht gehoben“ (durch ADR-014).
+
+[[section-technical-debt]]
+=== Technische Schulden
+
+[cols="1,4,2,3",options="header"]
+|===
+| ID | Schuld | Belasteter Baustein (Kapitel 5) | Abbau
+| TD-3 | `llms.txt` jeder App wird von Hand gepflegt; der Build prüft nur, dass jede Seite genannt ist, nicht Parameter oder Fehlercodes. | xref:05_building_block_view.adoc#bb-apps[Apps] | Entschieden am 23.09.2026: ja, Umsetzung läuft. Der Build prüft `URL_ZAHLEN`, `URL_TEXTE` und Fehlercodes aus den Generatoren gegen `llms.txt`.
+| TD-4 | Die Mathe-Karte kennt nur Mathe und nur das Gymnasium; Physik- und Chemie-Apps haben keine Karte. | xref:05_building_block_view.adoc#bb-karte[Mathe-Karte] | Karte für weitere Fächer und Schulformen (edugo).
+| TD-5 | Der Browser-Test (360/1280 px, ohne JS, 0 fremde Requests, Deep Link, Schnelltest) läuft nicht in CI, sondern von Hand mit Playwright. | xref:05_building_block_view.adoc#bb-ci[Tests und CI] | Entschieden am 23.09.2026: später. Dann Playwright-Test in `pruefen.yml` mit neuem ADR für die Testabhängigkeit.
+| TD-7 | 7 von 57 Testdateien nennen im Kopf keinen Use Case; die Exponent-Grenze in `bruch.js` ist ungetestet. | xref:05_building_block_view.adoc#bb-ci[Tests und CI], xref:05_building_block_view.adoc#bb-kern[Kern] | Kopfzeile `// Use Case: …` ergänzen; Test für `MAX_EXPONENT`.
+| TD-9 | docToolchain v4 ist unveröffentlicht; `scripts/dtc-v4.sh` klont `main-4.x@6de96fb7`, baut `lib/` mit Gradle und ruft `dtcw` auf (R-011). | xref:05_building_block_view.adoc#bb-doku[Architektur-Doku] | Nach dem Release von v4.0.0: Skript löschen, `dtcw` direkt nutzen, Cache-Schritt in `pages.yml` löschen (https://github.com/docToolchain/docToolchain/issues/1704[docToolchain#1704]).
+| TD-10 | Fremde Hosts im Theme (https://github.com/docToolchain/docToolchain/issues/1705[#1705]): gepatchte Kopien von `main.min.*.css` und `asciidoctor.css` ohne `@import` in `src/site/assets/css/`; von der Zeilengrenze ausgenommen (`eleventy.config.js`, `THEME_KOPIEN`). | xref:05_building_block_view.adoc#bb-doku[Architektur-Doku] | Nach dem Fix beide Kopien und die Ausnahme löschen.
+| TD-11 | Kein Schlüssel für `theme-color` (https://github.com/docToolchain/docToolchain/issues/1700[#1700]): `src/site/templates/header.gsp` ist eine Kopie des Theme-Kopfs mit zwei Änderungen. | xref:05_building_block_view.adoc#bb-doku[Architektur-Doku] | Nach dem Fix `header.gsp` löschen.
+| TD-12 | Markenfarbe erreicht `theme-v4.css` nicht (https://github.com/docToolchain/docToolchain/issues/1706[#1706]); `lern-app.css` setzt die Selektoren neu. | xref:05_building_block_view.adoc#bb-doku[Architektur-Doku] | Nach dem Fix Farbregeln löschen.
+| TD-13 | Unsichtbarer Suchplatzhalter (https://github.com/docToolchain/docToolchain/issues/1702[#1702]); Regeln in `lern-app.css`. | xref:05_building_block_view.adoc#bb-doku[Architektur-Doku] | Nach dem Fix Regeln löschen.
+| TD-14 | Navigationsleiste verdeckt die Startseite (https://github.com/docToolchain/docToolchain/issues/1699[#1699]); `<style>` in `landingpage.gsp`. | xref:05_building_block_view.adoc#bb-doku[Architektur-Doku] | Nach dem Fix `<style>`-Block löschen.
+| TD-15 | Theme-`manifest.json` mit absoluten Pfaden (https://github.com/docToolchain/docToolchain/issues/1701[#1701]); eigene Datei in `src/site/assets/`. | xref:05_building_block_view.adoc#bb-doku[Architektur-Doku] | Nach dem Fix je nach Default behalten oder löschen.
+| TD-16 | `landingpage.gsp` landet im Output (https://github.com/docToolchain/docToolchain/issues/1703[#1703]); `pages.yml` löscht sie. | xref:05_building_block_view.adoc#bb-ci[Tests und CI] (`pages.yml`) | Nach dem Fix die `rm`-Zeile löschen.
+| TD-17 | Je Kompetenzseite ist nur ein Video vorgesehen (`video: { id, titel, kanal }`). | xref:05_building_block_view.adoc#bb-layout[Layout] (`kompetenz.njk:23-35`) | Zurückgestellt am 23.09.2026, bis eine Seite ein zweites Video braucht; heute braucht keine eines. Dann `videos: [...]` im Front Matter, Schleife im Gerüst, `initVideos` für mehrere Karten.
+| TD-18 | Die Vorschau zeigt „≈“ auch bei exakten Werten (`src/kern/js/zahlantwort.js:160`). | xref:05_building_block_view.adoc#bb-kern[Kern] | Entschieden am 23.09.2026, PR in Arbeit: „=“ bei exakt darstellbarem Wert, mit Test (BR-5).
+| TD-19 | Die neuen Zufall-Seiten 7 und 8 (`ergebnisformen`, `pfade-uebersetzen`) sind inhaltlich nicht durchgesehen. | xref:05_building_block_view.adoc#bb-apps[Apps] (`src/zufall/`) | Entschieden am 23.09.2026: Der Product Owner oder der Lernende sieht die Seiten fachlich durch.
+| TD-20 | Das Hilfsskript für neue Kompetenzen (`scripts/neue-kompetenz.mjs` der Vorlage) ist nicht portiert; die Schritte stehen nur in `CLAUDE.md`. | xref:05_building_block_view.adoc#bb-build[Build] | Entschieden am 23.09.2026: kommt mit der nächsten App. Ein Skript legt die drei Dateien mit rotem Test an und trägt die Zeile in `KOMPETENZEN` ein.
+| TD-21 | Optionale Überschrift „Die Formel“ im Seitengerüst fehlt (offen aus PR #2). | xref:05_building_block_view.adoc#bb-layout[Layout] | Optionales Front-Matter-Feld im Gerüst.
+| TD-22 | `pruefen.yml` baut die Doku nicht; Fehler in AsciiDoc oder PlantUML zeigen sich erst nach dem Merge in `pages.yml` (R-011). | xref:05_building_block_view.adoc#bb-ci[Tests und CI] | Entschieden am 23.09.2026, Umsetzung läuft: Der Doku-Build läuft in PRs nur, wenn sich `src/docs` ändert (`paths`-Filter).
+| TD-23 | Die Doku unter `/docs/` liegt außerhalb der Build-Prüfung auf externe Ressourcen; nur der manuelle Check hält sie CDN-frei. | xref:05_building_block_view.adoc#bb-doku[Architektur-Doku] | Entschieden am 23.09.2026, Umsetzung läuft: Die Prüfung auf externe Ressourcen läuft für die Doku-Ausgabe in PRs, wenn sich `src/docs` ändert (zusammen mit TD-22).
+|===
+
+Erledigt: TD-1 (Kern kopiert) und TD-2 (Prozent/Zufall nicht migriert) durch ADR-012 und die Migration
+in PR #2; TD-6 (`APP.uebersicht` ungelesen) entfällt, das Layout verlinkt „Alle Apps“; TD-8 (Pages-Modus
+uneinheitlich) gilt nur noch für die alten Repos und ist Teil von R-016.
+
+[[section-open-questions]]
+=== Offene Fragen: Nur die Lizenz ist noch offen
+
+Der Product Owner hat am 23.09.2026 alle übrigen Fragen beantwortet: Rangfolge der Qualitätsziele
+(Kapitel 1.2), Zielwerte (Kapitel 10), die ADRs mit Status „Accepted (inferred)“ (Kapitel 9), R-002,
+R-003, R-011, R-016, R-017, TD-3, TD-5, TD-17 bis TD-20, TD-22, TD-23 und den Rückmelde-Kanal (8.4).
+Der Domain Expert hat Rundungs- und Formregeln bestätigt (8.7).
+
+*Product Owner*
+
+* Unter welcher Lizenz stehen Code und Inhalte (R-018)? Getrennt für Code und Texte?
+
+*Architekt*
+
+Keine offenen Fragen.
+
+*Entwickler*
+
+Keine offenen Fragen.
+
+*Domain Expert (Mathe-Didaktik)*
+
+Keine offenen Fragen.
+
+*Betrieb*
+
+Keine offenen Fragen.

@@ -1,0 +1,286 @@
+:jbake-title: Querschnittliche Konzepte
+:jbake-type: page_toc
+:jbake-status: published
+:jbake-menu: arc42
+:jbake-order: 8
+:filename: /chapters/08_concepts.adoc
+ifndef::imagesdir[:imagesdir: ../../images]
+
+:toc:
+
+[[section-concepts]]
+== Querschnittliche Konzepte: Wenig Laufzeit-Technik, viele Regeln, die der Build erzwingt
+
+Die Apps haben kaum Technik, die man zur Laufzeit absichern, beobachten oder skalieren müsste. Umso
+mehr hängt an Regeln, die jede Datei einhält, und seit dem Monorepo prüft der Build sie. Die ersten
+fünf Abschnitte sind in jedem System Pflicht; ab 8.6 folgen die Anliegen, die diese Apps wirklich
+haben, jedes mit dem ADR, das es entschieden hat.
+
+[[section-threat-model]]
+=== 8.1 Bedrohungsmodell: Die größten Gefahren kommen über Konten, Pakete und Texte, nicht über einen Server
+
+Das Modell folgt STRIDE. Schützenswert sind die Privatsphäre des Kindes, die Richtigkeit dessen, was
+Tutor und App ihm sagen, und die Integrität des einen Repositorys, aus dem alle Apps entstehen. Einen
+Server oder eine Datenbank gibt es nicht (xref:09_architecture_decisions.adoc#adr-001[ADR-001]). Neu
+seit dem Monorepo: Zur Build-Zeit läuft fremder Code (Eleventy, docToolchain) und eigener Code der Apps
+in Node.
+
+[cols="1,1,4,2",options="header"]
+|===
+| ID | STRIDE | Bedrohung | Betroffen
+| [[t-001]]T-001 | S, T | Jemand übernimmt das Konto eines Organisationsmitglieds oder ein Token und ändert Kern, Apps oder `tutor.md`. Alle Kinder aller Apps bekommen die veränderte Fassung. Die Organisation verlangt keine Zwei-Faktor-Anmeldung. | Repository, alle Apps
+| [[t-002]]T-002 | T | Prompt Injection über `tutor.md` oder `llms.txt`: Ein Beitrag oder eine gefälschte Kopie gibt Claude Anweisungen, die dem Kind schaden. | Apps (Tutor-Texte)
+| [[t-003]]T-003 | T | Manipulierter Deep Link: präparierte Parameter sollen Script einschleusen (XSS) oder eine irreführende Aufgabe zeigen. | Kern (Seitenstart, Aufgabenlink, Trainer)
+| [[t-004]]T-004 | T, E | Eine kompromittierte Fassung von `src/kern/vendor/talkitover.js` gelangt ins Repo und läuft auf jeder Startseite. | Kern
+| [[t-005]]T-005 | I | YouTube erfährt IP-Adresse und Browserdaten des Kindes schon beim Laden der Seite. | Kern (Video), Layout
+| [[t-006]]T-006 | I | Auf einem geteilten Schulgerät sieht das nächste Kind Selbsteinschätzung und letztes Testergebnis. | Browser-Speicher
+| [[t-007]]T-007 | I | Ein Beitrag oder ein Theme bindet eine fremde Ressource ein (CDN, Webfont, Analytics); jeder Aufruf meldet sich bei Dritten. | Layout, Kern, Apps, Doku
+| [[t-008]]T-008 | T, E | Eine Eingabe im Zahlenfeld wird als Code ausgeführt (`eval`, `Function`). | Kern (Zahlen)
+| [[t-009]]T-009 | D | Eine Eingabe wie `9^999999` oder ein riesiger Term legt den Tab lahm. | Kern (Zahlen)
+| [[t-010]]T-010 | I | Das Kind gibt im Tutor-Chat persönliche Daten preis; claude.ai verarbeitet sie nach eigenen Regeln. | claude.ai (außerhalb)
+| [[t-011]]T-011 | R | Nicht nachvollziehbar, wer `tutor.md`, `llms.txt`, Kern oder Build wann geändert hat. | Repository
+| [[t-012]]T-012 | T, E | Lieferkette: Eine kompromittierte Version von Eleventy, einer transitiven npm-Abhängigkeit oder von docToolchain schleust beim Build Code in die Ausgabe. | Build, Architektur-Doku
+| [[t-013]]T-013 | T, E | Ein Beitrag (PR) führt beim Build Code aus: App-Konfigurationen, Generatoren und Zeichenfunktionen laufen in Node. | Build, Tests und CI
+|===
+
+[[section-security]]
+=== 8.2 Sicherheit: Jede Maßnahme schließt eine benannte Bedrohung
+
+[cols="1,4,1,2",options="header"]
+|===
+| ID | Maßnahme | Schließt | Quelle / ADR
+| M-01 | Kein Backend, keine Konten, keine Cookies. | T-006 (teilweise), T-010 (teilweise) | ADR-001
+| M-02 | Der Build prüft die Ausgabe: keine externen `src`/`href`/`srcset`/`data` in `script`, `link`, `img`, `iframe` u. a.; keine externen `import`/`@import`/`url()` in JS und CSS. Jeder Fund bricht den Build. | T-007 | `lib/pruefungen.js:8-22`; ADR-008, ADR-017
+| M-03 | Zwei-Klick-Video: Platzhalter mit lokal gezeichnetem, neutralem Play-Symbol, kein Vorschaubild; iframe erst nach Klick, nur `youtube-nocookie.com`; Hinweis vor und nach dem Klick. | T-005 | `src/kern/js/video.js:12-15`, `:62-80`; ADR-005, ADR-019
+| M-04 | URL-Parameter werden validiert: Nummer nur Ziffern, Zahlen nur > 0 und < 1e9, Texte nur Kürzel, Modus nur `voll`/`schnell`. Nur Generatoren erzeugen HTML. | T-003 | `src/kern/js/zufall.js:47`, `src/kern/js/aufgabenlink.js:49-54`, `src/kern/js/testablauf.js:15-18`; ADR-004
+| M-05 | Eigene Parser ohne `eval`; Exponent höchstens 64. | T-008, T-009 | `src/kern/js/bruch.js:65`; ADR-006, ADR-009
+| M-06 | TalkItOver liegt eingebettet im Repo (`vendor/`), Version und Lizenz im Dateikopf; Änderungen laufen als Diff durch den PR. | T-004 (teilweise) | `src/kern/vendor/talkitover.js`
+| M-07 | Im `localStorage` liegen nur Stufen, Testnummer, Datum und ein Merker, kein Name, keine Antworten. | T-006 (teilweise) | `src/kern/js/storage.js`; ADR-007
+| M-08 | Änderungen nur über Feature-Branch und PR; Git-Historie und Reviews machen jede Änderung nachvollziehbar. | T-011, T-002 (teilweise), T-001 (teilweise), T-013 (teilweise) | `CLAUDE.md` Project rules
+| M-09 | `tutor.md` gibt Claude eine enge Rolle und bleibt unter 120 Zeilen, damit ein Review sie ganz liest. | T-002 (teilweise), T-010 (teilweise) | `src/<app>/tutor.njk`; `CLAUDE.md`
+| M-10 | Die Startseite jeder App sagt vor dem Klick, dass „Mit Claude lernen“ claude.ai öffnet. | T-010 (teilweise) | `src/start.njk`
+| M-11 | Workflows mit minimalen Rechten: `pruefen.yml` (auch für PRs) nur `contents: read`; `pages.yml` läuft nur auf `main` und hat nur `pages: write`, `id-token: write`. | T-001 (teilweise), T-013 (teilweise) | `.github/workflows/`
+| M-12 | Eleventy exakt gepinnt (`3.1.6`, ohne `^`), transitive Pakete über `package-lock.json`, in CI `npm ci`. Nie `npx eleventy` ohne installiertes Paket. | T-012 (teilweise) | `package.json`; `CLAUDE.md`; ADR-012
+| M-13 | docToolchain am festen Commit `6de96fb7…`, nicht an einem Zweig; der Cache hängt am SHA. | T-012 (teilweise) | `scripts/dtc-v4.sh`; `.github/workflows/pages.yml`
+| M-14 | Die Doku lädt nichts von fremden Hosts: Theme-CSS ohne CDN-Importe, Schriften und Symbole lokal. | T-007 | `src/site/assets/css/`; TD-10
+| M-15 | Branch-Schutz für `main`, seit 23.09.2026: PR-Pflicht, Pflicht-Check `test-und-build`, kein Force-Push, kein Löschen. Admins dürfen ihn umgehen. Die Zwei-Faktor-Pflicht für die Organisation ist zurückgestellt, bis weitere Personen mitarbeiten (`two_factor_requirement_enabled: false`, `gh api orgs/lernapps`, 23.09.2026). | T-001 (teilweise), T-011, T-013 (teilweise) | `gh api repos/lernapps/lernapps.github.io/branches/main/protection`; xref:11_technical_risks.adoc#r-017[R-017]
+| M-16 | Rückmeldung nur über einen Link auf GitHub Issues. Die Seite lädt nichts von GitHub; erst der Klick des Kindes oder der Eltern öffnet GitHub. GitHub verlangt ein Konto und ein Mindestalter von 13 Jahren; jüngere Kinder brauchen die Eltern. Entschieden am 23.09.2026, noch nicht umgesetzt. | T-007 (hält den Link frei von Einbettungen) | xref:03_context_and_scope.adoc#section-technical-context[Kapitel 3]
+|===
+
+Offene Restrisiken: T-001 ist ohne Zwei-Faktor-Pflicht nur teilweise geschlossen, und Admins können
+den Branch-Schutz umgehen; T-012 bleibt ein Lieferketten-Risiko
+(xref:11_technical_risks.adoc#r-015[R-015]), T-002 hängt am Review.
+
+[[section-test-concept]]
+=== 8.3 Test: Viele schnelle Unit-Tests, ein Vertragstest für alle Apps, der Build als Prüfstand
+
+Reine, DOM-freie Module machen Unit-Tests möglich
+(xref:09_architecture_decisions.adoc#adr-013[ADR-013], xref:09_architecture_decisions.adoc#adr-016[ADR-016]);
+die Regeln als Build-Fehler entscheidet xref:09_architecture_decisions.adoc#adr-008[ADR-008].
+
+[plantuml, target=testpyramide, format=svg]
+....
+@startuml
+skinparam rectangleBorderColor #1d4ed8
+rectangle "Tutor-Dialog\n(manuell, mit claude.ai)" as t5
+rectangle "Browser-Check\n(Playwright, 360 und 1280 px, ohne JS, 0 fremde Requests; manuell)" as t4
+rectangle "Build-Prüfungen\n(lib/pruefungen.js, Kartendaten, App-Konfiguration)" as t3
+rectangle "Vertragstest\n(test/apps/vertrag.test.js: jede Kompetenz jeder App, Seeds 1–20)" as t2
+rectangle "Unit-Tests\n(node --test, 297 Tests in 57 Dateien)" as t1
+t5 -[hidden]- t4
+t4 -[hidden]- t3
+t3 -[hidden]- t2
+t2 -[hidden]- t1
+@enduml
+....
+
+[cols="2,3,3",options="header"]
+|===
+| Ebene | Was sie prüft | Rückverfolgung
+| Unit-Tests (`test/kern/`, `test/build/`, `src/<app>/test/`, `src/karte/test/`) | Jedes Kern-Modul, jede Build-Funktion und jeder Generator als reine Funktion; test-first. | 50 von 57 Testdateien nennen im Kopf den Use Case (`// Use Case: …`); `zahlantwort.test.js` nennt BR-1 bis BR-5, `variablenterm.test.js`/`termantwort.test.js` BR-T1 bis BR-T9.
+| Vertragstest | Für jede Kompetenz jeder App aus `lib/apps.js`: Generator liefert Aufgaben, die eigene Lösung ist richtig, Unsinn falsch, Seeds 1–20. | UC-1, UC-4 (`test/apps/vertrag.test.js:1`, `:34`)
+| Build-Prüfungen | Regeln, die kein Unit-Test sieht: externe Ressourcen in der Ausgabe, Dateilänge, vollständige Kompetenz (Seite, Generator, Test), `llms.txt` nennt jede Seite, Karten-Knoten existieren, Fach bekannt. | UC-8, UC-9; QZ-1, QZ-2, QZ-4
+| Browser-Check | Jede Seite bei 360 und 1280 px, ohne JS Text und Bild, Deep Link mit `nr=`, Schnelltest, 0 Konsolenfehler, 0 externe Requests vor dem Video-Klick. Nicht in CI (TD-5). | `CLAUDE.md` Project rules; UC-1 bis UC-7
+| Tutor-Dialog | Ob Claude mit `tutor.md` und `llms.txt` sinnvoll unterrichtet und korrekte Links baut. | UC-7; nicht automatisiert
+|===
+
+Alle Tests nutzen nur Node-Bordmittel (`node:test`, `node:assert`); die einzige Abhängigkeit des
+Repositorys ist Eleventy.
+
+[[section-observability]]
+=== 8.4 Beobachtbarkeit: Die Apps messen absichtlich nichts, der Build meldet alles
+
+Es gibt keine Logs, Metriken, Traces oder Audit-Trails zur Laufzeit. Das folgt aus QZ-1 und
+xref:09_architecture_decisions.adoc#adr-001[ADR-001]: Jede Telemetrie wäre ein Request, der etwas über
+das Kind verrät. An ihre Stelle treten:
+
+* *Build-Ausgabe:* `[lern-apps] 3 App(s) geprüft, ?v=<Hash>` oder die Liste aller Regelverstöße
+  (`eleventy.config.js`); in CI im Actions-Log von `pruefen.yml` und `pages.yml`.
+* *Audit-Trail:* die Git-Historie für Code, `tutor.md`, `llms.txt`, Kartendaten und ADRs.
+* *Beim Kind:* Ergebniszeile und Aufgabennummer sind die einzige „Telemetrie“; das Kind entscheidet,
+  ob es sie teilt.
+* *Beim Tutor:* Was nicht funktioniert, zeigt sich im Gespräch.
+* *Rückmeldung an die Autor:in:* Jede Seite bekommt einen Link auf GitHub Issues (entschieden am
+  23.09.2026). Nur wer klickt und ein GitHub-Konto hat, meldet etwas; die App selbst sendet nichts
+  (8.2 M-16).
+
+[[section-error-handling]]
+=== 8.5 Fehlerbehandlung: Im Build abbrechen, im Browser zurückfallen
+
+Retry und Circuit Breaker braucht niemand, denn die Apps rufen keinen Dienst auf
+(xref:09_architecture_decisions.adoc#adr-001[ADR-001]). Fehler werden an zwei Orten behandelt.
+
+. *Build: lieber rot als falsch.* Jede Regelverletzung, jede fehlerhafte App-Konfiguration, jedes
+  unbekannte Fach und jeder unbekannte Karten-Knoten wirft; `npm run build` endet mit Fehler, `pages.yml`
+  deployt nichts, die letzte Fassung bleibt online (ADR-008, ADR-017, ADR-018).
+. *Speicher darf fehlen.* Jeder `localStorage`-Zugriff steht in `try/catch`; Laden liefert einen
+  leeren Wert, Speichern `false`, die Seite sagt es dem Kind (ADR-007).
+. *Ungültige Eingaben aus der URL werden zu Zufall* (`leseSeed`, `leseVorgaben`, `leseModus`).
+. *Unlesbares ist kein Versuch* (`wirdGezaehlt`, `src/kern/js/pruefung.js:73`).
+. *Kopieren hat einen Rückfall:* ohne Zwischenablage markiert die App den Text.
+. *Ohne JavaScript bleibt Inhalt:* Text und Bild stehen im HTML; `<noscript>` sagt, was fehlt (ADR-016).
+. *Alte und neue Module mischen sich nicht:* `?v=<Hash>` an jeder Referenz (8.10, ADR-014).
+
+Die Szenarien dazu stehen in xref:06_runtime_view.adoc#section-rt-fehler[Szenario 6].
+
+[[section-barrierefreiheit]]
+=== 8.6 Barrierefreiheit: Lesbar ohne JavaScript, bedienbar per Tastatur, gut ab 360 px
+
+Grundlage sind xref:09_architecture_decisions.adoc#adr-001[ADR-001] (statische Seiten),
+xref:09_architecture_decisions.adoc#adr-016[ADR-016] (Bild ohne JS) und
+xref:09_architecture_decisions.adoc#adr-011[ADR-011] (Kontrast der Fachfarben).
+
+* `lang="de"`, Skip-Link, `nav` mit `aria-label`, `aria-current="page"`.
+* Mobile-first: Grundlayout für 360 px, ab `40rem` breiter (`src/kern/css/stil.css:2`, `:223`); Systemschriften.
+* Jedes Feld hat ein `<label>`; Rückmeldung und Vorschau in `aria-live="polite"`; der Lösungsknopf trägt `aria-expanded`.
+* Bilder sind SVG mit `role="img"` und `aria-label`; das statische SVG steht schon im HTML.
+
+[[section-zahlen-eingeben]]
+=== 8.7 Zahlen eingeben: Eine Rundungsregel für alle Felder
+
+Entschieden in xref:09_architecture_decisions.adoc#adr-006[ADR-006], umgesetzt in
+`src/kern/js/zahlantwort.js`, geprüft in `test/kern/zahlantwort.test.js`. Der Domain Expert hat die
+Rundungsregel am 23.09.2026 fachlich bestätigt: Geld 2, Prozent 1, sonst 2 Nachkommastellen.
+
+* *BR-1* Jedes Zahlenfeld hat eine Art: `geld` 2, `prozent` 1, `zahl` 2 Stellen (`zahlantwort.js:17`); `stellen` überschreibt.
+* *BR-2* Die Toleranz folgt den getippten Stellen: richtig ist der exakte Wert oder der exakte Wert kaufmännisch auf die getippten Stellen gerundet, mindestens die geforderten.
+* *BR-3* Zu grob, aber richtig gerundet ist ein Hinweis, kein Fehler.
+* *BR-4* Brüche und Terme gelten überall als exakt; Felder mit `nurZahl: true` verlangen das ausgerechnete Ergebnis.
+* *BR-5* Tippt das Kind einen Term, zeigt das Feld nach 150 ms den Wert („= 30 €“, „≈ 3,33“).
+
+Irrationale Werte vergleicht der Prüfer mit dem relativen Spielraum 1e-9 (`zahlantwort.js:22`);
+Dezimalzahlen mit mehr als 12 Nachkommastellen gelten nicht als gerundet (`:23`). Generatoren setzen
+keine eigenen Toleranzen.
+
+[[section-terme-eingeben]]
+==== 8.7.1 Terme mit Variablen: Gleichwertig heißt gleich an festen Prüfstellen
+
+Entschieden in xref:09_architecture_decisions.adoc#adr-009[ADR-009], umgesetzt in
+`src/kern/js/variablenterm.js` und `src/kern/js/termantwort.js`, Business Rules BR-T1 bis BR-T9
+(Use Case UC-T). Gleichwertig heißt: gleich an 8 festen Belegungen ohne 0 und ±1, mindestens 5 gültig,
+relative Toleranz 1e-9 (`termantwort.js:26`). Falsche Form (`nicht-ausmultipliziert`,
+`nicht-zusammengefasst`, `nicht-faktorisiert`) ist ein Hinweis und zählt nicht. Die Formregeln
+„ausmultipliziert“ und „faktorisiert“ hat der Domain Expert am 23.09.2026 fachlich bestätigt.
+
+[[section-konfiguration]]
+=== 8.8 Konfiguration: Die App reicht sich dem Kern hinein
+
+Entschieden in xref:09_architecture_decisions.adoc#adr-013[ADR-013]. `src/<app>/js/app.config.js` ist
+reine Daten ohne DOM; Build, Seiten und Tests lesen sie, der Kern nie.
+
+[cols="2,4",options="header"]
+|===
+| Eintrag | Bedeutung
+| `APP.id` | Präfix aller `localStorage`-Schlüssel; nach dem Start nie ändern. Getrennt vom Pfad, damit ein Umzug keine Daten verliert (`binom-trainer` für `/binom/`).
+| `APP.pfad` | Ordner unter `src/` und URL-Pfad; `lib/apps.js:15` prüft die Gleichheit.
+| `APP.titel`, `kurzname`, `beschreibung`, `intro`, `klasse` | Texte für Übersicht, Kopf, Manifest, Karte.
+| `APP.fach` | Wählt die Fachfarbe (8.11); unbekanntes Fach bricht den Build.
+| `APP.kartenEintrag` | edugo-Felder für die Mathe-Karte (8.14); optional.
+| `KOMPETENZEN` | Reihenfolge = Checklisten-Nummer; je Eintrag `id`, `titel`, `kurz`, `seite`, `generator`, optional `kartenKnoten`.
+|===
+
+Adresse, Quellcode-Link, Farbe und Version leitet der Build ab; sie stehen nicht in der Konfiguration
+(xref:09_architecture_decisions.adoc#adr-015[ADR-015]).
+
+[[section-aufgabennummer]]
+=== 8.9 Aufgabennummer: Dieselbe Nummer ergibt dieselbe Aufgabe
+
+Entschieden in xref:09_architecture_decisions.adoc#adr-004[ADR-004]. Jeder Generator bekommt ein
+Zufallsobjekt aus `erzeugeZufall(seed)` (mulberry32) und darf keinen anderen Zufall benutzen. Ohne
+Nummer wählt die App eine aus 1–9999. `seed` gewinnt vor `nr`. Im Text für Kinder heißt es
+„Aufgabe Nr. 42“. Das statische Bild einer Seite entsteht aus `bild.seed` im Front Matter (Standard 1,
+`lib/bild.js:20`).
+
+[[section-auslieferung]]
+=== 8.10 Auslieferung und Cache: Jeder Inhalt hat eigene URLs
+
+Entschieden in xref:09_architecture_decisions.adoc#adr-014[ADR-014] (ersetzt ADR-010). Nach dem
+Schreiben von `_site` bildet der Build einen Hash (8 Hex-Zeichen, SHA-256) über Pfad und Inhalt aller
+ausgelieferten JS-, CSS- und JSON-Dateien und hängt `?v=<Hash>` an jeden relativen Import (statisch,
+`export … from`, dynamisch), jedes lokale `<script src>`, `<link href>` auf JS/CSS und jeden Import in
+Inline-Modulen (`lib/versionierung.js:9-28`). In den Quellen steht nie ein `?v=`. Überall steht derselbe
+Wert; sonst lädt der Browser ein Modul unter zwei URLs doppelt. Die Doku unter `/docs/` hat ihre eigene
+Versionierung durch docToolchain und wird vom Hash nicht erfasst.
+
+[[section-fachfarben]]
+=== 8.11 Gestaltung: Die Farbe verrät das Fach
+
+Entschieden in xref:09_architecture_decisions.adoc#adr-011[ADR-011]. Die Tabelle steht nur in
+`lib/fachfarben.js:6-12`; das Layout setzt `--farbe-primaer` und `--farbe-primaer-dunkel`
+(`src/_includes/basis.njk:21`), `theme-color` und `theme_color` im Manifest (`src/manifest.njk:15`).
+Weiße Schrift erreicht auf allen Farben WCAG AA (`test/build/fachfarben.test.js`).
+
+[cols="2,2,2",options="header"]
+|===
+| `APP.fach` | Fach | `primaer` / `dunkel`
+| `mathe` | Mathematik | `#1d4ed8` / `#1e3a8a`
+| `physik` | Physik | `#c2410c` / `#7c2d12`
+| `chemie` | Chemie | `#6d28d9` / `#4c1d95`
+| `biologie` | Biologie | `#15803d` / `#14532d`
+| `informatik` | Informatik | `#0f766e` / `#134e4a`
+|===
+
+Die Übersicht ist fachübergreifend und nutzt `#374151` / `#1f2937` (`src/_data/site.js`). Das Menü setzt
+die Kompetenz-Nummer als Plakette vor den Menütext. Icons (`favicon.svg`, PNGs) tragen die Fachfarbe;
+das prüft niemand.
+
+[[section-bilder]]
+=== 8.12 Bilder: Eine Zeichenfunktion, zwei Laufzeiten
+
+Entschieden in xref:09_architecture_decisions.adoc#adr-016[ADR-016]. Jede Kompetenz mit Bild hat
+`src/<app>/js/vis/<id>.js` mit einer Funktion `zeichne…(svg, aufgabe, ergebnis)`. Beim Build ruft
+`lib/bild.js` den Generator mit `bild.seed` und `bild.vorgaben` auf und zeichnet in das Mini-DOM aus
+`src/kern/js/svg.js`; das SVG steht dann statisch im HTML. Im Browser zeichnet dieselbe Funktion es zu
+jeder neuen Aufgabe neu. Regel: In `js/vis/` nur `svgEl`, nie `document`. Handgezeichnete SVGs gibt es
+nicht.
+
+[[section-kompetenzseiten]]
+=== 8.13 Kompetenzseiten: Front Matter statt HTML, festes Gerüst, Regeln im Build
+
+Entschieden in xref:09_architecture_decisions.adoc#adr-017[ADR-017]. `src/<app>/<id>.md` enthält nur
+Front Matter: `kompetenz`, `beschreibung`, `warum`, `regel`, `beispiel` (Markdown oder HTML),
+`video: { id, titel, kanal }` oder `ohneVideo`, `bild: { text, funktion, seed, geloest, vorgaben }`.
+`src/_includes/kompetenz.njk` setzt daraus immer dieselben Abschnitte mit denselben Ankern. Der Build
+verlangt je Kompetenz Seite, Generator und Test (`lib/pruefungen.js:36-49`) und dass `llms.txt` jede
+Seite nennt (`:31-33`).
+
+[[section-karte-datenmodell]]
+=== 8.14 Mathe-Karte: Flache Markdown-Daten, App-Einträge aus der App
+
+Entschieden in xref:09_architecture_decisions.adoc#adr-018[ADR-018]. Die Daten liegen als Markdown mit
+flachem YAML-Front-Matter unter `src/karte/daten/` (Leitideen, Kompetenzen = Knoten, Lehrpläne von 16
+Ländern, Zuordnungen); Schemas in `src/karte/schemas/`, Beschreibung in `src/karte/daten/README.md`.
+Eine App erscheint auf der Karte, wenn ihre Konfiguration `APP.kartenEintrag` (edugo-Felder
+`aktiv-level`, `backend`, `external-requests`, `dsgvo`, `evidence`, `jahrgaenge`, `lizenz`, `stand`)
+trägt und Kompetenzen `kartenKnoten` nennen (`lib/karte/eintraege.js:15-34`). Unbekannte Knoten brechen
+den Build. Apps außerhalb des Repos stehen in `src/karte/daten/externe-eintraege.js` (heute leer).
+`data.json` ist deterministisch und trägt `?v=`.
+
+[[section-adressen]]
+=== 8.15 Adressen: Eine Basis-URL, alles andere abgeleitet
+
+Entschieden in xref:09_architecture_decisions.adoc#adr-015[ADR-015]. `src/_data/site.js:9` enthält
+`https://lernapps.github.io/`. `leiteAdressenAb` leitet daraus `pathPrefix`, Repository
+(`https://github.com/lernapps/lernapps.github.io`), App-Adressen und Quellcode-Links ab
+(`lib/adressen.js:7-24`). Vorlagen schreiben nie eine literale Adresse, sondern `{{ app.basisUrl }}` oder
+`{{ site.basis }}`. `site.js` behält genau einen `default`-Export.

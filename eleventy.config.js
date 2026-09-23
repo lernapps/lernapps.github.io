@@ -14,6 +14,8 @@ import { richteKarteEin } from "./lib/karte/eleventy.js";
 import { pruefeExterneRessourcen, pruefeExterneImporte, pruefeZeilen, pruefeLlms, pruefeKompetenzen } from "./lib/pruefungen.js";
 
 const QUELLE = "src";
+// Gepatchte Kopien des docToolchain-Themes (Architektur-Doku, TD-10): fremder Code, von der Zeilengrenze ausgenommen.
+const THEME_KOPIEN = /^src\/site\/assets\/css\/(asciidoctor|main\.min\.[0-9a-f]+)\.css$/;
 
 function alleDateien(ordner, ausnahmen = new Set()) {
   const liste = [];
@@ -30,8 +32,8 @@ function alleDateien(ordner, ausnahmen = new Set()) {
 function pruefe(apps, ausgabe) {
   const fehler = [];
   const textDateien = [
-    ...alleDateien(".", new Set(["node_modules", ".git", "_site", ".playwright-mcp", "package-lock.json"])),
-  ].filter((p) => /\.(js|mjs|njk|md|css|txt|json|yml|svg)$/.test(p));
+    ...alleDateien(".", new Set(["node_modules", ".git", "_site", ".playwright-mcp", "package-lock.json", "build", ".gradle"])),
+  ].filter((p) => /\.(js|mjs|njk|md|css|txt|json|yml|svg)$/.test(p) && !THEME_KOPIEN.test(p));
   for (const p of textDateien) fehler.push(...pruefeZeilen(p, fs.readFileSync(p, "utf8")));
   for (const p of alleDateien(ausgabe)) {
     if (p.endsWith(".html")) fehler.push(...pruefeExterneRessourcen(p, fs.readFileSync(p, "utf8")));
@@ -70,6 +72,9 @@ export default async function (eleventyConfig) {
     eleventyConfig.ignores.add(`src/${a.pfad}/test/**`);
   }
   eleventyConfig.ignores.add("src/kern/**");
+  // Architektur-Doku (arc42) und ihre Theme-Overrides baut docToolchain, nicht Eleventy (scripts/dtc-v4.sh).
+  eleventyConfig.ignores.add("src/docs/**");
+  eleventyConfig.ignores.add("src/site/**");
   richteKarteEin(eleventyConfig);
   eleventyConfig.on("eleventy.after", ({ dir }) => {
     const fehler = pruefe(apps, dir.output);
