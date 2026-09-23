@@ -8,7 +8,8 @@ import { bruch, formatBruch } from "../../../kern/js/bruch.js";
 import { FARBEN, parseUrne, elementarErgebnisse, urne, gluecksrad } from "../modell/experimente.js";
 import { pruefeEinFeld, wahrscheinlichkeitsFeld, vorgabeOder, URNEN_VORLAGEN, trifft } from "./gemeinsam.js";
 
-export { zeichneLaplace as zeichneBild } from "../vis/laplace.js";
+// Testseite: neutrales Bild – eine Vorab-Markierung würde die Antwort verraten.
+export { zeichneLaplaceNeutral as zeichneBild } from "../vis/laplace.js";
 
 export const THEMA = "laplace";
 export const URL_ZAHLEN = ["lose", "gewinne", "schwer"];

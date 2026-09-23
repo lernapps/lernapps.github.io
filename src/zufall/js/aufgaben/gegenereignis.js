@@ -12,7 +12,8 @@ import { parseEreignis } from "../modell/ereignis.js";
 import { ergebnismengeAus, frageText } from "./laplace.js";
 import { pruefeEinFeld, wahrscheinlichkeitsFeld, vorgabeOder, trifft, URNEN_VORLAGEN } from "./gemeinsam.js";
 
-export { zeichneGegenereignis as zeichneBild } from "../vis/gegenereignis.js";
+// Testseite: bei "einfach" neutral – die Markierung von „nicht E“ würde die Antwort verraten.
+export { zeichneGegenereignisTest as zeichneBild } from "../vis/gegenereignis.js";
 
 export const THEMA = "gegenereignis";
 export const URL_ZAHLEN = ["p", "zuege", "lose", "gewinne"];

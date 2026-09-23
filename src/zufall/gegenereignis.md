@@ -24,6 +24,8 @@ ohneVideo: Zu dieser Frage gibt es kein Lehrerschmidt-Video; die Erklärung oben
 bild:
   text: 'Der Baum zum dreimaligen Würfeln. Orange ist der einzige Pfad des Gegenereignisses „kein einziges Mal 6“: 5/6 · 5/6 · 5/6. Rechts stehen die Pfadwahrscheinlichkeiten.'
   funktion: zeichneGegenereignis
+  uebungFunktion: zeichneGegenereignisMarkierbar
+  uebung: 'Zeigt das Bild einzelne Ergebnisse, klick die Ergebnisse von E an – „nicht E“ sind die übrigen.'
   seed: 1
   geloest: true
   vorgaben:

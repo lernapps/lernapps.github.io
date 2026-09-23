@@ -62,3 +62,73 @@ test("das Beispielbild (zeichneLaplace) bleibt wie bisher markiert", () => {
   assert.ok(text.includes(BETONT));
   assert.equal(knoepfe(text).length, 0);
 });
+
+// --- schmale Bildschirme, Testseite, Gegenereignis ---
+import { readFile } from "node:fs/promises";
+import { zeichneGegenereignis, zeichneGegenereignisMarkierbar } from "../js/vis/gegenereignis.js";
+import * as gegen from "../js/aufgaben/gegenereignis.js";
+
+const breiteVon = (svg) => Number(svg.getAttribute("width"));
+
+test("schmal (290 px Platz): alle Arten passen ohne waagerechtes Scrollen, alle Ergebnisse bleiben Knöpfe", () => {
+  const faelle = [
+    [{ experiment: "karten", ereignis: "bube" }, 32], [{ experiment: "lose", lose: 50, gewinne: 5 }, 50],
+    [{ experiment: "wuerfel", ereignis: "gerade" }, 6], [{ experiment: "zweiwuerfel", ereignis: "pasch" }, 36],
+    [{ experiment: "urne", urne: "4r3b2g" }, 9], [{ experiment: "gluecksrad", rad: "2r1b1g" }, 4],
+  ];
+  for (const [vorgaben, anzahl] of faelle) {
+    const svg = leeresSvg();
+    svg.parentNode = { clientWidth: 290 };
+    zeichneLaplaceMarkierbar(svg, laplace.erzeugeAufgabe(erzeugeZufall(1), vorgaben), undefined, () => {});
+    assert.ok(breiteVon(svg) <= 290, `${vorgaben.experiment}: ${breiteVon(svg)} px`);
+    assert.equal(knoepfe(alsSvgText(svg)).length, anzahl, vorgaben.experiment);
+  }
+});
+
+test("breit: Karten bleiben eine Zeile je Farbe (8 Spalten)", () => {
+  const svg = leeresSvg();
+  svg.parentNode = { clientWidth: 900 };
+  zeichneLaplaceMarkierbar(svg, laplace.erzeugeAufgabe(erzeugeZufall(1), { experiment: "karten", ereignis: "bube" }), undefined, () => {});
+  assert.ok(breiteVon(svg) > 290);
+});
+
+test("Testseite: Laplace- und einfache Gegenereignis-Aufgaben ohne Vorab-Markierung", () => {
+  const faelle = [
+    [laplace.zeichneBild, laplace.erzeugeAufgabe(erzeugeZufall(1), { experiment: "urne", urne: "3r2b1g", ereignis: "b" })],
+    [gegen.zeichneBild, gegen.erzeugeAufgabe(erzeugeZufall(1), { art: "einfach", experiment: "wuerfel", ereignis: "sechs" })],
+  ];
+  for (const [zeichneTest, aufgabe] of faelle) {
+    const svg = leeresSvg();
+    zeichneTest(svg, aufgabe);
+    const text = alsSvgText(svg);
+    assert.ok(!text.includes(BETONT), aufgabe.text);
+    assert.ok(!text.includes('opacity="0.3"'), aufgabe.text);
+    assert.equal(knoepfe(text).length, 0);
+  }
+});
+
+test("Gegenereignis einfach: das Kind markiert E selbst; Lösung zeigt E und nennt „nicht E“", () => {
+  const a = gegen.erzeugeAufgabe(erzeugeZufall(1), { art: "einfach", experiment: "wuerfel", ereignis: "mind5" });
+  const svg = leeresSvg();
+  const status = [];
+  zeichneGegenereignisMarkierbar(svg, a, undefined, (t) => status.push(t));
+  const text = alsSvgText(svg);
+  assert.equal(knoepfe(text).length, 6);
+  assert.ok(!text.includes(BETONT));
+  assert.deepEqual(status, ["0 von 6 markiert"]);
+  const loesung = [];
+  zeichneGegenereignisMarkierbar(leeresSvg(), a, { korrekt: true, loesungGezeigt: true }, (t) => loesung.push(t));
+  assert.deepEqual(loesung, ["Lösung: E hat 2 von 6 Ergebnissen, „nicht E“ die übrigen 4"]);
+});
+
+test("Gegenereignis: andere Aufgabenarten zeichnen wie bisher, das Beispielbild bleibt statisch", async () => {
+  const a = gegen.erzeugeAufgabe(erzeugeZufall(1), { experiment: "wuerfel", zuege: 3, ereignis: "mind1s" });
+  const svg1 = leeresSvg();
+  const svg2 = leeresSvg();
+  zeichneGegenereignis(svg1, a);
+  zeichneGegenereignisMarkierbar(svg2, a, undefined, () => {});
+  assert.equal(alsSvgText(svg2), alsSvgText(svg1));
+  const md = await readFile("src/zufall/gegenereignis.md", "utf8");
+  assert.match(md, /funktion: zeichneGegenereignis\n/);
+  assert.match(md, /uebungFunktion: zeichneGegenereignisMarkierbar/);
+});
