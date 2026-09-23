@@ -244,7 +244,7 @@ von YouTube in der Videokarte, eingefärbt in der Fachfarbe: formal ein verände
 Markenrichtlinien von YouTube nicht erlauben (PR #3, Commit `94a6f35`).
 
 *Entscheidung.* Die Videokarte zeigt ein neutrales Symbol, einen Kreis mit Dreieck
-(`PLAY_SYMBOL`, `src/kern/js/video.js:62-80`, mit Test). Der Hinweis nennt YouTube als Text.
+(`PLAY_SYMBOL`, `src/kern/js/video.js:61-79`, mit Test). Der Hinweis nennt YouTube als Text.
 
 *Status.* Accepted. Vom Product Owner bestätigt am 23.09.2026. Die Begründung steht in PR #3.
 

@@ -57,7 +57,6 @@ export function speichereDirektLaden(praefix, an) {
 // ─── DOM ────────────────────────────────────────────────────────────────────
 
 const HINWEIS = "Beim Start werden Daten (u. a. deine IP-Adresse) an YouTube/Google übertragen.";
-const GELADEN = "Video von YouTube geladen – Daten wurden an Google übertragen.";
 
 /** Lokal gezeichnetes Play-Symbol – kein Vorschaubild von ytimg. */
 /** Neutrales Play-Symbol (Kreis in der Fachfarbe, weißes Dreieck) – bewusst nicht die Logo-Form von YouTube. */
@@ -90,17 +89,16 @@ function zeigeIframe(section, daten, praefix, { mitAufheben = false } = {}) {
       allow: "autoplay; encrypted-media; picture-in-picture", allowfullscreen: true, loading: "lazy",
     }),
   ]);
-  const zeile = el("p", { class: "video-hinweis", text: GELADEN + " " });
+  section.querySelectorAll(":scope > :not(h2)").forEach((kind) => kind.remove());
+  section.append(rahmen);
   if (mitAufheben) {
     const aufheben = el("button", { type: "button", class: "video-link", text: "Merken aufheben" });
     aufheben.addEventListener("click", () => {
       speichereDirektLaden(praefix, false);
       aufheben.replaceWith(el("span", { text: "Videos werden ab jetzt erst nach Klick geladen." }));
     });
-    zeile.append(aufheben);
+    section.append(el("p", { class: "video-merken" }, [aufheben]));
   }
-  section.querySelectorAll(":scope > :not(h2)").forEach((kind) => kind.remove());
-  section.append(rahmen, zeile);
 }
 
 function zeigePlatzhalter(section, daten, praefix) {
