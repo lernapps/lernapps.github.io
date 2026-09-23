@@ -1,0 +1,60 @@
+---
+layout: basis.njk
+---
+{#- Kompetenzseite: Warum, Regel, Beispiel, Video, Bild, Übung – Inhalte aus dem Front Matter von src/<app>/<id>.md. -#}
+{%- set k = kompetenzDaten -%}
+    <h1>{{ k.titel }}</h1>
+
+    <section id="warum">
+      <h2>Warum das wichtig ist</h2>
+{{ warum | renderContent("md") | safe }}
+    </section>
+
+    <section id="regel">
+      <h2>Die Regel</h2>
+{{ regel | renderContent("md") | safe }}
+    </section>
+
+    <section id="beispiel">
+      <h2>Beispiel</h2>
+{{ beispiel | renderContent("md") | safe }}
+    </section>
+
+{% if video %}
+    <section id="video" class="video-karte" data-youtube-id="{{ video.id }}" data-titel="{{ video.titel }}" data-kanal="{{ video.kanal }}">
+      <h2>Video dazu</h2>
+      <p><a href="https://www.youtube.com/watch?v={{ video.id }}" rel="noopener">{{ video.titel }}</a></p>
+      <p class="video-kanal">{{ video.kanal }} · YouTube</p>
+      <p class="video-hinweis">Beim Start werden Daten (u. a. deine IP-Adresse) an YouTube/Google übertragen.</p>
+    </section>
+{% else %}
+    <section id="video">
+      <h2>Video dazu</h2>
+      <p>{{ ohneVideo or "Zu diesem Schritt gibt es kein passendes Video." }}</p>
+    </section>
+{% endif %}
+{% if bild %}
+    <section id="visualisierung">
+      <h2>Bild dazu</h2>
+      <p class="vis-beschriftung">{{ bild.text }}</p>
+      {% bild app.pfad, k, bild %}
+    </section>
+{% endif %}
+
+    <section id="uebung">
+      <h2>Übung</h2>
+      <noscript><p>Für die Übungsaufgaben brauchst du JavaScript. Die Erklärung, das Beispiel und das Bild oben funktionieren auch ohne.</p></noscript>
+      <div class="trainer" id="trainer"></div>
+    </section>
+  <script type="module">
+    import { APP } from "./js/app.config.js";
+    import { starteSeite } from "../kern/js/seite.js";
+    import * as modul from "./{{ k.modulPfad }}";
+{%- if bild %}
+    import { {{ bild.funktion }} } from "./js/vis/{{ bild.modul or k.id }}.js";
+    const svg = document.getElementById("vis");
+    starteSeite({ app: APP, modul, visualisiere: (aufgabe, ergebnis) => {{ bild.funktion }}(svg, aufgabe, ergebnis) });
+{%- else %}
+    starteSeite({ app: APP, modul });
+{%- endif %}
+  </script>

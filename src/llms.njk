@@ -1,0 +1,24 @@
+---
+permalink: llms.txt
+eleventyExcludeFromCollections: true
+---
+# {{ site.titel }} – Übersicht für KI-Tutoren
+
+Basis-URL: {{ site.basis }}
+
+Statische Lern-Apps für Schülerinnen und Schüler (Mathe, Physik, Chemie), eine App je Thema.
+Jede App hat eine Startseite mit Checkliste, je Kompetenz eine Seite (Erklärung, Regel,
+Beispiel, Video, Bild, Übung mit Sofort-Feedback) und einen Test. Details, URL-Parameter und
+Deep-Links stehen in der llms.txt der jeweiligen App. Ein Prompt für den Tutor liegt als
+tutor.md in jeder App.
+
+## Apps
+{% for a in apps %}
+### {{ a.titel }} ({{ fachfarben[a.fach].name }}{% if a.klasse %}, Klasse {{ a.klasse }}{% endif %})
+
+{{ a.beschreibung }}
+- Start: {{ a.basisUrl }}
+- Für KI: {{ a.basisUrl }}llms.txt
+- Tutor-Prompt: {{ a.basisUrl }}tutor.md
+- Kompetenzen: {% for k in a.kompetenzen %}{{ k.nr }} {{ k.titel }}{{ ", " if not loop.last }}{% endfor %}
+{% endfor %}

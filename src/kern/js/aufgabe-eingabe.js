@@ -1,0 +1,155 @@
+/*
+ * Eingabefelder einer Aufgabe: bauen, auslesen, markieren — ohne Feedback, Tipp oder Lösung. Kein Fachwissen. Generisch.
+ * Feldtypen (aufgabe.felder[i].typ):
+ *   "zahl" (Standard)  { id, label, einheit?, art?, stellen?, hinweis?, nurZahl? }  Einheit rechts, Rundungshinweis darunter
+ *   "bruch" | "term"   { id, label, hinweis? }            Textfeld für 3/4, 0,75, 75 % oder 1/2*3/4 (siehe bruch.js)
+ * Zahlen-, Bruch- und Termfelder zeigen beim Tippen eines Terms dessen Wert ("= 30 €", "≈ 3,33"), siehe zahlantwort.js.
+ *   "variablenterm"    { id, label, hinweis? }            Textfeld für Terme mit Variablen, z. B. x^2 + 6x + 9 (termantwort.js);
+ *                      die Vorschau zeigt den gelesenen Term ("Gelesen: x² + 6x + 9") oder eine kurze Syntaxmeldung.
+ *   "auswahl"          { id, label, optionen: [{ wert, text }] }
+ *   "radio"            { id, label, optionen: [{ wert, text | html }] }
+ * Tabelle: aufgabe.tabelle = [{ links, rechts } | { links, feld: feldId }] stellt Felder in eine Tabelle (z. B. Dreisatz).
+ */
+
+import { vorschau, HINWEIS_FEHLER } from "./zahlantwort.js";
+import { termVorschau, TERM_HINWEIS_FEHLER } from "./termantwort.js";
+
+const VORSCHAU_VERZOEGERUNG_MS = 150;
+
+export function el(tag, attrs = {}, kinder = []) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (k === "text") e.textContent = v;
+    else if (k === "html") e.innerHTML = v;
+    else if (v !== undefined && v !== false) e.setAttribute(k, v === true ? "" : v);
+  }
+  for (const kind of kinder) e.append(kind);
+  return e;
+}
+
+/** Live-Vorschau unter dem Feld: zeigt den Wert eines Terms oder Bruchs, verzögert während des Tippens. */
+function mitVorschau(input, feld, id, zeige = (text) => vorschau(text, feld)) {
+  const anzeige = el("span", { class: "eingabe-vorschau", id: `${id}-vorschau`, "aria-live": "polite" });
+  let timer;
+  input.addEventListener("input", () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => { anzeige.textContent = zeige(input.value); }, VORSCHAU_VERZOEGERUNG_MS);
+  });
+  return anzeige;
+}
+
+function feldZahl(feld, praefix) {
+  const id = `${praefix}-${feld.id}`;
+  const beschreibung = [`${id}-einheit`, feld.hinweis ? `${id}-hinweis` : ""].filter(Boolean).join(" ");
+  // Außer bei nurZahl sind Brüche und Terme erlaubt – dafür braucht es "/" und "*" auf der Handytastatur.
+  const nurZiffern = feld.nurZahl || !feld.art;
+  const input = el("input", {
+    type: "text", id, name: feld.id, inputmode: nurZiffern ? "decimal" : "text", autocomplete: "off", spellcheck: "false",
+    "aria-describedby": beschreibung,
+  });
+  const einheit = el("span", { class: "einheit", id: `${id}-einheit`, text: feld.einheit || "" });
+  const kinder = [el("label", { for: id, text: feld.label }), el("div", { class: "eingabe" }, [input, einheit])];
+  if (feld.hinweis) kinder.push(el("span", { class: "eingabe-hinweis", id: `${id}-hinweis`, text: feld.hinweis }));
+  if (!feld.nurZahl) kinder.push(mitVorschau(input, feld, id));
+  return el("div", { class: "feld", "data-feld": feld.id }, kinder);
+}
+
+const HINWEISE = {
+  bruch: "z. B. 3/4, 0,75 oder 75 %", term: "z. B. 1/2*3/4 oder 3/8", variablenterm: "z. B. x^2 + 6x + 9 oder (a+b)(a-b)",
+};
+
+function feldTerm(feld, praefix) {
+  const id = `${praefix}-${feld.id}`;
+  const variablen = feld.typ === "variablenterm";
+  const input = el("input", {
+    type: "text", id, name: feld.id, inputmode: "text", autocomplete: "off", spellcheck: "false", "aria-describedby": `${id}-hinweis`,
+    autocapitalize: variablen ? "none" : undefined,
+  });
+  const hinweis = el("span", { class: "eingabe-hinweis", id: `${id}-hinweis`, text: feld.hinweis ?? HINWEISE[feld.typ] });
+  return el("div", { class: "feld", "data-feld": feld.id }, [
+    el("label", { for: id, text: feld.label }), el("div", { class: "eingabe" }, [input]), hinweis, mitVorschau(input, feld, id, variablen ? termVorschau : undefined),
+  ]);
+}
+
+function feldAuswahl(feld, praefix) {
+  const id = `${praefix}-${feld.id}`;
+  const select = el("select", { id, name: feld.id }, [
+    el("option", { value: "", text: "Bitte wählen …" }),
+    ...feld.optionen.map((o) => el("option", { value: o.wert, text: o.text })),
+  ]);
+  return el("div", { class: "feld", "data-feld": feld.id }, [el("label", { for: id, text: feld.label }), select]);
+}
+
+function feldRadio(feld, praefix) {
+  const gruppe = el("fieldset", { class: "feld", "data-feld": feld.id }, [el("legend", { text: feld.label })]);
+  feld.optionen.forEach((o, i) => {
+    const id = `${praefix}-${feld.id}-${i}`;
+    gruppe.append(el("label", { for: id }, [
+      el("input", { type: "radio", id, name: feld.id, value: o.wert }),
+      el("span", { html: o.html || "", text: o.html ? undefined : o.text }),
+    ]));
+  });
+  return gruppe;
+}
+
+export function baueFeld(feld, praefix) {
+  if (feld.typ === "auswahl") return feldAuswahl(feld, praefix);
+  if (feld.typ === "radio") return feldRadio(feld, praefix);
+  if (feld.typ === "bruch" || feld.typ === "term" || feld.typ === "variablenterm") return feldTerm(feld, praefix);
+  return feldZahl(feld, praefix);
+}
+
+/** Tabelle (z. B. Dreisatz): Zeilen mit festem Text oder einem Eingabefeld. */
+export function baueTabelle(aufgabe, praefix) {
+  const zeilen = aufgabe.tabelle.map((zeile) => {
+    let rechts = el("span", { text: zeile.rechts });
+    if (zeile.feld) {
+      rechts = baueFeld(aufgabe.felder.find((f) => f.id === zeile.feld), praefix);
+      rechts.querySelector("label")?.classList.add("nur-vorlesen");
+    }
+    return el("tr", {}, [el("th", { scope: "row", text: zeile.links }), el("td", {}, [rechts])]);
+  });
+  return el("table", { class: "feldtabelle" }, [el("tbody", {}, zeilen)]);
+}
+
+/** Füllt `felder` mit allen Eingaben der Aufgabe (Tabelle zuerst, dann die übrigen Felder). */
+export function zeigeEingaben(felder, aufgabe, praefix) {
+  felder.replaceChildren();
+  if (aufgabe.tabelle) felder.append(baueTabelle(aufgabe, praefix));
+  const inTabelle = new Set((aufgabe.tabelle || []).map((z) => z.feld));
+  for (const feld of aufgabe.felder) {
+    if (!inTabelle.has(feld.id)) felder.append(baueFeld(feld, praefix));
+  }
+  felder.classList.toggle("nebeneinander", aufgabe.felder.length > 1 && !aufgabe.tabelle);
+}
+
+/** Schreibt den Aufgabentext (HTML, wenn vorhanden, sonst Text). */
+export function zeigeAufgabentext(element, aufgabe) {
+  if (aufgabe.html) element.innerHTML = aufgabe.html;
+  else element.textContent = aufgabe.text;
+}
+
+/** Liest die Antworten aus dem Formular: { feldId: Text }. */
+export function lieseAntworten(form, aufgabe) {
+  const antworten = {};
+  const daten = new FormData(form);
+  for (const feld of aufgabe.felder) {
+    antworten[feld.id] = daten.get(feld.id) ?? "";
+  }
+  return antworten;
+}
+
+/** Färbt jedes Feld nach dem Prüfergebnis (Hinweise neutral, nicht rot) und setzt aria-invalid für Screenreader. */
+export function markiereFelder(felder, aufgabe, ergebnis) {
+  for (const feld of aufgabe.felder) {
+    const box = felder.querySelector(`[data-feld="${feld.id}"]`);
+    const teil = ergebnis.felder?.[feld.id];
+    if (!box || !teil) continue;
+    const hinweis = HINWEIS_FEHLER.includes(teil.fehler) || TERM_HINWEIS_FEHLER.includes(teil.fehler);
+    const falsch = teil.korrekt === false && !hinweis;
+    box.classList.toggle("richtig", teil.korrekt === true);
+    box.classList.toggle("falsch", falsch);
+    box.classList.toggle("hinweis", hinweis);
+    box.querySelectorAll("input:not([type=radio]), select").forEach((e) => e.setAttribute("aria-invalid", falsch ? "true" : "false"));
+  }
+}

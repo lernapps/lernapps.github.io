@@ -1,0 +1,33 @@
+---
+permalink: index.html
+layout: basis.njk
+seite: index.html
+seitenTitel: Lern-Apps – Übersicht
+beschreibung: Alle Lern-Apps für Mathe, Physik und Chemie im Überblick – statische Trainer mit Erklärung, Bild, Übung und Test. Ohne Server, ohne Tracking.
+---
+{#- Übersicht des Monorepos: listet jede App aus ihrer Konfiguration (src/<app>/js/app.config.js). -#}
+    <h1>Lern-Apps</h1>
+    <p>Jede App trainiert ein Thema aus dem Unterricht: Erklärung, Regel, Beispiel, Bild, Video und so viele Übungsaufgaben, wie du willst – mit Sofort-Feedback und einem Test, der zeigt, wo es noch hakt.</p>
+
+    <section id="apps">
+      <h2>Alle Apps</h2>
+      <ul class="app-liste">
+{%- for a in apps %}
+        <li style="--farbe-fach: {{ a.farbe.primaer }}">
+          <h3><a href="{{ a.pfad }}/">{{ a.titel }}</a></h3>
+          <p>{{ fachfarben[a.fach].name }}{% if a.klasse %}, Klasse {{ a.klasse }}{% endif %} · {{ a.kompetenzen.length }} Kompetenzen</p>
+          <p>{{ a.beschreibung }}</p>
+        </li>
+{%- endfor %}
+      </ul>
+    </section>
+
+    <section id="ki">
+      <h2>Für KI-Tutoren</h2>
+      <p>Eine Beschreibung aller Apps und Seiten für Sprachmodelle steht in der <a href="llms.txt">llms.txt</a>; jede App hat ihre eigene.</p>
+    </section>
+
+    <section id="datenschutz">
+      <h2>Datenschutz</h2>
+      <p>Alle Apps laufen komplett in deinem Browser: kein Server, kein Tracking, keine Cookies, keine Konten. Externe Anfragen gibt es erst, wenn du auf einer Übungsseite ein Video startest (youtube-nocookie.com).</p>
+    </section>

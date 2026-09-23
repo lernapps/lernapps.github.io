@@ -1,0 +1,329 @@
+---
+permalink: "{{ page.filePathStem }}.txt"
+layout: false
+eleventyExcludeFromCollections: true
+---
+# Binomische Formeln – Hinweise für einen KI-Tutor
+
+Basis-URL: {{ app.basisUrl }}
+Weitere Lern-Apps (jede mit eigener llms.txt) stehen auf der Übersicht, als Text unter {{ site.basis }}llms.txt:
+{{ site.basis }}
+
+## Was die App ist
+
+Ein statischer, interaktiver Mathe-Trainer für die binomischen Formeln (Klasse 8,
+Gymnasium Hessen, G9-Lehrplan Einheit 8.1). Der Lernende ist etwa 13 Jahre alt, hat das
+Thema gerade im Unterricht und spricht Deutsch. Sechs Kompetenzseiten, von "Klammer mal
+Klammer" über die drei Formeln bis zu "rückwärts" und "Kopfrechnen". Jede Seite hat:
+Warum-Absatz, Regel, ausgerechnetes Beispiel, Lehrerschmidt-Video (Zwei-Klick-Karte;
+Seite 5 hat keines), ein Flächenbild (SVG, geht mit der aktuellen Aufgabe mit) und einen
+Aufgabengenerator mit Sofort-Feedback, Tipp, "Lösung zeigen/verbergen", "Neue Aufgabe"
+und einem Zähler richtig/gesamt für die Sitzung.
+
+Das Flächenbild ist der rote Faden: (a + b)² ist ein Quadrat mit der Seite a + b, das in
+a², zwei gleiche Streifen ab und b² zerfällt – daher das 2ab.
+
+## Was die App nicht ist
+
+- Kein Server, kein Login, kein Tracking, keine Cookies. Im localStorage liegen nur die
+  Selbsteinschätzung, das letzte Testergebnis und der optionale Merker "Videos immer
+  direkt laden".
+- Keine externen Requests, bis der Lernende ein Video startet; dann lädt
+  youtube-nocookie.com (Daten gehen an Google). Die Videos sind als Zwei-Klick-Karten
+  eingebettet: erst ein lokal gezeichneter Platzhalter, das Video selbst kommt erst nach
+  Klick auf "Video laden und abspielen".
+- Die App kennt den Lernenden nicht und meldet nichts zurück. Der Tutor erfährt das
+  Ergebnis nur, wenn er danach fragt – oder das Kind schickt ihm die Ergebniszeile
+  des Tests (siehe "Test").
+- Keine Noten, keine Zeitmessung. Der Test liefert je Kompetenz nur sicher / teils /
+  üben.
+
+## Regeln für den Tutor
+
+- Die App ist das Arbeitsblatt, der Chat das Gespräch darüber: Bilder und Aufgaben verlinken statt im Chat rechnen zu lassen, spätestens jede dritte Antwort mit einem Link auf eine konkrete Aufgabe oder ein Bild. Eine Kompetenz gilt als geschafft nach drei richtigen App-Aufgaben und einer Erklärung.
+- Bitte das Kind zuerst um sein Testergebnis oder verlinke den Schnelltest
+  (test.html?nr=<Nummer>&modus=schnell). Beginne bei der ersten Kompetenz mit ✗,
+  dann ~. Nie die Testaufgaben vorab verraten.
+- Verlinke immer eine konkrete Aufgabe mit Parametern, nie nur die Startseite.
+- Jede Aufgabe hat eine Nummer. Sag dem Kind "Mach Aufgabe Nr. 42" und schick den Link
+  mit `seed=42`. Nennt das Kind eine Nummer, öffnest du dieselbe Aufgabe über den Link.
+- Nach jeder verlinkten Aufgabe: frag, was herauskam, und lass den Rechenweg in
+  eigenen Worten erklären. Die App meldet dem Tutor nichts.
+- Empfiehl das Video, wenn das Kind die Erklärung zweimal nicht wiedergeben kann;
+  sonst zuerst Aufgaben. Verlinke dann den Anker `#video` der Seite.
+
+## URL-Parameter und Anker (alle Seiten)
+
+- Aufgabennummer (URL-Parameter `seed=` oder `nr=`, ganze Zahl; stehen beide da, gilt
+  `seed`): macht den Generator deterministisch. Ohne Aufgabennummer wählt die App eine
+  zufällige Nummer von 1 bis 9999.
+- Zahlen in URL-Parametern mit Punkt oder Komma: `wert=2.5` und `wert=2,5` gehen beide.
+  Ungültige oder fehlende Parameter → die App erzeugt eine Zufallsaufgabe (über die
+  Aufgabennummer reproduzierbar).
+- Anker auf jeder Kompetenzseite: `#warum` (Warum-Absatz), `#regel` (Regel oder Formel),
+  `#beispiel` (Beispiel), `#video` (Video als Zwei-Klick-Karte, falls es eines gibt),
+  `#visualisierung` (Bild), `#uebung` (Aufgabengenerator).
+- Unter jeder Aufgabe steht "Aufgabe Nr. N", daneben "Link zu dieser Aufgabe" (alle
+  Parameter plus Aufgabennummer) und "Link kopieren". Der Lernende kann dir die Nummer
+  sagen oder den Link schicken.
+
+## Antwortformate, die der Prüfer akzeptiert
+
+Zahlenfelder lesen tolerant: "2,5", "2.5", "2,50", "2,5 m", "1.250,5". Bruchfelder lesen
+Brüche, Dezimalzahlen, Prozent und Rechenterme: "1/4", "25/100", "0,25", "25 %",
+"1/2*1/2". Ausrechnen ist in Bruchfeldern nicht nötig.
+
+Termfelder (Seiten 1–5) lesen Terme mit Variablen – so tippt das Kind:
+- x² als `x^2` oder `x²`, a² als `a^2`; das Malzeichen darf fehlen: `12ab`, `2x`.
+- Minus als `-`: `x^2-10x+25`. Leerzeichen sind egal.
+- Klammern wie gewohnt: `(x+3)^2`, `(x+4)(x-4)`, `(2a-3b)^2`.
+- Nur kleine Buchstaben als Variablen (`X` meldet die App als Tippfehler).
+- Die Reihenfolge der Glieder ist egal: `25 - 10x + x^2` ist richtig.
+Unter dem Feld steht, wie die App den Term gelesen hat ("Gelesen: x² + 8x + 15").
+Seiten 1–4 verlangen die ausmultiplizierte, zusammengefasste Form; Seite 5 (faktorisieren)
+ein Produkt. Ein gleichwertiger Term in der falschen Form ist kein Fehler, sondern ein
+neutraler Hinweis (siehe unten).
+
+## Zahlen eingeben
+
+Für alle Zahlenfelder gilt eine Regel:
+- Rundungsvorgabe: Muss gerundet werden, steht unter dem Feld "Runde auf <n>
+  Nachkommastelle(n) oder gib einen Bruch an." (bei Geld ohne "Bruch"). Standard: Geld (€)
+  2 Stellen, Prozentsatz (%) 1 Stelle, sonst 2. Ist das Ergebnis glatt (30 €, 25 %), fehlt
+  der Hinweis.
+- Die Toleranz folgt den getippten Stellen: Richtig ist der exakte Wert oder der exakte Wert
+  kaufmännisch gerundet auf so viele Stellen, wie das Kind getippt hat – mindestens die
+  geforderten. Für 10/3 mit 2 Stellen: "3,33", "3,333" richtig, "3,34" falsch. Für 2/3:
+  "0,67" richtig, "0,66" falsch (abschneiden ist kein Runden). Endnullen zählen: "3,30"
+  hat zwei Stellen.
+- Zu grob gerundet ("3,3", wo zwei Stellen verlangt sind, aber richtig gerundet) ist kein
+  Fehler: Die App zeigt neutral (gelb, nicht rot) "Fast – runde auf zwei
+  Nachkommastellen." und zählt den Versuch nicht. Im Test zählt es als falsch.
+- Brüche und Rechenterme gehen in jedem Zahlenfeld, auch bei Geld: "10/3", "100/3 %",
+  "2*50/3", "(1/2)^2", "1-1/6", "0,5*3", "80*0,75", Wurzeln "sqrt(40)" oder "√(2+3)", "√2",
+  und pi als "pi" oder "π" ("2*pi"). Ein getippter Term zählt als exakt; bei Geld muss sein
+  Wert auf den Cent stimmen. Gemischte Zahlen ("3 1/3") nimmt die App nicht; sie bittet um
+  "10/3".
+- Tippt das Kind einen Term oder Bruch, zeigt die App darunter live den Wert: "= 30 €",
+  "≈ 3,33". Bei reinen Zahlen erscheint nichts.
+- Manche Felder verlangen das ausgerechnete Ergebnis (hier: Lücken auf Seite 5 und das
+  Ergebnis auf Seite 6). Dort meldet
+  ein Term oder Bruch neutral "Rechne das Ergebnis aus." und zählt nicht; im Test zählt er
+  als falsch.
+- Fehlercodes dazu: "zu-grob-gerundet", "gemischte-zahl", "ausdruck-statt-zahl" (alles
+  Hinweise, keine Fehler).
+
+Für Termfelder mit Variablen (Feldtyp "variablenterm", z. B. binomische Formeln) gilt:
+- Variablen sind kleine Einzelbuchstaben a–z. Malzeichen darf fehlen: "3ab", "2(x+1)",
+  "(a+b)(a-b)". Potenzen mit "^" oder "²"/"³": "x^2", "x²". "1/2x" heißt ½·x. "-x^2" heißt
+  −(x²). "pi" ist immer die Kreiszahl π; p mal i schreibt man "p*i".
+- Unter dem Feld steht, wie die App den Term gelesen hat: "Gelesen: x² + 6x + 9", oder eine
+  kurze Meldung wie "Es fehlt eine schließende Klammer )." (zählt nicht als Versuch).
+- Richtig ist jeder gleichwertige Term. Verlangt die Aufgabe eine Form, meldet die App einen
+  gleichwertigen Term in anderer Form neutral: "nicht-ausmultipliziert",
+  "nicht-zusammengefasst", "nicht-faktorisiert" (Hinweise, keine Fehler).
+
+## Startseite
+
+URL: {{ app.basisUrl }}index.html
+Checkliste aller Kompetenzen mit Selbsteinschätzung pro Zeile: Sicher / Teils / Noch
+üben (Radiobuttons, localStorage, Schlüssel `{{ app.id }}.selbsteinschaetzung`).
+Der Tutor kann den Lernenden bitten, seine Einschätzung vorzulesen, um zu entscheiden,
+wo er anfängt. Für Aufgaben nicht hierhin verlinken.
+
+## Test
+
+URL: {{ app.basisUrl }}test.html
+Ein Diagnosetest über alle Kompetenzen in Checklisten-Reihenfolge, ohne Tipp, ohne
+Lösung, ohne Zeitmessung. Nur Eingabe und "Weiter"; eine leere Antwort zählt nach
+Rückfrage als falsch. "Abbrechen" führt zur Startseite, ohne zu speichern.
+- Modi: `modus=voll` (Standard) – zwei Aufgaben je Kompetenz; `modus=schnell` – eine
+  Aufgabe je Kompetenz. Die Seite bietet vor dem Start beide als Knopf an; der
+  Parameter legt nur den vorgeschlagenen Modus fest.
+- Testnummer: `nr=` oder `seed=` (ganze Zahl, `seed` gewinnt; ohne Angabe zufällig
+  1–9999). Die Nummer bestimmt die komplette Aufgabenfolge; dieselbe Nummer ergibt
+  denselben Test. Der Schnelltest zu einer Nummer besteht aus der jeweils ersten
+  Aufgabe des vollen Tests.
+- Beispiel: {{ app.basisUrl }}test.html?nr=4711&modus=schnell
+- Bewertung je Kompetenz: Test 2/2 → "✓ sicher", 1/2 → "~ teils", 0/2 → "✗ üben";
+  Schnelltest 1/1 → ✓, 0/1 → ✗.
+- Ergebniszeile (das Kind kopiert sie und schickt sie dir):
+  `Test Nr. 4711 (Binomische Formeln, Schnelltest): 1 ✓ 2 ✓ 3 ✗ 4 ✓ 5 ~ 6 ✗`
+  Die Ziffern sind die Kompetenznummern der Checkliste. Bei der Nummer kannst du
+  denselben Test unter test.html?nr=4711&modus=schnell nachvollziehen – verrate
+  dem Kind die Aufgaben aber nicht vorab.
+- Das letzte Ergebnis liegt im localStorage (`{{ app.id }}.test`) und erscheint in
+  der Checkliste der Startseite als Spalte "Test" mit der Zeile "Letzter Test:
+  Nr. 4711, Schnelltest, 23.09.2026".
+
+## Seiten
+
+### 1 Klammer mal Klammer – {{ app.basisUrl }}klammern-multiplizieren.html
+Kompetenz: Zwei Klammern multiplizieren und zusammenfassen.
+Regel: (a + b)(c + d) = ac + ad + bc + bd – jedes Glied mal jedes Glied, vier Produkte,
+dann gleichartige Glieder zusammenfassen.
+Aufgabe: (m1·x ± n1)(m2·x ± n2) ausmultiplizieren; Antwort als Term (Termfeld, Form
+"ausmultipliziert"). Bild: Rechteck mit vier Teilflächen, Zeile mal Spalte.
+Parameter: `m1`, `m2` (Faktor vor x, 1–5), `n1`, `n2` (Zahl in der Klammer, 1–20),
+`op1`, `op2` = `plus|minus` (Rechenzeichen in der ersten bzw. zweiten Klammer; fehlt es,
+gilt plus), `seed`. Fehlende Zahlen wählt die App zufällig.
+Beispiele:
+{{ app.basisUrl }}klammern-multiplizieren.html?m1=1&n1=3&m2=1&n2=5&seed=1#uebung
+((x + 3)(x + 5), Lösung x^2 + 8x + 15)
+{{ app.basisUrl }}klammern-multiplizieren.html?m1=2&n1=1&op1=minus&m2=1&n2=4&seed=2#uebung
+((2x − 1)(x + 4), Lösung 2x^2 + 7x − 4)
+Typische Fehler, die der Checker meldet: "nur-aussen-glieder" (nur Erstes mal Erstes und
+Letztes mal Letztes: x² + 15), "vorzeichenfehler" (ein Teilprodukt mit falschem
+Vorzeichen: 2x² + 9x − 4). Hinweise statt Fehler: "nicht-ausmultipliziert" (Klammern
+stehen noch), "nicht-zusammengefasst" (x² + 5x + 3x + 15).
+Video (#video): „Ausmultiplizieren | Klammern auflösen -  Termen und Gleichungen - Mathematik | Lehrerschmidt“,
+https://www.youtube.com/watch?v=X5E2bqby8f0 – die App bettet es erst nach einem Klick ein.
+
+### 2 (a+b)² – {{ app.basisUrl }}erste-binomische.html
+Kompetenz: Die erste binomische Formel anwenden.
+Regel: (a + b)² = a² + 2ab + b². a und b sind die ganzen Glieder, auch mit Zahl davor:
+(3a)² = 9a².
+Aufgabe: (m·x + n)², (m·a + n)² oder (m·a + n·b)² ausmultiplizieren; Antwort als Term
+(Form "ausmultipliziert"). Bild: Quadrat mit der Seite a + b, zerlegt in a², ab, ab, b².
+Parameter (gleiche Grammatik auf den Seiten 2, 3 und 4):
+- `m` – Zahl vor der Variablen im ersten Glied (1–5)
+- `n` – zweites Glied: die Zahl (1–12) oder die Zahl vor der zweiten Variablen
+- `var=x|a` – Variable im ersten Glied (Standard x, wenn m oder n in der URL stehen)
+- `glied=zahl|variable` – zweites Glied ist eine Zahl (Standard) oder n mal eine zweite
+  Variable (y zu x, b zu a)
+- `seed`
+Beispiele:
+{{ app.basisUrl }}erste-binomische.html?m=1&n=4&seed=1#uebung
+((x + 4)², Lösung x^2 + 8x + 16)
+{{ app.basisUrl }}erste-binomische.html?m=2&n=3&var=a&seed=2#uebung
+((2a + 3)², Lösung 4a^2 + 12a + 9)
+{{ app.basisUrl }}erste-binomische.html?m=3&n=2&var=a&glied=variable&seed=3#uebung
+((3a + 2b)², Lösung 9a^2 + 12ab + 4b^2)
+Typische Fehler, die der Checker meldet: "binom-vergessen" (a² + b², Mittelglied fehlt),
+"faktor-2-vergessen" (a² + ab + b²), "koeffizient-nicht-quadriert" ((3a)² als 3a² oder
+4² als 4).
+Video (#video): „1.binomische Formel - mit grafischer Erklärung | Lehrerschmidt“,
+https://www.youtube.com/watch?v=D_D4gvqNDdE – die App bettet es erst nach einem Klick ein.
+
+### 3 (a−b)² – {{ app.basisUrl }}zweite-binomische.html
+Kompetenz: Die zweite binomische Formel anwenden.
+Regel: (a − b)² = a² − 2ab + b². Das Mittelglied ist negativ, b² ist immer positiv
+((−b)·(−b) = +b²).
+Aufgabe: (m·x − n)², (m·a − n)² oder (m·a − n·b)² ausmultiplizieren; Antwort als Term
+(Form "ausmultipliziert"). Bild: vom Quadrat a² werden zwei Streifen a·b abgezogen, die
+doppelt abgezogene Ecke b² kommt zurück.
+Parameter: `m`, `n`, `var=x|a`, `glied=zahl|variable`, `seed` – wie auf Seite 2; das Minus
+steht immer in der Klammer.
+Beispiele:
+{{ app.basisUrl }}zweite-binomische.html?m=1&n=5&seed=1#uebung
+((x − 5)², Lösung x^2 − 10x + 25)
+{{ app.basisUrl }}zweite-binomische.html?m=2&n=3&var=a&glied=variable&seed=2#uebung
+((2a − 3b)², Lösung 4a^2 − 12ab + 9b^2)
+Typische Fehler, die der Checker meldet: "binom-vergessen" (a² − b² oder a² + b²),
+"vorzeichen-b-quadrat" (a² − 2ab − b²), "faktor-2-vergessen" (a² − ab + b²),
+"vorzeichen-mittelglied" (a² + 2ab + b², also die erste Formel), "koeffizient-nicht-quadriert".
+Video (#video): „2.binomische Formel - ganz einfach erklärt mit Beispielen! | Lehrerschmidt“,
+https://www.youtube.com/watch?v=P9Moh6nUSI8 – die App bettet es erst nach einem Klick ein.
+
+### 4 (a+b)(a−b) – {{ app.basisUrl }}dritte-binomische.html
+Kompetenz: Die dritte binomische Formel anwenden.
+Regel: (a + b)(a − b) = a² − b². Die Mittelglieder +ab und −ab heben sich auf.
+Aufgabe: (m·x + n)(m·x − n) oder mit n·b ausmultiplizieren; Antwort als Term (Form
+"ausmultipliziert"). Bild: Quadrat a² ohne Ecke b², umgelegt zum Rechteck (a + b)(a − b).
+Parameter: `m`, `n`, `var=x|a`, `glied=zahl|variable` wie auf Seite 2, dazu
+`reihenfolge=plusminus|minusplus` (welche Klammer vorn steht; Standard plusminus, wenn m
+oder n in der URL stehen), `seed`.
+Beispiele:
+{{ app.basisUrl }}dritte-binomische.html?m=1&n=4&seed=1#uebung
+((x + 4)(x − 4), Lösung x^2 − 16)
+{{ app.basisUrl }}dritte-binomische.html?m=3&n=2&var=a&glied=variable&reihenfolge=minusplus&seed=2#uebung
+((3a − 2b)(3a + 2b), Lösung 9a^2 − 4b^2)
+Typische Fehler, die der Checker meldet: "mittelglied-geschrieben" (a² ± 2ab − b² oder
+eine andere Form mit Mittelglied), "vorzeichen" (a² + b² oder b² − a²),
+"koeffizient-nicht-quadriert" ((3a)² als 3a², 4² als 4).
+Video (#video): „3.binomische Formel - ganz einfach erklärt mit Beispielen! | Lehrerschmidt“,
+https://www.youtube.com/watch?v=6ySWeEhTOt4 – die App bettet es erst nach einem Klick ein.
+
+### 5 Rückwärts – {{ app.basisUrl }}binome-rueckwaerts.html
+Kompetenz: Eine Summe als binomische Formel erkennen und als Produkt schreiben
+(faktorisieren); Lücken so ergänzen, dass eine binomische Formel entsteht.
+Regel: a² + 2ab + b² = (a + b)², a² − 2ab + b² = (a − b)², a² − b² = (a + b)(a − b).
+Zwei Quadrate suchen, a und b ablesen, Mittelglied prüfen (2ab, Vorzeichen).
+Typ "faktorisieren": Antwort als Term. Richtig ist nur ein Binom-Produkt: (x+3)^2,
+(x+3)(x+3), (x+4)(x-4). Die ausmultiplizierte Summe oder 1*(x^2+6x+9) meldet die App
+neutral als Hinweis "nicht-faktorisiert" (zählt nicht als Versuch).
+Typ "luecke": eine Zahl eintippen (ausgerechnet, kein Term; "2*5" ergibt den Hinweis
+"ausdruck-statt-zahl"). Nur 1. und 2. Formel.
+Bild: die Flächenbilder der Seiten 2–4, rückwärts – beim Faktorisieren sind die
+Teilflächen gegeben und die Seiten "?", bei Lücken fehlt eine Teilfläche.
+Parameter:
+- `typ=faktorisieren|luecke` (Standard faktorisieren, wenn formel, m oder n in der URL stehen)
+- `formel=1|2|3` – welche binomische Formel (Lücke: nur 1 oder 2; Standard 1)
+- `luecke=mitte|ende` – Lücke im Mittelglied (x² + □x + 25) oder im letzten Glied (x² + 8x + □)
+- `m`, `n`, `var=x|a`, `glied=zahl|variable` wie auf Seite 2 – das Binom, um das es geht
+- `seed`
+Beispiele:
+{{ app.basisUrl }}binome-rueckwaerts.html?typ=faktorisieren&formel=1&m=1&n=3&seed=1#uebung
+(x² + 6x + 9, Lösung (x+3)^2)
+{{ app.basisUrl }}binome-rueckwaerts.html?typ=faktorisieren&formel=2&m=1&n=5&seed=2#uebung
+(x² − 10x + 25, Lösung (x-5)^2)
+{{ app.basisUrl }}binome-rueckwaerts.html?typ=faktorisieren&formel=3&m=1&n=4&seed=3#uebung
+(x² − 16, Lösung (x+4)(x-4))
+{{ app.basisUrl }}binome-rueckwaerts.html?typ=luecke&luecke=mitte&formel=1&m=1&n=5&seed=4#uebung
+(x² + □x + 25, Lösung 10)
+{{ app.basisUrl }}binome-rueckwaerts.html?typ=luecke&luecke=ende&formel=1&m=1&n=4&seed=5#uebung
+(x² + 8x + □, Lösung 16)
+Typische Fehler, die der Checker meldet: "falsches-vorzeichen" ((x − 3)² statt (x + 3)²),
+"nicht-halbiert" ((x + 6)² bei 6x; bei der Lücke 64 statt 16), "falsche-formel"
+((x + 3)(x − 3) bei einem Mittelglied, (x − 4)² bei x² − 16), "faktor-2-vergessen" (Lücke
+im Mittelglied: 5 statt 10), "nicht-quadriert" (Lücke am Ende: 4 statt 16).
+Video (#video): keins – die Seite sagt, dass es zu diesem Schritt kein passendes Video von
+Lehrerschmidt gibt. Für das Rückwärts-Denken helfen die Videos der Seiten 2–4.
+
+### 6 Kopfrechnen – {{ app.basisUrl }}geschickt-rechnen.html
+Kompetenz: Quadrate und Produkte nahe an glatten Zehnern mit den binomischen Formeln im
+Kopf ausrechnen.
+Regel: Zahl in glatten Zehner und kleinen Rest zerlegen: 51² = (50 + 1)² (1. Formel),
+49² = (50 − 1)² (2. Formel), 21 · 19 = (20 + 1)(20 − 1) = 20² − 1² (3. Formel).
+Aufgabe: zwei Felder – Auswahl "Welche Formel hilft?" (1., 2. oder 3. Formel) und das
+Ergebnis als ganze Zahl (ausgerechnet, ohne Tausenderpunkt: "2401"; ein Term wie "49*49"
+ergibt den Hinweis "ausdruck-statt-zahl"). Bild: das passende Flächenbild mit Zahlen.
+Parameter:
+- `formel=1|2|3` – 1: (basis + abstand)², 2: (basis − abstand)², 3: (basis + abstand) · (basis − abstand)
+- `basis` – glatter Zehner (10–200, durch 10 teilbar)
+- `abstand` – 1–9, kleiner als basis
+- `seed`
+Beispiele:
+{{ app.basisUrl }}geschickt-rechnen.html?formel=2&basis=50&abstand=1&seed=1#uebung
+(49², Lösung 2. Formel, 2401)
+{{ app.basisUrl }}geschickt-rechnen.html?formel=3&basis=20&abstand=1&seed=2#uebung
+(21 · 19, Lösung 3. Formel, 399)
+{{ app.basisUrl }}geschickt-rechnen.html?formel=1&basis=100&abstand=2&seed=3#uebung
+(102², Lösung 1. Formel, 10404)
+Typische Fehler, die der Checker meldet: "falsche-formel" (falsche Formel gewählt),
+"zerlegung-falsch" (Zerlegung richtig, Formel falsch angewendet: 49² = 2500 − 1 = 2499,
+Mittelglied halb oder mit falschem Vorzeichen, 21 · 19 = 400 + 1).
+Video (#video): „Nur für NERDS: Kopfrechnen mit den binomischen Formeln! | Lehrerschmidt“,
+https://www.youtube.com/watch?v=LoTVgi5tYsQ – die App bettet es erst nach einem Klick ein.
+
+<!-- neue-kompetenz: Abschnitte darüber einfügen -->
+## Parameter-Übersicht
+
+| Seite          | Parameter                                  | Beispiel                              |
+|----------------|--------------------------------------------|---------------------------------------|
+| test.html      | nr (oder seed), modus=voll/schnell         | ?nr=4711&modus=schnell                |
+| klammern-multiplizieren.html | m1, n1, op1, m2, n2, op2, seed | ?m1=2&n1=1&op1=minus&m2=1&n2=4&seed=2 |
+| erste-binomische.html | m, n, var=x/a, glied=zahl/variable, seed | ?m=3&n=2&var=a&glied=variable&seed=3 |
+| zweite-binomische.html | m, n, var=x/a, glied=zahl/variable, seed | ?m=1&n=5&seed=1 |
+| dritte-binomische.html | m, n, var, glied, reihenfolge=plusminus/minusplus, seed | ?m=1&n=4&seed=1 |
+| binome-rueckwaerts.html | typ=faktorisieren/luecke, formel=1/2/3, luecke=mitte/ende, m, n, var, glied, seed | ?typ=luecke&luecke=ende&formel=1&m=1&n=4&seed=5 |
+| geschickt-rechnen.html | formel=1/2/3, basis, abstand, seed | ?formel=2&basis=50&abstand=1&seed=1 |
+
+Die Aufgabennummer allein (`seed=` oder `nr=`, ohne weitere Parameter) erzeugt auf jeder
+Seite eine reproduzierbare Zufallsaufgabe. "Neue Aufgabe" erzeugt eine neue Aufgabe mit
+eigener Aufgabennummer; der Link "Link zu dieser Aufgabe" unter jeder Aufgabe enthält
+die Parameter zum Nachvollziehen.
+
+## Tutor-Prompt
+
+{{ app.basisUrl }}tutor.md
