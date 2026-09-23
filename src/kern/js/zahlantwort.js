@@ -146,18 +146,26 @@ function endStellen({ n }) {
   return n === 1 ? Math.max(zwei, fuenf) : null;
 }
 
-/** Live-Vorschau für Terme und Brüche: "= 30 €", "= 12,5", "≈ 3,33"; "" für Dezimalzahlen, leere und ungültige Eingaben. */
+// Stellen, mit denen ein Term-Wert (Wurzel, pi) als Dezimalzahl exakt ist, bis MAX_VORSCHAU_EXAKT; sonst null.
+function termStellen(x) {
+  for (let d = 0; d <= MAX_VORSCHAU_EXAKT; d++) {
+    if (Math.abs(x - runde(x, d)) <= SPIELRAUM * Math.max(1, Math.abs(x))) return d;
+  }
+  return null;
+}
+
+/**
+ * Live-Vorschau für Terme und Brüche: "= 30 €", "= 12,5", "≈ 3,33"; "" für Dezimalzahlen, leere und ungültige Eingaben.
+ * "=" genau dann, wenn der Wert mit höchstens MAX_VORSCHAU_EXAKT Nachkommastellen exakt dargestellt wird (1/4 = 0,25),
+ * sonst "≈" mit den geforderten Stellen, mindestens 2, höchstens 4 (1/3 ≈ 0,33).
+ */
 export function vorschau(text, { stellen, einheit = "", art = "zahl" } = {}) {
   const a = leseAntwort(text, { art });
   if (a.typ !== "bruch" && a.typ !== "term") return "";
-  let anzeige;
-  const ende = a.typ === "bruch" ? endStellen(a.wert) : null;
-  if (ende !== null && ende <= MAX_VORSCHAU_EXAKT) anzeige = `= ${deutsch(runde(zuDezimal(a.wert), ende))}`;
-  else {
-    const x = a.typ === "term" ? a.wert : zuDezimal(a.wert);
-    const ganz = Math.round(x);
-    if (a.typ === "term" && Math.abs(x - ganz) <= SPIELRAUM * Math.max(1, Math.abs(x))) anzeige = `= ${ganz}`;
-    else anzeige = `≈ ${deutsch(x.toFixed(Math.min(4, Math.max(2, stellenFuer({ stellen, art })))))}`;
-  }
+  const x = a.typ === "term" ? a.wert : zuDezimal(a.wert);
+  const ende = a.typ === "bruch" ? endStellen(a.wert) : termStellen(x);
+  const anzeige = ende !== null && ende <= MAX_VORSCHAU_EXAKT
+    ? `= ${deutsch(runde(x, ende))}`
+    : `≈ ${deutsch(x.toFixed(Math.min(4, Math.max(2, stellenFuer({ stellen, art })))))}`;
   return einheit ? `${anzeige} ${einheit}` : anzeige;
 }

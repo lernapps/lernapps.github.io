@@ -206,6 +206,21 @@ test("BR-5: vorschau zeigt den Wert von Termen und Brüchen, sonst nichts", () =
   for (const leer of ["", "12,5", "3", "abc", "1/", "sqrt(-1)", "3 1/3"]) assert.equal(vorschau(leer), "", leer);
 });
 
+test("BR-5/TD-18: vorschau zeigt \"=\" genau dann, wenn die Dezimalanzeige den Wert exakt trifft", () => {
+  // Abbrechende Dezimalbrüche sind exakt, auch aus Termen mit Wurzel oder pi.
+  assert.equal(vorschau("1/4"), "= 0,25");
+  assert.equal(vorschau("1/8"), "= 0,125");
+  assert.equal(vorschau("1/64"), "= 0,015625");
+  assert.equal(vorschau("pi/pi/4"), "= 0,25");
+  assert.equal(vorschau("sqrt(2)*sqrt(2)/4"), "= 0,5");
+  assert.equal(vorschau("sqrt(2)^2/8", { einheit: "%", art: "prozent" }), "= 0,25 %");
+  assert.equal(vorschau("sqrt(2)*sqrt(8)/5"), "= 0,8");
+  // Periodische und irrationale Werte sowie Brüche mit mehr als sechs Stellen werden gerundet.
+  assert.equal(vorschau("1/3"), "≈ 0,33");
+  assert.equal(vorschau("2*pi"), "≈ 6,28");
+  assert.equal(vorschau("1/1024"), "≈ 0,00");
+});
+
 test("leere oder unlesbare Eingabe: keine-zahl, wert NaN", () => {
   for (const e of ["", "abc", "1/0", null, undefined]) {
     const r = pruefeZahlAntwort(e, 3);
