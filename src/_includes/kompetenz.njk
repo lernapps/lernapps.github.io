@@ -5,6 +5,8 @@ layout: basis.njk
 {%- set k = kompetenzDaten -%}
     <h1>{{ k.titel }}</h1>
 
+    <details id="erklaerung" class="erklaerung" open>
+      <summary>Erklärung: Warum, Regel, Beispiel, Video, Bild</summary>
     <section id="warum">
       <h2>Warum das wichtig ist</h2>
 {{ warum | renderContent("md") | safe }}
@@ -40,6 +42,7 @@ layout: basis.njk
       {% bild app.pfad, k, bild %}
     </section>
 {% endif %}
+    </details>
 
     <section id="uebung">
       <h2>Übung</h2>

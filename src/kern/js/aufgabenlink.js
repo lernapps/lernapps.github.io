@@ -2,6 +2,7 @@
 // Die Nummer ist das, was Kind und Tutor sich sagen; der Link trägt sie als URL-Parameter.
 // Außerdem: URL-Vorgaben lesen und Aufgabenlinks bauen. Generisch – nicht pro App ändern.
 import { parseZahl } from "./zahlen.js";
+import { leseSeed } from "./zufall.js";
 
 const KOPIEREN = "Link kopieren";
 const KOPIERT = "Kopiert";
@@ -66,4 +67,13 @@ export function aufgabenHref(seitenPfad, vorgaben, seed) {
   for (const [k, v] of Object.entries(vorgaben)) params.set(k, String(v).replace(".", ","));
   params.set("seed", String(seed));
   return `${seitenPfad}?${params.toString()}`;
+}
+
+/** Anker, bei denen die Übung das Ziel ist; jeder andere Anker zeigt in die Erklärung. */
+const UEBUNGS_ANKER = ["", "#uebung", "#aufgabenbild", "#trainer"];
+
+/** Deep Link auf eine Aufgabe (Nummer oder gültiger Aufgabenparameter), Anker nicht in der Erklärung → Übung im Fokus. */
+export function aufgabeImFokus(query, hash, zahlen = [], texte = []) {
+  if (!UEBUNGS_ANKER.includes(hash || "")) return false;
+  return leseSeed(query) !== undefined || Object.keys(leseVorgaben(query, zahlen, texte)).length > 0;
 }
