@@ -1,0 +1,49 @@
+:jbake-title: Was lernapps anders macht
+:jbake-type: page_toc
+:jbake-status: published
+:jbake-menu: abgrenzung
+:jbake-order: 1
+:filename: /abgrenzung/index.adoc
+
+:toc:
+
+[[section-abgrenzung]]
+== Was lernapps anders macht: Neu ist die Kombination, nicht der Baustein
+
+Keiner der Bausteine ist neu. Aufgabengeneratoren mit Zufallszahlen gibt es seit Jahrzehnten,
+KI-Tutoren seit ein paar Jahren. Neu ist, wie lernapps beides verbindet. Die App enthält keine KI; sie
+prüft jede Antwort deterministisch. Tutor ist ein beliebiger externer LLM-Chat, etwa claude.ai oder
+ChatGPT. App und Tutor koppelt nur das offene Web: `llms.txt` und `tutor.md` beschreiben die App, jede
+Aufgabe hat eine stabile Nummer und einen Deep Link (`?nr=42`), und das Kind kopiert nach dem Test eine
+Ergebniszeile zurück in den Chat.
+
+=== Drei Eigenschaften folgen daraus
+
+* *Statisch und still.* Die Seiten sind statisch: kein Konto, kein Backend, kein Tracking.
+* *Kein Grund, das Kind festzuhalten.* Das Projekt ist nicht kommerziell und offen. Es verdient nichts
+  an Verweildauer und muss das Kind nicht in der App halten.
+* *Zugeschnitten auf eine Klasse.* Ein KI-Coding-Agent baut eine App pro Thema in wenigen Stunden. Sie
+  passt zu dem, was die Klasse eines Kindes gerade durchnimmt.
+
+=== Verwandte Projekte teilen je einen Teil der Idee
+
+[cols="2,3,4",options="header"]
+|===
+| Projekt | Gemeinsam | Anders
+| https://de.serlo.org/serlo[serlo.org] | Gemeinnützig (Serlo Education e.V., finanziert über Spenden, Fördermitgliedschaften und Stiftungen wie die https://www.hanssauerstiftung.de/projekt/serlo/[Hans Sauer Stiftung], siehe https://de.serlo.org/transparenz[Transparenz]); werbefrei, ohne Anmeldung | Community-Plattform mit Backend und Redaktion; Aufgaben meist fest; keine Kopplung an ein externes LLM, kein Zuschnitt auf ein Kind
+| https://coopmaths.fr/alea[MathALÉA / CoopMaths] | Frei (AGPLv3), über 1000 Zufallsgeneratoren, teilbare Links mit Seed | Katalog für Lehrkräfte; keine Erklärseiten, kein LLM-Tutor
+| https://wims.math.cnrs.fr/wims/[WIMS] | Freie Software, Aufgaben mit Zufallswerten | Braucht eine Server-Plattform; kein LLM
+| https://blog.khanacademy.org/from-chat-to-classroom-explore-khan-academys-math-questions-in-chatgpt/[Khan Academy in ChatGPT] | Dieselbe Grundidee: externes LLM, Link zurück zur Aufgabe | An den proprietären Connector eines Anbieters gebunden; Konto nötig; zielt auf Lehrkräfte
+| https://github.com/fadzlan/spm-math-claude[spm-math-claude] | Statische Seite ohne Backend, Aufgaben mit Seed reproduzierbar, vermutlich mit Claude gebaut | Keine Kopplung an einen Tutor
+| https://news.ycombinator.com/item?id=43603275[Show HN: Mathespiel aus einem Arbeitsblatt] | Ein Elternteil baut mit Claude ein Spiel für das eigene Kind | Einzelstück; kein gemeinsamer Kern, kein Bezug zum Lehrplan
+| Khanmigo, bettermarks, Mathegym … | Üben mit Rückmeldung | Das Gegenmodell: kommerzielle Plattformen mit eingebauter KI
+|===
+
+=== Die Abgrenzung hat Grenzen
+
+Die Aussage „so etwas gibt es noch nicht“ stützt sich auf eine mehrsprachige Suche vom 23.09.2026 auf
+Deutsch, Englisch, Französisch, Spanisch, Portugiesisch, Chinesisch, Japanisch, Koreanisch und
+Russisch. Nicht gefunden heißt nicht: nicht vorhanden. Geschlossene Plattformen wie WeChat, Zhihu,
+Naver, VK und Telegram erreicht eine Websuche kaum. Lateinamerika ist nur dünn abgedeckt, Indien und
+Italien gar nicht. Und der Trend läuft in die andere Richtung: Große Plattformen binden sich direkt an
+einzelne Chatbots, statt sich über das offene Web jedem Chat zu öffnen.

@@ -37,6 +37,9 @@ Das Monorepo soll drei Dinge leisten.
   Zeile in der App-Konfiguration; Menü, Checkliste, Test, Übersicht, Manifest und Karten-Eintrag
   entstehen im Build. Eine Korrektur am Kern ist ein Commit für alle Apps.
 
+Worin sich dieser Ansatz von verwandten Projekten unterscheidet, zeigt die Seite
+xref:../../abgrenzung/index.adoc#section-abgrenzung[Was lernapps anders macht].
+
 Die fachlichen Anwendungsfälle, auf die sich Tests und Szenarien beziehen:
 
 [cols="1,3,2",options="header"]

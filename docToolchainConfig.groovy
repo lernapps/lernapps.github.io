@@ -42,7 +42,7 @@ microsite.with {
     colorPrimary     = '#1d4ed8'
     colorPrimaryDark = '#1e3a8a'
     colorLink        = '#1e40af'
-    menu = [arc42: 'Architektur (arc42)']
+    menu = [abgrenzung: 'Was lernapps anders macht', arc42: 'Architektur (arc42)']
     additionalConverters = [:]
 }
 
