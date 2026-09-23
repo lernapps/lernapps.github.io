@@ -14,12 +14,12 @@ ifndef::imagesdir[:imagesdir: ../../images]
 Das System „Lern-Apps“ ist das Monorepo mit allem, was daraus entsteht: die ausgelieferte Site unter
 https://lernapps.github.io/ (Apps, Mathe-Karte, Übersicht, diese Doku) und der Build, der sie erzeugt.
 Zur Laufzeit gibt es keinen Server und keine Schnittstelle, die das System selbst aufruft. Nachbarn
-erreicht es auf drei Wegen: über Links, denen ein Mensch oder ein LLM folgt (claude.ai, GitHub Issues); über das YouTube-iframe,
+erreicht es auf drei Wegen: über Links, denen ein Mensch oder ein LLM folgt (claude.ai, GitHub Issues, serlo.org); über das YouTube-iframe,
 das erst nach einem Klick entsteht; und zur Build-Zeit über Paketquellen und GitHub. Dieselbe
 Systemgrenze zeigt xref:05_building_block_view.adoc#section-whitebox-overall-system[Kapitel 5, Ebene 1].
 
 [[section-business-context]]
-=== Fachlicher Kontext: Zwei Menschen, sechs Nachbarsysteme
+=== Fachlicher Kontext: Zwei Menschen, sieben Nachbarsysteme
 
 [plantuml, target=kontext-fachlich, format=svg]
 ....
@@ -35,6 +35,7 @@ System(lernapps, "Lern-Apps", "Monorepo lernapps.github.io: Apps, Mathe-Karte, �
 
 System_Ext(claude, "claude.ai", "Claude als Tutor; liest tutor.md und llms.txt")
 System_Ext(youtube, "YouTube", "youtube-nocookie.com, erst nach Klick")
+System_Ext(serlo, "serlo.org", "zweite Erklärung von Serlo Education e.V.; nur per Klick")
 System_Ext(github, "GitHub", "Organisation lernapps: Repository, Pull Requests, Actions")
 System_Ext(issues, "GitHub Issues", "Rückmeldung von Kindern und Eltern; nur per Klick, Konto nötig, ab 13 Jahren")
 System_Ext(pages, "GitHub Pages", "liefert lernapps.github.io aus")
@@ -45,6 +46,7 @@ Rel(kind, claude, "spricht mit dem Tutor, schickt Aufgabennummer und Ergebniszei
 Rel(claude, lernapps, "liest llms.txt, tutor.md; schickt Aufgabenlinks", "HTTPS")
 Rel(lernapps, youtube, "bettet Video ein, nur nach Klick", "iframe")
 Rel(kind, issues, "meldet Fehler oder Wünsche, nur nach Klick auf den Link", "HTTPS")
+Rel(kind, serlo, "liest eine zweite Erklärung, nur nach Klick auf den Link", "HTTPS")
 Rel(issues, autor, "zeigt die Rückmeldung")
 Rel(autor, github, "entwickelt, pusht, merged PRs", "git, gh")
 Rel(github, lernapps, "führt Tests und Build aus", "Actions")
@@ -60,6 +62,7 @@ Rel(lernapps, pages, "wird ausgeliefert als ein Artefakt", "deploy-pages")
 | App-Autor:in | Test- und Build-Meldungen (`npm test`, `npm run build`) | Konfiguration, Generatoren, Zeichenfunktionen, Markdown-Seiten, Kartendaten, ADRs
 | claude.ai | `tutor.md` und `llms.txt` je App, `llms.txt` der Übersicht und der Karte, Aufgaben-URLs | Nichts. Das System meldet dem Tutor nichts; das Kind trägt Nummer und Ergebniszeile.
 | YouTube | Video-ID im iframe-Aufruf, IP-Adresse und Browserdaten des Kindes (erst nach Klick) | Videoplayer
+| serlo.org | Nichts. Die Kompetenzseite enthält nur einen Link unter `#serlo`; erst der Klick öffnet de.serlo.org. | Einen Artikel in anderen Worten, kostenlos, werbefrei, ohne Anmeldung (gemeinnütziger Serlo Education e.V.). Die Adresse prüft die Autor:in beim Anlegen; der Build prüft nur `https://de.serlo.org/…`, ohne Netzabruf.
 | GitHub Issues | Nichts. Die Seite enthält nur einen Link; erst der Klick öffnet GitHub. | Rückmeldungen als Issues, die die Autor:in liest. GitHub verlangt ein Konto und ein Mindestalter von 13 Jahren.
 | GitHub | Quellcode, Commits, Pull Requests | CI-Läufe (`pruefen.yml`, `pages.yml`), Organisation und Rechte
 | GitHub Pages | Ein Artefakt: Eleventy-Ausgabe `_site/` mit der Doku unter `_site/docs/` | HTTPS-Auslieferung unter `https://lernapps.github.io/`
@@ -68,9 +71,8 @@ Rel(lernapps, pages, "wird ausgeliefert als ein Artefakt", "deploy-pages")
 
 Der Skill `lern-app`, mit dem die Autor:in neue Apps anlegt, ist kein Nachbar mehr: Er liegt seit PR #7
 im Monorepo unter `werkzeuge/skill/lern-app/`. Die alten Einzel-Repos (`raifdmueller.github.io/<app>/`),
-die alte Mathe-Karte, die Vorlage `lern-app-template` und das alte Skill-Repo `lern-app-skill` laufen
-noch, bis sie gelöscht sind. Sie sind nicht Teil des Systems und werden von ihm nicht verlinkt; das
-Risiko steht als xref:11_technical_risks.adoc#r-016[R-016] in Kapitel 11.
+die alte Mathe-Karte, die Vorlage `lern-app-template` und das alte Skill-Repo `lern-app-skill` sind
+am 23.09.2026 gelöscht worden; ihre Pages-Adressen liefern 404. Das erledigte Risiko steht als xref:11_technical_risks.adoc#r-016[R-016] in Kapitel 11.
 
 [[section-technical-context]]
 === Technischer Kontext: HTTPS-GET, ein Deep Link, ein iframe und zwei Paketquellen
@@ -84,6 +86,7 @@ Risiko steht als xref:11_technical_risks.adoc#r-016[R-016] in Kapitel 11.
 | Tutor → Kind → App | Aufgaben-URL | `<app>/<seite>.html?<parameter>&seed=<n>`, `<app>/test.html?nr=<n>&modus=voll\|schnell`, Anker `#warum` … `#uebung`. Vertrag im `llms.txt` jeder App.
 | Kind → Tutor | Text (Zwischenablage) | Ergebniszeile `Test Nr. 4711 (<App>, Schnelltest): 1 ✓ 2 ~ 3 ✗`; „Aufgabe Nr. 42“; kopierter Aufgabenlink.
 | Seite → GitHub Issues | Link `https://github.com/lernapps/lernapps.github.io/issues` | Statischer `<a>` auf jeder Seite (entschieden am 23.09.2026, noch nicht umgesetzt). Keine Anfrage vor dem Klick; danach gelten die Regeln von GitHub.
+| Seite → serlo.org | Link `https://de.serlo.org/<fach>/<id>/<titel>` | Statischer `<a rel="noopener">` unter `#serlo`, nur wenn das Front Matter `serlo: { url, titel }` setzt (`src/_includes/kompetenz.njk`). Kein iframe, kein Vorschaubild, keine Anfrage vor dem Klick; `pruefeSerloLinks` (`lib/pruefungen.js`) bricht den Build bei anderen Adressen ab.
 | Seite → YouTube | `<iframe src="https://www.youtube-nocookie.com/embed/<id>?autoplay=1">` | Entsteht erst nach Klick oder bei gesetztem Merker (`src/kern/js/video.js:12-15`).
 | Autor:in → GitHub | git über HTTPS, `gh` | Feature-Branch, PR, Merge in `lernapps/lernapps.github.io`.
 | GitHub Actions → Paketquellen | `npm ci`; `git clone` + Gradle | Eleventy exakt nach `package-lock.json`; docToolchain am festen Commit, zwischengespeichert per `actions/cache`.

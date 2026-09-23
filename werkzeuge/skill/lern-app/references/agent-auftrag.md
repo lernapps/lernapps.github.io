@@ -29,6 +29,7 @@ Competencies (in this order):
      variablenterm (form: ausmultipliziert | faktorisiert) | auswahl | radio | tabelle
    - Picture: <…>
    - Video: <id + exact title + channel, verified via oEmbed> | none → ohneVideo: "<one-line note>"
+   - serlo: <url + exact title, verified with curl (200, article, covers the competency)> | none → leave `serlo` out
 2. …
 
 Per competency, test-first: src/<app>/test/<id>.test.js (see it fail) → js/aufgaben/<id>.js → js/vis/<id>.js
