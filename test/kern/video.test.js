@@ -74,3 +74,66 @@ test("das Play-Symbol ist neutral: Kreis mit Dreieck, keine Form des YouTube-Log
   assert.doesNotMatch(PLAY_SYMBOL.dreieck, /M27 34l18-10-18-10z/);
   assert.doesNotMatch(JSON.stringify(PLAY_SYMBOL), /M66\.5/);
 });
+
+// Kleiner Fake-DOM: gerade genug für initVideos, Platzhalter, Klick und iframe.
+function fakeDom() {
+  const knoten = (tag) => {
+    const n = {
+      tag, attrs: {}, kinder: [], eltern: undefined, hoerer: {}, _text: "", checked: false,
+      setAttribute(k, v) { this.attrs[k] = String(v); },
+      append(...ks) { for (const k of ks) { const x = typeof k === "string" ? Object.assign(knoten("#text"), { _text: k }) : k; x.eltern = this; this.kinder.push(x); } },
+      remove() { if (this.eltern) this.eltern.kinder = this.eltern.kinder.filter((k) => k !== this); },
+      replaceWith(neu) { const i = this.eltern.kinder.indexOf(this); neu.eltern = this.eltern; this.eltern.kinder[i] = neu; },
+      addEventListener(typ, f) { this.hoerer[typ] = f; },
+      click() { this.hoerer.click?.(); },
+      querySelectorAll(sel) {
+        if (sel === ":scope > :not(h2)") return [...this.kinder.filter((k) => k.tag !== "h2")];
+        const alle = []; const lauf = (x) => { for (const k of x.kinder) { alle.push(k); lauf(k); } }; lauf(this);
+        if (sel === "button" || sel === "iframe") return alle.filter((k) => k.tag === sel);
+        if (sel === "section.video-karte[data-youtube-id]") return alle.filter((k) => k.tag === "section");
+        return [];
+      },
+      set textContent(t) { this._text = t; },
+      get textContent() { return this._text + this.kinder.map((k) => k.textContent).join(""); },
+    };
+    return n;
+  };
+  globalThis.document = { createElement: knoten, createElementNS: (_, tag) => knoten(tag) };
+  const wurzel = knoten("body");
+  const section = knoten("section");
+  section.id = "video";
+  section.dataset = { youtubeId: "XDvDfzdP_Fc", titel: "Prozentwert | Lehrerschmidt", kanal: "Lehrerschmidt" };
+  section.append(knoten("h2"));
+  wurzel.append(section);
+  return { wurzel, section };
+}
+
+test("vor dem Klick steht der Hinweis, nach dem Klick kein Text über übertragene Daten", async () => {
+  const { initVideos } = await import("../../src/kern/js/video.js");
+  const { wurzel, section } = fakeDom();
+  try {
+    initVideos(P, wurzel);
+    assert.match(section.textContent, /Beim Start werden Daten \(u\. a\. deine IP-Adresse\) an YouTube\/Google übertragen\./);
+    section.querySelectorAll("button")[0].click();
+    assert.equal(section.querySelectorAll("iframe").length, 1);
+    assert.doesNotMatch(section.textContent, /übertragen|Google|geladen/);
+  } finally {
+    delete globalThis.document;
+  }
+});
+
+test("mit Merker lädt das Video direkt, bietet \"Merken aufheben\" und keinen Text über übertragene Daten", async () => {
+  const { initVideos } = await import("../../src/kern/js/video.js");
+  const { wurzel, section } = fakeDom();
+  try {
+    speichereDirektLaden(P, true);
+    initVideos(P, wurzel);
+    assert.match(section.textContent, /Merken aufheben/);
+    assert.doesNotMatch(section.textContent, /übertragen|Google|geladen/);
+    section.querySelectorAll("button")[0].click();
+    assert.equal(ladeDirektLaden(P), false);
+    assert.match(section.textContent, /Videos werden ab jetzt erst nach Klick geladen\./);
+  } finally {
+    delete globalThis.document;
+  }
+});

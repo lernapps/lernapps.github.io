@@ -32,7 +32,7 @@ auch hier.
 | Mini-DOM | Kleine DOM-Nachbildung, in die Zeichenfunktionen beim Build zeichnen. | `src/kern/js/svg.js`
 | Zeichenfunktion | `zeichne…(svg, aufgabe, ergebnis)`; zeichnet das Bild einer Kompetenz im Build und im Browser. | `src/<app>/js/vis/<id>.js`
 | Kompetenz | Eine beobachtbare Fähigkeit („Ich kann …“). Je Kompetenz eine Seite, ein Generator, ein Test, optional ein Bild. | `KOMPETENZEN`
-| Kompetenzseite | Aus Front Matter erzeugte Seite mit Warum, Regel, Beispiel, Video, Bild, Übung. | `src/<app>/<id>.md`, `kompetenz.njk`
+| Kompetenzseite | Aus Front Matter erzeugte Seite mit Warum, Regel, Beispiel, Bild, Video, Übung. | `src/<app>/<id>.md`, `kompetenz.njk`
 | Front Matter | YAML-Kopf einer Markdown-Datei; bei Kompetenzseiten der ganze Inhalt. | `<id>.md`
 | Aufgabennummer | Ganze Zahl, aus der ein Generator eine Aufgabe deterministisch erzeugt; ohne Angabe 1–9999; im Text „Aufgabe Nr. 42“. | `erzeugeZufall`, `leseSeed`
 | Seed | Technischer Name der Aufgabennummer in URL und Code; erscheint nie im Text für Kinder. | `seed`

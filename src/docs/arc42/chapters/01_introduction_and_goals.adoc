@@ -26,7 +26,7 @@ liegt deshalb im selben Repository (xref:09_architecture_decisions.adoc#adr-018[
 
 Das Monorepo soll drei Dinge leisten.
 
-. *Üben ohne Anmeldung.* Jede Kompetenz hat eine Seite mit Warum, Regel, Beispiel, Video, Bild und
+. *Üben ohne Anmeldung.* Jede Kompetenz hat eine Seite mit Warum, Regel, Beispiel, Bild, Video und
   einem Aufgabengenerator mit Sofort-Feedback, Tipp und Lösungsweg. Eine Checkliste mit
   Selbsteinschätzung und ein Test (voll oder schnell) zeigen, wo das Kind steht. Text und Bild sind
   ohne JavaScript lesbar.

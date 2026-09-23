@@ -58,7 +58,7 @@ Follow "New competency" in `CLAUDE.md`, test-first:
 - **Numbers**: one rule for numeric answers (`src/kern/js/zahlantwort.js`): declare `art` and `stellen`, build with `zahlenfeld`, check with `pruefeZahlAntwort`, diagnose with `passtZu`. No per-call tolerances.
 - **Algebra**: field type `variablenterm` with `form: "ausmultipliziert"` or `"faktorisiert"`, and `passtZuTerm` to diagnose typical wrong terms. A wrong form is only a neutral hint, and "faktorisiert" is coarse — for factorising tasks also check the product structure in the app's checker.
 - **Picture** (`src/<app>/js/vis/<id>.js`, `zeichne…(svg, aufgabe, ergebnis)` with `svgEl`): the same function renders the static SVG at build time and redraws it in the browser; never touch `document`. Sciences live here — see `references/visualisierungen.md`.
-- **Page** `src/<app>/<id>.md`, front matter only (layout `kompetenz.njk`): `kompetenz`, `beschreibung`, `warum` (2–3 sentences), `regel`, `beispiel`, `video: { id, titel, kanal }` or `ohneVideo`, `bild: { text, funktion, seed, … }`. Everything but the exercise reads without JavaScript.
+- **Page** `src/<app>/<id>.md`, front matter only (layout `kompetenz.njk`): `kompetenz`, `beschreibung`, `warum` (2–3 sentences), `regel`, `beispiel`, `video: { id, titel, kanal }` or `ohneVideo`, `bild: { text, funktion, seed, … }`. The page shows Warum, Regel, Beispiel, Bild, Video, Übung in this order. Everything but the exercise reads without JavaScript.
 - **Config**: entry in `KOMPETENZEN` (`id`, `titel`, `kurz`, `seite`, `generator`, for Mathe `kartenKnoten`). The menu numbers entries itself, so `kurz` is a formula or keyword ("(a+b)²", "Ausklammern"), never an ordinal like "1. Formel".
 - `npm test && npm run build` green, commit, next competency.
 

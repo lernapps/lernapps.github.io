@@ -14,8 +14,8 @@ Weitere Lern-Apps (jede mit eigener llms.txt) stehen auf der Übersicht, als Tex
 Ein statischer, interaktiver Mathe-Trainer für die Wahrscheinlichkeitsrechnung
 (Klasse 8, Gymnasium Hessen, Vorbereitung auf einen Mathe-Wettbewerb). Die Lernende
 ist etwa 13 Jahre alt und spricht Deutsch. Acht Kompetenzseiten, jede mit:
-Warum-Absatz, Regel, ausgerechnetem Beispiel, Video-Karte, SVG-Bild (Urne, Menge oder Baum;
-ohne JavaScript sichtbar, in der Übung geht es mit der Aufgabe mit) und
+Warum-Absatz, Regel, ausgerechnetem Beispiel, SVG-Bild (Urne, Menge oder Baum;
+ohne JavaScript sichtbar, in der Übung geht es mit der Aufgabe mit), Video-Karte und
 einem Aufgabengenerator mit Sofort-Feedback, Tipp, "Lösung zeigen/verbergen", "Neue Aufgabe"
 und einem Zähler richtig/gesamt für die Sitzung.
 
@@ -56,11 +56,11 @@ und einem Zähler richtig/gesamt für die Sitzung.
   `seed`): macht den Generator deterministisch. Ohne Aufgabennummer wählt die App eine
   zufällige Nummer von 1 bis 9999.
 - Anker auf jeder Kompetenzseite: `#warum`, `#regel` (die Regel), `#beispiel`
-  (Rechenbeispiel), `#video` (Lehrerschmidt-Video als Zwei-Klick-Karte oder Hinweis, dass
-  es keines gibt), `#visualisierung` (das Bild zum Beispiel, ändert sich nie), `#uebung` (Aufgabengenerator mit
+  (Rechenbeispiel), `#visualisierung` (das Bild zum Beispiel, ändert sich nie), `#video`
+  (Lehrerschmidt-Video als Zwei-Klick-Karte oder Hinweis, dass es keines gibt), `#uebung` (Aufgabengenerator mit
   eigenem Bild zur aktuellen Aufgabe, `#aufgabenbild`, nur mit JavaScript).
 - Deep Link: Trägt der Link eine Aufgabennummer (`seed`/`nr`) oder Aufgabenparameter und keinen Anker
-  in die Erklärung, klappt die Seite die Erklärung (Warum bis Bild) zu und springt zur Übung. Ein Anker
+  in die Erklärung, klappt die Seite die Erklärung (Warum bis Video) zu und springt zur Übung. Ein Anker
   wie `#visualisierung` oder `#regel` lässt die Erklärung offen. Ohne JavaScript ist alles offen.
 - Unter jeder Aufgabe steht "Aufgabe Nr. N", daneben "Link zu dieser Aufgabe" und "Link
   kopieren". Der Link enthält die Parameter aus der aufgerufenen Adresse plus die

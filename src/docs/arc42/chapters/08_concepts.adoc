@@ -51,7 +51,7 @@ in Node.
 | ID | Maßnahme | Schließt | Quelle / ADR
 | M-01 | Kein Backend, keine Konten, keine Cookies. | T-006 (teilweise), T-010 (teilweise) | ADR-001
 | M-02 | Der Build prüft die Ausgabe: keine externen `src`/`href`/`srcset`/`data` in `script`, `link`, `img`, `iframe` u. a.; keine externen `import`/`@import`/`url()` in JS und CSS. Jeder Fund bricht den Build. | T-007 | `lib/pruefungen.js:8-22`; ADR-008, ADR-017
-| M-03 | Zwei-Klick-Video: Platzhalter mit lokal gezeichnetem, neutralem Play-Symbol, kein Vorschaubild; iframe erst nach Klick, nur `youtube-nocookie.com`; Hinweis vor und nach dem Klick. | T-005 | `src/kern/js/video.js:12-15`, `:62-80`; ADR-005, ADR-019
+| M-03 | Zwei-Klick-Video: Platzhalter mit lokal gezeichnetem, neutralem Play-Symbol, kein Vorschaubild; iframe erst nach Klick, nur `youtube-nocookie.com`; Hinweis vor dem Klick. | T-005 | `src/kern/js/video.js:12-15`, `:61-79`; ADR-005, ADR-019
 | M-04 | URL-Parameter werden validiert: Nummer nur Ziffern, Zahlen nur > 0 und < 1e9, Texte nur Kürzel, Modus nur `voll`/`schnell`. Nur Generatoren erzeugen HTML. | T-003 | `src/kern/js/zufall.js:47`, `src/kern/js/aufgabenlink.js:49-54`, `src/kern/js/testablauf.js:15-18`; ADR-004
 | M-05 | Eigene Parser ohne `eval`; Exponent höchstens 64. | T-008, T-009 | `src/kern/js/bruch.js:65`; ADR-006, ADR-009
 | M-06 | TalkItOver liegt eingebettet im Repo (`vendor/`), Version und Lizenz im Dateikopf; Änderungen laufen als Diff durch den PR. | T-004 (teilweise) | `src/kern/vendor/talkitover.js`
@@ -260,7 +260,8 @@ nicht.
 Entschieden in xref:09_architecture_decisions.adoc#adr-017[ADR-017]. `src/<app>/<id>.md` enthält nur
 Front Matter: `kompetenz`, `beschreibung`, `warum`, `regel`, `beispiel` (Markdown oder HTML),
 `video: { id, titel, kanal }` oder `ohneVideo`, `bild: { text, funktion, seed, geloest, vorgaben }`.
-`src/_includes/kompetenz.njk` setzt daraus immer dieselben Abschnitte mit denselben Ankern. Der Build
+`src/_includes/kompetenz.njk` setzt daraus immer dieselben Abschnitte mit denselben Ankern, in dieser Reihenfolge: Warum, Regel,
+Beispiel, Bild, Video, Übung. Der Build
 verlangt je Kompetenz Seite, Generator und Test (`lib/pruefungen.js:36-49`) und dass `llms.txt` jede
 Seite nennt (`:31-33`).
 
