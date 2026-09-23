@@ -56,6 +56,12 @@ untouched and keep running until they are migrated.
 - After writing `_site`, `eleventy.config.js` runs `lib/pruefungen.js`: no external resources in HTML, no external
   imports in JS/CSS, every source file under 500 lines, per competency `<id>.md` + generator + `test/<id>.test.js`,
   the app's `llms.txt` mentions every page. Any violation fails the build.
+- The tutor contract (`lib/llms-vertrag.js`, TD-3): every deep link in an app's `llms.txt` and `tutor.md` must hit an
+  existing page and anchor, use only parameters the generator exports (`URL_ZAHLEN`, `URL_TEXTE`, plus `seed`/`nr`;
+  `test.html`: `nr`, `seed`, `modus`), and each value must change the task (a default is fine if another documented
+  value, e.g. from `zuege=2|3`, changes it for every task number). Every generator parameter must appear in the page's
+  `###` section, the `## URL-Parameter …` section or the page's row in the parameter table; that row may name only
+  accepted parameters.
 - Cache busting: the build appends `?v=<hash over all shipped JS/CSS>` to every local import, `<script src>` and
   stylesheet. Never write `?v=` in sources. The footer shows the site version from `package.json`; bump it
   (SemVer) on user-visible changes.
