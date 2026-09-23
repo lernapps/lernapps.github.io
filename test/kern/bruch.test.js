@@ -2,7 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
   bruch, addiere, multipliziere, subtrahiere, potenz, vergleiche, istGleich,
-  zuDezimal, parseBruch, formatBruch, formatDezimal, formatProzent,
+  zuDezimal, parseBruch, formatBruch, formatDezimal, formatProzent, formatAlle, endStellen,
   auswerten, auswertenMitInfo, leseTerm,
 } from "../../src/kern/js/bruch.js";
 
@@ -42,6 +42,23 @@ test("Formatierung", () => {
   assert.equal(formatDezimal(bruch(1, 4)), "0,25");
   assert.equal(formatProzent(bruch(1, 6)), "16,7 %");
   assert.equal(formatProzent(bruch(1, 2)), "50 %");
+});
+
+test("TD-18: endStellen zählt die Stellen abbrechender Dezimalbrüche, null bei periodischen", () => {
+  assert.equal(endStellen(bruch(1, 4)), 2);
+  assert.equal(endStellen(bruch(3, 1)), 0);
+  assert.equal(endStellen(bruch(1, 64)), 6);
+  assert.equal(endStellen(bruch(1, 3)), null);
+});
+
+test("TD-18: formatAlle schreibt \"=\" nur, wenn Dezimal- und Prozentangabe exakt sind", () => {
+  assert.equal(formatAlle(bruch(1, 4)), "1/4 = 0,25 = 25 %");
+  assert.equal(formatAlle(bruch(1, 8)), "1/8 = 0,125 = 12,5 %");
+  assert.equal(formatAlle(bruch(1, 1)), "1 = 1 = 100 %");
+  assert.equal(formatAlle(bruch(1, 3)), "1/3 ≈ 0,333 ≈ 33,3 %");
+  assert.equal(formatAlle(bruch(1, 6)), "1/6 ≈ 0,167 ≈ 16,7 %");
+  // 1/16 = 0,0625: drei Dezimalstellen und eine Prozentstelle reichen nicht.
+  assert.equal(formatAlle(bruch(1, 16)), "1/16 ≈ 0,063 ≈ 6,3 %");
 });
 
 test("auswerten rechnet Produkte, Summen, Potenzen und Klammern ohne eval", () => {

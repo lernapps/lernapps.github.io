@@ -12,7 +12,7 @@
  * wenn unlesbar), bruch (exakter Wert der Eingabe oder null), typ, dezimalstellen, meldung (bei Hinweisen) }.
  */
 import { runde } from "./zahlen.js";
-import { bruch, leseTerm, istGleich as bruchGleich, zuDezimal } from "./bruch.js";
+import { bruch, leseTerm, istGleich as bruchGleich, zuDezimal, endStellen } from "./bruch.js";
 
 export const STANDARD_STELLEN = Object.freeze({ geld: 2, prozent: 1, zahl: 2 });
 
@@ -135,15 +135,6 @@ export function zahlenfeld(feld, erwartet) {
   const art = feld.art ?? "zahl";
   const stellen = stellenFuer(feld);
   return { ...feld, typ: feld.typ ?? "zahl", art, stellen, hinweis: feld.hinweis ?? rundungsHinweis({ ...feld, art, stellen }, erwartet) };
-}
-
-// Stellen, nach denen ein Bruch als Dezimalzahl endet (null, wenn er periodisch ist).
-function endStellen({ n }) {
-  let zwei = 0;
-  let fuenf = 0;
-  while (n % 2 === 0) { n /= 2; zwei++; }
-  while (n % 5 === 0) { n /= 5; fuenf++; }
-  return n === 1 ? Math.max(zwei, fuenf) : null;
 }
 
 // Stellen, mit denen ein Term-Wert (Wurzel, pi) als Dezimalzahl exakt ist, bis MAX_VORSCHAU_EXAKT; sonst null.
