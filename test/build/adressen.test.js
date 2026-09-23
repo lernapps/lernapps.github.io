@@ -25,3 +25,11 @@ test("eine eigene Domain ohne github.io braucht die Repo-Adresse ausdrücklich",
   assert.equal(a.pfadPraefix, "/");
   assert.equal(a.quellcode("binom"), "https://github.com/x/y/tree/main/src/binom");
 });
+
+test("die Site einer Organisation an der Wurzel: Repository <org>.github.io, kein Pfad-Präfix", () => {
+  const a = leiteAdressenAb("https://lernapps.github.io/");
+  assert.equal(a.pfadPraefix, "/");
+  assert.equal(a.repo, "https://github.com/lernapps/lernapps.github.io");
+  assert.equal(a.appUrl("binom"), "https://lernapps.github.io/binom/");
+  assert.equal(a.quellcode("binom"), "https://github.com/lernapps/lernapps.github.io/tree/main/src/binom");
+});
