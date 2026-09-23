@@ -1,0 +1,48 @@
+{#- Seitengerüst aller Seiten. Mit `app`: App-Seite (Kopf mit Menü, Fachfarbe); ohne: Übersicht des Monorepos. -#}
+{%- set wurzel = "../" if app else "" -%}
+{%- set farbe = app.farbe if app else site.farbe -%}
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ seitenTitel }}{% if app %} – {{ app.titel }}{% endif %}</title>
+  {%- if beschreibung %}
+  <meta name="description" content="{{ beschreibung }}">{% endif %}
+  <link rel="canonical" href="{{ app.basisUrl if app else site.basis }}{{ '' if seite == 'index.html' else seite }}">
+  <link rel="icon" href="{{ '' if app else wurzel }}favicon.svg" type="image/svg+xml">
+  {%- if app %}
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">{% endif %}
+  <meta name="theme-color" content="{{ farbe.primaer }}">
+  <link rel="stylesheet" href="{{ wurzel }}kern/css/stil.css">
+  {%- if app.css %}
+  <link rel="stylesheet" href="css/{{ app.pfad }}.css">{% endif %}
+  <style>:root { --farbe-primaer: {{ farbe.primaer }}; --farbe-primaer-dunkel: {{ farbe.dunkel }}; }</style>
+</head>
+<body>
+  <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
+  <header class="kopf">
+{%- if app %}
+    <a class="marke" href="index.html"{% if seite == "index.html" %} aria-current="page"{% endif %}>{{ app.titel }}</a>
+    <nav class="themen" aria-label="Themen">
+      <ul>
+        {%- for k in app.kompetenzen %}
+        <li><a href="{{ k.seite }}"{% if k.seite == seite %} aria-current="page"{% endif %}><span class="nummer">{{ k.nr }}</span> {{ k.kurz }}</a></li>
+        {%- endfor %}
+      </ul>
+    </nav>
+{%- else %}
+    <a class="marke" href="index.html" aria-current="page">{{ site.titel }}</a>
+{%- endif %}
+  </header>
+
+  <main id="inhalt">
+{{ content | safe }}
+  </main>
+
+  <footer class="fuss">
+    <p>{% if app %}{{ app.titel }} · {% endif %}{{ site.titel }} Version {{ site.version }} · <a href="{{ app.quellcode if app else site.repo }}">Quellcode auf GitHub</a>{% if app %} · <a href="index.html#datenschutz">Datenschutz</a> · <a href="{{ wurzel }}">Alle Apps</a>{% endif %}</p>
+  </footer>
+</body>
+</html>

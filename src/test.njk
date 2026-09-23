@@ -1,0 +1,61 @@
+---
+pagination: { data: apps, size: 1, alias: app }
+permalink: "{{ app.pfad }}/test.html"
+layout: basis.njk
+seite: test.html
+seitenTitel: Test
+---
+    <h1>Test Nr. <span data-test-nr>…</span></h1>
+    <p class="test-stand" data-stand hidden></p>
+
+    <section id="start" data-start>
+      <p>Der Test fragt jede Kompetenz der Checkliste ab – ohne Tipp, ohne Lösung, ohne Zeitmessung. Am Ende siehst du, wo du sicher bist und wo es noch hakt. Diese Zeile kannst du Claude schicken.</p>
+      <p><strong>Test:</strong> zwei Aufgaben je Kompetenz. <strong>Schnelltest:</strong> eine Aufgabe je Kompetenz.</p>
+      <div class="aktionen">
+        <button type="button" data-modus="voll"><span>Test starten (<span data-anzahl="voll">2 Aufgaben</span>)</span></button>
+        <button type="button" data-modus="schnell"><span>Schnelltest starten (<span data-anzahl="schnell">1 Aufgabe</span>)</span></button>
+        <a class="knopf" href="index.html">Zurück zur Checkliste</a>
+      </div>
+      <noscript><p>Für den Test brauchst du JavaScript. Die Erklärungen auf den Kompetenzseiten funktionieren auch ohne.</p></noscript>
+    </section>
+
+    <section id="aufgabe" data-aufgabe hidden>
+      <div class="trainer">
+        <p class="legende" data-kompetenz></p>
+        <p class="aufgabe-text" data-aufgabe-text></p>
+        <form novalidate>
+          <div class="felder" data-felder></div>
+          <div class="aktionen">
+            <button type="submit" class="primaer">Weiter</button>
+            <a class="knopf" href="index.html">Abbrechen</a>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section id="ergebnis" data-ergebnis hidden>
+      <h2>Dein Ergebnis</h2>
+      <table class="ergebnis">
+        <thead><tr><th scope="col">Kompetenz</th><th scope="col">Ergebnis</th></tr></thead>
+        <tbody data-ergebnis-zeilen></tbody>
+      </table>
+      <p>Schick diese Zeile an Claude, dann fängt er da an, wo es hakt.</p>
+      <p class="ergebniszeile">
+        <input type="text" readonly data-ergebnis-zeile aria-label="Ergebniszeile für den Tutor">
+        <button type="button" data-kopieren>Kopieren</button>
+      </p>
+      <p class="legende" data-speicherhinweis></p>
+      <div class="aktionen">
+        <a class="knopf primaer" data-nochmal href="test.html">Nochmal (neue Nummer)</a>
+        <a class="knopf" href="index.html#checkliste">Zur Checkliste</a>
+      </div>
+    </section>
+  <script type="module">
+    import { APP, KOMPETENZEN } from "./js/app.config.js";
+    import { starteTestseite } from "../kern/js/testseite.js";
+{%- for k in app.kompetenzen %}
+    import * as generator{{ loop.index }} from "./{{ k.modulPfad }}";
+{%- endfor %}
+    starteTestseite({ app: APP, kompetenzen: KOMPETENZEN, generatoren: {
+{%- for k in app.kompetenzen %} "{{ k.id }}": generator{{ loop.index }},{% endfor %} } });
+  </script>

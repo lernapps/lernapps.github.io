@@ -1,0 +1,60 @@
+---
+pagination: { data: apps, size: 1, alias: app }
+permalink: "{{ app.pfad }}/index.html"
+layout: basis.njk
+seite: index.html
+seitenTitel: Start
+eleventyComputed:
+  beschreibung: "{{ app.beschreibung }}"
+---
+{%- set tutorUrl = app.basisUrl + "tutor.md" -%}
+{%- set prompt = "Lade " + tutorUrl + " und unterrichte mich danach. Frag mich zuerst, was ich schon kann." -%}
+    <h1>{{ app.titel }}</h1>
+    <p>{{ app.intro }}</p>
+    <p class="uebersicht">Weitere Lern-Apps: <a href="../">alle Apps im Überblick →</a></p>
+
+    <section id="checkliste">
+      <h2>Deine Checkliste</h2>
+      <p>Schätze dich bei jeder Kompetenz selbst ein – oder lass den Test entscheiden. Beides bleibt nur in diesem Browser gespeichert.</p>
+      <div class="aktionen">
+        <a class="knopf primaer" href="test.html?modus=voll">Test starten</a>
+        <a class="knopf" href="test.html?modus=schnell">Schnelltest (kurz)</a>
+      </div>
+      <table class="checkliste">
+        <thead>
+          <tr><th scope="col">Kompetenz</th><th scope="col">Sicher</th><th scope="col">Teils</th><th scope="col">Noch üben</th><th scope="col">Test</th></tr>
+        </thead>
+        <tbody>
+{%- for k in app.kompetenzen %}
+          <tr>
+            <td>{{ k.nr }}. <a href="{{ k.seite }}">{{ k.titel }}</a></td>
+{%- for stufe in [["S", "Sicher"], ["T", "Teils"], ["Ü", "Noch üben"]] %}
+            <td><input type="radio" name="k-{{ k.id }}" value="{{ stufe[0] }}" data-kompetenz="{{ k.id }}" aria-label="{{ stufe[1] }}: {{ k.titel }}"></td>
+{%- endfor %}
+            <td data-test="{{ k.id }}">–</td>
+          </tr>
+{%- endfor %}
+        </tbody>
+      </table>
+      <noscript><p>Ohne JavaScript wird die Einschätzung nicht gespeichert – die Übungsseiten brauchen JavaScript für die Aufgaben, die Erklärungen nicht.</p></noscript>
+      <p class="legende" data-letzter-test></p>
+      <p class="legende" data-speicherhinweis></p>
+    </section>
+
+    <section id="tutor" class="tutor">
+      <h2>Mit Claude lernen</h2>
+      <p>Du kannst dir von Claude beim Üben helfen lassen. Claude fragt dich zuerst, was du schon kannst, erklärt Schritt für Schritt und schickt dich zu passenden Aufgaben in diesem Trainer.</p>
+      <talk-it-over url="{{ tutorUrl }}" prompt="Lade {url} und unterrichte mich danach. Frag mich zuerst, was ich schon kann." label="Mit Claude lernen" providers="claude,copy"></talk-it-over>
+      <p class="fallback">Ohne JavaScript: <a href="https://claude.ai/new?q={{ prompt | urlkodiert }}" rel="noopener">Mit Claude lernen (öffnet claude.ai)</a>. Für die KI gibt es außerdem eine <a href="llms.txt">Beschreibung aller Seiten und Links (llms.txt)</a>.</p>
+    </section>
+
+    <section id="datenschutz">
+      <h2>Datenschutz</h2>
+      <p>Diese Seite läuft komplett in deinem Browser. Es gibt keinen Server, der etwas mitschreibt: kein Tracking, keine Cookies, keine Konten. Keine externen Requests, bis du ein Video startest; dann lädt youtube-nocookie.com (Daten gehen an Google). Die Videos auf den Übungsseiten sind deshalb als Platzhalter eingebaut – das Video kommt erst nach deinem Klick. Deine Selbsteinschätzung, dein letztes Testergebnis und der Merker „Videos immer direkt laden“ liegen nur im Speicher deines Browsers. Der Knopf „Mit Claude lernen“ öffnet claude.ai in einem neuen Fenster – erst dort gelten die Regeln von claude.ai.</p>
+    </section>
+  <script src="../kern/vendor/talkitover.js"></script>
+  <script type="module">
+    import { APP } from "./js/app.config.js";
+    import { starteStartseite } from "../kern/js/startseite.js";
+    starteStartseite({ app: APP });
+  </script>
