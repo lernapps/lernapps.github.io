@@ -127,6 +127,7 @@ td.zahl, th.zahl { text-align: right; white-space: nowrap; }
 svg.vis { width: 100%; height: auto; max-width: 30rem; display: block; margin: 0.5rem 0; }
 .vis-beschriftung { font-size: 0.9rem; color: #374151; }
 .aufgabe-bild { margin: 0.5rem 0 1rem; }
+.erklaerung > summary { cursor: pointer; font-weight: 600; padding: 0.5rem 0; color: var(--farbe-primaer); }
 
 /* Übung */
 .trainer { border: 1px solid var(--farbe-rand); border-radius: var(--radius); padding: var(--abstand); margin-top: 0.75rem; }

@@ -1,9 +1,11 @@
 /*
  * Seitenstart einer Kompetenzseite: Zwei-Klick-Videos vorbereiten, URL lesen, Trainer starten. Generisch.
+ * Öffnet ein Deep Link eine bestimmte Aufgabe, klappt die Erklärung (<details id="erklaerung">) zu und holt die Übung
+ * nach vorn; ohne JavaScript bleibt die Erklärung offen.
  * Die Seite übergibt App-Konfiguration, Generator und Bild (Dependency Inversion); die Version steht statisch im Footer.
  */
 import { leseSeed } from "./zufall.js";
-import { leseVorgaben } from "./aufgabenlink.js";
+import { leseVorgaben, aufgabeImFokus } from "./aufgabenlink.js";
 import { starteTrainer } from "./ui.js";
 import { initVideos } from "./video.js";
 
@@ -17,13 +19,23 @@ export function starteSeite({ app, modul, zeichne, bildHinweis }) {
   const wurzel = document.getElementById("trainer");
   if (!wurzel) return undefined;
   const query = window.location.search;
-  return starteTrainer({
+  const zahlen = modul.URL_ZAHLEN || [];
+  const texte = modul.URL_TEXTE || [];
+  const trainer = starteTrainer({
     wurzel,
     modul,
     seed: leseSeed(query),
-    vorgaben: leseVorgaben(query, modul.URL_ZAHLEN || [], modul.URL_TEXTE || []),
+    vorgaben: leseVorgaben(query, zahlen, texte),
     zeichne,
     bildHinweis,
     seitenPfad: window.location.pathname.split("/").pop() || "",
   });
+  if (aufgabeImFokus(query, window.location.hash, zahlen, texte)) holeUebungNachVorn();
+  return trainer;
+}
+
+function holeUebungNachVorn() {
+  const erklaerung = document.getElementById("erklaerung");
+  if (erklaerung) erklaerung.open = false;
+  document.getElementById("uebung")?.scrollIntoView({ block: "start" });
 }

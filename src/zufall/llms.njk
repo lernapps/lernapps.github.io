@@ -59,6 +59,9 @@ und einem Zähler richtig/gesamt für die Sitzung.
   (Rechenbeispiel), `#video` (Lehrerschmidt-Video als Zwei-Klick-Karte oder Hinweis, dass
   es keines gibt), `#visualisierung` (das Bild zum Beispiel, ändert sich nie), `#uebung` (Aufgabengenerator mit
   eigenem Bild zur aktuellen Aufgabe, `#aufgabenbild`, nur mit JavaScript).
+- Deep Link: Trägt der Link eine Aufgabennummer (`seed`/`nr`) oder Aufgabenparameter und keinen Anker
+  in die Erklärung, klappt die Seite die Erklärung (Warum bis Bild) zu und springt zur Übung. Ein Anker
+  wie `#visualisierung` oder `#regel` lässt die Erklärung offen. Ohne JavaScript ist alles offen.
 - Unter jeder Aufgabe steht "Aufgabe Nr. N", daneben "Link zu dieser Aufgabe" und "Link
   kopieren". Der Link enthält die Parameter aus der aufgerufenen Adresse plus die
   Nummer; Nummer und Parameter zusammen ergeben immer dieselbe Aufgabe. Die Lernende
