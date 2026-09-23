@@ -86,8 +86,8 @@ Autor:in, kein Baustein der Site: Er wird weder gebaut noch ausgeliefert, sonder
 | `npm run build` → `_site/`; Eleventy-Daten `apps`, `site`, `fachfarben`; Shortcode `bild`; Funktionen `ladeApps`, `leiteAdressenAb`, `fachfarbe`, `zeichneBild`, `versionsHash`, `versioniere`, `pruefe*`
 | `eleventy.config.js`, `lib/*.js`, `src/_data/`
 | [[bb-layout]]Layout
-| Erzeugt Kopf, Menü mit Nummern-Plaketten, Footer mit Site-Version, Fachfarbe, das Gerüst jeder Kompetenzseite (Warum, Regel, Beispiel, Video, Bild, Übung) sowie Start-, Test- und Manifest-Seite jeder App per Pagination; dazu Übersicht und `llms.txt` der Wurzel.
-| Front Matter der Kompetenzseiten; Anker `#warum`, `#regel`, `#beispiel`, `#video`, `#visualisierung`, `#uebung`; `data-*`-Attribute für den Kern
+| Erzeugt Kopf, Menü mit Nummern-Plaketten, Footer mit Site-Version, Fachfarbe, das Gerüst jeder Kompetenzseite (Warum, Regel, Beispiel, Bild, Video, Übung) sowie Start-, Test- und Manifest-Seite jeder App per Pagination; dazu Übersicht und `llms.txt` der Wurzel.
+| Front Matter der Kompetenzseiten; Anker `#warum`, `#regel`, `#beispiel`, `#visualisierung`, `#video`, `#uebung`; `data-*`-Attribute für den Kern
 | `src/_includes/basis.njk`, `kompetenz.njk`; `src/start.njk`, `src/test.njk`, `src/manifest.njk`, `src/index.njk`, `src/llms.njk`
 | [[bb-kern]]Kern
 | Alles Generische im Browser: Aufgabennummer, Zahlen und Terme lesen und prüfen, Eingabefelder, Übungsrahmen, Test, Videos, Speicher, Mini-DOM für SVG. Einmal unter `/kern/` ausgeliefert. Kennt keine App. Siehe Ebene 2.

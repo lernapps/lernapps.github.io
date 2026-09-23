@@ -260,7 +260,8 @@ nicht.
 Entschieden in xref:09_architecture_decisions.adoc#adr-017[ADR-017]. `src/<app>/<id>.md` enthält nur
 Front Matter: `kompetenz`, `beschreibung`, `warum`, `regel`, `beispiel` (Markdown oder HTML),
 `video: { id, titel, kanal }` oder `ohneVideo`, `bild: { text, funktion, seed, geloest, vorgaben }`.
-`src/_includes/kompetenz.njk` setzt daraus immer dieselben Abschnitte mit denselben Ankern. Der Build
+`src/_includes/kompetenz.njk` setzt daraus immer dieselben Abschnitte mit denselben Ankern, in dieser Reihenfolge: Warum, Regel,
+Beispiel, Bild, Video, Übung. Der Build
 verlangt je Kompetenz Seite, Generator und Test (`lib/pruefungen.js:36-49`) und dass `llms.txt` jede
 Seite nennt (`:31-33`).
 

@@ -23,7 +23,7 @@ Build-Schritt, aber nur zur Build-Zeit (TC-1, xref:09_architecture_decisions.ado
 | ID | Randbedingung | Quelle
 | TC-1 | Ausgeliefert wird nur statisches HTML, CSS, SVG und JavaScript-ES-Module; kein Framework im Browser. Gebaut wird mit Eleventy, exakt gepinnt auf 3.1.6 (einzige npm-Abhängigkeit). | `CLAUDE.md` Project rules; `package.json` (`devDependencies`)
 | TC-2 | Auslieferung über GitHub Pages, Organisation `lernapps`, Repository `lernapps.github.io`; kein eigener Server, keine Datenbank. | `src/_data/site.js:9`; `.github/workflows/pages.yml`
-| TC-3 | Jede Seite ist ohne JavaScript lesbar, Text und Bild. JavaScript treibt nur Übung, Prüfung, Test, Selbsteinschätzung und das interaktive Neuzeichnen. | `CLAUDE.md` Project rules; `<noscript>` in `src/_includes/kompetenz.njk:46`, `src/start.njk:39`, `src/test.njk:19`
+| TC-3 | Jede Seite ist ohne JavaScript lesbar, Text und Bild. JavaScript treibt nur Übung, Prüfung, Test, Selbsteinschätzung und das interaktive Neuzeichnen. | `CLAUDE.md` Project rules; `<noscript>` in `src/_includes/kompetenz.njk:49`, `src/start.njk:39`, `src/test.njk:19`
 | TC-4 | Kein Request an fremde Hosts, bevor das Kind ein Video startet; danach nur `youtube-nocookie.com`. Kein CDN, keine Webfonts, keine Analytics, keine Cookies. Gilt auch für diese Doku. | `CLAUDE.md`; geprüft von `lib/pruefungen.js:8-22`
 | TC-5 | Speicherung nur im `localStorage`: Selbsteinschätzung, letzter Test, Video-Merker (dazu der Anbieter-Merker von TalkItOver). Jeder Zugriff in `try/catch`. | `src/kern/js/storage.js:2`, `src/kern/js/video.js:39-55`
 | TC-6 | Jede Quelldatei unter 500 Zeilen, sonst bricht der Build. | `lib/pruefungen.js:5`, `:25-28`

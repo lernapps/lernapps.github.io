@@ -37,7 +37,7 @@ repository: one shared kern, one layout, one build (Eleventy 3.1.6), deployed to
   `tutor.njk`, `<app>.11tydata.js` (one line), `favicon.svg`, `icon-192.png`, `icon-512.png`,
   `apple-touch-icon.png`, optional `css/<app>.css`.
 - `src/_includes/basis.njk` (head, menu with number badges, footer with site version, subject colour) and
-  `kompetenz.njk` (Warum / Regel / Beispiel / Video / Bild / Übung from front matter). `src/start.njk`,
+  `kompetenz.njk` (Warum / Regel / Beispiel / Bild / Video / Übung from front matter). `src/start.njk`,
   `src/test.njk` and `src/manifest.njk` paginate over all apps; `src/index.njk` and `src/llms.njk` are the overview.
 - `src/karte/` – the Mathe-Karte at `/karte/` (not an app: no `app.config.js`). Curriculum data as flat-front-matter
   Markdown in `src/karte/daten/` (ignored as pages, read by `karte.11tydata.js` → `lib/karte/laden.js`; data model in
