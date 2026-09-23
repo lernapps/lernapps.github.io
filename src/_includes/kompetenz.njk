@@ -58,11 +58,12 @@ layout: basis.njk
     import { APP } from "./js/app.config.js";
     import { starteSeite } from "../kern/js/seite.js";
     import * as modul from "./{{ k.modulPfad }}";
+    const kompetenz = { nr: {{ k.nr }}, titel: {{ k.titel | dump | safe }} };
 {%- if bild %}
     import { {{ bild.uebungFunktion or bild.funktion }} } from "./js/vis/{{ bild.modul or k.id }}.js";
-    starteSeite({ app: APP, modul, zeichne: {{ bild.uebungFunktion or bild.funktion }}, bildHinweis: {{ (bild.uebung or "") | dump | safe }} });
+    starteSeite({ app: APP, modul, zeichne: {{ bild.uebungFunktion or bild.funktion }}, bildHinweis: {{ (bild.uebung or "") | dump | safe }}, kompetenz });
 {%- else %}
-    starteSeite({ app: APP, modul });
+    starteSeite({ app: APP, modul, kompetenz });
 {%- endif %}
   </script>
 {%- if seitenSkript %}

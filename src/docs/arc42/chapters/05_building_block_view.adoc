@@ -194,6 +194,7 @@ Container_Boundary(kern, "Kern") {
   Component(zufall, "Zufall", "zufall.js", "mulberry32, Aufgabennummer")
   Component(link, "Aufgabenlink", "aufgabenlink.js", "Vorgaben lesen, Link bauen, kopieren")
   Component(test, "Test", "testablauf.js, testaufgaben.js, testseite.js", "Aufgabenfolge, Bewertung, Ergebniszeile")
+  Component(zurueck, "Rückweg", "zurueck.js", "von=tutor: Zeile kopieren, Tab schließen, nachprüfen")
   Component(video, "Video", "video.js", "Zwei-Klick-Karte, neutrales Play-Symbol")
   Component(storage, "Speicher", "storage.js", "erzeugeSpeicher(praefix)")
   Component(svg, "SVG", "svg.js", "svgEl; Mini-DOM im Build, echtes DOM im Browser")
@@ -214,6 +215,9 @@ Rel(apps, svg, "svgEl")
 Rel(pruefung, zahlen, "pruefeZahlAntwort")
 Rel(test, zufall, "erzeugeZufall(nr)")
 Rel(test, storage, "speichereTest")
+Rel(seitenstart, zurueck, "vomTutor, zurueckKnopf")
+Rel(test, zurueck, "vomTutor, zurueckKnopf")
+Rel(trainer, zurueck, "nachVersuch, uebungsStatus")
 Rel(storage, speicher, "try/catch")
 Rel(video, speicher, "video-direkt")
 @enduml
@@ -230,6 +234,7 @@ Rel(video, speicher, "video-direkt")
 | Zufall | Deterministischer Zufall aus der Aufgabennummer; zufällige Nummer 1–9999. | `erzeugeZufall(seed)`, `leseSeed` | `src/kern/js/zufall.js:14-16`, `:47`
 | Aufgabenlink | Zeile „Aufgabe Nr. N · Link · Link kopieren“; Vorgaben validieren; kopieren mit Rückfall. | `aufgabenzeile`, `leseVorgaben`, `kopiereText` | `src/kern/js/aufgabenlink.js`
 | Test | Test und Schnelltest aus der Testnummer; Bild im Test über den Aufgaben-Vertrag; Ergebniszeile. | `starteTestseite(…)`, `testAufgaben(nr, modus)`, `erzeugeTestaufgabe`, `bildFuer` | `src/kern/js/testseite.js:15`, `testablauf.js:9`, `testaufgaben.js:10-28`
+| Rückweg | Nur mit `von=tutor`: Knopf „Zurück zu Claude“; Ergebniszeile bauen, kopieren, Tab schließen, nach 300 ms prüfen; Rückfall auf Hinweis oder markiertes Feld (ADR-021). | `vomTutor`, `uebungsZeile`, `uebungsStatus`, `nachVersuch`, `zurueckZuClaude`, `zurueckKnopf` | `src/kern/js/zurueck.js`
 | Video | Zwei-Klick-Karte mit neutralem Play-Symbol; iframe erst nach Klick; Merker je App. | `initVideos(praefix)`, `baueEmbedUrl`, `PLAY_SYMBOL` | `src/kern/js/video.js:12`, `:64`, `:127`
 | Speicher | Einziger Zugang zu Selbsteinschätzung und letztem Test, mit App-Präfix; `false` statt Ausnahme. | `erzeugeSpeicher(praefix)` → `lade…`, `speichere…` | `src/kern/js/storage.js:36`
 | SVG | Erzeugt SVG-Elemente; im Build ein Mini-DOM, im Browser `document`. Zeichenfunktionen nutzen nur `svgEl`. | `svgEl`, `leeresSvg`, `alsSvgText` | `src/kern/js/svg.js:45-59`

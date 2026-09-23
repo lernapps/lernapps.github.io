@@ -258,3 +258,9 @@ button.video-link:hover { background: none; color: var(--farbe-primaer-dunkel); 
 .app-liste li { border: 1px solid var(--farbe-rand); border-left: 0.5rem solid var(--farbe-fach, var(--farbe-primaer)); border-radius: var(--radius); padding: 0.75rem 1rem; }
 .app-liste h3 { margin: 0 0 0.25rem; }
 .app-liste p { margin: 0.25rem 0; }
+
+/* "Zurück zu Claude" (nur mit ?von=tutor, ADR-021) */
+.zurueck { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin: 0.75rem 0 0; }
+.zurueck-zeile { flex: 1 1 14rem; font: inherit; padding: 0.5rem 0.6rem; border: 2px solid var(--farbe-rand); border-radius: var(--radius); background: var(--farbe-flaeche); color: var(--farbe-text); min-width: 0; }
+.zurueck-meldung { flex-basis: 100%; margin: 0.25rem 0 0; font-weight: 500; }
+.zurueck-meldung:empty { margin: 0; }

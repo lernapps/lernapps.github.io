@@ -1,4 +1,4 @@
-// ADR-012 bis ADR-020: Entscheidungen des Monorepos lern-apps.
+// ADR-012 bis ADR-021: Entscheidungen des Monorepos lern-apps.
 // Wird von 09_architecture_decisions.adoc eingebunden (Unterstrich: keine eigene Seite).
 
 [[adr-012]]
@@ -304,3 +304,52 @@ Kindern.
 Land, Klasse und Fach so groß, dass sie mehr als eine Handvoll Kompetenzen zeigt, reicht sie nicht mehr;
 dieses Risiko steht als xref:11_technical_risks.adoc#r-020[R-020] in Kapitel 11. Die Entscheidung wird
 dann neu bewertet, zuerst mit dem Filter auf der Karte.
+
+[[adr-021]]
+=== ADR-021: „Zurück zu Claude“ schließt den Tab mit `window.close()` und prüft danach
+
+*Kontext.* Der Tutor auf claude.ai öffnet jede verlinkte Aufgabe in einem neuen Tab. Das Kind jongliert
+dann zwei Tabs: Es löst die Aufgabe, sucht den Chat wieder und tippt nach, was herauskam. Die App kann
+dem Tutor nichts melden (ADR-001, ADR-004). Ein Spike am 23.09.2026 mit Playwright 1.63 (Chromium 153,
+Firefox 155, WebKit 26.6) hat gezeigt: `window.close()` schließt einen per Link geöffneten Tab in allen
+drei Engines, bei jedem `rel`-Wert und auch nach Navigation innerhalb der App. Hat das Kind den Tab
+selbst geöffnet (Lesezeichen, eingetippte Adresse), schlägt der Aufruf still fehl. Weder
+`document.referrer` noch `window.opener` verraten diesen Fall vorher; nur eine Prüfung nach dem Aufruf.
+In den In-App-Browsern mobiler Apps ist das Verhalten ungetestet.
+
+*Entscheidung.* Der Tutor hängt `von=tutor` an jeden Link (`tutor.md`, `llms.txt`); der Build lässt den
+Parameter auf jeder Seite zu, aber nur mit dem Wert `tutor` (`lib/llms-vertrag.js`, `erlaubeHerkunft`).
+Nur dann zeigt die Übung unter „Link kopieren“ und der Test neben der Ergebniszeile den Knopf „Zurück
+zu Claude“ (`src/kern/js/zurueck.js`). Der Klick kopiert eine Ergebniszeile, wartet 100 ms, ruft
+`window.close()` und prüft nach 300 ms `window.closed`. Ist der Tab noch offen, sagt eine
+`aria-live`-Zeile: „Ergebnis kopiert. Schließ diesen Tab und füge es bei Claude ein.“ Einen Link auf
+claude.ai gibt es nicht; er öffnete einen neuen, leeren Chat. Scheitert die Zwischenablage, bleibt der
+Tab offen und die Zeile steht markiert in einem Feld. „Link zu dieser Aufgabe“ und „Link kopieren“
+lassen `von=tutor` weg: Ein weitergegebener Link kommt nicht vom Tutor, und der Knopf liefe dort ins
+Leere.
+
+*Status.* Accepted. Vom Product Owner entschieden am 23.09.2026.
+
+[cols="2,1,1,1",options="header"]
+|===
+| Ziel | `window.close()` mit Nachprüfung (Referenz) | `postMessage` an den Opener | Kein Knopf
+| QZ-1 Datenschutz | 0 | ? | 0
+| QZ-2 Tutor-Anschluss | 0 | −1 | −1
+| QZ-3 Richtige Rückmeldung | 0 | 0 | 0
+| QZ-4 Neue Apps schnell | 0 | −1 | +1
+| QZ-5 Zugänglich | 0 | 0 | −1
+| *Summe* | *0* | *−2 + ?* | *−1*
+|===
+
+`postMessage` scheitert schon am Opener: claude.ai öffnet Links mit `noopener`, `window.opener` ist
+`null`, und claude.ai hört auf keine Nachricht (QZ-2 −1). Es bräuchte zudem eigenen Code auf beiden
+Seiten (QZ-4 −1). Ob eine Nachricht an eine fremde Seite dem Datenschutz genügt, ist `?`. Ohne Knopf
+bleibt der Kern kleiner (QZ-4 +1), aber das Kind tippt das Ergebnis ab (QZ-2 −1), und zwei Tabs auf dem
+Handy sind für Kinder eine Hürde (QZ-5 −1).
+
+*Konsequenzen.* Die Ergebniszeile geht nur in die Zwischenablage des Geräts; die App sendet nichts
+(xref:08_concepts.adoc#section-observability[8.4]). Wo der Browser den Tab nicht schließt, fängt die
+Nachprüfung den Fall ab. Wo er `window.closed` meldet, den Tab aber nicht schließt, bleibt das Kind ohne
+Hinweis; das betrifft vor allem ungetestete In-App-Browser
+(xref:11_technical_risks.adoc#r-021[R-021]). Die 100 ms vor dem Schließen stammen aus der Messung im
+Browser-Check: Headless-Chromium verlor ohne Pause 6 von 20 kopierten Zeilen, mit 50 ms keine.

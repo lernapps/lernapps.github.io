@@ -234,22 +234,77 @@ end
 | Doku-Build scheitert | `pages.yml` bricht ab, bevor das Artefakt entsteht; die zuletzt deployte Fassung bleibt online (xref:11_technical_risks.adoc#r-011[R-011]).
 | `localStorage` gesperrt oder voll | Alle Zugriffe in `try/catch`; Laden liefert einen leeren Wert, Speichern `false`; die Seite sagt es dem Kind (`src/kern/js/storage.js:17-21`).
 | Ungültige oder fehlende URL-Parameter | `leseSeed` akzeptiert nur Ziffern, sonst Zufallsnummer (`src/kern/js/zufall.js:47`); `leseVorgaben` übernimmt nur gültige Werte; `leseModus` fällt auf `voll` zurück (`src/kern/js/testablauf.js:15-18`).
-| Zwischenablage verweigert | `kopiereText` markiert den Text (`src/kern/js/aufgabenlink.js`).
+| Zwischenablage verweigert | `kopiereText` markiert den Text (`src/kern/js/aufgabenlink.js`). „Zurück zu Claude“ lässt den Tab dann offen und zeigt die Zeile markiert in einem Feld (`src/kern/js/zurueck.js`, Szenario 7).
+| Tab lässt sich nicht schließen | Nach `window.close()` prüft „Zurück zu Claude“ nach 300 ms `window.closed` und sagt dem Kind per `aria-live`, dass es den Tab selbst schließen soll (xref:09_architecture_decisions.adoc#adr-021[ADR-021], Szenario 7).
 | claude.ai kann `tutor.md` nicht laden | Außerhalb des Systems. Rückfall: TalkItOver-Provider „copy“ kopiert den Prompt; `llms.txt` ist auf der Startseite verlinkt (xref:11_technical_risks.adoc#r-002[R-002]).
 |===
+
+[[section-rt-zurueck]]
+=== Szenario 7: Tutor-Deep-Link → Übung → Zurück zu Claude
+
+Claude schickt „Mach Aufgabe Nr. 4“ mit
+`https://lernapps.github.io/binom/erste-binomische.html?nr=4&von=tutor`; claude.ai öffnet ihn in einem
+neuen Tab. Nach der Aufgabe bringt ein Knopf das Kind samt Ergebnis zurück in den Chat
+(xref:09_architecture_decisions.adoc#adr-021[ADR-021]). Die Ergebniszeile geht nur in die Zwischenablage
+des Geräts. Der Test verläuft genauso: Der Knopf steht neben der Ergebniszeile und kopiert sie.
+
+[plantuml, target=laufzeit-zurueck, format=svg]
+....
+@startuml
+autonumber
+actor "Lernende" as kind
+participant "claude.ai" as claude
+participant "Layout\n(kompetenz.njk)" as seite
+participant "Kern: Seitenstart\n(seite.js)" as start
+participant "Kern: Trainer\n(ui.js)" as trainer
+participant "Kern: Rückweg\n(zurueck.js)" as zurueck
+participant "Zwischenablage\n(Gerät)" as clip
+participant "Browser-Tab" as tab
+
+claude -> kind : Link …/erste-binomische.html?nr=4&von=tutor
+kind -> seite : öffnet ihn (neuer Tab, von claude.ai)
+seite -> start : starteSeite({ app, modul, zeichne, kompetenz })
+start -> trainer : starteTrainer({ seed: 4 })
+start -> zurueck : vomTutor(query) → true
+zurueck -> kind : Knopf "Zurück zu Claude" unter "Link kopieren"
+kind -> trainer : tippt, "Prüfen" (1 falsch, 1 richtig)
+trainer -> zurueck : nachVersuch(stand, korrekt)
+kind -> zurueck : Klick "Zurück zu Claude"
+zurueck -> trainer : stand() → Nummer, Status, Sitzung
+zurueck -> clip : writeText("Binomische Formeln, Kompetenz 2 „Erste binomische Formel“,\nAufgabe Nr. 4: richtig im 2. Versuch (Sitzung: 1 von 2 richtig)")
+alt Zwischenablage verweigert
+  clip --> zurueck : Fehler
+  zurueck -> kind : Feld mit markierter Zeile, Hinweis (aria-live);\nder Tab bleibt offen
+else kopiert
+  zurueck -> tab : nach 100 ms window.close()
+  zurueck -> tab : nach 300 ms window.closed?
+  alt Tab kam von claude.ai
+    tab --> kind : Tab zu, claude.ai ist wieder vorn
+  else Tab selbst geöffnet (Lesezeichen, eingetippt)
+    tab --> zurueck : closed = false
+    zurueck -> kind : "Ergebnis kopiert. Schließ diesen Tab\nund füge es bei Claude ein." (aria-live)
+  end
+end
+kind -> claude : fügt die Zeile ein (im Rückfall selbst kopiert)
+@enduml
+....
+
+Ohne `von=tutor` zeigt die Seite keinen Knopf, ohne JavaScript ebenfalls. „Link zu dieser Aufgabe“ und
+„Link kopieren“ lassen den Parameter weg. Der Rückfall für mobile In-App-Browser ist ungetestet
+(xref:11_technical_risks.adoc#r-021[R-021]).
 
 [[section-rt-abdeckung]]
 === Jeder Baustein kommt in einem Szenario vor
 
-[cols="3,1,1,1,1,1,1",options="header"]
+[cols="3,1,1,1,1,1,1,1",options="header"]
 |===
-| Baustein (Kapitel 5) | S1 | S2 | S3 | S4 | S5 | S6
-| Build | x | | | | x | x
-| Layout | x | x | x | x | | x
-| Kern | x | x | x | x | | x
-| Apps | x | x | x | | x |
-| Mathe-Karte | x | | | | | x
-| Architektur-Doku | | | | | x |
-| Tests und CI | x | | | | x |
-| Browser-Speicher | | | x | x | | x
+| Baustein (Kapitel 5) | S1 | S2 | S3 | S4 | S5 | S6 | S7
+| Build | x | | | | x | x |
+| Layout | x | x | x | x | | x | x
+| Kern | x | x | x | x | | x | x
+| Apps | x | x | x | | x | | x
+| Mathe-Karte | x | | | | | x |
+| Architektur-Doku | | | | | x | |
+| Tests und CI | x | | | | x | |
+| Browser-Speicher | | | x | x | | x |
 |===

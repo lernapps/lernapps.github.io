@@ -54,3 +54,10 @@ test("serlo-Link: optional, nach dem Video, in der Erklärung, reiner Link mit r
   assert.match(block, /bei serlo\.org/);
   assert.doesNotMatch(block, /<(iframe|img|script)\b/);
 });
+
+test("die Seite übergibt Nummer und Titel der Kompetenz für die Ergebniszeile an den Tutor (ADR-021)", () => {
+  assert.match(layout, /const kompetenz = \{ nr: \{\{ k\.nr \}\}, titel: \{\{ k\.titel \| dump \| safe \}\} \};/);
+  const aufrufe = [...layout.matchAll(/starteSeite\(\{[^\n]*\}\);/g)].map((m) => m[0]);
+  assert.equal(aufrufe.length, 2);
+  for (const a of aufrufe) assert.match(a, /\bkompetenz \}\);$/);
+});

@@ -14,7 +14,9 @@ import { versionsHash, versioniere } from "./lib/versionierung.js";
 import { richteKarteEin } from "./lib/karte/eleventy.js";
 import { pruefeZeilen, pruefeLlms, pruefeKompetenzen, pruefeMeldeLink, pruefeSerloLinks } from "./lib/pruefungen.js";
 import { pruefeAusgabe } from "./lib/pruefe-ausgabe.js";
-import { findeLinks, pruefeLink, pruefeVorgaben, pruefeParameterDoku, pruefeUebersicht, dokumentierteWerte } from "./lib/llms-vertrag.js";
+import {
+  findeLinks, pruefeLink, pruefeVorgaben, pruefeParameterDoku, pruefeUebersicht, dokumentierteWerte, erlaubeHerkunft, herkunftKollision,
+} from "./lib/llms-vertrag.js";
 import { leseVorgaben } from "./src/kern/js/aufgabenlink.js";
 import { erzeugeZufall } from "./src/kern/js/zufall.js";
 import { MODI } from "./src/kern/js/testablauf.js";
@@ -77,7 +79,9 @@ async function pruefeTutorVertrag(apps, ausgabe) {
       module.set(k.seite, modul);
       const parameter = [...(modul.URL_ZAHLEN || []), ...(modul.URL_TEXTE || [])];
       seiten.set(k.seite, { parameter: [...parameter, "seed", "nr"], eigene: parameter, anker: ankerIn(lies(path.join(ordner, k.seite))) });
+      fehler.push(...herkunftKollision(`${app.pfad}/${k.seite}`, parameter));
     }
+    const mitHerkunft = erlaubeHerkunft(seiten);
     const texte = ["llms.txt", "tutor.md"].map((name) => [`${app.pfad}/${name}`, lies(path.join(ordner, name))]);
     const links = texte.flatMap(([datei, text]) => findeLinks(text, app.basisUrl).map((link) => ({ datei, link })));
     const listen = dokumentierteWerte(texte.map(([, text]) => text).join("\n"));
@@ -90,13 +94,13 @@ async function pruefeTutorVertrag(apps, ausgabe) {
       }
     }
     for (const { datei, link } of links) {
-      const linkFehler = pruefeLink(datei, link, seiten);
+      const linkFehler = pruefeLink(datei, link, mitHerkunft);
       fehler.push(...linkFehler);
       const modul = module.get(link.seite);
       if (modul && !linkFehler.length) fehler.push(...pruefeVorgaben(datei, link, modul, { leseVorgaben, erzeugeZufall }, alternativen.get(link.seite)));
     }
     const [llmsDatei, llms] = texte[0];
-    fehler.push(...pruefeUebersicht(llmsDatei, llms, seiten));
+    fehler.push(...pruefeUebersicht(llmsDatei, llms, mitHerkunft));
     for (const seite of module.keys()) fehler.push(...pruefeParameterDoku(llmsDatei, llms, app.basisUrl, seite, seiten.get(seite).eigene));
   }
   return [...new Set(fehler)];

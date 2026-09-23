@@ -2,7 +2,9 @@
 // Deep Link, Parameter, Wert oder Anker nennen, den die App nicht annimmt – oder einen Parameter verschweigen.
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { findeLinks, pruefeLink, pruefeVorgaben, pruefeParameterDoku, pruefeUebersicht, dokumentierteWerte } from "../../lib/llms-vertrag.js";
+import {
+  findeLinks, pruefeLink, pruefeVorgaben, pruefeParameterDoku, pruefeUebersicht, dokumentierteWerte, erlaubeHerkunft, herkunftKollision,
+} from "../../lib/llms-vertrag.js";
 import { leseVorgaben } from "../../src/kern/js/aufgabenlink.js";
 import { erzeugeZufall } from "../../src/kern/js/zufall.js";
 
@@ -116,4 +118,24 @@ test("dokumentierte Wertelisten wie `zuege=2|3` liefern Alternativen", () => {
   assert.deepEqual([...werte.get("experiment")], ["urne", "muenze"]);
   assert.deepEqual([...werte.get("urne")], ["3r2b1g"]);
   assert.equal(werte.has("ereignis"), false);
+});
+
+test("von=tutor ist auf jeder Seite erlaubt, aber nur mit dem Wert tutor (ADR-021)", () => {
+  const seiten = erlaubeHerkunft(SEITEN);
+  assert.deepEqual(pruefeLink("tutor.md", link("a.html", "m=1&seed=2&von=tutor", "uebung"), seiten), []);
+  assert.deepEqual(pruefeLink("tutor.md", link("test.html", "nr=<Nummer>&modus=schnell&von=tutor"), seiten), []);
+  assert.match(pruefeLink("tutor.md", link("a.html", "von=claude"), seiten)[0], /von=claude \(erlaubt: tutor\)/);
+  assert.match(pruefeLink("tutor.md", link("a.html", "von=<Quelle>"), seiten)[0], /von=<Quelle> \(erlaubt: tutor\)/);
+  assert.match(pruefeLink("llms.txt", link("llms.txt", "von=tutor"), seiten)[0], /Parameter von/, "nur HTML-Seiten");
+  assert.deepEqual(SEITEN.get("a.html").parameter, ["m", "n", "seed", "nr"], "die Eingabe bleibt unverändert");
+});
+
+test("von=tutor ist kein Aufgabenparameter: er muss die Aufgabe nicht ändern", () => {
+  assert.deepEqual(pruefeVorgaben("tutor.md", link("a.html", "m=2&seed=3&von=tutor"), MODUL, HILFEN), []);
+  assert.deepEqual(pruefeVorgaben("tutor.md", link("a.html", "von=tutor"), MODUL, HILFEN), []);
+});
+
+test("ein Generator darf den Parameter von nicht selbst belegen", () => {
+  assert.deepEqual(herkunftKollision("a.html", ["m", "n"]), []);
+  assert.match(herkunftKollision("a.html", ["von"])[0], /a\.html: der Generator belegt den Parameter von/);
 });
