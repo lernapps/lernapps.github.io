@@ -104,5 +104,6 @@ End with: app URL, the PR URL, the claude.ai tutor link, the Schnelltest link, a
 - Parallel agents each get their own port (8080, 8081, 8082, …) and their own browser context; otherwise one agent tests the other's app.
 - Stop dev servers by PID (`kill <PID>`), never with `pkill -f` — it kills other agents' servers (and on the Pironman your own SSH session).
 - Imports carry `?v=<content hash>`, added by the build. A hand-written `?v=` or a stale cached module means one module loads twice under two URLs.
+- The old single-app repos (`raifdmueller.github.io/*-trainer`, `mathe-karte`, `lern-app-template`) are being deleted (decided 23.09.2026). Never link to them or copy from them; everything lives in the monorepo.
 - Enable Pages only after the first merge: a deploy of placeholder content gets cached (max-age=600) and later mixes with the real app — dead test buttons. For the existing monorepo Pages is already on; this matters only for a new site.
 - A repo named `<org>.github.io` gets Pages auto-enabled in legacy branch mode. Switch it to GitHub Actions with `gh api -X PUT repos/<o>/<r>/pages -f build_type=workflow` (POST fails because Pages already exists). Only relevant when setting up a new org site.

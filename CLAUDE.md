@@ -2,8 +2,8 @@
 
 All learning apps (Mathe, Physik, Chemie; about 20 per school year) and later the Mathe-Karte live in this one
 repository: one shared kern, one layout, one build (Eleventy 3.1.6), deployed to GitHub Pages at
-`https://lernapps.github.io/`. The old single-app repos (`binom-trainer`, `lern-app-template`, …) stay
-untouched and keep running until they are migrated.
+`https://lernapps.github.io/`. The old single-app repos (`raifdmueller.github.io/*-trainer`, `mathe-karte`,
+`lern-app-template`) are being deleted (decided 23.09.2026): never link to them or rely on them.
 
 ## Project rules
 - Output is static HTML. Every page is fully readable without JavaScript – text AND picture. JS only powers exercises,
@@ -54,11 +54,19 @@ untouched and keep running until they are migrated.
   Install: `ln -s <repo>/werkzeuge/skill/lern-app ~/.claude/skills/lern-app`.
 - `test/kern/`, `test/build/`, `test/apps/` (generator contract for every competency of every app) and
   `src/<app>/test/`.
+- `src/docs/`, `src/site/`, `docToolchainConfig.groovy`, `dtcw`, `scripts/dtc-v4.sh` – architecture docs (see
+  "Architecture").
 
 ## Build rules (enforced by `npm run build`)
 - After writing `_site`, `eleventy.config.js` runs `lib/pruefungen.js`: no external resources in HTML, no external
   imports in JS/CSS, every source file under 500 lines, per competency `<id>.md` + generator + `test/<id>.test.js`,
   the app's `llms.txt` mentions every page. Any violation fails the build.
+- The tutor contract (`lib/llms-vertrag.js`, TD-3): every deep link in an app's `llms.txt` and `tutor.md` must hit an
+  existing page and anchor, use only parameters the generator exports (`URL_ZAHLEN`, `URL_TEXTE`, plus `seed`/`nr`;
+  `test.html`: `nr`, `seed`, `modus`), and each value must change the task (a default is fine if another documented
+  value, e.g. from `zuege=2|3`, changes it for every task number). Every generator parameter must appear in the page's
+  `###` section, the `## URL-Parameter …` section or the page's row in the parameter table; that row may name only
+  accepted parameters.
 - Cache busting: the build appends `?v=<hash over all shipped JS/CSS>` to every local import, `<script src>` and
   stylesheet. Never write `?v=` in sources. The footer shows the site version from `package.json`; bump it
   (SemVer) on user-visible changes.
@@ -94,9 +102,22 @@ untouched and keep running until they are migrated.
 ## Build, test, deploy
 - `npm ci`, `npm test`, `npm run build` (output `_site/`), `npm run serve` (dev server under `/lern-apps/`).
 - `.github/workflows/pruefen.yml`: test + build on every push and PR. `.github/workflows/pages.yml`: on push to
-  `main`, test + build and deploy `_site` via `actions/upload-pages-artifact` + `actions/deploy-pages`. Pages must be
-  enabled once with source "GitHub Actions": `gh api -X POST repos/<owner>/<repo>/pages -f build_type=workflow`.
-- Architecture documentation (arc42) follows in a later slice under `src/docs/`.
+  `main`, test + build, then build the arc42 docs (`scripts/dtc-v4.sh generateSite`), copy them to `_site/docs/` and
+  deploy both as ONE artifact via `actions/upload-pages-artifact` + `actions/deploy-pages`. A repo named
+  `<org>.github.io` gets Pages auto-enabled in legacy branch mode; switch it once to source "GitHub Actions" with
+  `gh api -X PUT repos/<owner>/<repo>/pages -f build_type=workflow` (POST fails because Pages already exists).
+
+## Architecture
+- arc42 documentation (German) lives in `src/docs/arc42/` (chapters in `chapters/`, ADRs in `chapters/_adr-*.adoc`,
+  index in chapter 9); theme overrides without CDN resources in `src/site/`; config `docToolchainConfig.groovy`.
+  Eleventy ignores `src/docs/` and `src/site/`. Live at `https://lernapps.github.io/docs/`.
+- Build locally: `scripts/dtc-v4.sh generateSite` (docToolchain v4 pinned to `main-4.x@6de96fb7`, needs Java 17 and
+  Graphviz; first run clones and builds docToolchain). Output: `build/microsite/output/` (git-ignored). Check nav,
+  chapter pages, rendered diagrams and links there before pushing.
+- Every decision about the kern, the layout, the build, deployment or a new dependency needs an ADR in chapter 9
+  (Nygard, Pugh matrix against QZ-1…QZ-5, consequences naming risk IDs from chapter 11). Superseded ADRs stay in the
+  index with status "Superseded by ADR-0xx". Diagrams: PlantUML with `!include <C4/...>`, never a URL.
+- Inter-page links: `xref:NN_file.adoc#anchor[]`, never `link:foo.adoc[]`.
 
 ## Semantic Contracts
 Source: https://llm-coding.github.io/Semantic-Anchors/contracts/ — copied from lern-app-template so the repo is self-contained.

@@ -43,6 +43,7 @@
 
   <footer class="fuss">
     <p>{% if app %}{{ app.titel }} · {% endif %}{{ site.titel }} Version {{ site.version }} · <a href="{{ app.quellcode if app else site.repo }}">Quellcode auf GitHub</a>{% if app %} · <a href="index.html#datenschutz">Datenschutz</a> · <a href="{{ wurzel }}">Alle Apps</a>{% endif %}</p>
+    {% include "melden.njk" %}
   </footer>
 </body>
 </html>
