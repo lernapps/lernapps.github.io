@@ -1,0 +1,15 @@
+{
+  "name": "lern-apps",
+  "version": "0.1.0",
+  "description": "Lern-Apps für Mathe, Physik und Chemie – statisches HTML, ein Kern, gebaut mit Eleventy.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test \"test/**/*.test.js\" \"src/*/test/*.test.js\"",
+    "build": "eleventy",
+    "pruefe": "npm test && npm run build"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "3.1.6"
+  }
+}
