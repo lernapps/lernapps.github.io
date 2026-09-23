@@ -1,0 +1,48 @@
+/* Projekt-Stylesheet der Architektur-Doku, eingebunden über das Overlay templates/header.gsp.
+   Jede Regel ist ein Workaround für docToolchain v4 (main-4.x@6de96fb7) und fällt weg,
+   sobald das genannte Issue behoben ist. */
+
+/* Markenfarbe auch für die Grüntöne, die microsite.color* nicht erreicht
+   (--g-600/-700/-800 setzt docToolchainConfig.groovy). */
+:root {
+  --g-50:  #eff6ff;
+  --g-100: #dbeafe;
+  --g-300: #93c5fd;  /* Links im Dunkelmodus: 9,1:1 auf #1c1f27 */
+  --g-500: #3b82f6;
+  --g-900: #172554;
+}
+
+/* theme-v4.css setzt Links, Buttons, aktive Sidebar-Einträge und Badges fest auf Grün (#059669)
+   und ignoriert microsite.colorPrimary/colorLink. #059669 auf #fbfaf6 hätte nur 3,6:1.
+   Gleiche Selektoren, später geladen, also gewinnt diese Datei. */
+a { color: var(--g-700); }
+a:hover { color: var(--g-800); }
+[data-theme="dark"] a { color: var(--g-300); }
+.td-sidebar-link.active,
+.td-sidebar-link__section.active { color: var(--g-700); }
+.btn-primary,
+.btn-primary:active,
+.btn-primary:not(:disabled):not(.disabled):active,
+.btn-primary.active:not(:disabled):not(.disabled),
+.badge.bg-primary { background: var(--g-600) !important; border-color: var(--g-600) !important; }
+.btn-primary:hover,
+.btn-primary:focus { background: var(--g-800) !important; border-color: var(--g-800) !important; }
+.btn-outline-primary { color: var(--g-600) !important; border-color: var(--g-600) !important; }
+.btn-outline-primary:hover { background: var(--g-600) !important; border-color: var(--g-600) !important; color: #fff !important; }
+
+/* Suchfeld: Der Platzhalter war weiß auf hellem Grund.
+   Refs docToolchain/docToolchain#1702. --dtc-muted: 7,0:1 hell, 6,0:1 dunkel.
+   Eine Regel je Präfix, sonst verwirft der Browser die ganze Liste.
+   Das Lupen-Zeichen (U+F002) am Anfang des Platzhalters gibt es in Font Awesome 5 Free nur im
+   Schnitt 900 (solid); ohne font-weight 900 erscheint ein leeres Kästchen. */
+.td-navbar .td-search-input::placeholder { color: var(--dtc-muted); font-family: "Font Awesome 5 Free", var(--dtc-mono), monospace; font-weight: 900; }
+.td-navbar .td-search-input::-webkit-input-placeholder { color: var(--dtc-muted); font-family: "Font Awesome 5 Free", var(--dtc-mono), monospace; font-weight: 900; }
+.td-navbar .td-search-input::-moz-placeholder { color: var(--dtc-muted); font-family: "Font Awesome 5 Free", var(--dtc-mono), monospace; font-weight: 900; }
+
+/* Admonition-Symbole: asciidoctor.css lud Font Awesome 3.2 von cdnjs (Import im Overlay entfernt).
+   Die Codepoints gibt es auch im lokal ausgelieferten Font Awesome 5 (webfonts/fa-solid-900).
+   Refs docToolchain/docToolchain#1705 */
+.admonitionblock td.icon [class^="icon-"]:before {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+}

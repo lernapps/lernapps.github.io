@@ -35,6 +35,7 @@
 
   <footer class="fuss">
     <p>Mathe-Karte · {{ site.titel }} Version {{ site.version }} · <a href="karte-statisch.html">Statische Liste</a> · <a href="{{ site.repo }}/tree/main/src/karte">Quellcode auf GitHub</a> · <a href="ueber.html#datenschutz">Datenschutz</a> · <a href="llms.txt">llms.txt</a> · <a href="../">Alle Lern-Apps</a></p>
+    {% include "melden.njk" %}
   </footer>
 {%- if skript %}
   <script type="module" src="{{ skript }}"></script>
