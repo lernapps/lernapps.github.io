@@ -45,6 +45,7 @@ System_Boundary(lernapps, "Lern-Apps (Monorepo lernapps.github.io)") {
 System_Ext(claude, "claude.ai", "Tutor")
 System_Ext(youtube, "YouTube", "youtube-nocookie.com")
 System_Ext(github, "GitHub", "Organisation lernapps, Actions")
+System_Ext(issues, "GitHub Issues", "Rückmeldung, nur per Klick")
 System_Ext(pages, "GitHub Pages", "lernapps.github.io")
 System_Ext(pakete, "Paketquellen", "npm, docToolchain/Maven")
 
@@ -57,6 +58,7 @@ Rel(build, karte, "lädt und prüft Kartendaten")
 Rel(karte, apps, "App-Einträge aus kartenEintrag/kartenKnoten")
 Rel(kern, speicher, "liest/schreibt", "try/catch")
 Rel(kern, youtube, "iframe nach Klick")
+Rel(layout, issues, "Link, Anfrage erst nach Klick")
 Rel(claude, apps, "liest tutor.md, llms.txt")
 Rel(autor, github, "PR, Merge")
 Rel(github, ci, "startet Workflows")
@@ -68,7 +70,7 @@ Rel(ci, pages, "ein Artefakt: _site + _site/docs")
 @enduml
 ....
 
-Die externen Nachbarn sind dieselben fünf Systeme und zwei Personen wie im
+Die externen Nachbarn sind dieselben sechs Systeme und zwei Personen wie im
 xref:03_context_and_scope.adoc#section-business-context[fachlichen Kontext].
 
 [cols="2,4,3,3",options="header"]

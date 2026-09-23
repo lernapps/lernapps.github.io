@@ -55,22 +55,23 @@ Die fachlichen Anwendungsfälle, auf die sich Tests und Szenarien beziehen:
 |===
 
 [[section-quality-goals]]
-=== Qualitätsziele: Datenschutz geht vor, dann der Tutor
+=== Qualitätsziele: Datenschutz geht vor, dann die richtige Rückmeldung
 
-Fünf Qualitätsziele treiben die Architektur. Sie sind aus der Vorlage übernommen; die Reihenfolge ist
-aus Code und Regeln erschlossen und vom Nutzer noch nicht bestätigt (offene Frage in
-xref:11_technical_risks.adoc#section-open-questions[Kapitel 11]). Kapitel
-xref:04_solution_strategy.adoc#section-solution-strategy[4] ordnet jedem Ziel einen Lösungsansatz zu,
-Kapitel xref:10_quality_requirements.adoc#section-quality-scenarios[10] macht sie mit Szenarien messbar.
+Fünf Qualitätsziele treiben die Architektur. Sie sind aus der Vorlage übernommen. Ihre Rangfolge hat
+der Product Owner am 23.09.2026 festgelegt: Die Spalte „Prio“ zeigt sie, 1 ist das wichtigste Ziel.
+Die IDs bleiben, weil andere Kapitel auf sie verweisen; deshalb weicht die Reihenfolge der IDs von der
+Rangfolge ab. Kapitel xref:04_solution_strategy.adoc#section-solution-strategy[4] ordnet jedem Ziel
+einen Lösungsansatz zu, Kapitel xref:10_quality_requirements.adoc#section-quality-scenarios[10] macht
+sie mit Szenarien messbar.
 
-[cols="1,2,4",options="header"]
+[cols="1,1,2,4",options="header"]
 |===
-| ID | Qualitätsziel (ISO/IEC 25010) | Warum es die Architektur treibt
-| QZ-1 | *Datenschutz by Design* (Sicherheit: Vertraulichkeit) | Die Nutzer sind Kinder. Keine App darf etwas über sie an Dritte geben: kein Server, kein Tracking, keine Anfrage an fremde Hosts, bis das Kind ein Video startet.
-| QZ-2 | *Tutor-Anschlussfähigkeit* (Kompatibilität: Interoperabilität) | Der Tutor ist ein LLM auf fremder Infrastruktur, das die Apps nur über Links und Texte kennt. URL-Parameter, Anker, Aufgabennummern und Adressen sind ein öffentlicher Vertrag und müssen reproduzierbar und stabil sein.
-| QZ-3 | *Fachlich richtige Rückmeldung* (Funktionale Eignung: Korrektheit) | Ein Kind, dem die App eine richtige Antwort als falsch meldet, verliert das Vertrauen. Brüche rechnen exakt, gerundet wird nach einer einzigen Regel, und alle Apps prüfen mit demselben Kern.
-| QZ-4 | *Neue Apps und Kompetenzen schnell und einheitlich* (Wartbarkeit: Wiederverwendbarkeit, Modifizierbarkeit) | Rund 20 Apps je Schuljahr, gebaut von einem KI-Agenten. Das gelingt nur, wenn das Generische einmal existiert, eine Korrektur alle Apps erreicht und der Build jede Abweichung meldet.
-| QZ-5 | *Zugänglich auf jedem Gerät* (Benutzbarkeit: Zugänglichkeit) | Kinder üben auf dem Handy und auf Schulgeräten. Mobile-first ab 360 px, Text und Bild ohne JavaScript lesbar, bedienbar per Tastatur.
+| Prio | ID | Qualitätsziel (ISO/IEC 25010) | Warum es die Architektur treibt
+| 1 | QZ-1 | *Datenschutz by Design* (Sicherheit: Vertraulichkeit) | Die Nutzer sind Kinder. Keine App darf etwas über sie an Dritte geben: kein Server, kein Tracking, keine Anfrage an fremde Hosts, bis das Kind ein Video startet.
+| 2 | QZ-3 | *Fachlich richtige Rückmeldung* (Funktionale Eignung: Korrektheit) | Ein Kind, dem die App eine richtige Antwort als falsch meldet, verliert das Vertrauen. Brüche rechnen exakt, gerundet wird nach einer einzigen Regel, und alle Apps prüfen mit demselben Kern.
+| 3 | QZ-2 | *Tutor-Anschlussfähigkeit* (Kompatibilität: Interoperabilität) | Der Tutor ist ein LLM auf fremder Infrastruktur, das die Apps nur über Links und Texte kennt. URL-Parameter, Anker, Aufgabennummern und Adressen sind ein öffentlicher Vertrag und müssen reproduzierbar und stabil sein.
+| 4 | QZ-4 | *Neue Apps und Kompetenzen schnell und einheitlich* (Wartbarkeit: Wiederverwendbarkeit, Modifizierbarkeit) | Rund 20 Apps je Schuljahr, gebaut von einem KI-Agenten. Das gelingt nur, wenn das Generische einmal existiert, eine Korrektur alle Apps erreicht und der Build jede Abweichung meldet.
+| 5 | QZ-5 | *Zugänglich auf jedem Gerät* (Benutzbarkeit: Zugänglichkeit) | Kinder üben auf dem Handy und auf Schulgeräten. Mobile-first ab 360 px, Text und Bild ohne JavaScript lesbar, bedienbar per Tastatur.
 |===
 
 [[section-stakeholder]]

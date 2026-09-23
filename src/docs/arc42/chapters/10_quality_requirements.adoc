@@ -13,9 +13,10 @@ ifndef::imagesdir[:imagesdir: ../../images]
 
 Die Szenarien machen die Qualitätsziele aus
 xref:01_introduction_and_goals.adoc#section-quality-goals[Kapitel 1.2] prüfbar. Jede Messgröße ist eine
-Konstante oder Regel aus dem Code oder eine datierte Messung; die Spalte „Messgröße“ nennt den Beleg.
-Zielwerte, die nirgends stehen, sind nicht erfunden, sondern als [OPEN] markiert. Die IDs der Vorlage
-bleiben; QS-9, QS-11, QS-13, QS-17 und QS-21 sind auf das Monorepo umgeschrieben, QS-22 bis QS-25 sind neu.
+Konstante oder Regel aus dem Code, eine datierte Messung oder ein Zielwert des Product Owners; die
+Spalte „Antwortmaß“ nennt den Beleg. Die Zielwerte für Ladezeit, Barrierefreiheit und CI-Dauer hat der
+Product Owner am 23.09.2026 festgelegt (QS-26 bis QS-28). Die IDs der Vorlage bleiben; QS-9, QS-11,
+QS-13, QS-17 und QS-21 sind auf das Monorepo umgeschrieben, QS-22 bis QS-28 sind neu.
 
 [[section-quality-tree]]
 === Qualitätsbaum: Alle acht Merkmale nach ISO/IEC 25010
@@ -53,8 +54,13 @@ left side
 *** QZ-5 Zugänglich auf jedem Gerät
 **** QS-12 360 px
 **** QS-13 Text und Bild ohne JavaScript
+**** QS-27 WCAG 2.2 AA
 *** abgeleitet: QS-18 Kopier-Rückmeldung 1,5 s
 ** Leistungseffizienz
+*** QZ-5 Zugänglich auf jedem Gerät
+**** QS-26 Seite < 2 s auf dem Handy
+*** QZ-4 Neue Apps und Kompetenzen schnell
+**** QS-28 CI-Lauf < 5 min
 *** abgeleitet: QS-14 Vorschau nach 150 ms
 *** abgeleitet: QS-22 Build in Sekunden
 ** Zuverlässigkeit
@@ -73,8 +79,8 @@ left side
 | Kompatibilität (Interoperabilität) | konkretisiert QZ-2; QS-16 abgeleitet | QS-3, QS-4, QS-5, QS-16
 | Funktionale Eignung | konkretisiert QZ-3; QS-24 abgeleitet | QS-6, QS-7, QS-19, QS-24
 | Wartbarkeit | konkretisiert QZ-4 | QS-9, QS-10, QS-11, QS-21, QS-25
-| Benutzbarkeit | konkretisiert QZ-5; QS-18 abgeleitet | QS-12, QS-13, QS-18
-| Leistungseffizienz | abgeleitet | QS-14, QS-22
+| Benutzbarkeit | konkretisiert QZ-5; QS-18 abgeleitet | QS-12, QS-13, QS-27, QS-18
+| Leistungseffizienz | QS-26 konkretisiert QZ-5, QS-28 konkretisiert QZ-4; QS-14, QS-22 abgeleitet | QS-26, QS-28, QS-14, QS-22
 | Zuverlässigkeit | abgeleitet | QS-15, QS-20
 | Übertragbarkeit | abgeleitet | QS-17, QS-23
 |===
@@ -103,8 +109,11 @@ Jedes Szenario hat sechs Teile: Quelle, Stimulus, Artefakt, Umgebung, Antwort, A
 | QS-25 | QZ-4 | Autor:in | korrigiert einen Fehler im Kern | Kern | Entwicklung | Korrektur erreicht jede App im nächsten Deployment | *1 Commit* für alle Apps statt *1 je App* (ADR-012; heute 3, geplant rund 20 Apps je Schuljahr)
 | QS-12 | QZ-5 | Lernende | öffnet eine App auf dem Handy | Layout, `stil.css` | Viewport 360 px | alles lesbar, kein waagerechtes Scrollen | *360 px* Grundlayout, breiter ab *40rem* (`src/kern/css/stil.css:2`, `:223`; Commit `928f6e5`)
 | QS-13 | QZ-5 | Lernende, Suchmaschine, LLM | lädt eine Kompetenzseite ohne JavaScript | Layout, Build (Bild) | JS aus | Warum, Regel, Beispiel, Video-Link und Bild lesbar; Hinweis für die Übung | *5 von 6* Abschnitten statisch, nur `#uebung` braucht JS und hat `<noscript>` (`src/_includes/kompetenz.njk:8-46`; `lib/bild.js`)
+| QS-26 | QZ-5 | Lernende | öffnet eine Kompetenzseite auf dem Handy | Layout, Kern, Apps, GitHub Pages | Produktion, erster Besuch ohne Cache. *Annahme:* langsames 4G (Lighthouse-Profil „Slow 4G“: 1,6 Mbit/s, 150 ms RTT); vom Product Owner nicht festgelegt | Seite ist lesbar und bedienbar | *< 2 s* bis die Seite geladen ist (Zielwert des Product Owners, 23.09.2026). Noch nicht gemessen; kein automatischer Test
+| QS-27 | QZ-5 | Lernende, auch mit Screenreader oder nur mit Tastatur | nutzt eine Kompetenzseite, den Test und die Übersicht | Layout, Kern, `stil.css`, Fachfarben | Produktion, Handy und Desktop | alle Inhalte und Bedienelemente wahrnehmbar, bedienbar und verständlich | *0 Verstöße gegen WCAG 2.2, Stufe AA* (Zielwert des Product Owners, 23.09.2026). Heute prüft der Build nur den Kontrast der Fachfarben (*≥ 4,5:1*, QS-17); der Rest wird von Hand geprüft, automatisiert erst mit TD-5 (xref:08_concepts.adoc#section-barrierefreiheit[8.6])
+| QS-28 | QZ-4 | Autor:in, CI | öffnet einen PR oder merged nach `main` | `pruefen.yml`, `pages.yml` | GitHub Actions, Cache für docToolchain vorhanden | Tests, Build, Prüfungen und Deployment laufen durch | *< 5 min* je Workflow-Lauf (Zielwert des Product Owners, 23.09.2026). Gemessen am 23.09.2026: `pruefen.yml` 13–19 s, `pages.yml` 29–32 s (`gh run list`)
 | QS-14 | abgeleitet | Lernende | tippt einen Term | Kern (Eingabe) | Übung | Vorschau nach der Tipp-Pause | *150 ms* (`src/kern/js/aufgabe-eingabe.js:17`)
-| QS-22 | abgeleitet | Autor:in, CI | `npm run build` | Build | Entwicklung, WSL | vollständige, geprüfte Site | *0,41 s* für 3 Apps, Karte, 45 Seiten (Eleventy-Ausgabe, 23.09.2026); Spike vom 23.09.2026: *≈ 1,5 s* für 20 Apps, Code verworfen. [OPEN] Kein Zielwert festgelegt.
+| QS-22 | abgeleitet | Autor:in, CI | `npm run build` | Build | Entwicklung, WSL | vollständige, geprüfte Site | *0,41 s* für 3 Apps, Karte, 45 Seiten (Eleventy-Ausgabe, 23.09.2026); Spike vom 23.09.2026: *≈ 1,5 s* für 20 Apps, Code verworfen. Zielwert für den ganzen CI-Lauf: QS-28.
 | QS-15 | abgeleitet | Browser | `localStorage` wirft | Kern (Speicher, Video) | Produktion | keine Ausnahme, Meldung an das Kind | *0 unbehandelte Ausnahmen*; Speichern liefert `false` (`src/kern/js/storage.js:17-21`)
 | QS-20 | abgeleitet | Browser mit Cache der Vorversion | öffnet nach einem Deployment eine neue Seite | Layout, Kern, Apps | Produktion, `max-age=600` | lädt Module nur in der neuen Version | *jede* lokale JS/CSS-Referenz trägt `?v=<Hash>`, *0* Module doppelt (`lib/versionierung.js:16-28`)
 | QS-16 | abgeleitet | Lernende | startet den Tutor mit sehr langem Prompt | Kern (TalkItOver) | Produktion | Prompt in die Zwischenablage statt Link | Grenze *20 000 Zeichen* (`src/kern/vendor/talkitover.js:39`)
@@ -114,5 +123,5 @@ Jedes Szenario hat sechs Teile: Quelle, Stimulus, Artefakt, Umgebung, Antwort, A
 | QS-18 | abgeleitet | Lernende | klickt „Link kopieren“ | Kern (Aufgabenlink) | Übung | Knopf zeigt „Kopiert“, dann wieder den alten Text | *1500 ms* (`src/kern/js/aufgabenlink.js:24`)
 |===
 
-[OPEN] Ladezeit, Seitengröße, Build-Zeit-Ziel und eine WCAG-Stufe als Zielwert stehen nicht im Code.
-Wer sie festlegt, steht in xref:11_technical_risks.adoc#section-open-questions[Kapitel 11].
+Die Zielwerte von QS-26 bis QS-28 stehen nicht im Code, sondern kommen vom Product Owner. Die
+Netz-Annahme in QS-26 ist eine Annahme der Doku; sie gilt, bis jemand ein anderes Profil festlegt.

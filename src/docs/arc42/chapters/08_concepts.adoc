@@ -63,10 +63,12 @@ in Node.
 | M-12 | Eleventy exakt gepinnt (`3.1.6`, ohne `^`), transitive Pakete über `package-lock.json`, in CI `npm ci`. Nie `npx eleventy` ohne installiertes Paket. | T-012 (teilweise) | `package.json`; `CLAUDE.md`; ADR-012
 | M-13 | docToolchain am festen Commit `6de96fb7…`, nicht an einem Zweig; der Cache hängt am SHA. | T-012 (teilweise) | `scripts/dtc-v4.sh`; `.github/workflows/pages.yml`
 | M-14 | Die Doku lädt nichts von fremden Hosts: Theme-CSS ohne CDN-Importe, Schriften und Symbole lokal. | T-007 | `src/site/assets/css/`; TD-10
-| M-15 | [OPEN] Zwei-Faktor-Pflicht für die Organisation `lernapps` und Branch-Schutz für `main`. Heute `two_factor_requirement_enabled: false` (`gh api orgs/lernapps`, 23.09.2026). | T-001 | xref:11_technical_risks.adoc#r-017[R-017]
+| M-15 | Branch-Schutz für `main`, seit 23.09.2026: PR-Pflicht, Pflicht-Check `test-und-build`, kein Force-Push, kein Löschen. Admins dürfen ihn umgehen. Die Zwei-Faktor-Pflicht für die Organisation ist zurückgestellt, bis weitere Personen mitarbeiten (`two_factor_requirement_enabled: false`, `gh api orgs/lernapps`, 23.09.2026). | T-001 (teilweise), T-011, T-013 (teilweise) | `gh api repos/lernapps/lernapps.github.io/branches/main/protection`; xref:11_technical_risks.adoc#r-017[R-017]
+| M-16 | Rückmeldung nur über einen Link auf GitHub Issues. Die Seite lädt nichts von GitHub; erst der Klick des Kindes oder der Eltern öffnet GitHub. GitHub verlangt ein Konto und ein Mindestalter von 13 Jahren; jüngere Kinder brauchen die Eltern. Entschieden am 23.09.2026, noch nicht umgesetzt. | T-007 (hält den Link frei von Einbettungen) | xref:03_context_and_scope.adoc#section-technical-context[Kapitel 3]
 |===
 
-Offene Restrisiken: T-001 ist ohne M-15 nur teilweise geschlossen, T-012 bleibt ein Lieferketten-Risiko
+Offene Restrisiken: T-001 ist ohne Zwei-Faktor-Pflicht nur teilweise geschlossen, und Admins können
+den Branch-Schutz umgehen; T-012 bleibt ein Lieferketten-Risiko
 (xref:11_technical_risks.adoc#r-015[R-015]), T-002 hängt am Review.
 
 [[section-test-concept]]
@@ -117,8 +119,10 @@ das Kind verrät. An ihre Stelle treten:
 * *Audit-Trail:* die Git-Historie für Code, `tutor.md`, `llms.txt`, Kartendaten und ADRs.
 * *Beim Kind:* Ergebniszeile und Aufgabennummer sind die einzige „Telemetrie“; das Kind entscheidet,
   ob es sie teilt.
-* *Beim Tutor:* Was nicht funktioniert, zeigt sich im Gespräch. [OPEN] Einen Kanal zurück zur
-  Autor:in gibt es nicht.
+* *Beim Tutor:* Was nicht funktioniert, zeigt sich im Gespräch.
+* *Rückmeldung an die Autor:in:* Jede Seite bekommt einen Link auf GitHub Issues (entschieden am
+  23.09.2026). Nur wer klickt und ein GitHub-Konto hat, meldet etwas; die App selbst sendet nichts
+  (8.2 M-16).
 
 [[section-error-handling]]
 === 8.5 Fehlerbehandlung: Im Build abbrechen, im Browser zurückfallen
@@ -155,7 +159,8 @@ xref:09_architecture_decisions.adoc#adr-011[ADR-011] (Kontrast der Fachfarben).
 === 8.7 Zahlen eingeben: Eine Rundungsregel für alle Felder
 
 Entschieden in xref:09_architecture_decisions.adoc#adr-006[ADR-006], umgesetzt in
-`src/kern/js/zahlantwort.js`, geprüft in `test/kern/zahlantwort.test.js`.
+`src/kern/js/zahlantwort.js`, geprüft in `test/kern/zahlantwort.test.js`. Der Domain Expert hat die
+Rundungsregel am 23.09.2026 fachlich bestätigt: Geld 2, Prozent 1, sonst 2 Nachkommastellen.
 
 * *BR-1* Jedes Zahlenfeld hat eine Art: `geld` 2, `prozent` 1, `zahl` 2 Stellen (`zahlantwort.js:17`); `stellen` überschreibt.
 * *BR-2* Die Toleranz folgt den getippten Stellen: richtig ist der exakte Wert oder der exakte Wert kaufmännisch auf die getippten Stellen gerundet, mindestens die geforderten.
@@ -174,7 +179,8 @@ Entschieden in xref:09_architecture_decisions.adoc#adr-009[ADR-009], umgesetzt i
 `src/kern/js/variablenterm.js` und `src/kern/js/termantwort.js`, Business Rules BR-T1 bis BR-T9
 (Use Case UC-T). Gleichwertig heißt: gleich an 8 festen Belegungen ohne 0 und ±1, mindestens 5 gültig,
 relative Toleranz 1e-9 (`termantwort.js:26`). Falsche Form (`nicht-ausmultipliziert`,
-`nicht-zusammengefasst`, `nicht-faktorisiert`) ist ein Hinweis und zählt nicht.
+`nicht-zusammengefasst`, `nicht-faktorisiert`) ist ein Hinweis und zählt nicht. Die Formregeln
+„ausmultipliziert“ und „faktorisiert“ hat der Domain Expert am 23.09.2026 fachlich bestätigt.
 
 [[section-konfiguration]]
 === 8.8 Konfiguration: Die App reicht sich dem Kern hinein
