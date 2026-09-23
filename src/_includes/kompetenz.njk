@@ -1,7 +1,7 @@
 ---
 layout: basis.njk
 ---
-{#- Kompetenzseite: Warum, Regel, Beispiel, Bild, Video, Übung – Inhalte aus dem Front Matter von src/<app>/<id>.md. -#}
+{#- Kompetenzseite: Warum, Regel, Beispiel, Bild, Video, serlo-Link (optional), Übung – Inhalte aus dem Front Matter von src/<app>/<id>.md. -#}
 {%- set k = kompetenzDaten -%}
     <h1>{{ k.titel }}</h1>
 
@@ -40,6 +40,11 @@ layout: basis.njk
     <section id="video">
       <h2>Video dazu</h2>
       <p>{{ ohneVideo or "Zu diesem Schritt gibt es kein passendes Video." }}</p>
+    </section>
+{% endif %}
+{% if serlo %}
+    <section id="serlo" class="serlo-link">
+      <p>Noch eine Erklärung: <a href="{{ serlo.url }}" rel="noopener">{{ serlo.titel }}</a> bei serlo.org</p>
     </section>
 {% endif %}
     </details>

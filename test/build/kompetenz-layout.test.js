@@ -42,3 +42,15 @@ test("gebaute Kompetenzseiten: #visualisierung vor #video", { skip: gebaut.lengt
   }
   assert.ok(geprueft > 0);
 });
+
+test("serlo-Link: optional, nach dem Video, in der Erklärung, reiner Link mit rel=noopener", () => {
+  const serlo = layout.indexOf('id="serlo"');
+  assert.ok(serlo > 0, "Abschnitt #serlo fehlt");
+  assert.ok(serlo < layout.indexOf("</details>"), "in <details>");
+  assert.ok(serlo > layout.lastIndexOf('id="video"'), "nach dem Video");
+  const block = layout.slice(layout.lastIndexOf("{% if serlo", serlo), layout.indexOf("{% endif %}", serlo));
+  assert.match(block, /^\{% if serlo %\}/);
+  assert.match(block, /<a href="\{\{ serlo\.url \}\}" rel="noopener">\{\{ serlo\.titel \}\}<\/a>/);
+  assert.match(block, /bei serlo\.org/);
+  assert.doesNotMatch(block, /<(iframe|img|script)\b/);
+});
