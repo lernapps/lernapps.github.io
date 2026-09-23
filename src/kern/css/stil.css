@@ -232,7 +232,7 @@ footer.fuss {
 /* Video-Karte (Zwei-Klick-Einbettung) */
 .video-karte .video-platzhalter { border: 1px solid var(--farbe-rand); border-radius: var(--radius); padding: 0.75rem; max-width: 36rem; }
 .video-bild { aspect-ratio: 16 / 9; background: #111827; border-radius: var(--radius); display: flex; align-items: center; justify-content: center; }
-.video-play { width: 4.5rem; height: auto; }
+.video-play { width: 3.5rem; height: auto; }
 .video-titel { font-weight: 600; margin: 0.6rem 0 0.2rem; }
 .video-kanal { color: #4b5563; font-size: 0.95rem; margin: 0 0 0.4rem; }
 .video-hinweis { font-size: 0.9rem; color: #4b5563; }

@@ -66,3 +66,11 @@ test("kanalZeile nennt den Kanal nur, wenn die Seite ihn angibt", () => {
 test("Schlüssel für den Merker trägt das übergebene Präfix", () => {
   assert.equal(schluesselDirekt(P), "binom-trainer.video-direkt");
 });
+
+test("das Play-Symbol ist neutral: Kreis mit Dreieck, keine Form des YouTube-Logos (Markenrichtlinien)", async () => {
+  const { PLAY_SYMBOL } = await import("../../src/kern/js/video.js");
+  assert.equal(PLAY_SYMBOL.viewBox, "0 0 48 48");
+  assert.deepEqual(PLAY_SYMBOL.kreis, { cx: 24, cy: 24, r: 22 });
+  assert.doesNotMatch(PLAY_SYMBOL.dreieck, /M27 34l18-10-18-10z/);
+  assert.doesNotMatch(JSON.stringify(PLAY_SYMBOL), /M66\.5/);
+});
