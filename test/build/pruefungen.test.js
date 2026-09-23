@@ -1,7 +1,7 @@
 // Use Case: Build bricht ab, wenn eine Regel verletzt ist (früher scripts/pruefe.mjs).
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { pruefeExterneRessourcen, pruefeExterneImporte, pruefeZeilen, pruefeLlms, pruefeKompetenzen } from "../../lib/pruefungen.js";
+import { pruefeExterneRessourcen, pruefeExterneImporte, pruefeZeilen, pruefeLlms, pruefeKompetenzen, pruefeMeldeLink } from "../../lib/pruefungen.js";
 
 test("externe Ressourcen in script/link/img/iframe sind Fehler, Links und Canonical nicht", () => {
   assert.deepEqual(pruefeExterneRessourcen("a.html", `<link rel="canonical" href="https://x.org/"><a href="https://x.org">x</a>`), []);
@@ -37,4 +37,10 @@ test("je Kompetenz: Markdown-Seite, Generator, Test und (bei Bild) Zeichenmodul;
   assert.ok(fehler.some((f) => /test\/b\.test\.js fehlt/.test(f)));
   assert.ok(fehler.some((f) => /a doppelt/.test(f)));
   assert.ok(pruefeKompetenzen("binom", [{ id: "B_x", seite: "B_x.html", generator: "./x.js" }], () => true).some((f) => /a-z/.test(f)));
+});
+
+test("jede Seite hat den Melde-Link auf GitHub Issues", () => {
+  const repo = "https://github.com/o/r";
+  assert.deepEqual(pruefeMeldeLink("a.html", `<footer><a href="${repo}/issues/new?title=x">melden</a></footer>`, repo), []);
+  assert.match(pruefeMeldeLink("a.html", "<footer></footer>", repo)[0], /a\.html: Melde-Link/);
 });

@@ -1,0 +1,127 @@
+:jbake-title: Qualitätsanforderungen
+:jbake-type: page_toc
+:jbake-status: published
+:jbake-menu: arc42
+:jbake-order: 10
+:filename: /chapters/10_quality_requirements.adoc
+ifndef::imagesdir[:imagesdir: ../../images]
+
+:toc:
+
+[[section-quality-scenarios]]
+== Qualitätsanforderungen: Jede Zahl stammt aus dem Code oder aus einer Messung
+
+Die Szenarien machen die Qualitätsziele aus
+xref:01_introduction_and_goals.adoc#section-quality-goals[Kapitel 1.2] prüfbar. Jede Messgröße ist eine
+Konstante oder Regel aus dem Code, eine datierte Messung oder ein Zielwert des Product Owners; die
+Spalte „Antwortmaß“ nennt den Beleg. Die Zielwerte für Ladezeit, Barrierefreiheit und CI-Dauer hat der
+Product Owner am 23.09.2026 festgelegt (QS-26 bis QS-28). Die IDs der Vorlage bleiben; QS-9, QS-11,
+QS-13, QS-17 und QS-21 sind auf das Monorepo umgeschrieben, QS-22 bis QS-28 sind neu.
+
+[[section-quality-tree]]
+=== Qualitätsbaum: Alle acht Merkmale nach ISO/IEC 25010
+
+[plantuml, target=qualitaetsbaum, format=svg]
+....
+@startmindmap
+* Qualität der Lern-Apps
+** Sicherheit
+*** QZ-1 Datenschutz by Design
+**** QS-1 0 fremde Requests vor Video-Klick
+**** QS-2 externe Ressource bricht den Build
+**** QS-8 kein eval, Exponent ≤ 64
+** Kompatibilität
+*** QZ-2 Tutor-Anschlussfähigkeit
+**** QS-3 gleiche Nummer, gleiche Aufgabe
+**** QS-4 Test aus Testnummer
+**** QS-5 llms.txt nennt jede Seite
+*** abgeleitet: QS-16 Prompt > 20 000 Zeichen → Zwischenablage
+** Funktionale Eignung
+*** QZ-3 Richtige Rückmeldung
+**** QS-6 Rundung nach getippten Stellen
+**** QS-7 irrationale Werte, Spielraum 1e-9
+**** QS-19 Terme an 8 Prüfstellen
+*** abgeleitet: QS-24 unbekannter Karten-Knoten bricht den Build
+** Wartbarkeit
+*** QZ-4 Neue Apps und Kompetenzen schnell
+**** QS-9 Kompetenz = 3 Dateien + 1 Zeile
+**** QS-10 Dateien ≤ 500 Zeilen
+**** QS-11 Version an 1 Stelle
+**** QS-21 ?v= ohne Handarbeit
+**** QS-25 Kern-Korrektur = 1 Commit
+left side
+** Benutzbarkeit
+*** QZ-5 Zugänglich auf jedem Gerät
+**** QS-12 360 px
+**** QS-13 Text und Bild ohne JavaScript
+**** QS-27 WCAG 2.2 AA
+*** abgeleitet: QS-18 Kopier-Rückmeldung 1,5 s
+** Leistungseffizienz
+*** QZ-5 Zugänglich auf jedem Gerät
+**** QS-26 Seite < 2 s auf dem Handy
+*** QZ-4 Neue Apps und Kompetenzen schnell
+**** QS-28 CI-Lauf < 5 min
+*** abgeleitet: QS-14 Vorschau nach 150 ms
+*** abgeleitet: QS-22 Build in Sekunden
+** Zuverlässigkeit
+*** abgeleitet: QS-15 Speicher gesperrt, keine Ausnahme
+*** abgeleitet: QS-20 kein Modul-Mischmasch nach Deployment
+** Übertragbarkeit
+*** abgeleitet: QS-17 unbekanntes Fach bricht den Build
+*** abgeleitet: QS-23 Umzug der Adresse = 1 Zeile
+@endmindmap
+....
+
+[cols="2,2,3",options="header"]
+|===
+| Merkmal (ISO/IEC 25010) | Bezug | Szenarien
+| Sicherheit | konkretisiert QZ-1 | QS-1, QS-2, QS-8
+| Kompatibilität (Interoperabilität) | konkretisiert QZ-2; QS-16 abgeleitet | QS-3, QS-4, QS-5, QS-16
+| Funktionale Eignung | konkretisiert QZ-3; QS-24 abgeleitet | QS-6, QS-7, QS-19, QS-24
+| Wartbarkeit | konkretisiert QZ-4 | QS-9, QS-10, QS-11, QS-21, QS-25
+| Benutzbarkeit | konkretisiert QZ-5; QS-18 abgeleitet | QS-12, QS-13, QS-27, QS-18
+| Leistungseffizienz | QS-26 konkretisiert QZ-5, QS-28 konkretisiert QZ-4; QS-14, QS-22 abgeleitet | QS-26, QS-28, QS-14, QS-22
+| Zuverlässigkeit | abgeleitet | QS-15, QS-20
+| Übertragbarkeit | abgeleitet | QS-17, QS-23
+|===
+
+[[section-quality-scenario-list]]
+=== Qualitätsszenarien
+
+Jedes Szenario hat sechs Teile: Quelle, Stimulus, Artefakt, Umgebung, Antwort, Antwortmaß.
+
+[cols="1,1,2,2,2,2,3,3",options="header"]
+|===
+| ID | Ziel | Quelle | Stimulus | Artefakt | Umgebung | Antwort | Antwortmaß (Beleg)
+| QS-1 | QZ-1 | Lernende | öffnet eine Kompetenzseite mit Video | Layout, Kern (Video) | Produktion, erster Besuch, Merker nicht gesetzt | Platzhalter mit lokalem Symbol, kein iframe, kein Vorschaubild | *0 Requests an fremde Hosts* vor dem Klick; danach nur `www.youtube-nocookie.com` (`src/kern/js/video.js:12-15`, `:62`; Browser-Check laut `CLAUDE.md` Project rules)
+| QS-2 | QZ-1 | Autor:in oder KI-Agent | fügt `<script src="https://cdn…">` oder `@import url(//…)` ein | Ausgabe `_site/` | Entwicklung, `npm run build` / CI | Build bricht mit Datei und URL ab | *Exit-Code ≠ 0*, *1 Fehlerzeile je Fundstelle* (`lib/pruefungen.js:8-22`; `test/build/pruefungen.test.js`)
+| QS-3 | QZ-2 | Tutor | schickt `…?seed=42` zweimal | Kern (Zufall), Apps | Produktion | dieselbe Aufgabe | *gleiche Aufgabe für gleiche Nummer*; ohne Nummer *1–9999* (`src/kern/js/zufall.js:14-16`, `:47`; `test/apps/vertrag.test.js:25`)
+| QS-4 | QZ-2 | Tutor | schickt `test.html?nr=4711&modus=schnell` | Kern (Test) | Produktion | gleiche Aufgabenfolge bei jedem Aufruf; Ergebniszeile | *1 Aufgabe* je Kompetenz im Schnelltest, *2* im Test (`src/kern/js/testablauf.js:9`)
+| QS-5 | QZ-2 | Autor:in | legt eine Kompetenz an, ohne sie im `llms.njk` zu nennen | Apps, Build | Entwicklung | Build meldet die fehlende Seite | *1 Fehler je nicht genannter Seite* (`lib/pruefungen.js:31-33`; `eleventy.config.js`)
+| QS-6 | QZ-3 | Lernende | tippt für 10/3 „3,33“, „3,333“, „3,34“, „3,3“ | Kern (Zahlen) | Übung | richtig, richtig, falsch, Hinweis | Standard *geld 2, prozent 1, zahl 2* Stellen (`src/kern/js/zahlantwort.js:17`; `test/kern/zahlantwort.test.js`)
+| QS-7 | QZ-3 | Lernende | tippt `sqrt((2+3)*8)` für √40 | Kern (Zahlen) | Übung | richtig | relativer Spielraum *1e-9*; mehr als *12* Stellen gelten nicht als gerundet (`src/kern/js/zahlantwort.js:22-23`)
+| QS-19 | QZ-3 | Lernende | tippt für „(x+3)² ausmultiplizieren“ `x^2+6x+9`, `(x+3)(x+3)`, `x^2+9` | Kern (Terme) | Übung, `form: "ausmultipliziert"` | richtig, Hinweis, falsch | *8* Prüfstellen, mindestens *5* gültig, Toleranz *1e-9* (`src/kern/js/termantwort.js:26`; `test/kern/termantwort.test.js`); Hinweise zählen *0* Versuche (`src/kern/js/pruefung.js:73`)
+| QS-8 | QZ-1 | präparierter Link oder Eingabe | `9^999` oder Code im Feld | Kern (Zahlen) | Übung | „ungültig“, kein Code ausgeführt | *kein eval*; Exponent *≤ 64* (`src/kern/js/bruch.js:65`)
+| QS-9 | QZ-4 | Autor:in | legt eine neue Kompetenz in einer bestehenden App an | Apps, Build, Layout | Entwicklung | Seite, Menü, Checkliste, Test, Übersicht, Karten-Eintrag entstehen; fehlt eine Datei, bricht der Build | *3 Dateien* (`<id>.md`, `js/aufgaben/<id>.js`, `test/<id>.test.js`) *+ 1 Zeile* in `KOMPETENZEN` (`lib/pruefungen.js:36-49`; Messung im Spike vom 23.09.2026, Code verworfen); Bild optional als 4. Datei
+| QS-10 | QZ-4 | Autor:in oder KI-Agent | eine Quelldatei wächst | alle Textdateien | Entwicklung, Build | Build meldet die Datei | *höchstens 500 Zeilen* (`lib/pruefungen.js:5`, `:25-28`)
+| QS-11 | QZ-4 | Autor:in | hebt die Site-Version | `package.json`, Layout | Entwicklung | Footer jeder Seite zeigt die neue Version | Version an *1 Stelle* (`package.json`; gelesen in `src/_data/site.js:11`, `:16`; gezeigt in `src/_includes/basis.njk:45`)
+| QS-21 | QZ-4 | Autor:in | ändert ein Kern-Modul und deployt | Build (Versionierung) | Entwicklung, Build | alle Referenzen zeigen auf den neuen Hash | *0* `?v=` in Quellen, *1* Hash für alle Referenzen, *8* Hex-Zeichen (`lib/versionierung.js:9-13`; `test/build/versionierung.test.js`)
+| QS-25 | QZ-4 | Autor:in | korrigiert einen Fehler im Kern | Kern | Entwicklung | Korrektur erreicht jede App im nächsten Deployment | *1 Commit* für alle Apps statt *1 je App* (ADR-012; heute 3, geplant rund 20 Apps je Schuljahr)
+| QS-12 | QZ-5 | Lernende | öffnet eine App auf dem Handy | Layout, `stil.css` | Viewport 360 px | alles lesbar, kein waagerechtes Scrollen | *360 px* Grundlayout, breiter ab *40rem* (`src/kern/css/stil.css:2`, `:223`; Commit `928f6e5`)
+| QS-13 | QZ-5 | Lernende, Suchmaschine, LLM | lädt eine Kompetenzseite ohne JavaScript | Layout, Build (Bild) | JS aus | Warum, Regel, Beispiel, Video-Link und Bild lesbar; Hinweis für die Übung | *5 von 6* Abschnitten statisch, nur `#uebung` braucht JS und hat `<noscript>` (`src/_includes/kompetenz.njk:8-46`; `lib/bild.js`)
+| QS-26 | QZ-5 | Lernende | öffnet eine Kompetenzseite auf dem Handy | Layout, Kern, Apps, GitHub Pages | Produktion, erster Besuch ohne Cache. *Annahme:* langsames 4G (Lighthouse-Profil „Slow 4G“: 1,6 Mbit/s, 150 ms RTT); vom Product Owner nicht festgelegt | Seite ist lesbar und bedienbar | *< 2 s* bis die Seite geladen ist (Zielwert des Product Owners, 23.09.2026). Noch nicht gemessen; kein automatischer Test
+| QS-27 | QZ-5 | Lernende, auch mit Screenreader oder nur mit Tastatur | nutzt eine Kompetenzseite, den Test und die Übersicht | Layout, Kern, `stil.css`, Fachfarben | Produktion, Handy und Desktop | alle Inhalte und Bedienelemente wahrnehmbar, bedienbar und verständlich | *0 Verstöße gegen WCAG 2.2, Stufe AA* (Zielwert des Product Owners, 23.09.2026). Heute prüft der Build nur den Kontrast der Fachfarben (*≥ 4,5:1*, QS-17); der Rest wird von Hand geprüft, automatisiert erst mit TD-5 (xref:08_concepts.adoc#section-barrierefreiheit[8.6])
+| QS-28 | QZ-4 | Autor:in, CI | öffnet einen PR oder merged nach `main` | `pruefen.yml`, `pages.yml` | GitHub Actions, Cache für docToolchain vorhanden | Tests, Build, Prüfungen und Deployment laufen durch | *< 5 min* je Workflow-Lauf (Zielwert des Product Owners, 23.09.2026). Gemessen am 23.09.2026: `pruefen.yml` 13–19 s, `pages.yml` 29–32 s (`gh run list`)
+| QS-14 | abgeleitet | Lernende | tippt einen Term | Kern (Eingabe) | Übung | Vorschau nach der Tipp-Pause | *150 ms* (`src/kern/js/aufgabe-eingabe.js:17`)
+| QS-22 | abgeleitet | Autor:in, CI | `npm run build` | Build | Entwicklung, WSL | vollständige, geprüfte Site | *0,41 s* für 3 Apps, Karte, 45 Seiten (Eleventy-Ausgabe, 23.09.2026); Spike vom 23.09.2026: *≈ 1,5 s* für 20 Apps, Code verworfen. Zielwert für den ganzen CI-Lauf: QS-28.
+| QS-15 | abgeleitet | Browser | `localStorage` wirft | Kern (Speicher, Video) | Produktion | keine Ausnahme, Meldung an das Kind | *0 unbehandelte Ausnahmen*; Speichern liefert `false` (`src/kern/js/storage.js:17-21`)
+| QS-20 | abgeleitet | Browser mit Cache der Vorversion | öffnet nach einem Deployment eine neue Seite | Layout, Kern, Apps | Produktion, `max-age=600` | lädt Module nur in der neuen Version | *jede* lokale JS/CSS-Referenz trägt `?v=<Hash>`, *0* Module doppelt (`lib/versionierung.js:16-28`)
+| QS-16 | abgeleitet | Lernende | startet den Tutor mit sehr langem Prompt | Kern (TalkItOver) | Produktion | Prompt in die Zwischenablage statt Link | Grenze *20 000 Zeichen* (`src/kern/vendor/talkitover.js:39`)
+| QS-17 | abgeleitet | Autor:in | trägt `APP.fach: "musik"` ein | Build (Fachfarben) | Entwicklung | Build bricht mit Liste der Fächer ab | *5* Fächer in der Tabelle, weiße Schrift *≥ 4,5:1* (`lib/fachfarben.js:6-12`, `:29-32`; `test/build/fachfarben.test.js`)
+| QS-23 | abgeleitet | Nutzer | zieht die Site an eine neue Adresse um | Build (Adressen) | Entwicklung | alle Links, Canonicals, `llms.txt`, Quellcode-Links folgen | *1 Zeile* (`src/_data/site.js:9`; `lib/adressen.js:7-24`; `test/build/adressen.test.js`)
+| QS-24 | abgeleitet | Autor:in | nennt einen unbekannten Knoten in `kartenKnoten` | Build (Karte), Apps | Entwicklung | Build bricht mit Datei, Kompetenz und Knoten ab | *1 Fehlerzeile je unbekanntem Knoten* (`lib/karte/eintraege.js:46`, `lib/karte/laden.js:53-56`; `test/build/karte-eintraege.test.js`)
+| QS-18 | abgeleitet | Lernende | klickt „Link kopieren“ | Kern (Aufgabenlink) | Übung | Knopf zeigt „Kopiert“, dann wieder den alten Text | *1500 ms* (`src/kern/js/aufgabenlink.js:24`)
+|===
+
+Die Zielwerte von QS-26 bis QS-28 stehen nicht im Code, sondern kommen vom Product Owner. Die
+Netz-Annahme in QS-26 ist eine Annahme der Doku; sie gilt, bis jemand ein anderes Profil festlegt.

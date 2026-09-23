@@ -55,8 +55,26 @@ export function formatProzent(a, stellen = 1) {
   return `${deutsch(gerundet)} %`;
 }
 
-export function formatAlle(a) {
-  return `${formatBruch(a)} ≈ ${formatDezimal(a)} ≈ ${formatProzent(a)}`;
+/** Nachkommastellen, nach denen der Bruch als Dezimalzahl endet (1/4 → 2); null, wenn er periodisch ist (1/3). */
+export function endStellen({ n }) {
+  let zwei = 0;
+  let fuenf = 0;
+  while (n % 2 === 0) { n /= 2; zwei++; }
+  while (n % 5 === 0) { n /= 5; fuenf++; }
+  return n === 1 ? Math.max(zwei, fuenf) : null;
+}
+
+// "=", wenn die Anzeige mit `stellen` Nachkommastellen den Wert exakt trifft, sonst "≈" (TD-18, BR-5).
+function gleichheit(a, stellen) {
+  const ende = endStellen(a);
+  return ende !== null && ende <= stellen ? "=" : "≈";
+}
+
+/** "1/4 = 0,25 = 25 %", "1/3 ≈ 0,333 ≈ 33,3 %": "=" nur, wenn die jeweilige Anzeige exakt ist. */
+export function formatAlle(a, dezimalStellen = 3, prozentStellen = 1) {
+  const dezimal = `${gleichheit(a, dezimalStellen)} ${formatDezimal(a, dezimalStellen)}`;
+  const prozent = `${gleichheit(a, prozentStellen + 2)} ${formatProzent(a, prozentStellen)}`;
+  return `${formatBruch(a)} ${dezimal} ${prozent}`;
 }
 
 // --- Parsen ---------------------------------------------------------------

@@ -73,3 +73,9 @@ test("ergebnismengeAus fällt bei Unsinn auf Standard zurück; URL-Parameter ble
   for (const p of ["experiment", "ereignis", "urne", "rad", "wuerfel"]) assert.ok(URL_TEXTE.includes(p), p);
   for (const p of ["lose", "gewinne", "schwer"]) assert.ok(URL_ZAHLEN.includes(p), p);
 });
+
+test("TD-18: Rückmeldung schreibt \"=\" bei exakten Werten", () => {
+  const halb = erzeugeAufgabe(z(1), { experiment: "wuerfel", ereignis: "gerade" });
+  assert.match(pruefe(halb, "1/2").meldung, /1\/2 = 0,5 = 50 %/);
+  assert.doesNotMatch(pruefe(halb, "1/2").meldung, /≈/);
+});
