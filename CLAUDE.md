@@ -2,8 +2,8 @@
 
 All learning apps (Mathe, Physik, Chemie; about 20 per school year) and later the Mathe-Karte live in this one
 repository: one shared kern, one layout, one build (Eleventy 3.1.6), deployed to GitHub Pages at
-`https://lernapps.github.io/`. The old single-app repos (`binom-trainer`, `lern-app-template`, …) stay
-untouched and keep running until they are migrated.
+`https://lernapps.github.io/`. The old single-app repos (`raifdmueller.github.io/*-trainer`, `mathe-karte`,
+`lern-app-template`) are being deleted (decided 23.09.2026): never link to them or rely on them.
 
 ## Project rules
 - Output is static HTML. Every page is fully readable without JavaScript – text AND picture. JS only powers exercises,
@@ -103,10 +103,9 @@ untouched and keep running until they are migrated.
 - `npm ci`, `npm test`, `npm run build` (output `_site/`), `npm run serve` (dev server under `/lern-apps/`).
 - `.github/workflows/pruefen.yml`: test + build on every push and PR. `.github/workflows/pages.yml`: on push to
   `main`, test + build, then build the arc42 docs (`scripts/dtc-v4.sh generateSite`), copy them to `_site/docs/` and
-  deploy both as ONE artifact via `actions/upload-pages-artifact` + `actions/deploy-pages`. Pages source must be
-  "GitHub Actions": `gh api -X POST repos/<owner>/<repo>/pages -f build_type=workflow`. Pitfall: a repo named
-  `<org>.github.io` gets Pages switched on automatically in branch mode – switch it with
-  `gh api -X PUT repos/<owner>/<repo>/pages -f build_type=workflow`.
+  deploy both as ONE artifact via `actions/upload-pages-artifact` + `actions/deploy-pages`. A repo named
+  `<org>.github.io` gets Pages auto-enabled in legacy branch mode; switch it once to source "GitHub Actions" with
+  `gh api -X PUT repos/<owner>/<repo>/pages -f build_type=workflow` (POST fails because Pages already exists).
 
 ## Architecture
 - arc42 documentation (German) lives in `src/docs/arc42/` (chapters in `chapters/`, ADRs in `chapters/_adr-*.adoc`,
