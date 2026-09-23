@@ -12,7 +12,7 @@ import { ladeApps } from "./lib/apps.js";
 import { zeichneBild } from "./lib/bild.js";
 import { versionsHash, versioniere } from "./lib/versionierung.js";
 import { richteKarteEin } from "./lib/karte/eleventy.js";
-import { pruefeExterneRessourcen, pruefeExterneImporte, pruefeZeilen, pruefeLlms, pruefeKompetenzen } from "./lib/pruefungen.js";
+import { pruefeExterneRessourcen, pruefeExterneImporte, pruefeZeilen, pruefeLlms, pruefeKompetenzen, pruefeMeldeLink } from "./lib/pruefungen.js";
 import { findeLinks, pruefeLink, pruefeVorgaben, pruefeParameterDoku, pruefeUebersicht, dokumentierteWerte } from "./lib/llms-vertrag.js";
 import { leseVorgaben } from "./src/kern/js/aufgabenlink.js";
 import { erzeugeZufall } from "./src/kern/js/zufall.js";
@@ -39,7 +39,10 @@ function pruefe(apps, ausgabe) {
   ].filter((p) => /\.(js|mjs|njk|md|css|txt|json|yml|svg)$/.test(p));
   for (const p of textDateien) fehler.push(...pruefeZeilen(p, fs.readFileSync(p, "utf8")));
   for (const p of alleDateien(ausgabe)) {
-    if (p.endsWith(".html")) fehler.push(...pruefeExterneRessourcen(p, fs.readFileSync(p, "utf8")));
+    if (p.endsWith(".html")) {
+      const html = fs.readFileSync(p, "utf8");
+      fehler.push(...pruefeExterneRessourcen(p, html), ...pruefeMeldeLink(p, html, site.repo));
+    }
     if (/\.(js|css)$/.test(p)) fehler.push(...pruefeExterneImporte(p, fs.readFileSync(p, "utf8")));
   }
   for (const app of apps) {
