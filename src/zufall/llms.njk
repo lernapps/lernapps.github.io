@@ -181,10 +181,12 @@ Kompetenz: P(nicht E) = 1 − P(E), besonders für „mindestens einmal“.
 Drei Aufgabenarten:
 - `p=1/6` – P(E) ist gegeben, gesucht P(nicht E). Auch `p=0,3` oder `p=45` (eine Zahl
   über 1 gilt als Prozent). Die Aufgabe zeigt P(E) immer als gekürzten Bruch.
-- Laplace-Parameter wie auf Seite 1 (`experiment=…&ereignis=…`) – gesucht ist das
-  Gegenereignis des genannten Ereignisses.
+- Laplace-Parameter wie auf Seite 1 (`experiment=…&ereignis=…`, dazu `urne=`, `rad=`,
+  `lose=`, `gewinne=`) – gesucht ist das Gegenereignis des genannten Ereignisses.
 - `experiment=wuerfel|muenze|urne&zuege=2|3&ereignis=mind1<id>` (+ `urne=`, `modus=`)
   – „mindestens einmal“ über 1 − P(kein Mal).
+`art=direkt|einfach|mindestens` wählt nur die Aufgabenart (Zahlen zufällig); ein Parameter
+von oben geht vor.
 Video: keines (`#video` enthält nur den Hinweis, dass die Erklärung oben reicht).
 Beispiel: {{ app.basisUrl }}gegenereignis.html?experiment=wuerfel&zuege=3&ereignis=mind1s&seed=1#uebung
 
@@ -260,7 +262,7 @@ Beispiel: {{ app.basisUrl }}pfade-uebersetzen.html?urne=3r2b1g&zuege=2&modus=mit
 |------------------------|--------------------------------------------------------|-------------------------------------------------------|
 | test.html              | nr (oder seed), modus=voll/schnell                     | ?nr=4711&modus=schnell                                |
 | laplace.html           | experiment, ereignis, urne, rad, lose, gewinne, schwer, seed | ?experiment=urne&urne=3r2b1g&ereignis=b&seed=4  |
-| gegenereignis.html     | p oder experiment, ereignis, zuege, urne, modus, seed  | ?experiment=wuerfel&zuege=3&ereignis=mind1s&seed=1    |
+| gegenereignis.html     | p oder experiment, ereignis, zuege, urne, rad, lose, gewinne, modus, art, seed | ?experiment=wuerfel&zuege=3&ereignis=mind1s&seed=1    |
 | baumdiagramm.html      | experiment, urne, zuege, modus, seed                   | ?urne=3r2b1g&zuege=3&modus=ohne&seed=7                |
 | pfadregel-1.html       | experiment, urne, zuege, modus, ereignis, seed         | ?urne=3r2b1g&zuege=2&modus=ohne&ereignis=rb&seed=3    |
 | ohne-zuruecklegen.html | urne, erster, zweiter, art=zweig/pfad, seed            | ?urne=3r2b1g&erster=r&zweiter=b&art=zweig&seed=3      |

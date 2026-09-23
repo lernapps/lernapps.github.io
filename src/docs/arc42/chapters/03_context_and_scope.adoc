@@ -1,0 +1,91 @@
+:jbake-title: Kontextabgrenzung
+:jbake-type: page_toc
+:jbake-status: published
+:jbake-menu: arc42
+:jbake-order: 3
+:filename: /chapters/03_context_and_scope.adoc
+ifndef::imagesdir[:imagesdir: ../../images]
+
+:toc:
+
+[[section-context-and-scope]]
+== Kontextabgrenzung: Die Apps kennen nur den Browser, alles andere hängt an Links und am Build
+
+Das System „Lern-Apps“ ist das Monorepo mit allem, was daraus entsteht: die ausgelieferte Site unter
+https://lernapps.github.io/ (Apps, Mathe-Karte, Übersicht, diese Doku) und der Build, der sie erzeugt.
+Zur Laufzeit gibt es keinen Server und keine Schnittstelle, die das System selbst aufruft. Nachbarn
+erreicht es auf drei Wegen: über Links, denen ein Mensch oder ein LLM folgt (claude.ai, GitHub Issues); über das YouTube-iframe,
+das erst nach einem Klick entsteht; und zur Build-Zeit über Paketquellen und GitHub. Dieselbe
+Systemgrenze zeigt xref:05_building_block_view.adoc#section-whitebox-overall-system[Kapitel 5, Ebene 1].
+
+[[section-business-context]]
+=== Fachlicher Kontext: Zwei Menschen, sechs Nachbarsysteme
+
+[plantuml, target=kontext-fachlich, format=svg]
+....
+@startuml
+!include <C4/C4_Context>
+LAYOUT_WITH_LEGEND()
+title Fachlicher Kontext der Lern-Apps
+
+Person(kind, "Lernende", "Kind, ~13 Jahre, übt im Browser")
+Person(autor, "App-Autor:in", "Mensch mit Claude Code und dem Skill lern-app")
+
+System(lernapps, "Lern-Apps", "Monorepo lernapps.github.io: Apps, Mathe-Karte, Übersicht, Doku; Build mit Eleventy")
+
+System_Ext(claude, "claude.ai", "Claude als Tutor; liest tutor.md und llms.txt")
+System_Ext(youtube, "YouTube", "youtube-nocookie.com, erst nach Klick")
+System_Ext(github, "GitHub", "Organisation lernapps: Repository, Pull Requests, Actions")
+System_Ext(issues, "GitHub Issues", "Rückmeldung von Kindern und Eltern; nur per Klick, Konto nötig, ab 13 Jahren")
+System_Ext(pages, "GitHub Pages", "liefert lernapps.github.io aus")
+System_Ext(pakete, "Paketquellen", "npm-Registry (Eleventy), GitHub/Maven (docToolchain) – nur zur Build-Zeit")
+
+Rel(kind, lernapps, "übt, macht den Test, liest die Karte", "Browser")
+Rel(kind, claude, "spricht mit dem Tutor, schickt Aufgabennummer und Ergebniszeile")
+Rel(claude, lernapps, "liest llms.txt, tutor.md; schickt Aufgabenlinks", "HTTPS")
+Rel(lernapps, youtube, "bettet Video ein, nur nach Klick", "iframe")
+Rel(kind, issues, "meldet Fehler oder Wünsche, nur nach Klick auf den Link", "HTTPS")
+Rel(issues, autor, "zeigt die Rückmeldung")
+Rel(autor, github, "entwickelt, pusht, merged PRs", "git, gh")
+Rel(github, lernapps, "führt Tests und Build aus", "Actions")
+Rel(lernapps, pakete, "lädt Eleventy und docToolchain", "npm ci, Gradle")
+Rel(lernapps, pages, "wird ausgeliefert als ein Artefakt", "deploy-pages")
+@enduml
+....
+
+[cols="2,3,3",options="header"]
+|===
+| Nachbar | Was er vom System bekommt | Was das System von ihm bekommt
+| Lernende | Seiten, Aufgaben, Rückmeldung, Ergebniszeile, Karte | Eingaben, Selbsteinschätzung (nur im eigenen Browser)
+| App-Autor:in | Test- und Build-Meldungen (`npm test`, `npm run build`) | Konfiguration, Generatoren, Zeichenfunktionen, Markdown-Seiten, Kartendaten, ADRs
+| claude.ai | `tutor.md` und `llms.txt` je App, `llms.txt` der Übersicht und der Karte, Aufgaben-URLs | Nichts. Das System meldet dem Tutor nichts; das Kind trägt Nummer und Ergebniszeile.
+| YouTube | Video-ID im iframe-Aufruf, IP-Adresse und Browserdaten des Kindes (erst nach Klick) | Videoplayer
+| GitHub Issues | Nichts. Die Seite enthält nur einen Link; erst der Klick öffnet GitHub. | Rückmeldungen als Issues, die die Autor:in liest. GitHub verlangt ein Konto und ein Mindestalter von 13 Jahren.
+| GitHub | Quellcode, Commits, Pull Requests | CI-Läufe (`pruefen.yml`, `pages.yml`), Organisation und Rechte
+| GitHub Pages | Ein Artefakt: Eleventy-Ausgabe `_site/` mit der Doku unter `_site/docs/` | HTTPS-Auslieferung unter `https://lernapps.github.io/`
+| Paketquellen | Anfragen von `npm ci` und `scripts/dtc-v4.sh` | Eleventy 3.1.6 samt transitiven Paketen (`package-lock.json`); docToolchain `main-4.x@6de96fb7` und seine Gradle-Abhängigkeiten
+|===
+
+Der Skill `lern-app`, mit dem die Autor:in neue Apps anlegt, ist kein Nachbar mehr: Er liegt seit PR #7
+im Monorepo unter `werkzeuge/skill/lern-app/`. Die alten Einzel-Repos (`raifdmueller.github.io/<app>/`),
+die alte Mathe-Karte, die Vorlage `lern-app-template` und das alte Skill-Repo `lern-app-skill` laufen
+noch, bis sie gelöscht sind. Sie sind nicht Teil des Systems und werden von ihm nicht verlinkt; das
+Risiko steht als xref:11_technical_risks.adoc#r-016[R-016] in Kapitel 11.
+
+[[section-technical-context]]
+=== Technischer Kontext: HTTPS-GET, ein Deep Link, ein iframe und zwei Paketquellen
+
+[cols="2,2,4",options="header"]
+|===
+| Kanal | Protokoll / Format | Einzelheiten
+| Browser → GitHub Pages | HTTPS GET | HTML, CSS, ES-Module (`/kern/js/*.js`, `/<app>/js/**`), SVG/PNG, `manifest.webmanifest`, `karte/data.json`. Keine Cookies, kein POST.
+| Seite → claude.ai | Link `https://claude.ai/new?q=<Prompt>` | Prompt „Lade <App-Adresse>tutor.md …“; erzeugt von TalkItOver, statischer `<a>`-Fallback in `src/start.njk:48`. Öffnet ein neues Fenster.
+| claude.ai → GitHub Pages | HTTPS GET durch das Web-Fetch-Werkzeug von Claude | `<app>/tutor.md`, `<app>/llms.txt`, `/llms.txt`, `/karte/llms.txt`. Ob Claude die Datei laden kann, entscheidet claude.ai.
+| Tutor → Kind → App | Aufgaben-URL | `<app>/<seite>.html?<parameter>&seed=<n>`, `<app>/test.html?nr=<n>&modus=voll\|schnell`, Anker `#warum` … `#uebung`. Vertrag im `llms.txt` jeder App.
+| Kind → Tutor | Text (Zwischenablage) | Ergebniszeile `Test Nr. 4711 (<App>, Schnelltest): 1 ✓ 2 ~ 3 ✗`; „Aufgabe Nr. 42“; kopierter Aufgabenlink.
+| Seite → GitHub Issues | Link `https://github.com/lernapps/lernapps.github.io/issues` | Statischer `<a>` auf jeder Seite (entschieden am 23.09.2026, noch nicht umgesetzt). Keine Anfrage vor dem Klick; danach gelten die Regeln von GitHub.
+| Seite → YouTube | `<iframe src="https://www.youtube-nocookie.com/embed/<id>?autoplay=1">` | Entsteht erst nach Klick oder bei gesetztem Merker (`src/kern/js/video.js:12-15`).
+| Autor:in → GitHub | git über HTTPS, `gh` | Feature-Branch, PR, Merge in `lernapps/lernapps.github.io`.
+| GitHub Actions → Paketquellen | `npm ci`; `git clone` + Gradle | Eleventy exakt nach `package-lock.json`; docToolchain am festen Commit, zwischengespeichert per `actions/cache`.
+| GitHub Actions → GitHub Pages | `actions/upload-pages-artifact`, `actions/deploy-pages` | Siehe xref:07_deployment_view.adoc#section-deployment-view[Verteilungssicht].
+|===
