@@ -1,0 +1,54 @@
+---
+seite: ueber.html
+seitenTitel: Über die Karte
+beschreibung: Wozu die Mathe-Karte da ist, woher die Daten kommen und wie sie mit Daten umgeht.
+---
+    <h1>Über die Mathe-Karte</h1>
+
+    <h2>Jede Lern-App ist eine Insel</h2>
+    <p>Wer eine kleine Mathe-App baut, übt damit ein paar Kompetenzen: Prozentsatz berechnen, Baumdiagramm
+    lesen, Gegenereignis bilden. Was fehlt, ist der Blick aufs Ganze. Niemand sieht, welche Kompetenzen
+    des Lehrplans schon eine App haben und welche nicht. Jede App ist eine Insel, und zwischen den Inseln
+    ist Nebel.</p>
+
+    <h2>Die Karte macht den Nebel sichtbar</h2>
+    <p>Die Mathe-Karte legt die Kompetenzen der Sekundarstufe I entlang der fünf KMK-Leitideen aus und
+    verortet sie je Land in Jahrgang und Lehrplaneinheit. Jede eingetragene App wird auf diese Knoten
+    abgebildet. Was übrig bleibt, sind die Lücken: Kompetenzen, die im Lehrplan stehen, die aber keine
+    App übt. Genau dort lohnt sich die nächste App.</p>
+
+    <h2>edugo verzeichnet Werkzeuge, die Karte verzeichnet Lücken</h2>
+    <p><a href="https://github.com/mrsimpson/edugo">edugo</a> ist ein Community-Verzeichnis
+    für Bildungswerkzeuge mit einer eigenen Klassifikation, wie aktiv ein Werkzeug Lernende fordert
+    (Create, Solve, Collaborate, Reflect, Receive). Die Mathe-Karte übernimmt dieses Aktiv-Level und die
+    DSGVO-Ampel und ergänzt die Lehrplan-Seite: nicht „welche Werkzeuge gibt es“, sondern „welche
+    Kompetenz hat noch keins“. Das Datenmodell ist edugo-kompatibel (Markdown mit flachem Frontmatter),
+    damit ein Eintrag in beide Richtungen wandern kann.</p>
+
+    <h2>Zwei Arten von „nichts“</h2>
+    <p><strong>Noch nicht erfasst</strong> ist eine Aussage über ein Land: niemand hat den Lehrplan bisher
+    auf die Knoten der Karte abgebildet. Die Karte weiß nichts; sie sagt nicht „es gibt nichts“.
+    <strong>Keine App</strong> ist eine Aussage über eine Kompetenz: der Knoten ist erfasst und im Lehrplan
+    verortet, aber keine eingetragene App übt ihn. Das ist die Lücke, die die Karte zeigen soll.</p>
+
+    <h2 id="quellen">Datenquellen</h2>
+    <ul>
+      <li>KMK: <a href="https://www.kmk.org/fileadmin/veroeffentlichungen_beschluesse/2022/2022_06_23-Bista-ESA-MSA-Mathe.pdf">Bildungsstandards
+        im Fach Mathematik für den Ersten Schulabschluss und den Mittleren Schulabschluss</a> (Beschluss vom 23.06.2022): die fünf Leitideen und die KMK-Standards je Knoten.</li>
+      <li>Hessen: <a href="https://kultusministerium.hessen.de/unterricht/kerncurricula/sekundarstufe-i/mathematik">Kerncurriculum
+        Mathematik Sekundarstufe I, Gymnasium</a> (Stand 2021): die Kompetenzknoten.</li>
+      <li>Hessen: G9-Lehrplan Gymnasium (Übersicht der Einheiten 5.1 bis 10.5): Jahrgang und Einheit je Knoten; Details und Abweichungen
+        in <a href="{{ site.repo }}/blob/main/src/karte/daten/README.md">Datenmodell</a>.</li>
+      <li>Die übrigen 15 Länder: nur das Dokument und sein Link, siehe <a href="laender.html">Die Länder</a>.</li>
+    </ul>
+
+    <h2 id="datenschutz">Datenschutz: nichts verlässt deinen Browser</h2>
+    <p>Die Karte ist eine statische Website. Es gibt keinen Server, der etwas verarbeitet, kein Tracking,
+    keine Cookies, keine Analyse-Skripte, keine externen Schriften und keine externen Anfragen: der Browser
+    lädt nur die Seiten, ihre Skripte und <code>data.json</code> vom selben Ort. Die Karte benutzt keinen
+    <code>localStorage</code>; die gewählte Ansicht steht in der URL, damit du sie teilen kannst. Links zu
+    Apps, Lehrplänen und GitHub führen zu fremden Seiten, die eigene Regeln haben.</p>
+
+    <h2 id="lizenz">Lizenz</h2>
+    <p>Daten: CC BY 4.0 (Vorschlag). Code: MIT (Vorschlag). Bis zur Entscheidung gilt: Quellen nennen, Link setzen.</p>
+  

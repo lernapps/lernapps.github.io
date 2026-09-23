@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lernapps.github.io/karte/schemas/lehrplan.schema.json",
+  "title": "Lehrplan",
+  "description": "Frontmatter einer Datei unter data/lehrplaene/. Ein Lehrplan eines Landes für eine Schulform.",
+  "type": "object",
+  "required": ["id", "land", "landname", "schulform", "stufe", "dokument", "url", "stand", "erfasst"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
+    "land": { "type": "string", "enum": ["BW", "BY", "BE", "BB", "HB", "HH", "HE", "MV", "NI", "NW", "RP", "SL", "SN", "ST", "SH", "TH"] },
+    "landname": { "type": "string", "minLength": 1 },
+    "schulform": { "type": "string", "minLength": 1 },
+    "stufe": { "type": "string", "minLength": 1 },
+    "dokument": { "type": "string" },
+    "url": { "type": "string" },
+    "stand": { "type": ["integer", "string"] },
+    "erfasst": { "type": "string", "enum": ["nein", "teilweise", "vollstaendig"] }
+  }
+}

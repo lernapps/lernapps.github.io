@@ -22,3 +22,10 @@ tutor.md in jeder App.
 - Tutor-Prompt: {{ a.basisUrl }}tutor.md
 - Kompetenzen: {% for k in a.kompetenzen %}{{ k.nr }} {{ k.titel }}{{ ", " if not loop.last }}{% endfor %}
 {% endfor %}
+
+## Mathe-Karte
+
+Karte der Mathe-Kompetenzen der Sekundarstufe I nach KMK-Leitideen und Lehrplan (Jahrgang,
+Einheit) mit den Apps, die sie üben, und den Lücken.
+- Start: {{ site.basis }}karte/
+- Für KI: {{ site.basis }}karte/llms.txt (URL-Parameter, data.json)
