@@ -14,13 +14,14 @@ regel: |
 beispiel: |
   <p>Urne mit 3 roten, 2 blauen und 1 gelben Kugel (6 Kugeln). Die erste gezogene Kugel ist <strong>rot</strong>.</p>
   <table>
-  <thead><tr><th scope="col">Zweite Kugel</th><th scope="col">mit Zurücklegen</th><th scope="col">ohne Zurücklegen</th></tr></thead>
+  <thead><tr><th scope="col">2. Kugel</th><th scope="col">mit</th><th scope="col">ohne</th></tr></thead>
   <tbody>
-  <tr><th scope="row">rot</th><td>3/6</td><td><strong>2/5</strong> (eine rote fehlt)</td></tr>
-  <tr><th scope="row">blau</th><td>2/6</td><td><strong>2/5</strong> (nur der Nenner ändert sich)</td></tr>
+  <tr><th scope="row">rot</th><td>3/6</td><td><strong>2/5</strong></td></tr>
+  <tr><th scope="row">blau</th><td>2/6</td><td><strong>2/5</strong></td></tr>
   <tr><th scope="row">gelb</th><td>1/6</td><td><strong>1/5</strong></td></tr>
   </tbody>
   </table>
+  <p>Ohne Zurücklegen fehlt eine rote Kugel: Bei rot werden Zähler und Nenner kleiner, bei blau und gelb nur der Nenner.</p>
   <p>Damit wird zum Beispiel P(rot, dann rot) mit Zurücklegen 3/6 · 3/6 = 9/36 = 1/4, aber ohne Zurücklegen 3/6 · 2/5 = 6/30 = 1/5.</p>
 ohneVideo: 'Zu dieser Frage gibt es kein Lehrerschmidt-Video; die Erklärung oben reicht. Das Video auf der Seite „Baumdiagramm“ zeigt den Aufbau eines Baums; die Änderung der Brüche übt die Aufgabe hier.'
 bild:

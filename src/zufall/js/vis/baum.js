@@ -92,7 +92,8 @@ export function zeichneBaumIn(ziel, baum, optionen = {}) {
   for (const b of blaetter(baum)) {
     const q = pos.get(b.id);
     const g = svgEl("g", { class: "baum-blatt", "data-blatt": b.id });
-    g.append(svgEl("rect", { x: q.x - 16, y: q.y - 14, width: RECHTS + 10, height: 28, rx: 6, class: "baum-treffer", fill: "transparent" }));
+    const links = b.name.length > 2 ? 38 : 16; // Rahmen um den ganzen Knoten (Pille oder Kreis)
+    g.append(svgEl("rect", { x: q.x - links, y: q.y - 14, width: RECHTS - 6 + links, height: 28, rx: 6, class: "baum-treffer", fill: "transparent" }));
     if (optionen.zeigePfad) g.append(svgEl("text", { x: q.x + 20, y: q.y + 4, class: "pfad-w", "font-size": 13, fill: "#1a1a1a" }, `= ${formatBruch(b.pfadWahrscheinlichkeit)}`));
     if (auswahl) {
       const namen = b.pfad.map((id) => knoten.find((k) => k.ergebnis === id)?.name ?? id).join("-");
