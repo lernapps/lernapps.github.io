@@ -4,7 +4,7 @@ import assert from "node:assert/strict";
 import { ladeApps } from "../../lib/apps.js";
 import { leiteAdressenAb } from "../../lib/adressen.js";
 
-const adressen = leiteAdressenAb("https://raifdmueller.github.io/lern-apps/");
+const adressen = leiteAdressenAb("https://lernapps.github.io/");
 const apps = await ladeApps({ quelle: "src", adressen });
 
 test("ladeApps findet jede App mit Konfiguration, sortiert nach Pfad", () => {
@@ -16,8 +16,8 @@ test("ladeApps findet jede App mit Konfiguration, sortiert nach Pfad", () => {
 test("Binom: abgeleitete Adressen, Fachfarbe, nummerierte Kompetenzen, altes Speicher-Präfix", () => {
   const binom = apps.find((a) => a.pfad === "binom");
   assert.equal(binom.id, "binom-trainer");
-  assert.equal(binom.basisUrl, "https://raifdmueller.github.io/lern-apps/binom/");
-  assert.equal(binom.quellcode, "https://github.com/raifdmueller/lern-apps/tree/main/src/binom");
+  assert.equal(binom.basisUrl, "https://lernapps.github.io/binom/");
+  assert.equal(binom.quellcode, "https://github.com/lernapps/lernapps.github.io/tree/main/src/binom");
   assert.equal(binom.farbe.primaer, "#1d4ed8");
   assert.deepEqual(binom.kompetenzen.map((k) => k.nr), [1, 2, 3, 4, 5, 6]);
   assert.equal(binom.kompetenzen[1].seite, "erste-binomische.html");

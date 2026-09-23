@@ -2,7 +2,7 @@
 
 Interaktive Lern-Apps für Mathe, Physik und Chemie in einem Repository: ein gemeinsamer Kern, eine App je Thema,
 gebaut mit [Eleventy](https://www.11ty.dev/) zu statischem HTML und ausgeliefert über GitHub Pages unter
-<https://raifdmueller.github.io/lern-apps/>.
+<https://lernapps.github.io/>.
 
 Jede Seite ist ohne JavaScript lesbar (Text und Bild); JavaScript treibt nur Übung, Test und Selbsteinschätzung.
 Kein Server, kein Tracking, keine externen Requests vor dem Klick auf ein Video.

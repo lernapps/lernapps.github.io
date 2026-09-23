@@ -5,8 +5,8 @@
  */
 
 export const APP = {
-  // localStorage-Präfix. Nie ändern, sonst ist die gespeicherte Selbsteinschätzung weg. Bleibt "binom-trainer" aus
-  // dem alten Einzel-Repo: gleiche Herkunft (raifdmueller.github.io), also bleiben alte Einschätzungen lesbar.
+  // localStorage-Präfix. Nie ändern, sonst ist die gespeicherte Selbsteinschätzung weg. Getrennt vom URL-Pfad,
+  // damit ein Umzug des Pfads die Daten nicht verliert.
   id: "binom-trainer",
   pfad: "binom", // Ordner unter src/ und Pfad der App: <Basis-URL>binom/
   titel: "Binomische Formeln",

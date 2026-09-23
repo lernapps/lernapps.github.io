@@ -2,7 +2,7 @@
 
 All learning apps (Mathe, Physik, Chemie; about 20 per school year) and later the Mathe-Karte live in this one
 repository: one shared kern, one layout, one build (Eleventy 3.1.6), deployed to GitHub Pages at
-`https://raifdmueller.github.io/lern-apps/`. The old single-app repos (`binom-trainer`, `lern-app-template`, …) stay
+`https://lernapps.github.io/`. The old single-app repos (`binom-trainer`, `lern-app-template`, …) stay
 untouched and keep running until they are migrated.
 
 ## Project rules
