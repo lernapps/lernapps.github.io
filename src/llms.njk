@@ -10,7 +10,8 @@ Statische Lern-Apps für Schülerinnen und Schüler (Mathe, Physik, Chemie), ein
 Jede App hat eine Startseite mit Checkliste, je Kompetenz eine Seite (Erklärung, Regel,
 Beispiel, Bild, Video, Übung mit Sofort-Feedback) und einen Test. Details, URL-Parameter und
 Deep-Links stehen in der llms.txt der jeweiligen App. Ein Prompt für den Tutor liegt als
-tutor.md in jeder App.
+tutor.md in jeder App. Links an Lernende tragen `von=tutor`: Dann zeigt die App den Knopf
+"Zurück zu Claude", der eine Ergebniszeile kopiert und den Tab schließt.
 
 ## Apps
 {% for a in apps %}

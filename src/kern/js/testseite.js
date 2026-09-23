@@ -10,6 +10,7 @@ import { erzeugeTestaufgabe, pruefeTestaufgabe, istLeer, bildFuer } from "./test
 import { el, zeigeEingaben, zeigeAufgabentext, lieseAntworten } from "./aufgabe-eingabe.js";
 import { kopiereText } from "./aufgabenlink.js";
 import { erzeugeSpeicher } from "./storage.js";
+import { vomTutor, zurueckKnopf } from "./zurueck.js";
 
 /** app: APP, kompetenzen: KOMPETENZEN aus js/app.config.js; generatoren: { kompetenzId: Generator-Modul }. */
 export function starteTestseite({ app, kompetenzen, generatoren }) {
@@ -18,6 +19,7 @@ export function starteTestseite({ app, kompetenzen, generatoren }) {
   const query = window.location.search;
   const nr = leseSeed(query) ?? zufaelligeAufgabennummer();
   let modus = leseModus(query);
+  const tutor = vomTutor(query);
   let folge = [];
   let antworten = [];
   let position = 0;
@@ -41,7 +43,7 @@ export function starteTestseite({ app, kompetenzen, generatoren }) {
   }
 
   function merkeUrl() {
-    try { history.replaceState(null, "", testLink(nr, modus)); } catch { /* egal */ }
+    try { history.replaceState(null, "", testLink(nr, modus) + (tutor ? "&von=tutor" : "")); } catch { /* egal */ }
   }
 
   function zeigeAufgabe() {
@@ -124,6 +126,14 @@ export function starteTestseite({ app, kompetenzen, generatoren }) {
     const zeile = $("[data-ergebnis-zeile]");
     kopiereText(ev.currentTarget, zeile.value, zeile);
   });
+
+  if (tutor) {
+    // ADR-021: neben der Ergebniszeile; ohne Zwischenablage markiert der Knopf das vorhandene Feld.
+    const zeile = $("[data-ergebnis-zeile]");
+    const [knopf, meldung] = zurueckKnopf({ zeile: () => zeile.value, feld: zeile });
+    zeile.parentElement.append(knopf);
+    zeile.parentElement.after(meldung);
+  }
 
   document.title = `Test Nr. ${nr} (${MODUS_NAMEN[modus]}) – ${app.titel}`;
 }

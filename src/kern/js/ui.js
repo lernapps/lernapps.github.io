@@ -5,6 +5,7 @@ import { wirdGezaehlt, istHinweis } from "./pruefung.js";
 import { LOESUNG_ZEIGEN, schalteLoesung } from "./loesung-schalter.js";
 import { bildBeschriftung } from "./aufgabenbild.js";
 import { leeresSvg } from "./svg.js";
+import { nachVersuch, uebungsStatus } from "./zurueck.js";
 import { el, zeigeEingaben, zeigeAufgabentext, lieseAntworten, markiereFelder } from "./aufgabe-eingabe.js";
 
 /**
@@ -19,6 +20,7 @@ export function starteTrainer({ wurzel, modul, seed, vorgaben = {}, zeichne, bil
   const zaehler = { richtig: 0, gesamt: 0 };
   let aufgabe;
   let gezaehlt = false;
+  let stand = { versuche: 0 }; // Stand der aktuellen Aufgabe für die Ergebniszeile an den Tutor (zurueck.js)
   const praefix = wurzel.id || "trainer";
 
   wurzel.replaceChildren();
@@ -53,6 +55,7 @@ export function starteTrainer({ wurzel, modul, seed, vorgaben = {}, zeichne, bil
   function zeige(neueAufgabe, eigeneVorgaben = {}) {
     aufgabe = neueAufgabe;
     gezaehlt = false;
+    stand = { versuche: 0 };
     zeigeAufgabentext(text, aufgabe);
     zeigeEingaben(felder, aufgabe, praefix);
     feedback.textContent = "";
@@ -89,7 +92,10 @@ export function starteTrainer({ wurzel, modul, seed, vorgaben = {}, zeichne, bil
     // Hinweise (zu grob gerundet, gemischte Zahl, Ausdruck statt Zahl) neutral statt rot; sie zählen nicht als Versuch.
     feedback.className = `feedback ${ergebnis.korrekt ? "richtig" : istHinweis(ergebnis) ? "hinweis" : "falsch"}`;
     markiere(ergebnis);
-    if (wirdGezaehlt(ergebnis)) zaehle(ergebnis.korrekt);
+    if (wirdGezaehlt(ergebnis)) {
+      zaehle(ergebnis.korrekt);
+      stand = nachVersuch(stand, ergebnis.korrekt);
+    }
     visualisiere(aufgabe, ergebnis);
   });
   tipp.addEventListener("click", () => {
@@ -99,6 +105,7 @@ export function starteTrainer({ wurzel, modul, seed, vorgaben = {}, zeichne, bil
   loesung.addEventListener("click", () => {
     if (!loesungText.hidden) { schalteLoesung(loesung, loesungText, false); return; }
     zaehle(false);
+    if (!stand.richtigImVersuch) stand = { ...stand, loesungGezeigt: true };
     loesungText.replaceChildren(
       el("strong", { text: "Lösung" }),
       el("ol", { class: "rechenweg" }, aufgabe.rechenweg.map((s) => el("li", { html: s }))),
@@ -109,5 +116,9 @@ export function starteTrainer({ wurzel, modul, seed, vorgaben = {}, zeichne, bil
   neu.addEventListener("click", () => zeige(erzeuge(zufaelligeAufgabennummer(), {})));
 
   zeige(erzeuge(seed, vorgaben), vorgaben);
-  return { neueAufgabe: () => neu.click(), aktuelle: () => aufgabe };
+  return {
+    neueAufgabe: () => neu.click(),
+    aktuelle: () => aufgabe,
+    stand: () => ({ nummer: aufgabe.seed, status: uebungsStatus(stand), sitzung: { ...zaehler } }),
+  };
 }
