@@ -51,6 +51,8 @@ untouched and keep running until they are migrated.
   `fachfarben.js`, `versionierung.js`, `pruefungen.js`, `adressen.js`, `app-daten.js`.
 - `test/kern/`, `test/build/`, `test/apps/` (generator contract for every competency of every app) and
   `src/<app>/test/`.
+- `src/docs/`, `src/site/`, `docToolchainConfig.groovy`, `dtcw`, `scripts/dtc-v4.sh` – architecture docs (see
+  "Architecture").
 
 ## Build rules (enforced by `npm run build`)
 - After writing `_site`, `eleventy.config.js` runs `lib/pruefungen.js`: no external resources in HTML, no external
@@ -91,9 +93,23 @@ untouched and keep running until they are migrated.
 ## Build, test, deploy
 - `npm ci`, `npm test`, `npm run build` (output `_site/`), `npm run serve` (dev server under `/lern-apps/`).
 - `.github/workflows/pruefen.yml`: test + build on every push and PR. `.github/workflows/pages.yml`: on push to
-  `main`, test + build and deploy `_site` via `actions/upload-pages-artifact` + `actions/deploy-pages`. Pages must be
-  enabled once with source "GitHub Actions": `gh api -X POST repos/<owner>/<repo>/pages -f build_type=workflow`.
-- Architecture documentation (arc42) follows in a later slice under `src/docs/`.
+  `main`, test + build, then build the arc42 docs (`scripts/dtc-v4.sh generateSite`), copy them to `_site/docs/` and
+  deploy both as ONE artifact via `actions/upload-pages-artifact` + `actions/deploy-pages`. Pages source must be
+  "GitHub Actions": `gh api -X POST repos/<owner>/<repo>/pages -f build_type=workflow`. Pitfall: a repo named
+  `<org>.github.io` gets Pages switched on automatically in branch mode – switch it with
+  `gh api -X PUT repos/<owner>/<repo>/pages -f build_type=workflow`.
+
+## Architecture
+- arc42 documentation (German) lives in `src/docs/arc42/` (chapters in `chapters/`, ADRs in `chapters/_adr-*.adoc`,
+  index in chapter 9); theme overrides without CDN resources in `src/site/`; config `docToolchainConfig.groovy`.
+  Eleventy ignores `src/docs/` and `src/site/`. Live at `https://lernapps.github.io/docs/`.
+- Build locally: `scripts/dtc-v4.sh generateSite` (docToolchain v4 pinned to `main-4.x@6de96fb7`, needs Java 17 and
+  Graphviz; first run clones and builds docToolchain). Output: `build/microsite/output/` (git-ignored). Check nav,
+  chapter pages, rendered diagrams and links there before pushing.
+- Every decision about the kern, the layout, the build, deployment or a new dependency needs an ADR in chapter 9
+  (Nygard, Pugh matrix against QZ-1…QZ-5, consequences naming risk IDs from chapter 11). Superseded ADRs stay in the
+  index with status "Superseded by ADR-0xx". Diagrams: PlantUML with `!include <C4/...>`, never a URL.
+- Inter-page links: `xref:NN_file.adoc#anchor[]`, never `link:foo.adoc[]`.
 
 ## Semantic Contracts
 Source: https://llm-coding.github.io/Semantic-Anchors/contracts/ — copied from lern-app-template so the repo is self-contained.
