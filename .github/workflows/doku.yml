@@ -90,4 +90,5 @@ jobs:
         if: steps.vorhanden.outputs.doku == 'ja'
         run: |
           rm -f build/microsite/output/landingpage.gsp
-          node lib/pruefe-ausgabe.js build/microsite/output
+          # Der Suchindex ist Daten (Doku-Text, der Beispiele wie "@import url(//…)" zitiert), kein Code.
+          node lib/pruefe-ausgabe.js build/microsite/output --ausser lunrjsindex.js
