@@ -2,7 +2,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { erzeugeZufall } from "../../src/kern/js/zufall.js";
-import { erzeugeTestaufgabe, pruefeTestaufgabe, istLeer } from "../../src/kern/js/testaufgaben.js";
+import { erzeugeTestaufgabe, pruefeTestaufgabe, istLeer, bildFuer } from "../../src/kern/js/testaufgaben.js";
 
 const generator = {
   erzeugeAufgabe: (zufall, vorgaben) => ({ thema: "k", zahl: vorgaben.zahl ?? zufall.ganzzahl(1, 9), felder: [{ id: "x" }] }),
@@ -26,4 +26,10 @@ test("istLeer erkennt Antworten ohne jede Eingabe", () => {
   assert.equal(istLeer({ a: "", b: " " }), true);
   assert.equal(istLeer({}), true);
   assert.equal(istLeer({ a: "", b: "3" }), false);
+});
+
+test("bildFuer: ein Generator darf zeichneBild(svg, aufgabe) exportieren, dann zeigt der Test ein Bild", () => {
+  const mitBild = { zeichneBild: () => {} };
+  assert.equal(bildFuer({ a: mitBild, b: {} }, { thema: "a" }), mitBild.zeichneBild);
+  assert.equal(bildFuer({ a: mitBild, b: {} }, { thema: "b" }), undefined);
 });

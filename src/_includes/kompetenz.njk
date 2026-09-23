@@ -58,3 +58,6 @@ layout: basis.njk
     starteSeite({ app: APP, modul });
 {%- endif %}
   </script>
+{%- if seitenSkript %}
+  <script type="module" src="{{ seitenSkript }}"></script>
+{%- endif %}
