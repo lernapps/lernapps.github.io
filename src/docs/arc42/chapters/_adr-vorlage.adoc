@@ -1,0 +1,281 @@
+// ADR-001 bis ADR-011: aus der Vorlage lern-app-template übernommen und auf das Monorepo angepasst.
+// Wird von 09_architecture_decisions.adoc eingebunden (Unterstrich: keine eigene Seite).
+
+[[adr-001]]
+=== ADR-001: Statische Site auf GitHub Pages, kein Backend
+
+*Kontext.* Die Nutzer sind Kinder; die Apps kosten nichts und werden von einer Person mit einem
+KI-Agenten gebaut. edugo nennt als Qualitätsziel „Zero-server deployability“. Die Mathe-Karte führt
+`backend: none` als Eigenschaft jedes Eintrags.
+
+*Entscheidung.* Alle Lern-Apps sind eine statische Site auf GitHub Pages. Es gibt keinen Server, keine
+Konten, keine Datenbank. Was gespeichert wird, liegt im `localStorage` des Kindes. Im Monorepo gilt das
+unverändert; der Build (ADR-012) läuft nur vor der Auslieferung.
+
+*Status.* Accepted.
+
+[cols="2,1,1,1",options="header"]
+|===
+| Ziel | Statisch, kein Backend (Referenz) | Kleines Backend (Fortschritt speichern) | LMS-Plugin (Moodle o. Ä.)
+| QZ-1 Datenschutz | 0 | -1 | -1
+| QZ-2 Tutor-Anschluss | 0 | +1 | -1
+| QZ-3 Richtige Rückmeldung | 0 | 0 | 0
+| QZ-4 Neue Apps schnell | 0 | -1 | -1
+| QZ-5 Zugänglich | 0 | 0 | ?
+| *Summe* | *0* | *-1* | *-3 + ?*
+|===
+
+*Konsequenzen.* Kein Betrieb, keine Kosten, keine Daten auf fremden Servern. Die App kann dem Tutor
+nichts melden; das Kind trägt Nummer und Ergebniszeile (ADR-004, ADR-007). Alles hängt an GitHub
+Pages (xref:11_technical_risks.adoc#r-010[R-010]) und an den Konten der Organisation
+(xref:11_technical_risks.adoc#r-005[R-005], xref:11_technical_risks.adoc#r-017[R-017]).
+
+[[adr-002]]
+=== ADR-002: Vanilla-JavaScript-ES-Module ohne Framework und ohne Build
+
+*Status.* Superseded by <<adr-012,ADR-012>>. Weiter gilt: kein Framework im Browser, Vanilla-ES-Module,
+Inhalt im HTML. Ersetzt ist „kein Build, keine npm-Abhängigkeiten“.
+
+*Kontext (damals).* Seiten mussten ohne JavaScript lesbar sein, die Apps sollten jahrelang ohne
+Pflege laufen, und ein KI-Agent sollte jede ausgelieferte Datei direkt ändern können.
+
+*Entscheidung (damals).* HTML-Seiten mit dem ganzen Text, JavaScript nur als ES-Module, kein
+Framework, kein Bundler, keine npm-Abhängigkeiten. Die Pugh-Matrix der Vorlage ließ den Vergleich mit
+einem Static Site Generator bei QZ-4 als `?` offen; der Spike zu ADR-012 hat diese Frage beantwortet.
+
+*Konsequenzen (damals).* Wiederholtes HTML stand in jeder Seite und wurde von Skripten gleich gehalten.
+Im Monorepo erzeugt das Layout diese Teile (ADR-017).
+
+[[adr-003]]
+=== ADR-003: Kern als GitHub-Template, in Apps kopiert
+
+*Status.* Superseded by <<adr-012,ADR-012>> (ein Repository) und <<adr-013,ADR-013>> (Kern einmal
+ausgeliefert).
+
+*Kontext (damals).* Prozent- und Zufall-Trainer hatten denselben Aufbau mit kopierten Modulen; die
+Vorlage zog das Generische heraus. Ohne Build (ADR-002) blieb nur das Kopieren.
+
+*Entscheidung (damals).* Der Kern lag im Template-Repo; neue Apps entstanden mit
+`gh repo create --template`; ein Fix ging zuerst in die Vorlage und wurde dann in jede App kopiert.
+
+*Konsequenzen (damals).* Der Kern driftete, sobald eine Kopie vergessen wurde (ehemals R-001, TD-1).
+Bei rund 20 Apps je Schuljahr hätte jede Kern-Korrektur 20 Commits bedeutet; das war der Anlass für
+ADR-012. In den alten Einzel-Repos gilt dieser Zustand weiter
+(xref:11_technical_risks.adoc#r-016[R-016]).
+
+[[adr-004]]
+=== ADR-004: Tutor-Schnittstelle aus llms.txt, tutor.md und Deep Links mit Aufgabennummer
+
+*Kontext.* Das Kind lernt mit Claude auf claude.ai. Ohne Backend (ADR-001) gibt es keinen Ort für
+einen API-Schlüssel. Der Tutor muss trotzdem eine bestimmte Aufgabe zeigen und über sie sprechen können.
+
+*Entscheidung.* `llms.txt` je App (`src/<app>/llms.njk`) beschreibt Seiten, Anker, URL-Parameter,
+Antwortformate und Fehlercodes; `tutor.md` (`src/<app>/tutor.njk`) ist der Prompt. Jede Aufgabe
+entsteht deterministisch aus einer Aufgabennummer (`seed`/`nr`, mulberry32). Der Start ist ein Link
+`https://claude.ai/new?q=Lade <App-Adresse>tutor.md …`. Im Monorepo kommen `llms.txt` der Übersicht
+(`src/llms.njk`) und der Karte (`src/karte/llms.njk`) dazu; alle Adressen darin leitet der Build aus
+der Basis-URL ab (ADR-015). URL-Parameter und Anker sind öffentlicher Vertrag.
+
+*Status.* Accepted. Vom Product Owner bestätigt am 23.09.2026.
+
+[cols="2,1,1,1",options="header"]
+|===
+| Ziel | llms.txt + tutor.md + Deep Links (Referenz) | LLM-API in der App | Keine Tutor-Anbindung
+| QZ-1 Datenschutz | 0 | -1 | +1
+| QZ-2 Tutor-Anschluss | 0 | +1 | -1
+| QZ-3 Richtige Rückmeldung | 0 | ? | 0
+| QZ-4 Neue Apps schnell | 0 | -1 | +1
+| QZ-5 Zugänglich | 0 | 0 | 0
+| *Summe* | *0* | *-1 + ?* | *+1, aber QZ-2 verfehlt*
+|===
+
+*Konsequenzen.* Der Tutor sieht nie, was das Kind eingibt. Ändert ein Generator seine Logik, zeigt
+dieselbe Nummer eine andere Aufgabe (xref:11_technical_risks.adoc#r-003[R-003]). Ob claude.ai die
+Dateien lädt, liegt außerhalb (xref:11_technical_risks.adoc#r-002[R-002]). Texte, die ein LLM als
+Anweisung liest, sind ein Angriffsweg (xref:11_technical_risks.adoc#r-006[R-006]). Tutor-Links auf die
+alten Einzel-Apps veralten (xref:11_technical_risks.adoc#r-016[R-016]).
+
+[[adr-005]]
+=== ADR-005: YouTube per Zwei-Klick mit lokalem Platzhalter, youtube-nocookie nach Klick
+
+*Kontext.* Gute Erklärvideos liegen auf YouTube. Ein normales iframe und schon ein Vorschaubild von
+`i.ytimg.com` schicken die IP-Adresse an Google, bevor das Kind etwas tut.
+
+*Entscheidung.* `src/_includes/kompetenz.njk` erzeugt aus `video: { id, titel, kanal }` eine Karte mit
+Link und Hinweis, ohne JS lesbar. `src/kern/js/video.js` macht daraus einen Platzhalter mit lokal
+gezeichnetem Play-Symbol (ADR-019); erst der Klick erzeugt das iframe auf `youtube-nocookie.com`. Ein
+Merker „Videos immer direkt laden“ gilt je App (`<APP.id>.video-direkt`).
+
+*Status.* Accepted.
+
+[cols="2,1,1,1,1",options="header"]
+|===
+| Ziel | Zwei-Klick, lokaler Platzhalter (Referenz) | Direktes Embed | Fassade mit ytimg-Vorschaubild | Keine Videos
+| QZ-1 Datenschutz | 0 | -1 | -1 | +1
+| QZ-2 Tutor-Anschluss | 0 | 0 | 0 | -1
+| QZ-3 Richtige Rückmeldung | 0 | 0 | 0 | 0
+| QZ-4 Neue Apps schnell | 0 | 0 | 0 | +1
+| QZ-5 Zugänglich | 0 | +1 | 0 | -1
+| *Summe* | *0* | *0, verletzt TC-4* | *-1* | *0*
+|===
+
+*Konsequenzen.* Null fremde Requests bis zum Klick; danach erfährt Google die IP-Adresse
+(xref:11_technical_risks.adoc#r-009[R-009]). Der Merker gilt auf geteilten Geräten für alle
+(xref:11_technical_risks.adoc#r-008[R-008]). Je Seite ist nur ein Video vorgesehen (TD-17, zurückgestellt, bis eine Seite ein zweites braucht).
+
+[[adr-006]]
+=== ADR-006: Zahlenantworten: Rundung nach getippten Stellen, eigener Term-Auswerter, Live-Vorschau
+
+*Kontext.* Früher prüften Generatoren mit eigenen festen Toleranzen; dasselbe „3,3“ war mal richtig,
+mal falsch. Keine Eingabe darf mit `eval` laufen.
+
+*Entscheidung.* Eine Regel für alle Zahlenfelder: Die Toleranz folgt den getippten Nachkommastellen; zu
+grob gerundet ist ein Hinweis; Brüche und Terme gelten überall und exakt; ein eigener Tokenizer mit
+rekursivem Abstieg wertet Terme ohne `eval` aus; unter dem Feld steht der Wert nach 150 ms. Keine
+Toleranzen je Aufruf. Umgesetzt in `src/kern/js/zahlantwort.js` und `bruch.js`, Details in
+xref:08_concepts.adoc#section-zahlen-eingeben[8.7].
+
+*Status.* Accepted.
+
+[cols="2,1,1,1",options="header"]
+|===
+| Ziel | Stellen-Regel + eigener Auswerter (Referenz) | Feste Toleranz je Feld | Mathe-Bibliothek (z. B. math.js)
+| QZ-1 Datenschutz | 0 | 0 | ?
+| QZ-2 Tutor-Anschluss | 0 | -1 | 0
+| QZ-3 Richtige Rückmeldung | 0 | -1 | 0
+| QZ-4 Neue Apps schnell | 0 | -1 | -1
+| QZ-5 Zugänglich | 0 | 0 | 0
+| *Summe* | *0* | *-3* | *-1 + ?*
+|===
+
+*Konsequenzen.* Der Prüfer ist Kern-Code; ein Fehler darin trifft alle Apps, eine Korrektur aber auch
+alle auf einmal (xref:11_technical_risks.adoc#r-004[R-004]). Die Vorschau zeigt „≈“ auch dort, wo der
+Wert exakt ist (TD-18); die Korrektur ist beschlossen, ein PR in Arbeit.
+
+[[adr-007]]
+=== ADR-007: Diagnosetest ohne Noten, Ergebniszeile für den Tutor, nur im localStorage
+
+*Kontext.* Der Tutor soll bei der schwächsten Kompetenz beginnen. Die App kann ihm nichts melden
+(ADR-001). Kinder sollen üben, nicht bewertet werden.
+
+*Entscheidung.* Die Testseite jeder App (`src/test.njk`, paginiert über alle Apps) stellt je Kompetenz
+zwei Aufgaben (Test) oder eine (Schnelltest) ohne Tipp, Lösung und Zeitmessung
+(`src/kern/js/testablauf.js:9`). Ergebnis je Kompetenz: ✓, ~, ✗; am Ende eine Zeile
+`Test Nr. 4711 (<App>, Schnelltest): 1 ✓ 2 ~ 3 ✗`. Das letzte Ergebnis liegt nur im `localStorage`.
+
+*Status.* Accepted. Vom Product Owner bestätigt am 23.09.2026.
+
+[cols="2,1,1,1",options="header"]
+|===
+| Ziel | Ergebniszeile, localStorage (Referenz) | Punkte und Note | Ergebnis an Server/Tutor senden
+| QZ-1 Datenschutz | 0 | 0 | -1
+| QZ-2 Tutor-Anschluss | 0 | -1 | +1
+| QZ-3 Richtige Rückmeldung | 0 | 0 | 0
+| QZ-4 Neue Apps schnell | 0 | 0 | -1
+| QZ-5 Zugänglich | 0 | ? | 0
+| *Summe* | *0* | *-1 + ?* | *-1*
+|===
+
+*Konsequenzen.* Kompakte Diagnose ohne Datenabfluss. Auf geteilten Geräten sieht das nächste Kind das
+Ergebnis (xref:11_technical_risks.adoc#r-008[R-008]).
+
+[[adr-008]]
+=== ADR-008: Eigene Strukturprüfung ohne Abhängigkeiten; im Monorepo als Build-Fehler
+
+*Kontext.* Viele Regeln (kein fremder Request, vollständige Kompetenz, Dateilänge, `llms.txt`) prüft
+kein Unit-Test. KI-Agenten übersehen Regeln sonst. In der Vorlage lief die Prüfung als
+`scripts/pruefe.mjs` in `npm test`.
+
+*Entscheidung.* Die Regeln sind reine Funktionen in `lib/pruefungen.js`; `eleventy.config.js` ruft sie
+nach dem Schreiben von `_site` auf und bricht den Build bei jedem Fund ab. Sie prüfen die
+tatsächliche Ausgabe, nicht die Quellen. Regeln, die das Layout überflüssig macht (Kopfblock,
+Footer-Version, Farbe an vier Stellen), sind entfallen. Unit-Tests der Regeln stehen in
+`test/build/pruefungen.test.js`.
+
+*Status.* Accepted. Vom Product Owner bestätigt am 23.09.2026. Den Umzug in den Build hat ADR-012 nötig gemacht; „Build-Fehler statt Warnung“ war
+erschlossen und ist damit bestätigt.
+
+[cols="2,1,1,1",options="header"]
+|===
+| Ziel | Eigene Prüfung als Build-Fehler (Referenz) | Linter/HTML-Validator (Abhängigkeit) | Nur Review und Checkliste
+| QZ-1 Datenschutz | 0 | 0 | -1
+| QZ-2 Tutor-Anschluss | 0 | -1 | -1
+| QZ-3 Richtige Rückmeldung | 0 | 0 | 0
+| QZ-4 Neue Apps schnell | 0 | -1 | -1
+| QZ-5 Zugänglich | 0 | +1 | 0
+| *Summe* | *0* | *-1* | *-3*
+|===
+
+*Konsequenzen.* Nichts geht live, was eine Regel bricht. Die Prüfung sieht nur Struktur, nicht Verhalten
+im Browser (TD-5); `llms.txt` prüft sie nur auf die Nennung jeder Seite (TD-3). Die Doku unter `/docs/`
+liegt außerhalb der Prüfung (TD-23). Accepted without tracked risk.
+
+[[adr-009]]
+=== ADR-009: Terme mit Variablen: eigener Parser, Gleichwertigkeit an festen Prüfstellen, Formprüfung am Syntaxbaum
+
+*Kontext.* Ab Klasse 8 geben Lernende Terme mit Variablen ein. Eine Termantwort ist richtig, wenn sie
+gleichwertig ist _und_ die verlangte Form hat. Abhängigkeiten und `eval` bleiben ausgeschlossen.
+
+*Entscheidung.* `src/kern/js/variablenterm.js` liest Terme mit eigenem Parser zu einem Syntaxbaum;
+`src/kern/js/termantwort.js` prüft Gleichwertigkeit an 8 festen Prüfstellen und die Form am
+Syntaxbaum. Falsche Form ist ein Hinweis. Details in xref:08_concepts.adoc#section-terme-eingeben[8.7.1].
+Erste Nutzerin ist die Binom-App.
+
+*Status.* Accepted.
+
+[cols="2,1,1,1",options="header"]
+|===
+| Ziel | Eigener Parser + Prüfstellen (Referenz) | Symbolische Normalform (eigenes CAS) | CAS-Bibliothek
+| QZ-1 Datenschutz | 0 | 0 | ?
+| QZ-2 Tutor-Anschluss | 0 | 0 | 0
+| QZ-3 Richtige Rückmeldung | 0 | +1 | +1
+| QZ-4 Neue Apps schnell | 0 | -1 | -1
+| QZ-5 Zugänglich | 0 | 0 | 0
+| *Summe* | *0* | *0* | *0 + ?*
+|===
+
+*Konsequenzen.* Die Prüfung ist numerisch, nicht bewiesen; die Formregeln sind eine Setzung
+(xref:11_technical_risks.adoc#r-012[R-012]). Fehler treffen alle Apps mit Termfeldern
+(xref:11_technical_risks.adoc#r-004[R-004]).
+
+[[adr-010]]
+=== ADR-010: Versionsnummer `?v=<APP_VERSION>` an allen Importen, Skripten und Stylesheets
+
+*Status.* Superseded by <<adr-014,ADR-014>>.
+
+*Kontext (damals).* GitHub Pages liefert jede Datei mit `Cache-Control: max-age=600`. Nach einem
+Deployment kombinierte ein Browser eine neue `test.html` mit einer alten `js/app.config.js`; die
+Start-Knöpfe blieben tot. Ohne Build (ADR-002) gab es keine Hash-Dateinamen.
+
+*Entscheidung (damals).* Jede lokale Referenz trug `?v=<APP_VERSION>`, gesetzt von
+`scripts/version.mjs`, geprüft von `scripts/pruefe.mjs`.
+
+*Konsequenzen (damals).* Wer JS änderte und die Version nicht hob, lieferte neuen Inhalt unter alter URL
+(ehemals R-014). Im Monorepo setzt der Build einen Inhalts-Hash, und diese Lücke entfällt.
+
+[[adr-011]]
+=== ADR-011: Primärfarbe folgt dem Fach, eine Tabelle, geprüft im Build
+
+*Kontext.* Frei gewählte Farben ließen Apps verschiedener Fächer gleich aussehen, und niemand prüfte,
+ob weiße Schrift lesbar ist (QZ-5).
+
+*Entscheidung.* Jedes Fach hat eine Primärfarbe und eine dunkle Variante, beide mit weißer Schrift nach
+WCAG AA lesbar. Die Tabelle steht einmal in `lib/fachfarben.js`; `APP.fach` wählt die Zeile, das Layout
+setzt die Farbe überall. Anders als in der Vorlage ist ein unbekanntes Fach ein Build-Fehler
+(`lib/fachfarben.js:29-32`), kein Hinweis. Details in xref:08_concepts.adoc#section-fachfarben[8.11].
+
+*Status.* Accepted. Farbwerte vom Nutzer festgelegt; Kontraste in `test/build/fachfarben.test.js`.
+
+[cols="2,1,1,1",options="header"]
+|===
+| Ziel | Fachfarbe aus Tabelle, im Build (Referenz) | Freie Farbe je App | Tabelle nur als Doku
+| QZ-1 Datenschutz | 0 | 0 | 0
+| QZ-2 Tutor-Anschluss | 0 | 0 | 0
+| QZ-3 Richtige Rückmeldung | 0 | 0 | 0
+| QZ-4 Neue Apps schnell | 0 | -1 | -1
+| QZ-5 Zugänglich | 0 | -1 | 0
+| *Summe* | *0* | *-2* | *-1*
+|===
+
+*Konsequenzen.* Ein sechstes Fach braucht eine Zeile in der Tabelle und einen grünen Kontrasttest. Icons
+tragen die Farbe, werden aber nicht geprüft; accepted without tracked risk.

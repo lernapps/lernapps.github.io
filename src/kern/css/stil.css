@@ -225,6 +225,8 @@ footer.fuss {
   color: #374151;
   text-align: center;
 }
+footer.fuss .melden { margin: 0.5rem 0 0; font-size: 0.85rem; color: #4b5563; }
+footer.fuss .melden a { color: inherit; }
 
 @media (min-width: 40rem) {
   body { font-size: 1.125rem; }

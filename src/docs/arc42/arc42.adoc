@@ -1,0 +1,70 @@
+:imagesdir: ../images
+:jbake-menu: -
+// Kapitel verweisen per xref:NN_….adoc#id aufeinander. Im Gesamtdokument zeigen diese Links auf die
+// einzelnen Kapitelseiten der Microsite (arc42/chapters/NN_….html).
+:relfileprefix: chapters/
+// Gesamtdokument: alle zwölf arc42-Kapitel in einer Datei (für generateHTML/generatePDF).
+// Die Microsite zeigt jedes Kapitel als eigene Seite.
+
+include::chapters/_config.adoc[]
+
+= image:arc42-logo.png[arc42] Lern-Apps: Architektur
+:revnumber: 0.2.0
+:revdate: 2026-09-23
+:revremark: Stand des Monorepos 0.2.0
+// toc-title definition MUST follow document title without blank line!
+:toc-title: Inhaltsverzeichnis
+
+include::chapters/_about-arc42.adoc[]
+
+***
+
+Diese Dokumentation beschreibt das Monorepo
+https://github.com/lernapps/lernapps.github.io[lernapps/lernapps.github.io]: alle Lern-Apps in einem
+Repository, ein gemeinsamer Kern, ein Layout und ein Build mit Eleventy, ausgeliefert unter
+https://lernapps.github.io/. Heute liegen dort drei Mathe-Apps für Klasse 8
+(https://lernapps.github.io/binom/[Binomische Formeln],
+https://lernapps.github.io/prozent/[Prozent-Trainer],
+https://lernapps.github.io/zufall/[Zufall-Trainer]) und die
+https://lernapps.github.io/karte/[Mathe-Karte]. Die Doku stammt aus der Vorlage
+`raifdmueller/lern-app-template` und ist auf den Monorepo-Aufbau umgeschrieben; die Entscheidungen der
+Vorlage stehen weiter im ADR-Index, die ersetzten mit Status „Superseded“.
+
+// numbering from here on
+:numbered:
+
+<<<<
+include::chapters/01_introduction_and_goals.adoc[]
+
+<<<<
+include::chapters/02_architecture_constraints.adoc[]
+
+<<<<
+include::chapters/03_context_and_scope.adoc[]
+
+<<<<
+include::chapters/04_solution_strategy.adoc[]
+
+<<<<
+include::chapters/05_building_block_view.adoc[]
+
+<<<<
+include::chapters/06_runtime_view.adoc[]
+
+<<<<
+include::chapters/07_deployment_view.adoc[]
+
+<<<<
+include::chapters/08_concepts.adoc[]
+
+<<<<
+include::chapters/09_architecture_decisions.adoc[]
+
+<<<<
+include::chapters/10_quality_requirements.adoc[]
+
+<<<<
+include::chapters/11_technical_risks.adoc[]
+
+<<<<
+include::chapters/12_glossary.adoc[]
