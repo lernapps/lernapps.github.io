@@ -1,5 +1,6 @@
 ---
 kompetenz: prozentwert
+serlo: { url: 'https://de.serlo.org/mathe/2193/prozentrechnung-mittels-formeln', titel: 'Prozentrechnung mittels Formeln' }
 beschreibung: 'Prozentwert berechnen: W = G · p / 100. Erklärung, Beispiel, Hunderterfeld und Übungsaufgaben mit Sofort-Feedback.'
 warum: |
   <p>„20 % Rabatt auf 80 €“ – wie viel sparst du wirklich? Der Prozentwert ist der Teil des Ganzen, den die Prozente beschreiben. Wer ihn schnell ausrechnen kann, weiß beim Einkaufen, beim Handy-Akku und in jeder Statistik sofort, worum es geht.</p>

@@ -1,5 +1,6 @@
 ---
 kompetenz: baumdiagramm
+serlo: { url: 'https://de.serlo.org/mathe/156048/mehrstufige-zufallsexperimente', titel: 'Mehrstufige Zufallsexperimente' }
 beschreibung: 'Baumdiagramm zu einem mehrstufigen Zufallsversuch zeichnen: Zweige, Wahrscheinlichkeiten, mit und ohne Zurücklegen. Mit Baum-Bauer und Übungsaufgaben.'
 seitenSkript: js/seiten/baum-bauen.js
 warum: |

@@ -1,5 +1,6 @@
 ---
 kompetenz: ohne-zuruecklegen
+serlo: { url: 'https://de.serlo.org/mathe/189811/pfadregeln', titel: 'Pfadregeln' }
 beschreibung: 'Ziehen ohne Zurücklegen: Nenner und Zähler ändern sich. Vergleich mit und ohne Zurücklegen, mit Urnenbild, Baum und Übungsaufgaben.'
 warum: |
   <p>Ob eine gezogene Kugel zurück in die Urne kommt oder nicht, ändert die ganze Rechnung. Genau hier passieren die meisten Fehler: Der Nenner bleibt 6, obwohl nur noch 5 Kugeln drin sind. Wer den Unterschied einmal gesehen hat, vergisst ihn nicht mehr.</p>

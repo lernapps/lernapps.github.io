@@ -1,5 +1,6 @@
 ---
 kompetenz: dritte-binomische
+serlo: { url: 'https://de.serlo.org/mathe/1499/binomische-formeln', titel: 'Binomische Formeln' }
 beschreibung: 'Dritte binomische Formel: (a + b)(a − b) = a² − b². Erklärung mit Flächenbild zum Umlegen, Beispiel, Video und Übungsaufgaben mit Sofort-Feedback.'
 warum: |
   <p>Die dritte Formel ist die kürzeste: Aus (x + 4)(x − 4) wird sofort x² − 16, ganz ohne Mittelglied. Du brauchst sie ständig, um Terme zu vereinfachen und später, um Differenzen wie x² − 16 wieder in Klammern zu zerlegen. Und sie ist ein starker Kopfrechentrick: 21 · 19 = 20² − 1² = 399.</p>

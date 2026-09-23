@@ -1,5 +1,6 @@
 ---
 kompetenz: pfadregel-1
+serlo: { url: 'https://de.serlo.org/mathe/189811/pfadregeln', titel: 'Pfadregeln' }
 beschreibung: 'Erste Pfadregel (Produktregel): entlang eines Pfades multiplizieren. Erklärung mit Baum, Beispiel, Video und Übungsaufgaben.'
 warum: |
   <p>Der Baum zeigt dir alle Wege – aber wie wahrscheinlich ist ein bestimmter Weg? Die erste Pfadregel beantwortet genau das. Sie ist die Rechenregel hinter jeder mehrstufigen Aufgabe, und sie ist kurz: multiplizieren.</p>

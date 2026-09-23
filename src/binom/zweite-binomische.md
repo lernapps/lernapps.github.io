@@ -1,5 +1,6 @@
 ---
 kompetenz: zweite-binomische
+serlo: { url: 'https://de.serlo.org/mathe/1499/binomische-formeln', titel: 'Binomische Formeln' }
 beschreibung: 'Zweite binomische Formel: (a − b)² = a² − 2ab + b². Erklärung mit Flächenbild, Beispiel, Video und Übungsaufgaben mit Sofort-Feedback.'
 warum: |
   <p>Die zweite Formel ist die Schwester der ersten – nur mit Minus in der Klammer. Genau dieses Minus macht sie tückisch: Beim Ausmultiplizieren von (x − 5)² passieren die meisten Vorzeichenfehler. Wer die Formel kennt, schreibt das Ergebnis in einer Zeile hin. Und wer weiß, <em>warum</em> am Ende + b² steht, verwechselt die Vorzeichen nicht mehr.</p>

@@ -1,5 +1,6 @@
 ---
 kompetenz: laplace
+serlo: { url: 'https://de.serlo.org/mathe/1755/laplace-experiment', titel: 'Laplace-Experiment' }
 beschreibung: 'Laplace-Formel: P(E) = günstige durch mögliche Ergebnisse. Erklärung mit Bild, Beispiel, Video und Übungsaufgaben mit Würfel, Urne, Glücksrad, Karten und Losen.'
 warum: |
   <p>Fast jede Wahrscheinlichkeitsaufgabe beginnt mit dieser Frage: Wie viele Ergebnisse gibt es überhaupt, und wie viele davon sind „gut“ für mich? Wer das sauber zählt, hat den ersten Schritt jeder Aufgabe geschafft. Alles Weitere – Baumdiagramme, Pfadregeln – baut darauf auf.</p>

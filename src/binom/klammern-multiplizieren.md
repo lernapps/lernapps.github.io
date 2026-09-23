@@ -1,5 +1,6 @@
 ---
 kompetenz: klammern-multiplizieren
+serlo: { url: 'https://de.serlo.org/mathe/1525/klammern-ausmultiplizieren', titel: 'Klammern ausmultiplizieren' }
 beschreibung: 'Zwei Klammern multiplizieren: (a + b)(c + d) = ac + ad + bc + bd. Erklärung, Beispiel, Flächenbild und Übungsaufgaben mit Sofort-Feedback.'
 warum: |
   <p>Terme wie (x + 3)(x + 5) begegnen dir ab jetzt überall: beim Vereinfachen, beim Lösen von Gleichungen und bei Flächen. Ausmultiplizieren macht aus dem Produkt eine Summe, mit der du weiterrechnen kannst. Die drei binomischen Formeln sind nichts anderes als Abkürzungen für genau diese Rechnung. Wer Klammer mal Klammer sicher kann, kann jede Formel selbst herleiten, falls er sie einmal vergisst.</p>

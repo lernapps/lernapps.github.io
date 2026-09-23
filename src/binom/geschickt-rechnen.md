@@ -1,5 +1,6 @@
 ---
 kompetenz: geschickt-rechnen
+serlo: { url: 'https://de.serlo.org/mathe/18631/ueberblick-zu-den-binomischen-formeln#19104', titel: 'Exkurs: Kopfrechnen mit binomischen Formeln' }
 beschreibung: 'Geschickt rechnen mit den binomischen Formeln: 49², 21 · 19 und 102² im Kopf. Erklärung, Flächenbild mit Zahlen, Video und Übungsaufgaben mit Sofort-Feedback.'
 warum: |
   <p>Die binomischen Formeln sind nicht nur für Buchstaben da. Mit ihnen rechnest du Aufgaben wie 49² oder 21 · 19 im Kopf aus – schneller als mit dem schriftlichen Verfahren. Das hilft bei Kopfrechenaufgaben im Wettbewerb und beim Überschlagen. Und es zeigt dir, dass die Formeln wirklich für jede Zahl gelten: Buchstaben sind nur Platzhalter.</p>
