@@ -23,7 +23,9 @@ video:
   kanal: Lehrerschmidt
 bild:
   text: 'Die Urne aus dem zweiten Beispiel: 6 Kugeln, die zwei blauen sind orange umrandet. P(blau) = 2/6. Im Video heißt es nicht „Laplace“, gemeint ist dasselbe.'
+  uebung: 'Klick die Ergebnisse an, die zum Ereignis passen – so zählst du sie leichter. „Lösung zeigen“ markiert die richtigen.'
   funktion: zeichneLaplace
+  uebungFunktion: zeichneLaplaceMarkierbar
   seed: 1
   vorgaben:
     experiment: urne

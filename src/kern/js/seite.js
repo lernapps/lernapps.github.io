@@ -37,5 +37,9 @@ export function starteSeite({ app, modul, zeichne, bildHinweis }) {
 function holeUebungNachVorn() {
   const erklaerung = document.getElementById("erklaerung");
   if (erklaerung) erklaerung.open = false;
-  document.getElementById("uebung")?.scrollIntoView({ block: "start" });
+  // Die zugeklappte Zusammenfassung bleibt oben sichtbar, die Übung steht direkt darunter. Der Browser springt beim
+  // Laden selbst noch zum Anker (#uebung) – deshalb nach "load" noch einmal.
+  const hin = () => (erklaerung ?? document.getElementById("uebung"))?.scrollIntoView({ block: "start" });
+  hin();
+  if (document.readyState !== "complete") window.addEventListener("load", hin, { once: true });
 }
