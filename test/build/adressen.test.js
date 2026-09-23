@@ -33,3 +33,12 @@ test("die Site einer Organisation an der Wurzel: Repository <org>.github.io, kei
   assert.equal(a.appUrl("binom"), "https://lernapps.github.io/binom/");
   assert.equal(a.quellcode("binom"), "https://github.com/lernapps/lernapps.github.io/tree/main/src/binom");
 });
+
+// Use Case: Rückmeldung – jede Seite verlinkt ein neues GitHub-Issue, der Titel nennt die Seite (statisch, ohne JS).
+test("Melde-Link: neues Issue im Repository, Titel mit dem Seitenpfad", () => {
+  const a = leiteAdressenAb("https://lernapps.github.io/");
+  assert.equal(
+    a.meldeUrl("/binom/erste-binomische.html"),
+    "https://github.com/lernapps/lernapps.github.io/issues/new?title=R%C3%BCckmeldung%20zu%20%2Fbinom%2Ferste-binomische.html%3A%20",
+  );
+});

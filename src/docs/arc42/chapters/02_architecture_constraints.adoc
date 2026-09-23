@@ -1,0 +1,58 @@
+:jbake-title: Randbedingungen
+:jbake-type: page_toc
+:jbake-status: published
+:jbake-menu: arc42
+:jbake-order: 2
+:filename: /chapters/02_architecture_constraints.adoc
+ifndef::imagesdir[:imagesdir: ../../images]
+
+:toc:
+
+[[section-architecture-constraints]]
+== Randbedingungen: Kinder, kein Geld für Betrieb, ein KI-Agent als Entwickler
+
+Die Randbedingungen stammen aus `CLAUDE.md` („Project rules“, „Build rules“) und aus dem Umfeld: Die
+Apps kosten nichts im Betrieb, richten sich an Minderjährige und werden überwiegend von Claude Code
+geschrieben. Gegenüber der Vorlage hat sich eine Randbedingung grundlegend geändert: Es gibt einen
+Build-Schritt, aber nur zur Build-Zeit (TC-1, xref:09_architecture_decisions.adoc#adr-012[ADR-012]).
+
+=== Technische Randbedingungen
+
+[cols="1,3,3",options="header"]
+|===
+| ID | Randbedingung | Quelle
+| TC-1 | Ausgeliefert wird nur statisches HTML, CSS, SVG und JavaScript-ES-Module; kein Framework im Browser. Gebaut wird mit Eleventy, exakt gepinnt auf 3.1.6 (einzige npm-Abhängigkeit). | `CLAUDE.md` Project rules; `package.json` (`devDependencies`)
+| TC-2 | Auslieferung über GitHub Pages, Organisation `lernapps`, Repository `lernapps.github.io`; kein eigener Server, keine Datenbank. | `src/_data/site.js:9`; `.github/workflows/pages.yml`
+| TC-3 | Jede Seite ist ohne JavaScript lesbar, Text und Bild. JavaScript treibt nur Übung, Prüfung, Test, Selbsteinschätzung und das interaktive Neuzeichnen. | `CLAUDE.md` Project rules; `<noscript>` in `src/_includes/kompetenz.njk:46`, `src/start.njk:39`, `src/test.njk:19`
+| TC-4 | Kein Request an fremde Hosts, bevor das Kind ein Video startet; danach nur `youtube-nocookie.com`. Kein CDN, keine Webfonts, keine Analytics, keine Cookies. Gilt auch für diese Doku. | `CLAUDE.md`; geprüft von `lib/pruefungen.js:8-22`
+| TC-5 | Speicherung nur im `localStorage`: Selbsteinschätzung, letzter Test, Video-Merker (dazu der Anbieter-Merker von TalkItOver). Jeder Zugriff in `try/catch`. | `src/kern/js/storage.js:2`, `src/kern/js/video.js:39-55`
+| TC-6 | Jede Quelldatei unter 500 Zeilen, sonst bricht der Build. | `lib/pruefungen.js:5`, `:25-28`
+| TC-7 | Node 22 für Tests und Build; Java 17 und Graphviz nur für diese Doku. | `.github/workflows/pruefen.yml`, `.github/workflows/pages.yml`
+| TC-8 | Der Tutor ist Claude auf claude.ai. Die Apps erreichen ihn nur über einen Link `https://claude.ai/new?q=…`; sie haben keinen API-Zugang. | `src/start.njk:48`
+|===
+
+=== Organisatorische Randbedingungen
+
+[cols="1,3,3",options="header"]
+|===
+| ID | Randbedingung | Quelle
+| OC-1 | Entwicklung überwiegend durch Claude Code; eine Person prüft und merged. | `CLAUDE.md`
+| OC-2 | TDD, Conventional Commits, Feature-Branches, Dateien einzeln adden; `npm test` und `npm run build` grün bei jedem Commit. | `CLAUDE.md` Project rules
+| OC-3 | Kern-Änderungen geschehen im Monorepo und erreichen alle Apps mit einem Commit. Die alten Einzel-Repos (`binom-trainer`, `prozent-trainer`, `zufall-trainer`, `mathe-karte`, `lern-app-template`, `lern-app-skill`) bleiben unberührt, bis sie gelöscht sind (R-016). | `CLAUDE.md` Einleitung
+| OC-4 | Öffentliches Repository in der Organisation `lernapps`. Keine Lizenzdatei; die Lizenz ist offen (xref:11_technical_risks.adoc#r-018[R-018]). Keine persönlichen Daten aus Arbeitsblättern ins Repo. | Repository-Wurzel ohne `LICENSE`
+| OC-5 | Keine fremden Marken verändern oder nachbilden; fremde Logos nur unverändert und nur, wo nötig. | Commit `94a6f35`, PR #3 (xref:09_architecture_decisions.adoc#adr-019[ADR-019])
+|===
+
+=== Konventionen
+
+[cols="1,3",options="header"]
+|===
+| ID | Konvention
+| CV-1 | Oberfläche und Fachbegriffe auf Deutsch, auch in Bezeichnern (Ubiquitous Language: `Aufgabennummer`, `Kompetenz`, `pruefeZahlAntwort`); generische Struktur auf Englisch.
+| CV-2 | `lang="de"`, Mobile-first ab 360 px, WCAG-freundlich.
+| CV-3 | Die Site-Version steht nur in `package.json`; der Footer zeigt sie (`src/_data/site.js:11`, `:16`). SemVer, Anhebung bei sichtbaren Änderungen.
+| CV-4 | URL-Parameter, Anker und `seed`/`nr` sind öffentlicher Vertrag: Änderungen stehen im `llms.njk` der App, bestehende Namen werden nie umbenannt.
+| CV-5 | `tutor.njk` bleibt unter 120 Zeilen und auf Deutsch; im Lernendentext heißt es „Aufgabe Nr. 42“, nie „seed“.
+| CV-6 | Architektur als arc42 in AsciiDoc unter `src/docs/`, gebaut mit docToolchain; Diagramme in PlantUML mit der C4-Standardbibliothek. Kern- und Build-Entscheidungen brauchen ein ADR.
+| CV-7 | Die Basis-URL steht an genau einer Stelle (`src/_data/site.js`); in Vorlagen nie eine literale Adresse, sondern `{{ app.basisUrl }}` bzw. `{{ site.basis }}`.
+|===

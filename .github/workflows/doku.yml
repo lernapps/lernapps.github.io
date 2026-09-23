@@ -1,0 +1,94 @@
+name: Doku prüfen
+
+# TD-22/23: Architektur-Doku (docToolchain v4) in Pull Requests bauen und auf fremde Ressourcen prüfen – nur wenn
+# sich die Doku, ihre Konfiguration oder ihre Build-Skripte ändern. Eigener Workflow, damit der Pflicht-Check
+# "test-und-build" (pruefen.yml) unverändert bei jedem Push läuft und nicht auf docToolchain warten muss.
+on:
+  pull_request:
+    paths:
+      - "src/docs/**"
+      - "src/site/**"
+      - "docToolchainConfig.groovy"
+      - "dtcw"
+      - "scripts/dtc-v4.sh"
+      - "lib/pruefe-ausgabe.js"
+      - "lib/pruefungen.js"
+      - ".github/workflows/doku.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: doku-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  doku-bauen-und-pruefen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Gibt es die Doku schon?
+        id: vorhanden
+        run: |
+          if [ -x scripts/dtc-v4.sh ] && [ -d src/docs ]; then
+            echo "doku=ja" >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice::Keine Architektur-Doku (scripts/dtc-v4.sh, src/docs) im Stand – nichts zu bauen."
+            echo "doku=nein" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/setup-node@v4
+        if: steps.vorhanden.outputs.doku == 'ja'
+        with:
+          node-version: 22
+
+      - name: Java 17 für docToolchain v4
+        if: steps.vorhanden.outputs.doku == 'ja'
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      # Gleicher Cache wie in pages.yml: hängt am gepinnten docToolchain-Commit in scripts/dtc-v4.sh.
+      - name: Gepinnten docToolchain-Commit ermitteln
+        if: steps.vorhanden.outputs.doku == 'ja'
+        id: dtc
+        run: |
+          sha=$(sed -n 's/^DTC_SHA="\([0-9a-f]*\)"$/\1/p' scripts/dtc-v4.sh)
+          test -n "$sha"
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+          echo "short=${sha:0:8}" >> "$GITHUB_OUTPUT"
+
+      - name: docToolchain v4 und Gradle-Abhängigkeiten aus dem Cache
+        if: steps.vorhanden.outputs.doku == 'ja'
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.doctoolchain/docToolchain-4.0.0-${{ steps.dtc.outputs.short }}
+            ~/.gradle/caches/modules-2
+            ~/.gradle/wrapper/dists
+          key: dtc-v4-${{ steps.dtc.outputs.sha }}
+          restore-keys: dtc-v4-
+
+      - name: Graphviz für PlantUML
+        if: steps.vorhanden.outputs.doku == 'ja'
+        run: sudo apt-get update && sudo apt-get install -y graphviz
+
+      - name: Architektur-Doku bauen (docToolchain)
+        if: steps.vorhanden.outputs.doku == 'ja'
+        env:
+          DTC_HEADLESS: "true"
+        run: |
+          start=$(date +%s)
+          scripts/dtc-v4.sh generateSite
+          echo "::notice::Doku-Build: $(( $(date +%s) - start )) s"
+
+      - name: Keine fremden Ressourcen in der Doku
+        if: steps.vorhanden.outputs.doku == 'ja'
+        run: |
+          rm -f build/microsite/output/landingpage.gsp
+          # Der Suchindex ist Daten (Doku-Text, der Beispiele wie "@import url(//…)" zitiert), kein Code.
+          node lib/pruefe-ausgabe.js build/microsite/output --ausser lunrjsindex.js

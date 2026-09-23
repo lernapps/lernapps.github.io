@@ -1,0 +1,65 @@
+:jbake-title: Glossar
+:jbake-type: page_toc
+:jbake-status: published
+:jbake-menu: arc42
+:jbake-order: 12
+:filename: /chapters/12_glossary.adoc
+ifndef::imagesdir[:imagesdir: ../../images]
+
+:toc:
+
+[[section-glossary]]
+== Glossar: Dieselben Wörter in Code, Oberfläche und Doku
+
+Die Begriffe sind die Ubiquitous Language der Apps. Wo ein deutscher Begriff im Code steht, steht er
+auch hier.
+
+[cols="2,5,2",options="header"]
+|===
+| Begriff | Bedeutung | Im Code
+| Monorepo | Das eine Repository `lernapps/lernapps.github.io` mit allen Apps, Kern, Layout, Build, Karte und Doku. | –
+| App | Ein Trainer zu einem Schulthema; ein Ordner `src/<pfad>/` mit `js/app.config.js`. | `APP`, `lib/apps.js`
+| Kern | Der generische Teil aller Apps, einmal ausgeliefert unter `/kern/`. Kennt keine App. | `src/kern/`
+| Layout | Die Nunjucks-Vorlagen, die Kopf, Menü, Footer, Kompetenzseiten, Start-, Test- und Manifest-Seiten erzeugen. | `src/_includes/`, `src/*.njk`
+| Build | `npm run build`: Eleventy plus die Schritte aus `lib/` (Apps laden, Bilder zeichnen, prüfen, versionieren). | `eleventy.config.js`, `lib/`
+| Build-Prüfung | Regel, deren Verletzung den Build abbricht (externe Ressourcen, Zeilen, Kompetenz-Dateien, `llms.txt`). | `lib/pruefungen.js`
+| App-Konfiguration | Reine Daten einer App: `APP` und `KOMPETENZEN`. Der Kern liest sie nie selbst. | `src/<app>/js/app.config.js`
+| Dependency Inversion | Die Seite reicht Konfiguration und Generatoren in den Kern hinein, statt dass der Kern sie importiert. | `starteSeite({ app, … })`
+| Basis-URL | Die eine Adresse der Site; alles andere wird daraus abgeleitet. | `src/_data/site.js`, `lib/adressen.js`
+| Inhalts-Hash | 8 Hex-Zeichen über alle ausgelieferten JS/CSS/JSON; steht als `?v=` an jeder lokalen Referenz. | `lib/versionierung.js`
+| Site-Version | SemVer aus `package.json`, im Footer jeder Seite. | `site.version`
+| Fachfarbe | Primärfarbe und dunkle Variante je Fach. | `lib/fachfarben.js`
+| Mini-DOM | Kleine DOM-Nachbildung, in die Zeichenfunktionen beim Build zeichnen. | `src/kern/js/svg.js`
+| Zeichenfunktion | `zeichne…(svg, aufgabe, ergebnis)`; zeichnet das Bild einer Kompetenz im Build und im Browser. | `src/<app>/js/vis/<id>.js`
+| Kompetenz | Eine beobachtbare Fähigkeit („Ich kann …“). Je Kompetenz eine Seite, ein Generator, ein Test, optional ein Bild. | `KOMPETENZEN`
+| Kompetenzseite | Aus Front Matter erzeugte Seite mit Warum, Regel, Beispiel, Video, Bild, Übung. | `src/<app>/<id>.md`, `kompetenz.njk`
+| Front Matter | YAML-Kopf einer Markdown-Datei; bei Kompetenzseiten der ganze Inhalt. | `<id>.md`
+| Aufgabennummer | Ganze Zahl, aus der ein Generator eine Aufgabe deterministisch erzeugt; ohne Angabe 1–9999; im Text „Aufgabe Nr. 42“. | `erzeugeZufall`, `leseSeed`
+| Seed | Technischer Name der Aufgabennummer in URL und Code; erscheint nie im Text für Kinder. | `seed`
+| Generator | Fachmodul je Kompetenz: erzeugt eine Aufgabe und prüft Antworten. | `erzeugeAufgabe`, `pruefeAntwort`
+| Generator-Vertrag | Was jeder Generator erfüllen muss; geprüft für jede Kompetenz jeder App. | `test/apps/vertrag.test.js`
+| Vorgaben | Werte aus URL-Parametern, die eine Aufgabe festlegen. | `leseVorgaben`, `URL_ZAHLEN`, `URL_TEXTE`
+| Prüfergebnis | `{ korrekt, fehler, felder, meldung }`. | `pruefung.js`
+| Fehlercode | Kennung eines typischen Fehlers, die `llms.txt` dem Tutor erklärt. | `fehler`
+| Hinweis | Rückmeldung, die kein Fehler ist (z. B. `zu-grob-gerundet`, `nicht-ausmultipliziert`); zählt nicht als Versuch. | `HINWEIS_FEHLER`, `TERM_HINWEIS_FEHLER`
+| Rundungsregel | Die eine Regel für Zahlenfelder: Toleranz nach getippten Stellen. | `zahlantwort.js`
+| Variablenterm | Term mit Variablen a–z; gleichwertig heißt gleich an festen Prüfstellen. | `variablenterm.js`, `termantwort.js`
+| Vorschau | Wert eines getippten Terms unter dem Feld. | `vorschau`
+| Checkliste | Tabelle aller Kompetenzen auf der Startseite mit Selbsteinschätzung und Spalte „Test“. | `start.njk`, `startseite.js`
+| Selbsteinschätzung | Stufe (S, T, Ü), die das Kind je Kompetenz wählt; nur im `localStorage`. | `STUFEN`, `storage.js`
+| Test, Schnelltest | Diagnosetest mit 2 bzw. 1 Aufgabe je Kompetenz, ohne Tipp und Zeitmessung. | `MODI`, `testablauf.js`
+| Ergebniszeile | `Test Nr. 4711 (<App>, Schnelltest): 1 ✓ 2 ~ 3 ✗`. | `ergebnisZeile`
+| Tutor | Claude auf claude.ai, der das Kind unterrichtet und in die App verlinkt. | –
+| llms.txt | Beschreibung für LLMs: je App (Seiten, Parameter, Fehlercodes), für die Übersicht und für die Karte. | `src/<app>/llms.njk`, `src/llms.njk`, `src/karte/llms.njk`
+| tutor.md | Prompt für den Tutor, unter 120 Zeilen. | `src/<app>/tutor.njk`
+| TalkItOver | Eingebettete Web-Komponente, die einen Prompt an einen LLM-Anbieter übergibt oder kopiert. | `src/kern/vendor/talkitover.js`
+| Zwei-Klick-Video | Video-Karte, die erst nach Klick ein YouTube-iframe lädt; mit neutralem Play-Symbol. | `video.js`, `PLAY_SYMBOL`
+| Mathe-Karte | Karte der Mathe-Kompetenzen nach KMK-Leitideen und Lehrplänen mit den Apps, die sie üben. | `src/karte/`, `lib/karte/`
+| Knoten | Eine Kompetenz der Mathe-Karte; Ziel von `kartenKnoten`. | `src/karte/daten/kompetenzen/<id>.md`
+| Karten-Eintrag | Die edugo-Felder einer App auf der Karte. | `APP.kartenEintrag`, `eintragAusApp`
+| Einzel-Repo | Eine App in eigenem Repository unter `raifdmueller.github.io`; Vorgänger des Monorepos, läuft noch, bis es gelöscht ist (R-016). | –
+| Vorlage | Das frühere Template-Repository `raifdmueller/lern-app-template`, aus dem diese Doku stammt. Abgelöst durch das Monorepo; die Löschung steht bevor (R-016). | –
+| Slice, Scheibe | Vertikaler Schnitt durch alle Schichten; bei Kompetenzen: Seite, Generator, Bild, Test, Checkliste, Menü, `llms.txt`. | –
+| Spike | Zeitlich begrenztes Wegwerf-Experiment; hier der Monorepo-Spike mit 20 Apps (ADR-012). | –
+| edugo | Vorhaben einer Plattform, die Bildungs-Micro-Apps über eine Kompetenzkarte verbindet. | –
+|===
