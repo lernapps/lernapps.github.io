@@ -35,7 +35,7 @@ video:
   titel: 'Prozentrechnung - Prozentsatz berechnen mit Formel / mit Dreisatz | Lehrerschmidt'
   kanal: Lehrerschmidt
 bild:
-  text: 'Hunderterfeld: 100 Kästchen = Grundwert, ein Kästchen = 1 %. In der Übung zeigt das Bild die aktuelle Aufgabe.'
+  text: 'Hunderterfeld: 100 Kästchen = Grundwert, ein Kästchen = 1 %.'
   funktion: zeichneSachaufgaben
   seed: 1
   geloest: true

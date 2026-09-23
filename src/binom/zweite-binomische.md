@@ -23,7 +23,7 @@ video:
   titel: 2.binomische Formel - ganz einfach erklärt mit Beispielen! | Lehrerschmidt
   kanal: Lehrerschmidt
 bild:
-  text: Vom Quadrat x² werden zwei Streifen 5x abgezogen (rot). Die grüne Ecke 25 steckt in beiden Streifen, ist also doppelt abgezogen und kommt einmal zurück. Übrig bleibt das Quadrat (x − 5)². In der Übung zeigt das Bild die aktuelle Aufgabe.
+  text: Vom Quadrat x² werden zwei Streifen 5x abgezogen (rot). Die grüne Ecke 25 steckt in beiden Streifen, ist also doppelt abgezogen und kommt einmal zurück. Übrig bleibt das Quadrat (x − 5)².
   funktion: zeichneZweiteBinomische
   seed: 1
   geloest: true

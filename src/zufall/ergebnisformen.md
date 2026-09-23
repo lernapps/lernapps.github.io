@@ -25,7 +25,8 @@ video:
   titel: Summenregel | Wahrscheinlichkeitsrechnung | Mathematik | Lehrerschmidt
   kanal: Lehrerschmidt
 bild:
-  text: 'Der Baum aus dem Beispiel: 3 rote und 2 blaue Kugeln, zweimal ohne Zurücklegen. Orange sind die zwei Pfade von „genau einmal rot“. In der Übung wählst du den passenden Term.'
+  text: 'Der Baum aus dem Beispiel: 3 rote und 2 blaue Kugeln, zweimal ohne Zurücklegen. Orange sind die zwei Pfade von „genau einmal rot“.'
+  uebung: 'Welcher Term passt dazu?'
   funktion: zeichneErgebnisformen
   modul: pfadregel-2
   seed: 2

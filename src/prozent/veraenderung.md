@@ -41,7 +41,7 @@ video:
   titel: 'Rabatt, Nachlass, Preissenkung berechnen | Prozentrechnung - einfach erklärt | Lehrerschmidt'
   kanal: Lehrerschmidt
 bild:
-  text: 'Der obere Balken ist der alte Wert (100 %), der untere der neue Wert. In der Übung zeigt das Bild die aktuelle Aufgabe.'
+  text: 'Der obere Balken ist der alte Wert (100 %), der untere der neue Wert.'
   funktion: zeichneVeraenderung
   seed: 3
   geloest: true

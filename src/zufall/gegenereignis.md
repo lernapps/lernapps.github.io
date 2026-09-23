@@ -22,7 +22,7 @@ beispiel: |
   <p>Ohne den Trick müsstest du 7 Pfade addieren. Mit dem Trick ist es eine Rechnung.</p>
 ohneVideo: Zu dieser Frage gibt es kein Lehrerschmidt-Video; die Erklärung oben reicht.
 bild:
-  text: 'Der Baum zum dreimaligen Würfeln. Orange ist der einzige Pfad des Gegenereignisses „kein einziges Mal 6“: 5/6 · 5/6 · 5/6. Rechts stehen die Pfadwahrscheinlichkeiten. In der Übung zeigt das Bild die aktuelle Aufgabe.'
+  text: 'Der Baum zum dreimaligen Würfeln. Orange ist der einzige Pfad des Gegenereignisses „kein einziges Mal 6“: 5/6 · 5/6 · 5/6. Rechts stehen die Pfadwahrscheinlichkeiten.'
   funktion: zeichneGegenereignis
   seed: 1
   geloest: true

@@ -25,7 +25,8 @@ video:
   titel: Baumdiagramm | mehrstufiger Zufallsversuch | Wahrscheinlichkeit | Stochastik | Lehrerschmidt
   kanal: Lehrerschmidt
 bild:
-  text: 'Der Baum aus dem Beispiel: Urne mit 3 roten und 2 blauen Kugeln, zweimal ohne Zurücklegen. Erst alle Zweige, dann die Kugeln, dann die Brüche. In der Übung fehlen einige Zweige (a, b, …).'
+  text: 'Der Baum aus dem Beispiel: Urne mit 3 roten und 2 blauen Kugeln, zweimal ohne Zurücklegen. Erst alle Zweige, dann die Kugeln, dann die Brüche.'
+  uebung: 'Einige Zweige fehlen (a, b, …).'
   funktion: zeichneBaumdiagramm
   seed: 2
   geloest: true

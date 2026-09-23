@@ -3,15 +3,18 @@ import { erzeugeZufall, zufaelligeAufgabennummer } from "./zufall.js";
 import { aufgabenzeile, aufgabenHref } from "./aufgabenlink.js";
 import { wirdGezaehlt, istHinweis } from "./pruefung.js";
 import { LOESUNG_ZEIGEN, schalteLoesung } from "./loesung-schalter.js";
+import { bildBeschriftung } from "./aufgabenbild.js";
+import { leeresSvg } from "./svg.js";
 import { el, zeigeEingaben, zeigeAufgabentext, lieseAntworten, markiereFelder } from "./aufgabe-eingabe.js";
 
 /**
  * Startet einen Trainer im Element `wurzel`.
  * modul: { erzeugeAufgabe(zufall, vorgaben), pruefeAntwort(aufgabe, antworten) }
  * seed: optionaler Seed für die erste Aufgabe; vorgaben: Zahlen aus der URL (nur erste Aufgabe).
- * visualisiere(aufgabe, ergebnis|undefined): Rückruf für die Grafik.
+ * zeichne(svg, aufgabe, ergebnis|undefined): Zeichenfunktion für das Bild zur Aufgabe (optional);
+ * bildHinweis: Satz hinter der Beschriftung (Front Matter bild.uebung, optional).
  */
-export function starteTrainer({ wurzel, modul, seed, vorgaben = {}, visualisiere, seitenPfad = "" }) {
+export function starteTrainer({ wurzel, modul, seed, vorgaben = {}, zeichne, bildHinweis, seitenPfad = "" }) {
   const zaehler = { richtig: 0, gesamt: 0 };
   let aufgabe;
   let gezaehlt = false;
@@ -32,7 +35,17 @@ export function starteTrainer({ wurzel, modul, seed, vorgaben = {}, visualisiere
   const gesamtSpan = el("span", { "data-gesamt": true, text: "0" });
   const zaehlerP = el("p", { class: "zaehler" }, ["Richtig: ", richtigSpan, " von ", gesamtSpan, " Aufgaben in dieser Sitzung."]);
   const seedP = el("p", { class: "aufgabenlink" });
-  wurzel.append(text, form, feedback, tippText, loesungText, zaehlerP, seedP);
+  const bildSvg = leeresSvg({ class: "vis" });
+  const bildText = el("figcaption", { class: "vis-beschriftung" });
+  const bild = zeichne ? [el("figure", { class: "aufgabe-bild", id: "aufgabenbild" }, [bildSvg, bildText])] : [];
+  wurzel.append(text, ...bild, form, feedback, tippText, loesungText, zaehlerP, seedP);
+
+  function visualisiere(a, ergebnis) {
+    if (!zeichne) return;
+    bildSvg.replaceChildren();
+    zeichne(bildSvg, a, ergebnis);
+    bildText.textContent = bildBeschriftung(a, ergebnis, bildHinweis);
+  }
 
   function zeige(neueAufgabe, eigeneVorgaben = {}) {
     aufgabe = neueAufgabe;
@@ -44,7 +57,7 @@ export function starteTrainer({ wurzel, modul, seed, vorgaben = {}, visualisiere
     tippText.hidden = true;
     schalteLoesung(loesung, loesungText, false);
     seedP.replaceChildren(...aufgabenzeile(aufgabe.seed, aufgabenHref(seitenPfad, eigeneVorgaben, aufgabe.seed)));
-    if (visualisiere) visualisiere(aufgabe, undefined);
+    visualisiere(aufgabe, undefined);
     form.querySelector("input, select")?.focus({ preventScroll: true });
   }
 
@@ -74,7 +87,7 @@ export function starteTrainer({ wurzel, modul, seed, vorgaben = {}, visualisiere
     feedback.className = `feedback ${ergebnis.korrekt ? "richtig" : istHinweis(ergebnis) ? "hinweis" : "falsch"}`;
     markiere(ergebnis);
     if (wirdGezaehlt(ergebnis)) zaehle(ergebnis.korrekt);
-    if (visualisiere) visualisiere(aufgabe, ergebnis);
+    visualisiere(aufgabe, ergebnis);
   });
   tipp.addEventListener("click", () => {
     tippText.textContent = aufgabe.tipp;
@@ -88,7 +101,7 @@ export function starteTrainer({ wurzel, modul, seed, vorgaben = {}, visualisiere
       el("ol", { class: "rechenweg" }, aufgabe.rechenweg.map((s) => el("li", { html: s }))),
     );
     schalteLoesung(loesung, loesungText, true);
-    if (visualisiere) visualisiere(aufgabe, { korrekt: true, loesungGezeigt: true });
+    visualisiere(aufgabe, { korrekt: true, loesungGezeigt: true });
   });
   neu.addEventListener("click", () => zeige(erzeuge(zufaelligeAufgabennummer(), {})));
 

@@ -1,5 +1,5 @@
 /* Zufall-Trainer: Bilder in natürlicher Größe (Bäume sind breit), bei Bedarf waagerecht scrollen. */
-#visualisierung, .test-bild, .bauer { overflow-x: auto; }
+#visualisierung, .aufgabe-bild, .test-bild, .bauer { overflow-x: auto; }
 svg.vis[width] { width: auto; max-width: none; height: auto; }
 .baum-blatt[role="button"] { cursor: pointer; }
 /* Auswahl nur als Rahmen, nie als Fläche – der Knoten darunter bleibt lesbar. */
