@@ -28,7 +28,7 @@ in Node.
 [cols="1,1,4,2",options="header"]
 |===
 | ID | STRIDE | Bedrohung | Betroffen
-| [[t-001]]T-001 | S, T | Jemand übernimmt das Konto eines Organisationsmitglieds oder ein Token und ändert Kern, Apps oder `tutor.md`. Alle Kinder aller Apps bekommen die veränderte Fassung. Die Organisation verlangt keine Zwei-Faktor-Anmeldung. | Repository, alle Apps
+| [[t-001]]T-001 | S, T | Jemand übernimmt das Konto eines Organisationsmitglieds oder ein Token und ändert Kern, Apps oder `tutor.md`. Alle Kinder aller Apps bekommen die veränderte Fassung. | Repository, alle Apps
 | [[t-002]]T-002 | T | Prompt Injection über `tutor.md` oder `llms.txt`: Ein Beitrag oder eine gefälschte Kopie gibt Claude Anweisungen, die dem Kind schaden. | Apps (Tutor-Texte)
 | [[t-003]]T-003 | T | Manipulierter Deep Link: präparierte Parameter sollen Script einschleusen (XSS) oder eine irreführende Aufgabe zeigen. | Kern (Seitenstart, Aufgabenlink, Trainer)
 | [[t-004]]T-004 | T, E | Eine kompromittierte Fassung von `src/kern/vendor/talkitover.js` gelangt ins Repo und läuft auf jeder Startseite. | Kern
@@ -42,6 +42,7 @@ in Node.
 | [[t-012]]T-012 | T, E | Lieferkette: Eine kompromittierte Version von Eleventy, einer transitiven npm-Abhängigkeit oder von docToolchain schleust beim Build Code in die Ausgabe. | Build, Architektur-Doku
 | [[t-013]]T-013 | T, E | Ein Beitrag (PR) führt beim Build Code aus: App-Konfigurationen, Generatoren und Zeichenfunktionen laufen in Node. | Build, Tests und CI
 | [[t-014]]T-014 | I | Das Kind schickt Fotos seines Rechenwegs in den Chat (xref:09_architecture_decisions.adoc#adr-022[ADR-022]). Der Chat-Anbieter erhält Handschrift und alles, was sonst auf dem Bild ist: Name, Schulstempel, Umgebung, je nach Gerät Metadaten wie den Aufnahmeort. | Chat-Anbieter (außerhalb)
+| [[t-015]]T-015 | S, T, E | `tutor.md` ist ein Prompt im Chat eines Kindes. Wer das Repository übernimmt oder einen PR durchbringt, gibt der Chat-KI Anweisungen, während sie mit dem Kind spricht. Ein Link auf eine fremde Seite genügt: Deren Inhalt ändert sich nach dem Review und lädt dann fremde Anweisungen in den Chat (xref:09_architecture_decisions.adoc#adr-023[ADR-023]). | Apps (Tutor-Texte), Mathe-Karte (`llms.txt`)
 |===
 
 [[section-security]]
@@ -64,15 +65,19 @@ in Node.
 | M-12 | Eleventy exakt gepinnt (`3.1.6`, ohne `^`), transitive Pakete über `package-lock.json`, in CI `npm ci`. Nie `npx eleventy` ohne installiertes Paket. | T-012 (teilweise) | `package.json`; `CLAUDE.md`; ADR-012
 | M-13 | docToolchain am festen Commit `6de96fb7…`, nicht an einem Zweig; der Cache hängt am SHA. | T-012 (teilweise) | `scripts/dtc-v4.sh`; `.github/workflows/pages.yml`
 | M-14 | Die Doku lädt nichts von fremden Hosts: Theme-CSS ohne CDN-Importe, Schriften und Symbole lokal. | T-007 | `src/site/assets/css/`; TD-10
-| M-15 | Branch-Schutz für `main`, seit 23.09.2026: PR-Pflicht, Pflicht-Check `test-und-build`, kein Force-Push, kein Löschen. Admins dürfen ihn umgehen. Die Zwei-Faktor-Pflicht für die Organisation ist zurückgestellt, bis weitere Personen mitarbeiten (`two_factor_requirement_enabled: false`, `gh api orgs/lernapps`, 23.09.2026). | T-001 (teilweise), T-011, T-013 (teilweise) | `gh api repos/lernapps/lernapps.github.io/branches/main/protection`; xref:11_technical_risks.adoc#r-017[R-017]
+| M-15 | Branch-Schutz für `main`, seit 23.09.2026: PR-Pflicht, Pflicht-Check `test-und-build`, kein Force-Push, kein Löschen. Admins dürfen ihn umgehen. Er verlangt keine Freigabe (`required_approving_review_count: 0`): Ein einzelner Maintainer kann seinen eigenen PR nicht freigeben. | T-001 (teilweise), T-011, T-013 (teilweise) | `gh api repos/lernapps/lernapps.github.io/branches/main/protection`; xref:11_technical_risks.adoc#r-017[R-017]
 | M-17 | Die zweite Erklärung bei serlo.org ist ein reiner Link (`<a rel="noopener">` unter `#serlo`): kein iframe, kein Vorschaubild, keine Anfrage vor dem Klick. Erst der Klick des Kindes öffnet de.serlo.org; dann erfährt serlo.org (Serlo Education e.V., gemeinnützig, werbefrei, ohne Anmeldung) IP-Adresse und Browserdaten wie bei jedem Link. Der Build lässt unter `#serlo` nur `https://de.serlo.org/…` zu, ohne Netzabruf. | T-007 | `src/_includes/kompetenz.njk`; `lib/pruefungen.js` (`pruefeSerloLinks`)
 | M-18 | Die App überträgt keine Fotos und hat kein Upload-Feld; nur das Kind schickt ein Foto, in seinem eigenen Chat-Werkzeug. `tutor.md` und `llms.txt` bitten, nur das Blatt zu fotografieren, ohne Namen. Ob Fotos in den Chat gehen, entscheiden das Kind und seine Eltern. | T-014 (teilweise) | `src/<app>/tutor.njk`, `src/<app>/llms.njk`; ADR-022
+| M-19 | GitHub-Sicherheitsschalter seit 24.09.2026: Secret Scanning mit Push Protection (ein Push mit erkanntem Token scheitert), Dependabot-Alerts und -Security-Updates, CodeQL Default Setup für JavaScript und Actions. | T-001 (teilweise), T-012 (teilweise), T-015 (teilweise) | #19; xref:09_architecture_decisions.adoc#adr-023[ADR-023]
+| M-20 | Im Pflicht-Check `test-und-build`: `npm audit --audit-level=high` und ESLint mit `no-eval`, `no-implied-eval` und `no-unsanitized`. Ein Fund verhindert den Merge. | T-003, T-008, T-012 (teilweise) | `.github/workflows/pruefen.yml`, `eslint.config.js`; #20, #21; ADR-023
+| M-21 | Zwei-Faktor-Pflicht für die Organisation `lernapps`, entschieden am 24.09.2026 und vom Product Owner in der GitHub-Oberfläche eingeschaltet. Ein gestohlenes Passwort reicht nicht mehr, um Kern, Apps oder `tutor.md` zu ändern. | T-001, T-015 (teilweise) | `gh api orgs/lernapps` (`two_factor_requirement_enabled`); xref:11_technical_risks.adoc#r-017[R-017]; ADR-023
+| M-22 | Link-Allowlist für Tutor-Dateien: Der Build lässt in `tutor.md` und `llms.txt` jeder App, in `/llms.txt` und `karte/llms.txt` nur relative Links und Links auf `https://lernapps.github.io/`, das eigene Repository, `https://de.serlo.org/` und `https://www.youtube.com/watch?v=` zu. Erkannt werden URLs mit Schema, protokoll-relative `//host`, `www.host` und `javascript:`/`data:`. Jedes andere Ziel bricht den Build. | T-015 (teilweise), T-002 (teilweise) | `lib/pruefungen.js` (`pruefeTutorLinks`, `erlaubteTutorZiele`); ADR-023
 | M-16 | Rückmeldung nur über einen Link auf GitHub Issues. Die Seite lädt nichts von GitHub; erst der Klick des Kindes oder der Eltern öffnet GitHub. GitHub verlangt ein Konto und ein Mindestalter von 13 Jahren; jüngere Kinder brauchen die Eltern. Entschieden am 23.09.2026, noch nicht umgesetzt. | T-007 (hält den Link frei von Einbettungen) | xref:03_context_and_scope.adoc#section-technical-context[Kapitel 3]
 |===
 
-Offene Restrisiken: T-001 ist ohne Zwei-Faktor-Pflicht nur teilweise geschlossen, und Admins können
-den Branch-Schutz umgehen; T-012 bleibt ein Lieferketten-Risiko
-(xref:11_technical_risks.adoc#r-015[R-015]), T-002 hängt am Review. T-014 ist bewusst nur teilweise
+Offene Restrisiken: Admins können den Branch-Schutz umgehen, und eine Freigabe erzwingt er nicht
+(xref:11_technical_risks.adoc#r-026[R-026]); T-012 bleibt ein Lieferketten-Risiko
+(xref:11_technical_risks.adoc#r-015[R-015]), T-002 hängt am Review; die Allowlist (M-22) hält fremde Links fern, aber nicht fremden Text in einem gemergten PR (xref:11_technical_risks.adoc#r-024[R-024]). T-014 ist bewusst nur teilweise
 geschlossen: Was auf dem Foto steht, liegt beim Kind (xref:11_technical_risks.adoc#r-022[R-022]).
 
 [[section-test-concept]]
@@ -106,7 +111,7 @@ t1b -[hidden]- t1
 | Unit-Tests (`test/kern/`, `test/build/`, `src/<app>/test/`, `src/karte/test/`) | Jedes Kern-Modul, jede Build-Funktion und jeder Generator als reine Funktion; test-first. | 50 von 57 Testdateien nennen im Kopf den Use Case (`// Use Case: …`); `zahlantwort.test.js` nennt BR-1 bis BR-5, `variablenterm.test.js`/`termantwort.test.js` BR-T1 bis BR-T9.
 | Property-Based Tests (`test/kern/*.property.test.js`) | Eigenschaften der Kern-Mathematik über viele erzeugte Eingaben statt Einzelbeispiele: Round-Trip formatierter Zahlen, monotone Rundung, Stellenregel, „=“ nur bei exakten Werten, Gleichwertigkeit und Form von Binomen, abgelehnte Fehlterme. fast-check mit festem Seed 22 und 300 Läufen je Eigenschaft (zusammen unter 1 s); anderer Seed lokal mit `FC_SEED=<Zahl> npm test`. Ein gefundener Fehler wird Issue mit `risk-radar` und bleibt bis zum Fix als `todo` sichtbar. | Jeder Test nennt QZ-3 und R-004 oder R-012 im Namen, dazu BR-2, BR-5, BR-T7, BR-T8 (Issue #22)
 | Vertragstest | Für jede Kompetenz jeder App aus `lib/apps.js`: Generator liefert Aufgaben, die eigene Lösung ist richtig, Unsinn falsch, Seeds 1–20. | UC-1, UC-4 (`test/apps/vertrag.test.js:1`, `:34`)
-| Build-Prüfungen | Regeln, die kein Unit-Test sieht: externe Ressourcen in der Ausgabe, Dateilänge, vollständige Kompetenz (Seite, Generator, Test), `llms.txt` nennt jede Seite, Karten-Knoten existieren, Fach bekannt. | UC-8, UC-9; QZ-1, QZ-2, QZ-4
+| Build-Prüfungen | Regeln, die kein Unit-Test sieht: externe Ressourcen in der Ausgabe, Dateilänge, vollständige Kompetenz (Seite, Generator, Test), `llms.txt` nennt jede Seite, Links in Tutor-Dateien nur auf die Allowlist (M-22), Karten-Knoten existieren, Fach bekannt. | UC-8, UC-9; QZ-1, QZ-2, QZ-4
 | Browser-Check | Jede Seite bei 360 und 1280 px, ohne JS Text und Bild, Deep Link mit `nr=`, Schnelltest, 0 Konsolenfehler, 0 externe Requests vor dem Video-Klick. Nicht in CI (TD-5). | `CLAUDE.md` Project rules; UC-1 bis UC-7
 | Tutor-Dialog | Ob Claude mit `tutor.md` und `llms.txt` sinnvoll unterrichtet und korrekte Links baut. | UC-7; nicht automatisiert
 |===
@@ -319,7 +324,7 @@ link:https://llm-coding.github.io/Semantic-Anchors/harness-inventory/[Harness In
 link:https://llm-coding.github.io/Semantic-Anchors/harness-coverage-wheel.html[Harness Coverage Wheel^]
 (Semantic Anchors, Apache-2.0): 69 Prüfschichten in neun Abschnitten, jede als extrinsisch (Regel kommt von
 außen, einschalten genügt), hybrid oder intrinsisch (das Projekt definiert richtig und falsch) eingestuft
-und mit dem kleinsten Risk-Radar-Tier versehen, ab dem sie zählt. Die Einstufung Tier 2 stammt aus EPIC #18.
+und mit dem kleinsten Risk-Radar-Tier versehen, ab dem sie zählt. Die Einstufung Tier 2 entscheidet xref:09_architecture_decisions.adoc#adr-023[ADR-023] (EPIC #18).
 
 Das Bild ist eine eigene Zeichnung aus `scripts/harness-rad.js`; das Original-Rad rendert per JavaScript
 und kennt weder SVG-Export noch Zwischenzustände. Das Rad zeigt deshalb zusätzlich „in Arbeit“ (offener PR),
