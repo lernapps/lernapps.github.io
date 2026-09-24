@@ -4,12 +4,14 @@
  * wahrscheinlichkeit, Klickfläche). zeichneBaumIn(g, baum, optionen) → { breite, hoehe }.
  * optionen: versteckt (Map knotenId → Buchstabe), geloest (versteckte Werte zeigen), hervorgehoben (Set Blatt-Ids),
  * zeigePfad (Pfadwahrscheinlichkeiten rechts), auswahl (Set Blatt-Ids; macht die Blätter anklickbar und wird beim
- * Klick verändert). Klicks hängen nur Listener an svgEl-Knoten – beim Build ist das ein No-op.
+ * Klick verändert), richtung ("unten": hochkant mit Wurzel oben, siehe baum-unten.js; sonst waagerecht).
+ * Klicks hängen nur Listener an svgEl-Knoten – beim Build ist das ein No-op.
  */
 import { svgEl } from "../../../kern/js/svg.js";
 import { formatBruch } from "../../../kern/js/bruch.js";
 import { blaetter, alleKnoten } from "../modell/baum.js";
 import { textFarbe } from "./rahmen.js";
+import { zeichneBaumUntenIn } from "./baum-unten.js";
 import { elternKarte, faerberFuer, zweigLabel, macheAuswaehlbar } from "./baum-gemeinsam.js";
 
 const STUFE_BREITE = 150;
@@ -46,6 +48,7 @@ function knotenGrafik(k, q) {
 const bez = (t, a, b, c, d) => (1 - t) ** 3 * a + 3 * (1 - t) ** 2 * t * b + 3 * (1 - t) * t ** 2 * c + t ** 3 * d;
 
 export function zeichneBaumIn(ziel, baum, optionen = {}) {
+  if (optionen.richtung === "unten") return zeichneBaumUntenIn(ziel, baum, optionen);
   const { pos, hoehe } = positionen(baum);
   const auswahl = optionen.auswahl;
   const linien = new Map();

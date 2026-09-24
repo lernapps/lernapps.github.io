@@ -1,6 +1,7 @@
 /*
  * Bild zu Kompetenz 5: oben die Urne vor dem ersten Zug, die gezogene Kugel und die Urne danach; darunter die Bäume
  * mit und ohne Zurücklegen UNTEREINANDER (nebeneinander passt es auf kein Handy), der gefragte Pfad jeweils orange.
+ * Die Bäume stehen hochkant (Wurzel oben): so passt das ganze Bild ohne Scrollen in 330 px.
  */
 import { svgEl } from "../../../kern/js/svg.js";
 import { gesamtAnzahl } from "../modell/experimente.js";
@@ -35,7 +36,7 @@ export function zeichneOhneZuruecklegen(svg, aufgabe, ergebnis) {
     g.append(svgEl("text", { x: 10, y: 0, "font-size": 13, "font-weight": 700 }, titel));
     const blatt = findeKnoten(bm, pfad);
     const inner = gruppe(0, 6);
-    const groesse = zeichneBaumIn(inner, bm, { hervorgehoben: new Set(blatt ? [blatt.id] : []), zeigePfad: geloest });
+    const groesse = zeichneBaumIn(inner, bm, { hervorgehoben: new Set(blatt ? [blatt.id] : []), zeigePfad: geloest, richtung: "unten" });
     g.append(inner);
     y += 6 + groesse.hoehe + ABSTAND_BAEUME;
     return { g, ...groesse };
