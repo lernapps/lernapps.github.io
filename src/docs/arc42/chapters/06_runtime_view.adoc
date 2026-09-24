@@ -62,7 +62,9 @@ von `npm run build`).
 === Szenario 2: Der Tutor verlinkt eine Aufgabe, das Kind löst sie
 
 Claude schickt „Mach Aufgabe Nr. 42“ mit einem Link wie
-`https://lernapps.github.io/binom/erste-binomische.html?seed=42`. Das Kind öffnet ihn und tippt.
+`https://lernapps.github.io/binom/erste-binomische.html?seed=42`. Das Kind öffnet ihn, rechnet auf
+Papier und tippt das Ergebnis. Den Rechenweg prüft der Tutor am Foto, das Ergebnis die App
+(xref:09_architecture_decisions.adoc#adr-022[ADR-022]).
 
 [plantuml, target=laufzeit-aufgabe, format=svg]
 ....
@@ -75,6 +77,7 @@ participant "Kern: Zufall /\nAufgabenlink" as zufall
 participant "Kern: Trainer\n(ui.js)" as trainer
 participant "Apps\n(aufgaben/<id>.js, vis/<id>.js)" as app
 participant "Kern: Zahlen und Terme,\nPrüfergebnis" as zahlen
+participant "claude.ai" as claude
 
 kind -> seite : öffnet Link mit seed=42
 note right of seite : Text und Bild sind schon da (statisch)
@@ -83,11 +86,15 @@ start -> zufall : leseSeed → 42; leseVorgaben(query, URL_ZAHLEN, URL_TEXTE)
 start -> trainer : starteTrainer({ seed: 42, vorgaben })
 trainer -> app : erzeugeAufgabe(erzeugeZufall(42), vorgaben)
 trainer -> app : zeichne…(svg, aufgabe) – dieselbe Funktion wie im Build
+kind -> kind : rechnet auf Papier, Aufgabe und Rechenweg
 kind -> trainer : tippt Antwort, "Prüfen"
 trainer -> app : pruefeAntwort(aufgabe, antworten)
 app -> zahlen : pruefeTermAntwort / pruefeZahlAntwort
 zahlen --> trainer : { korrekt, fehler, felder, meldung }
 trainer -> kind : Meldung (richtig / Hinweis neutral / falsch), Zähler
+kind -> claude : Foto des Blatts mit Aufgabe und Rechenweg (nicht über die App)
+claude -> kind : erster falscher Schritt als Leitfrage – oder "Weg stimmt"
+note over seite, zahlen : Die App sieht den Rechenweg nie (ADR-022)
 @enduml
 ....
 
