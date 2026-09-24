@@ -221,6 +221,16 @@ test("BR-5/TD-18: vorschau zeigt \"=\" genau dann, wenn die Dezimalanzeige den W
   assert.equal(vorschau("1/1024"), "≈ 0,00");
 });
 
+test("BR-5/#30: eine Wurzel, die zufällig nahe an einer sechsstelligen Dezimalzahl liegt, zeigt „≈“", () => {
+  // √38 = 6,16441400296…, √1000001 = 1000,000499999875… – beide irrational, nicht exakt darstellbar.
+  assert.equal(vorschau("sqrt(38)"), "≈ 6,16");
+  assert.equal(vorschau("sqrt(1000001)"), "≈ 1000,00");
+  // Gleitkomma-Rauschen bei exakten Werten bleibt „=“.
+  assert.equal(vorschau("sqrt(2)*sqrt(2)/4"), "= 0,5");
+  assert.equal(vorschau("pi/pi/4"), "= 0,25");
+  assert.equal(vorschau("sqrt(9)"), "= 3");
+});
+
 test("leere oder unlesbare Eingabe: keine-zahl, wert NaN", () => {
   for (const e of ["", "abc", "1/0", null, undefined]) {
     const r = pruefeZahlAntwort(e, 3);
