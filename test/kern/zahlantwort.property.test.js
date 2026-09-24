@@ -89,10 +89,9 @@ test("QZ-3/R-004: formatAlle – „=“ genau dann, wenn Dezimal- bzw. Prozenta
   }), OPTIONEN);
 });
 
-// Findet einen echten Fehler: vorschau("sqrt(38)") zeigt "= 6,164414". Minimales Gegenbeispiel k = 38 (vollständige
-// Suche 2…4999; fast-check schrumpft nur bis zu einem größeren k). Bis zum Fix als todo: läuft mit, bricht CI nicht.
-// Issue: https://github.com/lernapps/lernapps.github.io/issues/30
-test("QZ-3/R-004: BR-5 – die Vorschau einer Wurzel aus einer Nicht-Quadratzahl zeigt „≈“", { todo: "#30" }, () => {
+// Fand einen echten Fehler: vorschau("sqrt(38)") zeigte "= 6,164414" (Toleranz der Antwortprüfung statt
+// Gleitkomma-Rauschen). Behoben in https://github.com/lernapps/lernapps.github.io/issues/30
+test("QZ-3/R-004: BR-5 – die Vorschau einer Wurzel aus einer Nicht-Quadratzahl zeigt „≈“", () => {
   fc.assert(fc.property(fc.integer({ min: 2, max: 100000 }), (k) => {
     fc.pre(!Number.isInteger(Math.sqrt(k)));
     assert.match(vorschau(`sqrt(${k})`), /^≈ /, `sqrt(${k})`);

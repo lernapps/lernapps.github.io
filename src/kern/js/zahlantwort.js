@@ -22,6 +22,9 @@ export const HINWEIS_FEHLER = Object.freeze(["zu-grob-gerundet", "gemischte-zahl
 const SPIELRAUM = 1e-9;
 const MAX_STELLEN = 12;
 const MAX_VORSCHAU_EXAKT = 6;
+// Nur für die Anzeige (#30): Gleitkomma-Rauschen, nicht SPIELRAUM. Exakte Terme (sqrt(k)^4, pi/pi/4) rauschen gemessen
+// ≤ 2,7·ε·|x|; mit 8·ε zeigt keine Wurzel sqrt(k), k ≤ 10^6, fälschlich „=“ (knappste: k = 480919 mit 8,1·ε).
+const VORSCHAU_RAUSCHEN = 8 * Number.EPSILON;
 const WOERTER = { 1: "eine", 2: "zwei", 3: "drei", 4: "vier" };
 const MELDUNGEN = {
   "gemischte-zahl": "Schreib gemischte Zahlen als Bruch, z. B. 10/3.",
@@ -140,7 +143,7 @@ export function zahlenfeld(feld, erwartet) {
 // Stellen, mit denen ein Term-Wert (Wurzel, pi) als Dezimalzahl exakt ist, bis MAX_VORSCHAU_EXAKT; sonst null.
 function termStellen(x) {
   for (let d = 0; d <= MAX_VORSCHAU_EXAKT; d++) {
-    if (Math.abs(x - runde(x, d)) <= SPIELRAUM * Math.max(1, Math.abs(x))) return d;
+    if (Math.abs(x - runde(x, d)) <= VORSCHAU_RAUSCHEN * Math.max(1, Math.abs(x))) return d;
   }
   return null;
 }
