@@ -22,7 +22,7 @@ regel: |
   <tbody>
   <tr><th scope="row">genau einmal rot (2 Züge)</th><td>rot-nicht rot <em>und</em> nicht rot-rot. Die Reihenfolge nicht vergessen: zwei Pfade!</td></tr>
   <tr><th scope="row">beide gleich</th><td>rot-rot, blau-blau, gelb-gelb: ein Pfad pro Farbe.</td></tr>
-  <tr><th scope="row">mindestens einmal rot</th><td>Alle Pfade mit rot – oder schneller: 1 − P(kein rot) (Kompetenz 2).</td></tr>
+  <tr><th scope="row">mindestens einmal rot</th><td>Alle Pfade mit rot – oder schneller: 1 − P(kein rot) (siehe <a href="gegenereignis.html">Gegenereignis</a>).</td></tr>
   <tr><th scope="row">kein rot</th><td>Alle Pfade ohne rot.</td></tr>
   </tbody>
   </table>
