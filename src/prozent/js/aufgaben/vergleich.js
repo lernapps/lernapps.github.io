@@ -66,7 +66,8 @@ export function erzeugeAufgabe(zufall, vorgaben = {}) {
     rechenweg: [
       `Unterschied: ${formatZahl(gross)} − ${formatZahl(klein)} = ${formatZahl(gross - klein)}`,
       `Bezugsgröße (steht nach „als“): ${mitEinheit(bezug, einheit)} = 100 %`,
-      `p % = ${formatZahl(gross - klein)} / ${formatZahl(bezug)} · 100 = ${formatZahl(prozentsatz)} %`,
+      `p = ${formatZahl(gross - klein)} / ${formatZahl(bezug)} · 100 = ${formatZahl(prozentsatz)}`,
+      `p % = ${formatZahl(prozentsatz)} %`,
     ],
   };
 }

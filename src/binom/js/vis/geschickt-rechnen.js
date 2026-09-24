@@ -25,7 +25,7 @@ export function zeichneGeschicktRechnen(svg, aufgabe, ergebnis) {
     zeichneQuadratMinus(svg, {
       a: { text: String(B), laenge: B },
       b: { text: String(A), laenge: A },
-      texte: { rest: `${B - A}²`, streifen: wert(`${B} · ${A}`, A * B), ecke: wert(`${A}²`, A * A) },
+      texte: { rest: `${B - A}²`, restSeite: String(B - A), streifen: wert(`${B} · ${A}`, A * B), ecke: wert(`${A}²`, A * A) },
       titel,
       untertitel: `${B}² − zwei Streifen + Ecke zurück`,
     });

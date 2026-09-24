@@ -12,7 +12,7 @@ import { glied, multipliziere, addiere, negiere, alsEingabe, alsAnzeige, gliedAn
 export const THEMA = "klammern-multiplizieren";
 export const URL_ZAHLEN = ["m1", "n1", "m2", "n2"];
 export const URL_TEXTE = ["op1", "op2"];
-export const TERM_HINWEIS = "x² tippst du als x^2, z. B. x^2 + 8x + 15";
+export const TERM_HINWEIS = "Hoch 2 tippst du als ^2, z. B. a^2 oder x^2 + 8x + 15";
 
 const OPS = ["plus", "minus"];
 const ganz = (w, max) => (Number.isInteger(w) && w >= 1 && w <= max ? w : undefined);

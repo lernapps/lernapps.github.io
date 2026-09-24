@@ -88,15 +88,16 @@ export function zeichneRaster(svg, { spalten, zeilen, zellen, titel = "", untert
 
 /**
  * 2. Formel: Quadrat mit Seite a; rechts und unten je ein Streifen a·b (wird abgezogen), die Ecke b² ist dabei
- * doppelt weg und kommt einmal zurück. a, b: { text, laenge }; texte: { rest, streifen, ecke }.
+ * doppelt weg und kommt einmal zurück. a, b: { text, laenge }; texte: { rest, restSeite, streifen, ecke }.
+ * Oben steht die ganze Seite a, links außen die Teile a − b (restSeite) und b – so groß wie a.
  */
 export function zeichneQuadratMinus(svg, { a, b, texte, titel = "", untertitel = "", label }) {
-  const x0 = 40;
+  const x0 = 72; // Platz links für "5x − 5y", rechts für "− 5x · 5y"
   const y0 = 34;
-  const seite = 190;
+  const seite = 166;
   const bw = Math.max(26, Math.min(seite * 0.45, (seite * b.laenge) / a.laenge));
   svg.replaceChildren();
-  svg.setAttribute("viewBox", "0 0 320 300");
+  svg.setAttribute("viewBox", "0 0 320 290");
   svg.setAttribute("role", "img");
   svg.setAttribute("aria-label", label ?? `${titel}. ${untertitel}`.trim());
   rechteck(svg, x0, y0, seite - bw, seite - bw, "a");
@@ -104,19 +105,21 @@ export function zeichneQuadratMinus(svg, { a, b, texte, titel = "", untertitel =
   rechteck(svg, x0 + seite - bw, y0, bw, seite, "minus", { "fill-opacity": 0.8 });
   rechteck(svg, x0, y0 + seite - bw, seite, bw, "minus", { "fill-opacity": 0.8 });
   rechteck(svg, x0 + seite - bw, y0 + seite - bw, bw, bw, "b", { "stroke-dasharray": "4 3" });
-  beschrifte(svg, x0 + seite - bw / 2, y0 + seite - bw / 2 + 4, texte.ecke, { groesse: 11 });
+  beschrifte(svg, x0 + seite - bw / 2, y0 + seite - bw / 2 + 5, texte.ecke, { groesse: bw < 40 ? 14 : 16, fett: true });
   beschrifte(svg, x0 + seite + 6, y0 + (seite - bw) / 2, `− ${texte.streifen}`, { anker: "start", farbe: FARBEN.minus.stroke, fett: true });
   beschrifte(svg, x0 + (seite - bw) / 2, y0 + seite + 18, `− ${texte.streifen}`, { farbe: FARBEN.minus.stroke, fett: true });
-  beschrifte(svg, x0 + seite + 6, y0 + seite - bw / 2 + 4, `+ ${texte.ecke}`, { anker: "start", farbe: FARBEN.b.stroke, fett: true });
+  beschrifte(svg, x0 + seite + 6, y0 + seite - bw / 2 + 5, `+ ${texte.ecke}`, { anker: "start", farbe: FARBEN.b.stroke, fett: true });
   svg.append(svgEl("line", { x1: x0, y1: y0 - 14, x2: x0 + seite, y2: y0 - 14, stroke: TEXT_LEISE }));
   beschrifte(svg, x0 + seite / 2, y0 - 19, a.text, { fett: true });
-  beschrifte(svg, x0 + seite - bw / 2, y0 - 2 + 14, b.text, { groesse: 11 });
+  beschrifte(svg, x0 - 8, y0 + (seite - bw) / 2 + 5, texte.restSeite, { anker: "end", fett: true });
+  beschrifte(svg, x0 - 8, y0 + seite - bw / 2 + 5, b.text, { anker: "end", fett: true });
   unterschriften(svg, y0 + seite + 46, titel, untertitel);
 }
 
 /**
  * 3. Formel: oben das Quadrat a² ohne die Ecke b² (Winkel aus zwei Teilen), unten dieselben Teile umgelegt zum
- * Rechteck (a + b) × (a − b). a, b: { text, laenge }; texte: { oben, unten, rest }.
+ * Rechteck (a + b) × (a − b). a, b: { text, laenge }; texte: { oben, unten, rest, ecke }.
+ * Oben stehen links die Höhen a − b (blau) und b (gelb), unter dem gelben Teil seine Breite a − b.
  */
 export function zeichneUmlegen(svg, { a, b, texte, titel = "", untertitel = "", label }) {
   const s = 130 / a.laenge;
@@ -124,22 +127,24 @@ export function zeichneUmlegen(svg, { a, b, texte, titel = "", untertitel = "", 
   const al = a.laenge * s;
   const rest = al - bl;
   svg.replaceChildren();
-  svg.setAttribute("viewBox", "0 0 320 390");
   svg.setAttribute("role", "img");
   svg.setAttribute("aria-label", label ?? `${titel}. ${untertitel}`.trim());
   // oben: Quadrat a × a, Ecke b × b rechts unten fehlt
   const xo = (320 - al) / 2;
   const yo = 26;
+  svg.setAttribute("viewBox", `0 0 320 ${Math.round(yo + al + 84 + rest + 78)}`);
   rechteck(svg, xo, yo, al, rest, "a");
   rechteck(svg, xo, yo + rest, rest, bl, "ab");
   rechteck(svg, xo + rest, yo + rest, bl, bl, "leer", { "stroke-dasharray": "4 3", fill: "none" });
-  beschrifte(svg, xo + al + 6, yo + rest + bl / 2 + 4, texte.ecke, { anker: "start", groesse: 12, farbe: FARBEN.minus.stroke, fett: true });
+  beschrifte(svg, xo + al + 6, yo + rest + bl / 2 + 5, texte.ecke, { anker: "start", farbe: FARBEN.minus.stroke, fett: true });
   beschrifte(svg, xo + al / 2, yo - 8, a.text, { fett: true });
-  beschrifte(svg, xo - 6, yo + al / 2 + 5, a.text, { anker: "end", fett: true });
-  beschrifte(svg, 160, yo + al + 22, texte.oben, { groesse: 13, farbe: TEXT_LEISE });
+  beschrifte(svg, xo - 6, yo + rest / 2 + 5, texte.rest, { anker: "end", fett: true });
+  beschrifte(svg, xo - 6, yo + rest + bl / 2 + 5, b.text, { anker: "end", fett: true });
+  beschrifte(svg, xo + rest / 2, yo + al + 18, texte.rest, { fett: true });
+  beschrifte(svg, 160, yo + al + 42, texte.oben, { groesse: 13, farbe: TEXT_LEISE });
   // unten: Rechteck (a + b) × (a − b)
-  const xu = (320 - al - bl) / 2;
-  const yu = yo + al + 64;
+  const xu = Math.max(76, (320 - al - bl) / 2); // links Platz für "5a − 3b"
+  const yu = yo + al + 84;
   rechteck(svg, xu, yu, al, rest, "a");
   rechteck(svg, xu + al, yu, bl, rest, "ab");
   beschrifte(svg, xu + al / 2, yu - 8, a.text, { fett: true });

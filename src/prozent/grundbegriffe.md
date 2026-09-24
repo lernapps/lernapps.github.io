@@ -14,7 +14,7 @@ regel: |
       <tr><td><strong>Prozentsatz p %</strong></td><td>der Anteil in Hundertsteln</td><td>die Zahl mit dem %-Zeichen</td></tr>
     </tbody>
   </table>
-  <div class="formel"><code>W = G · p / 100</code> &nbsp;·&nbsp; <code>p % = W / G · 100</code> &nbsp;·&nbsp; <code>G = W · 100 / p</code></div>
+  <div class="formel"><code>W = G · p / 100</code> &nbsp;·&nbsp; <code>p = W / G · 100</code> &nbsp;·&nbsp; <code>G = W · 100 / p</code></div>
   <p class="merke">Merkhilfe: Der Grundwert ist das Ganze, auf das sich die Prozente beziehen. Frag dich: „p % wovon?“ – die Antwort ist der Grundwert.</p>
   </div>
 beispiel: |

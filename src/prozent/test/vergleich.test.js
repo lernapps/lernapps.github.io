@@ -41,3 +41,14 @@ test("pruefeAntwort erkennt die verwechselte Bezugsgröße", () => {
   assert.equal(pruefeAntwort(g, { prozentsatz: "125" }).fehler, "verhaeltnis-statt-unterschied");
   assert.equal(pruefeAntwort(g, { prozentsatz: "x" }).fehler, "keine-zahl");
 });
+
+test("L-008: Rechenweg schreibt p = Unterschied / Bezugsgröße · 100 und das Ergebnis als p % = … %", () => {
+  const z = erzeugeZufall(6);
+  for (let i = 0; i < 20; i++) {
+    const a = erzeugeAufgabe(z);
+    const formel = a.rechenweg.filter((z) => z.includes("· 100"));
+    assert.equal(formel.length, 1);
+    assert.match(formel[0], /^p = [\d,]+ \/ [\d,]+ · 100 = [\d,]+$/);
+    assert.match(a.rechenweg.at(-1), /^p % = [\d,]+ %$/);
+  }
+});
