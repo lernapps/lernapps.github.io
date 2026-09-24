@@ -56,3 +56,9 @@ test("Zufallsaufgaben sind gültig und decken alle drei Arten ab", () => {
   assert.ok(URL_ZAHLEN.includes("p") && URL_ZAHLEN.includes("zuege"));
   for (const p of ["experiment", "ereignis", "urne", "modus", "art"]) assert.ok(URL_TEXTE.includes(p), p);
 });
+
+test("L-043: Nicht die Ereignisse ergeben 1, sondern ihre Wahrscheinlichkeiten", () => {
+  const a = erzeugeAufgabe(z(1), { p: 1 / 6 });
+  assert.doesNotMatch(a.tipp, /„nicht E“ zusammen ergeben/);
+  assert.match(a.tipp, /Wahrscheinlichkeiten von E und „nicht E“ ergeben zusammen 1/);
+});

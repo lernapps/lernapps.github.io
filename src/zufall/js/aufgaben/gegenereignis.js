@@ -46,7 +46,7 @@ function direkt(zufall, vorgaben) {
   const loesung = subtrahiere(EINS, p);
   return aufgabe("direkt", p, loesung, {
     text: `Für ein Ereignis E gilt: P(E) = ${formatBruch(p)}. Wie groß ist die Gegenwahrscheinlichkeit P(nicht E)?`,
-    tipp: "E und „nicht E“ zusammen ergeben immer 1 (also 100 %). Rechne 1 − P(E).",
+    tipp: "Die Wahrscheinlichkeiten von E und „nicht E“ ergeben zusammen 1 (also 100 %). Rechne 1 − P(E).",
     rechenweg: [`P(nicht E) = 1 − P(E) = 1 − ${formatBruch(p)} = <strong>${formatBruch(loesung)}</strong>`],
   });
 }

@@ -3,9 +3,9 @@ kompetenz: gegenereignis
 serlo: { url: 'https://de.serlo.org/mathe/1691/gegenereignis', titel: 'Gegenereignis' }
 beschreibung: 'Gegenereignis: P(nicht E) = 1 − P(E), und der Trick für „mindestens einmal“. Erklärung mit Baum, Beispiel und Übungsaufgaben mit Sofort-Feedback.'
 warum: |
-  <p>Manche Ereignisse haben sehr viele günstige Ergebnisse – „mindestens einmal eine 6 bei drei Würfen“ zum Beispiel. Die alle zu zählen dauert ewig. Das Gegenteil hat oft nur ein einziges Ergebnis. Wer den Umweg über das Gegenereignis kennt, spart Zeit und Fehler.</p>
+  <p>Manche Ereignisse haben sehr viele günstige Ergebnisse – „mindestens einmal eine 6 bei drei Würfen“ zum Beispiel. Die alle zu zählen dauert ewig. Das Gegenteil ist im Baum oft nur ein einziger Pfad. Wer den Umweg über das Gegenereignis kennt, spart Zeit und Fehler.</p>
 regel: |
-  <p>Das <strong>Gegenereignis</strong> „nicht E“ enthält alle Ergebnisse, die <em>nicht</em> zu E gehören. E und „nicht E“ zusammen sind sicher, also 1:</p>
+  <p>Das <strong>Gegenereignis</strong> „nicht E“ enthält alle Ergebnisse, die <em>nicht</em> zu E gehören. E und „nicht E“ zusammen decken alles ab. Ihre Wahrscheinlichkeiten ergeben zusammen 1:</p>
   <div class="formel"><code>P(nicht E) = 1 − P(E)</code></div>
   <p>Der wichtigste Trick: <strong>„mindestens einmal“</strong> rechnet man über das Gegenereignis <strong>„kein einziges Mal“</strong>.</p>
 beispiel: |
