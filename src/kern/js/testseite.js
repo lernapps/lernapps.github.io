@@ -12,7 +12,11 @@ import { kopiereText } from "./aufgabenlink.js";
 import { erzeugeSpeicher } from "./storage.js";
 import { vomTutor, zurueckKnopf } from "./zurueck.js";
 
-/** app: APP, kompetenzen: KOMPETENZEN aus js/app.config.js; generatoren: { kompetenzId: Generator-Modul }. */
+/**
+ * app: APP, kompetenzen: KOMPETENZEN aus js/app.config.js; generatoren: { kompetenzId: Generator-Modul }.
+ * @param {{ app: import("./seite.js").App, kompetenzen: readonly import("./testablauf.js").Kompetenz[],
+ *   generatoren: import("./testaufgaben.js").Generatoren }} seite
+ */
 export function starteTestseite({ app, kompetenzen, generatoren }) {
   const KOMPETENZEN = nummeriere(kompetenzen);
   const { speichereTest } = erzeugeSpeicher(app.id);
@@ -20,12 +24,17 @@ export function starteTestseite({ app, kompetenzen, generatoren }) {
   const nr = leseSeed(query) ?? zufaelligeAufgabennummer();
   let modus = leseModus(query);
   const tutor = vomTutor(query);
+  /** @type {import("./testablauf.js").Testschritt[]} */
   let folge = [];
+  /** @type {{ kompetenz: string, korrekt: boolean }[]} */
   let antworten = [];
   let position = 0;
+  /** @type {import("./aufgabe-eingabe.js").NummerierteAufgabe} */
   let aufgabe;
 
-  const $ = (selektor) => document.querySelector(selektor);
+  // test.njk hat alle diese Elemente; nur [data-test-bild] ist optional (siehe zeigeBild).
+  /** @param {string} selektor */
+  const $ = (selektor) => /** @type {HTMLElement} */ (document.querySelector(selektor));
   const start = $("[data-start]");
   const aufgabeBox = $("[data-aufgabe]");
   const ergebnisBox = $("[data-ergebnis]");
@@ -33,12 +42,12 @@ export function starteTestseite({ app, kompetenzen, generatoren }) {
   const kompetenzP = $("[data-kompetenz]");
   const text = $("[data-aufgabe-text]");
   const felder = $("[data-felder]");
-  const bild = $("[data-test-bild]");
-  const form = aufgabeBox.querySelector("form");
+  const bild = /** @type {HTMLElement | null} */ ($("[data-test-bild]"));
+  const form = /** @type {HTMLFormElement} */ (aufgabeBox.querySelector("form"));
 
   $("[data-test-nr]").textContent = String(nr);
-  for (const zahl of document.querySelectorAll("[data-anzahl]")) {
-    const n = KOMPETENZEN.length * (MODI[zahl.dataset.anzahl] ?? MODI.voll);
+  for (const zahl of /** @type {NodeListOf<HTMLElement>} */ (document.querySelectorAll("[data-anzahl]"))) {
+    const n = KOMPETENZEN.length * (MODI[/** @type {string} */ (zahl.dataset.anzahl)] ?? MODI.voll);
     zahl.textContent = `${n} ${n === 1 ? "Aufgabe" : "Aufgaben"}`;
   }
 
@@ -48,26 +57,29 @@ export function starteTestseite({ app, kompetenzen, generatoren }) {
 
   function zeigeAufgabe() {
     const { kompetenz, seed } = folge[position];
-    const k = KOMPETENZEN.find((x) => x.id === kompetenz);
+    // Die Folge entsteht aus KOMPETENZEN, jede Kompetenz-id ist darin.
+    const k = /** @type {import("./testablauf.js").NummerierteKompetenz} */ (KOMPETENZEN.find((x) => x.id === kompetenz));
     aufgabe = erzeugeTestaufgabe(generatoren, kompetenz, erzeugeZufall(seed));
     stand.textContent = `Aufgabe ${position + 1} von ${folge.length}`;
     kompetenzP.textContent = `Kompetenz ${k.nr}: ${k.titel}`;
     zeigeAufgabentext(text, aufgabe);
     zeigeBild(aufgabe);
     zeigeEingaben(felder, aufgabe, "test");
-    form.querySelector("input, select")?.focus({ preventScroll: true });
+    /** @type {HTMLElement | null} */ (form.querySelector("input, select"))?.focus({ preventScroll: true });
     window.scrollTo({ top: 0 });
   }
 
+  /** @param {import("./aufgabe-eingabe.js").Aufgabe} aufgabe */
   function zeigeBild(aufgabe) {
     const zeichne = bildFuer(generatoren, aufgabe);
     if (!bild) return;
     bild.hidden = !zeichne;
-    const svg = bild.querySelector("svg");
+    const svg = /** @type {SVGSVGElement} */ (bild.querySelector("svg")); // test.njk: [data-test-bild] enthält ein <svg>
     svg.replaceChildren();
     if (zeichne) zeichne(svg, aufgabe);
   }
 
+  /** @param {import("./testablauf.js").NummerierteKompetenz} k @param {string | undefined} stufe */
   function ergebnisZeileFuer(k, stufe) {
     const symbol = stufe ? `${SYMBOLE[stufe]} ${STUFEN_NAMEN[stufe]}` : "–";
     return el("tr", {}, [
@@ -83,16 +95,17 @@ export function starteTestseite({ app, kompetenzen, generatoren }) {
     stand.hidden = true;
     ergebnisBox.hidden = false;
     $("[data-ergebnis-zeilen]").replaceChildren(...KOMPETENZEN.map((k) => ergebnisZeileFuer(k, ergebnis[k.id])));
-    const zeile = $("[data-ergebnis-zeile]");
+    const zeile = /** @type {HTMLInputElement} */ ($("[data-ergebnis-zeile]"));
     zeile.value = ergebnisZeile(nr, modus, ergebnis, KOMPETENZEN, app.titel);
     $("[data-speicherhinweis]").textContent = gespeichert
       ? "Das Ergebnis steht jetzt auch in deiner Checkliste – nur in diesem Browser."
       : "Konnte das Ergebnis nicht speichern (Browser-Speicher gesperrt). Kopier dir die Zeile.";
     $("[data-nochmal]").setAttribute("href", testLink(zufaelligeAufgabennummer(), modus));
-    ergebnisBox.querySelector("h2").focus?.({ preventScroll: true });
+    /** @type {HTMLElement} */ (ergebnisBox.querySelector("h2")).focus?.({ preventScroll: true });
     window.scrollTo({ top: 0 });
   }
 
+  /** @param {string} gewaehlterModus */
   function starte(gewaehlterModus) {
     modus = gewaehlterModus;
     folge = testAufgaben(nr, modus, KOMPETENZEN);
@@ -106,9 +119,9 @@ export function starteTestseite({ app, kompetenzen, generatoren }) {
     zeigeAufgabe();
   }
 
-  for (const knopf of start.querySelectorAll("button[data-modus]")) {
+  for (const knopf of /** @type {NodeListOf<HTMLButtonElement>} */ (start.querySelectorAll("button[data-modus]"))) {
     knopf.classList.toggle("primaer", knopf.dataset.modus === modus);
-    knopf.addEventListener("click", () => starte(knopf.dataset.modus));
+    knopf.addEventListener("click", () => starte(/** @type {string} */ (knopf.dataset.modus)));
   }
 
   form.addEventListener("submit", (ev) => {
@@ -123,16 +136,16 @@ export function starteTestseite({ app, kompetenzen, generatoren }) {
   });
 
   $("[data-kopieren]").addEventListener("click", (ev) => {
-    const zeile = $("[data-ergebnis-zeile]");
-    kopiereText(ev.currentTarget, zeile.value, zeile);
+    const zeile = /** @type {HTMLInputElement} */ ($("[data-ergebnis-zeile]"));
+    kopiereText(/** @type {HTMLElement} */ (ev.currentTarget), zeile.value, zeile);
   });
 
   if (tutor) {
     // ADR-021: neben der Ergebniszeile; ohne Zwischenablage markiert der Knopf das vorhandene Feld.
-    const zeile = $("[data-ergebnis-zeile]");
+    const zeile = /** @type {HTMLInputElement} */ ($("[data-ergebnis-zeile]"));
     const [knopf, meldung] = zurueckKnopf({ zeile: () => zeile.value, feld: zeile });
-    zeile.parentElement.append(knopf);
-    zeile.parentElement.after(meldung);
+    /** @type {HTMLElement} */ (zeile.parentElement).append(knopf);
+    /** @type {HTMLElement} */ (zeile.parentElement).after(meldung);
   }
 
   document.title = `Test Nr. ${nr} (${MODUS_NAMEN[modus]}) – ${app.titel}`;

@@ -32,7 +32,7 @@ const B = "Build & Language", T = "Testing", S = "Security", A = "Architecture",
 const U = "UX & A11y", O = "Operations", F = "Formal Methods", Doc = "Documentation";
 const ROH = [
   [B, "compiler", "Compiler / Parser", "G", 1, "vorhanden", "`npm test` und `npm run build` laden jedes Modul; Syntaxfehler brechen `test-und-build`"],
-  [B, "type-checker", "Type checker", "G", 1, "geplant", "#25 `tsc --checkJs`, zuerst `src/kern`"],
+  [B, "type-checker", "Type checker", "G", 1, "vorhanden", "`tsc --checkJs` mit `strict` im Pflicht-Check, vorerst nur `src/kern` (`jsconfig.json`), #25"],
   [B, "formatter", "Formatter", "G", 1, "offen", ""],
   [B, "import-sorter-dead-code", "Import sorter / dead code", "G", 1, "offen", ""],
   [B, "linter", "Linter", "A", 1, "vorhanden", "ESLint (`eslint.config.js`: no-eval, no-implied-eval, no-unsanitized) im Pflicht-Check, #21"],

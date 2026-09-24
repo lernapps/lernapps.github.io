@@ -14,6 +14,22 @@
 import { runde } from "./zahlen.js";
 import { bruch, leseTerm, istGleich as bruchGleich, zuDezimal, endStellen } from "./bruch.js";
 
+/**
+ * @typedef {import("./bruch.js").Bruch} Bruch
+ * @typedef {"geld" | "prozent" | "zahl"} Art
+ * Optionen eines Zahlenfelds (Teil von Feld, aufgabe-eingabe.js).
+ * @typedef {{ art?: Art, stellen?: number, nurZahl?: boolean, bruchZuerst?: boolean, einheit?: string }} Zahloptionen
+ * Gelesene Antwort (leseAntwort).
+ * @typedef {{ typ: "dezimal", wert: number, dezimalstellen: number, bruch: Bruch, meldung?: undefined }
+ *   | { typ: "bruch", wert: Bruch, dezimalstellen: number, bruch?: undefined, meldung?: undefined }
+ *   | { typ: "term", wert: number, dezimalstellen: number, bruch?: undefined, meldung?: undefined }
+ *   | { typ: "leer" | "gemischt", wert?: undefined, dezimalstellen?: undefined, bruch?: undefined, meldung?: undefined }
+ *   | { typ: "ungueltig", meldung?: string, wert?: undefined, dezimalstellen?: undefined, bruch?: undefined }} Antwort
+ * Ergebnis von pruefeZahlAntwort (siehe Kopf).
+ * @typedef {{ korrekt: boolean, fehler?: string, wert: number, bruch: Bruch | null, typ: Antwort["typ"],
+ *   dezimalstellen?: number, meldung?: string }} Zahlergebnis
+ */
+
 export const STANDARD_STELLEN = Object.freeze({ geld: 2, prozent: 1, zahl: 2 });
 
 /** Fehlercodes, die nur ein Hinweis sind: neutral anzeigen, nicht als Versuch zählen (im Test: falsch). */
@@ -25,21 +41,27 @@ const MAX_VORSCHAU_EXAKT = 6;
 // Nur für die Anzeige (#30): Gleitkomma-Rauschen, nicht SPIELRAUM. Exakte Terme (sqrt(k)^4, pi/pi/4) rauschen gemessen
 // ≤ 2,7·ε·|x|; mit 8·ε zeigt keine Wurzel sqrt(k), k ≤ 10^6, fälschlich „=“ (knappste: k = 480919 mit 8,1·ε).
 const VORSCHAU_RAUSCHEN = 8 * Number.EPSILON;
+/** @type {Record<number, string>} */
 const WOERTER = { 1: "eine", 2: "zwei", 3: "drei", 4: "vier" };
+/** @type {Record<string, string>} */
 const MELDUNGEN = {
   "gemischte-zahl": "Schreib gemischte Zahlen als Bruch, z. B. 10/3.",
   "ausdruck-statt-zahl": "Rechne das Ergebnis aus.",
   "wurzel-negativ": "Aus einer negativen Zahl kann man keine Wurzel ziehen.",
 };
 
-/** Geforderte Nachkommastellen eines Feldes: eigene Angabe, sonst Standard seiner Art. */
+/** Geforderte Nachkommastellen eines Feldes: eigene Angabe, sonst Standard seiner Art. @param {Zahloptionen} [feld] */
 export function stellenFuer({ stellen, art = "zahl" } = {}) {
   return Number.isInteger(stellen) && stellen >= 0 ? stellen : STANDARD_STELLEN[art] ?? STANDARD_STELLEN.zahl;
 }
 
+/** @param {Bruch | number} x */
 const zahlVon = (x) => (typeof x === "number" ? x : x.z / x.n);
+/** @param {any} x beliebiger Wert @returns {x is Bruch} */
 const istBruch = (x) => typeof x === "object" && x !== null && Number.isInteger(x.z) && Number.isInteger(x.n);
+/** @param {number} a @param {number} b */
 const nahe = (a, b) => Math.abs(a - b) <= SPIELRAUM * Math.max(1, Math.abs(a), Math.abs(b));
+/** @param {number | string} s */
 const deutsch = (s) => String(s).replace(".", ",");
 
 /**
@@ -47,6 +69,7 @@ const deutsch = (s) => String(s).replace(".", ",");
  * sonst heißt es Hundertstel (16,7 % = 0,167 mit 3 Stellen).
  * → { typ: "dezimal", wert: Zahl, dezimalstellen, bruch } | { typ: "bruch", wert: {z, n}, dezimalstellen }
  *   | { typ: "term", wert: Zahl (Wurzel, pi), dezimalstellen } | { typ: "leer" | "gemischt" } | { typ: "ungueltig", meldung? }
+ * @param {unknown} text @param {Zahloptionen} [optionen] @returns {Antwort}
  */
 export function leseAntwort(text, { art = "zahl" } = {}) {
   let s = String(text ?? "").trim();
@@ -59,6 +82,8 @@ export function leseAntwort(text, { art = "zahl" } = {}) {
   if (/^-?\d{1,3}(?:\.\d{3})+,\d+$/.test(s)) s = s.replace(/\./g, "");
   const info = leseTerm(s);
   if (info.fehler) return info.fehler === "wurzel-negativ" ? { typ: "ungueltig", meldung: MELDUNGEN["wurzel-negativ"] } : { typ: "ungueltig" };
+  // Bruch, wenn info.exakt, sonst Zahl. tsc verfolgt diese Kopplung über die Zuweisungen nicht, daher bewusst any.
+  /** @type {any} */
   let wert = info.exakt ? info.wert : info.zahl;
   let dezimalstellen = Math.max(info.stellen, 0);
   if (prozent && art !== "prozent") {
@@ -69,16 +94,18 @@ export function leseAntwort(text, { art = "zahl" } = {}) {
   return { typ: info.exakt ? "bruch" : "term", wert, dezimalstellen: info.stellen };
 }
 
+/** @param {number} n */
 function stellenText(n) {
   return `${WOERTER[n] ?? n} Nachkommastelle${n === 1 ? "" : "n"}`;
 }
 
-/** "Fast – runde auf zwei Nachkommastellen." */
+/** "Fast – runde auf zwei Nachkommastellen." @param {number} stellen */
 export function meldungZuGrob(stellen) {
   return `Fast – runde auf ${stellenText(stellen)}.`;
 }
 
-/** Prüft eine Zahleneingabe nach der Rundungsregel. erwartet: exakter Wert als Bruch {z, n} oder Zahl. */
+/** Prüft eine Zahleneingabe nach der Rundungsregel. erwartet: exakter Wert als Bruch {z, n} oder Zahl.
+ * @param {unknown} text @param {Bruch | number} erwartet @param {Zahloptionen} [optionen] @returns {Zahlergebnis} */
 export function pruefeZahlAntwort(text, erwartet, optionen = {}) {
   const art = optionen.art ?? "zahl";
   const stellen = stellenFuer(optionen);
@@ -88,7 +115,9 @@ export function pruefeZahlAntwort(text, erwartet, optionen = {}) {
     return { ...basis, korrekt: false, fehler: "keine-zahl", wert: NaN, bruch: null, ...(a.meldung && { meldung: a.meldung }) };
   }
   const exakt = a.typ === "dezimal" ? a.bruch : a.typ === "bruch" ? a.wert : null;
-  const wert = a.typ === "gemischt" ? NaN : a.typ === "term" ? a.wert : zuDezimal(exakt);
+  // Dezimalzahlen und Brüche haben immer einen exakten Wert, exakt ist hier also nie null.
+  const wert = a.typ === "gemischt" ? NaN : a.typ === "term" ? a.wert : zuDezimal(/** @type {Bruch} */ (exakt));
+  /** @param {string} fehler @param {string} [meldung] */
   const hinweis = (fehler, meldung = MELDUNGEN[fehler]) => ({ ...basis, korrekt: false, fehler, meldung, wert, bruch: exakt });
   const ausdruck = a.typ !== "dezimal";
   if (optionen.nurZahl && ausdruck) return hinweis("ausdruck-statt-zahl");
@@ -111,15 +140,18 @@ export function pruefeZahlAntwort(text, erwartet, optionen = {}) {
 /**
  * Für Fehlerdiagnosen: passt die Eingabe (nach derselben Stellenregel, Standard ohne Mindeststellen) zu `wert`?
  * Eine Eingabe, die nur durch Runden zu 0 passt, zählt nicht ("0" ist keine Diagnose für 0,25).
+ * @param {unknown} text @param {Bruch | number} wert @param {Zahloptionen} [optionen]
  */
 export function passtZu(text, wert, { art = "zahl", stellen = 0 } = {}) {
   const r = pruefeZahlAntwort(text, wert, { art, stellen });
   return r.korrekt && !(r.wert === 0 && zahlVon(wert) !== 0);
 }
 
+/** @param {string} s */
 const gross = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 
-/** Hinweis neben dem Feld, z. B. "Runde auf eine Nachkommastelle oder gib einen Bruch an."; "", wenn nichts zu runden ist. */
+/** Hinweis neben dem Feld, z. B. "Runde auf eine Nachkommastelle oder gib einen Bruch an."; "", wenn nichts zu runden ist.
+ * @param {Zahloptionen} [optionen] @param {Bruch | number} [erwartet] */
 export function rundungsHinweis(optionen = {}, erwartet) {
   const art = optionen.art ?? "zahl";
   const stellen = stellenFuer(optionen);
@@ -133,7 +165,8 @@ export function rundungsHinweis(optionen = {}, erwartet) {
   return `${gross(runden)} oder gib einen Bruch an.`;
 }
 
-/** Zahlenfeld mit Art, Stellen und Rundungshinweis: zahlenfeld({ id, label, einheit, art, stellen?, nurZahl? }, exakterWert). */
+/** Zahlenfeld mit Art, Stellen und Rundungshinweis: zahlenfeld({ id, label, einheit, art, stellen?, nurZahl? }, exakterWert).
+ * @param {import("./aufgabe-eingabe.js").Zahlfeld | import("./aufgabe-eingabe.js").Termfeld} feld @param {Bruch | number} [erwartet] */
 export function zahlenfeld(feld, erwartet) {
   const art = feld.art ?? "zahl";
   const stellen = stellenFuer(feld);
@@ -141,6 +174,7 @@ export function zahlenfeld(feld, erwartet) {
 }
 
 // Stellen, mit denen ein Term-Wert (Wurzel, pi) als Dezimalzahl exakt ist, bis MAX_VORSCHAU_EXAKT; sonst null.
+/** @param {number} x */
 function termStellen(x) {
   for (let d = 0; d <= MAX_VORSCHAU_EXAKT; d++) {
     if (Math.abs(x - runde(x, d)) <= VORSCHAU_RAUSCHEN * Math.max(1, Math.abs(x))) return d;
@@ -152,6 +186,7 @@ function termStellen(x) {
  * Live-Vorschau für Terme und Brüche: "= 30 €", "= 12,5", "≈ 3,33"; "" für Dezimalzahlen, leere und ungültige Eingaben.
  * "=" genau dann, wenn der Wert mit höchstens MAX_VORSCHAU_EXAKT Nachkommastellen exakt dargestellt wird (1/4 = 0,25),
  * sonst "≈" mit den geforderten Stellen, mindestens 2, höchstens 4 (1/3 ≈ 0,33).
+ * @param {unknown} text @param {Zahloptionen} [feld]
  */
 export function vorschau(text, { stellen, einheit = "", art = "zahl" } = {}) {
   const a = leseAntwort(text, { art });

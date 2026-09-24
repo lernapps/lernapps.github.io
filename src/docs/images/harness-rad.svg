@@ -1,16 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 724" width="800" height="724" role="img" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
-<title>Harness Coverage Wheel für lernapps (Tier 2): 52 % abgedeckt</title>
+<title>Harness Coverage Wheel für lernapps (Tier 2): 55 % abgedeckt</title>
 <defs><linearGradient id="halb-G"><stop offset="50%" stop-color="#2b8a3e"/><stop offset="50%" stop-color="#fff"/></linearGradient><linearGradient id="halb-A"><stop offset="50%" stop-color="#e67700"/><stop offset="50%" stop-color="#fff"/></linearGradient><linearGradient id="halb-R"><stop offset="50%" stop-color="#c92a2a"/><stop offset="50%" stop-color="#fff"/></linearGradient></defs>
 <rect width="800" height="724" fill="#fff"/>
 <path d="M407.9 94.1 A226 226 0 0 1 539.1 141.9 L456.6 247.5 A92 92 0 0 0 403.2 228.1 Z" fill="#f1f3f5"/>
-<path d="M405.1 174.5 A145.6 145.6 0 0 1 489.6 205.3 L456.6 247.5 A92 92 0 0 0 403.2 228.1 Z" fill="#1d4ed8" fill-opacity="0.28"/>
+<path d="M406 147.7 A172.39999999999998 172.39999999999998 0 0 1 506.1 184.1 L456.6 247.5 A92 92 0 0 0 403.2 228.1 Z" fill="#1d4ed8" fill-opacity="0.28"/>
 <circle cx="423.8" cy="77.2" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"><title>Compiler / Parser – vorhanden, Tier 1: npm test und npm run build laden jedes Modul; Syntaxfehler brechen test-und-build</title></circle>
-<circle cx="454.1" cy="82.1" r="4.8" fill="#fff" stroke="#2b8a3e" stroke-dasharray="2 1.5" stroke-width="1.4"><title>Type checker – geplant, Tier 1: #25 tsc --checkJs, zuerst src/kern</title></circle>
+<circle cx="454.1" cy="82.1" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"><title>Type checker – vorhanden, Tier 1: tsc --checkJs mit strict im Pflicht-Check, vorerst nur src/kern (jsconfig.json), #25</title></circle>
 <circle cx="483.5" cy="90.7" r="4.8" fill="#fff" stroke="#2b8a3e" stroke-width="1.4"><title>Formatter – offen, Tier 1</title></circle>
 <circle cx="511.5" cy="103" r="4.8" fill="#fff" stroke="#2b8a3e" stroke-width="1.4"><title>Import sorter / dead code – offen, Tier 1</title></circle>
 <rect x="533.6" y="114.4" width="8.6" height="8.6" rx="1" fill="#e67700" stroke="#e67700" stroke-width="1.4"><title>Linter – vorhanden, Tier 1: ESLint (eslint.config.js: no-eval, no-implied-eval, no-unsanitized) im Pflicht-Check, #21</title></rect>
 <text x="497.8" y="51.2" text-anchor="start" font-size="13" font-weight="600" fill="#212529">Build</text>
-<text x="497.8" y="66.2" text-anchor="start" font-size="12" fill="#495057">40 %</text>
+<text x="497.8" y="66.2" text-anchor="start" font-size="12" fill="#495057">60 %</text>
 <path d="M551.2 152 A226 226 0 0 1 621.1 273 L490 300.9 A92 92 0 0 0 461.6 251.6 Z" fill="#f1f3f5"/>
 <path d="M521.3 185.2 A181.33333333333331 181.33333333333331 0 0 1 577.4 282.3 L490 300.9 A92 92 0 0 0 461.6 251.6 Z" fill="#1d4ed8" fill-opacity="0.28"/>
 <polygon points="568.9,137.5 574.4,147.1 563.4,147.1" fill="#c92a2a" stroke="#c92a2a" stroke-width="1.4"><title>Unit tests – vorhanden, Tier 2: rund 500 node:test-Tests in test/ und src/&lt;app&gt;/test/</title></polygon>
@@ -106,8 +106,8 @@
 <text x="302.2" y="51.2" text-anchor="end" font-size="13" font-weight="600" fill="#212529">Docs</text>
 <text x="302.2" y="66.2" text-anchor="end" font-size="12" fill="#495057">50 %</text>
 <circle cx="400" cy="320" r="84" fill="#fff" stroke="#dee2e6"/>
-<text x="400" y="324" text-anchor="middle" font-size="30" font-weight="700" fill="#1d4ed8">52 %</text>
-<text x="400" y="344" text-anchor="middle" font-size="11" fill="#495057">15 von 29</text>
+<text x="400" y="324" text-anchor="middle" font-size="30" font-weight="700" fill="#1d4ed8">55 %</text>
+<text x="400" y="344" text-anchor="middle" font-size="11" fill="#495057">16 von 29</text>
 <text x="400" y="358" text-anchor="middle" font-size="11" fill="#495057">Tier 2</text>
 <circle cx="70" cy="634" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"></circle>
 <text x="80" y="638" font-size="11" fill="#343a40">extrinsisch (Kreis)</text>
