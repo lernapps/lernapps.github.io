@@ -1,6 +1,7 @@
 // Use Case: Geschickt rechnen – Quadrate und Produkte mit den binomischen Formeln im Kopf ausrechnen (49², 21 · 19, 102²).
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import fc from "fast-check";
 import { erzeugeZufall } from "../../kern/js/zufall.js";
 import { erzeugeAufgabe, pruefeAntwort, URL_ZAHLEN, URL_TEXTE } from "../js/aufgaben/geschickt-rechnen.js";
 
@@ -51,9 +52,10 @@ test("Prüfer: richtig, falsche-formel, zerlegung-falsch, leere Eingabe, Ausdruc
   assert.equal(pruefeAntwort(b, { formel: "3", ergebnis: "401" }).fehler, "zerlegung-falsch");
 });
 
-test("L-006: Tipp und Rückmeldung sprechen von einer glatten Zahl (Zehner oder Hunderter), nicht nur vom Zehner", () => {
+test("L-006: Tipp und Rückmeldung sprechen von einer glatten Zahl, nicht nur vom Zehner", () => {
   const a = erzeugeAufgabe(erzeugeZufall(1), { formel: 1, basis: 100, abstand: 3 });
-  assert.match(a.tipp, /glatte Zahl \(Zehner oder Hunderter\)/);
+  assert.match(a.tipp, /glatten Zahl/);
+  assert.doesNotMatch(a.tipp, /Zehner/);
   assert.match(pruefeAntwort(a, { formel: "1", ergebnis: "1" }).meldung, /glatte Zahl/);
   for (const f of [1, 2]) {
     const b = erzeugeAufgabe(erzeugeZufall(1), { formel: f, basis: 100, abstand: 3 });
@@ -91,4 +93,17 @@ test("L-007: vor dem Prüfen zeigt das Bild nur „91 · 89 = ?“ – keine Zer
 test("L-007: der Tipp zur 3. Formel verrät die Zerlegung nicht", () => {
   const a = erzeugeAufgabe(erzeugeZufall(1), { formel: 3, basis: 90, abstand: 1 });
   assert.equal(a.tipp, "Liegen beide Zahlen gleich weit neben einer glatten Zahl?");
+});
+
+test("L-007: kein Tipp verrät die Zerlegung – keine Ziffern, kein ², keine Formel; Text und Feldbeschriftungen auch nicht", () => {
+  assert.equal(erzeugeAufgabe(erzeugeZufall(1), { formel: 1, basis: 40, abstand: 3 }).tipp, "Liegt die Zahl knapp über einer glatten Zahl?");
+  assert.equal(erzeugeAufgabe(erzeugeZufall(1), { formel: 2, basis: 50, abstand: 1 }).tipp, "Liegt die Zahl knapp unter einer glatten Zahl?");
+  const zehner = fc.integer({ min: 2, max: 20 }).map((n) => n * 10);
+  fc.assert(fc.property(fc.constantFrom(1, 2, 3), zehner, fc.integer({ min: 1, max: 9 }), (formel, basis, abstand) => {
+    const a = erzeugeAufgabe(erzeugeZufall(1), { formel, basis, abstand });
+    assert.doesNotMatch(a.tipp, /\d|²|\(|Formel/, a.tipp);
+    const sichtbar = [a.text, ...a.felder.map((f) => f.label)].join(" | ");
+    assert.doesNotMatch(sichtbar, new RegExp(`(?<![\\d])${basis}(?![\\d])`), sichtbar);
+    for (const verraeter of [a.zerlegung, a.formelText]) assert.ok(!sichtbar.includes(verraeter), sichtbar);
+  }));
 });

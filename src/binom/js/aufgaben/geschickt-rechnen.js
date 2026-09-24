@@ -14,6 +14,12 @@ export const THEMA = "geschickt-rechnen";
 export const URL_ZAHLEN = ["formel", "basis", "abstand"];
 export const URL_TEXTE = [];
 const BASEN = [20, 30, 40, 50, 60, 70, 80, 90, 100];
+// Neutrale Leitfragen (L-007): kein Tipp nennt die Zerlegung, Zahlen oder die Formel – das zeigt erst der Rechenweg.
+const TIPPS = {
+  1: "Liegt die Zahl knapp über einer glatten Zahl?",
+  2: "Liegt die Zahl knapp unter einer glatten Zahl?",
+  3: "Liegen beide Zahlen gleich weit neben einer glatten Zahl?",
+};
 const NAMEN = { 1: "1. Formel: (a + b)²", 2: "2. Formel: (a − b)²", 3: "3. Formel: (a + b)(a − b)" };
 
 function aufgabeZu(formel, B, A) {
@@ -49,9 +55,7 @@ export function erzeugeAufgabe(zufall, vorgaben = {}) {
       zahlenfeld({ id: "ergebnis", label: `${t.rechnung} =`, art: "zahl", nurZahl: true }, t.ergebnis),
     ],
     loesung: { formel: String(formel), ergebnis: t.ergebnis },
-    tipp: formel === 3
-      ? "Liegen beide Zahlen gleich weit neben einer glatten Zahl?"
-      : `Zerlege die Zahl in eine glatte Zahl (Zehner oder Hunderter) und einen kleinen Rest: ${t.zerlegung}.`,
+    tipp: TIPPS[formel],
     rechenweg: rechenweg(formel, basis, abstand, t),
   };
 }
