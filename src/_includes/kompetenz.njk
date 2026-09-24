@@ -33,7 +33,8 @@ layout: basis.njk
 {% if video %}
     <section id="video" class="video-karte" data-youtube-id="{{ video.id }}" data-titel="{{ video.titel }}" data-kanal="{{ video.kanal }}">
       <h2>Video dazu</h2>
-      <p><a href="https://www.youtube.com/watch?v={{ video.id }}" rel="noopener">{{ video.titel }}</a></p>
+{% if video.hinweis %}      <p class="video-notiz">{{ video.hinweis }}</p>
+{% endif %}      <p><a href="https://www.youtube.com/watch?v={{ video.id }}" rel="noopener">{{ video.titel }}</a></p>
       <p class="video-kanal">{{ video.kanal }} · YouTube</p>
       <p class="video-hinweis">Beim Start werden Daten (u. a. deine IP-Adresse) an YouTube/Google übertragen.</p>
     </section>

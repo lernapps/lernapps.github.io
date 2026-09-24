@@ -22,3 +22,8 @@ test("die Kompetenzseite zeichnet das Beispielbild nicht neu, die Übung bekommt
   assert.doesNotMatch(layout, /getElementById\("vis"\)/);
   assert.match(layout, /zeichne:/);
 });
+
+test("L-036: keine Bildbeschriftung spricht vom Video – ein Hinweis zum Video steht im Videokasten (video.hinweis)", () => {
+  const falsch = seiten.filter(([, text]) => /^\s+text:.*Video/m.test(text)).map(([name]) => name);
+  assert.deepEqual(falsch, []);
+});
