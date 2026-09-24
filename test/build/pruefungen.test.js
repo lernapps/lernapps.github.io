@@ -1,7 +1,7 @@
 // Use Case: Build bricht ab, wenn eine Regel verletzt ist (früher scripts/pruefe.mjs).
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { pruefeExterneRessourcen, pruefeExterneImporte, pruefeZeilen, pruefeLlms, pruefeKompetenzen, pruefeMeldeLink, pruefeSerloLinks, pruefeTutorText, pruefeTutorLinks, erlaubteTutorZiele } from "../../lib/pruefungen.js";
+import { pruefeExterneRessourcen, pruefeExterneImporte, pruefeZeilen, pruefeLlms, pruefeKompetenzen, pruefeMeldeLink, pruefeSerloLinks, pruefeTutorText, pruefeTutorLinks, pruefeTutorHerkunft, erlaubteTutorZiele } from "../../lib/pruefungen.js";
 
 test("externe Ressourcen in script/link/img/iframe sind Fehler, Links und Canonical nicht", () => {
   assert.deepEqual(pruefeExterneRessourcen("a.html", `<link rel="canonical" href="https://x.org/"><a href="https://x.org">x</a>`), []);
@@ -91,4 +91,18 @@ test("Tutor-Dateien verlinken nur auf die Allowlist: eigene Site, eigenes Repo, 
     assert.equal(fehler.length, 1, text);
     assert.match(fehler[0], /^binom\/tutor\.md: Link außerhalb der Allowlist/);
   }
+});
+
+// Use Case: Build bricht ab, wenn tutor.md einen App-Link ohne von=tutor zeigt (ADR-021, R-021) – sonst fehlt der Knopf „Zurück zu Claude“.
+test("jeder App-Link in tutor.md trägt von=tutor, Platzhalter wie <Nummer> sind erlaubt", () => {
+  const basis = "https://lernapps.github.io/binom/";
+  const ok = [
+    `${basis}erste-binomische.html?m=1&n=4&seed=42&von=tutor`,
+    `${basis}test.html?nr=<Nummer>&modus=schnell&von=tutor`,
+    `${basis}terme.html?von=tutor#uebung`,
+    `Lies zuerst ${basis}llms.txt. Seiten wie ergebnisformen.html ohne Adresse sind nur Namen.`,
+  ];
+  for (const t of ok) assert.deepEqual(pruefeTutorHerkunft("binom/tutor.md", t, basis), [], t);
+  const fehlt = [`${basis}terme.html?seed=3`, `${basis}index.html`, `${basis}terme.html?seed=3#uebung&von=tutor`, `${basis}terme.html?von=tutorx`];
+  for (const t of fehlt) assert.match(pruefeTutorHerkunft("binom/tutor.md", t, basis)[0] ?? "", /binom\/tutor\.md: .*von=tutor/, t);
 });

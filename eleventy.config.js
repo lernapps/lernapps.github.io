@@ -12,7 +12,7 @@ import { ladeApps } from "./lib/apps.js";
 import { zeichneBild } from "./lib/bild.js";
 import { versionsHash, versioniere } from "./lib/versionierung.js";
 import { richteKarteEin } from "./lib/karte/eleventy.js";
-import { pruefeZeilen, pruefeLlms, pruefeKompetenzen, pruefeMeldeLink, pruefeSerloLinks, pruefeTutorText, pruefeTutorLinks, erlaubteTutorZiele } from "./lib/pruefungen.js";
+import { pruefeZeilen, pruefeLlms, pruefeKompetenzen, pruefeMeldeLink, pruefeSerloLinks, pruefeTutorText, pruefeTutorLinks, pruefeTutorHerkunft, erlaubteTutorZiele } from "./lib/pruefungen.js";
 import { pruefeAusgabe } from "./lib/pruefe-ausgabe.js";
 import {
   findeLinks, pruefeLink, pruefeVorgaben, pruefeParameterDoku, pruefeUebersicht, dokumentierteWerte, erlaubeHerkunft, herkunftKollision,
@@ -59,6 +59,7 @@ function pruefe(apps, ausgabe) {
     fehler.push(...pruefeLlms(`${app.pfad}/llms.txt`, fs.existsSync(llms) ? fs.readFileSync(llms, "utf8") : "", seiten));
     const tutor = path.join(ausgabe, app.pfad, "tutor.md");
     fehler.push(...pruefeZeilen(`${app.pfad}/tutor.md`, lies(tutor), MAX_TUTOR_ZEILEN));
+    fehler.push(...pruefeTutorHerkunft(`${app.pfad}/tutor.md`, lies(tutor), app.basisUrl));
     for (const p of [llms, tutor]) fehler.push(...pruefeTutorText(path.relative(ausgabe, p), lies(p)));
   }
   fehler.push(...pruefeTutorText("llms.txt", lies(path.join(ausgabe, "llms.txt"))));
