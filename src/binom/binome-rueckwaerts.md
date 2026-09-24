@@ -3,7 +3,7 @@ kompetenz: binome-rueckwaerts
 serlo: { url: 'https://de.serlo.org/mathe/1605/faktorisieren', titel: 'Faktorisieren' }
 beschreibung: 'Binome rückwärts: x² + 6x + 9 = (x + 3)², x² − 16 = (x + 4)(x − 4). Faktorisieren und Lücken ergänzen, mit Flächenbild und Übungsaufgaben mit Sofort-Feedback.'
 warum: |
-  <p>Bisher hast du Klammern aufgelöst. Oft brauchst du den umgekehrten Weg: Aus x² + 6x + 9 wird wieder (x + 3)². Das nennt man faktorisieren. Ein Produkt verrät mehr als eine Summe – zum Beispiel, wann ein Term null wird, oder wie sich ein Bruch kürzen lässt. Später beim Lösen quadratischer Gleichungen („quadratische Ergänzung“) ist genau dieser Blick der entscheidende Schritt.</p>
+  <p>Bisher hast du Klammern aufgelöst. Oft brauchst du den umgekehrten Weg: Aus x² + 6x + 9 wird wieder (x + 3)². Das nennt man faktorisieren. Ein Produkt verrät mehr als eine Summe – zum Beispiel, wann ein Term null wird oder wie sich ein Bruch kürzen lässt. Später beim Lösen quadratischer Gleichungen („quadratische Ergänzung“) ist genau dieser Blick der entscheidende Schritt.</p>
 regel: |
   <div class="formel"><code>a² + 2ab + b² = (a + b)²</code></div>
   <div class="formel"><code>a² − 2ab + b² = (a − b)²</code></div>
