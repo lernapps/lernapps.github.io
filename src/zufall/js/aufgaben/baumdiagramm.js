@@ -46,7 +46,7 @@ export function erzeugeAufgabe(zufall, vorgaben = {}) {
       ? `Jeder Zweig zeigt die Wahrscheinlichkeit eines Ergebnisses. ${exp.typ === "gluecksrad" ? "Jede Drehung ist wie die erste" : "Jeder Wurf ist wie der erste"}: Die Zweige sind auf jeder Stufe gleich. Die Zweige an einem Knoten ergeben zusammen 1.`
       : mitZuruecklegen
       ? "Jeder Zweig zeigt: Anzahl der passenden Kugeln geteilt durch alle Kugeln. Mit Zurücklegen bleibt das auf jeder Stufe gleich. Die Zweige an einem Knoten ergeben zusammen 1."
-      : "Ohne Zurücklegen fehlt auf der nächsten Stufe eine Kugel: Der Nenner wird um 1 kleiner – und der Zähler auch, wenn diese Farbe gezogen wurde. Die Zweige an einem Knoten ergeben zusammen 1.",
+      : "Ohne Zurücklegen fehlt auf der nächsten Stufe eine Kugel: Der Nenner wird um 1 kleiner – und der Zähler einer Farbe auch, wenn vorher eine Kugel dieser Farbe gezogen wurde. Die Zweige an einem Knoten ergeben zusammen 1.",
     rechenweg: versteckt.map((v) => `${v.buchstabe}) ${v.beschreibung}: ${v.anzahl} von ${v.gesamt} → ${zweigBruch(v)}${v.loesung.n !== v.gesamt ? ` = ${formatBruch(v.loesung)}` : ""}`),
   };
 }

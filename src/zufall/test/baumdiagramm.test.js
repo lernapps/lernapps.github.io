@@ -66,3 +66,8 @@ test("L-045: Münze und Würfel haben Würfe, kein Ziehen und kein Zurücklegen;
   assert.match(u.felder[0].label, /\d\. Zug:/);
   assert.doesNotMatch(u.tipp, /Seiten/);
 });
+
+test("L-047: Der Tipp ohne Zurücklegen sagt, welcher Zähler kleiner wird", () => {
+  const a = erzeugeAufgabe(z(1), { urne: "3r2b", zuege: 2, modus: "ohne" });
+  assert.match(a.tipp, /der Zähler einer Farbe auch, wenn vorher eine Kugel dieser Farbe gezogen wurde/);
+});

@@ -9,7 +9,7 @@ regel: |
   <p><strong>Ohne Zurücklegen:</strong> Nach jedem Zug ist eine Kugel weniger in der Urne.</p>
   <ul>
   <li>Der <strong>Nenner</strong> wird bei jedem Zug um 1 kleiner (6 → 5 → 4).</li>
-  <li>Der <strong>Zähler</strong> wird nur dann um 1 kleiner, wenn genau diese Farbe gezogen wurde.</li>
+  <li>Der <strong>Zähler</strong> einer Farbe wird nur dann um 1 kleiner, wenn vorher eine Kugel dieser Farbe gezogen wurde.</li>
   </ul>
   <p>Die Zweige der zweiten Stufe hängen also davon ab, was in der ersten Stufe passiert ist.</p>
 beispiel: |
