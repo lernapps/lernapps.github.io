@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 724" width="800" height="724" role="img" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
-<title>Harness Coverage Wheel für lernapps (Tier 2): 52 % abgedeckt</title>
+<title>Harness Coverage Wheel für lernapps (Tier 2): 59 % abgedeckt</title>
 <defs><linearGradient id="halb-G"><stop offset="50%" stop-color="#2b8a3e"/><stop offset="50%" stop-color="#fff"/></linearGradient><linearGradient id="halb-A"><stop offset="50%" stop-color="#e67700"/><stop offset="50%" stop-color="#fff"/></linearGradient><linearGradient id="halb-R"><stop offset="50%" stop-color="#c92a2a"/><stop offset="50%" stop-color="#fff"/></linearGradient></defs>
 <rect width="800" height="724" fill="#fff"/>
 <path d="M407.9 94.1 A226 226 0 0 1 539.1 141.9 L456.6 247.5 A92 92 0 0 0 403.2 228.1 Z" fill="#f1f3f5"/>
@@ -12,19 +12,19 @@
 <text x="497.8" y="51.2" text-anchor="start" font-size="13" font-weight="600" fill="#212529">Build</text>
 <text x="497.8" y="66.2" text-anchor="start" font-size="12" fill="#495057">40 %</text>
 <path d="M551.2 152 A226 226 0 0 1 621.1 273 L490 300.9 A92 92 0 0 0 461.6 251.6 Z" fill="#f1f3f5"/>
-<path d="M521.3 185.2 A181.33333333333331 181.33333333333331 0 0 1 577.4 282.3 L490 300.9 A92 92 0 0 0 461.6 251.6 Z" fill="#1d4ed8" fill-opacity="0.28"/>
+<path d="M551.2 152 A226 226 0 0 1 621.1 273 L490 300.9 A92 92 0 0 0 461.6 251.6 Z" fill="#1d4ed8" fill-opacity="0.28"/>
 <polygon points="568.9,137.5 574.4,147.1 563.4,147.1" fill="#c92a2a" stroke="#c92a2a" stroke-width="1.4"><title>Unit tests – vorhanden, Tier 2: rund 500 node:test-Tests in test/ und src/&lt;app&gt;/test/</title></polygon>
 <polygon points="579.6,148.4 585.1,158 574.1,158" fill="#c92a2a" stroke="#c92a2a" stroke-width="1.4"><title>Property-based / fuzz – vorhanden, Tier 4: fast-check, 17 Properties, #22: Zahlen und Terme (test/kern/*.property.test.js, Fund #30 behoben); jede Rechnung im Lösungsweg jeder App wird nachgerechnet (test/apps/rechenweg.property.test.js, L-021)</title></polygon>
 <polygon points="589.6,160 595.1,169.6 584.1,169.6" fill="#fff" stroke="#c92a2a" stroke-width="1.4" opacity="0.3"><title>Mutation testing – offen, Tier 4</title></polygon>
 <polygon points="598.9,172.3 604.4,181.9 593.4,181.9" fill="#c92a2a" stroke="#c92a2a" stroke-width="1.4"><title>Integration tests – vorhanden, Tier 2: Vertragstest test/apps/vertrag.test.js: jede Kompetenz jeder App, Seeds 1–20</title></polygon>
 <polygon points="607.4,185 612.9,194.6 601.9,194.6" fill="#c92a2a" stroke="#c92a2a" stroke-width="1.4"><title>Contract tests – vorhanden, Tier 3: Tutor-Vertrag lib/llms-vertrag.js: Deep Links in llms.txt/tutor.md gegen Generator-Parameter</title></polygon>
 <polygon points="615,198.3 620.5,207.9 609.5,207.9" fill="#fff" stroke="#c92a2a" stroke-width="1.4" opacity="0.3"><title>BDD / acceptance tests – offen, Tier 3</title></polygon>
-<polygon points="621.9,212 627.4,221.6 616.4,221.6" fill="#fff" stroke="#c92a2a" stroke-dasharray="2 1.5" stroke-width="1.4" opacity="0.3"><title>End-to-end / UI – geplant, Tier 3: #26 Playwright in CI; heute manueller Browser-Check (TD-5)</title></polygon>
+<polygon points="621.9,212 627.4,221.6 616.4,221.6" fill="#c92a2a" stroke="#c92a2a" stroke-width="1.4"><title>End-to-end / UI – vorhanden, Tier 3: Playwright (Chromium) in CI, Workflow browser.yml, #26: Übungsrunde je App, „Zurück zu Claude“, 360 px, ohne JS (e2e/)</title></polygon>
 <polygon points="627.8,226.2 633.3,235.8 622.3,235.8" fill="#fff" stroke="#c92a2a" stroke-width="1.4" opacity="0.3"><title>Snapshot / visual regression – offen, Tier 3</title></polygon>
 <polygon points="632.8,240.6 638.3,250.2 627.3,250.2" fill="#fff" stroke="#c92a2a" stroke-width="1.4" opacity="0.3"><title>Performance / benchmark – offen, Tier 3</title></polygon>
-<polygon points="637,255.4 642.5,265 631.5,265" fill="#fff" stroke="#c92a2a" stroke-width="1.4"><title>Smoke tests – offen, Tier 2</title></polygon>
+<polygon points="637,255.4 642.5,265 631.5,265" fill="#c92a2a" stroke="#c92a2a" stroke-width="1.4"><title>Smoke tests – vorhanden, Tier 2: e2e/smoke.spec.js: jede Seite HTTP 200, 0 Konsolenfehler; e2e/extern.spec.js: 0 fremde Requests, #26</title></polygon>
 <text x="647.7" y="177" text-anchor="start" font-size="13" font-weight="600" fill="#212529">Testing</text>
-<text x="647.7" y="192" text-anchor="start" font-size="12" fill="#495057">67 %</text>
+<text x="647.7" y="192" text-anchor="start" font-size="12" fill="#495057">100 %</text>
 <path d="M623.8 288.5 A226 226 0 0 1 599.5 426.1 L481.2 363.2 A92 92 0 0 0 491.1 307.2 Z" fill="#f1f3f5"/>
 <path d="M570.7 296 A172.39999999999998 172.39999999999998 0 0 1 552.2 400.9 L481.2 363.2 A92 92 0 0 0 491.1 307.2 Z" fill="#1d4ed8" fill-opacity="0.28"/>
 <circle cx="642.4" cy="292.4" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"><title>Secret scanning – vorhanden, Tier 1: GitHub Secret Scanning mit Push Protection</title></circle>
@@ -66,8 +66,8 @@
 <text x="400" y="606" text-anchor="middle" font-size="13" font-weight="600" fill="#212529">Data</text>
 <text x="400" y="621" text-anchor="middle" font-size="12" fill="#495057">100 %</text>
 <path d="M315.3 529.5 A226 226 0 0 1 208.3 439.8 L322 368.8 A92 92 0 0 0 365.5 405.3 Z" fill="#f1f3f5"/>
-<path d="M332.1 488.1 A181.33333333333331 181.33333333333331 0 0 1 246.2 416.1 L322 368.8 A92 92 0 0 0 365.5 405.3 Z" fill="#1d4ed8" fill-opacity="0.28"/>
-<circle cx="298.5" cy="541.9" r="4.8" fill="#fff" stroke="#2b8a3e" stroke-width="1.4"><title>Accessibility automated – offen, Tier 2</title></circle>
+<path d="M315.3 529.5 A226 226 0 0 1 208.3 439.8 L322 368.8 A92 92 0 0 0 365.5 405.3 Z" fill="#1d4ed8" fill-opacity="0.28"/>
+<circle cx="298.5" cy="541.9" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"><title>Accessibility automated – vorhanden, Tier 2: axe-core, WCAG 2.2 AA, 0 schwere/kritische Verstöße (e2e/axe.spec.js), #26</title></circle>
 <circle cx="279.1" cy="531.9" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"><title>Contrast checker – vorhanden, Tier 2: WCAG-Kontrast je Fachfarbe (test/build/fachfarben.test.js)</title></circle>
 <circle cx="260.5" cy="520.2" r="4.8" fill="#fff" stroke="#2b8a3e" stroke-width="1.4" opacity="0.3"><title>Cross-browser tests – offen, Tier 3</title></circle>
 <circle cx="243.2" cy="506.9" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"><title>UI prose lint – vorhanden, Tier 2: Tutor-Texte nennen keinen Wettbewerb (pruefeTutorText in lib/pruefungen.js), #29</title></circle>
@@ -75,7 +75,7 @@
 <rect x="208" y="471.6" width="8.6" height="8.6" rx="1" fill="#e9ecef" stroke="#adb5bd" stroke-width="1.4" opacity="0.3"><title>i18n lint – entfällt, Tier 3: nur Deutsch</title></rect>
 <polygon points="199.1,452.1 204.6,461.7 193.6,461.7" fill="#fff" stroke="#c92a2a" stroke-width="1.4" opacity="0.3"><title>Visual regression – offen, Tier 3</title></polygon>
 <text x="216.2" y="539.1" text-anchor="end" font-size="13" font-weight="600" fill="#212529">UX &amp; A11y</text>
-<text x="216.2" y="554.1" text-anchor="end" font-size="12" fill="#495057">67 %</text>
+<text x="216.2" y="554.1" text-anchor="end" font-size="12" fill="#495057">100 %</text>
 <path d="M200.5 426.1 A226 226 0 0 1 176.2 288.5 L308.9 307.2 A92 92 0 0 0 318.8 363.2 Z" fill="#f1f3f5"/>
 <circle cx="180.2" cy="426" r="4.8" fill="#e9ecef" stroke="#adb5bd" stroke-width="1.4"><title>Distributed tracing – entfällt, Tier 2: keine Laufzeit-Telemetrie (arc42 8.4)</title></circle>
 <rect x="168.3" y="404.1" width="8.6" height="8.6" rx="1" fill="#e9ecef" stroke="#adb5bd" stroke-width="1.4" opacity="0.3"><title>Canary delivery – entfällt, Tier 3: statisches Hosting</title></rect>
@@ -106,8 +106,8 @@
 <text x="302.2" y="51.2" text-anchor="end" font-size="13" font-weight="600" fill="#212529">Docs</text>
 <text x="302.2" y="66.2" text-anchor="end" font-size="12" fill="#495057">50 %</text>
 <circle cx="400" cy="320" r="84" fill="#fff" stroke="#dee2e6"/>
-<text x="400" y="324" text-anchor="middle" font-size="30" font-weight="700" fill="#1d4ed8">52 %</text>
-<text x="400" y="344" text-anchor="middle" font-size="11" fill="#495057">15 von 29</text>
+<text x="400" y="324" text-anchor="middle" font-size="30" font-weight="700" fill="#1d4ed8">59 %</text>
+<text x="400" y="344" text-anchor="middle" font-size="11" fill="#495057">17 von 29</text>
 <text x="400" y="358" text-anchor="middle" font-size="11" fill="#495057">Tier 2</text>
 <circle cx="70" cy="634" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"></circle>
 <text x="80" y="638" font-size="11" fill="#343a40">extrinsisch (Kreis)</text>

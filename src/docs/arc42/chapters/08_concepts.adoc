@@ -81,7 +81,7 @@ Offene Restrisiken: Admins können den Branch-Schutz umgehen, und eine Freigabe 
 geschlossen: Was auf dem Foto steht, liegt beim Kind (xref:11_technical_risks.adoc#r-022[R-022]).
 
 [[section-test-concept]]
-=== 8.3 Test: Viele schnelle Unit-Tests, ein Vertragstest für alle Apps, der Build als Prüfstand
+=== 8.3 Test: Viele schnelle Unit-Tests, ein Vertragstest für alle Apps, der Build als Prüfstand, Browser-Tests obenauf
 
 Reine, DOM-freie Module machen Unit-Tests möglich
 (xref:09_architecture_decisions.adoc#adr-013[ADR-013], xref:09_architecture_decisions.adoc#adr-016[ADR-016]);
@@ -92,7 +92,7 @@ die Regeln als Build-Fehler entscheidet xref:09_architecture_decisions.adoc#adr-
 @startuml
 skinparam rectangleBorderColor #1d4ed8
 rectangle "Tutor-Dialog\n(manuell, mit claude.ai)" as t5
-rectangle "Browser-Check\n(Playwright, 360 und 1280 px, ohne JS, 0 fremde Requests; manuell)" as t4
+rectangle "Browser-Tests\n(Playwright + axe-core in CI, e2e/: Smoke, 0 fremde Requests, 360 px, Übung, WCAG 2.2 AA, ohne JS)" as t4
 rectangle "Build-Prüfungen\n(lib/pruefungen.js, Kartendaten, App-Konfiguration)" as t3
 rectangle "Vertragstest\n(test/apps/vertrag.test.js: jede Kompetenz jeder App, Seeds 1–20)" as t2
 rectangle "Property-Based Tests\n(fast-check, test/kern/*.property.test.js: Zahlen, Rundung, Terme)" as t1b
@@ -112,13 +112,15 @@ t1b -[hidden]- t1
 | Property-Based Tests (`test/kern/*.property.test.js`) | Eigenschaften der Kern-Mathematik über viele erzeugte Eingaben statt Einzelbeispiele: Round-Trip formatierter Zahlen, monotone Rundung, Stellenregel, „=“ nur bei exakten Werten, Gleichwertigkeit und Form von Binomen, abgelehnte Fehlterme. fast-check mit festem Seed 22 und 300 Läufen je Eigenschaft (zusammen unter 1 s); anderer Seed lokal mit `FC_SEED=<Zahl> npm test`. Ein gefundener Fehler wird Issue mit `risk-radar` und bleibt bis zum Fix als `todo` sichtbar. | Jeder Test nennt QZ-3 und R-004 oder R-012 im Namen, dazu BR-2, BR-5, BR-T7, BR-T8 (Issue #22)
 | Vertragstest | Für jede Kompetenz jeder App aus `lib/apps.js`: Generator liefert Aufgaben, die eigene Lösung ist richtig, Unsinn falsch, Seeds 1–20. | UC-1, UC-4 (`test/apps/vertrag.test.js:1`, `:34`)
 | Build-Prüfungen | Regeln, die kein Unit-Test sieht: externe Ressourcen in der Ausgabe, Dateilänge, vollständige Kompetenz (Seite, Generator, Test), `llms.txt` nennt jede Seite, Links in Tutor-Dateien nur auf die Allowlist (M-22), Karten-Knoten existieren, Fach bekannt. | UC-8, UC-9; QZ-1, QZ-2, QZ-4
-| Browser-Check | Jede Seite bei 360 und 1280 px, ohne JS Text und Bild, Deep Link mit `nr=`, Schnelltest, 0 Konsolenfehler, 0 externe Requests vor dem Video-Klick. Nicht in CI (TD-5). | `CLAUDE.md` Project rules; UC-1 bis UC-7
+| Browser-Tests (`e2e/`, Workflow `browser.yml`) | Playwright mit Chromium gegen das gebaute `_site/` (`e2e/server.js`, Port 8813), 122 Tests in rund 20 s: jede Seite HTTP 200 und 0 Konsolenfehler; 0 fremde Requests vor der ersten Nutzeraktion auf jeder App-Seite; kein waagerechter Überlauf bei 360 px auf jeder Kompetenzseite, ohne JS und mit Übung samt Lösung; je App eine Übungsrunde per Deep Link `nr=42` (neue Aufgabe, falsch, Lösung zeigen, richtig); axe-core ohne schwere oder kritische Verstöße gegen WCAG 2.2 AA (Übersicht, Start-, Test- und eine Kompetenzseite je App); „Zurück zu Claude“ (Knopf, Tab schließt, Ersatzmeldung); ohne JS Erklärung und Bild. Die Seitenliste kommt aus `lib/apps.js`, neue Apps laufen mit. Von Hand bleibt: 1280 px, der Schnelltest und der Video-Klick. | UC-1 bis UC-7; QS-12, QS-13, QS-27; ADR-021 (#26, TD-5 abgebaut, xref:09_architecture_decisions.adoc#adr-026[ADR-026])
 | Tutor-Dialog | Ob Claude mit `tutor.md` und `llms.txt` sinnvoll unterrichtet und korrekte Links baut. | UC-7; nicht automatisiert
 |===
 
-Alle Tests laufen auf Node-Bordmitteln (`node:test`, `node:assert`); einzige Test-Bibliothek ist
-fast-check (exakt gepinnte devDependency) für die Property-Based Tests. Ausgeliefert wird keine der beiden
-Abhängigkeiten: Eleventy baut, fast-check prüft.
+Unit-, Vertrags- und Property-Based Tests laufen auf Node-Bordmitteln (`node:test`, `node:assert`) mit
+fast-check; die Browser-Tests nutzen `@playwright/test` und `@axe-core/playwright`
+(xref:09_architecture_decisions.adoc#adr-026[ADR-026]). Alle sind exakt gepinnte devDependencies, ausgeliefert
+wird keine: Eleventy baut, die anderen prüfen. Lokal: `npm run build && npm run test:browser` (einmalig
+`npx --package=@playwright/test playwright install chromium`).
 
 [[section-observability]]
 === 8.4 Beobachtbarkeit: Die Apps messen absichtlich nichts, der Build meldet alles
@@ -315,7 +317,7 @@ Entschieden in xref:09_architecture_decisions.adoc#adr-015[ADR-015]. `src/_data/
 `{{ site.basis }}`. `site.js` behält genau einen `default`-Export.
 
 [[section-harness]]
-=== 8.16 Harness für KI-gestützte Entwicklung: 15 von 29 Prüfschichten laufen, Typprüfung und Formatter fehlen noch
+=== 8.16 Harness für KI-gestützte Entwicklung: 17 von 29 Prüfschichten laufen, Typprüfung und Formatter fehlen noch
 
 Claude-Code-Agenten schreiben fast den ganzen Code; der Product Owner prüft und merged. Der Harness ist
 alles, was die Agenten dabei führt und was ihre Fehler fängt. Er gehört in dieses Kapitel, weil er jeden
