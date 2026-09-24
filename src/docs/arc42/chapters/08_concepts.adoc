@@ -343,6 +343,12 @@ Wunsch lädt es sich per Zwei-Klick direkt hier (xref:09_architecture_decisions.
 Die Tests `test/build/harness-rad.test.js` und `harness-rad-original.test.js` brechen, wenn Bild, Tabelle
 oder Link vom Generator abweichen.
 
+Ob „vorhanden“ stimmt, prüfen zwei Wege. Jede vorhandene Schicht nennt in `scripts/harness-belege.js`
+maschinenprüfbare Belege (Datei, npm-Skript, Workflow-Job, ESLint-Regel, Export); `harness-rad.test.js`
+bricht, sobald einer davon fehlt, etwa wenn jemand `e2e/axe.spec.js` löscht. Repo-Einstellungen wie Secret
+Scanning, CodeQL und die Branch Protection sieht kein Unit-Test; sie hat am 24.09.2026 ein Audit über die
+GitHub-API bestätigt. Dieses Audit wiederholen wir jedes Quartal.
+
 image::harness-rad.svg[Harness Coverage Wheel für lernapps: Abdeckung je Abschnitt bis Tier 2,800]
 
 include::_harness-original.adoc[]
