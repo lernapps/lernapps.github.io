@@ -97,3 +97,31 @@ test("Pfade anklicken hochkant: jedes Blatt ist ein Knopf mit aria-pressed, Tref
     for (let i = 1; i < flaechen.length; i++) assert.ok(flaechen[i].x1 >= flaechen[i - 1].x2, `${spec}: Trefferflächen überschneiden sich`);
   }
 });
+
+// L-034: Auf dem Handy (360 px) sind Brüche und Buchstaben im Baum mindestens 13 px groß; zweistufige Bäume nutzen
+// die Breite des Übungsbilds, statt schmal links zu stehen. Die Bilder zeigen ihre natürliche Größe (1 Einheit = 1 px).
+const BAUM_TEXTE = ["baum-label", "baum-buchstabe", "pfad-w", "baum-legende"];
+const hochkantFaelle = [...URNEN_VORLAGEN.flatMap((spec) => [[urne(spec), 2, true], [urne(spec), 2, false]]),
+  [muenze(), 2, true], [wuerfelSechs(), 2, true], [muenze(), 3, true], [urne("3r2b"), 3, false]];
+
+test("L-034: alle Texte im Hochkant-Baum sind mindestens 13 px groß, auch die Kürzel in den Knoten", () => {
+  for (const [exp, zuege, mit] of hochkantFaelle) for (const zeigePfad of [true, false]) {
+    const g = svgEl("g");
+    zeichneBaumIn(g, baueBaum(exp, zuege, mit), { richtung: "unten", zeigePfad, versteckt: new Map([[`w-${exp.ergebnisse[0].id}`, "a"]]) });
+    const kuerzel = alle(g, klasse("baum-knoten")).flatMap(({ e }) => e.children.filter((c) => c.tagName === "text")).map((e) => ({ e }));
+    const texte = [...alle(g, (e) => e.tagName === "text" && BAUM_TEXTE.some((c) => klasse(c)(e))), ...kuerzel];
+    assert.ok(kuerzel.length > 4 && texte.length > kuerzel.length);
+    for (const { e } of texte) assert.ok(zahl(e, "font-size") >= 13, `${exp.spec || exp.typ} ${zuege}: „${text(e)}“ ${e.getAttribute("font-size")} px`);
+  }
+});
+
+test("L-034: zweistufige Bäume nutzen die Breite des Übungsbilds (mindestens 90 % von 279 px), nichts überlappt", () => {
+  for (const [exp, zuege, mit] of hochkantFaelle.filter(([, zuege]) => zuege === 2)) for (const zeigePfad of [true, false]) {
+    const g = svgEl("g");
+    const groesse = zeichneBaumIn(g, baueBaum(exp, zuege, mit), { zeigePfad });
+    const fall = `${exp.spec || exp.typ} ${mit ? "mit" : "ohne"}${zeigePfad ? " gelöst" : ""}`;
+    assert.ok(hat(g, "baum-hochkant"), fall);
+    assert.ok(groesse.breite >= 0.9 * MAX_BREITE && groesse.breite <= MAX_BREITE, `${fall}: ${groesse.breite} px`);
+    keineUeberlappung(assert, boxen(g));
+  }
+});
