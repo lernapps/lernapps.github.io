@@ -12,7 +12,8 @@ import { zeichneOhneZuruecklegen } from "../js/vis/ohne-zuruecklegen.js";
 import { URNEN_VORLAGEN } from "../js/aufgaben/gemeinsam.js";
 import * as ohne from "../js/aufgaben/ohne-zuruecklegen.js";
 
-const MAX_BREITE = 330;
+// Gemessen bei 360 px Viewport: „Bild dazu“ hat 313 px, das Übungsbild nur 279 px Platz (Rahmen der Übung).
+const MAX_BREITE = 279;
 const verschiebung = (g) => (g.getAttribute("transform") || "translate(0 0)").match(/translate\(([-\d.]+) ([-\d.]+)\)/).slice(1).map(Number);
 const alle = (e, pruefe, x = 0, y = 0, out = []) => {
   const [dx, dy] = e.tagName === "g" ? verschiebung(e) : [0, 0];
@@ -72,7 +73,7 @@ test("hochkant: Wurzel oben, jede Stufe tiefer, alle Boxen innerhalb der gemelde
   for (const b of boxen(g)) assert.ok(b.x1 >= 0 && b.x2 <= groesse.breite && b.y1 >= 0 && b.y2 <= groesse.hoehe, `${b.t} außerhalb`);
 });
 
-test("hochkant ohne Zurücklegen 3r2b1g: 8 Blätter mit richtiger Pfadwahrscheinlichkeit, höchstens 330 px breit", () => {
+test("hochkant ohne Zurücklegen 3r2b1g: 8 Blätter mit richtiger Pfadwahrscheinlichkeit, höchstens 279 px breit", () => {
   const { g, baum, groesse } = zeichne("3r2b1g", false);
   const erwartet = new Map(blaetter(baum).map((b) => [b.id, formatBruch(b.pfadWahrscheinlichkeit)]));
   const gezeigt = new Map(alle(g, klasse("baum-blatt")).map(({ e }) => [e.getAttribute("data-blatt"), text(alle(e, klasse("pfad-w"))[0].e)]));
@@ -96,7 +97,7 @@ test("hochkant: hervorgehobener Pfad orange über zwei Stufen", () => {
   assert.deepEqual(alle(g, klasse("hervor")).map(({ e }) => e.getAttribute("data-knoten")), ["w-r", "w-r-b"]);
 });
 
-test("Bild „Ohne Zurücklegen“ passt für jede Urnenvorlage in 330 px (Beispiel und Übung)", () => {
+test("Bild „Ohne Zurücklegen“ passt für jede Urnenvorlage in 279 px (Beispiel und Übung)", () => {
   for (const spec of URNEN_VORLAGEN) {
     const svg = leeresSvg();
     zeichneOhneZuruecklegen(svg, ohne.erzeugeAufgabe(erzeugeZufall(3), { urne: spec }), { korrekt: true });

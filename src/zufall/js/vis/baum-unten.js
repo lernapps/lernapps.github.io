@@ -13,13 +13,14 @@ import { textFarbe } from "./rahmen.js";
 import { elternKarte, faerberFuer, zweigLabel, macheAuswaehlbar } from "./baum-gemeinsam.js";
 
 const R = 12; // Knotenradius: 24 px Durchmesser, tippbar
-const RAND = 6;
+const RAND = 2;
 const WURZEL_Y = 8;
 const STUFE_HOEHE = 64;
 const SCHRIFT_UNTEN = 12; // Blattbrüche und Pfadwahrscheinlichkeiten
 const SCHRIFT_OBEN = 13;
 const ZEICHEN = 0.6; // geschätzte Zeichenbreite je px Schriftgröße
-const LUFT = 6;
+const SPALTE_MIN = 30; // 24-px-Kreis + 6 px Luft
+const LUFT = 1; // zwischen zwei Texten; die Schätzung (0,6 je px, „1/15“ = 28,8 px) liegt real bei rund 25 px
 
 /** Kürzel je Ergebnis: kurze Namen bleiben, sonst Anfangsbuchstabe; bei gleichem Anfang zwei Buchstaben. */
 export function kuerzelKarte(ergebnisse) {
@@ -62,7 +63,7 @@ export function zeichneBaumUntenIn(ziel, baum, optionen = {}) {
   const knoten = alleKnoten(baum);
   const liste = blaetter(baum);
   const unten = liste.flatMap((b) => [zweigText(b), optionen.zeigePfad ? formatBruch(b.pfadWahrscheinlichkeit) : ""]);
-  const spalte = Math.max(2 * R + LUFT, Math.ceil(Math.max(...unten.map((t) => t.length)) * SCHRIFT_UNTEN * ZEICHEN) + LUFT);
+  const spalte = Math.max(SPALTE_MIN, Math.ceil(Math.max(...unten.map((t) => t.length)) * SCHRIFT_UNTEN * ZEICHEN) + LUFT);
   const { pos, spalten } = positionen(baum, spalte);
   const kuerzel = kuerzelKarte(baum.experiment.ergebnisse);
   const linien = new Map();
