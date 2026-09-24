@@ -21,7 +21,7 @@ video:
   titel: Produktregel | Wahrscheinlichkeitsrechnung - einfach erklärt | Lehrerschmidt
   kanal: Lehrerschmidt
 bild:
-  text: 'Der Baum aus dem Beispiel, der Pfad rot-blau ist orange. Rechts stehen die Pfadwahrscheinlichkeiten: rot-blau = 1/6.'
+  text: 'Der Baum aus dem Beispiel, der Pfad rot-blau ist orange. Unter den Enden stehen die Pfadwahrscheinlichkeiten: rot-blau = 1/6.'
   funktion: zeichnePfadregel1
   seed: 1
   geloest: true

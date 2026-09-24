@@ -49,6 +49,7 @@ test("Bild im Test: versteckte Zweige als Buchstaben, ohne Lösung", () => {
   const svg = leeresSvg();
   zeichneBild(svg, a);
   const text = alsSvgText(svg);
-  assert.match(text, /a\)/);
-  assert.doesNotMatch(text, new RegExp(`a\\) ${a.versteckt[0].anzahl}/${a.versteckt[0].gesamt}<`));
+  assert.match(text, /class="baum-buchstabe"[^>]*>a</);
+  assert.doesNotMatch(text, new RegExp(`versteckt"[^>]*>${a.versteckt[0].anzahl}/${a.versteckt[0].gesamt}<`));
+  assert.match(text, /versteckt"[^>]*>\?</);
 });

@@ -11,7 +11,7 @@ A visualisation earns its place when the learner can change a value and see the 
 | Part of a whole | 10×10 grid, highlighted squares | `src/prozent/js/vis/prozentwert.js` |
 | Before/after change | two bars with labels | `src/prozent/js/vis/veraenderung.js` |
 | Outcome set | die faces / wheel sectors / balls, favourable ones marked | `src/zufall/js/vis/laplace.js` |
-| Multi-stage experiment | tree with branch fractions, clickable paths | `src/zufall/js/vis/baumdiagramm.js`, `pfadregel-2.js` |
+| Multi-stage experiment | top-down tree with branch fractions, clickable paths | `src/zufall/js/vis/baum.js`, `baum-unten.js`, `pfadregel-2.js` |
 | Drawing without replacement | urn before/after, ball removed | `src/zufall/js/vis/ohne-zuruecklegen.js` |
 
 ## Ideas for Physik
@@ -33,5 +33,10 @@ A visualisation earns its place when the learner can change a value and see the 
 ## Rules
 
 - Mobile first: works at 360 px; if a diagram must scroll horizontally, say so in the caption.
+- Trees run top-down (root at the top, leaves as 24 px circles with initials plus a legend, path probabilities
+  below the leaves) and must fit 279 px, the exercise picture width at 360 px. Leave a small gap between
+  sibling groups. A tree that cannot fit (e.g. three stages, 27 leaves) lies left-to-right and gets the
+  pure-CSS rotate hint "Tipp: Dreh dein Handy, dann siehst du den ganzen Baum." above it
+  (`@media (orientation: portrait)`, class `baum-quer`); it stays visible and scrollable. See ADR-024.
 - Every interactive element is reachable by keyboard; SVG has `role="img"` and `aria-label`, or a text alternative next to it.
 - The exercise must not depend on the picture being visible; the picture explains, the checker checks.

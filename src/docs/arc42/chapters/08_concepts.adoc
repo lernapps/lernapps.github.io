@@ -276,6 +276,11 @@ Entschieden in xref:09_architecture_decisions.adoc#adr-016[ADR-016]. Jede Kompet
 jeder neuen Aufgabe neu. Regel: In `js/vis/` nur `svgEl`, nie `document`. Handgezeichnete SVGs gibt es
 nicht.
 
+Wahrscheinlichkeitsbäume stehen hochkant (Wurzel oben, Blätter als 24-px-Kreise mit Kürzel und Legende,
+Pfadwahrscheinlichkeiten darunter), wenn sie in 279 px passen, sonst liegen sie quer; über quer
+liegenden Bäumen zeigt `zufall.css` auf schmalen Hochkant-Bildschirmen einen Dreh-Hinweis. Entschieden
+in xref:09_architecture_decisions.adoc#adr-024[ADR-024].
+
 [[section-kompetenzseiten]]
 === 8.13 Kompetenzseiten: Front Matter statt HTML, festes Gerüst, Regeln im Build
 

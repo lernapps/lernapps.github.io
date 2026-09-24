@@ -1,0 +1,57 @@
+// ADR-024: Darstellung der Wahrscheinlichkeitsbäume in der Zufall-App.
+// Eigene Datei, damit _adr-monorepo.adoc unter 500 Zeilen bleibt. Wird von 09_architecture_decisions.adoc eingebunden.
+
+[[adr-024]]
+=== ADR-024: Wahrscheinlichkeitsbäume von oben nach unten; dreistufige quer mit Dreh-Hinweis
+
+*Kontext.* Die Zufall-App zeichnete jeden Baum waagerecht: Wurzel links, Blätter rechts, Knoten als
+Pillen mit vollem Namen. Ein zweistufiger Baum war so 450 px breit, ein dreistufiger 600 px. Auf dem
+Handy (360 px) hat das Übungsbild aber nur 279 px Platz, „Bild dazu“ 313 px. Das Kind musste auf fast
+jeder Baum-Seite waagerecht scrollen und sah nie den ganzen Baum; QS-12 verlangt das Gegenteil. Ein
+Experiment auf der Seite „Ohne Zurücklegen“ (PR #36) zeichnete die Bäume hochkant: Wurzel oben,
+Blätter als 24-px-Kreise mit Kürzel (R, B, G) und Legende, Pfadwahrscheinlichkeiten unter den Blättern.
+Ein Baum aus 27 Blättern (drei Farben, drei Züge) passt so aber in keine 279 px.
+
+*Entscheidung.* `zeichneBaumIn` (`src/zufall/js/vis/baum.js`) zeichnet jeden Baum hochkant, wenn er
+so in 279 px passt (`MAX_BREITE`, `breiteUnten` in `baum-unten.js`). Das trifft alle zweistufigen
+Urnen-, Münz- und Würfelbäume und kleine dreistufige (Münze). Zwischen Geschwistergruppen liegt eine
+Lücke von bis zu 14 px, so groß, wie die 279 px es zulassen. Fehlende Zweige der Seite „Baumdiagramm“
+zeigen am Zweigende nur „?“, der Buchstabe steht auf der Mitte des Zweigs. Passt ein Baum nicht, liegt
+er quer wie bisher; die Gruppe trägt die Klasse `baum-quer`. Dann zeigt `zufall.css` auf schmalen
+Hochkant-Bildschirmen (`orientation: portrait`, höchstens 40rem) darüber den Hinweis „Tipp: Dreh dein
+Handy, dann siehst du den ganzen Baum.“ Der Hinweis ist reines CSS; der Baum bleibt sichtbar und
+scrollt. Das gilt für „Bild dazu“, die Übungsbilder, die Testseite und „Baum bauen“.
+
+*Status.* Accepted. Vom Product Owner entschieden am 24.09.2026.
+
+[cols="2,1,1,1,1",options="header"]
+|===
+| Ziel | Hochkant, sonst quer mit Dreh-Hinweis (Referenz) | Quer wie bisher, waagerecht scrollen | Nur Dreh-Hinweis, alle Bäume quer | CSS-Umschaltung nach Bildschirmbreite
+| QZ-1 Datenschutz | 0 | 0 | 0 | 0
+| QZ-2 Tutor-Anschluss | 0 | 0 | 0 | 0
+| QZ-3 Richtige Rückmeldung | 0 | 0 | 0 | 0
+| QZ-4 Neue Apps schnell | 0 | +1 | +1 | −1
+| QZ-5 Zugänglich | 0 | −1 | −1 | ?
+| *Summe* | *0* | *0* | *0* | *−1 + ?*
+|===
+
+Quer mit Scrollen braucht keinen neuen Code (QZ-4 +1), aber das Kind sieht auf dem Handy nie den
+ganzen Baum und muss für jeden Pfad scrollen (QZ-5 −1). Nur der Dreh-Hinweis ist ebenso billig (QZ-4
++1), zwingt aber jedes Kind auf jeder Baum-Seite, das Handy zu drehen, auch für Bäume, die hochkant
+passen würden (QZ-5 −1). Die CSS-Umschaltung legt beide Zeichnungen ins HTML und blendet eine per
+Media Query aus. Jedes Bild entstünde zweimal, und die anklickbaren Blätter müssten in beiden
+Zeichnungen denselben Zustand halten (QZ-4 −1). Ob Screenreader die ausgeblendete Kopie sauber
+überspringen, ist `?`. Die Summen trennen die Referenz nicht von den billigen Alternativen; den Ausschlag
+gibt QS-12: Auf 360 px soll das Kind den Baum ohne Scrollen sehen, und das schafft nur die Referenz für
+die zweistufigen Bäume, die den Großteil der Aufgaben ausmachen.
+
+*Konsequenzen.* Dreistufige Bäume mit mehr als zwei Ergebnissen scrollen auf 360 px weiter; der
+Dreh-Hinweis mildert das nur (xref:11_technical_risks.adoc#r-027[R-027], bewusst akzeptiert). Auf
+einer Übungsseite wechselt die Richtung mit der Aufgabe: ein zweistufiger Baum steht hochkant, ein
+dreistufiger liegt quer. Ob ein Baum passt, schätzt der Code aus der Textbreite (Ziffer 0,636,
+Schrägstrich 0,337 je px Schriftgröße, so breit wie DejaVu Sans). Eine noch breitere Systemschrift
+könnte Brüche in der Gruppe berühren lassen
+(xref:11_technical_risks.adoc#r-028[R-028]); die Tests prüfen die Überlappung mit 0,6 je Zeichen, der
+Browser-Check mit `getBoundingClientRect`. Die Bildtexte der Seiten sagen „unter den Enden“ statt
+„rechts“; `llms.txt` und `tutor.md` beschreiben beide Richtungen
+(xref:08_concepts.adoc#section-bilder[8.12]).
