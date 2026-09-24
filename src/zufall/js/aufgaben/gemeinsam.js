@@ -91,6 +91,11 @@ export function versuchText(exp, zuege, mitZuruecklegen) {
   return `Du würfelst ${male}. Es zählt nur: 6 oder keine 6.`;
 }
 
+/** Name einer Stufe: Aus der Urne wird gezogen, Münze und Würfel werden geworfen, das Glücksrad gedreht. */
+export function stufenWort(exp) {
+  return exp.typ === "urne" ? "Zug" : exp.typ === "gluecksrad" ? "Drehung" : "Wurf";
+}
+
 export function zweigBruch(knoten) { return `${knoten.anzahl}/${knoten.gesamt}`; }
 
 export function pfadTerm(knoten, baum) {
