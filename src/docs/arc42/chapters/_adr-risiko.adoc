@@ -1,0 +1,102 @@
+// ADR-023: Risikoeinstufung des Monorepos nach dem Vibe-Coding Risk Radar.
+// Eigene Datei, damit _adr-monorepo.adoc unter 500 Zeilen bleibt. Wird von 09_architecture_decisions.adoc eingebunden.
+
+[[adr-023]]
+=== ADR-023: Risikoeinstufung nach Vibe-Coding Risk Radar: Tier 2
+
+*Kontext.* Ein KI-Agent schreibt fast den ganzen Code; der Product Owner prüft und merged. Welche
+Prüfungen dafür reichen, war bisher Gefühlssache. Das
+https://llm-coding.github.io/vibe-coding-risk-radar/[Vibe-Coding Risk Radar] macht daraus eine
+Rechnung: fünf Dimensionen mit Werten von 0 bis 4, die Stufe ist das Maximum, und eine
+LLM-Laufzeit ab L3 hebt die Untergrenze an (Modell im Repository `llm-coding/vibe-coding-risk-radar`,
+`.claude/skills/shared/risk-model.md`). Jede Stufe verlangt ihre Maßnahmen und die aller Stufen darunter.
+Die Einstufung für dieses Repository:
+
+[cols="2,1,5",options="header"]
+|===
+| Dimension | Wert | Begründung
+| Code Type | 2 | Geschäftslogik: Term-Parser, Rundung, Generatoren und Prüfer (`src/kern/js/`)
+| Language | 2 | JavaScript ohne Typprüfung
+| Deployment | 2 | Öffentlich erreichbar, aber ohne Konten und ohne personenbezogene Daten (ADR-001)
+| Data | 0 | Keine Datenhaltung; im `localStorage` nur Stufen und ein Merker (8.2 M-07)
+| Blast Radius | 1 | Eine kaputte App ist nicht erreichbar oder falsch; es gehen keine Daten verloren
+| LLM Runtime | L0 | Im Code läuft kein LLM. Der Tutor auf claude.ai ist generativ (L2), liegt aber außerhalb und hebt die Stufe nicht (erst ab L3)
+|===
+
+Das Modell kennt einen Schaden nicht, der hier am schwersten wiegt: den *Lernschaden*. Eine falsche
+Rückmeldung lässt kein System ausfallen und verliert keine Daten; sie bringt einem Kind still etwas
+Falsches bei, und niemand merkt es. Keine der fünf Dimensionen misst das.
+
+Eine zweite Besonderheit steht ebenfalls nicht im Modell: `tutor.md` ist ein Prompt, den das Kind in
+seinen Chat lädt. Wer das Repository übernimmt, gibt der Chat-KI Anweisungen, während sie mit einem Kind
+spricht (xref:08_concepts.adoc#t-015[T-015]). Ein Link auf eine fremde Seite reicht dafür, denn deren
+Inhalt ändert sich nach jedem Review.
+
+*Entscheidung.* Das Repository ist *Tier 2 (Moderate)*, bestimmt von Code Type, Language und Deployment
+mit je 2. Es gelten die Maßnahmen von Tier 1 und Tier 2, mit dem Stand aus EPIC #18:
+
+[cols="3,2,4",options="header"]
+|===
+| Maßnahme | Stand | Umsetzung
+| CI-Build und Unit-Tests (T1) | vorhanden | Pflicht-Check `test-und-build` (`pruefen.yml`)
+| Dependency-Check (T1) | umgesetzt, #20 | `npm audit --audit-level=high` im Pflicht-Check; Versionen exakt gepinnt, `npm ci`
+| Linter (T1) | umgesetzt, #21 | ESLint Flat Config mit `no-eval`, `no-implied-eval`, `no-unsanitized` (`eslint.config.js`)
+| Type Checking (T1) | offen, Could, #25 | `tsc --checkJs`, zuerst `src/kern`
+| Pre-Commit-Hooks (T1) | Won't, #27 | Der Pflicht-Check prüft dasselbe; Hooks lassen sich lokal umgehen
+| SAST (T2) | umgesetzt, #19 | CodeQL Default Setup; dazu Secret Scanning mit Push Protection und Dependabot
+| Property-Based Tests (T2) | umgesetzt, #22 | fast-check für Term-Parser, Termgleichheit und Rundung; fand gleich den Fehler #30, behoben
+| KI-Code-Review (T2) | offen, Should, #24 | Fester Schritt vor jedem Merge
+| SonarQube Quality Gate (T2) | Won't, #28 | Dateilänge ≤ 500 Zeilen und ESLint decken das Nötige ab
+| Sampling Review, ~20 % (T2) | 100 % | Der Product Owner merged jeden PR selbst und sieht ihn dabei durch
+| Playwright in CI | offen, Could, #26 | Browser-Check heute von Hand (TD-5)
+|===
+
+Die Review-Quote von 100 % ist eine Regel, keine technische Sperre: Der Branch-Schutz verlangt einen PR,
+aber keine Freigabe (`required_approving_review_count: 0`). Mit einem einzigen Maintainer geht es nicht
+anders, denn GitHub lässt niemanden den eigenen PR freigeben.
+
+Gegen die zweite Besonderheit kommen drei Maßnahmen hinzu. Die Organisation verlangt Zwei-Faktor-Anmeldung
+(entschieden am 24.09.2026, 8.2 M-21). Branch-Schutz (M-15) und Secret Scanning mit Push Protection
+(M-19) bleiben an. Und der Build lässt in `tutor.md` und `llms.txt` jeder App, in der Übersicht
+`/llms.txt` und in `karte/llms.txt` nur Links auf eine Allowlist zu (`pruefeTutorLinks` in
+`lib/pruefungen.js`, 8.2 M-22). Erlaubt sind relative Links, die eigene Site
+(`https://lernapps.github.io/`), das eigene Repository, `https://de.serlo.org/` und YouTube-Videoseiten
+(`https://www.youtube.com/watch?v=`). Jedes andere Ziel bricht den Build.
+
+Dieses ADR deckt auch die neuen Entwicklungs-Abhängigkeiten aus EPIC #18: `eslint`, `@eslint/js`,
+`eslint-plugin-no-unsanitized`, `globals` und `fast-check`. Alle sind devDependencies, exakt gepinnt;
+keine wird ausgeliefert.
+
+*Status.* Accepted. Vom Product Owner entschieden am 24.09.2026.
+
+[cols="2,1,1,1",options="header"]
+|===
+| Ziel | Tier 2 (Referenz) | Tier 1 | Tier 3 (Deployment = 3, weil Kinder die Nutzer sind)
+| QZ-1 Datenschutz | 0 | −1 | 0
+| QZ-2 Tutor-Anschluss | 0 | 0 | ?
+| QZ-3 Richtige Rückmeldung | 0 | −1 | +1
+| QZ-4 Neue Apps schnell | 0 | +1 | −1
+| QZ-5 Zugänglich | 0 | 0 | 0
+| *Summe* | *0* | *−1* | *0 + ?*
+|===
+
+Tier 1 spart Arbeit (QZ-4 +1), verzichtet aber auf SAST und Secret Scanning; ein durchgerutschtes Token
+oder eingeschleuster Code könnte unbemerkt Tracking einbauen (QZ-1 −1). Ohne Property-Based Tests wäre
+der Fehler #30 geblieben (QZ-3 −1). Tier 3 brächte Fuzzing für den Term-Parser (QZ-3 +1), verlangt aber
+eine Pflicht-Freigabe durch eine zweite Person, Penetrationstests und Canary-Deployments, die ein
+einzelner Maintainer auf GitHub Pages nicht leisten kann (QZ-4 −1). Ob PromptBOM, also Modell, Prompt und
+Freigabe je Änderung zu dokumentieren, den Tutor-Anschluss sicherer macht, ist `?`. Die Summen trennen
+Tier 2 nicht von Tier 3; den Ausschlag gibt das Modell selbst: Kinder als Nutzer machen die Site nicht zu
+einem regulierten System, solange sie keine Daten erfasst.
+
+*Konsequenzen.* Die Pflicht-Maßnahmen für Tier 2 sind bis auf das KI-Review umgesetzt. Die Review-Quote
+hängt an der Disziplin einer Person (xref:11_technical_risks.adoc#r-026[R-026]); #24 soll das mildern.
+Der Lernschaden liegt außerhalb des Modells und bleibt ein eigenes Risiko
+(xref:11_technical_risks.adoc#r-025[R-025]); ihn mindern die Property-Based Tests (QZ-3,
+xref:08_concepts.adoc#section-test-concept[8.3]). Wer das Repository übernimmt, erreicht über `tutor.md`
+die Chat-KI eines Kindes (xref:11_technical_risks.adoc#r-024[R-024]); die Allowlist verhindert fremde
+Links, aber nicht fremden Text in einem gemergten PR. Die Zwei-Faktor-Pflicht erledigt
+xref:11_technical_risks.adoc#r-017[R-017]. Die fünf neuen Abhängigkeiten laufen nur in CI und lokal; eine
+kompromittierte Version träfe den Build, nicht die Kinder (xref:11_technical_risks.adoc#r-015[R-015]).
+Ändert sich eine Dimension, etwa durch Konten, ein Backend oder ein LLM im Code, wird das Repository neu
+eingestuft; der Abschnitt „Risk Radar Assessment“ in `CLAUDE.md` hält den Stand für `/risk-mitigate` fest.
