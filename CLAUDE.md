@@ -137,7 +137,7 @@ _Architecture Decision: See [ADR-023](src/docs/arc42/chapters/_adr-risiko.adoc) 
 | Dimension        | Score | Level                  | Evidence                                                                 |
 | ---------------- | ----- | ---------------------- | ------------------------------------------------------------------------ |
 | Code Type        | 2     | Business Logic         | term parser and rounding in `src/kern/js/`, generators and checkers per app |
-| Language         | 2     | Dynamically typed      | JavaScript ES modules, no type checking                                  |
+| Language         | 2     | Dynamically typed      | JavaScript ES modules; `tsc --checkJs` only for `src/kern`               |
 | Deployment       | 2     | Public-facing app      | user input: public GitHub Pages site, no accounts, no personal data      |
 | Data Sensitivity | 0     | Public data            | user input: no data storage; localStorage holds only self-assessment levels |
 | Blast Radius     | 1     | Performance / DoS      | user input: a broken app is unavailable or wrong, no data loss           |
@@ -153,7 +153,7 @@ branch protection, secret scanning with push protection, org-wide 2FA and the tu
 | Measure                | Status  | Details                                                                        |
 | ---------------------- | ------- | ------------------------------------------------------------------------------ |
 | Linter & Formatter     | Present | ESLint flat config `eslint.config.js` in required check (#21); no formatter     |
-| Type Checking          | Pending | `tsc --checkJs`, first `src/kern` (#25, Could)                                  |
+| Type Checking          | Present | `tsc --checkJs` (strict) in required check, scope `src/kern` (#25)              |
 | Pre-Commit Hooks       | N/A     | Won't (#27): the required check runs the same gates                             |
 | Dependency Check       | Present | `npm audit --audit-level=high` in `pruefen.yml` (#20); exact pins, `npm ci`     |
 | CI Build & Unit Tests  | Present | `pruefen.yml`, required check `test-und-build`                                  |
