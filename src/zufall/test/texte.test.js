@@ -53,3 +53,10 @@ test("L-030: „Ergebnis“ bleibt der Fachbegriff – Titel und Tipp sprechen v
     assert.doesNotMatch(fs.readFileSync(p, "utf8"), /Ergebnisse (als Produkt|dürfen)/, p);
   }
 });
+
+test("L-051: ob der Term als Endergebnis reicht, entscheidet die Lehrkraft", async () => {
+  const fs = await import("node:fs");
+  const md = fs.readFileSync("src/zufall/ergebnisformen.md", "utf8");
+  assert.match(md, /Oft reicht der Term: 3\/6 · 2\/5\. Frag deine Lehrerin oder deinen Lehrer, ob du in der Klassenarbeit ausrechnen musst\./);
+  assert.doesNotMatch(md, /ist schon die Antwort/);
+});
