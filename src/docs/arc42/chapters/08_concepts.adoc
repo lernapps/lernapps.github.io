@@ -303,3 +303,36 @@ Entschieden in xref:09_architecture_decisions.adoc#adr-015[ADR-015]. `src/_data/
 (`https://github.com/lernapps/lernapps.github.io`), App-Adressen und Quellcode-Links ab
 (`lib/adressen.js:7-24`). Vorlagen schreiben nie eine literale Adresse, sondern `{{ app.basisUrl }}` oder
 `{{ site.basis }}`. `site.js` behält genau einen `default`-Export.
+
+[[section-harness]]
+=== 8.16 Harness für KI-gestützte Entwicklung: 15 von 29 Prüfschichten laufen, Typprüfung und Formatter fehlen noch
+
+Claude-Code-Agenten schreiben fast den ganzen Code; der Product Owner prüft und merged. Der Harness ist
+alles, was die Agenten dabei führt und was ihre Fehler fängt. Er gehört in dieses Kapitel, weil er jeden
+Baustein gleich trifft: Er ist ein Querschnittskonzept wie Test (8.3) und Sicherheit (8.2), keine einzelne
+Qualitätsanforderung für Kapitel 10.
+
+Die Führung besteht aus drei Teilen. `CLAUDE.md` legt Projektregeln und Semantic Contracts fest, der Skill
+`werkzeuge/skill/lern-app/` mit seinen `references/` beschreibt den Weg zu einer neuen App, und die ADRs in
+Kapitel 9 halten Entscheidungen fest. Die Fehlerkorrektur misst das Rad unten. Es folgt dem Modell der
+link:https://llm-coding.github.io/Semantic-Anchors/harness-inventory/[Harness Inventory^] und des
+link:https://llm-coding.github.io/Semantic-Anchors/harness-coverage-wheel.html[Harness Coverage Wheel^]
+(Semantic Anchors, Apache-2.0): 69 Prüfschichten in neun Abschnitten, jede als extrinsisch (Regel kommt von
+außen, einschalten genügt), hybrid oder intrinsisch (das Projekt definiert richtig und falsch) eingestuft
+und mit dem kleinsten Risk-Radar-Tier versehen, ab dem sie zählt. Die Einstufung Tier 2 stammt aus EPIC #18.
+
+Das Bild ist eine eigene Zeichnung aus `scripts/harness-rad.js`; das Original-Rad rendert per JavaScript
+und kennt weder SVG-Export noch Zwischenzustände. Das Rad zeigt deshalb zusätzlich „in Arbeit“ (offener PR),
+„geplant“ (offenes Issue) und „entfällt“ (trifft auf statische Seiten ohne Server und Daten nicht zu).
+Der Test `test/build/harness-rad.test.js` bricht, wenn Bild oder Tabelle vom Generator abweichen.
+
+image::harness-rad.svg[Harness Coverage Wheel für lernapps: Abdeckung je Abschnitt bis Tier 2,800]
+
+include::_harness-inventar.adoc[]
+
+Linter, `npm audit` und Property-based Tests laufen seit #20, #21 und #22 im Pflicht-Check; die
+Properties fanden gleich einen Fehler (#30). Die größte Lücke liegt weiter bei billigen extrinsischen
+Schichten: Typprüfung (#25), Formatter und Dead-Code-Erkennung. Stark sind die intrinsischen Schichten,
+also Vertragstest, Tutor-Vertrag und Build-Prüfungen.
+
+Wer den Stand ändert, passt `ROH` in `scripts/harness-rad.js` an und ruft `node scripts/harness-rad.js` auf.

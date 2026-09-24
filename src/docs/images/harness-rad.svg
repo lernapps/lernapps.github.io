@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 724" width="800" height="724" role="img" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+<title>Harness Coverage Wheel für lernapps (Tier 2): 52 % abgedeckt</title>
+<defs><linearGradient id="halb-G"><stop offset="50%" stop-color="#2b8a3e"/><stop offset="50%" stop-color="#fff"/></linearGradient><linearGradient id="halb-A"><stop offset="50%" stop-color="#e67700"/><stop offset="50%" stop-color="#fff"/></linearGradient><linearGradient id="halb-R"><stop offset="50%" stop-color="#c92a2a"/><stop offset="50%" stop-color="#fff"/></linearGradient></defs>
+<rect width="800" height="724" fill="#fff"/>
+<path d="M407.9 94.1 A226 226 0 0 1 539.1 141.9 L456.6 247.5 A92 92 0 0 0 403.2 228.1 Z" fill="#f1f3f5"/>
+<path d="M405.1 174.5 A145.6 145.6 0 0 1 489.6 205.3 L456.6 247.5 A92 92 0 0 0 403.2 228.1 Z" fill="#1d4ed8" fill-opacity="0.28"/>
+<circle cx="423.8" cy="77.2" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"><title>Compiler / Parser – vorhanden, Tier 1: npm test und npm run build laden jedes Modul; Syntaxfehler brechen test-und-build</title></circle>
+<circle cx="454.1" cy="82.1" r="4.8" fill="#fff" stroke="#2b8a3e" stroke-dasharray="2 1.5" stroke-width="1.4"><title>Type checker – geplant, Tier 1: #25 tsc --checkJs, zuerst src/kern</title></circle>
+<circle cx="483.5" cy="90.7" r="4.8" fill="#fff" stroke="#2b8a3e" stroke-width="1.4"><title>Formatter – offen, Tier 1</title></circle>
+<circle cx="511.5" cy="103" r="4.8" fill="#fff" stroke="#2b8a3e" stroke-width="1.4"><title>Import sorter / dead code – offen, Tier 1</title></circle>
+<rect x="533.6" y="114.4" width="8.6" height="8.6" rx="1" fill="#e67700" stroke="#e67700" stroke-width="1.4"><title>Linter – vorhanden, Tier 1: ESLint (eslint.config.js: no-eval, no-implied-eval, no-unsanitized) im Pflicht-Check, #21</title></rect>
+<text x="497.8" y="51.2" text-anchor="start" font-size="13" font-weight="600" fill="#212529">Build</text>
+<text x="497.8" y="66.2" text-anchor="start" font-size="12" fill="#495057">40 %</text>
+<path d="M551.2 152 A226 226 0 0 1 621.1 273 L490 300.9 A92 92 0 0 0 461.6 251.6 Z" fill="#f1f3f5"/>
+<path d="M521.3 185.2 A181.33333333333331 181.33333333333331 0 0 1 577.4 282.3 L490 300.9 A92 92 0 0 0 461.6 251.6 Z" fill="#1d4ed8" fill-opacity="0.28"/>
+<polygon points="568.9,137.5 574.4,147.1 563.4,147.1" fill="#c92a2a" stroke="#c92a2a" stroke-width="1.4"><title>Unit tests – vorhanden, Tier 2: rund 380 node:test-Tests in test/ und src/&lt;app&gt;/test/</title></polygon>
+<polygon points="579.6,148.4 585.1,158 574.1,158" fill="#c92a2a" stroke="#c92a2a" stroke-width="1.4"><title>Property-based / fuzz – vorhanden, Tier 4: fast-check, 15 Properties (test/kern/*.property.test.js), #22; Fund #30 in Arbeit</title></polygon>
+<polygon points="589.6,160 595.1,169.6 584.1,169.6" fill="#fff" stroke="#c92a2a" stroke-width="1.4" opacity="0.3"><title>Mutation testing – offen, Tier 4</title></polygon>
+<polygon points="598.9,172.3 604.4,181.9 593.4,181.9" fill="#c92a2a" stroke="#c92a2a" stroke-width="1.4"><title>Integration tests – vorhanden, Tier 2: Vertragstest test/apps/vertrag.test.js: jede Kompetenz jeder App, Seeds 1–20</title></polygon>
+<polygon points="607.4,185 612.9,194.6 601.9,194.6" fill="#c92a2a" stroke="#c92a2a" stroke-width="1.4"><title>Contract tests – vorhanden, Tier 3: Tutor-Vertrag lib/llms-vertrag.js: Deep Links in llms.txt/tutor.md gegen Generator-Parameter</title></polygon>
+<polygon points="615,198.3 620.5,207.9 609.5,207.9" fill="#fff" stroke="#c92a2a" stroke-width="1.4" opacity="0.3"><title>BDD / acceptance tests – offen, Tier 3</title></polygon>
+<polygon points="621.9,212 627.4,221.6 616.4,221.6" fill="#fff" stroke="#c92a2a" stroke-dasharray="2 1.5" stroke-width="1.4" opacity="0.3"><title>End-to-end / UI – geplant, Tier 3: #26 Playwright in CI; heute manueller Browser-Check (TD-5)</title></polygon>
+<polygon points="627.8,226.2 633.3,235.8 622.3,235.8" fill="#fff" stroke="#c92a2a" stroke-width="1.4" opacity="0.3"><title>Snapshot / visual regression – offen, Tier 3</title></polygon>
+<polygon points="632.8,240.6 638.3,250.2 627.3,250.2" fill="#fff" stroke="#c92a2a" stroke-width="1.4" opacity="0.3"><title>Performance / benchmark – offen, Tier 3</title></polygon>
+<polygon points="637,255.4 642.5,265 631.5,265" fill="#fff" stroke="#c92a2a" stroke-width="1.4"><title>Smoke tests – offen, Tier 2</title></polygon>
+<text x="647.7" y="177" text-anchor="start" font-size="13" font-weight="600" fill="#212529">Testing</text>
+<text x="647.7" y="192" text-anchor="start" font-size="12" fill="#495057">67 %</text>
+<path d="M623.8 288.5 A226 226 0 0 1 599.5 426.1 L481.2 363.2 A92 92 0 0 0 491.1 307.2 Z" fill="#f1f3f5"/>
+<path d="M570.7 296 A172.39999999999998 172.39999999999998 0 0 1 552.2 400.9 L481.2 363.2 A92 92 0 0 0 491.1 307.2 Z" fill="#1d4ed8" fill-opacity="0.28"/>
+<circle cx="642.4" cy="292.4" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"><title>Secret scanning – vorhanden, Tier 1: GitHub Secret Scanning mit Push Protection</title></circle>
+<circle cx="643.5" cy="305.1" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"><title>SCA – vorhanden, Tier 1: Dependabot-Alerts und -Security-Updates; npm audit --audit-level=high im Pflicht-Check, #20</title></circle>
+<circle cx="644" cy="317.9" r="4.8" fill="#e9ecef" stroke="#adb5bd" stroke-width="1.4"><title>Container / image scanning – entfällt, Tier 2: keine Container: statische Seiten auf GitHub Pages</title></circle>
+<circle cx="643.8" cy="330.6" r="4.8" fill="#e9ecef" stroke="#adb5bd" stroke-width="1.4"><title>IaC scanning – entfällt, Tier 2: keine Infrastruktur als Code; Workflows prüft CodeQL (actions)</title></circle>
+<circle cx="642.9" cy="343.4" r="4.8" fill="#fff" stroke="#2b8a3e" stroke-width="1.4" opacity="0.3"><title>Supply chain / SBOM – offen, Tier 3</title></circle>
+<circle cx="641.3" cy="356.1" r="4.8" fill="#fff" stroke="#2b8a3e" stroke-width="1.4" opacity="0.3"><title>Compliance scanning – offen, Tier 3</title></circle>
+<circle cx="639.1" cy="368.6" r="4.8" fill="#fff" stroke="#2b8a3e" stroke-width="1.4"><title>License compliance – offen, Tier 2</title></circle>
+<rect x="631.9" y="376.8" width="8.6" height="8.6" rx="1" fill="#e67700" stroke="#e67700" stroke-width="1.4"><title>SAST – vorhanden, Tier 2: CodeQL Default Setup (JavaScript/TypeScript, Actions)</title></rect>
+<rect x="628.4" y="389.1" width="8.6" height="8.6" rx="1" fill="#fff" stroke="#e67700" stroke-width="1.4" opacity="0.3"><title>DAST – offen, Tier 3</title></rect>
+<rect x="624.2" y="401.2" width="8.6" height="8.6" rx="1" fill="#e9ecef" stroke="#adb5bd" stroke-width="1.4" opacity="0.3"><title>IAST – entfällt, Tier 4: kein Server, keine Laufzeit-Instrumentierung</title></rect>
+<rect x="619.5" y="413" width="8.6" height="8.6" rx="1" fill="#fff" stroke="#e67700" stroke-dasharray="2 1.5" stroke-width="1.4"><title>LLM security review – geplant, Tier 2: #24 KI-Code-Review vor jedem Merge</title></rect>
+<polygon points="618.4,422.5 623.9,432.1 612.9,432.1" fill="#c92a2a" stroke="#c92a2a" stroke-width="1.4"><title>Threat modeling – vorhanden, Tier 3: STRIDE in arc42 8.1</title></polygon>
+<text x="681.7" y="369.7" text-anchor="start" font-size="13" font-weight="600" fill="#212529">Security</text>
+<text x="681.7" y="384.7" text-anchor="start" font-size="12" fill="#495057">60 %</text>
+<path d="M591.7 439.8 A226 226 0 0 1 484.7 529.5 L434.5 405.3 A92 92 0 0 0 478 368.8 Z" fill="#f1f3f5"/>
+<path d="M506.4 386.5 A125.5 125.5 0 0 1 447 436.4 L434.5 405.3 A92 92 0 0 0 478 368.8 Z" fill="#1d4ed8" fill-opacity="0.28"/>
+<circle cx="603.1" cy="455.2" r="4.8" fill="#fff" stroke="#868e96" stroke-width="1.4"><title>Complexity metrics – verworfen, Tier 2: SonarQube abgelehnt (#28); nur Dateilänge ≤ 500 Zeilen</title></circle>
+<rect x="590.8" y="462.2" width="8.6" height="8.6" rx="1" fill="#e9ecef" stroke="#adb5bd" stroke-width="1.4"><title>API contract lint – entfällt, Tier 2: keine API</title></rect>
+<polygon points="586.4,471 591.9,480.6 580.9,480.6" fill="#fff" stroke="#c92a2a" stroke-width="1.4" opacity="0.3"><title>Fagan inspection – offen, Tier 4</title></polygon>
+<polygon points="577.1,481.4 582.6,491 571.6,491" fill="#c92a2a" stroke="#c92a2a" stroke-width="1.4"><title>Code review – vorhanden, Tier 2: Product Owner prüft und merged jeden PR; kein Pflicht-Approval</title></polygon>
+<rect x="563" y="493.4" width="8.6" height="8.6" rx="1" fill="#fff" stroke="#e67700" stroke-dasharray="2 1.5" stroke-width="1.4"><title>LLM code review – geplant, Tier 2: #24 KI-Code-Review vor jedem Merge</title></rect>
+<polygon points="556.8,500.5 562.3,510.1 551.3,510.1" fill="#fff" stroke="#c92a2a" stroke-width="1.4" opacity="0.3"><title>ArchUnit / dependency-cruiser – offen, Tier 3</title></polygon>
+<polygon points="545.9,509.2 551.4,518.8 540.4,518.8" fill="#c92a2a" stroke="#c92a2a" stroke-width="1.4"><title>ADR enforcement – vorhanden, Tier 3: lib/pruefungen.js bricht den Build bei Regelverstößen (ADR-008)</title></polygon>
+<polygon points="534.5,517.2 540,526.8 529,526.8" fill="#fff" stroke="#c92a2a" stroke-width="1.4" opacity="0.3"><title>Spec traceability – offen, Tier 3</title></polygon>
+<polygon points="522.7,524.5 528.2,534.1 517.2,534.1" fill="#fff" stroke="#c92a2a" stroke-width="1.4" opacity="0.3"><title>ATAM – offen, Tier 4</title></polygon>
+<polygon points="510.4,531.2 515.9,540.8 504.9,540.8" fill="#e9ecef" stroke="#adb5bd" stroke-width="1.4" opacity="0.3"><title>Schema diff – entfällt, Tier 3: keine Datenbank</title></polygon>
+<polygon points="497.8,537.1 503.3,546.7 492.3,546.7" fill="#fff" stroke="#c92a2a" stroke-width="1.4"><title>LLM design review – offen, Tier 2</title></polygon>
+<text x="583.8" y="539.1" text-anchor="start" font-size="13" font-weight="600" fill="#212529">Architecture</text>
+<text x="583.8" y="554.1" text-anchor="start" font-size="12" fill="#495057">25 %</text>
+<path d="M469.8 534.9 A226 226 0 0 1 330.2 534.9 L371.6 407.5 A92 92 0 0 0 428.4 407.5 Z" fill="#f1f3f5"/>
+<path d="M469.8 534.9 A226 226 0 0 1 330.2 534.9 L371.6 407.5 A92 92 0 0 0 428.4 407.5 Z" fill="#1d4ed8" fill-opacity="0.28"/>
+<rect x="456.4" y="552" width="8.6" height="8.6" rx="1" fill="#e67700" stroke="#e67700" stroke-width="1.4"><title>Schema validation – vorhanden, Tier 2: Front Matter der Kompetenzen (pruefeKompetenzen) und Kartendaten (src/karte/schemas/)</title></rect>
+<rect x="426.3" y="557.8" width="8.6" height="8.6" rx="1" fill="#e9ecef" stroke="#adb5bd" stroke-width="1.4"><title>DB migration dry-run – entfällt, Tier 2: keine Datenbank</title></rect>
+<rect x="395.7" y="559.7" width="8.6" height="8.6" rx="1" fill="#e9ecef" stroke="#adb5bd" stroke-width="1.4" opacity="0.3"><title>PII scanner – entfällt, Tier 3: keine personenbezogenen Daten (Risk Radar: Data 0)</title></rect>
+<polygon points="369.4,555.7 374.9,565.3 363.9,565.3" fill="#c92a2a" stroke="#c92a2a" stroke-width="1.4"><title>Config validation – vorhanden, Tier 2: App-Konfiguration: unbekanntes Fach bricht den Build (lib/fachfarben.js)</title></polygon>
+<polygon points="339.3,549.9 344.8,559.5 333.8,559.5" fill="#c92a2a" stroke="#c92a2a" stroke-width="1.4"><title>Data contract – vorhanden, Tier 3: Karten-Knoten müssen existieren (test/build/karte-daten.test.js)</title></polygon>
+<text x="400" y="606" text-anchor="middle" font-size="13" font-weight="600" fill="#212529">Data</text>
+<text x="400" y="621" text-anchor="middle" font-size="12" fill="#495057">100 %</text>
+<path d="M315.3 529.5 A226 226 0 0 1 208.3 439.8 L322 368.8 A92 92 0 0 0 365.5 405.3 Z" fill="#f1f3f5"/>
+<path d="M332.1 488.1 A181.33333333333331 181.33333333333331 0 0 1 246.2 416.1 L322 368.8 A92 92 0 0 0 365.5 405.3 Z" fill="#1d4ed8" fill-opacity="0.28"/>
+<circle cx="298.5" cy="541.9" r="4.8" fill="#fff" stroke="#2b8a3e" stroke-width="1.4"><title>Accessibility automated – offen, Tier 2</title></circle>
+<circle cx="279.1" cy="531.9" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"><title>Contrast checker – vorhanden, Tier 2: WCAG-Kontrast je Fachfarbe (test/build/fachfarben.test.js)</title></circle>
+<circle cx="260.5" cy="520.2" r="4.8" fill="#fff" stroke="#2b8a3e" stroke-width="1.4" opacity="0.3"><title>Cross-browser tests – offen, Tier 3</title></circle>
+<circle cx="243.2" cy="506.9" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"><title>UI prose lint – vorhanden, Tier 2: Tutor-Texte nennen keinen Wettbewerb (pruefeTutorText in lib/pruefungen.js), #29</title></circle>
+<rect x="222.7" y="487.8" width="8.6" height="8.6" rx="1" fill="#fff" stroke="#e67700" stroke-width="1.4" opacity="0.3"><title>Accessibility manual – offen, Tier 3</title></rect>
+<rect x="208" y="471.6" width="8.6" height="8.6" rx="1" fill="#e9ecef" stroke="#adb5bd" stroke-width="1.4" opacity="0.3"><title>i18n lint – entfällt, Tier 3: nur Deutsch</title></rect>
+<polygon points="199.1,452.1 204.6,461.7 193.6,461.7" fill="#fff" stroke="#c92a2a" stroke-width="1.4" opacity="0.3"><title>Visual regression – offen, Tier 3</title></polygon>
+<text x="216.2" y="539.1" text-anchor="end" font-size="13" font-weight="600" fill="#212529">UX &amp; A11y</text>
+<text x="216.2" y="554.1" text-anchor="end" font-size="12" fill="#495057">67 %</text>
+<path d="M200.5 426.1 A226 226 0 0 1 176.2 288.5 L308.9 307.2 A92 92 0 0 0 318.8 363.2 Z" fill="#f1f3f5"/>
+<circle cx="180.2" cy="426" r="4.8" fill="#e9ecef" stroke="#adb5bd" stroke-width="1.4"><title>Distributed tracing – entfällt, Tier 2: keine Laufzeit-Telemetrie (arc42 8.4)</title></circle>
+<rect x="168.3" y="404.1" width="8.6" height="8.6" rx="1" fill="#e9ecef" stroke="#adb5bd" stroke-width="1.4" opacity="0.3"><title>Canary delivery – entfällt, Tier 3: statisches Hosting</title></rect>
+<rect x="162.1" y="386" width="8.6" height="8.6" rx="1" fill="#e9ecef" stroke="#adb5bd" stroke-width="1.4" opacity="0.3"><title>Anomaly detection – entfällt, Tier 3: keine Laufzeit-Telemetrie (arc42 8.4)</title></rect>
+<polygon points="161.6,365.4 167.1,375 156.1,375" fill="#fff" stroke="#c92a2a" stroke-width="1.4"><title>Runtime assertions – offen, Tier 2</title></polygon>
+<polygon points="158.2,346.5 163.7,356.1 152.7,356.1" fill="#e9ecef" stroke="#adb5bd" stroke-width="1.4"><title>Health checks – entfällt, Tier 2: kein Dienst, nur statische Dateien</title></polygon>
+<polygon points="156.4,327.4 161.9,337 150.9,337" fill="#e9ecef" stroke="#adb5bd" stroke-width="1.4" opacity="0.3"><title>Observability gates – entfällt, Tier 3: keine Laufzeit-Telemetrie (arc42 8.4)</title></polygon>
+<polygon points="156.1,308.3 161.6,317.9 150.6,317.9" fill="#e9ecef" stroke="#adb5bd" stroke-width="1.4" opacity="0.3"><title>Chaos engineering – entfällt, Tier 4: kein verteiltes System</title></polygon>
+<polygon points="157.2,289.2 162.7,298.8 151.7,298.8" fill="#e9ecef" stroke="#adb5bd" stroke-width="1.4"><title>Feature flags – entfällt, Tier 2: kein Server; Rücknahme per Revert</title></polygon>
+<text x="118.3" y="369.7" text-anchor="end" font-size="13" font-weight="600" fill="#212529">Operations</text>
+<text x="118.3" y="384.7" text-anchor="end" font-size="12" fill="#495057">0 %</text>
+<path d="M178.9 273 A226 226 0 0 1 248.8 152 L338.4 251.6 A92 92 0 0 0 310 300.9 Z" fill="#f1f3f5"/>
+<circle cx="166" cy="250.7" r="4.8" fill="#fff" stroke="#2b8a3e" stroke-width="1.4" opacity="0.3"><title>Symbolic execution – offen, Tier 4</title></circle>
+<circle cx="179.8" cy="215" r="4.8" fill="#fff" stroke="#2b8a3e" stroke-width="1.4" opacity="0.3"><title>Type-driven design – offen, Tier 3</title></circle>
+<polygon points="198.9,175.4 204.4,185 193.4,185" fill="#fff" stroke="#c92a2a" stroke-width="1.4" opacity="0.3"><title>Formal verification – offen, Tier 4</title></polygon>
+<polygon points="223,145.6 228.5,155.2 217.5,155.2" fill="#fff" stroke="#c92a2a" stroke-width="1.4" opacity="0.3"><title>Model checker – offen, Tier 4</title></polygon>
+<text x="152.3" y="177" text-anchor="end" font-size="13" font-weight="600" fill="#212529">Formal</text>
+<text x="152.3" y="192" text-anchor="end" font-size="12" fill="#495057">–</text>
+<path d="M260.9 141.9 A226 226 0 0 1 392.1 94.1 L396.8 228.1 A92 92 0 0 0 343.4 247.5 Z" fill="#f1f3f5"/>
+<path d="M302.1 194.7 A159 159 0 0 1 394.5 161.1 L396.8 228.1 A92 92 0 0 0 343.4 247.5 Z" fill="#1d4ed8" fill-opacity="0.28"/>
+<circle cx="258.6" cy="121.2" r="4.8" fill="#fff" stroke="#2b8a3e" stroke-width="1.4"><title>Markdown / AsciiDoc lint – offen, Tier 1</title></circle>
+<circle cx="276.9" cy="109.3" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"><title>Link checker – vorhanden, Tier 1: test/build/doku-verweise.test.js, geprüfte serlo-Links, Tutor-Deep-Links</title></circle>
+<circle cx="296.3" cy="99.1" r="4.8" fill="#fff" stroke="#2b8a3e" stroke-width="1.4"><title>Code-in-docs validation – offen, Tier 2</title></circle>
+<circle cx="316.5" cy="90.7" r="4.8" fill="#fff" stroke="#2b8a3e" stroke-width="1.4"><title>Spell check – offen, Tier 1</title></circle>
+<circle cx="337.4" cy="84.2" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"><title>Diagram build – vorhanden, Tier 2: doku.yml baut PlantUML und prüft die Ausgabe in jedem PR</title></circle>
+<rect x="354.5" y="75.2" width="8.6" height="8.6" rx="1" fill="#e67700" stroke="#e67700" stroke-width="1.4"><title>Prose lint – vorhanden, Tier 2: tutor.md höchstens 119 Zeilen (MAX_TUTOR_ZEILEN in eleventy.config.js), #29</title></rect>
+<polygon points="380.6,70.4 386.1,80 375.1,80" fill="#c92a2a" stroke="#c92a2a" stroke-width="1.4"><title>Doc-code drift – vorhanden, Tier 3: Tutor-Vertrag: jeder Generator-Parameter steht in llms.txt</title></polygon>
+<text x="302.2" y="51.2" text-anchor="end" font-size="13" font-weight="600" fill="#212529">Docs</text>
+<text x="302.2" y="66.2" text-anchor="end" font-size="12" fill="#495057">50 %</text>
+<circle cx="400" cy="320" r="84" fill="#fff" stroke="#dee2e6"/>
+<text x="400" y="324" text-anchor="middle" font-size="30" font-weight="700" fill="#1d4ed8">52 %</text>
+<text x="400" y="344" text-anchor="middle" font-size="11" fill="#495057">15 von 29</text>
+<text x="400" y="358" text-anchor="middle" font-size="11" fill="#495057">Tier 2</text>
+<circle cx="70" cy="634" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"></circle>
+<text x="80" y="638" font-size="11" fill="#343a40">extrinsisch (Kreis)</text>
+<rect x="245.7" y="629.7" width="8.6" height="8.6" rx="1" fill="#e67700" stroke="#e67700" stroke-width="1.4"></rect>
+<text x="260" y="638" font-size="11" fill="#343a40">hybrid (Quadrat)</text>
+<polygon points="430,627.6 435.5,637.2 424.5,637.2" fill="#c92a2a" stroke="#c92a2a" stroke-width="1.4"></polygon>
+<text x="440" y="638" font-size="11" fill="#343a40">intrinsisch (Dreieck)</text>
+<circle cx="610" cy="634" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"></circle>
+<text x="620" y="638" font-size="11" fill="#343a40">vorhanden</text>
+<circle cx="70" cy="656" r="4.8" fill="url(#halb-G)" stroke="#2b8a3e" stroke-width="1.4"></circle>
+<text x="80" y="660" font-size="11" fill="#343a40">in Arbeit (offener PR)</text>
+<circle cx="250" cy="656" r="4.8" fill="#fff" stroke="#2b8a3e" stroke-dasharray="2 1.5" stroke-width="1.4"></circle>
+<text x="260" y="660" font-size="11" fill="#343a40">geplant (Issue)</text>
+<circle cx="430" cy="656" r="4.8" fill="#fff" stroke="#2b8a3e" stroke-width="1.4"></circle>
+<text x="440" y="660" font-size="11" fill="#343a40">offen</text>
+<circle cx="610" cy="656" r="4.8" fill="#fff" stroke="#868e96" stroke-width="1.4"></circle>
+<text x="620" y="660" font-size="11" fill="#343a40">verworfen</text>
+<circle cx="70" cy="678" r="4.8" fill="#e9ecef" stroke="#adb5bd" stroke-width="1.4"></circle>
+<text x="80" y="682" font-size="11" fill="#343a40">entfällt (zählt nicht)</text>
+<circle cx="250" cy="678" r="4.8" fill="#fff" stroke="#2b8a3e" stroke-width="1.4" opacity="0.3"></circle>
+<text x="260" y="682" font-size="11" fill="#343a40">über Tier 2, nicht vorhanden (blass)</text>
+<text x="400" y="712" text-anchor="middle" font-size="10.5" fill="#868e96">Modell: Harness Coverage Wheel, llm-coding.github.io/Semantic-Anchors (Apache-2.0) · eigene Zeichnung, Stand lernapps</text>
+</svg>
