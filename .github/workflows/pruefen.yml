@@ -18,5 +18,8 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      # Volle Abhängigkeitsliste prüfen, nicht --omit=dev: Die Site hat keine Laufzeit-Abhängigkeiten,
+      # alles ist devDependency und läuft im Build, der das ausgelieferte HTML erzeugt (Supply Chain).
+      - run: npm audit --audit-level=high
       - run: npm test
       - run: npm run build
