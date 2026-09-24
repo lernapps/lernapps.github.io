@@ -3,7 +3,7 @@
  * in beiden Streifen, ist also doppelt abgezogen – deshalb kommt + b² einmal zurück. Übrig bleibt das Quadrat (a − b)².
  */
 import { zeichneQuadratMinus, laengeVon } from "./flaechen.js";
-import { alsAnzeige, gliedAnzeige } from "../aufgaben/terme.js";
+import { alsAnzeige, gliedAnzeige, negiere } from "../aufgaben/terme.js";
 import { quadratAnzeige } from "../aufgaben/binom.js";
 
 export function zeichneZweiteBinomische(svg, aufgabe, ergebnis) {
@@ -15,6 +15,7 @@ export function zeichneZweiteBinomische(svg, aufgabe, ergebnis) {
     b: { text: gliedAnzeige(v), laenge: laengeVon(v) },
     texte: {
       rest: aufgabe.aufgabeText,
+      restSeite: alsAnzeige([u, negiere([v])[0]]),
       streifen: geloest ? gliedAnzeige(streifen) : `${gliedAnzeige(u)} · ${gliedAnzeige(v)}`,
       ecke: geloest ? gliedAnzeige(ecke) : quadratAnzeige(v),
     },
