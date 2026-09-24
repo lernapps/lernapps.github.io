@@ -8,25 +8,7 @@ regel: |
   <p><strong>2. Pfadregel (Summenregel):</strong> Gehören mehrere Pfade zu einem Ereignis, dann <strong>addierst</strong> du ihre Pfadwahrscheinlichkeiten.</p>
   <div class="formel"><code>P(E) = P(Pfad 1) + P(Pfad 2) + …</code></div>
   <p>Merkhilfe: <strong>entlang</strong> des Pfades <strong>mal</strong>, <strong>über</strong> mehrere Pfade <strong>plus</strong>.</p>
-  <h3 id="formen">Wahrscheinlichkeiten als Produkt, Summe oder Potenz</h3>
-  <p>Du musst nicht alles ausrechnen. Diese Schreibweisen sind vollständige Antworten:</p>
-  <ul>
-  <li>Produkt: <code>1/2 · 1/3</code></li>
-  <li>Summe von Produkten: <code>1/2 · 1/3 + 1/3 · 1/2</code></li>
-  <li>Potenz, wenn derselbe Faktor mehrmals vorkommt: <code>(5/6)³</code> statt 5/6 · 5/6 · 5/6</li>
-  </ul>
-  <p>Du darfst jede dieser Formen als Antwort schreiben. Üben: <a href="ergebnisformen.html">Produkt, Summe, Potenz</a>.</p>
-  <h3 id="uebersetzen">Ereignisse in Pfade übersetzen</h3>
-  <table>
-  <thead><tr><th scope="col">Ereignis in Worten</th><th scope="col">Welche Pfade?</th></tr></thead>
-  <tbody>
-  <tr><th scope="row">genau einmal rot (2 Züge)</th><td>rot-nicht rot <em>und</em> nicht rot-rot. Die Reihenfolge nicht vergessen: zwei Pfade!</td></tr>
-  <tr><th scope="row">beide gleich</th><td>rot-rot, blau-blau, gelb-gelb: ein Pfad pro Farbe.</td></tr>
-  <tr><th scope="row">mindestens einmal rot</th><td>Alle Pfade mit rot – oder schneller: 1 − P(kein rot) (siehe <a href="gegenereignis.html">Gegenereignis</a>).</td></tr>
-  <tr><th scope="row">kein rot</th><td>Alle Pfade ohne rot.</td></tr>
-  </tbody>
-  </table>
-  <p>Üben: <a href="pfade-uebersetzen.html">In Pfade übersetzen</a>.</p>
+  <p>Mehr dazu: <a id="formen" href="ergebnisformen.html">Wahrscheinlichkeiten als Produkt, Summe oder Potenz angeben</a> und <a id="uebersetzen" href="pfade-uebersetzen.html">Ereignisse in Pfade übersetzen</a>.</p>
 beispiel: |
   <p>Urne mit 3 roten, 2 blauen und 1 gelben Kugel, zweimal ziehen <strong>ohne Zurücklegen</strong>. Wie groß ist P(genau einmal rot)?</p>
   <ol>

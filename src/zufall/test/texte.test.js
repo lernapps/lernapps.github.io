@@ -60,3 +60,16 @@ test("L-051: ob der Term als Endergebnis reicht, entscheidet die Lehrkraft", asy
   assert.match(md, /Oft reicht der Term: 3\/6 · 2\/5\. Frag deine Lehrerin oder deinen Lehrer, ob du in der Klassenarbeit ausrechnen musst\./);
   assert.doesNotMatch(md, /ist schon die Antwort/);
 });
+
+test("L-049: Regel der 2. Pfadregel = Summenregel + Merkhilfe, am Ende nur Links auf die Seiten 7 und 8", async () => {
+  const fs = await import("node:fs");
+  const md = fs.readFileSync("src/zufall/pfadregel-2.md", "utf8");
+  const regel = md.slice(md.indexOf("regel: |"), md.indexOf("beispiel: |"));
+  assert.match(regel, /2\. Pfadregel \(Summenregel\)/);
+  assert.match(regel, /Merkhilfe:/);
+  assert.doesNotMatch(regel, /<table|<h3|<ul/);
+  const letzter = regel.trim().split("\n").at(-1);
+  assert.match(letzter, /<a [^>]*href="ergebnisformen\.html"[^>]*>Wahrscheinlichkeiten als Produkt, Summe oder Potenz angeben<\/a>/);
+  assert.match(letzter, /<a [^>]*href="pfade-uebersetzen\.html"[^>]*>Ereignisse in Pfade übersetzen<\/a>/);
+  for (const anker of ["formen", "uebersetzen"]) assert.match(regel, new RegExp(`id="${anker}"`), `alter Anker #${anker} bleibt`);
+});
