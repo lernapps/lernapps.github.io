@@ -11,6 +11,7 @@ regel: |
   <li>An jeden Zweig schreibst du seine <strong>Wahrscheinlichkeit</strong> (Laplace: günstig/möglich).</li>
   <li>Die Zweige an einem Knoten ergeben zusammen immer <strong>1</strong>.</li>
   <li>Ein Weg vom Start bis zu einem Ende heißt <strong>Pfad</strong>.</li>
+  <li>Reihenfolge beim Zeichnen: Erst alle Zweige, dann die Kugeln, dann die Brüche.</li>
   <li><strong>Ohne Zurücklegen</strong> ändern sich ab der zweiten Stufe Zähler und Nenner (siehe Kompetenz 5).</li>
   </ul>
 beispiel: |
@@ -26,7 +27,7 @@ video:
   titel: Baumdiagramm | mehrstufiger Zufallsversuch | Wahrscheinlichkeit | Stochastik | Lehrerschmidt
   kanal: Lehrerschmidt
 bild:
-  text: 'Der Baum aus dem Beispiel: Urne mit 3 roten und 2 blauen Kugeln, zweimal ohne Zurücklegen. Erst alle Zweige, dann die Kugeln, dann die Brüche.'
+  text: 'Der Baum aus dem Beispiel: Urne mit 3 roten und 2 blauen Kugeln, zweimal ohne Zurücklegen. Die orangen Zweige a, b, c sind die, die du in der Übung selbst ausfüllst.'
   uebung: 'Einige Zweige fehlen (a, b, …).'
   funktion: zeichneBaumdiagramm
   seed: 2
