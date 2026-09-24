@@ -15,7 +15,7 @@ The reference app shows the finished pattern: `src/binom/` (https://lernapps.git
 
 You need: **topic**, **Land**, **Schulform**, **Jahrgang**, and whether the user has a **source** (worksheet, checklist, test topics). If the user gave a file, read it; never commit it and never quote personal data from it. Ask only what you cannot infer. Typical questions:
 1. Which competencies exactly — or may I derive them from the Lehrplan?
-2. Is there a deadline (Klassenarbeit, Wettbewerb) that should shape the order?
+2. Is there a deadline (Klassenarbeit, Wettbewerb) that should shape the order? (It shapes the order only; it never goes into public texts.)
 3. App folder name (`pfad`, short, German, kebab-case, e.g. `optik`) and whether it gets a sibling app.
 
 ## Phase 1 — Competencies (the Definition of Done)
@@ -99,6 +99,7 @@ End with: app URL, the PR URL, the claude.ai tutor link, the Schnelltest link, a
 ## Rules that came from mistakes
 
 - Never guess YouTube IDs, Lehrplan units, or curriculum wording — look them up and cite.
+- Learner-specific goals (a competition, one child's test date, name or class) never go into public texts: `tutor.njk`, `llms.njk`, page texts, app config. The apps are for any learner. Tutor texts say "das Kind", "du" or "Lernende" (plural, as a role); the goal is generic, e.g. "sicher werden für Unterricht und Klassenarbeit". Grade and Lehrplan may stay as curriculum context.
 - "seed" never appears in learner-facing text; it is "Aufgabe Nr. 42". The URL keeps `seed=`/`nr=`.
 - No thumbnails from ytimg before the click — that already sends the IP to Google. Videos use the two-click embed in `src/kern/js/video.js`.
 - `backend: none` is not "DSGVO-safe"; declare `external-requests` honestly.

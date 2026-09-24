@@ -12,8 +12,8 @@ Weitere Lern-Apps (jede mit eigener llms.txt) stehen auf der Übersicht, als Tex
 ## Was die App ist
 
 Ein statischer, interaktiver Mathe-Trainer für die binomischen Formeln (Klasse 8,
-Gymnasium Hessen, G9-Lehrplan Einheit 8.1). Der Lernende ist etwa 13 Jahre alt, hat das
-Thema gerade im Unterricht und spricht Deutsch. Sechs Kompetenzseiten, von "Klammer mal
+Gymnasium Hessen, G9-Lehrplan Einheit 8.1). Für Kinder von etwa 13 Jahren, die das
+Thema gerade im Unterricht haben und Deutsch sprechen. Sechs Kompetenzseiten, von "Klammer mal
 Klammer" über die drei Formeln bis zu "rückwärts" und "Kopfrechnen". Jede Seite hat:
 Warum-Absatz, Regel, ausgerechnetes Beispiel, Lehrerschmidt-Video (Zwei-Klick-Karte;
 Seite 5 hat keines), ein Flächenbild (SVG, geht mit der aktuellen Aufgabe mit) und einen
@@ -28,11 +28,11 @@ a², zwei gleiche Streifen ab und b² zerfällt – daher das 2ab.
 - Kein Server, kein Login, kein Tracking, keine Cookies. Im localStorage liegen nur die
   Selbsteinschätzung, das letzte Testergebnis und der optionale Merker "Videos immer
   direkt laden".
-- Keine externen Requests, bis der Lernende ein Video startet; dann lädt
+- Keine externen Requests, bis jemand ein Video startet; dann lädt
   youtube-nocookie.com (Daten gehen an Google). Die Videos sind als Zwei-Klick-Karten
   eingebettet: erst ein lokal gezeichneter Platzhalter, das Video selbst kommt erst nach
   Klick auf "Video laden und abspielen".
-- Die App kennt den Lernenden nicht und meldet nichts zurück. Der Tutor erfährt das
+- Die App kennt das Kind nicht und meldet nichts zurück. Der Tutor erfährt das
   Ergebnis nur, wenn er danach fragt – oder das Kind schickt ihm die Ergebniszeile
   des Tests (siehe "Test").
 - Keine Noten, keine Zeitmessung. Der Test liefert je Kompetenz nur sicher / teils /
@@ -61,7 +61,7 @@ a², zwei gleiche Streifen ab und b² zerfällt – daher das 2ab.
 ## URL-Parameter und Anker (alle Seiten)
 
 - Herkunft `von=tutor` (auf jeder Seite, auch test.html; nur der Wert `tutor`): Häng ihn an
-  jeden Link, den du dem Lernenden gibst, zum Beispiel
+  jeden Link, den du dem Kind gibst, zum Beispiel
   {{ app.basisUrl }}test.html?nr=<Nummer>&modus=schnell&von=tutor. Die Aufgabe ändert er nicht.
   Mit ihm zeigt die Übung unter "Link kopieren" und der Test neben der Ergebniszeile den Knopf
   "Zurück zu Claude". Er kopiert eine Zeile und schließt den Tab. Übung:
@@ -86,7 +86,7 @@ a², zwei gleiche Streifen ab und b² zerfällt – daher das 2ab.
   in die Erklärung, klappt die Seite die Erklärung (Warum bis Video) zu und springt zur Übung. Ein Anker
   wie `#visualisierung` oder `#regel` lässt die Erklärung offen. Ohne JavaScript ist alles offen.
 - Unter jeder Aufgabe steht "Aufgabe Nr. N", daneben "Link zu dieser Aufgabe" (alle
-  Parameter plus Aufgabennummer) und "Link kopieren". Der Lernende kann dir die Nummer
+  Parameter plus Aufgabennummer) und "Link kopieren". Das Kind kann dir die Nummer
   sagen oder den Link schicken.
 
 ## Antwortformate, die der Prüfer akzeptiert
@@ -150,7 +150,7 @@ Für Termfelder mit Variablen (Feldtyp "variablenterm", z. B. binomische Formeln
 URL: {{ app.basisUrl }}index.html
 Checkliste aller Kompetenzen mit Selbsteinschätzung pro Zeile: Sicher / Teils / Noch
 üben (Radiobuttons, localStorage, Schlüssel `{{ app.id }}.selbsteinschaetzung`).
-Der Tutor kann den Lernenden bitten, seine Einschätzung vorzulesen, um zu entscheiden,
+Der Tutor kann das Kind bitten, seine Einschätzung vorzulesen, um zu entscheiden,
 wo er anfängt. Für Aufgaben nicht hierhin verlinken.
 
 ## Test
