@@ -35,7 +35,9 @@ export function erzeugeAufgabe(zufall, vorgaben = {}) {
     prozentwert = runde(grundwert * prozentsatz / 100, 2);
     kontext = passenderKontext(zufall, grundwert, undefined, BEREICHE);
   }
+  // Gefragt sind Treffer, nicht Würfe (L-018): Die Antwort hat die Einheit des Gesuchten.
   const einheit = kontext.einheit;
+  const wEinheit = kontext.id === "sport" ? "Treffer" : einheit;
   const exakt = dividiere(multipliziere(alsBruch(grundwert), alsBruch(prozentsatz)), bruch(100));
   const text = TEXTE[kontext.id](mitEinheit(grundwert, einheit), mitEinheit(prozentsatz, "%"));
   return {
@@ -46,16 +48,17 @@ export function erzeugeAufgabe(zufall, vorgaben = {}) {
     prozentsatz,
     prozentwert,
     einheit,
+    wEinheit,
     exakt,
     gesucht: "prozentwert",
-    felder: [zahlenfeld({ id: "prozentwert", label: "Prozentwert W", einheit, art: artFuer(einheit) }, exakt)],
+    felder: [zahlenfeld({ id: "prozentwert", label: "Prozentwert W", einheit: wEinheit, art: artFuer(einheit) }, exakt)],
     loesung: { prozentwert },
     tipp: `Der Grundwert ist das Ganze: ${mitEinheit(grundwert, einheit)} sind 100\u00a0%. `
       + `Rechne erst 1\u00a0% aus (Grundwert geteilt durch 100) und dann mal ${formatZahl(prozentsatz)}.`,
     rechenweg: [
       "W = G · p / 100",
       `W = ${formatWert(grundwert, einheit)} · ${formatZahl(prozentsatz)} / 100`,
-      `W ${gleichheitszeichen(exakt.z / exakt.n, prozentwert)} ${mitEinheit(prozentwert, einheit)}`,
+      `W ${gleichheitszeichen(exakt.z / exakt.n, prozentwert)} ${mitEinheit(prozentwert, wEinheit)}`,
     ],
   };
 }
@@ -78,5 +81,5 @@ export function pruefeAntwort(aufgabe, antworten) {
     if (passt(multipliziere(aufgabe.exakt, bruch(100)))) fehler = "prozent-statt-dezimal";
     else if (passt(subtrahiere(alsBruch(aufgabe.grundwert), aufgabe.exakt))) fehler = "rest-statt-anteil";
   }
-  return ergebnisFuer("prozentwert", ergebnis, fehler, MELDUNGEN, `${mitEinheit(aufgabe.prozentwert, aufgabe.einheit)}.`);
+  return ergebnisFuer("prozentwert", ergebnis, fehler, MELDUNGEN, `${mitEinheit(aufgabe.prozentwert, aufgabe.wEinheit ?? aufgabe.einheit)}.`);
 }

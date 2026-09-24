@@ -84,7 +84,7 @@ export function erzeugeAufgabe(zufall, vorgaben = {}) {
       `${formatWert(neu, einheit)} : ${f} ${zeichen} ${mitEinheit(alt, einheit)}`];
   const tipp = typ === "neu"
     ? `Der alte Wert (${mitEinheit(alt, einheit)}) ist 100\u00a0%. Nach der Änderung sind es ${richtung === "plus" ? 100 + prozentsatz : 100 - prozentsatz}\u00a0%. Rechne den Prozentwert aus und ${richtung === "plus" ? "addiere" : "subtrahiere"} ihn – oder nimm gleich den Faktor ${f}.`
-    : `Vorsicht: Die ${formatZahl(prozentsatz)}\u00a0% beziehen sich auf den ALTEN Wert, nicht auf ${mitEinheit(neu, einheit)}. Der neue Wert entspricht ${richtung === "plus" ? 100 + prozentsatz : 100 - prozentsatz}\u00a0%. Teile durch den Faktor ${f}.`;
+    : `Vorsicht: Die ${formatZahl(prozentsatz)}\u00a0% beziehen sich auf den <strong>alten</strong> Wert, nicht auf ${mitEinheit(neu, einheit)}. Der neue Wert entspricht ${richtung === "plus" ? 100 + prozentsatz : 100 - prozentsatz}\u00a0%. Teile durch den Faktor ${f}.`;
   return {
     thema: "veraenderung", typ, kontext: kontext.id, text, alt, neu, prozentsatz, richtung, einheit, exakt,
     gesucht: typ,

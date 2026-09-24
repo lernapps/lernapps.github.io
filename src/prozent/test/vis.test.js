@@ -41,3 +41,14 @@ test("Bildfunktionen der Seiten: gelöst zeigt das Ergebnis, ungelöst nicht", (
   zeichneVeraenderung(v, { typ: "neu", alt: 80, neu: 100, prozentsatz: 25, richtung: "plus", einheit: "€" }, { korrekt: true });
   assert.match(alsSvgText(v), /Neuer Wert \(125 %\)/);
 });
+
+test("L-018: „von“ verlangt den Dativ – 65 % von 60 Würfen, 12 % von 25 Schülern", async () => {
+  const { zeichneSachaufgaben } = await import("../js/vis/sachaufgaben.js");
+  const w = leeresSvg();
+  zeichneProzentwert(w, { grundwert: 60, prozentsatz: 65, prozentwert: 39, einheit: "Würfe", wEinheit: "Treffer" }, { korrekt: true });
+  assert.match(alsSvgText(w), /von 60 Würfen/);
+  assert.match(alsSvgText(w), /= 39 Treffer/);
+  const s = leeresSvg();
+  zeichneSachaufgaben(s, { grundwert: 25, prozentsatz: 12, prozentwert: 3, einheit: "Schüler" });
+  assert.match(alsSvgText(s), /von 25 Schülern/);
+});

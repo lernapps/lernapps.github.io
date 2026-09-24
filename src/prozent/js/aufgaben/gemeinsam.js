@@ -1,5 +1,5 @@
 /* Gemeinsame Bausteine für alle Prozent-Generatoren: schöne Zahlen, Kontexte, Einheiten. URL-Vorgaben liest der Kern. */
-import { runde } from "../../../kern/js/zahlen.js";
+import { runde, formatWert as formatWertKern } from "../../../kern/js/zahlen.js";
 import { bruch, leseTerm } from "../../../kern/js/bruch.js";
 
 export const PROZENTSAETZE = [
@@ -82,6 +82,18 @@ export function waehleKontext(zufall, ids, bereiche) {
 
 /** Zahl mit Einheit ("250 €", "780,50 €", "12,5 %") und Zahl nach ihrer Art ohne Einheit kommen aus dem Kern. */
 export { mitEinheit, formatWert } from "../../../kern/js/zahlen.js";
+
+const DATIV = { "Würfe": "Würfen", "Schüler": "Schülern" };
+
+/** Einheit nach „von“ im Dativ: „65 % von 60 Würfen“ (L-018). */
+export function imDativ(einheit) {
+  return DATIV[einheit] ?? einheit;
+}
+
+/** Wert mit Einheit für Bilder (SVG bricht nicht um): Geld mit Cent wie im Text, normales Leerzeichen. */
+export function bildWert(zahl, einheit) {
+  return `${formatWertKern(zahl, einheit)} ${einheit}`.trim();
+}
 
 /** Erkennt eine leere oder unlesbare Eingabe. */
 export function keineZahl(wert) {

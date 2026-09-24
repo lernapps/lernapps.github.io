@@ -234,6 +234,8 @@ Regel: p = Unterschied / Bezugsgröße · 100; die Bezugsgröße (100 %) steht i
 nach "als". "A ist 25 % größer als B" und "B ist 20 % kleiner als A" gehören zu
 denselben Zahlen (150 und 120).
 Parameter: `a`, `b` (die zwei Werte), `frage=groesser|kleiner`, `seed`.
+Bei Preisen (Rucksack in zwei Läden) heißt die Frage "teurer" bzw. "billiger", sonst
+"größer" bzw. "kleiner"; der Parameterwert bleibt `groesser|kleiner`.
 Beispiele:
 {{ app.basisUrl }}vergleich.html?a=120&b=150&frage=groesser&seed=1
 (Lösung 25 %) und ...&frage=kleiner (Lösung 20 %).

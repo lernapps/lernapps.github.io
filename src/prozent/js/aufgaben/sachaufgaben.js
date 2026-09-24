@@ -88,7 +88,9 @@ function aufgabeDreisatz(zufall, vorgaben) {
   const einsGenau = einsExakt.z / einsExakt.n;
   const einsText = runde(einsGenau, 2) === einsGenau ? formatWert(einsGenau, einheit) : formatGenau(einsGenau);
   const ding = { preis: "Ein Laptop kostet", umfrage: "Befragt wurden", akku: "Der Akku fasst" }[kontext.id];
-  const text = `${ding} ${mitEinheit(grundwert, einheit)}. Rechne mit dem Dreisatz aus, wie viel ${formatZahl(prozentsatz)}\u00a0% davon sind.`;
+  // Zählbares heißt „wie viele“ (L-029).
+  const frage = { preis: "wie viel Euro", umfrage: "wie viele Personen", akku: "wie viel mAh" }[kontext.id];
+  const text = `${ding} ${mitEinheit(grundwert, einheit)}. Rechne mit dem Dreisatz aus, ${frage} ${formatZahl(prozentsatz)}\u00a0% davon sind.`;
   return {
     thema: "sachaufgaben", typ: "dreisatz", kontext: kontext.id, text, grundwert, prozentsatz, prozentwert, einheit, gesucht: "W",
     exakt: { eins: einsExakt, prozent: prozentExakt },

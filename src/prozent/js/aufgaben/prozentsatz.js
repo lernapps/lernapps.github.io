@@ -18,7 +18,7 @@ const TEXTE = {
   klasse: (g, w) => `In einer Klasse sind ${g}. ${w} davon haben ein Haustier. Wie viel Prozent der Klasse sind das?`,
   umfrage: (g, w) => `${g} wurden befragt, ${w} davon mögen Pizza am liebsten. Wie viel Prozent sind das?`,
   akku: (g, w) => `Ein Akku fasst ${g}. Er ist noch mit ${w} geladen. Wie viel Prozent sind das?`,
-  sport: (g, w) => `Tom wirft ${g} auf den Korb, ${w} davon treffen. Wie viel Prozent seiner Würfe treffen?`,
+  sport: (g, w, anzahlG, anzahlW) => `Tom wirft ${anzahlG}-mal auf den Korb und trifft ${anzahlW}-mal. Wie viel Prozent seiner Würfe sind Treffer?`,
   neutral: (g, w) => `Wie viel Prozent sind ${w} von ${g}?`,
 };
 
@@ -35,7 +35,7 @@ export function erzeugeAufgabe(zufall, vorgaben = {}) {
   const einheit = kontext.einheit;
   const wEinheit = kontext.id === "sport" ? "Treffer" : einheit;
   const exakt = multipliziere(dividiere(alsBruch(prozentwert), alsBruch(grundwert)), bruch(100));
-  const text = TEXTE[kontext.id](mitEinheit(grundwert, einheit), mitEinheit(prozentwert, wEinheit));
+  const text = TEXTE[kontext.id](mitEinheit(grundwert, einheit), mitEinheit(prozentwert, wEinheit), formatZahl(grundwert), formatZahl(prozentwert));
   const zeichen = gleichheitszeichen(exakt.z / exakt.n, prozentsatz);
   return {
     thema: "prozentsatz",

@@ -14,7 +14,7 @@ test("erzeugeAufgabe stellt beide Fragen mit schönen Antworten", () => {
     assert.equal(a.thema, "vergleich");
     assert.ok(istSchoen(a.a) && istSchoen(a.b));
     assert.ok(istSchoen(a.prozentsatz), `p=${a.prozentsatz}`);
-    assert.ok(a.text.includes(a.frage === "groesser" ? "größer" : "kleiner"));
+    assert.ok(a.text.includes(a.wort) && a.wort === (a.kontext === "laeden" ? { groesser: "teurer", kleiner: "billiger" } : { groesser: "größer", kleiner: "kleiner" })[a.frage]);
     assert.equal(a.felder[0].id, "prozentsatz");
     assert.ok(a.bezug === a.a || a.bezug === a.b);
   }
