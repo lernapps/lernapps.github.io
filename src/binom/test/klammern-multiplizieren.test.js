@@ -68,3 +68,12 @@ test("typischer Fehler vorzeichenfehler: (2x − 1)(x + 4) → 2x² + 9x − 4 o
   }
   assert.match(pruefeAntwort(a, { antwort: "2x^2+7x+4" }).meldung, /Vorzeichen/);
 });
+
+test("L-002: Eingabehinweis ist neutral (auch für (3a + 4)² oder (x − 2y)²)", async () => {
+  const neutral = "Hoch 2 tippst du als ^2, z. B. a^2 oder x^2 + 8x + 15";
+  for (const id of ["klammern-multiplizieren", "erste-binomische", "zweite-binomische", "dritte-binomische"]) {
+    const modul = await import(`../js/aufgaben/${id}.js`);
+    const a = modul.erzeugeAufgabe(erzeugeZufall(7));
+    assert.equal(a.felder[0].hinweis, neutral, id);
+  }
+});
