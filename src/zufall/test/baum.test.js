@@ -62,3 +62,9 @@ test("Ereignisse werden in Pfade übersetzt", () => {
   assert.equal(parseEreignis("hoechstens1r", exp, 2).name, "höchstens einmal rot");
   assert.equal(parseEreignis("kz", muenze(), 2).name, "erst Kopf, dann Zahl");
 });
+
+test("L-041: „kein einziges Mal keine 6“ heißt positiv „jedes Mal eine 6“", () => {
+  assert.equal(parseEreignis("keink", wuerfelSechs(), 2).name, "jedes Mal eine 6");
+  assert.equal(parseEreignis("keins", wuerfelSechs(), 2).name, "kein einziges Mal 6");
+  assert.equal(parseEreignis("keinr", urne("3r2b"), 2).name, "kein einziges Mal rot");
+});

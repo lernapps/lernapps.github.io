@@ -101,18 +101,19 @@ function mindestens(zufall, vorgaben) {
   const pGegen = ereignisWahrscheinlichkeit(baum, gegen);
   const loesung = subtrahiere(EINS, pGegen);
   const name = ergebnisName(exp, id);
+  const gegenKurz = gegen.name.replace("kein einziges Mal", "kein Mal");
   const aktion = exp.typ === "muenze" ? "wirfst die Münze" : exp.typ === "wuerfelSechs" ? "würfelst" : "ziehst";
   const zurueck = exp.typ === "urne" ? (mitZuruecklegen ? " mit Zurücklegen" : " ohne Zurücklegen") : "";
   const faktoren = gegenPfade.length === 1 ? gegenPfade[0].pfad.map((_, i) => formatBruch(zweigW(baum, gegenPfade[0].pfad, i))) : [];
   const alleGleich = faktoren.length && faktoren.every((f) => f === faktoren[0]);
   const gegenTerm = alleGleich ? `(${faktoren[0]})^${zuege}` : faktoren.join(" · ");
   return aufgabe("mindestens", pGegen, loesung, {
-    experiment: exp, baum, zuege, mitZuruecklegen, ereignis, gegen,
+    experiment: exp, baum, zuege, mitZuruecklegen, ereignis, gegen, gegenKurz,
     text: `${beschreibe(exp)} Du ${aktion} ${zuege}-mal${zurueck}. Wie groß ist die Wahrscheinlichkeit, dass du mindestens einmal „${name}“ bekommst?`,
-    tipp: `„Mindestens einmal“ hat viele Pfade. Das Gegenereignis „kein einziges Mal ${name}“ hat nur einen Pfad. Rechne P(kein Mal) und dann 1 − P(kein Mal).`,
+    tipp: `„Mindestens einmal“ hat viele Pfade. Das Gegenereignis „${gegen.name}“ hat nur einen Pfad. Rechne P(${gegenKurz}) und dann 1 − P(${gegenKurz}).`,
     rechenweg: [
-      `Gegenereignis: kein einziges Mal ${name}.`,
-      `P(kein Mal ${name}) = ${gegenTerm} = ${formatBruch(pGegen)}`,
+      `Gegenereignis: ${gegen.name}.`,
+      `P(${gegenKurz}) = ${gegenTerm} = ${formatBruch(pGegen)}`,
       `P(mindestens einmal ${name}) = 1 − ${formatBruch(pGegen)} = <strong>${formatBruch(loesung)}</strong>`,
     ],
   });
@@ -134,7 +135,7 @@ export function pruefeAntwort(aufgabe, antworten) {
     fehler: "p-statt-gegen",
     passt: (teil) => trifft(teil, aufgabe.p),
     meldung: aufgabe.art === "mindestens"
-      ? "Das ist P(kein einziges Mal) – das Gegenereignis. Jetzt noch 1 − diesen Wert."
+      ? `Das ist P(${aufgabe.gegenKurz}) – das Gegenereignis. Jetzt noch 1 − diesen Wert.`
       : "Das ist P(E). Gefragt ist das Gegenereignis: 1 − P(E).",
   }]);
 }

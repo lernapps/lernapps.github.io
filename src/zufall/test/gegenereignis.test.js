@@ -62,3 +62,17 @@ test("L-043: Nicht die Ereignisse ergeben 1, sondern ihre Wahrscheinlichkeiten",
   assert.doesNotMatch(a.tipp, /„nicht E“ zusammen ergeben/);
   assert.match(a.tipp, /Wahrscheinlichkeiten von E und „nicht E“ ergeben zusammen 1/);
 });
+
+test("L-041: Gegenereignis von „mindestens einmal keine 6“ steht positiv da – keine doppelte Verneinung", () => {
+  for (const zuege of [2, 3]) {
+    const a = erzeugeAufgabe(z(1), { experiment: "wuerfel", zuege, ereignis: "mind1k" });
+    assert.match(a.text, /mindestens einmal „keine 6“/);
+    const texte = [a.tipp, ...a.rechenweg, pruefe(a, "1/36").meldung, pruefe(a, "1/216").meldung].join(" ");
+    assert.match(texte, /jedes Mal eine 6/);
+    assert.doesNotMatch(texte, /kein(?:en|e)?\s+(?:einziges\s+)?Mal\s+keine/i);
+  }
+  for (let s = 0; s < 200; s++) {
+    const a = erzeugeAufgabe(z(s), { art: "mindestens" });
+    assert.doesNotMatch([a.text, a.tipp, ...a.rechenweg].join(" "), /Mal\s+keine/, `Seed ${s}`);
+  }
+});
