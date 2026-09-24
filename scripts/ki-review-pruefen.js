@@ -1,5 +1,5 @@
 /*
- * Check `ki-review` (#24, ADR-026): Ist der aktuelle Stand eines PRs von einem KI-Review freigegeben?
+ * Check `ki-review` (#24, ADR-027): Ist der aktuelle Stand eines PRs von einem KI-Review freigegeben?
  * Ein Beitrag (PR-Kommentar oder Review-Text) zählt als KI-Review, wenn
  *   - ein Konto aus `konten` ihn geschrieben hat,
  *   - er mit der Überschrift `## KI-Review` beginnt,

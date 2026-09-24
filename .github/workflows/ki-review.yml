@@ -1,6 +1,6 @@
 name: KI-Review
 
-# #24, ADR-026: Ein PR ist erst mergebereit, wenn nach seinem letzten Commit ein KI-Review aus frischem
+# #24, ADR-027: Ein PR ist erst mergebereit, wenn nach seinem letzten Commit ein KI-Review aus frischem
 # Kontext mit „Ergebnis: freigegeben“ für genau diesen Stand vorliegt. Der Check ruft kein Sprachmodell
 # auf; er liest nur PR-Kommentare und Reviews (scripts/ki-review-pruefen.js).
 #

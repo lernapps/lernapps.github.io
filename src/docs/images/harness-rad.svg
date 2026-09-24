@@ -37,7 +37,7 @@
 <rect x="631.9" y="376.8" width="8.6" height="8.6" rx="1" fill="#e67700" stroke="#e67700" stroke-width="1.4"><title>SAST – vorhanden, Tier 2: CodeQL Default Setup (JavaScript/TypeScript, Actions)</title></rect>
 <rect x="628.4" y="389.1" width="8.6" height="8.6" rx="1" fill="#fff" stroke="#e67700" stroke-width="1.4" opacity="0.3"><title>DAST – offen, Tier 3</title></rect>
 <rect x="624.2" y="401.2" width="8.6" height="8.6" rx="1" fill="#e9ecef" stroke="#adb5bd" stroke-width="1.4" opacity="0.3"><title>IAST – entfällt, Tier 4: kein Server, keine Laufzeit-Instrumentierung</title></rect>
-<rect x="619.5" y="413" width="8.6" height="8.6" rx="1" fill="#e67700" stroke="#e67700" stroke-width="1.4"><title>LLM security review – vorhanden, Tier 2: OWASP-Teil des KI-Reviews (werkzeuge/review/ki-review.md), Check ki-review, #24, ADR-026</title></rect>
+<rect x="619.5" y="413" width="8.6" height="8.6" rx="1" fill="#e67700" stroke="#e67700" stroke-width="1.4"><title>LLM security review – vorhanden, Tier 2: OWASP-Teil des KI-Reviews (werkzeuge/review/ki-review.md), Check ki-review, #24, ADR-027</title></rect>
 <polygon points="618.4,422.5 623.9,432.1 612.9,432.1" fill="#c92a2a" stroke="#c92a2a" stroke-width="1.4"><title>Threat modeling – vorhanden, Tier 3: STRIDE in arc42 8.1</title></polygon>
 <text x="681.7" y="369.7" text-anchor="start" font-size="13" font-weight="600" fill="#212529">Security</text>
 <text x="681.7" y="384.7" text-anchor="start" font-size="12" fill="#495057">80 %</text>
@@ -47,7 +47,7 @@
 <rect x="590.8" y="462.2" width="8.6" height="8.6" rx="1" fill="#e9ecef" stroke="#adb5bd" stroke-width="1.4"><title>API contract lint – entfällt, Tier 2: keine API</title></rect>
 <polygon points="586.4,471 591.9,480.6 580.9,480.6" fill="#fff" stroke="#c92a2a" stroke-width="1.4" opacity="0.3"><title>Fagan inspection – offen, Tier 4</title></polygon>
 <polygon points="577.1,481.4 582.6,491 571.6,491" fill="#c92a2a" stroke="#c92a2a" stroke-width="1.4"><title>Code review – vorhanden, Tier 2: Product Owner prüft und merged jeden PR; kein Pflicht-Approval</title></polygon>
-<rect x="563" y="493.4" width="8.6" height="8.6" rx="1" fill="#e67700" stroke="#e67700" stroke-width="1.4"><title>LLM code review – vorhanden, Tier 2: KI-Review in frischem Kontext vor jedem Merge (werkzeuge/review/ki-review.md), Check ki-review, #24, ADR-026</title></rect>
+<rect x="563" y="493.4" width="8.6" height="8.6" rx="1" fill="#e67700" stroke="#e67700" stroke-width="1.4"><title>LLM code review – vorhanden, Tier 2: KI-Review in frischem Kontext vor jedem Merge (werkzeuge/review/ki-review.md), Check ki-review, #24, ADR-027</title></rect>
 <polygon points="556.8,500.5 562.3,510.1 551.3,510.1" fill="#fff" stroke="#c92a2a" stroke-width="1.4" opacity="0.3"><title>ArchUnit / dependency-cruiser – offen, Tier 3</title></polygon>
 <polygon points="545.9,509.2 551.4,518.8 540.4,518.8" fill="#c92a2a" stroke="#c92a2a" stroke-width="1.4"><title>ADR enforcement – vorhanden, Tier 3: lib/pruefungen.js bricht den Build bei Regelverstößen (ADR-008), auch bei Links außerhalb der Tutor-Allowlist (pruefeTutorLinks, ADR-023)</title></polygon>
 <polygon points="534.5,517.2 540,526.8 529,526.8" fill="#fff" stroke="#c92a2a" stroke-width="1.4" opacity="0.3"><title>Spec traceability – offen, Tier 3</title></polygon>

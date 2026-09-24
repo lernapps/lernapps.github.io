@@ -1,4 +1,4 @@
-# KI-Review: the fixed review step before every merge (#24, ADR-026)
+# KI-Review: the fixed review step before every merge (#24, ADR-027)
 
 This is the prompt for the review every PR gets before the Product Owner merges it. Run it in a **fresh
 context**: a new sub-agent or a new session that did not write the code, ideally on a different model than

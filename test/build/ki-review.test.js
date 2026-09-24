@@ -1,4 +1,4 @@
-// #24, ADR-026: Der Check `ki-review` gibt einen PR nur frei, wenn nach dem letzten Commit ein KI-Review
+// #24, ADR-027: Der Check `ki-review` gibt einen PR nur frei, wenn nach dem letzten Commit ein KI-Review
 // eines berechtigten Kontos mit „Ergebnis: freigegeben“ für genau diesen Stand vorliegt.
 import { test } from "node:test";
 import assert from "node:assert/strict";

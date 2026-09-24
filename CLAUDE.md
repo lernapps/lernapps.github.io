@@ -113,7 +113,7 @@ repository: one shared kern, one layout, one build (Eleventy 3.1.6), deployed to
   `<org>.github.io` gets Pages auto-enabled in legacy branch mode; switch it once to source "GitHub Actions" with
   `gh api -X PUT repos/<owner>/<repo>/pages -f build_type=workflow` (POST fails because Pages already exists).
 
-## AI review before every merge (#24, ADR-026)
+## AI review before every merge (#24, ADR-027)
 - Before a PR is proposed for merge, a reviewer in a FRESH context (sub-agent or new session, not the author;
   ideally another model) runs `werkzeuge/review/ki-review.md`: Fagan-style checklist (correctness, tests trace to
   the issue, OWASP incl. `innerHTML`/`eval`/external requests/tutor-link allowlist, static first, privacy, teacher
@@ -168,7 +168,7 @@ branch protection, secret scanning with push protection, org-wide 2FA and the tu
 | Dependency Check       | Present | `npm audit --audit-level=high` in `pruefen.yml` (#20); exact pins, `npm ci`     |
 | CI Build & Unit Tests  | Present | `pruefen.yml`, required check `test-und-build`                                  |
 | SAST                   | Present | CodeQL default setup, secret scanning with push protection, Dependabot (#19)    |
-| AI Code Review         | Present | fresh-context review before every merge, check `ki-review` (#24, ADR-026)       |
+| AI Code Review         | Present | fresh-context review before every merge, check `ki-review` (#24, ADR-027)       |
 | Property-Based Tests   | Present | fast-check, `test/kern/*.property.test.js` (#22; found and fixed #30)           |
 | SonarQube Quality Gate | N/A     | Won't (#28): file length ≤ 500 lines and ESLint cover it                        |
 | Sampling Review (~20%) | Present | 100 %: the PO merges every PR; not enforceable (a single maintainer cannot approve their own PR) |

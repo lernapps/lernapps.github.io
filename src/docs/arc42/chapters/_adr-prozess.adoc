@@ -1,8 +1,8 @@
-// ADR-026: KI-Review als Pflichtschritt vor dem Merge (#24, EPIC #18).
+// ADR-027: KI-Review als Pflichtschritt vor dem Merge (#24, EPIC #18).
 // Prozess-Entscheidungen stehen hier, getrennt von Kern, Build und Darstellung. Eingebunden von 09_architecture_decisions.adoc.
 
-[[adr-026]]
-=== ADR-026: KI-Review in frischem Kontext als Pflichtschritt vor dem Merge
+[[adr-027]]
+=== ADR-027: KI-Review in frischem Kontext als Pflichtschritt vor dem Merge
 
 *Kontext.* Claude-Code-Agenten schreiben fast den ganzen Code. Das Review hängt an einer Person: Der
 Product Owner sieht jeden PR durch und merged ihn (<<adr-023,ADR-023>>,

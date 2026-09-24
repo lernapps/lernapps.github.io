@@ -89,7 +89,7 @@ The Mathe-Karte at `/karte/` is built from the app configs; there is no separate
 1. `npm test && npm run build` green.
 2. Browser check (Playwright) against `npm run serve -- --port=<your port>` (remember the PID), at 360 px and 1280 px: each page with JS off (text + picture visible), one correct and one wrong answer, Lösung zeigen/verbergen, a deep link with `nr=`, the Schnelltest, zero console errors, **zero requests to other hosts before a video click**.
 3. Push the branch, `gh pr create` to `main` with a short "Was / Geprüft" body. `main` is protected: the check `test-und-build` must pass (`gh pr checks <nr> --watch`). Merge only when the user has said so in this conversation.
-   Then run the AI review in a fresh context (a new sub-agent, never this session): `werkzeuge/review/ki-review.md` (#24, ADR-026). It posts a `## KI-Review` review; the check `ki-review` turns green only for the reviewed head commit. Fix blockers in new commits and review again; give a reason in the PR for every finding you leave open.
+   Then run the AI review in a fresh context (a new sub-agent, never this session): `werkzeuge/review/ki-review.md` (#24, ADR-027). It posts a `## KI-Review` review; the check `ki-review` turns green only for the reviewed head commit. Fix blockers in new commits and review again; give a reason in the PR for every finding you leave open.
 4. After the merge, `pages.yml` deploys. Wait for the run (`gh run list --workflow pages.yml`), then check that `<app>/index.html`, one deep link, `<app>/llms.txt`, `<app>/tutor.md` and the app on `/karte/apps.html` return 200.
 5. Remove the worktree: `git -C ~/projects/lern-apps worktree remove ../lern-apps-<app>`.
 
