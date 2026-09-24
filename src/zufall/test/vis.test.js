@@ -63,3 +63,14 @@ test("Pfade anklicken: markierte Blätter kommen aus aufgabe.auswahl", () => {
   assert.match(text, new RegExp(`data-blatt="${a.pfade[0].id}"[^>]*aria-pressed="true"`));
   assert.equal((text.match(/aria-pressed="true"/g) || []).length, 1);
 });
+
+test("L-037: Kugeln und Glücksradfelder behalten ihre kräftige Farbe; das Ereignis zeigt nur der orange Ring", () => {
+  for (const [experiment, feld] of [["urne", "urne"], ["gluecksrad", "rad"]]) {
+    const a = laplace.erzeugeAufgabe(z(1), { experiment, [feld]: "3r2b1g", ereignis: "b" });
+    const svg = leeresSvg();
+    zeichneLaplace(svg, a);
+    const text = alsSvgText(svg);
+    assert.doesNotMatch(text, /opacity="0\.3"/, experiment);
+    assert.equal((text.match(/stroke="#ff8f00"/g) || []).length, 2, experiment);
+  }
+});

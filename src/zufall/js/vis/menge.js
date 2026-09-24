@@ -1,7 +1,8 @@
 /*
  * Ergebnismenge einer Laplace-Aufgabe: Würfelseiten, Kugeln, Glücksrad, Karten, Lose, zwei Würfel.
  * zeichneMengeIn(g, menge, { markierung, neutral, maxBreite }) → { breite, hoehe }.
- * Ohne Optionen: günstige Ergebnisse orange umrandet, die übrigen gedimmt (Beispielbild).
+ * Ohne Optionen: günstige Ergebnisse orange umrandet, die übrigen gedimmt (Beispielbild) – außer Kugeln und
+ * Glücksradfeldern: Ihre Farbe ist die Information, sie bleiben kräftig, das Ereignis zeigt nur der orange Ring.
  * neutral: nichts hervorgehoben (Testseite). markierung { markiert: Set, geaendert() }: neutral, jedes Ergebnis ein Knopf
  * (role=button, aria-pressed); markiert = dunkelblauer Rahmen plus Haken (nicht nur Farbe).
  * maxBreite: auf schmalen Bildschirmen weniger Spalten (Karten 8 → 4, Lose 10 → 5 …), damit nichts seitlich scrollt.
@@ -82,7 +83,7 @@ function kugeln(g, menge, o) {
   menge.elemente.forEach((e, i) => {
     const cx = 24 + (i % proZeile) * 34;
     const cy = 24 + Math.floor(i / proZeile) * 34;
-    setzeEin(g, e, kugel(cx, cy, 14, e.farbe, hervor(e, o)), { x: cx - 14, y: cy - 14, w: 28, h: 28 }, o.markierung);
+    setzeEin(g, e, kugel(cx, cy, 14, e.farbe, { ...hervor(e, o), gedimmt: false }), { x: cx - 14, y: cy - 14, w: 28, h: 28 }, o.markierung);
   });
   return { breite: proZeile * 34 + 14, hoehe: Math.ceil(menge.elemente.length / proZeile) * 34 + 14 };
 }
@@ -96,7 +97,7 @@ function rad(g, menge, o) {
     const a0 = (i / n) * 2 * Math.PI - Math.PI / 2;
     const a1 = ((i + 1) / n) * 2 * Math.PI - Math.PI / 2;
     const d = `M80 88 L${80 + R * Math.cos(a0)} ${88 + R * Math.sin(a0)} A${R} ${R} 0 0 1 ${80 + R * Math.cos(a1)} ${88 + R * Math.sin(a1)} Z`;
-    const feld = svgEl("path", { d, fill: e.farbe, stroke: "#fff", "stroke-width": 2, opacity: neutral || e.guenstig ? 1 : 0.3 });
+    const feld = svgEl("path", { d, fill: e.farbe, stroke: "#fff", "stroke-width": 2 });
     if (markierung) {
       const mitte = (a0 + a1) / 2;
       g.append(knopf(e, feld, () => svgEl("path", { d }), [80 + 0.6 * R * Math.cos(mitte), 88 + 0.6 * R * Math.sin(mitte)], markierung));
