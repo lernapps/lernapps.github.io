@@ -19,7 +19,7 @@ beispiel: |
     </tbody>
   </table>
   <p>Der Unterschied ist beide Male 30 €. Weil 30 € von 120 € ein größerer Anteil ist als 30 € von 150 €, ist die erste Zahl größer.</p>
-ohneVideo: 'Zu dieser Frage gibt es kein Lehrerschmidt-Video; die Erklärung oben reicht.'
+videoVerweis: 'Wie man einen Prozentsatz ausrechnet, zeigt das Video auf der Seite <a href="prozentsatz.html#video">Prozentsatz berechnen</a>.'
 bild:
   text: 'Der graue Balken ist die Bezugsgröße (100 %), der blaue der Vergleichswert.'
   funktion: zeichneVergleich

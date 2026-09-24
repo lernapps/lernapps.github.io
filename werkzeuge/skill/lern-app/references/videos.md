@@ -15,7 +15,20 @@
 
 Front matter of `src/<app>/<id>.md`: `video: { id: <id>, titel: '<exact title>', kanal: <Kanal> }`. The layout `kompetenz.njk` renders the card with a plain watch link (no-JS fallback) and the hint that starting sends data (including the IP address) to YouTube/Google. `src/kern/js/video.js` draws a local placeholder; only a click loads `youtube-nocookie.com` (two-click embed).
 
-No verified video → `ohneVideo: "Zu dieser Frage gibt es kein <Kanal>-Video; die Erklärung oben reicht."` instead of `video`.
+## Pages without a video
+
+No verified video for a page → no `video`. Then pick one of two options, never a note about the missing video:
+
+- **A related page has a video** (the page builds on it): set `videoVerweis` to ONE learner-facing sentence with a real
+  link to that page's `#video`, e.g.
+  `videoVerweis: 'Wie man einen Baum aufbaut, zeigt das Video auf der Seite <a href="baumdiagramm.html#video">Baumdiagramm</a>.'`
+  The sentence says what the video shows, not that this page lacks one.
+- **No related video**: set nothing. The page then has no "Video dazu" section at all.
+
+Never write meta phrases such as "die Erklärung oben reicht", "kein <Kanal>-Video" or "kein passendes Video": they read
+like an internal note, not like a teacher. `test/build/video-verweis.test.js` rejects them and checks every link.
+Document the choice in the app's `llms.njk` ("Video: keines; `#video` verweist auf …" or "Video: keines, kein
+Abschnitt `#video`").
 
 ## Tutor rule (goes into llms.txt and tutor.md)
 

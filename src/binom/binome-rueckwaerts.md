@@ -21,7 +21,7 @@ beispiel: |
   </tbody>
   </table>
   <p>Genauso: x² − 10x + 25 = (x − 5)² und x² − 16 = (x + 4)(x − 4). Lücken: x² + □x + 25 → 10, denn 2 · x · 5 = 10x; x² + 8x + □ → 16, denn b = 8 : 2 = 4 und 4² = 16.</p>
-ohneVideo: Zu diesem Schritt gibt es kein passendes Video von Lehrerschmidt.
+videoVerweis: 'Die Formeln, die du hier rückwärts anwendest, erklären die Videos zur <a href="erste-binomische.html#video">ersten</a>, <a href="zweite-binomische.html#video">zweiten</a> und <a href="dritte-binomische.html#video">dritten binomischen Formel</a>.'
 bild:
   text: 'Das Flächenbild der ersten Formel, rückwärts gelesen: Die Teilflächen x², 3x, 3x und 9 sind gegeben, gesucht ist die Seite des Quadrats. Sie ist x + 3.'
   uebung: 'Das „?“ steht an der gesuchten Stelle.'

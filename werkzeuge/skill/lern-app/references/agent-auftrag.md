@@ -28,7 +28,7 @@ Competencies (in this order):
    - Field types: zahl (art, stellen; zahlenfeld/pruefeZahlAntwort/passtZu) | bruch/term |
      variablenterm (form: ausmultipliziert | faktorisiert) | auswahl | radio | tabelle
    - Picture: <…>
-   - Video: <id + exact title + channel, verified via oEmbed> | none → ohneVideo: "<one-line note>"
+   - Video: <id + exact title + channel, verified via oEmbed> | none → videoVerweis: '<one sentence with <a href="<seite>.html#video">…</a>>' if a related page has a video, else nothing
    - serlo: <url + exact title, verified with curl (200, article, covers the competency)> | none → leave `serlo` out
 2. …
 
