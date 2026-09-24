@@ -14,7 +14,10 @@ Ein Baum aus 27 Blättern (drei Farben, drei Züge) passt so aber in keine 279 p
 
 *Entscheidung.* `zeichneBaumIn` (`src/zufall/js/vis/baum.js`) zeichnet jeden Baum hochkant, wenn er
 so in 279 px passt (`MAX_BREITE`, `breiteUnten` in `baum-unten.js`). Das trifft alle zweistufigen
-Urnen-, Münz- und Würfelbäume und kleine dreistufige (Münze). Zwischen Geschwistergruppen liegt eine
+Urnen-, Münz- und Würfelbäume und die dreistufigen mit zwei Ergebnissen je Stufe (Münze, „6 / keine 6“,
+zwei Farben); dort stehen die Pfadwahrscheinlichkeiten bei Bedarf abwechselnd in zwei Zeilen. Die Seite
+„Gegenereignis“ zeichnet dreistufige Bäume nur mit „gelb / nicht gelb“ statt aller Farben (Lektorat L-040,
+24.09.2026); dort liegt kein Baum quer, der Dreh-Hinweis erscheint nicht. Zwischen Geschwistergruppen liegt eine
 Lücke von bis zu 14 px, so groß, wie die 279 px es zulassen. Fehlende Zweige der Seite „Baumdiagramm“
 zeigen am Zweigende nur „?“, der Buchstabe steht auf der Mitte des Zweigs. Passt ein Baum nicht, liegt
 er quer wie bisher; die Gruppe trägt die Klasse `baum-quer`. Dann zeigt `zufall.css` auf schmalen
@@ -48,7 +51,7 @@ die zweistufigen Bäume, die den Großteil der Aufgaben ausmachen.
 *Konsequenzen.* Dreistufige Bäume mit mehr als zwei Ergebnissen scrollen auf 360 px weiter; der
 Dreh-Hinweis mildert das nur (xref:11_technical_risks.adoc#r-027[R-027], bewusst akzeptiert). Auf
 einer Übungsseite wechselt die Richtung mit der Aufgabe: ein zweistufiger Baum steht hochkant, ein
-dreistufiger liegt quer. Ob ein Baum passt, schätzt der Code aus der Textbreite (Ziffer 0,636,
+dreistufiger mit mehr als zwei Ergebnissen liegt quer. Ob ein Baum passt, schätzt der Code aus der Textbreite (Ziffer 0,636,
 Schrägstrich 0,337 je px Schriftgröße, so breit wie DejaVu Sans). Eine noch breitere Systemschrift
 könnte Brüche in der Gruppe berühren lassen
 (xref:11_technical_risks.adoc#r-028[R-028]); die Tests prüfen die Überlappung mit 0,6 je Zeichen, der

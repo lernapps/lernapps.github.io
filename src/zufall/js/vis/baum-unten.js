@@ -1,7 +1,7 @@
 /*
  * Baumdiagramm hochkant (optionen.richtung = "unten"): Wurzel oben, Zweige nach unten, alle Texte waagerecht.
  * Die Blätter stehen nebeneinander in gleich breiten Spalten; die Spalte ist so breit wie der längste Text unten
- * (Pfadwahrscheinlichkeit oder Zweigbruch), mindestens Kreis + Luft. Passt das bei zwei Stufen nicht in MAX_BREITE,
+ * (Pfadwahrscheinlichkeit oder Zweigbruch), mindestens Kreis + Luft. Passt das bei zwei oder drei Stufen nicht in MAX_BREITE,
  * stehen die Pfadwahrscheinlichkeiten abwechselnd in zwei Zeilen. Beim Zeichnen werden die Spalten so verbreitert,
  * dass der Baum MAX_BREITE nutzt (alle Texte 13 px, auf dem Handy lesbar). Zwischen Geschwistergruppen (Blätter mit
  * verschiedenen Eltern) liegt eine Lücke, so groß, wie MAX_BREITE es zulässt (höchstens LUECKE_MAX).
@@ -64,7 +64,7 @@ function masse(baum, optionen, fuellen = true) {
   const gruppen = new Set(liste.map((b) => b.pfad.slice(0, -1).join())).size;
   const einzeilig = Math.max(zweig, pfad);
   const passt = 2 * RAND + n * einzeilig + (gruppen - 1) * LUECKE_MIN <= max;
-  const basis = passt || baum.zuege !== 2 ? einzeilig : Math.max(zweig, Math.ceil(pfad / 2));
+  const basis = passt || baum.zuege > 3 ? einzeilig : Math.max(zweig, Math.ceil(pfad / 2));
   const spalteBei = (rand) => (fuellen ? Math.max(basis, Math.min(SPALTE_MAX, Math.floor((max - 2 * rand - (gruppen - 1) * LUECKE_MAX) / n))) : basis);
   let rand = RAND;
   let spalte = spalteBei(rand);

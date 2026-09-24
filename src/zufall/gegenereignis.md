@@ -22,7 +22,7 @@ beispiel: |
   </ol>
   <p>Ohne den Trick müsstest du 7 Pfade addieren. Mit dem Trick ist es eine Rechnung.</p>
 bild:
-  text: 'Der Baum zum dreimaligen Würfeln. Orange ist der einzige Pfad des Gegenereignisses „kein einziges Mal 6“: 5/6 · 5/6 · 5/6. Rechts stehen die Pfadwahrscheinlichkeiten.'
+  text: 'Der Baum zum dreimaligen Würfeln. Orange ist der einzige Pfad des Gegenereignisses „kein einziges Mal 6“: 5/6 · 5/6 · 5/6. Unter den Enden stehen die Pfadwahrscheinlichkeiten.'
   funktion: zeichneGegenereignis
   uebungFunktion: zeichneGegenereignisMarkierbar
   uebung: 'Zeigt das Bild einzelne Ergebnisse, klick die Ergebnisse von E an – „nicht E“ sind die übrigen.'
