@@ -29,13 +29,26 @@ export function faerberFuer(linien, optionen) {
   return () => { const m = markiert(); for (const [id, l] of linien) faerbe(l, [...m].some((b) => liegtAufPfad(id, b))); };
 }
 
-/** Beschriftung eines Zweigs als <text> mit <title>; attrs setzen Lage und Schrift. */
-export function zweigLabel(k, optionen, attrs) {
+/**
+ * Beschriftung eines Zweigs als <text> mit <title>; attrs setzen Lage und Schrift. Fehlende Zweige (optionen.versteckt)
+ * heißen „a) ?“, gelöst „a) 3/5“; mit kurz: true nur „?“ bzw. „3/5“ – der Buchstabe steht dann als buchstabenLabel.
+ */
+export function zweigLabel(k, optionen, attrs, { kurz = false } = {}) {
   const buchstabe = (optionen.versteckt || new Map()).get(k.id);
   const wert = `${k.anzahl}/${k.gesamt}`;
-  const text = buchstabe ? `${buchstabe}) ${optionen.geloest ? wert : "?"}` : wert;
+  const inhalt = optionen.geloest ? wert : "?";
+  const text = buchstabe ? (kurz ? inhalt : `${buchstabe}) ${inhalt}`) : wert;
   const label = svgEl("text", { ...attrs, class: `baum-label${buchstabe ? " versteckt" : ""}`, fill: buchstabe ? "#b45309" : "#1a1a1a", "font-weight": buchstabe ? 700 : undefined }, text);
   label.append(svgEl("title", {}, buchstabe && !optionen.geloest ? `Zweig ${buchstabe}: fehlt` : `P(${k.name}) = ${formatBruch(k.wahrscheinlichkeit)}`));
+  return label;
+}
+
+/** Buchstabe eines fehlenden Zweigs (fett, orange-braun) oder null, wenn der Zweig nicht fehlt. */
+export function buchstabenLabel(k, optionen, attrs) {
+  const buchstabe = (optionen.versteckt || new Map()).get(k.id);
+  if (!buchstabe) return null;
+  const label = svgEl("text", { ...attrs, class: "baum-buchstabe", fill: "#b45309", "font-weight": 700 }, buchstabe);
+  label.append(svgEl("title", {}, `Zweig ${buchstabe}`));
   return label;
 }
 

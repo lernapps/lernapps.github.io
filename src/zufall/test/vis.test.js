@@ -31,7 +31,9 @@ test("Gelöst zeigt der Baum die versteckten Werte", () => {
   const a = baumA.erzeugeAufgabe(z(5), { urne: "3r2b1g", zuege: 2, modus: "mit" });
   const svg = leeresSvg();
   zeichneBaumdiagramm(svg, a, { korrekt: true });
-  assert.match(alsSvgText(svg), new RegExp(`a\\) ${a.versteckt[0].anzahl}/${a.versteckt[0].gesamt}`));
+  const text = alsSvgText(svg);
+  assert.match(text, /class="baum-buchstabe"[^>]*>a</, "Buchstabe bleibt auf dem Zweig");
+  assert.match(text, new RegExp(`versteckt"[^>]*>${a.versteckt[0].anzahl}/${a.versteckt[0].gesamt}<`));
 });
 
 test("Alle Bilder zeichnen ohne document", () => {

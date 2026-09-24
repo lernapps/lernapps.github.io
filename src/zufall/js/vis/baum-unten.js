@@ -1,16 +1,21 @@
 /*
  * Baumdiagramm hochkant (optionen.richtung = "unten"): Wurzel oben, Zweige nach unten, alle Texte waagerecht.
  * Die Blätter stehen nebeneinander in gleich breiten Spalten; die Spalte ist so breit wie der längste Text unten
- * (Pfadwahrscheinlichkeit oder Zweigbruch), mindestens Kreis + Luft. Knoten sind Kreise mit Kürzel (R, B, G …);
- * eine Legende darunter nennt die vollen Namen – die Farbe ist nie das einzige Signal.
- * Jeder Zweig endet senkrecht im Kind; sein Bruch sitzt genau dort auf der Linie (weißer Rand statt Überdeckung).
- * zeichneBaumUntenIn(g, baum, optionen) → { breite, hoehe }; optionen wie in baum.js.
+ * (Pfadwahrscheinlichkeit oder Zweigbruch), mindestens Kreis + Luft. Zwischen Geschwistergruppen (Blätter mit
+ * verschiedenen Eltern) liegt eine Lücke, so groß, wie MAX_BREITE es zulässt (höchstens LUECKE_MAX).
+ * Knoten sind Kreise mit Kürzel (R, B, G …); eine Legende darunter nennt die vollen Namen – die Farbe ist nie das
+ * einzige Signal. Jeder Zweig endet senkrecht im Kind; sein Bruch sitzt genau dort auf der Linie (weißer Rand statt
+ * Überdeckung). Fehlt ein Bruch (optionen.versteckt), steht dort „?“ und der Buchstabe auf der Mitte des Zweigs.
+ * zeichneBaumUntenIn(g, baum, optionen) → { breite, hoehe }; breiteUnten(baum, optionen) rechnet nur die Breite.
  */
 import { svgEl } from "../../../kern/js/svg.js";
 import { formatBruch } from "../../../kern/js/bruch.js";
 import { blaetter, alleKnoten } from "../modell/baum.js";
 import { textFarbe } from "./rahmen.js";
-import { elternKarte, faerberFuer, zweigLabel, macheAuswaehlbar } from "./baum-gemeinsam.js";
+import { elternKarte, faerberFuer, zweigLabel, buchstabenLabel, macheAuswaehlbar } from "./baum-gemeinsam.js";
+
+/** Platz für das Bild bei 360 px Viewport: das Übungsbild hat 279 px („Bild dazu“ 313 px). */
+export const MAX_BREITE = 279;
 
 const R = 12; // Knotenradius: 24 px Durchmesser, tippbar
 const RAND = 2;
@@ -18,9 +23,14 @@ const WURZEL_Y = 8;
 const STUFE_HOEHE = 64;
 const SCHRIFT_UNTEN = 12; // Blattbrüche und Pfadwahrscheinlichkeiten
 const SCHRIFT_OBEN = 13;
-const ZEICHEN = 0.6; // geschätzte Zeichenbreite je px Schriftgröße
-const SPALTE_MIN = 30; // 24-px-Kreis + 6 px Luft
-const LUFT = 1; // zwischen zwei Texten; die Schätzung (0,6 je px, „1/15“ = 28,8 px) liegt real bei rund 25 px
+const ZEICHEN = 0.6; // geschätzte Buchstabenbreite je px Schriftgröße (Legende)
+const SPALTE_MIN = 26; // 24-px-Kreis (Tippziel) + 2 px; die Gruppen trennt die Lücke
+const LUFT = 2; // zwischen zwei Texten in der Gruppe
+const LUECKE_MAX = 14;
+
+/** Breite eines Bruchs wie „1/36“: Ziffer 0,636, Schrägstrich 0,337 je px – so breit wie in DejaVu Sans, der breitesten
+ *  der üblichen Systemschriften (Roboto, Segoe UI und San Francisco sind schmaler). */
+const bruchBreite = (t, px) => [...t].reduce((s, c) => s + (c === "/" ? 0.337 : 0.636), 0) * px;
 
 /** Kürzel je Ergebnis: kurze Namen bleiben, sonst Anfangsbuchstabe; bei gleichem Anfang zwei Buchstaben. */
 export function kuerzelKarte(ergebnisse) {
@@ -36,18 +46,46 @@ export function kuerzelKarte(ergebnisse) {
 
 const zweigText = (k) => `${k.anzahl}/${k.gesamt}`;
 
-function positionen(baum, spalte) {
+/** Spaltenbreite, Lücke und Breite ohne Legende – ohne zu zeichnen. */
+function masse(baum, optionen) {
+  const liste = blaetter(baum);
+  const unten = liste.flatMap((b) => [zweigText(b), optionen.zeigePfad ? formatBruch(b.pfadWahrscheinlichkeit) : ""]);
+  const spalte = Math.max(SPALTE_MIN, Math.ceil(Math.max(...unten.map((t) => bruchBreite(t, SCHRIFT_UNTEN))) + LUFT));
+  const gruppen = new Set(liste.map((b) => b.pfad.slice(0, -1).join())).size;
+  const frei = (optionen.maxBreite ?? MAX_BREITE) - 2 * RAND - liste.length * spalte;
+  const luecke = gruppen > 1 ? Math.max(0, Math.min(LUECKE_MAX, Math.floor(frei / (gruppen - 1)))) : 0;
+  return { spalte, luecke, breite: 2 * RAND + Math.max(liste.length, 1) * spalte + (gruppen - 1) * luecke };
+}
+
+function legendeText(baum, kuerzel) {
+  return baum.experiment.ergebnisse.filter((e) => kuerzel.get(e.id) !== e.name).map((e) => `${kuerzel.get(e.id)} = ${e.name}`).join(" · ");
+}
+const legendeBreite = (t) => (t ? 2 * RAND + Math.ceil(t.length * SCHRIFT_UNTEN * ZEICHEN) : 0);
+
+/** Breite des hochkant gezeichneten Baums (mit Legende); baum.js entscheidet damit über die Richtung. */
+export function breiteUnten(baum, optionen = {}) {
+  return Math.max(masse(baum, optionen).breite, legendeBreite(legendeText(baum, kuerzelKarte(baum.experiment.ergebnisse))));
+}
+
+function positionen(baum, spalte, luecke) {
   const pos = new Map();
-  let i = 0;
-  const lege = (k) => {
+  let x = RAND;
+  let letzte = null;
+  const lege = (k, eltern) => {
     const y = WURZEL_Y + k.stufe * STUFE_HOEHE;
-    if (k.kinder.length === 0 && k !== baum.wurzel) { pos.set(k.id, { x: RAND + (i + 0.5) * spalte, y }); i++; return; }
-    k.kinder.forEach(lege);
+    if (k.kinder.length === 0 && k !== baum.wurzel) {
+      if (letzte && letzte !== eltern) x += luecke;
+      pos.set(k.id, { x: x + spalte / 2, y });
+      x += spalte;
+      letzte = eltern;
+      return;
+    }
+    k.kinder.forEach((c) => lege(c, k));
     const xs = k.kinder.map((c) => pos.get(c.id).x);
     pos.set(k.id, { x: xs.length ? (Math.min(...xs) + Math.max(...xs)) / 2 : RAND + spalte / 2, y });
   };
-  lege(baum.wurzel);
-  return { pos, spalten: Math.max(i, 1) };
+  lege(baum.wurzel, null);
+  return pos;
 }
 
 function knotenGrafik(k, q, kuerzel) {
@@ -62,9 +100,8 @@ function knotenGrafik(k, q, kuerzel) {
 export function zeichneBaumUntenIn(ziel, baum, optionen = {}) {
   const knoten = alleKnoten(baum);
   const liste = blaetter(baum);
-  const unten = liste.flatMap((b) => [zweigText(b), optionen.zeigePfad ? formatBruch(b.pfadWahrscheinlichkeit) : ""]);
-  const spalte = Math.max(SPALTE_MIN, Math.ceil(Math.max(...unten.map((t) => t.length)) * SCHRIFT_UNTEN * ZEICHEN) + LUFT);
-  const { pos, spalten } = positionen(baum, spalte);
+  const { spalte, luecke, breite: baumBreite } = masse(baum, optionen);
+  const pos = positionen(baum, spalte, luecke);
   const kuerzel = kuerzelKarte(baum.experiment.ergebnisse);
   const linien = new Map();
   const eltern = elternKarte(baum);
@@ -85,7 +122,9 @@ export function zeichneBaumUntenIn(ziel, baum, optionen = {}) {
     ebeneLinien.append(linie);
     ebeneKnoten.append(knotenGrafik(k, q, kuerzel.get(k.ergebnis) ?? k.name));
     const blatt = k.kinder.length === 0;
-    ebeneLabels.append(zweigLabel(k, optionen, { x: q.x, y: q.y - R - 6, "text-anchor": "middle", "font-size": blatt ? SCHRIFT_UNTEN : SCHRIFT_OBEN }));
+    ebeneLabels.append(zweigLabel(k, optionen, { x: q.x, y: q.y - R - 6, "text-anchor": "middle", "font-size": blatt ? SCHRIFT_UNTEN : SCHRIFT_OBEN }, { kurz: true }));
+    const buchstabe = buchstabenLabel(k, optionen, { x: (p.x + q.x) / 2, y: mitte + 2, "text-anchor": "middle", "font-size": SCHRIFT_OBEN });
+    if (buchstabe) ebeneLabels.append(buchstabe);
   }
   faerbeAlle();
 
@@ -101,12 +140,10 @@ export function zeichneBaumUntenIn(ziel, baum, optionen = {}) {
     tiefste = Math.max(tiefste, optionen.zeigePfad ? pfadY + 4 : q.y + R + 2);
   }
 
-  let breite = 2 * RAND + spalten * spalte;
-  const legende = baum.experiment.ergebnisse.filter((e) => kuerzel.get(e.id) !== e.name).map((e) => `${kuerzel.get(e.id)} = ${e.name}`).join(" · ");
+  const legende = legendeText(baum, kuerzel);
   if (legende) {
     tiefste += 18;
     ziel.append(svgEl("text", { x: RAND, y: tiefste, class: "baum-legende", "font-size": SCHRIFT_UNTEN, fill: "#1a1a1a" }, legende));
-    breite = Math.max(breite, RAND + Math.ceil(legende.length * SCHRIFT_UNTEN * ZEICHEN) + RAND);
   }
-  return { breite, hoehe: tiefste + 4 };
+  return { breite: Math.max(baumBreite, legendeBreite(legende)), hoehe: tiefste + 4 };
 }
