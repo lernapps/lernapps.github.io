@@ -2,22 +2,22 @@
 [cols="2,2,5,4",options="header"]
 |===
 | Abschnitt | Stufe (Tier 2) | Nachweis | Lücke
-| Build & Language | 1 von 5 (20 %) | Compiler / Parser: `npm test` und `npm run build` laden jedes Modul; Syntaxfehler brechen `test-und-build` | Type checker (geplant: #25 `tsc --checkJs`, zuerst `src/kern`); Formatter (offen); Import sorter / dead code (offen); Linter (geplant: #21 ESLint Flat Config (no-eval, no-unsanitized))
-| Testing | 2 von 3 (67 %) | Unit tests: rund 350 `node:test`-Tests in `test/` und `src/<app>/test/`; Integration tests: Vertragstest `test/apps/vertrag.test.js`: jede Kompetenz jeder App, Seeds 1–20; Contract tests: Tutor-Vertrag `lib/llms-vertrag.js`: Deep Links in `llms.txt`/`tutor.md` gegen Generator-Parameter | Smoke tests (offen)
-| Security | 3 von 5 (60 %) | Secret scanning: GitHub Secret Scanning mit Push Protection; SCA: Dependabot-Alerts und -Security-Updates; `npm audit` im Pflicht-Check geplant (#20); SAST: CodeQL Default Setup (JavaScript/TypeScript, Actions); Threat modeling: STRIDE in arc42 8.1 | License compliance (offen); LLM security review (geplant: #24 KI-Code-Review vor jedem Merge)
+| Build & Language | 2 von 5 (40 %) | Compiler / Parser: `npm test` und `npm run build` laden jedes Modul; Syntaxfehler brechen `test-und-build`; Linter: ESLint (`eslint.config.js`: no-eval, no-implied-eval, no-unsanitized) im Pflicht-Check, #21 | Type checker (geplant: #25 `tsc --checkJs`, zuerst `src/kern`); Formatter (offen); Import sorter / dead code (offen)
+| Testing | 2 von 3 (67 %) | Unit tests: rund 380 `node:test`-Tests in `test/` und `src/<app>/test/`; Property-based / fuzz: fast-check, 15 Properties (`test/kern/*.property.test.js`), #22; Fund #30 in Arbeit; Integration tests: Vertragstest `test/apps/vertrag.test.js`: jede Kompetenz jeder App, Seeds 1–20; Contract tests: Tutor-Vertrag `lib/llms-vertrag.js`: Deep Links in `llms.txt`/`tutor.md` gegen Generator-Parameter | Smoke tests (offen)
+| Security | 3 von 5 (60 %) | Secret scanning: GitHub Secret Scanning mit Push Protection; SCA: Dependabot-Alerts und -Security-Updates; `npm audit --audit-level=high` im Pflicht-Check, #20; SAST: CodeQL Default Setup (JavaScript/TypeScript, Actions); Threat modeling: STRIDE in arc42 8.1 | License compliance (offen); LLM security review (geplant: #24 KI-Code-Review vor jedem Merge)
 | Architecture | 1 von 4 (25 %) | Code review: Product Owner prüft und merged jeden PR; kein Pflicht-Approval; ADR enforcement: `lib/pruefungen.js` bricht den Build bei Regelverstößen (ADR-008) | Complexity metrics (verworfen: SonarQube abgelehnt (#28); nur Dateilänge ≤ 500 Zeilen); LLM code review (geplant: #24 KI-Code-Review vor jedem Merge); LLM design review (offen)
 | Data & Schema | 2 von 2 (100 %) | Schema validation: Front Matter der Kompetenzen (`pruefeKompetenzen`) und Kartendaten (`src/karte/schemas/`); Config validation: App-Konfiguration: unbekanntes Fach bricht den Build (`lib/fachfarben.js`); Data contract: Karten-Knoten müssen existieren (`test/build/karte-daten.test.js`) | –
-| UX & A11y | 1 von 3 (33 %) | Contrast checker: WCAG-Kontrast je Fachfarbe (`test/build/fachfarben.test.js`) | Accessibility automated (offen); UI prose lint (in Arbeit: PR #29: Tutor-Texte nennen keinen Wettbewerb)
+| UX & A11y | 2 von 3 (67 %) | Contrast checker: WCAG-Kontrast je Fachfarbe (`test/build/fachfarben.test.js`); UI prose lint: Tutor-Texte nennen keinen Wettbewerb (`pruefeTutorText` in `lib/pruefungen.js`), #29 | Accessibility automated (offen)
 | Operations | 0 von 1 (0 %) | – | Runtime assertions (offen)
 | Formal Methods | entfällt | – | –
-| Documentation | 2 von 6 (33 %) | Link checker: `test/build/doku-verweise.test.js`, geprüfte serlo-Links, Tutor-Deep-Links; Diagram build: `doku.yml` baut PlantUML und prüft die Ausgabe in jedem PR; Doc-code drift: Tutor-Vertrag: jeder Generator-Parameter steht in `llms.txt` | Markdown / AsciiDoc lint (offen); Code-in-docs validation (offen); Spell check (offen); Prose lint (in Arbeit: PR #29: `tutor.md` höchstens 119 Zeilen)
+| Documentation | 3 von 6 (50 %) | Link checker: `test/build/doku-verweise.test.js`, geprüfte serlo-Links, Tutor-Deep-Links; Diagram build: `doku.yml` baut PlantUML und prüft die Ausgabe in jedem PR; Prose lint: `tutor.md` höchstens 119 Zeilen (`MAX_TUTOR_ZEILEN` in `eleventy.config.js`), #29; Doc-code drift: Tutor-Vertrag: jeder Generator-Parameter steht in `llms.txt` | Markdown / AsciiDoc lint (offen); Code-in-docs validation (offen); Spell check (offen)
 |===
 
-Gesamt bis Tier 2: 12 von 29 zutreffenden Schichten (41 %). Das Original zählt entfallene Schichten als offen und käme auf 12 von 36 (33 %).
+Gesamt bis Tier 2: 15 von 29 zutreffenden Schichten (52 %). Das Original zählt entfallene Schichten als offen und käme auf 15 von 36 (42 %).
 
 Stand im Original-Rad nachstellen: Seite öffnen, in der Browser-Konsole ausführen, neu laden.
 
 [source,js]
 ----
-localStorage.setItem("harness-wheel-v1", '{"ids":["compiler","unit-tests","integration-tests","contract-tests","secret-scanning","sca","sast","threat-modeling","code-review","adr-enforcement","json-schema-openapi-validation","config-validation","data-contract","contrast-checker","link-checker","diagram-build","doc-code-drift"],"tier":"2","width":"equal","view":"harness"}');
+localStorage.setItem("harness-wheel-v1", '{"ids":["compiler","linter","unit-tests","property-based-fuzz","integration-tests","contract-tests","secret-scanning","sca","sast","threat-modeling","code-review","adr-enforcement","json-schema-openapi-validation","config-validation","data-contract","contrast-checker","ui-prose-lint","link-checker","diagram-build","prose-lint","doc-code-drift"],"tier":"2","width":"equal","view":"harness"}');
 ----
