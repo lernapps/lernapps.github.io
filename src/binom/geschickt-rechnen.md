@@ -6,8 +6,8 @@ warum: |
   <p>Die binomischen Formeln sind nicht nur für Buchstaben da. Mit ihnen rechnest du Aufgaben wie 49² oder 21 · 19 im Kopf aus – schneller als mit dem schriftlichen Verfahren. Das hilft beim Kopfrechnen, beim Überschlagen und in der Klassenarbeit ohne Taschenrechner. Und es zeigt dir, dass die Formeln wirklich für jede Zahl gelten: Buchstaben sind nur Platzhalter.</p>
 regel: |
   <div class="formel"><code>49² = (50 − 1)² = 2500 − 100 + 1 = 2401</code></div>
-  <p>Zerlege die Zahl in einen <strong>glatten Zehner</strong> und einen kleinen Rest. Liegt sie knapp darüber, nimmst du die 1. Formel (a + b)², knapp darunter die 2. Formel (a − b)². Zwei Zahlen, die gleich weit links und rechts von einem Zehner liegen, rechnest du mit der 3. Formel: 21 · 19 = (20 + 1)(20 − 1) = 20² − 1².</p>
-  <p>Mit dem Zehner kannst du leicht rechnen: 50² = 2500, 2 · 50 · 1 = 100, 1² = 1.</p>
+  <p>Zerlege die Zahl in eine <strong>glatte Zahl</strong> (Zehner oder Hunderter) und einen kleinen Rest. Liegt sie knapp darüber, nimmst du die 1. Formel (a + b)², knapp darunter die 2. Formel (a − b)². Zwei Zahlen, die gleich weit links und rechts von einem Zehner liegen, rechnest du mit der 3. Formel: 21 · 19 = (20 + 1)(20 − 1) = 20² − 1².</p>
+  <p>Mit der glatten Zahl kannst du leicht rechnen: 50² = 2500, 2 · 50 · 1 = 100, 1² = 1.</p>
   <p class="merke">Merke: Das Mittelglied nicht vergessen! 49² ist nicht 2500 − 1 = 2499.</p>
 beispiel: |
   <p>Rechne im Kopf: 102² und 21 · 19.</p>
