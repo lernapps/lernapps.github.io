@@ -3,7 +3,7 @@ kompetenz: grundwert
 serlo: { url: 'https://de.serlo.org/mathe/2193/prozentrechnung-mittels-formeln', titel: 'Prozentrechnung mittels Formeln' }
 beschreibung: 'Grundwert berechnen: G = W · 100 / p. Erklärung, Beispiel, Hunderterfeld und Übungsaufgaben mit Sofort-Feedback.'
 warum: |
-  <p>„Du sparst 30 €, das sind 12 % Rabatt“ – wie teuer war die Sache vorher? Hier ist das Ganze unbekannt, und genau das verwirrt viele. Wer den Grundwert sicher zurückrechnen kann, löst auch die kniffligen Wettbewerbsaufgaben, bei denen nur der Teil bekannt ist.</p>
+  <p>„Du sparst 30 €, das sind 12 % Rabatt“ – wie teuer war die Sache vorher? Hier ist das Ganze unbekannt, und genau das verwirrt viele. Wer den Grundwert sicher zurückrechnen kann, löst auch die kniffligen Aufgaben in der Klassenarbeit, bei denen nur der Teil bekannt ist.</p>
 regel: |
   <div id="formel">
   <div class="formel"><code>G = W · 100 / p</code></div>

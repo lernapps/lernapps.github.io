@@ -12,8 +12,8 @@ Weitere Lern-Apps (jede mit eigener llms.txt) stehen auf der Übersicht, als Tex
 ## Was die App ist
 
 Ein statischer, interaktiver Mathe-Trainer für die Wahrscheinlichkeitsrechnung
-(Klasse 8, Gymnasium Hessen, Vorbereitung auf einen Mathe-Wettbewerb). Die Lernende
-ist etwa 13 Jahre alt und spricht Deutsch. Acht Kompetenzseiten, jede mit:
+(Klasse 8, Gymnasium Hessen; Ziel: sicher werden für Unterricht und Klassenarbeit). Für
+Kinder von etwa 13 Jahren, die Deutsch sprechen. Acht Kompetenzseiten, jede mit:
 Warum-Absatz, Regel, ausgerechnetem Beispiel, SVG-Bild (Urne, Menge oder Baum;
 ohne JavaScript sichtbar, in der Übung geht es mit der Aufgabe mit), Video-Karte und
 einem Aufgabengenerator mit Sofort-Feedback, Tipp, "Lösung zeigen/verbergen", "Neue Aufgabe"
@@ -24,13 +24,13 @@ und einem Zähler richtig/gesamt für die Sitzung.
 - Kein Server, kein Login, kein Tracking, keine Cookies. Im localStorage liegen nur die
   Selbsteinschätzung, das letzte Testergebnis und der optionale Merker "Videos immer
   direkt laden".
-- Keine externen Requests, bis der Lernende ein Video startet; dann lädt
+- Keine externen Requests, bis jemand ein Video startet; dann lädt
   youtube-nocookie.com (Daten gehen an Google). Die Lehrerschmidt-Videos sind als
   Zwei-Klick-Karten unter dem Anker `#video` eingebettet: erst ein lokal gezeichneter
   Platzhalter, das Video selbst kommt erst nach Klick auf "Video laden und abspielen".
 - Die App ist kein Kurs und kein Chat. Sie erklärt nicht adaptiv, sie stellt Aufgaben
   und prüft Antworten. Das Erklären, Nachfragen und Besprechen ist deine Aufgabe.
-- Die App kennt den Lernenden nicht und meldet nichts zurück. Der Tutor erfährt das
+- Die App kennt das Kind nicht und meldet nichts zurück. Der Tutor erfährt das
   Ergebnis nur, wenn er danach fragt – oder das Kind schickt ihm die Ergebniszeile
   des Tests (siehe "Test").
 - Keine Noten, keine Zeitmessung. Der Test liefert je Kompetenz nur sicher / teils /
@@ -45,8 +45,13 @@ und einem Zähler richtig/gesamt für die Sitzung.
 - Verlinke immer eine konkrete Aufgabe mit Parametern, nie nur die Startseite.
 - Jede Aufgabe hat eine Nummer. Sag dem Kind "Mach Aufgabe Nr. 42" und schick den Link
   mit `seed=42`. Nennt das Kind eine Nummer, öffnest du dieselbe Aufgabe über den Link.
-- Nach jeder verlinkten Aufgabe: frag, was herauskam, und lass den Rechenweg in
-  eigenen Worten erklären. Die App meldet dem Tutor nichts.
+- Rechenweg auf Papier: Zu jeder Aufgabe schreibt das Kind die Aufgabe und den ganzen
+  Rechenweg auf Papier, wie in der Klassenarbeit, fotografiert nur das Blatt (ohne Namen)
+  und schickt das Foto in den Chat. Prüf jeden Schritt, nenn den ersten falschen Schritt und stell eine
+  Leitfrage dazu, statt ihn zu verbessern. Das Ergebnis tippt das Kind in die App; die App
+  prüft nur das Ergebnis. Ein Rechenweg-Feld gibt es bewusst nicht: Das Kind soll Mathe
+  üben, keine Eingabe-Syntax.
+- Nach jeder verlinkten Aufgabe: frag, was herauskam. Die App meldet dem Tutor nichts.
 - Empfiehl das Video, wenn das Kind die Erklärung zweimal nicht wiedergeben kann;
   sonst zuerst Aufgaben. Verlinke dann den Anker `#video` der Seite.
 - Kompetenzseiten mit einem passenden serlo.org-Artikel haben unter `#serlo` (nach dem
@@ -59,7 +64,7 @@ und einem Zähler richtig/gesamt für die Sitzung.
 ## URL-Parameter und Anker (alle Seiten)
 
 - Herkunft `von=tutor` (auf jeder Seite, auch test.html; nur der Wert `tutor`): Häng ihn an
-  jeden Link, den du dem Lernenden gibst, zum Beispiel
+  jeden Link, den du dem Kind gibst, zum Beispiel
   {{ app.basisUrl }}test.html?nr=<Nummer>&modus=schnell&von=tutor. Die Aufgabe ändert er nicht.
   Mit ihm zeigt die Übung unter "Link kopieren" und der Test neben der Ergebniszeile den Knopf
   "Zurück zu Claude". Er kopiert eine Zeile und schließt den Tab. Übung:
@@ -82,7 +87,7 @@ und einem Zähler richtig/gesamt für die Sitzung.
   wie `#visualisierung` oder `#regel` lässt die Erklärung offen. Ohne JavaScript ist alles offen.
 - Unter jeder Aufgabe steht "Aufgabe Nr. N", daneben "Link zu dieser Aufgabe" und "Link
   kopieren". Der Link enthält die Parameter aus der aufgerufenen Adresse plus die
-  Nummer; Nummer und Parameter zusammen ergeben immer dieselbe Aufgabe. Die Lernende
+  Nummer; Nummer und Parameter zusammen ergeben immer dieselbe Aufgabe. Das Kind
   kann dir die Nummer sagen oder den Link schicken.
 - "Neue Aufgabe" würfelt eine neue Nummer und vergisst die Parameter aus der Adresse
   (auch `schwer=1`). Für eine bestimmte Art von Aufgabe schickst du wieder einen Link.
@@ -142,7 +147,7 @@ Zahlen eingeben – die Rundungsregel:
 URL: {{ app.basisUrl }}index.html
 Checkliste der acht Kompetenzen mit Selbsteinschätzung pro Zeile:
 Sicher / Teils / Noch üben (Radiobuttons, localStorage, Schlüssel
-`{{ app.id }}.selbsteinschaetzung`). Der Tutor kann die Lernende bitten, ihre
+`{{ app.id }}.selbsteinschaetzung`). Der Tutor kann das Kind bitten, seine
 Einschätzung vorzulesen, um zu entscheiden, wo er anfängt. Für Aufgaben nicht
 hierhin verlinken.
 
@@ -252,7 +257,7 @@ Beispiel: {{ app.basisUrl }}ohne-zuruecklegen.html?urne=3r2b1g&erster=r&zweiter=
 Kompetenz: Pfade eines Ereignisses addieren. Die Regel-Abschnitte `#formen` (Produkt,
 Summe, Potenz) und `#uebersetzen` (Ereignisse in Pfade) stehen hier; geübt werden sie
 auf den Seiten 7 und 8.
-- `art=pfade`: Die Lernende kann die passenden Pfade im Baum anklicken (orange) und
+- `art=pfade`: Das Kind kann die passenden Pfade im Baum anklicken (orange) und
   rechnet P(E). Entscheidend ist P(E); sind die angeklickten Pfade falsch, sagt die
   App, wie viele fehlen oder zu viel sind.
 - `art=term`: drei Terme, einer passt; die falschen bilden typische Fehler ab.

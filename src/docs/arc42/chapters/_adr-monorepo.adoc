@@ -1,4 +1,4 @@
-// ADR-012 bis ADR-021: Entscheidungen des Monorepos lern-apps.
+// ADR-012 bis ADR-022: Entscheidungen des Monorepos lern-apps.
 // Wird von 09_architecture_decisions.adoc eingebunden (Unterstrich: keine eigene Seite).
 
 [[adr-012]]
@@ -353,3 +353,51 @@ Nachprüfung den Fall ab. Wo er `window.closed` meldet, den Tab aber nicht schli
 Hinweis; das betrifft vor allem ungetestete In-App-Browser
 (xref:11_technical_risks.adoc#r-021[R-021]). Die 100 ms vor dem Schließen stammen aus der Messung im
 Browser-Check: Headless-Chromium verlor ohne Pause 6 von 20 kopierten Zeilen, mit 50 ms keine.
+
+[[adr-022]]
+=== ADR-022: Rechenweg auf Papier, geprüft vom Tutor per Foto; kein Rechenweg-Feld in der App
+
+*Kontext.* In der Klassenarbeit zählt der Rechenweg, nicht nur das Ergebnis. Die Apps prüfen aber nur
+Ergebnisse (xref:08_concepts.adoc#section-zahlen-eingeben[8.7]). Ein Kind kann also jede App-Aufgabe
+richtig lösen und in der Arbeit trotzdem Punkte verlieren, weil der Weg fehlt oder einen Fehler hat. Die
+App kennt den Rechenweg nicht, und der Tutor sieht ihn nur, wenn das Kind ihn zeigt.
+
+*Entscheidung.* Das Kind schreibt zu jeder Aufgabe die Aufgabe und den ganzen Rechenweg auf Papier, wie
+in der Klassenarbeit. Es fotografiert nur das Blatt, ohne Namen, und schickt das Foto in den Chat. Der
+Tutor prüft jeden Schritt, nennt den ersten falschen und stellt eine Leitfrage, statt die Korrektur zu
+geben. Das Ergebnis tippt das Kind wie bisher in die App; die App prüft es. Die Regel steht in
+`tutor.md` (Abschnitt 3, „Rechenweg auf Papier“) und in `llms.txt` jeder App („Regeln für den Tutor“)
+sowie in der Übersicht `/llms.txt`. Die App ändert sich nicht.
+
+*Status.* Accepted. Vom Product Owner entschieden am 24.09.2026.
+
+[cols="2,1,1,1",options="header"]
+|===
+| Ziel | Papier + Foto, Tutor prüft (Referenz) | Rechenweg-Feld mit Äquivalenzprüfung je Schritt | Kein Rechenweg
+| QZ-1 Datenschutz | 0 | +1 | +1
+| QZ-2 Tutor-Anschluss | 0 | 0 | 0
+| QZ-3 Richtige Rückmeldung | 0 | ? | −1
+| QZ-4 Neue Apps schnell | 0 | −1 | 0
+| QZ-5 Zugänglich | 0 | −1 | 0
+| *Summe* | *0* | *−1 + ?* | *0*
+|===
+
+Ein Rechenweg-Feld bliebe im Browser, und kein Foto verließe das Gerät (QZ-1 +1). Das Kind müsste aber
+eine Feld-Syntax lernen, Zeile für Zeile Terme tippen, auf dem Handy mit 360 px (QZ-5 −1). Das hat der
+Product Owner ausdrücklich verworfen: Das Kind soll Mathe üben, keine Eingabe-Syntax. Ein Schritt-Prüfer
+wäre ein neuer Kern-Baustein, und jede App bräuchte eigene Regeln, welche Schritte zulässig sind
+(QZ-4 −1). Ob eine Äquivalenzprüfung je Schritt verlässlicher urteilt als der Tutor am Foto, ist `?`:
+Sie findet Rechenfehler sicher, erkennt aber nicht, ob ein Weg in der Arbeit Punkte bringt. Ohne
+Rechenweg gibt es keine Fotos (QZ-1 +1), aber die Rückmeldung deckt nur das Ergebnis ab, nicht das, was
+in der Klassenarbeit zählt (QZ-3 −1). Die Summen trennen die Referenz nicht von „Kein Rechenweg“; den
+Ausschlag gibt das Lernziel: sicher werden für Unterricht und Klassenarbeit.
+
+*Konsequenzen.* Fotos der Handschrift gehen an den Anbieter des Chats. Die App selbst überträgt nichts
+(xref:08_concepts.adoc#section-observability[8.4]); ob das Kind Fotos schickt, entscheiden das Kind
+und seine Eltern in ihrem Chat-Werkzeug. Die Bedrohung steht als
+xref:08_concepts.adoc#t-014[T-014] in 8.1, die Maßnahme als M-18 in 8.2, das Risiko als
+xref:11_technical_risks.adoc#r-022[R-022] in Kapitel 11. Der Tutor kann Handschrift falsch lesen oder
+einen richtigen Schritt als falsch werten
+(xref:11_technical_risks.adoc#r-023[R-023]); die Leitfrage statt der fertigen Korrektur lässt das Kind
+widersprechen, und das Ergebnis prüft weiter die App. Ob der Tutor Schritte richtig beurteilt, prüft kein
+automatischer Test, nur der Tutor-Dialog (xref:08_concepts.adoc#section-test-concept[8.3]).
