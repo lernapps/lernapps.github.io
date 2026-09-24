@@ -67,3 +67,32 @@ test("L-036: der Videokasten zeigt einen optionalen Hinweis aus video.hinweis", 
   const kasten = layout.slice(start, layout.indexOf("</section>", start));
   assert.match(kasten, /\{% if video\.hinweis %\}[\s\S]*\{\{ video\.hinweis \}\}[\s\S]*\{% endif %\}/);
 });
+
+test("TD-17/L-023: videos-Liste – ein Abschnitt #video, je Video eine Karte mit h3, video: bleibt gültig", () => {
+  assert.match(layout, /\{% for v in videos %\}/);
+  const block = layout.slice(layout.indexOf("{% for v in videos %}"), layout.indexOf("{% endfor %}", layout.indexOf("{% for v in videos %}")));
+  assert.match(block, /class="video-karte" id="video-\{\{ loop\.index \}\}" data-youtube-id="\{\{ v\.id \}\}"/);
+  assert.match(block, /<h3>\{\{ v\.ueberschrift \}\}<\/h3>/);
+  assert.match(layout, /\{% if videos %\}[\s\S]*<h2>Video dazu<\/h2>[\s\S]*\{% elif video %\}/);
+});
+
+test("L-023: veraenderung zeigt Senkung und Erhöhung gemeinsam unter „Video dazu“, kein Videokasten im Beispiel", () => {
+  const md = fs.readFileSync("src/prozent/veraenderung.md", "utf8");
+  const beispiel = md.slice(md.indexOf("beispiel: |"), md.search(/^videos?:/m));
+  assert.doesNotMatch(beispiel, /video/i);
+  assert.doesNotMatch(md, /^video:/m);
+  const liste = md.slice(md.indexOf("videos:"), md.indexOf("bild:"));
+  assert.deepEqual([...liste.matchAll(/ueberschrift: (\S+)/g)].map((m) => m[1]), ["Senkung", "Erhöhung"]);
+  assert.deepEqual([...liste.matchAll(/id: (\S+)/g)].map((m) => m[1]), ["7qPr-ik4wp8", "hyKgJKGCjHc"]);
+});
+
+const veraenderung = path.join("_site", "prozent", "veraenderung.html");
+test("gebaut: veraenderung.html – beide Karten in #video, #video-2 bleibt als Anker", { skip: !fs.existsSync(veraenderung) && "kein _site" }, () => {
+  const html = fs.readFileSync(veraenderung, "utf8");
+  const video = html.slice(html.indexOf('<section id="video"'), html.indexOf("</section>", html.lastIndexOf('class="video-karte"')));
+  assert.equal((video.match(/class="video-karte"/g) || []).length, 2);
+  assert.match(video, /id="video-2"/);
+  assert.equal((html.match(/<h2>Video/g) || []).length, 1);
+  assert.ok(html.indexOf('id="beispiel"') < html.indexOf('id="visualisierung"'));
+  assert.ok(html.indexOf('class="video-karte"') > html.indexOf('id="visualisierung"'));
+});

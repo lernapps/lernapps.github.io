@@ -87,10 +87,10 @@ function fakeDom() {
       addEventListener(typ, f) { this.hoerer[typ] = f; },
       click() { this.hoerer.click?.(); },
       querySelectorAll(sel) {
-        if (sel === ":scope > :not(h2, .video-notiz)") return [...this.kinder.filter((k) => k.tag !== "h2" && k.attrs.class !== "video-notiz")];
+        if (sel === ":scope > :not(h2, h3, .video-notiz)") return [...this.kinder.filter((k) => !["h2", "h3"].includes(k.tag) && k.attrs.class !== "video-notiz")];
         const alle = []; const lauf = (x) => { for (const k of x.kinder) { alle.push(k); lauf(k); } }; lauf(this);
         if (sel === "button" || sel === "iframe") return alle.filter((k) => k.tag === sel);
-        if (sel === "section.video-karte[data-youtube-id]") return alle.filter((k) => k.tag === "section");
+        if (sel === ".video-karte[data-youtube-id]") return alle.filter((k) => k.dataset?.youtubeId);
         return [];
       },
       set textContent(t) { this._text = t; },
@@ -151,6 +151,35 @@ test("L-036: ein Hinweis zum Video (p.video-notiz aus video.hinweis) bleibt vor 
     section.querySelectorAll("button")[0].click();
     assert.equal(section.querySelectorAll("iframe").length, 1);
     assert.match(section.textContent, /Im Video heißt das anders\./);
+  } finally {
+    delete globalThis.document;
+  }
+});
+
+test("TD-17/L-023: mehrere Videokarten (div.video-karte mit h3) in einem Abschnitt #video", async () => {
+  const { initVideos } = await import("../../src/kern/js/video.js");
+  const { wurzel, section } = fakeDom();
+  delete section.dataset;
+  const karten = [["video-1", "7qPr-ik4wp8", "Senkung"], ["video-2", "hyKgJKGCjHc", "Erhöhung"]].map(([id, youtubeId, teil]) => {
+    const karte = globalThis.document.createElement("div");
+    karte.id = id;
+    karte.dataset = { youtubeId, titel: `Video ${teil}`, kanal: "Lehrerschmidt" };
+    const h3 = globalThis.document.createElement("h3");
+    h3.textContent = teil;
+    karte.append(h3);
+    section.append(karte);
+    return karte;
+  });
+  try {
+    initVideos(P, wurzel);
+    for (const k of karten) {
+      assert.equal(k.querySelectorAll("button").length, 1, k.id);
+      assert.equal(k.kinder[0].tag, "h3", "die Unterüberschrift bleibt");
+    }
+    karten[1].querySelectorAll("button")[0].click();
+    assert.equal(karten[1].querySelectorAll("iframe").length, 1);
+    assert.equal(karten[0].querySelectorAll("iframe").length, 0, "nur das angeklickte Video lädt");
+    assert.match(karten[1].textContent, /Erhöhung/);
   } finally {
     delete globalThis.document;
   }

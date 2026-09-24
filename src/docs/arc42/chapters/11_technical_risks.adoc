@@ -82,7 +82,7 @@ und R-014 „Version nicht gehoben“ (durch ADR-014).
 | TD-14 | Navigationsleiste verdeckt die Startseite (https://github.com/docToolchain/docToolchain/issues/1699[#1699]); `<style>` in `landingpage.gsp`. | xref:05_building_block_view.adoc#bb-doku[Architektur-Doku] | Nach dem Fix `<style>`-Block löschen.
 | TD-15 | Theme-`manifest.json` mit absoluten Pfaden (https://github.com/docToolchain/docToolchain/issues/1701[#1701]); eigene Datei in `src/site/assets/`. | xref:05_building_block_view.adoc#bb-doku[Architektur-Doku] | Nach dem Fix je nach Default behalten oder löschen.
 | TD-16 | `landingpage.gsp` landet im Output (https://github.com/docToolchain/docToolchain/issues/1703[#1703]); `pages.yml` löscht sie. | xref:05_building_block_view.adoc#bb-ci[Tests und CI] (`pages.yml`) | Nach dem Fix die `rm`-Zeile löschen.
-| TD-17 | Je Kompetenzseite ist nur ein Video vorgesehen (`video: { id, titel, kanal }`). | xref:05_building_block_view.adoc#bb-layout[Layout] (`kompetenz.njk:33-45`) | Zurückgestellt am 23.09.2026, bis eine Seite ein zweites Video braucht; heute braucht keine eines. Dann `videos: [...]` im Front Matter, Schleife im Gerüst, `initVideos` für mehrere Karten.
+| TD-17 | Je Kompetenzseite war nur ein Video vorgesehen (`video: { id, titel, kanal }`). | xref:05_building_block_view.adoc#bb-layout[Layout] (`kompetenz.njk`) | Erledigt am 24.09.2026 (Lektorat L-023): `videos: [{ ueberschrift, id, titel, kanal, hinweis? }]` im Front Matter, eine Karte `#video-1`, `#video-2` … je Video unter „Video dazu“; `initVideos` wandelt jede `.video-karte` um. `video:` gilt weiter. Erste Nutzerin: `prozent/veraenderung` (Senkung, Erhöhung).
 | TD-18 | Die Vorschau zeigt „≈“ auch bei exakten Werten (`src/kern/js/zahlantwort.js:160`). | xref:05_building_block_view.adoc#bb-kern[Kern] | Entschieden am 23.09.2026, PR in Arbeit: „=“ bei exakt darstellbarem Wert, mit Test (BR-5).
 | TD-19 | Die neuen Zufall-Seiten 7 und 8 (`ergebnisformen`, `pfade-uebersetzen`) sind inhaltlich nicht durchgesehen. | xref:05_building_block_view.adoc#bb-apps[Apps] (`src/zufall/`) | Entschieden am 23.09.2026: Der Product Owner oder der Lernende sieht die Seiten fachlich durch.
 | TD-20 | Das Hilfsskript für neue Kompetenzen (`scripts/neue-kompetenz.mjs` der Vorlage) ist nicht portiert; die Schritte stehen nur in `CLAUDE.md`. | xref:05_building_block_view.adoc#bb-build[Build] | Entschieden am 23.09.2026: kommt mit der nächsten App. Ein Skript legt die drei Dateien mit rotem Test an und trägt die Zeile in `KOMPETENZEN` ein.
@@ -93,7 +93,7 @@ und R-014 „Version nicht gehoben“ (durch ADR-014).
 
 Erledigt: TD-1 (Kern kopiert) und TD-2 (Prozent/Zufall nicht migriert) durch ADR-012 und die Migration
 in PR #2; TD-6 (`APP.uebersicht` ungelesen) entfällt, das Layout verlinkt „Alle Apps“; TD-8 (Pages-Modus
-uneinheitlich) galt nur noch für die alten Repos und ist mit R-016 erledigt.
+uneinheitlich) galt nur noch für die alten Repos und ist mit R-016 erledigt; TD-17 (nur ein Video je Seite) mit L-023.
 
 [[section-open-questions]]
 === Offene Fragen: Nur die Lizenz ist noch offen
