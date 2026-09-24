@@ -8,6 +8,8 @@
  *                      die Vorschau zeigt den gelesenen Term ("Gelesen: x² + 6x + 9") oder eine kurze Syntaxmeldung.
  *   "auswahl"          { id, label, optionen: [{ wert, text }] }
  *   "radio"            { id, label, optionen: [{ wert, text | html }] }
+ * "html" (Aufgabentext, Radio-Option) und die Zeilen von aufgabe.rechenweg dürfen nur <strong>…</strong> enthalten; jedes
+ * andere Markup erscheint als Text. Nichts davon wird als HTML geparst (Bedrohung T-003), siehe zerlegeHervorhebung.
  * Tabelle: aufgabe.tabelle = [{ links, rechts } | { links, feld: feldId }] stellt Felder in eine Tabelle (z. B. Dreisatz).
  */
 
@@ -20,11 +22,22 @@ export function el(tag, attrs = {}, kinder = []) {
   const e = document.createElement(tag);
   for (const [k, v] of Object.entries(attrs)) {
     if (k === "text") e.textContent = v;
-    else if (k === "html") e.innerHTML = v;
     else if (v !== undefined && v !== false) e.setAttribute(k, v === true ? "" : v);
   }
   for (const kind of kinder) e.append(kind);
   return e;
+}
+
+/** Zerlegt einen Generator-Text in Abschnitte { text, fett }: nur <strong>…</strong> wird fett, alles andere bleibt Text. */
+export function zerlegeHervorhebung(text) {
+  return String(text ?? "").split(/<strong>([\s\S]*?)<\/strong>/)
+    .map((teil, i) => ({ text: teil, fett: i % 2 === 1 }))
+    .filter((abschnitt) => abschnitt.text !== "");
+}
+
+/** DOM-Knoten zu zerlegeHervorhebung: Textknoten und <strong>-Elemente, ohne HTML zu parsen. */
+export function hervorgehoben(text) {
+  return zerlegeHervorhebung(text).map((a) => (a.fett ? el("strong", { text: a.text }) : a.text));
 }
 
 /** Live-Vorschau unter dem Feld: zeigt den Wert eines Terms oder Bruchs, verzögert während des Tippens. */
@@ -86,7 +99,7 @@ function feldRadio(feld, praefix) {
     const id = `${praefix}-${feld.id}-${i}`;
     gruppe.append(el("label", { for: id }, [
       el("input", { type: "radio", id, name: feld.id, value: o.wert }),
-      el("span", { html: o.html || "", text: o.html ? undefined : o.text }),
+      el("span", {}, o.html ? hervorgehoben(o.html) : [o.text ?? ""]),
     ]));
   });
   return gruppe;
@@ -125,8 +138,7 @@ export function zeigeEingaben(felder, aufgabe, praefix) {
 
 /** Schreibt den Aufgabentext (HTML, wenn vorhanden, sonst Text). */
 export function zeigeAufgabentext(element, aufgabe) {
-  if (aufgabe.html) element.innerHTML = aufgabe.html;
-  else element.textContent = aufgabe.text;
+  element.replaceChildren(...(aufgabe.html ? hervorgehoben(aufgabe.html) : [aufgabe.text ?? ""]));
 }
 
 /** Liest die Antworten aus dem Formular: { feldId: Text }. */

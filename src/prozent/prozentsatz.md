@@ -3,7 +3,7 @@ kompetenz: prozentsatz
 serlo: { url: 'https://de.serlo.org/mathe/2193/prozentrechnung-mittels-formeln', titel: 'Prozentrechnung mittels Formeln' }
 beschreibung: 'Prozentsatz berechnen: p % = W / G · 100. Erklärung, Beispiel, Prozentbalken und Übungsaufgaben mit Sofort-Feedback.'
 warum: |
-  <p>„18 von 24 Schülern haben ein Haustier“ – ist das viel? Erst der Prozentsatz macht solche Angaben vergleichbar: 75 % sagen sofort, wie groß der Anteil ist, egal ob die Klasse 24 oder 30 Schüler hat. Im Wettbewerb ist das die häufigste Frage: „Wie viel Prozent sind das?“</p>
+  <p>„18 von 24 Schülern haben ein Haustier“ – ist das viel? Erst der Prozentsatz macht solche Angaben vergleichbar: 75 % sagen sofort, wie groß der Anteil ist, egal ob die Klasse 24 oder 30 Schüler hat. Im Alltag und in der Klassenarbeit ist das eine der häufigsten Fragen: „Wie viel Prozent sind das?“</p>
 regel: |
   <div id="formel">
   <div class="formel"><code>p % = W / G · 100</code></div>

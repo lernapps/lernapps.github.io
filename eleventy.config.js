@@ -12,7 +12,7 @@ import { ladeApps } from "./lib/apps.js";
 import { zeichneBild } from "./lib/bild.js";
 import { versionsHash, versioniere } from "./lib/versionierung.js";
 import { richteKarteEin } from "./lib/karte/eleventy.js";
-import { pruefeZeilen, pruefeLlms, pruefeKompetenzen, pruefeMeldeLink, pruefeSerloLinks } from "./lib/pruefungen.js";
+import { pruefeZeilen, pruefeLlms, pruefeKompetenzen, pruefeMeldeLink, pruefeSerloLinks, pruefeTutorText } from "./lib/pruefungen.js";
 import { pruefeAusgabe } from "./lib/pruefe-ausgabe.js";
 import {
   findeLinks, pruefeLink, pruefeVorgaben, pruefeParameterDoku, pruefeUebersicht, dokumentierteWerte, erlaubeHerkunft, herkunftKollision,
@@ -22,6 +22,8 @@ import { erzeugeZufall } from "./src/kern/js/zufall.js";
 import { MODI } from "./src/kern/js/testablauf.js";
 
 const QUELLE = "src";
+// tutor.md ist der Prompt, den das Kind in den Chat lädt: unter 120 Zeilen (CLAUDE.md, Project rules).
+const MAX_TUTOR_ZEILEN = 119;
 // Gepatchte Kopien des docToolchain-Themes (Architektur-Doku, TD-10): fremder Code, von der Zeilengrenze ausgenommen.
 const THEME_KOPIEN = /^src\/site\/assets\/css\/(asciidoctor|main\.min\.[0-9a-f]+)\.css$/;
 
@@ -55,7 +57,11 @@ function pruefe(apps, ausgabe) {
     const llms = path.join(ausgabe, app.pfad, "llms.txt");
     const seiten = ["index.html", "test.html", ...app.kompetenzen.map((k) => k.seite)];
     fehler.push(...pruefeLlms(`${app.pfad}/llms.txt`, fs.existsSync(llms) ? fs.readFileSync(llms, "utf8") : "", seiten));
+    const tutor = path.join(ausgabe, app.pfad, "tutor.md");
+    fehler.push(...pruefeZeilen(`${app.pfad}/tutor.md`, lies(tutor), MAX_TUTOR_ZEILEN));
+    for (const p of [llms, tutor]) fehler.push(...pruefeTutorText(path.relative(ausgabe, p), lies(p)));
   }
+  fehler.push(...pruefeTutorText("llms.txt", lies(path.join(ausgabe, "llms.txt"))));
   return fehler;
 }
 
