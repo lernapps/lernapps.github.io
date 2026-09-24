@@ -1,5 +1,5 @@
 /* Gemeinsame Bausteine für alle Prozent-Generatoren: schöne Zahlen, Kontexte, Einheiten. URL-Vorgaben liest der Kern. */
-import { runde, formatZahl } from "../../../kern/js/zahlen.js";
+import { runde } from "../../../kern/js/zahlen.js";
 import { bruch, leseTerm } from "../../../kern/js/bruch.js";
 
 export const PROZENTSAETZE = [
@@ -58,7 +58,9 @@ export const NEUTRAL = { id: "neutral", einheit: "", min: 0, max: Infinity, nach
 
 /** Kontext, dessen Bereich den Grundwert enthält; sonst der neutrale Kontext ohne Einheit. */
 export function passenderKontext(zufall, grundwert, ids) {
-  const kandidaten = KONTEXTE.filter((k) => (!ids || ids.includes(k.id)) && grundwert >= k.min && grundwert <= k.max);
+  // Nur Kontexte, deren Zahlen so aussehen können: keine 90,91 Personen (L-011).
+  const kandidaten = KONTEXTE.filter((k) => (!ids || ids.includes(k.id)) && grundwert >= k.min && grundwert <= k.max
+    && runde(grundwert, k.nachkomma) === grundwert);
   return kandidaten.length ? zufall.wahl(kandidaten) : NEUTRAL;
 }
 
@@ -67,10 +69,8 @@ export function waehleKontext(zufall, ids) {
   return zufall.wahl(auswahl);
 }
 
-/** Zahl mit Einheit, z. B. "250 €" oder "12,5 %". */
-export function mitEinheit(zahl, einheit) {
-  return einheit ? `${formatZahl(zahl)} ${einheit}` : formatZahl(zahl);
-}
+/** Zahl mit Einheit ("250 €", "780,50 €", "12,5 %") und Zahl nach ihrer Art ohne Einheit kommen aus dem Kern. */
+export { mitEinheit, formatWert } from "../../../kern/js/zahlen.js";
 
 /** Erkennt eine leere oder unlesbare Eingabe. */
 export function keineZahl(wert) {

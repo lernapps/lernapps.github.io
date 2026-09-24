@@ -3,7 +3,7 @@ import { formatZahl, gleichheitszeichen, runde } from "../../../kern/js/zahlen.j
 import { multipliziere, dividiere, bruch } from "../../../kern/js/bruch.js";
 import { zahlenfeld, pruefeZahlAntwort, passtZu } from "../../../kern/js/zahlantwort.js";
 import {
-  erzeugeTripel, waehleKontext, passenderKontext, mitEinheit, ergebnisFuer, MELDUNG_KEINE_ZAHL, alsBruch, artFuer,
+  erzeugeTripel, waehleKontext, passenderKontext, mitEinheit, formatWert, ergebnisFuer, MELDUNG_KEINE_ZAHL, alsBruch, artFuer,
 } from "./gemeinsam.js";
 
 export const THEMA = "grundwert";
@@ -48,11 +48,11 @@ export function erzeugeAufgabe(zufall, vorgaben = {}) {
     gesucht: "grundwert",
     felder: [zahlenfeld({ id: "grundwert", label: "Grundwert G", einheit, art: artFuer(einheit) }, exakt)],
     loesung: { grundwert },
-    tipp: `Gesucht ist das Ganze (100 %). Du kennst ${formatZahl(prozentsatz)} %: das sind ${mitEinheit(prozentwert, wEinheit)}. `
-      + `Rechne erst aus, was 1 % ist (durch ${formatZahl(prozentsatz)} teilen), dann mal 100.`,
+    tipp: `Gesucht ist das Ganze (100\u00a0%). Du kennst ${formatZahl(prozentsatz)}\u00a0%: das sind ${mitEinheit(prozentwert, wEinheit)}. `
+      + `Rechne erst aus, was 1\u00a0% ist (durch ${formatZahl(prozentsatz)} teilen), dann mal 100.`,
     rechenweg: [
       "G = W · 100 / p",
-      `G = ${formatZahl(prozentwert)} · 100 / ${formatZahl(prozentsatz)}`,
+      `G = ${formatWert(prozentwert, einheit)} · 100 / ${formatZahl(prozentsatz)}`,
       `G ${gleichheitszeichen(exakt.z / exakt.n, grundwert)} ${mitEinheit(grundwert, einheit)}`,
     ],
   };
@@ -60,9 +60,9 @@ export function erzeugeAufgabe(zufall, vorgaben = {}) {
 
 const MELDUNGEN = {
   "keine-zahl": MELDUNG_KEINE_ZAHL,
-  "prozentwert-statt-grundwert": "Du hast p % vom Prozentwert berechnet. Gesucht ist aber das Ganze, von dem der Prozentwert ein Teil ist.",
-  "nur-ein-prozent": "Das ist erst 1 %. Jetzt noch mal 100 nehmen, dann hast du das Ganze.",
-  "falsch": "Das stimmt noch nicht. Der Grundwert muss größer sein als der Prozentwert (bei p < 100 %).",
+  "prozentwert-statt-grundwert": "Du hast p\u00a0% vom Prozentwert berechnet. Gesucht ist aber das Ganze, von dem der Prozentwert ein Teil ist.",
+  "nur-ein-prozent": "Das ist erst 1\u00a0%. Jetzt noch mal 100 nehmen, dann hast du das Ganze.",
+  "falsch": "Das stimmt noch nicht. Der Grundwert muss größer sein als der Prozentwert (bei p < 100\u00a0%).",
 };
 
 /** Prüft die Eingabe nach der Rundungsregel und erkennt typische Fehler. */

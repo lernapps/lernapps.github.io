@@ -7,9 +7,9 @@ export const URL_ZAHLEN = [];
 export const URL_TEXTE = ["gesucht"];
 
 export const ROLLEN = [
-  { wert: "G", text: "Grundwert G (das Ganze, 100 %)" },
+  { wert: "G", text: "Grundwert G (das Ganze, 100\u00a0%)" },
   { wert: "W", text: "Prozentwert W (der Teil)" },
-  { wert: "p", text: "Prozentsatz p % (der Anteil in Prozent)" },
+  { wert: "p", text: "Prozentsatz p\u00a0% (der Anteil in Prozent)" },
 ];
 
 /* Pro Kontext und gesuchter Größe: Text, die zwei gegebenen Größen in Textreihenfolge, die gesuchte Größe. */
@@ -60,7 +60,7 @@ export function erzeugeAufgabe(zufall, vorgaben = {}) {
 
 const MELDUNGEN = {
   unvollstaendig: "Ordne bitte alle drei Größen zu.",
-  "g-w-vertauscht": "Grundwert und Prozentwert sind vertauscht. Der Grundwert ist das Ganze (100 %), der Prozentwert nur ein Teil davon.",
+  "g-w-vertauscht": "Grundwert und Prozentwert sind vertauscht. Der Grundwert ist das Ganze (100\u00a0%), der Prozentwert nur ein Teil davon.",
   falsch: "Noch nicht alles richtig. Frag dich bei jeder Zahl: Ist das das Ganze, der Teil oder der Anteil in Prozent?",
 };
 

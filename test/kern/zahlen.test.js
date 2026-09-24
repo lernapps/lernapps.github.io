@@ -33,7 +33,7 @@ test("formatZahl schreibt deutsch mit Komma", () => {
   assert.equal(formatZahl(0.125), "0,13");
   assert.equal(formatZahl(1234.5), "1234,5");
   assert.equal(formatZahl(2.5, 2), "2,50");
-  assert.equal(mitEinheit(12.5, "m"), "12,5 m");
+  assert.equal(mitEinheit(12.5, "m"), "12,5\u00a0m");
   assert.equal(mitEinheit(3, ""), "3");
 });
 

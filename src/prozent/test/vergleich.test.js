@@ -49,6 +49,6 @@ test("L-008: Rechenweg schreibt p = Unterschied / Bezugsgröße · 100 und das E
     const formel = a.rechenweg.filter((z) => z.includes("· 100"));
     assert.equal(formel.length, 1);
     assert.match(formel[0], /^p = [\d,]+ \/ [\d,]+ · 100 = [\d,]+$/);
-    assert.match(a.rechenweg.at(-1), /^p % = [\d,]+ %$/);
+    assert.match(a.rechenweg.at(-1), /^p\u00a0% = [\d,]+\u00a0%$/);
   }
 });

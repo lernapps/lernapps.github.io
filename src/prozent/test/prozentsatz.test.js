@@ -40,6 +40,6 @@ test("L-008: Rechenweg schreibt p = W / G · 100 und das Ergebnis als p % = … 
     const a = erzeugeAufgabe(z);
     assert.equal(a.rechenweg[0], "p = W / G · 100");
     assert.ok(a.rechenweg.filter((z) => z.includes("· 100")).every((z) => z.startsWith("p = ")), a.rechenweg.join(" | "));
-    assert.match(a.rechenweg.at(-1), /^p % = [\d,]+ %$/);
+    assert.match(a.rechenweg.at(-1), /^p\u00a0% = [\d,]+\u00a0%$/);
   }
 });

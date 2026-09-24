@@ -2,7 +2,7 @@
 import { formatZahl, gleichheitszeichen, runde } from "../../../kern/js/zahlen.js";
 import { multipliziere, dividiere, subtrahiere, bruch } from "../../../kern/js/bruch.js";
 import { zahlenfeld, pruefeZahlAntwort, passtZu } from "../../../kern/js/zahlantwort.js";
-import { waehleGrundwert, mitEinheit, ergebnisFuer, MELDUNG_KEINE_ZAHL, PROZENTSAETZE, alsBruch } from "./gemeinsam.js";
+import { waehleGrundwert, mitEinheit, formatWert, ergebnisFuer, MELDUNG_KEINE_ZAHL, PROZENTSAETZE, alsBruch } from "./gemeinsam.js";
 
 export const THEMA = "vergleich";
 // URL-Parameter (öffentlicher Vertrag, in llms.txt dokumentiert); der Kern liest sie mit leseVorgaben.
@@ -18,7 +18,7 @@ const KONTEXTE = [
 const NEUTRAL = { id: "neutral", einheit: "", nameA: "Der Wert A ist", nameB: "der Wert B", dingA: "A", dingB: "B" };
 const SAETZE = PROZENTSAETZE.filter((p) => p <= 60);
 
-/** Legt fest, welcher Wert die Bezugsgröße (100 %) ist und welcher verglichen wird. */
+/** Legt fest, welcher Wert die Bezugsgröße (100\u00a0%) ist und welcher verglichen wird. */
 function rollen(a, b, frage) {
   // "größer als": der kleinere Wert ist Bezug; "kleiner als": der größere Wert ist Bezug.
   const klein = Math.min(a, b);
@@ -63,22 +63,22 @@ export function erzeugeAufgabe(zufall, vorgaben = {}) {
     gesucht: "prozentsatz",
     felder: [zahlenfeld({ id: "prozentsatz", label: `Um wie viel Prozent ${wort}?`, einheit: "%", art: "prozent" }, exakt)],
     loesung: { prozentsatz },
-    tipp: `Die Bezugsgröße steht nach dem Wort „als“: ${dingBezug} = ${mitEinheit(bezug, einheit)} sind 100 %. `
-      + `Teile den Unterschied (${formatZahl(gross - klein)}) durch die Bezugsgröße, nicht durch den anderen Wert – sonst kommt ${etwa}${formatZahl(andererSatz)} % heraus, und das wäre die Antwort auf die andere Frage.`,
+    tipp: `Die Bezugsgröße steht nach dem Wort „als“: ${dingBezug} = ${mitEinheit(bezug, einheit)} sind 100\u00a0%. `
+      + `Teile den Unterschied (${mitEinheit(gross - klein, einheit)}) durch die Bezugsgröße, nicht durch den anderen Wert – sonst kommt ${etwa}${formatZahl(andererSatz)}\u00a0% heraus, und das wäre die Antwort auf die andere Frage.`,
     rechenweg: [
-      `Unterschied: ${formatZahl(gross)} − ${formatZahl(klein)} = ${formatZahl(gross - klein)}`,
-      `Bezugsgröße (steht nach „als“): ${mitEinheit(bezug, einheit)} = 100 %`,
-      `p = ${formatZahl(gross - klein)} / ${formatZahl(bezug)} · 100 ${zeichen} ${formatZahl(prozentsatz)}`,
-      `p % ${zeichen} ${formatZahl(prozentsatz)} %`,
+      `Unterschied: ${formatWert(gross, einheit)} − ${formatWert(klein, einheit)} = ${formatWert(gross - klein, einheit)}`,
+      `Bezugsgröße (steht nach „als“): ${mitEinheit(bezug, einheit)} = 100\u00a0%`,
+      `p = ${formatWert(gross - klein, einheit)} / ${formatWert(bezug, einheit)} · 100 ${zeichen} ${formatZahl(prozentsatz)}`,
+      `p\u00a0% ${zeichen} ${formatZahl(prozentsatz)}\u00a0%`,
     ],
   };
 }
 
 const MELDUNGEN = {
   "keine-zahl": MELDUNG_KEINE_ZAHL,
-  "bezugsgroesse-verwechselt": "Das ist die Antwort auf die andere Frage. Die Bezugsgröße (100 %) ist die Zahl nach „als“.",
+  "bezugsgroesse-verwechselt": "Das ist die Antwort auf die andere Frage. Die Bezugsgröße (100\u00a0%) ist die Zahl nach „als“.",
   "differenz-statt-prozent": "Das ist nur der Unterschied in der Einheit. Gefragt ist der Unterschied in Prozent der Bezugsgröße.",
-  "verhaeltnis-statt-unterschied": "Das ist das Verhältnis der beiden Werte in Prozent. Gefragt ist, um wie viel Prozent MEHR oder WENIGER – also die 100 % abziehen.",
+  "verhaeltnis-statt-unterschied": "Das ist das Verhältnis der beiden Werte in Prozent. Gefragt ist, um wie viel Prozent MEHR oder WENIGER – also die 100\u00a0% abziehen.",
   "falsch": "Das stimmt noch nicht. Rechne: Unterschied geteilt durch die Bezugsgröße, dann mal 100.",
 };
 
@@ -96,5 +96,5 @@ export function pruefeAntwort(aufgabe, antworten) {
     else if (passt(unterschied)) fehler = "differenz-statt-prozent";
     else if (passt(multipliziere(dividiere(alsBruch(vergleich), alsBruch(bezug)), bruch(100)))) fehler = "verhaeltnis-statt-unterschied";
   }
-  return ergebnisFuer("prozentsatz", ergebnis, fehler, MELDUNGEN, `${formatZahl(prozentsatz)} %.`);
+  return ergebnisFuer("prozentsatz", ergebnis, fehler, MELDUNGEN, `${formatZahl(prozentsatz)}\u00a0%.`);
 }

@@ -46,9 +46,15 @@ export function gleichheitszeichen(exakt, gezeigt) {
   return Math.abs(exakt - gezeigt) <= 1e-9 * Math.max(1, Math.abs(exakt)) ? "=" : "≈";
 }
 
-/** Zahl mit Einheit, z. B. "250 €", "1,5 m" oder nur "12" ohne Einheit. */
+/** Zahl ohne Einheit, aber nach ihrer Art geschrieben: Geld (€) mit zwei Nachkommastellen (780,50), ganze Beträge ohne Komma. */
+export function formatWert(zahl, einheit) {
+  if (einheit === "€") return Number.isInteger(runde(zahl, 2)) ? formatZahl(zahl, 0) : formatZahl(zahl, 2);
+  return formatZahl(zahl);
+}
+
+/** Zahl mit Einheit, z. B. "250 €", "780,50 €", "1,5 m" oder nur "12". Geschütztes Leerzeichen: kein Umbruch vor der Einheit. */
 export function mitEinheit(zahl, einheit) {
-  return einheit ? `${formatZahl(zahl)} ${einheit}` : formatZahl(zahl);
+  return einheit ? `${formatWert(zahl, einheit)}\u00a0${einheit}` : formatZahl(zahl);
 }
 
 /** Vergleich mit absoluter Toleranz (Standard: eine halbe Hundertstel-Stelle). */

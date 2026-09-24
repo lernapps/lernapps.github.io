@@ -3,7 +3,7 @@ import { formatZahl, formatGenau, gleichheitszeichen, runde } from "../../../ker
 import { multipliziere, dividiere, bruch } from "../../../kern/js/bruch.js";
 import { zahlenfeld, pruefeZahlAntwort, HINWEIS_FEHLER } from "../../../kern/js/zahlantwort.js";
 import {
-  erzeugeTripel, waehleKontext, mitEinheit, MELDUNG_KEINE_ZAHL, PROZENTSAETZE, alsBruch, artFuer,
+  erzeugeTripel, waehleKontext, mitEinheit, formatWert, MELDUNG_KEINE_ZAHL, PROZENTSAETZE, alsBruch, artFuer,
 } from "./gemeinsam.js";
 
 export const THEMA = "sachaufgaben";
@@ -25,9 +25,9 @@ const TEXTE = {
 };
 
 /** Richtige Gleichung und zwei Fallen (Formeln verwechselt) für die gesuchte Größe. */
-function gleichungen(gesucht, g, w, p) {
-  const G = formatZahl(g);
-  const W = formatZahl(w);
+function gleichungen(gesucht, g, w, p, einheit) {
+  const G = formatWert(g, einheit);
+  const W = formatWert(w, einheit);
   const P = formatZahl(p);
   if (gesucht === "W") return { richtig: `W = ${G} · ${P} / 100`, falsch: [`W = ${G} · 100 / ${P}`, `W = ${P} / ${G} · 100`] };
   if (gesucht === "G") return { richtig: `G = ${W} · 100 / ${P}`, falsch: [`G = ${W} · ${P} / 100`, `G = ${P} / ${W} · 100`] };
@@ -43,7 +43,7 @@ function aufgabeGleichung(zufall, vorgaben) {
   const gesucht = GESUCHT[vorgaben.gesucht] || zufall.wahl(["W", "G", "p"]);
   const einheit = kontext.einheit;
   const text = TEXTE[kontext.id][gesucht](mitEinheit(grundwert, einheit), mitEinheit(prozentwert, EINHEIT_W[kontext.id] || einheit), mitEinheit(prozentsatz, "%"));
-  const gl = gleichungen(gesucht, grundwert, prozentwert, prozentsatz);
+  const gl = gleichungen(gesucht, grundwert, prozentwert, prozentsatz, einheit);
   const optionen = zufall.mischen([gl.richtig, ...gl.falsch]).map((t) => ({ wert: t, text: t }));
   const ergebnis = { W: prozentwert, G: grundwert, p: prozentsatz }[gesucht];
   const ergebnisEinheit = gesucht === "p" ? "%" : einheit;
@@ -81,27 +81,29 @@ function aufgabeDreisatz(zufall, vorgaben) {
   const eins = runde(grundwert / 100, 2);
   const prozentwert = runde(grundwert * prozentsatz / 100, 2);
   const einheit = kontext.einheit;
+  const einsGenau = einsExakt.z / einsExakt.n;
+  const einsText = runde(einsGenau, 2) === einsGenau ? formatWert(einsGenau, einheit) : formatGenau(einsGenau);
   const ding = { preis: "Ein Laptop kostet", umfrage: "Befragt wurden", akku: "Der Akku fasst" }[kontext.id];
-  const text = `${ding} ${mitEinheit(grundwert, einheit)}. Rechne mit dem Dreisatz aus, wie viel ${formatZahl(prozentsatz)} % davon sind.`;
+  const text = `${ding} ${mitEinheit(grundwert, einheit)}. Rechne mit dem Dreisatz aus, wie viel ${formatZahl(prozentsatz)}\u00a0% davon sind.`;
   return {
     thema: "sachaufgaben", typ: "dreisatz", kontext: kontext.id, text, grundwert, prozentsatz, prozentwert, einheit, gesucht: "W",
     exakt: { eins: einsExakt, prozent: prozentExakt },
     tabelle: [
-      { links: "100 %", rechts: mitEinheit(grundwert, einheit) },
-      { links: "1 %", feld: "eins" },
-      { links: `${formatZahl(prozentsatz)} %`, feld: "prozent" },
+      { links: "100\u00a0%", rechts: mitEinheit(grundwert, einheit) },
+      { links: "1\u00a0%", feld: "eins" },
+      { links: `${formatZahl(prozentsatz)}\u00a0%`, feld: "prozent" },
     ],
     felder: [
-      zahlenfeld({ id: "eins", label: "1 %", einheit, art: "zahl" }, einsExakt),
-      zahlenfeld({ id: "prozent", label: `${formatZahl(prozentsatz)} %`, einheit, art: "zahl" }, prozentExakt),
+      zahlenfeld({ id: "eins", label: "1\u00a0%", einheit, art: "zahl" }, einsExakt),
+      zahlenfeld({ id: "prozent", label: `${formatZahl(prozentsatz)}\u00a0%`, einheit, art: "zahl" }, prozentExakt),
     ],
     loesung: { eins, prozent: prozentwert },
-    tipp: "Von 100 % auf 1 %: durch 100 teilen. Von 1 % auf p %: mal p nehmen.",
-    // 1 % steht ungerundet: Mit genau dieser Zahl geht die nächste Zeile weiter (L-021).
+    tipp: "Von 100\u00a0% auf 1\u00a0%: durch 100 teilen. Von 1\u00a0% auf p\u00a0%: mal p nehmen.",
+    // 1\u00a0% steht ungerundet (Geld mit Cent wie 2,50 €): Mit genau dieser Zahl geht die nächste Zeile weiter (L-021).
     rechenweg: [
-      `100 % = ${mitEinheit(grundwert, einheit)}`,
-      `1 % = ${formatZahl(grundwert)} : 100 = ${`${formatGenau(einsExakt.z / einsExakt.n)} ${einheit}`.trim()}`,
-      `${formatZahl(prozentsatz)} % = ${formatGenau(einsExakt.z / einsExakt.n)} · ${formatZahl(prozentsatz)} ${gleichheitszeichen(prozentExakt.z / prozentExakt.n, prozentwert)} ${mitEinheit(prozentwert, einheit)}`,
+      `100\u00a0% = ${mitEinheit(grundwert, einheit)}`,
+      `1\u00a0% = ${formatWert(grundwert, einheit)} : 100 = ${einheit ? `${einsText}\u00a0${einheit}` : einsText}`,
+      `${formatZahl(prozentsatz)}\u00a0% = ${einsText} · ${formatZahl(prozentsatz)} ${gleichheitszeichen(prozentExakt.z / prozentExakt.n, prozentwert)} ${mitEinheit(prozentwert, einheit)}`,
     ],
   };
 }
@@ -148,6 +150,6 @@ export function pruefeAntwort(aufgabe, antworten) {
   else fehler = "falsch";
   const richtigText = aufgabe.typ === "gleichung"
     ? `${mitEinheit(aufgabe.loesung.ergebnis, aufgabe.gesucht === "p" ? "%" : aufgabe.einheit)}.`
-    : `${formatZahl(aufgabe.prozentsatz)} % sind ${mitEinheit(aufgabe.loesung.prozent, aufgabe.einheit)}.`;
+    : `${formatZahl(aufgabe.prozentsatz)}\u00a0% sind ${mitEinheit(aufgabe.loesung.prozent, aufgabe.einheit)}.`;
   return { korrekt: alle, fehler, felder, meldung: alle ? `Richtig! ${richtigText}` : MELDUNGEN[fehler] || MELDUNG_KEINE_ZAHL };
 }

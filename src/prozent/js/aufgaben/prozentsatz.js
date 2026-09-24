@@ -3,7 +3,7 @@ import { formatZahl, gleichheitszeichen, runde } from "../../../kern/js/zahlen.j
 import { multipliziere, dividiere, bruch } from "../../../kern/js/bruch.js";
 import { zahlenfeld, pruefeZahlAntwort, passtZu } from "../../../kern/js/zahlantwort.js";
 import {
-  erzeugeTripel, waehleKontext, passenderKontext, mitEinheit, ergebnisFuer, MELDUNG_KEINE_ZAHL, alsBruch,
+  erzeugeTripel, waehleKontext, passenderKontext, mitEinheit, formatWert, ergebnisFuer, MELDUNG_KEINE_ZAHL, alsBruch,
 } from "./gemeinsam.js";
 
 export const THEMA = "prozentsatz";
@@ -47,12 +47,12 @@ export function erzeugeAufgabe(zufall, vorgaben = {}) {
     gesucht: "prozentsatz",
     felder: [zahlenfeld({ id: "prozentsatz", label: "Prozentsatz p", einheit: "%", art: "prozent" }, exakt)],
     loesung: { prozentsatz },
-    tipp: `Der Grundwert ist das Ganze: ${mitEinheit(grundwert, einheit)} sind 100 %. `
+    tipp: `Der Grundwert ist das Ganze: ${mitEinheit(grundwert, einheit)} sind 100\u00a0%. `
       + `Teile den Teil (${mitEinheit(prozentwert, wEinheit)}) durch das Ganze und nimm das Ergebnis mal 100.`,
     rechenweg: [
       "p = W / G · 100",
-      `p = ${formatZahl(prozentwert)} / ${formatZahl(grundwert)} · 100 ${zeichen} ${formatZahl(prozentsatz)}`,
-      `p % ${zeichen} ${formatZahl(prozentsatz)} %`,
+      `p = ${formatWert(prozentwert, einheit)} / ${formatWert(grundwert, einheit)} · 100 ${zeichen} ${formatZahl(prozentsatz)}`,
+      `p\u00a0% ${zeichen} ${formatZahl(prozentsatz)}\u00a0%`,
     ],
   };
 }
@@ -75,5 +75,5 @@ export function pruefeAntwort(aufgabe, antworten) {
     if (passt(dividiere(aufgabe.exakt, bruch(100)))) fehler = "dezimal-statt-prozent";
     else if (passt(aufgabe.grundwert / aufgabe.prozentwert * 100)) fehler = "bezugsgroesse-verwechselt";
   }
-  return ergebnisFuer("prozentsatz", ergebnis, fehler, MELDUNGEN, `${formatZahl(aufgabe.prozentsatz)} %.`);
+  return ergebnisFuer("prozentsatz", ergebnis, fehler, MELDUNGEN, `${formatZahl(aufgabe.prozentsatz)}\u00a0%.`);
 }

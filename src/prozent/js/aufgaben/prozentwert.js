@@ -3,7 +3,7 @@ import { formatZahl, gleichheitszeichen, runde } from "../../../kern/js/zahlen.j
 import { multipliziere, dividiere, subtrahiere, bruch } from "../../../kern/js/bruch.js";
 import { zahlenfeld, pruefeZahlAntwort, passtZu } from "../../../kern/js/zahlantwort.js";
 import {
-  erzeugeTripel, waehleKontext, passenderKontext, mitEinheit, alsBruch, artFuer, ergebnisFuer,
+  erzeugeTripel, waehleKontext, passenderKontext, mitEinheit, formatWert, alsBruch, artFuer, ergebnisFuer,
 } from "./gemeinsam.js";
 
 export const THEMA = "prozentwert";
@@ -48,11 +48,11 @@ export function erzeugeAufgabe(zufall, vorgaben = {}) {
     gesucht: "prozentwert",
     felder: [zahlenfeld({ id: "prozentwert", label: "Prozentwert W", einheit, art: artFuer(einheit) }, exakt)],
     loesung: { prozentwert },
-    tipp: `Der Grundwert ist das Ganze: ${mitEinheit(grundwert, einheit)} sind 100 %. `
-      + `Rechne erst 1 % aus (Grundwert geteilt durch 100) und dann mal ${formatZahl(prozentsatz)}.`,
+    tipp: `Der Grundwert ist das Ganze: ${mitEinheit(grundwert, einheit)} sind 100\u00a0%. `
+      + `Rechne erst 1\u00a0% aus (Grundwert geteilt durch 100) und dann mal ${formatZahl(prozentsatz)}.`,
     rechenweg: [
       "W = G · p / 100",
-      `W = ${formatZahl(grundwert)} · ${formatZahl(prozentsatz)} / 100`,
+      `W = ${formatWert(grundwert, einheit)} · ${formatZahl(prozentsatz)} / 100`,
       `W ${gleichheitszeichen(exakt.z / exakt.n, prozentwert)} ${mitEinheit(prozentwert, einheit)}`,
     ],
   };
@@ -60,9 +60,9 @@ export function erzeugeAufgabe(zufall, vorgaben = {}) {
 
 const MELDUNGEN = {
   "keine-zahl": "Bitte gib eine Zahl ein, zum Beispiel 12,5.",
-  "prozent-statt-dezimal": "Du hast vergessen, durch 100 zu teilen: 12 % sind 12/100 = 0,12.",
+  "prozent-statt-dezimal": "Du hast vergessen, durch 100 zu teilen: 12\u00a0% sind 12/100 = 0,12.",
   "rest-statt-anteil": "Du hast den Rest ausgerechnet, nicht den Anteil. Gefragt ist der Prozentwert selbst.",
-  "falsch": "Das stimmt noch nicht. Rechne noch einmal: erst 1 %, dann den Prozentsatz mal nehmen.",
+  "falsch": "Das stimmt noch nicht. Rechne noch einmal: erst 1\u00a0%, dann den Prozentsatz mal nehmen.",
 };
 
 /** Prüft die Eingabe nach der Rundungsregel und erkennt typische Fehler. */
