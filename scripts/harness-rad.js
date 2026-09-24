@@ -93,7 +93,7 @@ const ROH = [
   [F, "type-driven-design", "Type-driven design", "G", 3, "offen", ""],
   [F, "formal-verification", "Formal verification", "R", 4, "offen", ""],
   [F, "model-checker", "Model checker", "R", 4, "offen", ""],
-  [Doc, "markdown-asciidoc-lint", "Markdown / AsciiDoc lint", "G", 1, "offen", ""],
+  [Doc, "markdown-asciidoc-lint", "Markdown / AsciiDoc lint", "G", 1, "vorhanden", "asciidoc-linter (docToolchain, per Commit-SHA gepinnt) prüft `src/docs` im Job `doku-bauen-und-pruefen`; ERRORs brechen ihn, WARNINGs nicht (`scripts/doku-lint.js`, ADR-028). Markdown lintet nichts"],
   [Doc, "link-checker", "Link checker", "G", 1, "vorhanden", "Jedes interne href/src in `_site` führt auf eine Datei, jeder #anker auf eine id (`pruefeLinks` in `lib/pruefe-links.js`, bricht den Build); Tutor-Deep-Links gegen Seiten, Anker und Parameter (`pruefeLink`), serlo-Links nur auf die Domain (`pruefeSerloLinks`), Verweise auf die Doku (`test/build/doku-verweise.test.js`); externe Links prüft der Build nicht"],
   [Doc, "code-in-docs-validation", "Code-in-docs validation", "G", 2, "offen", ""],
   [Doc, "spell-check", "Spell check", "G", 1, "offen", ""],

@@ -46,6 +46,8 @@ export const BELEGE = {
     "datei:test/build/karte-daten.test.js"],
   "accessibility-automated": ["datei:e2e/axe.spec.js", "pflicht:browser"],
   "contrast-checker": ["datei:test/build/fachfarben.test.js", "funktion:lib/fachfarben.js#kontrast"],
+  "markdown-asciidoc-lint": ["job:doku.yml#doku-bauen-und-pruefen", "funktion:scripts/doku-lint.js#bewerte",
+    "datei:test/build/doku-lint.test.js"],
   "link-checker": ["funktion:lib/pruefe-links.js#pruefeLinks", "datei:test/build/pruefe-links.test.js",
     "funktion:lib/llms-vertrag.js#pruefeLink", "funktion:lib/pruefungen.js#pruefeSerloLinks",
     "datei:test/build/doku-verweise.test.js"],
