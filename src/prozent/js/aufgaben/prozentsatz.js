@@ -3,13 +3,15 @@ import { formatZahl, gleichheitszeichen, runde } from "../../../kern/js/zahlen.j
 import { multipliziere, dividiere, bruch } from "../../../kern/js/bruch.js";
 import { zahlenfeld, pruefeZahlAntwort, passtZu } from "../../../kern/js/zahlantwort.js";
 import {
-  erzeugeTripel, waehleKontext, passenderKontext, mitEinheit, formatWert, ergebnisFuer, MELDUNG_KEINE_ZAHL, alsBruch,
+  erzeugeTripel, waehleKontext, RABATTE, passenderKontext, mitEinheit, formatWert, ergebnisFuer, MELDUNG_KEINE_ZAHL, alsBruch,
 } from "./gemeinsam.js";
 
 export const THEMA = "prozentsatz";
 // URL-Parameter (öffentlicher Vertrag, in llms.txt dokumentiert); der Kern liest sie mit leseVorgaben.
 export const URL_ZAHLEN = ["g", "w"];
 export const URL_TEXTE = [];
+// Plausible Zahlen für das Ding im Text (L-011).
+const BEREICHE = { preis: { min: 30, max: 300, saetze: RABATTE } };
 
 const TEXTE = {
   preis: (g, w) => `Eine Jacke kostet ${g}. Der Rabatt beträgt ${w}. Wie viel Prozent Rabatt sind das?`,
@@ -22,13 +24,13 @@ const TEXTE = {
 
 /** Erzeugt eine Prozentsatz-Aufgabe; Vorgaben {g, w} aus der URL werden übernommen. */
 export function erzeugeAufgabe(zufall, vorgaben = {}) {
-  let kontext = waehleKontext(zufall);
+  let kontext = waehleKontext(zufall, undefined, BEREICHE);
   let { grundwert, prozentsatz, prozentwert } = erzeugeTripel(zufall, kontext);
   if (vorgaben.g && vorgaben.w) {
     grundwert = vorgaben.g;
     prozentwert = vorgaben.w;
     prozentsatz = runde(prozentwert / grundwert * 100, 2);
-    kontext = passenderKontext(zufall, grundwert);
+    kontext = passenderKontext(zufall, grundwert, undefined, BEREICHE);
   }
   const einheit = kontext.einheit;
   const wEinheit = kontext.id === "sport" ? "Treffer" : einheit;

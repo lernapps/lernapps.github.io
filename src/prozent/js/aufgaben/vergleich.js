@@ -12,7 +12,7 @@ export const URL_TEXTE = ["frage"];
 const KONTEXTE = [
   { id: "laeden", einheit: "€", min: 20, max: 500, nachkomma: 1, schritt: 5, nameA: "Im Laden A kostet ein Rucksack", nameB: "im Laden B", dingA: "der Preis in Laden A", dingB: "der Preis in Laden B" },
   { id: "punkte", einheit: "Punkte", min: 20, max: 200, nachkomma: 0, schritt: 1, nameA: "Lena hat im ersten Spiel", nameB: "im zweiten Spiel", dingA: "das Ergebnis im ersten Spiel", dingB: "das Ergebnis im zweiten Spiel" },
-  { id: "groesse", einheit: "cm", min: 100, max: 200, nachkomma: 0, schritt: 1, nameA: "Ben ist", nameB: "seine Schwester Mia", dingA: "Ben", dingB: "Mia" },
+  { id: "groesse", einheit: "cm", min: 120, max: 200, nachkomma: 0, schritt: 1, nameA: "Ben ist", nameB: "seine Schwester Mia", dingA: "Ben", dingB: "Mia" },
   { id: "schueler", einheit: "Schüler", min: 200, max: 1000, nachkomma: 0, schritt: 10, nameA: "Die Schule am See hat", nameB: "die Stadtschule", dingA: "die Schule am See", dingB: "die Stadtschule" },
 ];
 const NEUTRAL = { id: "neutral", einheit: "", nameA: "Der Wert A ist", nameB: "der Wert B", dingA: "A", dingB: "B" };
@@ -38,9 +38,19 @@ export function erzeugeAufgabe(zufall, vorgaben = {}) {
     const passend = KONTEXTE.filter((k) => a >= k.min && a <= k.max && b >= k.min && b <= k.max);
     kontext = passend.length ? zufall.wahl(passend) : NEUTRAL;
   } else {
-    const p = zufall.wahl(SAETZE);
-    const bezug = waehleGrundwert(zufall, p, kontext) ?? kontext.min;
-    const anderer = runde(frage === "groesser" ? bezug * (1 + p / 100) : bezug * (1 - p / 100), kontext.nachkomma);
+    // Beide Werte bleiben im Bereich des Kontexts (L-011): keine 2,66 m große Schwester.
+    // Rückfallebene: 10 % vom Rand des Bereichs liegt immer darin.
+    let bezug = frage === "groesser" ? kontext.min : kontext.max;
+    let anderer = runde(frage === "groesser" ? bezug * 1.1 : bezug * 0.9, kontext.nachkomma);
+    for (let versuch = 0; versuch < 50; versuch++) {
+      const p = zufall.wahl(SAETZE);
+      const basis = waehleGrundwert(zufall, p, kontext) ?? kontext.min;
+      const x = runde(frage === "groesser" ? basis * (1 + p / 100) : basis * (1 - p / 100), kontext.nachkomma);
+      if (x >= kontext.min && x <= kontext.max) {
+        [bezug, anderer] = [basis, x];
+        break;
+      }
+    }
     [a, b] = zufall.wahl([[bezug, anderer], [anderer, bezug]]);
   }
   const { bezug, vergleich } = rollen(a, b, frage);

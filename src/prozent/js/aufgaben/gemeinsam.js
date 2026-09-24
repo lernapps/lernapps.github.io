@@ -7,6 +7,9 @@ export const PROZENTSAETZE = [
   60, 65, 70, 75, 80, 85, 90, 95,
 ];
 
+/** Rabatte, wie sie im Laden vorkommen (L-011): 5 bis 50 %. */
+export const RABATTE = PROZENTSAETZE.filter((p) => p >= 5 && p <= 50);
+
 /** Realistische Kontexte mit Einheit und Zahlenbereich für den Grundwert. */
 export const KONTEXTE = [
   { id: "preis", einheit: "€", min: 20, max: 1500, nachkomma: 1, schritt: 5 },
@@ -40,8 +43,16 @@ export function waehleGrundwert(zufall, prozentsatz, { min, max, nachkomma = 0, 
   return zufall.ganzzahl(kMin, kMax) * basis;
 }
 
-/** Grundwert, Prozentsatz und Prozentwert, die zusammen "schön" sind. */
-export function erzeugeTripel(zufall, kontext, prozentsaetze = PROZENTSAETZE) {
+/**
+ * Kontext mit dem plausiblen Bereich des Dings aus dem Aufgabentext (L-011), z. B. { preis: { min: 30, max: 300,
+ * saetze: RABATTE } } für eine Jacke. Kontexte ohne Eintrag bleiben, wie sie sind.
+ */
+export function mitBereich(kontext, bereiche = {}) {
+  return bereiche[kontext.id] ? { ...kontext, ...bereiche[kontext.id] } : kontext;
+}
+
+/** Grundwert, Prozentsatz und Prozentwert, die zusammen "schön" sind. Prozentsätze: eigene des Kontexts, sonst alle. */
+export function erzeugeTripel(zufall, kontext, prozentsaetze = kontext.saetze ?? PROZENTSAETZE) {
   for (let versuch = 0; versuch < 50; versuch++) {
     const prozentsatz = zufall.wahl(prozentsaetze);
     const grundwert = waehleGrundwert(zufall, prozentsatz, kontext);
@@ -57,16 +68,16 @@ export function erzeugeTripel(zufall, kontext, prozentsaetze = PROZENTSAETZE) {
 export const NEUTRAL = { id: "neutral", einheit: "", min: 0, max: Infinity, nachkomma: 2 };
 
 /** Kontext, dessen Bereich den Grundwert enthält; sonst der neutrale Kontext ohne Einheit. */
-export function passenderKontext(zufall, grundwert, ids) {
+export function passenderKontext(zufall, grundwert, ids, bereiche) {
   // Nur Kontexte, deren Zahlen so aussehen können: keine 90,91 Personen (L-011).
-  const kandidaten = KONTEXTE.filter((k) => (!ids || ids.includes(k.id)) && grundwert >= k.min && grundwert <= k.max
+  const kandidaten = KONTEXTE.map((k) => mitBereich(k, bereiche)).filter((k) => (!ids || ids.includes(k.id)) && grundwert >= k.min && grundwert <= k.max
     && runde(grundwert, k.nachkomma) === grundwert);
   return kandidaten.length ? zufall.wahl(kandidaten) : NEUTRAL;
 }
 
-export function waehleKontext(zufall, ids) {
+export function waehleKontext(zufall, ids, bereiche) {
   const auswahl = ids ? KONTEXTE.filter((k) => ids.includes(k.id)) : KONTEXTE;
-  return zufall.wahl(auswahl);
+  return mitBereich(zufall.wahl(auswahl), bereiche);
 }
 
 /** Zahl mit Einheit ("250 €", "780,50 €", "12,5 %") und Zahl nach ihrer Art ohne Einheit kommen aus dem Kern. */

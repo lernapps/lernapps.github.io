@@ -3,7 +3,7 @@ import { formatZahl, formatGenau, gleichheitszeichen, runde } from "../../../ker
 import { addiere, subtrahiere, multipliziere, dividiere, bruch, EINS } from "../../../kern/js/bruch.js";
 import { zahlenfeld, pruefeZahlAntwort, passtZu } from "../../../kern/js/zahlantwort.js";
 import {
-  waehleGrundwert, mitEinheit, formatWert, ergebnisFuer, MELDUNG_KEINE_ZAHL, PROZENTSAETZE, alsBruch, artFuer,
+  waehleGrundwert, mitEinheit, formatWert, ergebnisFuer, MELDUNG_KEINE_ZAHL, PROZENTSAETZE, RABATTE, alsBruch, artFuer,
 } from "./gemeinsam.js";
 
 export const THEMA = "veraenderung";
@@ -15,7 +15,7 @@ const KONTEXTE = [
   { id: "ticket", einheit: "€", min: 20, max: 500, nachkomma: 1, schritt: 5, richtung: "plus",
     neu: (alt, p) => `Ein Konzertticket kostet ${alt}. Der Preis steigt um ${p}. Wie viel kostet es danach?`,
     alt: (neu, p) => `Der Preis eines Konzerttickets steigt um ${p}. Danach kostet es ${neu}. Wie viel hat es vorher gekostet?` },
-  { id: "rabatt", einheit: "€", min: 20, max: 500, nachkomma: 1, schritt: 5, richtung: "minus",
+  { id: "rabatt", einheit: "€", min: 20, max: 120, nachkomma: 1, schritt: 5, richtung: "minus", saetze: RABATTE,
     neu: (alt, p) => `Eine Hose kostet ${alt}. Im Ausverkauf gibt es ${p} Rabatt. Wie viel kostet sie jetzt?`,
     alt: (neu, p) => `Nach ${p} Rabatt kostet eine Hose ${neu}. Wie viel hat sie vorher gekostet?` },
   { id: "mwst", einheit: "€", min: 100, max: 1500, nachkomma: 0, schritt: 100, richtung: "plus", saetze: [19],
@@ -53,7 +53,7 @@ export function erzeugeAufgabe(zufall, vorgaben = {}) {
     richtung = vorgaben.richtung === "plus" ? "plus" : "minus";
     prozentsatz = vorgaben.p;
     if (richtung === "minus" && prozentsatz >= 100) prozentsatz = 50;
-    const passend = KONTEXTE.filter((k) => k.richtung === richtung && !k.saetze);
+    const passend = KONTEXTE.filter((k) => k.richtung === richtung && k.id !== "mwst");
     kontext = zufall.wahl(passend);
     if (vorgaben.alt) {
       alt = vorgaben.alt;

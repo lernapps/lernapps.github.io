@@ -3,13 +3,17 @@ import { formatZahl, formatGenau, gleichheitszeichen, runde } from "../../../ker
 import { multipliziere, dividiere, bruch } from "../../../kern/js/bruch.js";
 import { zahlenfeld, pruefeZahlAntwort, HINWEIS_FEHLER } from "../../../kern/js/zahlantwort.js";
 import {
-  erzeugeTripel, waehleKontext, mitEinheit, formatWert, MELDUNG_KEINE_ZAHL, PROZENTSAETZE, alsBruch, artFuer,
+  erzeugeTripel, waehleKontext, mitEinheit, formatWert, MELDUNG_KEINE_ZAHL, PROZENTSAETZE, RABATTE, alsBruch, artFuer,
 } from "./gemeinsam.js";
 
 export const THEMA = "sachaufgaben";
 // URL-Parameter (öffentlicher Vertrag, in llms.txt dokumentiert); der Kern liest sie mit leseVorgaben.
 export const URL_ZAHLEN = ["g", "p"];
 export const URL_TEXTE = ["typ", "gesucht"];
+
+// Plausible Zahlen für das Ding im Text (L-011): Skateboard mit Rabatt, Laptop im Dreisatz.
+const BEREICHE_GLEICHUNG = { preis: { min: 30, max: 300, saetze: RABATTE } };
+const BEREICHE_DREISATZ = { preis: { min: 300, max: 1500 } };
 
 const TEXTE = {
   preis: {
@@ -38,7 +42,7 @@ const GESUCHT = { g: "G", w: "W", p: "p" };
 const EINHEIT_W = { umfrage: "Personen" };
 
 function aufgabeGleichung(zufall, vorgaben) {
-  const kontext = waehleKontext(zufall, Object.keys(TEXTE));
+  const kontext = waehleKontext(zufall, Object.keys(TEXTE), BEREICHE_GLEICHUNG);
   const { grundwert, prozentsatz, prozentwert } = erzeugeTripel(zufall, kontext);
   const gesucht = GESUCHT[vorgaben.gesucht] || zufall.wahl(["W", "G", "p"]);
   const einheit = kontext.einheit;
@@ -69,7 +73,7 @@ function aufgabeGleichung(zufall, vorgaben) {
 }
 
 function aufgabeDreisatz(zufall, vorgaben) {
-  const kontext = waehleKontext(zufall, ["preis", "umfrage", "akku"]);
+  const kontext = waehleKontext(zufall, ["preis", "umfrage", "akku"], BEREICHE_DREISATZ);
   let grundwert = 100 * zufall.ganzzahl(Math.max(1, Math.ceil(kontext.min / 100)), Math.floor(kontext.max / 100));
   let prozentsatz = zufall.wahl(PROZENTSAETZE);
   if (vorgaben.g && vorgaben.p) {
