@@ -16,3 +16,21 @@ h1, h2 { hyphens: auto; overflow-wrap: break-word; }
 .konfig { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: end; }
 .konfig label, .konfig fieldset { display: flex; flex-direction: column; gap: 0.25rem; }
 .konfig fieldset { border: 0; padding: 0; margin: 0; }
+/* ADR-024: Bäume, die hochkant nicht in 279 px passen, liegen quer (Klasse baum-quer im SVG). Auf schmalen
+   Hochkant-Bildschirmen steht darüber ein Dreh-Hinweis – reines CSS, ohne JS. Der Baum bleibt sichtbar und scrollt. */
+@media (orientation: portrait) and (max-width: 40rem) {
+  #visualisierung:has(.baum-quer) .vis-beschriftung::after,
+  .aufgabe-bild:has(.baum-quer)::before,
+  .test-bild:has(.baum-quer)::before,
+  .bauer:has(.baum-quer)::before {
+    content: "Tipp: Dreh dein Handy, dann siehst du den ganzen Baum.";
+    display: block;
+    margin: 0.4rem 0;
+    padding: 0.3rem 0.6rem;
+    border-left: 4px solid #b45309;
+    background: #fff7ed;
+    color: #1a1a1a;
+    font-size: 0.9rem;
+  }
+  #visualisierung:has(.baum-quer) .vis-beschriftung::after { margin-bottom: 0; }
+}
