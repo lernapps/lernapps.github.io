@@ -1,0 +1,30 @@
+// Erzeugt von scripts/harness-rad.js (scripts/harness-rad-original.js) – nicht von Hand ändern.
+link:https://llm-coding.github.io/Semantic-Anchors/harness-coverage-wheel.html?tier=2#on=compiler,linter,unit-tests,property-based-fuzz,integration-tests,contract-tests,secret-scanning,sca,sast,threat-modeling,code-review,adr-enforcement,json-schema-openapi-validation,config-validation,data-contract,contrast-checker,ui-prose-lint,link-checker,diagram-build,prose-lint,doc-code-drift&na=container-image-scanning,iac-scanning,iast,api-contract-lint,schema-diff,db-migration-dry-run,pii-scanner,i18n-lint,distributed-tracing,canary-progressive-delivery,anomaly-detection,health-checks,observability-gates,chaos-engineering,feature-flags[Unseren Stand im Original öffnen^]
+
+Das Original kennt nur „abgedeckt“ und „nicht zutreffend“. Der Link setzt „vorhanden“ als abgedeckt und „entfällt“ als nicht zutreffend; „in Arbeit“, „geplant“ und „verworfen“ bleiben dort Lücken. Weil auch unser Rad nur Vorhandenes zählt und Entfallenes weglässt, ergibt das denselben Wert. Das Original zählt 15 von 29 (52 %), unser Rad 15 von 29 (52 %). Was das Original nicht zeigt: welche Lücken schon in Arbeit oder geplant sind.
+
+++++
+<div class="harness-original" data-quelle="https://llm-coding.github.io/Semantic-Anchors/harness-coverage-wheel.html?tier=2#on=compiler,linter,unit-tests,property-based-fuzz,integration-tests,contract-tests,secret-scanning,sca,sast,threat-modeling,code-review,adr-enforcement,json-schema-openapi-validation,config-validation,data-contract,contrast-checker,ui-prose-lint,link-checker,diagram-build,prose-lint,doc-code-drift&amp;na=container-image-scanning,iac-scanning,iast,api-contract-lint,schema-diff,db-migration-dry-run,pii-scanner,i18n-lint,distributed-tracing,canary-progressive-delivery,anomaly-detection,health-checks,observability-gates,chaos-engineering,feature-flags" hidden>
+<p>Das Original-Rad lässt sich hier einbetten. Beim Laden wird die Seite llm-coding.github.io (GitHub Pages) aufgerufen.</p>
+<p><button type="button">Original-Rad hier laden</button></p>
+</div>
+<script>
+(function () {
+  var kasten = document.querySelector(".harness-original");
+  if (!kasten) return;
+  var quelle = kasten.getAttribute("data-quelle") || "";
+  if (quelle.indexOf("https://llm-coding.github.io/Semantic-Anchors/harness-coverage-wheel.html?") !== 0) return;
+  kasten.hidden = false;
+  kasten.querySelector("button").addEventListener("click", function () {
+    var rahmen = document.createElement("iframe");
+    rahmen.title = "Harness Coverage Wheel (Original, llm-coding.github.io) mit dem Stand von lernapps";
+    rahmen.loading = "lazy";
+    rahmen.referrerPolicy = "no-referrer";
+    rahmen.setAttribute("sandbox", "allow-scripts allow-same-origin");
+    rahmen.style.cssText = "display:block;width:100%;height:1100px;border:1px solid #dee2e6;border-radius:4px";
+    rahmen.src = quelle;
+    kasten.replaceChildren(rahmen);
+  }, { once: true });
+})();
+</script>
+++++
