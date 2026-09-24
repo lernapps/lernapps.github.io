@@ -1,5 +1,5 @@
 /* Aufgaben: prozentuale Zu- und Abnahme. Typ "neu": neuer Wert gesucht. Typ "alt": alter Wert gesucht. */
-import { formatZahl, runde } from "../../../kern/js/zahlen.js";
+import { formatZahl, formatGenau, gleichheitszeichen, runde } from "../../../kern/js/zahlen.js";
 import { addiere, subtrahiere, multipliziere, dividiere, bruch, EINS } from "../../../kern/js/bruch.js";
 import { zahlenfeld, pruefeZahlAntwort, passtZu } from "../../../kern/js/zahlantwort.js";
 import {
@@ -73,12 +73,15 @@ export function erzeugeAufgabe(zufall, vorgaben = {}) {
     ? kontext.neu(mitEinheit(alt, einheit), mitEinheit(prozentsatz, "%"), richtung)
     : kontext.alt(mitEinheit(neu, einheit), mitEinheit(prozentsatz, "%"), richtung);
   const vorzeichen = richtung === "plus" ? "+" : "−";
-  const f = formatZahl(faktor(richtung, prozentsatz));
+  // Der Faktor steht ungerundet (1,125, nicht 1,13): Das Kind rechnet mit genau dieser Zahl weiter (L-021).
+  const f = formatGenau(faktor(richtung, prozentsatz));
+  const ergebnis = typ === "neu" ? neu : alt;
+  const zeichen = gleichheitszeichen(exakt.z / exakt.n, ergebnis);
   const rechenweg = typ === "neu"
     ? [`Neuer Wert = alter Wert · (1 ${vorzeichen} p/100)`, `Faktor: 1 ${vorzeichen} ${formatZahl(prozentsatz)}/100 = ${f}`,
-      `${formatZahl(alt)} · ${f} = ${mitEinheit(neu, einheit)}`]
+      `${formatZahl(alt)} · ${f} ${zeichen} ${mitEinheit(neu, einheit)}`]
     : [`Alter Wert = neuer Wert : (1 ${vorzeichen} p/100)`, `Faktor: 1 ${vorzeichen} ${formatZahl(prozentsatz)}/100 = ${f}`,
-      `${formatZahl(neu)} : ${f} = ${mitEinheit(alt, einheit)}`];
+      `${formatZahl(neu)} : ${f} ${zeichen} ${mitEinheit(alt, einheit)}`];
   const tipp = typ === "neu"
     ? `Der alte Wert (${mitEinheit(alt, einheit)}) ist 100 %. Nach der Änderung sind es ${richtung === "plus" ? 100 + prozentsatz : 100 - prozentsatz} %. Rechne den Prozentwert aus und ${richtung === "plus" ? "addiere" : "subtrahiere"} ihn – oder nimm gleich den Faktor ${f}.`
     : `Vorsicht: Die ${formatZahl(prozentsatz)} % beziehen sich auf den ALTEN Wert, nicht auf ${mitEinheit(neu, einheit)}. Der neue Wert entspricht ${richtung === "plus" ? 100 + prozentsatz : 100 - prozentsatz} %. Teile durch den Faktor ${f}.`;

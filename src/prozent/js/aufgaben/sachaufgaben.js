@@ -1,5 +1,5 @@
 /* Aufgaben: Sachaufgabe übersetzen — Typ "gleichung" (richtige Formel wählen + rechnen) und Typ "dreisatz" (Tabelle). */
-import { formatZahl, runde } from "../../../kern/js/zahlen.js";
+import { formatZahl, formatGenau, gleichheitszeichen, runde } from "../../../kern/js/zahlen.js";
 import { multipliziere, dividiere, bruch } from "../../../kern/js/bruch.js";
 import { zahlenfeld, pruefeZahlAntwort, HINWEIS_FEHLER } from "../../../kern/js/zahlantwort.js";
 import {
@@ -97,10 +97,11 @@ function aufgabeDreisatz(zufall, vorgaben) {
     ],
     loesung: { eins, prozent: prozentwert },
     tipp: "Von 100 % auf 1 %: durch 100 teilen. Von 1 % auf p %: mal p nehmen.",
+    // 1 % steht ungerundet: Mit genau dieser Zahl geht die nächste Zeile weiter (L-021).
     rechenweg: [
       `100 % = ${mitEinheit(grundwert, einheit)}`,
-      `1 % = ${formatZahl(grundwert)} : 100 = ${mitEinheit(eins, einheit)}`,
-      `${formatZahl(prozentsatz)} % = ${formatZahl(eins)} · ${formatZahl(prozentsatz)} = ${mitEinheit(prozentwert, einheit)}`,
+      `1 % = ${formatZahl(grundwert)} : 100 = ${`${formatGenau(einsExakt.z / einsExakt.n)} ${einheit}`.trim()}`,
+      `${formatZahl(prozentsatz)} % = ${formatGenau(einsExakt.z / einsExakt.n)} · ${formatZahl(prozentsatz)} ${gleichheitszeichen(prozentExakt.z / prozentExakt.n, prozentwert)} ${mitEinheit(prozentwert, einheit)}`,
     ],
   };
 }

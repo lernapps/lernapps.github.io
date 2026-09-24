@@ -54,3 +54,20 @@ test("pruefeAntwort (alt) erkennt 'Grundwert = neuer Wert'", () => {
   assert.equal(pruefeAntwort(b, { alt: "80" }).korrekt, true);
   assert.equal(pruefeAntwort(b, { alt: "75" }).fehler, "grundwert-neuer-wert");
 });
+
+test("L-021: Faktor 1,125 steht ungerundet in Lösungsweg und Tipp", () => {
+  for (const richtung of ["plus", "minus"]) {
+    const a = erzeugeAufgabe(erzeugeZufall(1), { neu: richtung === "plus" ? 495 : 385, p: 12.5, richtung });
+    const f = richtung === "plus" ? "1,125" : "0,875";
+    assert.equal(a.alt, 440);
+    assert.ok(a.rechenweg.some((z) => z.includes(`= ${f}`)), a.rechenweg.join(" | "));
+    assert.ok(a.rechenweg.some((z) => z.includes(`: ${f} = `)), a.rechenweg.join(" | "));
+    assert.ok(a.tipp.includes(f), a.tipp);
+    assert.ok(!a.tipp.includes("1,13") && !a.tipp.includes("0,88"), a.tipp);
+  }
+});
+
+test("L-021: gerundeter alter Wert aus URL-Vorgaben steht mit „≈“", () => {
+  const a = erzeugeAufgabe(erzeugeZufall(1), { neu: 100, p: 3, richtung: "plus" });
+  assert.match(a.rechenweg.at(-1), /≈ 97,09/);
+});

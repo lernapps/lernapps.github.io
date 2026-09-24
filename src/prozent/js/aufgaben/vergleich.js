@@ -1,5 +1,5 @@
 /* Aufgaben: Um wie viel Prozent ist A größer/kleiner als B? Die Bezugsgröße steht nach "als". */
-import { formatZahl, runde } from "../../../kern/js/zahlen.js";
+import { formatZahl, gleichheitszeichen, runde } from "../../../kern/js/zahlen.js";
 import { multipliziere, dividiere, subtrahiere, bruch } from "../../../kern/js/bruch.js";
 import { zahlenfeld, pruefeZahlAntwort, passtZu } from "../../../kern/js/zahlantwort.js";
 import { waehleGrundwert, mitEinheit, ergebnisFuer, MELDUNG_KEINE_ZAHL, PROZENTSAETZE, alsBruch } from "./gemeinsam.js";
@@ -55,6 +55,8 @@ export function erzeugeAufgabe(zufall, vorgaben = {}) {
     + `Um wie viel Prozent ist ${dingV} ${wort} als ${dingBezug}?`;
   const gross = Math.max(a, b);
   const klein = Math.min(a, b);
+  const zeichen = gleichheitszeichen(exakt.z / exakt.n, prozentsatz);
+  const etwa = gleichheitszeichen(Math.abs(a - b) / vergleich * 100, andererSatz) === "=" ? "" : "etwa ";
   return {
     thema: "vergleich", kontext: kontext.id, text, a, b, frage, bezug, vergleich, prozentsatz, einheit,
     exakt,
@@ -62,12 +64,12 @@ export function erzeugeAufgabe(zufall, vorgaben = {}) {
     felder: [zahlenfeld({ id: "prozentsatz", label: `Um wie viel Prozent ${wort}?`, einheit: "%", art: "prozent" }, exakt)],
     loesung: { prozentsatz },
     tipp: `Die Bezugsgröße steht nach dem Wort „als“: ${dingBezug} = ${mitEinheit(bezug, einheit)} sind 100 %. `
-      + `Teile den Unterschied (${formatZahl(gross - klein)}) durch die Bezugsgröße, nicht durch den anderen Wert – sonst kommt ${formatZahl(andererSatz)} % heraus, und das wäre die Antwort auf die andere Frage.`,
+      + `Teile den Unterschied (${formatZahl(gross - klein)}) durch die Bezugsgröße, nicht durch den anderen Wert – sonst kommt ${etwa}${formatZahl(andererSatz)} % heraus, und das wäre die Antwort auf die andere Frage.`,
     rechenweg: [
       `Unterschied: ${formatZahl(gross)} − ${formatZahl(klein)} = ${formatZahl(gross - klein)}`,
       `Bezugsgröße (steht nach „als“): ${mitEinheit(bezug, einheit)} = 100 %`,
-      `p = ${formatZahl(gross - klein)} / ${formatZahl(bezug)} · 100 = ${formatZahl(prozentsatz)}`,
-      `p % = ${formatZahl(prozentsatz)} %`,
+      `p = ${formatZahl(gross - klein)} / ${formatZahl(bezug)} · 100 ${zeichen} ${formatZahl(prozentsatz)}`,
+      `p % ${zeichen} ${formatZahl(prozentsatz)} %`,
     ],
   };
 }

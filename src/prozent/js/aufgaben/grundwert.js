@@ -1,5 +1,5 @@
 /* Aufgaben: Grundwert berechnen — G = W · 100 / p. Reine Funktionen, kein DOM. */
-import { formatZahl, runde } from "../../../kern/js/zahlen.js";
+import { formatZahl, gleichheitszeichen, runde } from "../../../kern/js/zahlen.js";
 import { multipliziere, dividiere, bruch } from "../../../kern/js/bruch.js";
 import { zahlenfeld, pruefeZahlAntwort, passtZu } from "../../../kern/js/zahlantwort.js";
 import {
@@ -53,7 +53,7 @@ export function erzeugeAufgabe(zufall, vorgaben = {}) {
     rechenweg: [
       "G = W · 100 / p",
       `G = ${formatZahl(prozentwert)} · 100 / ${formatZahl(prozentsatz)}`,
-      `G = ${mitEinheit(grundwert, einheit)}`,
+      `G ${gleichheitszeichen(exakt.z / exakt.n, grundwert)} ${mitEinheit(grundwert, einheit)}`,
     ],
   };
 }

@@ -1,5 +1,5 @@
 /* Aufgaben: Prozentsatz berechnen — p = W / G · 100. Reine Funktionen, kein DOM. */
-import { formatZahl, runde } from "../../../kern/js/zahlen.js";
+import { formatZahl, gleichheitszeichen, runde } from "../../../kern/js/zahlen.js";
 import { multipliziere, dividiere, bruch } from "../../../kern/js/bruch.js";
 import { zahlenfeld, pruefeZahlAntwort, passtZu } from "../../../kern/js/zahlantwort.js";
 import {
@@ -34,6 +34,7 @@ export function erzeugeAufgabe(zufall, vorgaben = {}) {
   const wEinheit = kontext.id === "sport" ? "Treffer" : einheit;
   const exakt = multipliziere(dividiere(alsBruch(prozentwert), alsBruch(grundwert)), bruch(100));
   const text = TEXTE[kontext.id](mitEinheit(grundwert, einheit), mitEinheit(prozentwert, wEinheit));
+  const zeichen = gleichheitszeichen(exakt.z / exakt.n, prozentsatz);
   return {
     thema: "prozentsatz",
     kontext: kontext.id,
@@ -50,8 +51,8 @@ export function erzeugeAufgabe(zufall, vorgaben = {}) {
       + `Teile den Teil (${mitEinheit(prozentwert, wEinheit)}) durch das Ganze und nimm das Ergebnis mal 100.`,
     rechenweg: [
       "p = W / G · 100",
-      `p = ${formatZahl(prozentwert)} / ${formatZahl(grundwert)} · 100 = ${formatZahl(prozentsatz)}`,
-      `p % = ${formatZahl(prozentsatz)} %`,
+      `p = ${formatZahl(prozentwert)} / ${formatZahl(grundwert)} · 100 ${zeichen} ${formatZahl(prozentsatz)}`,
+      `p % ${zeichen} ${formatZahl(prozentsatz)} %`,
     ],
   };
 }

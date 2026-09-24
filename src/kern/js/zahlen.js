@@ -36,6 +36,16 @@ export function formatZahl(zahl, stellen) {
   return runde(zahl, stellen).toFixed(stellen).replace(".", ",");
 }
 
+/** Zwischenwert ohne sichtbare Rundung (L-021): bis zu `stellen` Nachkommastellen, Nullen am Ende fallen weg. 1,125 bleibt 1,125. */
+export function formatGenau(zahl, stellen = 6) {
+  return String(runde(zahl, stellen)).replace(".", ",");
+}
+
+/** "=" nur, wenn die gezeigte Zahl den exakten Wert trifft; sonst "≈". So stimmt jede gezeigte Rechnung beim Nachrechnen. */
+export function gleichheitszeichen(exakt, gezeigt) {
+  return Math.abs(exakt - gezeigt) <= 1e-9 * Math.max(1, Math.abs(exakt)) ? "=" : "≈";
+}
+
 /** Zahl mit Einheit, z. B. "250 €", "1,5 m" oder nur "12" ohne Einheit. */
 export function mitEinheit(zahl, einheit) {
   return einheit ? `${formatZahl(zahl)} ${einheit}` : formatZahl(zahl);
