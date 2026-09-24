@@ -73,6 +73,8 @@ repository: one shared kern, one layout, one build (Eleventy 3.1.6), deployed to
   `karte/llms.txt` may link only to relative targets, `https://lernapps.github.io/`, the own repository,
   `https://de.serlo.org/` and `https://www.youtube.com/watch?v=`. Any other URL fails the build. These files are
   prompts in a child's chat; widen the allowlist only with an ADR.
+- Every app-page link (`.html`) in a built `tutor.md` carries `von=tutor` before any `#` (`pruefeTutorHerkunft`, ADR-021);
+  without it the button „Zurück zu Claude“ is missing.
 - The tutor contract (`lib/llms-vertrag.js`, TD-3): every deep link in an app's `llms.txt` and `tutor.md` must hit an
   existing page and anchor, use only parameters the generator exports (`URL_ZAHLEN`, `URL_TEXTE`, plus `seed`/`nr`;
   `test.html`: `nr`, `seed`, `modus`), and each value must change the task (a default is fine if another documented

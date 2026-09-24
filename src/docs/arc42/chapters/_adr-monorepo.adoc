@@ -354,6 +354,12 @@ Hinweis; das betrifft vor allem ungetestete In-App-Browser
 (xref:11_technical_risks.adoc#r-021[R-021]). Die 100 ms vor dem Schließen stammen aus der Messung im
 Browser-Check: Headless-Chromium verlor ohne Pause 6 von 20 kopierten Zeilen, mit 50 ms keine.
 
+Der Knopf hängt am Tutor: Er erscheint nur, wenn Claude `von=tutor` an den Link hängt. Vergisst Claude
+das bei einem selbst gebauten Link, fehlt der Knopf. Deshalb steht die Regel in `tutor.md` als erste
+App-Regel, mit einer Selbstprüfung vor dem Senden; der Build prüft, dass jeder App-Link in `tutor.md`
+`von=tutor` trägt (`pruefeTutorHerkunft`). Fehlt der Knopf, zeigt die Adresszeile die Ursache: Fehlt
+`von=tutor`, hat der Tutor den Parameter vergessen; steht er da, liegt der Fehler in der App.
+
 [[adr-022]]
 === ADR-022: Rechenweg auf Papier, geprüft vom Tutor per Foto; kein Rechenweg-Feld in der App
 
