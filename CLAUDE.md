@@ -58,6 +58,8 @@ repository: one shared kern, one layout, one build (Eleventy 3.1.6), deployed to
   "Architecture").
 
 ## Build rules (enforced by `npm run build`)
+- The required check `test-und-build` (`pruefen.yml`) also runs `npm audit --audit-level=high` and `npm run lint`
+  (ESLint flat config: `no-eval`, `no-implied-eval`, `no-unsanitized` against T-003). Never set `innerHTML`; build DOM.
 - After writing `_site`, `eleventy.config.js` runs `lib/pruefungen.js`: no external resources in HTML, no external
   imports in JS/CSS, every source file under 500 lines, per competency `<id>.md` + generator + `test/<id>.test.js`,
   the app's `llms.txt` mentions every page. Any violation fails the build.
