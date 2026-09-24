@@ -21,10 +21,12 @@ als PR-Review vom Typ „Comment“; es beginnt mit `## KI-Review` und nennt `St
 
 Der Check `ki-review` (`.github/workflows/ki-review.yml`, `scripts/ki-review-pruefen.js`) macht den
 Schritt sichtbar. Er ist grün, wenn das neueste KI-Review eines berechtigten Kontos nach dem letzten
-Commit kam, den Kopf-Commit nennt und „freigegeben“ sagt. Jeder neue Commit macht ihn wieder rot. Der
+Commit kam, den Kopf-Commit nennt und „freigegeben“ sagt. Nach jedem neuen Commit fehlt er, bis ein neues Review kommt. Der
 Check ruft kein Sprachmodell auf, braucht kein Secret und liest nur, mit dem `GITHUB_TOKEN` und
-Leserechten. Er startet bei `pull_request` und `pull_request_review`: Ein `issue_comment`-Lauf hinge
-am letzten Commit von `main` und erschiene nicht im PR. Pflicht im Branch-Schutz macht ihn der Product
+Leserechten. Er startet nur bei `pull_request_review`: Ein `issue_comment`-Lauf hinge am letzten
+Commit von `main` und erschiene nicht im PR, und ein zusätzlicher `pull_request`-Lauf ließe sein rotes
+Ergebnis neben dem grünen des Reviews am selben Commit stehen (beim Dogfooding in #43 beobachtet). Ohne
+Review steht der Pflicht-Check auf „Expected“ und sperrt den Merge. Pflicht im Branch-Schutz macht ihn der Product
 Owner mit einem Aufruf (8.2 M-23).
 
 *Status.* Accepted. Vom Product Owner entschieden am 24.09.2026.
@@ -54,7 +56,7 @@ Qualitätsziele misst.
 Begründung im PR. Das mindert xref:11_technical_risks.adoc#r-026[R-026], löst es aber nicht:
 Autor und Reviewer posten über dasselbe Konto, der Check prüft also Konto, Zeitpunkt und Stand, nicht die
 Unabhängigkeit des Kontexts. Ein Review aus demselben Modell teilt dessen blinde Flecken. Workflow und
-Skript kommen bei `pull_request` aus dem PR-Zweig; ein PR könnte den Check selbst aufweichen, deshalb
+Skript kommen aus dem PR-Zweig; ein PR könnte den Check selbst aufweichen, deshalb
 gehört jede Änderung an `ki-review.yml` und `ki-review-pruefen.js` ausdrücklich ins Review. Admins
 können den Branch-Schutz weiter umgehen. Ein fehlerhaftes Beispiel in einem Lerntext fängt das Review nur,
 wenn es nachrechnet; die Checkliste verlangt das (xref:11_technical_risks.adoc#r-025[R-025]).

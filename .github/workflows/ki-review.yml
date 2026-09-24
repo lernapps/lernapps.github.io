@@ -4,15 +4,15 @@ name: KI-Review
 # Kontext mit „Ergebnis: freigegeben“ für genau diesen Stand vorliegt. Der Check ruft kein Sprachmodell
 # auf; er liest nur PR-Kommentare und Reviews (scripts/ki-review-pruefen.js).
 #
-# Warum pull_request_review und nicht issue_comment: Ein issue_comment-Lauf hängt am letzten Commit von
-# main, nicht am PR; sein Ergebnis erscheint nicht im PR. Ein Review (auch „Comment“ auf den eigenen PR)
-# startet den Check am Kopf-Commit des PRs, mit Leserechten. Ein gewöhnlicher PR-Kommentar zählt ebenfalls,
-# braucht danach aber „Re-run“ dieses Checks (gh run rerun <id>).
+# Warum nur pull_request_review: Ein issue_comment-Lauf hängt am letzten Commit von main, nicht am PR; sein
+# Ergebnis erscheint nicht im PR. Ein Review (auch „Comment“ auf den eigenen PR) startet den Check am
+# Kopf-Commit des PRs, mit Leserechten. Einen pull_request-Lauf gibt es bewusst nicht: Sein rotes Ergebnis
+# bliebe neben dem grünen des Reviews am selben Commit stehen und färbte den PR rot. Als Pflicht-Check steht
+# `ki-review` ohne Review auf „Expected“ und sperrt den Merge; jeder neue Commit braucht ein neues Review.
+# Ein gewöhnlicher PR-Kommentar zählt ebenfalls, braucht danach aber „Re-run“ des letzten Review-Laufs.
 on:
-  pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
   pull_request_review:
-    types: [submitted, edited, dismissed]
+    types: [submitted, edited]
 
 permissions:
   contents: read

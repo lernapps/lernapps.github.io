@@ -3,7 +3,7 @@
 This is the prompt for the review every PR gets before the Product Owner merges it. Run it in a **fresh
 context**: a new sub-agent or a new session that did not write the code, ideally on a different model than
 the author. The author session only starts the reviewer and passes the PR number; it never writes the
-verdict itself. The check `ki-review` (`.github/workflows/ki-review.yml`) stays red until the verdict is
+verdict itself. The check `ki-review` (`.github/workflows/ki-review.yml`) is missing (or red) until the verdict is
 posted for the current head commit.
 
 Start it from the author session like this (Claude Code):
@@ -102,5 +102,5 @@ Write "keine" under Befunde if there are none. Delete the temporary `review.md` 
 ## After the review (author session)
 
 The author fixes the findings in new commits. A finding that stays unfixed gets a reason in a PR comment
-(acceptance criterion of #24). Every new commit makes the old verdict stale: the check turns red again, and
+(acceptance criterion of #24). Every new commit makes the old verdict stale: the new head commit has no `ki-review` result, and
 the review runs again in a fresh context for the new head SHA.
