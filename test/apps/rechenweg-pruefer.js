@@ -8,7 +8,7 @@ const LABEL_VORNE = /^.*?[A-Za-zÄÖÜäöüß)]:\s+/;
 
 /** Wert eines rein zahlenmäßigen Teils oder null. */
 function wert(teil) {
-  let s = teil.replace(/<[^>]+>/g, "").replace(LABEL_VORNE, "").trim().replace(EINHEIT_AM_ENDE, "").trim();
+  let s = teil.replace(/<\/?strong>/g, "").replace(LABEL_VORNE, "").trim().replace(EINHEIT_AM_ENDE, "").trim();
   s = s.replace(/\u00a0|\u202f/g, " ").replace(/·|×/g, "*").replace(/:/g, "/").replace(/−/g, "-").replace(/²/g, "^2").replace(/³/g, "^3");
   if (!/^[\d\s,.+\-*/()^]+$/.test(s) || !/\d/.test(s)) return null;
   const r = leseTerm(s);
@@ -22,7 +22,7 @@ function kettenAus(zeilen) {
   const ketten = [];
   let vorher = null;
   for (const roh of zeilen) {
-    const zeile = String(roh).replace(/<[^>]+>/g, "");
+    const zeile = String(roh).replace(/<\/?strong>/g, "");
     const anfang = zeile.match(/^([^=≈]+?)\s[=≈]\s/)?.[1];
     if (/^[=≈]\s/.test(zeile) && vorher) vorher.text += ` ${zeile}`;
     else if (anfang && vorher && anfang === vorher.anfang) vorher.text += zeile.slice(anfang.length);
