@@ -15,7 +15,7 @@ beispiel: |
   <li>2. Zweig: P(blau) = 2/6 (mit Zurücklegen ist die Urne wieder voll).</li>
   <li>P(rot, blau) = 3/6 · 2/6 = 6/36 = 1/6.</li>
   </ol>
-  <p class="merke">Häufiger Fehler: 3/6 + 2/6 = 5/6. Das wäre größer als jede der beiden einzelnen Wahrscheinlichkeiten – unmöglich für „erst das eine <em>und</em> dann das andere“. Ein Pfad ist immer <em>unwahrscheinlicher</em> als seine einzelnen Zweige.</p>
+  <p class="merke">Häufiger Fehler: 3/6 + 2/6 = 5/6. Das wäre größer als jede der beiden einzelnen Wahrscheinlichkeiten – unmöglich für „erst das eine <em>und</em> dann das andere“. Ein Pfad ist <em>nie wahrscheinlicher</em> als einer seiner Zweige.</p>
 video:
   id: fLPxMfgUxVk
   titel: Produktregel | Wahrscheinlichkeitsrechnung - einfach erklärt | Lehrerschmidt

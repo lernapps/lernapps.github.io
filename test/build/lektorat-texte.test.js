@@ -21,3 +21,7 @@ test("L-035: keine Seite verweist mit einer Nummer auf eine Kompetenz – dafür
 test("L-042: keine Seite schreit ein „NICHT“ in Großbuchstaben", () => {
   assert.deepEqual(treffer(/\bNICHT\b/g), []);
 });
+
+test("L-048: Seiten sprechen wie eine Lehrkraft, nicht wie die App („der Trainer akzeptiert“)", () => {
+  assert.deepEqual(treffer(/Trainer akzeptiert/gi), []);
+});

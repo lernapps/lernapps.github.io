@@ -10,7 +10,7 @@ regel: |
   <li>Die Produkte aller passenden Pfade werden <strong>addiert</strong> (2. Pfadregel).</li>
   <li>Kommt derselbe Faktor mehrmals vor, darfst du eine <strong>Potenz</strong> schreiben: 5/6 · 5/6 · 5/6 = (5/6)³.</li>
   </ul>
-  <p class="merke">Typische falsche Terme: nur ein Pfad statt aller, entlang des Pfades addiert statt multipliziert, die Pfade des Gegenereignisses, oder mit statt ohne Zurücklegen gerechnet.</p>
+  <p class="merke">Typische falsche Terme: nur ein Pfad statt aller, entlang des Pfades addiert statt multipliziert, die Pfade des Gegenereignisses oder mit statt ohne Zurücklegen gerechnet.</p>
 beispiel: |
   <p>Urne mit 3 roten und 2 blauen Kugeln, zweimal ziehen <strong>ohne Zurücklegen</strong>. Ereignis: genau einmal rot.</p>
   <table>
