@@ -46,7 +46,7 @@ test("videoVerweis ist ein Satz mit Link auf #video einer Seite derselben App, d
       assert.ok(fs.existsSync(zielDatei), `${s.p}: ${ziel}.md fehlt`);
       assert.match(fs.readFileSync(zielDatei, "utf8"), /^video:/m, `${s.p}: ${ziel} hat kein Video`);
     }
-    assert.equal((m[1].replace(/<[^>]+>/g, "").match(/[.!?](\s|$)/g) || []).length, 1, `${s.p}: genau ein Satz`);
+    assert.equal((m[1].replace(/[<>]/g, " ").match(/[.!?](\s|$)/g) || []).length, 1, `${s.p}: genau ein Satz`);
   }
   assert.ok(gefunden > 0);
 });
