@@ -12,7 +12,7 @@ import { ladeApps } from "./lib/apps.js";
 import { zeichneBild } from "./lib/bild.js";
 import { versionsHash, versioniere } from "./lib/versionierung.js";
 import { richteKarteEin } from "./lib/karte/eleventy.js";
-import { pruefeZeilen, pruefeLlms, pruefeKompetenzen, pruefeMeldeLink, pruefeSerloLinks, pruefeTutorText } from "./lib/pruefungen.js";
+import { pruefeZeilen, pruefeLlms, pruefeKompetenzen, pruefeMeldeLink, pruefeSerloLinks, pruefeTutorText, pruefeTutorLinks, erlaubteTutorZiele } from "./lib/pruefungen.js";
 import { pruefeAusgabe } from "./lib/pruefe-ausgabe.js";
 import {
   findeLinks, pruefeLink, pruefeVorgaben, pruefeParameterDoku, pruefeUebersicht, dokumentierteWerte, erlaubeHerkunft, herkunftKollision,
@@ -62,6 +62,8 @@ function pruefe(apps, ausgabe) {
     for (const p of [llms, tutor]) fehler.push(...pruefeTutorText(path.relative(ausgabe, p), lies(p)));
   }
   fehler.push(...pruefeTutorText("llms.txt", lies(path.join(ausgabe, "llms.txt"))));
+  const tutorDateien = ["llms.txt", "karte/llms.txt", ...apps.flatMap((a) => [`${a.pfad}/llms.txt`, `${a.pfad}/tutor.md`])];
+  for (const d of tutorDateien) fehler.push(...pruefeTutorLinks(d, lies(path.join(ausgabe, d)), erlaubteTutorZiele(site)));
   return fehler;
 }
 

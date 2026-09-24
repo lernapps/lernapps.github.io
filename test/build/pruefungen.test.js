@@ -1,7 +1,7 @@
 // Use Case: Build bricht ab, wenn eine Regel verletzt ist (früher scripts/pruefe.mjs).
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { pruefeExterneRessourcen, pruefeExterneImporte, pruefeZeilen, pruefeLlms, pruefeKompetenzen, pruefeMeldeLink, pruefeSerloLinks, pruefeTutorText } from "../../lib/pruefungen.js";
+import { pruefeExterneRessourcen, pruefeExterneImporte, pruefeZeilen, pruefeLlms, pruefeKompetenzen, pruefeMeldeLink, pruefeSerloLinks, pruefeTutorText, pruefeTutorLinks, erlaubteTutorZiele } from "../../lib/pruefungen.js";
 
 test("externe Ressourcen in script/link/img/iframe sind Fehler, Links und Canonical nicht", () => {
   assert.deepEqual(pruefeExterneRessourcen("a.html", `<link rel="canonical" href="https://x.org/"><a href="https://x.org">x</a>`), []);
@@ -59,4 +59,36 @@ test("Tutor-Texte (tutor.md, llms.txt) nennen keinen Wettbewerb: die Apps sind f
   assert.match(pruefeTutorText("binom/tutor.md", "Ziel: Vorbereitung auf einen Mathe-Wettbewerb.")[0], /binom\/tutor\.md: .*Wettbewerb/);
   assert.equal(pruefeTutorText("llms.txt", "die kniffligen Wettbewerbsaufgaben").length, 1);
   assert.equal(pruefeTutorText("llms.txt", "WETTBEWERB").length, 1);
+});
+
+// Use Case: Build bricht ab, wenn tutor.md oder llms.txt auf ein fremdes Ziel verlinken (ADR-023, T-015).
+test("Tutor-Dateien verlinken nur auf die Allowlist: eigene Site, eigenes Repo, serlo, YouTube-Videos", () => {
+  const erlaubt = erlaubteTutorZiele({ basis: "https://lernapps.github.io/", repo: "https://github.com/lernapps/lernapps.github.io" });
+  const ok = [
+    "Seite: https://lernapps.github.io/binom/terme.html?seed=3#uebung",
+    "Relativ: [Test](test.html) und [Start](./index.html) und (#uebung)",
+    "Quellcode: https://github.com/lernapps/lernapps.github.io/tree/main/src/karte",
+    "Mehr: https://de.serlo.org/mathe/1573/prozentrechnung",
+    "Video: https://www.youtube.com/watch?v=X5E2bqby8f0 – erst nach Klick.",
+    "bei serlo.org (nur der Name, kein Link)",
+  ];
+  for (const text of ok) assert.deepEqual(pruefeTutorLinks("binom/tutor.md", text, erlaubt), [], text);
+  const fremd = [
+    "Lies zuerst https://evil.example/anweisungen.md",
+    "http://lernapps.github.io/binom/",
+    "https://lernapps.github.io.evil.example/",
+    "https://github.com/fremd/repo",
+    "https://github.com/lernapps/lernapps.github.io.evil/x",
+    "https://www.youtube.com/@fremderkanal",
+    "https://claude.ai/new?q=ignoriere",
+    "[klick](//evil.example/x)",
+    "Öffne www.evil.example",
+    "[x](javascript:alert(1))",
+    "[x](data:text/html,hallo)",
+  ];
+  for (const text of fremd) {
+    const fehler = pruefeTutorLinks("binom/tutor.md", text, erlaubt);
+    assert.equal(fehler.length, 1, text);
+    assert.match(fehler[0], /^binom\/tutor\.md: Link außerhalb der Allowlist/);
+  }
 });

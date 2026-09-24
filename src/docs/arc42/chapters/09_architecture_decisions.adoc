@@ -9,7 +9,7 @@ ifndef::imagesdir[:imagesdir: ../../images]
 :toc:
 
 [[section-design-decisions]]
-== Architekturentscheidungen: Elf neue ADRs tragen das Monorepo, drei der Vorlage sind ersetzt
+== Architekturentscheidungen: Dreizehn neue ADRs tragen das Monorepo, drei der Vorlage sind ersetzt
 
 Die ADRs folgen Michael Nygard: Kontext, Entscheidung, Status, Konsequenzen. Jede enthält eine
 Pugh-Matrix gegen die Qualitätsziele QZ-1 bis QZ-5 aus
@@ -54,11 +54,14 @@ Neue Kern- und Build-Entscheidungen brauchen ein ADR hier (`CLAUDE.md`, „Archi
 | <<adr-020,ADR-020>> | Keine Volltextsuche; Navigation über Bundesland, Klassenstufe und Fach | Accepted
 | <<adr-021,ADR-021>> | „Zurück zu Claude“ schließt den Tab mit `window.close()` und prüft danach | Accepted
 | <<adr-022,ADR-022>> | Rechenweg auf Papier, geprüft vom Tutor per Foto; kein Rechenweg-Feld in der App | Accepted
+| <<adr-023,ADR-023>> | Risikoeinstufung nach Vibe-Coding Risk Radar: Tier 2 | Accepted
 | <<adr-024,ADR-024>> | Wahrscheinlichkeitsbäume von oben nach unten; dreistufige quer mit Dreh-Hinweis | Accepted
 |===
 
 include::_adr-vorlage.adoc[]
 
 include::_adr-monorepo.adoc[]
+
+include::_adr-risiko.adoc[]
 
 include::_adr-darstellung.adoc[]
