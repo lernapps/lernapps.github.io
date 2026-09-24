@@ -362,14 +362,31 @@ Ergebnisse (xref:08_concepts.adoc#section-zahlen-eingeben[8.7]). Ein Kind kann a
 richtig lösen und in der Arbeit trotzdem Punkte verlieren, weil der Weg fehlt oder einen Fehler hat. Die
 App kennt den Rechenweg nicht, und der Tutor sieht ihn nur, wenn das Kind ihn zeigt.
 
-*Entscheidung.* Das Kind schreibt zu jeder Aufgabe die Aufgabe und den ganzen Rechenweg auf Papier, wie
-in der Klassenarbeit. Es fotografiert nur das Blatt, ohne Namen, und schickt das Foto in den Chat. Der
-Tutor prüft jeden Schritt, nennt den ersten falschen und stellt eine Leitfrage, statt die Korrektur zu
-geben. Das Ergebnis tippt das Kind wie bisher in die App; die App prüft es. Die Regel steht in
-`tutor.md` (Abschnitt 3, „Rechenweg auf Papier“) und in `llms.txt` jeder App („Regeln für den Tutor“)
-sowie in der Übersicht `/llms.txt`. Die App ändert sich nicht.
+*Entscheidung.* Der Tutor arbeitet je Kompetenz in zwei Phasen. In der Lernphase übt das Kind, der
+Tutor erklärt, und die App prüft die Ergebnisse. Um ein Foto bittet er dann nicht; Fehler klärt er im
+Gespräch. In die Klassenarbeit-Phase kommt eine Kompetenz auf einem von zwei Wegen: Drei Ergebniszeilen
+derselben Kompetenz melden hintereinander „richtig im 1. Versuch“, oder der Schnelltest oder
+Diagnosetest markiert sie mit ✓. Dann bittet der Tutor um genau eine Aufgabe dieser Kompetenz, ganz
+von Hand: Aufgabe und ganzer Rechenweg, wie in der Klassenarbeit, als Foto nur vom Blatt, ohne Namen.
+Nach einem Test gilt das für jede Kompetenz mit ✓. Der Tutor prüft jeden Schritt, nennt den ersten
+falschen und stellt eine Leitfrage, statt die Korrektur zu geben. Stimmt alles, ist die Kompetenz
+„arbeitsreif“, und der Tutor sagt es dem Kind. Das Ergebnis tippt das Kind wie bisher in die App; die
+App prüft es. Die Regel steht in `tutor.md` (Abschnitt 3, „Rechenweg auf Papier“) und in `llms.txt`
+jeder App („Regeln für den Tutor“) sowie in der Übersicht `/llms.txt`. Die App ändert sich nicht.
+
+Den Auslöser liest der Tutor aus der Ergebniszeile von „Zurück zu Claude“ (ADR-021), etwa „Binomische
+Formeln, Kompetenz 2 „Erste binomische Formel“, Aufgabe Nr. 4: richtig im 1. Versuch (Sitzung: 3 von
+3 richtig)“. Sie nennt Kompetenz und Versuch, aber nur für die letzte Aufgabe im Tab. Frühere
+Aufgaben im selben Tab stehen nur als Zähler „x von y“ darin: x kleiner y zeigt einen Fehler, ob sie im
+ersten Versuch richtig waren, zeigt die Zeile nicht. Der Tutor zählt deshalb Zeilen, nicht Aufgaben.
 
 *Status.* Accepted. Vom Product Owner entschieden am 24.09.2026.
+
+*Nachtrag 24.09.2026 (PO, verfeinert).* Die erste Fassung verlangte zu jeder Aufgabe ein Foto. Das war
+zu viel, und kein Auslöser sagte, wann der Tutor fragt. Der Product Owner hat die Regel am selben Tag
+auf die zwei Phasen oben verfeinert: ein Foto je Kompetenz, erst wenn sie reif für die Klassenarbeit
+ist. Nebenwirkung: Viel weniger Fotos gehen an den Chat-Anbieter
+(xref:11_technical_risks.adoc#r-022[R-022]).
 
 [cols="2,1,1,1",options="header"]
 |===
@@ -382,7 +399,9 @@ sowie in der Übersicht `/llms.txt`. Die App ändert sich nicht.
 | *Summe* | *0* | *−1 + ?* | *0*
 |===
 
-Ein Rechenweg-Feld bliebe im Browser, und kein Foto verließe das Gerät (QZ-1 +1). Das Kind müsste aber
+Die Referenz schickt ein Foto je Kompetenz, nicht mehr eines je Aufgabe; QZ-1 bleibt 0, die
+Belastung sinkt aber deutlich. Ein Rechenweg-Feld bliebe im Browser, und kein Foto verließe das Gerät
+(QZ-1 +1). Das Kind müsste aber
 eine Feld-Syntax lernen, Zeile für Zeile Terme tippen, auf dem Handy mit 360 px (QZ-5 −1). Das hat der
 Product Owner ausdrücklich verworfen: Das Kind soll Mathe üben, keine Eingabe-Syntax. Ein Schritt-Prüfer
 wäre ein neuer Kern-Baustein, und jede App bräuchte eigene Regeln, welche Schritte zulässig sind
