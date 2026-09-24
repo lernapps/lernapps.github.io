@@ -36,3 +36,7 @@ test("L-033: keine Gleichung mit gleichen Seiten wie „3/5 = 3/5“, Potenzen a
     assert.doesNotMatch(rechenweg, /\^/, fall);
   });
 });
+
+test("L-042: kein „NICHT“ in Großbuchstaben in Aufgaben, Tipps und Lösungswegen", () => {
+  jedeAufgabe((a, fall) => assert.doesNotMatch(texte(a), /\bNICHT\b/, fall));
+});
