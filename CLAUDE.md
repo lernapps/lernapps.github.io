@@ -69,6 +69,9 @@ repository: one shared kern, one layout, one build (Eleventy 3.1.6), deployed to
 - After writing `_site`, `eleventy.config.js` runs `lib/pruefungen.js`: no external resources in HTML, no external
   imports in JS/CSS, every source file under 500 lines, per competency `<id>.md` + generator + `test/<id>.test.js`,
   the app's `llms.txt` mentions every page. Any violation fails the build.
+- Dead links (`lib/pruefe-links.js`): every `href`/`src` in `_site/**/*.html` that points into the site (relative,
+  root-relative or `https://lernapps.github.io/…`) must hit an existing file, and a `#anchor` an existing id. External
+  links and `mailto:` stay unchecked; `docs/` is skipped (docToolchain adds it only in the deploy).
 - Tutor link allowlist (ADR-023, `pruefeTutorLinks`): `tutor.md` and `llms.txt` of every app, the root `llms.txt` and
   `karte/llms.txt` may link only to relative targets, `https://lernapps.github.io/`, the own repository,
   `https://de.serlo.org/` and `https://www.youtube.com/watch?v=`. Any other URL fails the build. These files are
@@ -142,6 +145,9 @@ repository: one shared kern, one layout, one build (Eleventy 3.1.6), deployed to
   (Nygard, Pugh matrix against QZ-1…QZ-5, consequences naming risk IDs from chapter 11). Superseded ADRs stay in the
   index with status "Superseded by ADR-0xx". Diagrams: PlantUML with `!include <C4/...>`, never a URL.
 - Inter-page links: `xref:NN_file.adoc#anchor[]`, never `link:foo.adoc[]`.
+- `doku.yml` lints `src/docs` with asciidoc-linter pinned to a commit SHA (ADR-028) via `scripts/doku-lint.js`: ERRORs
+  fail the job, WARNINGs don't. Locally: `pip install git+https://github.com/docToolchain/asciidoc-linter@<SHA>` in a
+  venv, then `node scripts/doku-lint.js`.
 
 ## Risk Radar Assessment
 

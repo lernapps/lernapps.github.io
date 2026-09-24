@@ -60,3 +60,56 @@ Skript kommen aus dem PR-Zweig; ein PR könnte den Check selbst aufweichen, desh
 gehört jede Änderung an `ki-review.yml` und `ki-review-pruefen.js` ausdrücklich ins Review. Admins
 können den Branch-Schutz weiter umgehen. Ein fehlerhaftes Beispiel in einem Lerntext fängt das Review nur,
 wenn es nachrechnet; die Checkliste verlangt das (xref:11_technical_risks.adoc#r-025[R-025]).
+
+[[adr-028]]
+=== ADR-028: asciidoc-linter prüft die Architektur-Doku, gepinnt auf einen Commit
+
+*Kontext.* Die Architektur-Doku ist AsciiDoc und wächst mit jedem PR. Kaputte Überschriften,
+Markdown-Syntax oder unvollständige Tabellen fallen erst auf, wenn jemand die gebaute Seite liest. Das
+Harness-Rad führt „Markdown / AsciiDoc lint“ als extrinsische Schicht ab Tier 1; sie stand auf „offen“
+(xref:08_concepts.adoc#section-harness[8.16]). docToolchain bietet mit
+link:https://github.com/docToolchain/asciidoc-linter[asciidoc-linter^] einen Linter aus demselben Umfeld
+wie unser Doku-Build. Er ist ein Python-Werkzeug ohne Release, ohne Tag und ohne PyPI-Paket. Das README
+zeigt ein MIT-Badge, GitHub erkennt aber keine `LICENSE`-Datei.
+
+*Entscheidung.* Der Job `doku-bauen-und-pruefen` in `.github/workflows/doku.yml` installiert
+asciidoc-linter per `pip install git+https://github.com/docToolchain/asciidoc-linter@<SHA>`, gepinnt auf
+den vollen Commit-SHA `52e7fa5982d980eefd5b548f68ff6f58767fe772` (Stand 24.09.2026); Python kommt über
+`actions/setup-python`, ebenfalls per SHA gepinnt. Der Wrapper `scripts/doku-lint.js` ruft den Linter mit
+`--format json` über `src/docs/**/*.adoc` auf: ERRORs brechen den Job, WARNINGs erscheinen nur als
+Annotation. Der Linter selbst endet bei jedem Fund mit Exit-Code 1, auch bei einer Warnung; deshalb der
+Wrapper. Fehlalarme unterdrücken wir nur mit Begründung: Die Regel IMG001 sucht Bilder relativ zum
+Arbeitsverzeichnis und kennt `:imagesdir:` nicht. Abschalten ließe sie sich nur ganz (Konfiguration
+`rules.IMG001.enabled`), dann fehlten auch echte Funde. Der Wrapper verwirft „Image file not found“ nur,
+wenn das Bild über das `:imagesdir:` der Datei existiert. Ein Update heißt: neuen SHA eintragen, Linter
+lokal laufen lassen, Funde beheben, PR.
+
+*Status.* Accepted. Vom Product Owner entschieden am 24.09.2026.
+
+[cols="2,1,1,1,1",options="header"]
+|===
+| Ziel | asciidoc-linter per SHA (Referenz) | Asciidoctor mit `--failure-level=WARN` | Vale mit eigenen Regeln | Kein Linter
+| QZ-1 Datenschutz | 0 | 0 | 0 | 0
+| QZ-2 Tutor-Anschluss | 0 | 0 | 0 | 0
+| QZ-3 Richtige Rückmeldung | 0 | 0 | 0 | 0
+| QZ-4 Neue Apps schnell | 0 | ? | −1 | 0
+| QZ-5 Zugänglich | 0 | 0 | 0 | 0
+| *Summe* | *0* | *?* | *−1* | *0*
+|===
+
+Keine Option berührt die Apps; alle Ziele außer QZ-4 bleiben gleich. Asciidoctor warnt beim Rendern etwa
+vor fehlenden Includes und Ankern; ob `--failure-level=WARN` im docToolchain-Build ohne Fehlalarme aus dem
+Theme läuft, ist offen (`?`). Vale prüft Stil und Sprache, braucht aber Regeln, die wir erst schreiben
+müssten (QZ-4 −1). Kein Linter spart den Schritt, lässt die Schicht aber offen. Die Summen entscheiden
+nicht; den Ausschlag gibt, dass asciidoc-linter ohne eigene Regeln Struktur und Markdown-Reste prüft und
+aus dem docToolchain-Umfeld kommt.
+
+*Konsequenzen.* Die Schicht „Markdown / AsciiDoc lint“ steht auf „vorhanden“; Markdown-Dateien prüft sie
+nicht. Das Werkzeug ist ein reines Entwicklungswerkzeug: Es läuft nur in `doku.yml` mit Leserechten und
+ohne Secret, seine Ausgabe gelangt nicht in die Site. Eine kompromittierte Version (T-012) könnte also den
+Doku-Job, aber keine App verändern; der SHA-Pin schließt ungeprüfte Updates aus. Eine fehlende
+`LICENSE`-Datei akzeptieren wir für ein Werkzeug, das wir nur ausführen und nicht ausliefern. Beides ist
+bewusst akzeptiert, ohne eigenes Risiko in Kapitel 11. Fällt GitHub oder der Linter-Commit weg, scheitert
+nur der Doku-Job in PRs, nicht das Deployment (pages.yml ruft den Linter nicht auf;
+xref:11_technical_risks.adoc#r-011[R-011] bleibt unverändert). Der Linter ist jung: Einige Regeln melden
+in unseren Proben nichts, wo sie sollten; er ergänzt das Review, ersetzt es nicht.
