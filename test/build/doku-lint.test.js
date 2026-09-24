@@ -20,6 +20,13 @@ test("IMG001 'Image file not found' entfällt, wenn das Bild über :imagesdir: d
   assert.equal(bewerte([b], () => false).warnungen.length, 1);
 });
 
+test("HEAD002 entfällt nur, wenn die Überschrift mit einem Inline-Makro beginnt", () => {
+  const h = (context) => ({ ...befund("warning", "HEAD002", "Heading should start with uppercase letter"), context });
+  assert.equal(bewerte([h("= image:arc42-logo.png[arc42] Lern-Apps: Architektur")]).unterdrueckt.length, 1);
+  assert.equal(bewerte([h("== kleine Überschrift")]).warnungen.length, 1);
+  assert.equal(bewerte([h("== image ohne Makro")]).warnungen.length, 1);
+});
+
 test("bildDa sucht relativ zur .adoc-Datei und ihrem :imagesdir:", () => {
   const dateien = new Set(["src/docs/images/logo.png"]);
   const lies = () => "= Titel\n:imagesdir: ../images\n";

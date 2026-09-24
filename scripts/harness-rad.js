@@ -93,7 +93,7 @@ const ROH = [
   [F, "type-driven-design", "Type-driven design", "G", 3, "offen", ""],
   [F, "formal-verification", "Formal verification", "R", 4, "offen", ""],
   [F, "model-checker", "Model checker", "R", 4, "offen", ""],
-  [Doc, "markdown-asciidoc-lint", "Markdown / AsciiDoc lint", "G", 1, "in Arbeit", "asciidoc-linter (docToolchain) läuft in `doku.yml`, per Commit-SHA gepinnt (`scripts/doku-lint.js`, ADR-028). Die Überschriften- und Blockregeln feuern in dieser Version nicht; ein Fix wird upstream vorbereitet. Danach wird der SHA angehoben und die Schicht wieder „vorhanden“"],
+  [Doc, "markdown-asciidoc-lint", "Markdown / AsciiDoc lint", "G", 1, "vorhanden", "asciidoc-linter (docToolchain) prüft `src/docs` in `doku.yml`, per Commit-SHA gepinnt (ADR-028); Überschriften-, Block-, Bild- und Markdown-Regeln feuern seit docToolchain/asciidoc-linter#62. ERRORs brechen den Doku-Job (`scripts/doku-lint.js`), WARNINGs sind Annotationen; kein Pflicht-Check, Markdown-Dateien prüft er nicht"],
   [Doc, "link-checker", "Link checker", "G", 1, "vorhanden", "Jedes interne href/src in `_site` führt auf eine Datei, jeder #anker auf eine id (`pruefeLinks` in `lib/pruefe-links.js`, bricht den Build); Tutor-Deep-Links gegen Seiten, Anker und Parameter (`pruefeLink`), serlo-Links nur auf die Domain (`pruefeSerloLinks`), Verweise auf die Doku (`test/build/doku-verweise.test.js`); externe Links prüft der Build nicht"],
   [Doc, "code-in-docs-validation", "Code-in-docs validation", "G", 2, "offen", ""],
   [Doc, "spell-check", "Spell check", "G", 1, "offen", ""],
@@ -196,7 +196,7 @@ ${teile.join("\n")}
 const TABELLE_STATUS = ["vorhanden", "in Arbeit", "geplant"];
 export function schreibeInventar(schichten) {
   const z = [
-    "// Erzeugt von scripts/harness-rad.js – nicht von Hand ändern.",
+    "// Erzeugt von scripts/harness-rad.js – nicht von Hand ändern.", "",
     '[cols="2,2,5,4",options="header"]', "|===", "| Abschnitt | Stufe (Tier 2) | Nachweis | Lücke",
   ];
   for (const ab of ABSCHNITTE) {

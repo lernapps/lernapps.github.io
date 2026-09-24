@@ -146,7 +146,7 @@ repository: one shared kern, one layout, one build (Eleventy 3.1.6), deployed to
   index with status "Superseded by ADR-0xx". Diagrams: PlantUML with `!include <C4/...>`, never a URL.
 - Inter-page links: `xref:NN_file.adoc#anchor[]`, never `link:foo.adoc[]`.
 - `doku.yml` lints `src/docs` with asciidoc-linter pinned to a commit SHA (ADR-028) via `scripts/doku-lint.js`: ERRORs
-  fail the job, WARNINGs don't. Locally: `pip install git+https://github.com/docToolchain/asciidoc-linter@<SHA>` in a
+  fail the job, WARNINGs don't. Pinned SHA: `911440ac35d5849349389cce7ba04311d75dca49` (after upstream #62). Locally: `pip install git+https://github.com/docToolchain/asciidoc-linter@<SHA>` in a
   venv, then `node scripts/doku-lint.js`.
 
 ## Risk Radar Assessment

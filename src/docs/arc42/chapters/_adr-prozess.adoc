@@ -74,7 +74,7 @@ zeigt ein MIT-Badge, GitHub erkennt aber keine `LICENSE`-Datei.
 
 *Entscheidung.* Der Job `doku-bauen-und-pruefen` in `.github/workflows/doku.yml` installiert
 asciidoc-linter per `pip install git+https://github.com/docToolchain/asciidoc-linter@<SHA>`, gepinnt auf
-den vollen Commit-SHA `52e7fa5982d980eefd5b548f68ff6f58767fe772` (Stand 24.09.2026); Python kommt über
+den vollen Commit-SHA `911440ac35d5849349389cce7ba04311d75dca49` (angehoben am 24.09.2026, siehe zweiten Nachtrag); Python kommt über
 `actions/setup-python`, ebenfalls per SHA gepinnt. Der Wrapper `scripts/doku-lint.js` ruft den Linter mit
 `--format json` über `src/docs/**/*.adoc` auf: ERRORs brechen den Job, WARNINGs erscheinen nur als
 Annotation. Der Linter selbst endet bei jedem Fund mit Exit-Code 1, auch bei einer Warnung; deshalb der
@@ -104,7 +104,7 @@ müssten (QZ-4 −1). Kein Linter spart den Schritt, lässt die Schicht aber off
 nicht; den Ausschlag gibt, dass asciidoc-linter ohne eigene Regeln Struktur und Markdown-Reste prüft und
 aus dem docToolchain-Umfeld kommt.
 
-*Konsequenzen.* Die Schicht „Markdown / AsciiDoc lint“ sollte auf „vorhanden“ stehen (siehe aber den Nachtrag);
+*Konsequenzen.* Die Schicht „Markdown / AsciiDoc lint“ steht auf „vorhanden“ (siehe die Nachträge);
 Markdown-Dateien prüft sie nicht. Das Werkzeug ist ein reines Entwicklungswerkzeug: Es läuft nur in `doku.yml` mit Leserechten und
 ohne Secret, seine Ausgabe gelangt nicht in die Site. Eine kompromittierte Version (T-012) könnte also den
 Doku-Job, aber keine App verändern; der SHA-Pin schließt ungeprüfte Updates aus. Eine fehlende
@@ -114,10 +114,25 @@ nur der Doku-Job in PRs, nicht das Deployment (pages.yml ruft den Linter nicht a
 xref:11_technical_risks.adoc#r-011[R-011] bleibt unverändert). Der Linter ist jung: Einige Regeln melden
 in unseren Proben nichts, wo sie sollten; er ergänzt das Review, ersetzt es nicht.
 
-*Nachtrag 24.09.2026.* Die Kernregeln feuern in der gepinnten Version nicht. Nachgestellt mit Proben: Ein
-übersprungener Überschriften-Level, ein nicht geschlossener `----`-Block, eine kleingeschriebene Überschrift
-und eine Markdown-Überschrift `##` in einer `.adoc`-Datei ergeben jeweils „No issues found“; zuverlässig
-meldet nur die Markdown-Tabellen-Regel FMT005. Unser „0 Fehler“ belegt also wenig. Die Schicht „Markdown /
-AsciiDoc lint“ steht darum auf „in Arbeit“, nicht auf „vorhanden“, bis der Fix upstream da ist. Der Schritt
-in `doku.yml` bleibt, weil FMT005 und der Wrapper funktionieren; nach dem Fix genügt es, den SHA anzuheben
-und die Schicht wieder auf „vorhanden“ zu setzen.
+*Nachtrag 24.09.2026 (berichtigt).* Die Kernregeln feuern in der zuerst gepinnten Version `52e7fa5` nicht.
+Nachgestellt mit Proben: Ein übersprungener Überschriften-Level, ein nicht geschlossener `----`-Block, eine
+kleingeschriebene Überschrift und eine Markdown-Überschrift `##` in einer `.adoc`-Datei ergeben jeweils
+„No issues found“. Über das CLI still bleiben die Überschriftenregeln HEAD001–HEAD003, die Blockregeln
+BLOCK001/BLOCK002 und die Bildregel IMG001; die Markdown-Regeln FMT004 (Markdown-Syntax) und FMT005
+(Markdown-Tabellen) melden zuverlässig. Eine frühere Fassung dieses Nachtrags nannte nur FMT005; das war
+falsch. Unser „0 Fehler“ belegt also wenig. Die Schicht „Markdown / AsciiDoc lint“ steht darum auf „in
+Arbeit“, nicht auf „vorhanden“, bis der Fix upstream da ist. Der Schritt in `doku.yml` bleibt, weil FMT004,
+FMT005 und der Wrapper funktionieren; nach dem Fix genügt es, den SHA anzuheben und die Schicht wieder auf
+„vorhanden“ zu setzen.
+
+*Zweiter Nachtrag 24.09.2026.* Upstream hat docToolchain/asciidoc-linter#62 den Fehler behoben: Die
+Überschriften-, Block- und Bildregeln laufen jetzt auch über das CLI, der Inhalt wörtlicher Blöcke (`----`,
+`....`, `++++`, `////`) bleibt ungeprüft, und BLOCK002 überspringt Attribut- und Titelzeilen vor einem Block.
+Der SHA steht jetzt auf `911440ac35d5849349389cce7ba04311d75dca49`, die Schicht wieder auf „vorhanden“
+(xref:08_concepts.adoc#section-harness[8.16]). Der erste Lauf über unsere Doku fand zwei Warnungen: Eine
+BLOCK002-Meldung in der erzeugten Tabelle `_harness-inventar.adoc` (Kommentarzeile direkt vor dem Block) ist
+behoben, der Generator setzt jetzt eine Leerzeile. HEAD002 am Titel von `arc42.adoc`, der mit dem Bild-Makro für das arc42-Logo
+beginnt, ist ein Fehlalarm, weil die Regel ein Inline-Makro am Anfang für ein kleingeschriebenes Wort hält; der Wrapper
+unterdrückt HEAD002 nur für Überschriften, die mit einem Inline-Makro beginnen. Offen upstream bleiben #58
+(Exit-Code und `--fail-level`; die Schwere bewertet weiter der Wrapper), #59 (Fehler in der Konfiguration
+werden ignoriert) und #60 (`:imagesdir:`; der Wrapper filtert IMG001 weiter).

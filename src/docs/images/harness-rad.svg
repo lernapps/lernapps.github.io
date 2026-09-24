@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 724" width="800" height="724" role="img" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
-<title>Harness Coverage Wheel für lernapps (Tier 2): 62 % abgedeckt</title>
+<title>Harness Coverage Wheel für lernapps (Tier 2): 66 % abgedeckt</title>
 <defs><linearGradient id="halb-G"><stop offset="50%" stop-color="#2b8a3e"/><stop offset="50%" stop-color="#fff"/></linearGradient><linearGradient id="halb-A"><stop offset="50%" stop-color="#e67700"/><stop offset="50%" stop-color="#fff"/></linearGradient><linearGradient id="halb-R"><stop offset="50%" stop-color="#c92a2a"/><stop offset="50%" stop-color="#fff"/></linearGradient></defs>
 <rect width="800" height="724" fill="#fff"/>
 <path d="M407.9 94.1 A226 226 0 0 1 539.1 141.9 L456.6 247.5 A92 92 0 0 0 403.2 228.1 Z" fill="#f1f3f5"/>
@@ -95,8 +95,8 @@
 <text x="152.3" y="177" text-anchor="end" font-size="13" font-weight="600" fill="#212529">Formal</text>
 <text x="152.3" y="192" text-anchor="end" font-size="12" fill="#495057">–</text>
 <path d="M260.9 141.9 A226 226 0 0 1 392.1 94.1 L396.8 228.1 A92 92 0 0 0 343.4 247.5 Z" fill="#f1f3f5"/>
-<path d="M315.9 212.3 A136.66666666666666 136.66666666666666 0 0 1 395.2 183.4 L396.8 228.1 A92 92 0 0 0 343.4 247.5 Z" fill="#1d4ed8" fill-opacity="0.28"/>
-<circle cx="258.6" cy="121.2" r="4.8" fill="url(#halb-G)" stroke="#2b8a3e" stroke-width="1.4"><title>Markdown / AsciiDoc lint – in Arbeit, Tier 1: asciidoc-linter (docToolchain) läuft in doku.yml, per Commit-SHA gepinnt (scripts/doku-lint.js, ADR-028). Die Überschriften- und Blockregeln feuern in dieser Version nicht; ein Fix wird upstream vorbereitet. Danach wird der SHA angehoben und die Schicht wieder „vorhanden“</title></circle>
+<path d="M302.1 194.7 A159 159 0 0 1 394.5 161.1 L396.8 228.1 A92 92 0 0 0 343.4 247.5 Z" fill="#1d4ed8" fill-opacity="0.28"/>
+<circle cx="258.6" cy="121.2" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"><title>Markdown / AsciiDoc lint – vorhanden, Tier 1: asciidoc-linter (docToolchain) prüft src/docs in doku.yml, per Commit-SHA gepinnt (ADR-028); Überschriften-, Block-, Bild- und Markdown-Regeln feuern seit docToolchain/asciidoc-linter#62. ERRORs brechen den Doku-Job (scripts/doku-lint.js), WARNINGs sind Annotationen; kein Pflicht-Check, Markdown-Dateien prüft er nicht</title></circle>
 <circle cx="276.9" cy="109.3" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"><title>Link checker – vorhanden, Tier 1: Jedes interne href/src in _site führt auf eine Datei, jeder #anker auf eine id (pruefeLinks in lib/pruefe-links.js, bricht den Build); Tutor-Deep-Links gegen Seiten, Anker und Parameter (pruefeLink), serlo-Links nur auf die Domain (pruefeSerloLinks), Verweise auf die Doku (test/build/doku-verweise.test.js); externe Links prüft der Build nicht</title></circle>
 <circle cx="296.3" cy="99.1" r="4.8" fill="#fff" stroke="#2b8a3e" stroke-width="1.4"><title>Code-in-docs validation – offen, Tier 2</title></circle>
 <circle cx="316.5" cy="90.7" r="4.8" fill="#fff" stroke="#2b8a3e" stroke-width="1.4"><title>Spell check – offen, Tier 1</title></circle>
@@ -104,10 +104,10 @@
 <rect x="354.5" y="75.2" width="8.6" height="8.6" rx="1" fill="url(#halb-A)" stroke="#e67700" stroke-width="1.4"><title>Prose lint – in Arbeit, Tier 2: Vorhanden ist nur die Längengrenze: tutor.md unter 120 Zeilen (MAX_TUTOR_ZEILEN, #29). Es fehlt ein Prose-Linter für Doku und Kompetenztexte (Stil, Satzlänge, Terminologie)</title></rect>
 <polygon points="380.6,70.4 386.1,80 375.1,80" fill="#c92a2a" stroke="#c92a2a" stroke-width="1.4"><title>Doc-code drift – vorhanden, Tier 3: Tutor-Vertrag: jeder Generator-Parameter steht in llms.txt</title></polygon>
 <text x="302.2" y="51.2" text-anchor="end" font-size="13" font-weight="600" fill="#212529">Docs</text>
-<text x="302.2" y="66.2" text-anchor="end" font-size="12" fill="#495057">33 %</text>
+<text x="302.2" y="66.2" text-anchor="end" font-size="12" fill="#495057">50 %</text>
 <circle cx="400" cy="320" r="84" fill="#fff" stroke="#dee2e6"/>
-<text x="400" y="324" text-anchor="middle" font-size="30" font-weight="700" fill="#1d4ed8">62 %</text>
-<text x="400" y="344" text-anchor="middle" font-size="11" fill="#495057">18 von 29</text>
+<text x="400" y="324" text-anchor="middle" font-size="30" font-weight="700" fill="#1d4ed8">66 %</text>
+<text x="400" y="344" text-anchor="middle" font-size="11" fill="#495057">19 von 29</text>
 <text x="400" y="358" text-anchor="middle" font-size="11" fill="#495057">Tier 2</text>
 <circle cx="70" cy="634" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"></circle>
 <text x="80" y="638" font-size="11" fill="#343a40">extrinsisch (Kreis)</text>
