@@ -63,7 +63,8 @@ von `npm run build`).
 
 Claude schickt „Mach Aufgabe Nr. 42“ mit einem Link wie
 `https://lernapps.github.io/binom/erste-binomische.html?seed=42`. Das Kind öffnet ihn, rechnet auf
-Papier und tippt das Ergebnis. Den Rechenweg prüft der Tutor am Foto, das Ergebnis die App
+Papier und tippt das Ergebnis. Das Ergebnis prüft die App. Ein Foto des Rechenwegs prüft der Tutor
+erst, wenn die Kompetenz in die Klassenarbeit-Phase kommt, eines je Kompetenz
 (xref:09_architecture_decisions.adoc#adr-022[ADR-022]).
 
 [plantuml, target=laufzeit-aufgabe, format=svg]
@@ -92,7 +93,7 @@ trainer -> app : pruefeAntwort(aufgabe, antworten)
 app -> zahlen : pruefeTermAntwort / pruefeZahlAntwort
 zahlen --> trainer : { korrekt, fehler, felder, meldung }
 trainer -> kind : Meldung (richtig / Hinweis neutral / falsch), Zähler
-kind -> claude : Foto des Blatts mit Aufgabe und Rechenweg (nicht über die App)
+kind -> claude : nur in der Klassenarbeit-Phase: Foto des Blatts mit Aufgabe und Rechenweg (nicht über die App)
 claude -> kind : erster falscher Schritt als Leitfrage – oder "Weg stimmt"
 note over seite, zahlen : Die App sieht den Rechenweg nie (ADR-022)
 @enduml
