@@ -63,6 +63,10 @@ repository: one shared kern, one layout, one build (Eleventy 3.1.6), deployed to
 - After writing `_site`, `eleventy.config.js` runs `lib/pruefungen.js`: no external resources in HTML, no external
   imports in JS/CSS, every source file under 500 lines, per competency `<id>.md` + generator + `test/<id>.test.js`,
   the app's `llms.txt` mentions every page. Any violation fails the build.
+- Tutor link allowlist (ADR-023, `pruefeTutorLinks`): `tutor.md` and `llms.txt` of every app, the root `llms.txt` and
+  `karte/llms.txt` may link only to relative targets, `https://lernapps.github.io/`, the own repository,
+  `https://de.serlo.org/` and `https://www.youtube.com/watch?v=`. Any other URL fails the build. These files are
+  prompts in a child's chat; widen the allowlist only with an ADR.
 - The tutor contract (`lib/llms-vertrag.js`, TD-3): every deep link in an app's `llms.txt` and `tutor.md` must hit an
   existing page and anchor, use only parameters the generator exports (`URL_ZAHLEN`, `URL_TEXTE`, plus `seed`/`nr`;
   `test.html`: `nr`, `seed`, `modus`), and each value must change the task (a default is fine if another documented
@@ -120,6 +124,46 @@ repository: one shared kern, one layout, one build (Eleventy 3.1.6), deployed to
   (Nygard, Pugh matrix against QZ-1…QZ-5, consequences naming risk IDs from chapter 11). Superseded ADRs stay in the
   index with status "Superseded by ADR-0xx". Diagrams: PlantUML with `!include <C4/...>`, never a URL.
 - Inter-page links: `xref:NN_file.adoc#anchor[]`, never `link:foo.adoc[]`.
+
+## Risk Radar Assessment
+
+_Assessed on 2026-09-24 against the Vibe-Coding Risk Radar (https://llm-coding.github.io/vibe-coding-risk-radar/), confirmed by the Product Owner_
+_Architecture Decision: See [ADR-023](src/docs/arc42/chapters/_adr-risiko.adoc) (arc42 chapter 9)_
+
+### Module: lernapps.github.io
+
+**LLM Runtime Integration:** L0 (No LLM) — no LLM SDK in the code; the external claude.ai tutor (loads `tutor.md`) is effectively L2 (Generate) but runs outside the repo and does not raise the tier
+
+| Dimension        | Score | Level                  | Evidence                                                                 |
+| ---------------- | ----- | ---------------------- | ------------------------------------------------------------------------ |
+| Code Type        | 2     | Business Logic         | term parser and rounding in `src/kern/js/`, generators and checkers per app |
+| Language         | 2     | Dynamically typed      | JavaScript ES modules, no type checking                                  |
+| Deployment       | 2     | Public-facing app      | user input: public GitHub Pages site, no accounts, no personal data      |
+| Data Sensitivity | 0     | Public data            | user input: no data storage; localStorage holds only self-assessment levels |
+| Blast Radius     | 1     | Performance / DoS      | user input: a broken app is unavailable or wrong, no data loss           |
+
+**Tier: 2 — Moderate** (determined by Code Type = 2, Language = 2, Deployment = 2)
+
+Known model gap: educational harm (wrong feedback silently teaches a child something wrong; R-025), mitigated by
+property-based tests. Special risk: `tutor.md` is a prompt in a child's chat session (T-015, R-024), mitigated by
+branch protection, secret scanning with push protection, org-wide 2FA and the tutor link allowlist in the build.
+
+### Mitigations: lernapps.github.io (Tier 2)
+
+| Measure                | Status  | Details                                                                        |
+| ---------------------- | ------- | ------------------------------------------------------------------------------ |
+| Linter & Formatter     | Present | ESLint flat config `eslint.config.js` in required check (#21); no formatter     |
+| Type Checking          | Pending | `tsc --checkJs`, first `src/kern` (#25, Could)                                  |
+| Pre-Commit Hooks       | N/A     | Won't (#27): the required check runs the same gates                             |
+| Dependency Check       | Present | `npm audit --audit-level=high` in `pruefen.yml` (#20); exact pins, `npm ci`     |
+| CI Build & Unit Tests  | Present | `pruefen.yml`, required check `test-und-build`                                  |
+| SAST                   | Present | CodeQL default setup, secret scanning with push protection, Dependabot (#19)    |
+| AI Code Review         | Pending | fixed step before every merge (#24, Should)                                     |
+| Property-Based Tests   | Present | fast-check, `test/kern/*.property.test.js` (#22; found and fixed #30)           |
+| SonarQube Quality Gate | N/A     | Won't (#28): file length ≤ 500 lines and ESLint cover it                        |
+| Sampling Review (~20%) | Present | 100 %: the PO merges every PR; not enforceable (a single maintainer cannot approve their own PR) |
+| Tutor link allowlist   | Present | `pruefeTutorLinks` in `lib/pruefungen.js` (ADR-023, M-22)                       |
+| Org 2FA requirement    | Present | decided and enabled 2026-09-24 (R-017, M-21)                                    |
 
 ## Semantic Contracts
 Source: https://llm-coding.github.io/Semantic-Anchors/contracts/ — copied from lern-app-template so the repo is self-contained.
