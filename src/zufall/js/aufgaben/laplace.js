@@ -17,28 +17,31 @@ export const URL_TEXTE = ["experiment", "ereignis", "urne", "rad", "wuerfel", "s
 
 const PRIM = [2, 3, 5];
 
+// gegen: das Gegenereignis als positiver Satzteil (frage) und als Kurzname (kurz); fehlt es, wird aus „ein…“ „kein…“.
 export const LAPLACE_EREIGNISSE = {
   wuerfel: {
-    gerade: { name: "eine gerade Zahl", test: (n) => n % 2 === 0 },
-    ungerade: { name: "eine ungerade Zahl", test: (n) => n % 2 === 1 },
-    mind5: { name: "mindestens eine 5", test: (n) => n >= 5 },
-    hoechstens2: { name: "höchstens eine 2", test: (n) => n <= 2 },
+    gerade: { name: "eine gerade Zahl", test: (n) => n % 2 === 0, gegen: { frage: "eine ungerade Zahl", kurz: "ungerade Zahl" } },
+    ungerade: { name: "eine ungerade Zahl", test: (n) => n % 2 === 1, gegen: { frage: "eine gerade Zahl", kurz: "gerade Zahl" } },
+    mind5: { name: "mindestens eine 5", test: (n) => n >= 5, gegen: { frage: "höchstens eine 4", kurz: "Zahl höchstens 4" } },
+    hoechstens2: { name: "höchstens eine 2", test: (n) => n <= 2, gegen: { frage: "mindestens eine 3", kurz: "Zahl mindestens 3" } },
     sechs: { name: "eine 6", test: (n) => n === 6 },
-    keine6: { name: "keine 6", test: (n) => n !== 6 },
+    keine6: { name: "keine 6", test: (n) => n !== 6, gegen: { frage: "eine 6", kurz: "eine 6" } },
     prim: { name: "eine Primzahl", test: (n) => PRIM.includes(n) },
-    groesser3: { name: "eine Zahl größer als 3", test: (n) => n > 3 },
+    groesser3: { name: "eine Zahl größer als 3", test: (n) => n > 3, gegen: { frage: "höchstens eine 3", kurz: "Zahl höchstens 3" } },
   },
   karten: {
     herz: { name: "eine Herz-Karte", test: (k) => k.farbe === "Herz" },
     pik: { name: "eine Pik-Karte", test: (k) => k.farbe === "Pik" },
-    bube: { name: "einen Buben", test: (k) => k.wert === "B" },
+    bube: { name: "einen Buben", test: (k) => k.wert === "B", gegen: { frage: "keinen Buben", kurz: "kein Bube" } },
     ass: { name: "ein Ass", test: (k) => k.wert === "A" },
     bild: { name: "eine Bildkarte (Bube, Dame oder König)", test: (k) => "BDK".includes(k.wert) },
     rot: { name: "eine rote Karte (Herz oder Karo)", test: (k) => k.farbe === "Herz" || k.farbe === "Karo" },
   },
   zweiwuerfel: {
     pasch: { name: "einen Pasch (beide Zahlen gleich)", test: (a, b) => a === b },
-    ...Object.fromEntries([4, 5, 6, 7, 8, 9, 10].map((s) => [`summe${s}`, { name: `die Augensumme ${s}`, test: (a, b) => a + b === s }])),
+    ...Object.fromEntries([4, 5, 6, 7, 8, 9, 10].map((s) => [`summe${s}`, {
+      name: `die Augensumme ${s}`, test: (a, b) => a + b === s, gegen: { frage: `eine andere Augensumme als ${s}`, kurz: `andere Augensumme als ${s}` },
+    }])),
   },
 };
 
@@ -118,9 +121,12 @@ export function ergebnismengeAus(vorgaben, zufall) {
   return mengeFarben(exp, ev, art);
 }
 
+export function verbFuer(art) {
+  return art === "wuerfel" || art === "zweiwuerfel" ? "würfelst" : art === "gluecksrad" ? "drehst" : "ziehst";
+}
+
 export function frageText(menge) {
-  const verb = menge.art === "wuerfel" || menge.art === "zweiwuerfel" ? "würfelst" : menge.art === "gluecksrad" ? "drehst" : "ziehst";
-  return `Wie groß ist die Wahrscheinlichkeit, dass du ${menge.ereignisName} ${verb}?`;
+  return `Wie groß ist die Wahrscheinlichkeit, dass du ${menge.ereignisName} ${verbFuer(menge.art)}?`;
 }
 
 export function erzeugeAufgabe(zufall, vorgaben = {}) {

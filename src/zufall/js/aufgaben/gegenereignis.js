@@ -9,7 +9,7 @@ import { bruch, subtrahiere, EINS, formatBruch } from "../../../kern/js/bruch.js
 import { urne, muenze, wuerfelSechs, ergebnisName, experimentAusVorgaben } from "../modell/experimente.js";
 import { baueBaum, ereignisWahrscheinlichkeit, ereignisPfade } from "../modell/baum.js";
 import { parseEreignis } from "../modell/ereignis.js";
-import { ergebnismengeAus, frageText } from "./laplace.js";
+import { ergebnismengeAus, frageText, verbFuer, LAPLACE_EREIGNISSE } from "./laplace.js";
 import { pruefeEinFeld, wahrscheinlichkeitsFeld, vorgabeOder, trifft, URNEN_VORLAGEN } from "./gemeinsam.js";
 
 // Testseite: bei "einfach" neutral – die Markierung von „nicht E“ würde die Antwort verraten.
@@ -51,17 +51,25 @@ function direkt(zufall, vorgaben) {
   });
 }
 
+/** „nicht E“ ohne Verneinung in Großbuchstaben: { frage: Satzteil wie ereignisName, kurz: Name nach „nicht E:“ }. */
+export function gegenereignisName(menge) {
+  const gegen = LAPLACE_EREIGNISSE[menge.art]?.[menge.code]?.gegen;
+  if (gegen) return gegen;
+  const frage = menge.ereignisName.replace(/^(ein|eine|einen) /, "k$1 ");
+  return { frage, kurz: frage.replace(/^keinen /, "kein ") };
+}
+
 function einfach(zufall, vorgaben) {
   const menge = ergebnismengeAus(vorgaben, zufall);
   const guenstig = menge.elemente.filter((e) => e.guenstig).length;
   const moeglich = menge.elemente.length;
   const p = bruch(guenstig, moeglich);
   const loesung = subtrahiere(EINS, p);
-  const frage = frageText(menge).replace("Wie groß ist die Wahrscheinlichkeit, dass du", "Wie groß ist die Wahrscheinlichkeit, dass du NICHT");
+  const gegen = gegenereignisName(menge);
   return aufgabe("einfach", p, loesung, {
     menge,
-    text: `${menge.kontext} ${frage} (Ereignis: nicht ${menge.ereignisName.replace(/^(eine|einen|ein) /, "")})`,
-    tipp: `Rechne zuerst P(E) mit der Laplace-Formel: ${guenstig}/${moeglich}. Dann 1 − P(E).`,
+    text: `${menge.kontext} ${frageText({ ...menge, ereignisName: gegen.frage })} (nicht E: ${gegen.kurz})`,
+    tipp: `E heißt: Du ${verbFuer(menge.art)} ${menge.ereignisName}. Rechne zuerst P(E) mit der Laplace-Formel: ${guenstig}/${moeglich}. Dann 1 − P(E).`,
     rechenweg: [
       `P(E) = ${guenstig}/${moeglich} = ${formatBruch(p)}`,
       `P(nicht E) = 1 − ${formatBruch(p)} = <strong>${formatBruch(loesung)}</strong>`,

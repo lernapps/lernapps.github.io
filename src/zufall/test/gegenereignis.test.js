@@ -28,7 +28,7 @@ test("p über 1 ist Prozent (p=45 %), bruchAusZahl findet den Bruch", () => {
 test("Gegenereignis eines Laplace-Ereignisses", () => {
   const a = erzeugeAufgabe(z(1), { experiment: "urne", urne: "3r2b1g", ereignis: "r" });
   assert.equal(a.art, "einfach");
-  assert.match(a.text, /nicht rot/);
+  assert.match(a.text, /dass du keine rote Kugel ziehst\?/);
   assert.deepEqual(a.loesungBruch, bruch(1, 2));
   assert.deepEqual(erzeugeAufgabe(z(1), { experiment: "wuerfel", ereignis: "sechs" }).loesungBruch, bruch(5, 6));
 });
@@ -74,5 +74,20 @@ test("L-041: Gegenereignis von „mindestens einmal keine 6“ steht positiv da 
   for (let s = 0; s < 200; s++) {
     const a = erzeugeAufgabe(z(s), { art: "mindestens" });
     assert.doesNotMatch([a.text, a.tipp, ...a.rechenweg].join(" "), /Mal\s+keine/, `Seed ${s}`);
+  }
+});
+
+test("L-042: „nicht E“ ohne Großbuchstaben und ohne „nicht ein …“, als positiver Satz", () => {
+  const rad = erzeugeAufgabe(z(1), { experiment: "gluecksrad", rad: "2r1b1g", ereignis: "r" });
+  assert.match(rad.text, /dass du kein rotes Feld drehst\? \(nicht E: kein rotes Feld\)/);
+  const w = erzeugeAufgabe(z(1), { experiment: "wuerfel", ereignis: "groesser3" });
+  assert.match(w.text, /dass du höchstens eine 3 würfelst\? \(nicht E: Zahl höchstens 3\)/);
+  assert.match(w.tipp, /E heißt: Du würfelst eine Zahl größer als 3\./);
+  assert.match(erzeugeAufgabe(z(1), { experiment: "karten", ereignis: "bube" }).text, /keinen Buben ziehst\? \(nicht E: kein Bube\)/);
+  assert.match(erzeugeAufgabe(z(1), { experiment: "zweiwuerfel", ereignis: "summe7" }).text, /andere Augensumme als 7/);
+  for (let s = 0; s < 300; s++) {
+    const a = erzeugeAufgabe(z(s), { art: "einfach", schwer: s % 2 ? "1" : "" });
+    assert.doesNotMatch(`${a.text} ${a.tipp}`, /NICHT|nicht (?:ein|eine|einen|Zahl) |dass du nicht /, `Seed ${s}: ${a.text}`);
+    assert.doesNotMatch(a.text, /k(?:ein|eine|einen) (?:keine|mindestens|höchstens|die) /, `Seed ${s}: ${a.text}`);
   }
 });
