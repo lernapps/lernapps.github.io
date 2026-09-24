@@ -7,13 +7,23 @@
 import { pruefeZahlAntwort, HINWEIS_FEHLER } from "./zahlantwort.js";
 import { TERM_HINWEIS_FEHLER } from "./termantwort.js";
 
+/**
+ * Prüfergebnis eines Felds.
+ * @typedef {{ korrekt: boolean, wert?: unknown, fehler?: string, meldung?: string }} Feldergebnis
+ * Prüfergebnis einer Aufgabe, wie es pruefeAntwort eines Generators liefert.
+ * @typedef {{ korrekt: boolean, fehler?: string, felder?: Record<string, Feldergebnis>, meldung: string }} Pruefergebnis
+ */
+
 export const MELDUNG_KEINE_ZAHL = "Bitte gib eine Zahl ein, zum Beispiel 12,5.";
 export const MELDUNG_KEIN_TERM = "Das konnte ich nicht lesen. Schreib einen Bruch wie 3/4, eine Dezimalzahl wie 0,75 oder einen Term wie 1/2*3/4.";
 
+/** @type {Set<string | undefined>} Gefragt wird auch mit fehler = undefined. */
 const HINWEISE = new Set([...HINWEIS_FEHLER, ...TERM_HINWEIS_FEHLER]);
 /** Fehlercodes, bei denen nichts Lesbares eingegeben wurde oder nur ein Hinweis kam – das zählt nicht als Versuch. */
+/** @type {Set<string | undefined>} */
 const NICHT_GEWERTET = new Set(["keine-zahl", "kein-term", "keine-eingabe", ...HINWEISE]);
 
+/** @param {Feldergebnis} teil @param {string | undefined} fehler @returns {Feldergebnis} */
 function feldErgebnis({ korrekt, wert }, fehler) {
   return HINWEISE.has(fehler) ? { korrekt, wert, fehler } : { korrekt, wert };
 }
@@ -21,6 +31,8 @@ function feldErgebnis({ korrekt, wert }, fehler) {
 /**
  * Ergebnis für eine Aufgabe mit einem Feld. Meldung: die eigene Meldung der Zahlprüfung (Hinweise, negative Wurzel),
  * sonst `meldungen[fehler]` oder `meldungen.falsch`. Setzt der Generator einen eigenen Fehlercode, gilt seine Meldung.
+ * @param {string} feldId @param {Feldergebnis} teil @param {string | undefined} fehler
+ * @param {Record<string, string>} meldungen @param {string} richtigText @returns {Pruefergebnis}
  */
 export function ergebnisFuer(feldId, teil, fehler, meldungen, richtigText) {
   const { korrekt } = teil;
@@ -29,13 +41,14 @@ export function ergebnisFuer(feldId, teil, fehler, meldungen, richtigText) {
     korrekt,
     fehler,
     felder: { [feldId]: feldErgebnis(teil, fehler) },
-    meldung: korrekt ? `Richtig! ${richtigText}`.trim() : eigene || meldungen[fehler] || meldungen.falsch,
+    meldung: korrekt ? `Richtig! ${richtigText}`.trim() : eigene || meldungen[/** @type {string} */ (fehler)] || meldungen.falsch,
   };
 }
 
 /**
  * Ergebnis für mehrere Felder: korrekt, wenn alle stimmen. meldungen: { richtig?, falsch?, "keine-eingabe"? }.
  * Ist kein Feld falsch, aber eines nur ein Hinweis (z. B. zu grob gerundet), wird das ganze Ergebnis dieser Hinweis.
+ * @param {Record<string, Feldergebnis>} felder @param {Record<string, string>} [meldungen] @returns {Pruefergebnis}
  */
 export function ergebnisAusFeldern(felder, meldungen = {}) {
   const teile = Object.values(felder);
@@ -44,32 +57,34 @@ export function ergebnisAusFeldern(felder, meldungen = {}) {
   const hinweis = teile.find((t) => HINWEISE.has(t.fehler));
   const nurHinweise = hinweis && teile.every((t) => t.korrekt === true || HINWEISE.has(t.fehler));
   const felderAus = Object.fromEntries(Object.entries(felder).map(([id, t]) => [id, feldErgebnis(t, t.fehler)]));
-  if (!korrekt && nurHinweise) return { korrekt, fehler: hinweis.fehler, felder: felderAus, meldung: hinweis.meldung };
+  if (!korrekt && nurHinweise) return { korrekt, fehler: hinweis.fehler, felder: felderAus, meldung: /** @type {string} */ (hinweis.meldung) };
   const fehler = korrekt ? undefined : leer ? "keine-eingabe" : "falsch";
+  /** @type {Record<string, string>} */
   const standard = { "keine-eingabe": "Bitte füll die Felder aus.", falsch: "Noch nicht alles richtig. Die rot markierten Felder stimmen nicht." };
   return {
     korrekt,
     fehler,
     felder: felderAus,
-    meldung: korrekt ? `Richtig! ${meldungen.richtig || ""}`.trim() : meldungen[fehler] || standard[fehler],
+    meldung: korrekt ? `Richtig! ${meldungen.richtig || ""}`.trim() : meldungen[/** @type {string} */ (fehler)] || standard[/** @type {string} */ (fehler)],
   };
 }
 
 /**
  * Prüft Bruch, Dezimalzahl, Prozent oder Rechenterm gegen einen Bruch {z, n} nach der Rundungsregel (zahlantwort.js).
  * feld: { art?, stellen?, nurZahl? }. wert ist der exakte Bruch der Eingabe oder NaN (unlesbar, Wurzel/pi, Hinweis ohne Bruch).
+ * @param {unknown} eingabe @param {import("./bruch.js").Bruch} erwartet @param {import("./zahlantwort.js").Zahloptionen} [feld]
  */
 export function pruefeBruchEingabe(eingabe, erwartet, feld = {}) {
   const r = pruefeZahlAntwort(eingabe, erwartet, feld);
   return { ...r, wert: r.bruch ?? NaN, zahl: r.wert, exakt: r.typ === "bruch" };
 }
 
-/** true, wenn das Ergebnis nur ein Hinweis ist (neutral anzeigen, nicht rot). */
+/** true, wenn das Ergebnis nur ein Hinweis ist (neutral anzeigen, nicht rot). @param {Pruefergebnis} ergebnis */
 export function istHinweis(ergebnis) {
   return ergebnis.korrekt !== true && HINWEISE.has(ergebnis.fehler);
 }
 
-/** true, wenn der Versuch im Zähler "Richtig: x von y" mitzählt. */
+/** true, wenn der Versuch im Zähler "Richtig: x von y" mitzählt. @param {Pruefergebnis} ergebnis */
 export function wirdGezaehlt(ergebnis) {
   return ergebnis.korrekt === true || !NICHT_GEWERTET.has(ergebnis.fehler);
 }

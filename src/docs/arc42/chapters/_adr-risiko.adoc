@@ -41,14 +41,14 @@ mit je 2. Es gelten die Maßnahmen von Tier 1 und Tier 2, mit dem Stand aus EPIC
 | CI-Build und Unit-Tests (T1) | vorhanden | Pflicht-Check `test-und-build` (`pruefen.yml`)
 | Dependency-Check (T1) | umgesetzt, #20 | `npm audit --audit-level=high` im Pflicht-Check; Versionen exakt gepinnt, `npm ci`
 | Linter (T1) | umgesetzt, #21 | ESLint Flat Config mit `no-eval`, `no-implied-eval`, `no-unsanitized` (`eslint.config.js`)
-| Type Checking (T1) | offen, Could, #25 | `tsc --checkJs`, zuerst `src/kern`
+| Type Checking (T1) | umgesetzt, #25 | `tsc --checkJs` mit `strict` im Pflicht-Check (`npm run typecheck`, `jsconfig.json`), vorerst nur `src/kern`; die Apps folgen
 | Pre-Commit-Hooks (T1) | Won't, #27 | Der Pflicht-Check prüft dasselbe; Hooks lassen sich lokal umgehen
 | SAST (T2) | umgesetzt, #19 | CodeQL Default Setup; dazu Secret Scanning mit Push Protection und Dependabot
 | Property-Based Tests (T2) | umgesetzt, #22 | fast-check für Term-Parser, Termgleichheit und Rundung; fand gleich den Fehler #30, behoben
 | KI-Code-Review (T2) | umgesetzt, #24 | Review in frischem Kontext vor jedem Merge, Check `ki-review` (<<adr-027,ADR-027>>)
 | SonarQube Quality Gate (T2) | Won't, #28 | Dateilänge ≤ 500 Zeilen und ESLint decken das Nötige ab
 | Sampling Review, ~20 % (T2) | 100 % | Der Product Owner merged jeden PR selbst und sieht ihn dabei durch
-| Playwright in CI | offen, Could, #26 | Browser-Check heute von Hand (TD-5)
+| Playwright in CI | umgesetzt, #26 | Workflow `browser.yml`: Smoke, Übung, 360 px, axe WCAG 2.2 AA, ohne JS (<<adr-026,ADR-026>>)
 |===
 
 Die Review-Quote von 100 % ist eine Regel, keine technische Sperre: Der Branch-Schutz verlangt einen PR,
@@ -100,3 +100,46 @@ xref:11_technical_risks.adoc#r-017[R-017]. Die fünf neuen Abhängigkeiten laufe
 kompromittierte Version träfe den Build, nicht die Kinder (xref:11_technical_risks.adoc#r-015[R-015]).
 Ändert sich eine Dimension, etwa durch Konten, ein Backend oder ein LLM im Code, wird das Repository neu
 eingestuft; der Abschnitt „Risk Radar Assessment“ in `CLAUDE.md` hält den Stand für `/risk-mitigate` fest.
+
+// ADR-026: Browser-Tests mit Playwright in CI (#26, TD-5).
+
+[[adr-026]]
+=== ADR-026: Browser-Tests mit Playwright und axe-core in einem eigenen Workflow
+
+*Kontext.* Unit-, Vertrags- und Property-Based Tests laufen unter Node und sehen kein HTML. Ob eine Seite
+im Browser ohne Fehler lädt, keinen fremden Host anfragt, bei 360 px passt und ohne JavaScript Text und
+Bild zeigt, prüften bisher Agenten von Hand (TD-5). Der Product Owner hatte das am 23.09.2026 auf später
+gelegt und mit #26 (EPIC #18) eingeplant, ausdrücklich mit einem ADR für die neue Testabhängigkeit.
+
+*Entscheidung.* `@playwright/test` und `@axe-core/playwright` kommen als exakt gepinnte devDependencies
+dazu (Microsoft bzw. Deque, beide die verbreiteten Standardpakete). Getestet wird nur mit Chromium,
+gegen das gebaute `_site/`, ausgeliefert von einem 40-Zeilen-Server auf Node-Bordmitteln
+(`e2e/server.js`) statt eines weiteren Pakets. Die Tests laufen im eigenen Workflow `browser.yml` parallel
+zum Pflicht-Check `test-und-build`; der bleibt unverändert und schnell. Der Browser liegt im Actions-Cache,
+Schlüssel ist die Playwright-Version. Bei Fehlschlag lädt der Job den HTML-Bericht als Artefakt hoch.
+
+*Status.* Accepted (inferred). Umsetzung von #26; der Product Owner entscheidet mit dem Merge.
+
+[cols="2,1,1,1",options="header"]
+|===
+| Ziel | Playwright + axe im eigenen Workflow (Referenz) | Schritt in `pruefen.yml` | Weiter von Hand
+| QZ-1 Datenschutz | 0 | 0 | −1
+| QZ-2 Tutor-Anschluss | 0 | 0 | −1
+| QZ-3 Richtige Rückmeldung | 0 | 0 | −1
+| QZ-4 Neue Apps schnell | 0 | −1 | −1
+| QZ-5 Zugänglich | 0 | 0 | −1
+| *Summe* | *0* | *−1* | *−5*
+|===
+
+Beide automatischen Varianten prüfen bei jedem Push, was vorher vom Gedächtnis des Agenten abhing:
+externe Requests (QZ-1), Deep Links und „Zurück zu Claude“ (QZ-2), die Übungsrunde (QZ-3), 360 px und
+WCAG (QZ-5); von Hand fehlt das, sobald ein Agent es vergisst. Ein Schritt in `pruefen.yml` verlängert den
+Pflicht-Check um die Browser-Installation, der eigene Workflow läuft parallel (QZ-4); von Hand kostet jede
+neue App dieselbe Durchsicht noch einmal.
+
+*Konsequenzen.* Zwei neue Testabhängigkeiten und ein Browser-Download in CI vergrößern die Lieferkette des
+Builds, nicht die der Site: Ausgeliefert wird nichts davon. Das Risiko entspricht R-015 (Eleventy) und wird
+wie dort gemildert: exakte Pins, `npm ci`, `npm audit`, Dependabot. Browser-Tests können flackern; bisher
+nutzen sie keine Wartezeiten, nur Playwright-Assertions mit Auto-Wait, und laufen ohne Wiederholung, damit
+ein Flackern auffällt. Dieses Risiko ist bewusst ohne eigene Risiko-ID akzeptiert. Bis der Job `browser`
+Pflicht-Check ist, verhindert ein roter Browser-Test den Merge nicht (Branch-Schutz: Check „browser“ ergänzen).

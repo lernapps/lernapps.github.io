@@ -1,0 +1,56 @@
+name: Browser-Tests
+
+# TD-5 (#26): Playwright-Tests gegen das gebaute _site/ – Smoke, externe Anfragen, 360 px, Übungsrunde, axe,
+# "Zurück zu Claude", ohne JS. Eigener Workflow, damit der Pflicht-Check "test-und-build" (pruefen.yml) unverändert
+# bleibt; läuft parallel dazu und baut selbst. Noch kein Pflicht-Check (Branch-Schutz: Check "browser" ergänzen).
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: browser-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+
+      # Browser-Cache hängt an der gepinnten Playwright-Version; Systembibliotheken kommen immer per apt.
+      - name: Playwright-Version ermitteln
+        id: pw
+        run: echo "version=$(node -p 'require("@playwright/test/package.json").version')" >> "$GITHUB_OUTPUT"
+      - uses: actions/cache@v4
+        id: browser-cache
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-chromium-${{ runner.os }}-${{ steps.pw.outputs.version }}
+      - name: Chromium installieren
+        if: steps.browser-cache.outputs.cache-hit != 'true'
+        run: npx --package=@playwright/test playwright install --with-deps chromium
+      - name: Systembibliotheken für Chromium
+        if: steps.browser-cache.outputs.cache-hit == 'true'
+        run: npx --package=@playwright/test playwright install-deps chromium
+
+      - run: npm run test:browser
+        env:
+          CI: "true"
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-bericht
+          path: |
+            build/playwright/bericht/
+            build/playwright/ergebnisse/
+          retention-days: 14

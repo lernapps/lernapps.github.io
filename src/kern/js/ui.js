@@ -9,17 +9,43 @@ import { nachVersuch, uebungsStatus } from "./zurueck.js";
 import { el, hervorgehoben, zeigeEingaben, zeigeAufgabentext, lieseAntworten, markiereFelder } from "./aufgabe-eingabe.js";
 
 /**
+ * @typedef {import("./aufgabe-eingabe.js").Aufgabe} Aufgabe
+ * @typedef {import("./aufgabe-eingabe.js").NummerierteAufgabe} NummerierteAufgabe
+ * @typedef {import("./aufgabe-eingabe.js").Antworten} Antworten
+ * @typedef {import("./pruefung.js").Pruefergebnis} Pruefergebnis
+ * @typedef {import("./aufgabenlink.js").Vorgaben} Vorgaben
+ * @typedef {import("./zufall.js").Zufall} Zufall
+ * Was das Bild zur Aufgabe über den Stand weiß: das Prüfergebnis oder, nach "Lösung zeigen", nur das.
+ * @typedef {Pruefergebnis | { korrekt: true, loesungGezeigt: true }} Bildstand
+ * @typedef {(svg: SVGElement, aufgabe: Aufgabe, ergebnis?: Bildstand, status?: (text: string) => void) => void} Zeichner
+ */
+/**
+ * Generator einer Kompetenz (js/aufgaben/<id>.js), vom Kern nur über diese Schnittstelle benutzt.
+ * @typedef {object} Generator
+ * @property {(zufall: Zufall, vorgaben: Vorgaben) => Aufgabe} erzeugeAufgabe
+ * @property {(aufgabe: Aufgabe, antworten: Antworten) => Pruefergebnis} pruefeAntwort
+ * @property {(zufall: Zufall) => Vorgaben} [testVorgaben] erzwingt im Test bestimmte Aufgabentypen
+ * @property {Zeichner} [zeichneBild] Bild zur Testaufgabe
+ * @property {readonly string[]} [URL_ZAHLEN] URL-Parameter mit Zahlen, die er als Vorgaben annimmt
+ * @property {readonly string[]} [URL_TEXTE] URL-Parameter mit Text, die er als Vorgaben annimmt
+ */
+
+/**
  * Startet einen Trainer im Element `wurzel`.
  * modul: { erzeugeAufgabe(zufall, vorgaben), pruefeAntwort(aufgabe, antworten) }
  * seed: optionaler Seed für die erste Aufgabe; vorgaben: Zahlen aus der URL (nur erste Aufgabe).
  * zeichne(svg, aufgabe, ergebnis|undefined, status): Zeichenfunktion für das Bild zur Aufgabe (optional); status(text)
  * schreibt eine Zeile unter das Bild (aria-live), z. B. "2 von 6 markiert";
  * bildHinweis: Satz hinter der Beschriftung (Front Matter bild.uebung, optional).
+ * @param {{ wurzel: HTMLElement, modul: Generator, seed?: number, vorgaben?: Vorgaben, zeichne?: Zeichner,
+ *   bildHinweis?: string, seitenPfad?: string }} auftrag
  */
 export function starteTrainer({ wurzel, modul, seed, vorgaben = {}, zeichne, bildHinweis, seitenPfad = "" }) {
   const zaehler = { richtig: 0, gesamt: 0 };
+  /** @type {NummerierteAufgabe} */
   let aufgabe;
   let gezaehlt = false;
+  /** @type {import("./zurueck.js").Uebungsstand} */
   let stand = { versuche: 0 }; // Stand der aktuellen Aufgabe für die Ergebniszeile an den Tutor (zurueck.js)
   const praefix = wurzel.id || "trainer";
 
@@ -44,6 +70,7 @@ export function starteTrainer({ wurzel, modul, seed, vorgaben = {}, zeichne, bil
   const bild = zeichne ? [el("figure", { class: "aufgabe-bild", id: "aufgabenbild" }, [bildSvg, bildStatus, bildText])] : [];
   wurzel.append(text, ...bild, form, feedback, tippText, loesungText, zaehlerP, seedP);
 
+  /** @param {NummerierteAufgabe} a @param {Bildstand | undefined} ergebnis */
   function visualisiere(a, ergebnis) {
     if (!zeichne) return;
     bildSvg.replaceChildren();
@@ -52,6 +79,7 @@ export function starteTrainer({ wurzel, modul, seed, vorgaben = {}, zeichne, bil
     bildText.textContent = bildBeschriftung(a, ergebnis, bildHinweis);
   }
 
+  /** @param {NummerierteAufgabe} neueAufgabe @param {Vorgaben} [eigeneVorgaben] */
   function zeige(neueAufgabe, eigeneVorgaben = {}) {
     aufgabe = neueAufgabe;
     gezaehlt = false;
@@ -64,11 +92,13 @@ export function starteTrainer({ wurzel, modul, seed, vorgaben = {}, zeichne, bil
     schalteLoesung(loesung, loesungText, false);
     seedP.replaceChildren(...aufgabenzeile(aufgabe.seed, aufgabenHref(seitenPfad, eigeneVorgaben, aufgabe.seed)));
     visualisiere(aufgabe, undefined);
-    form.querySelector("input, select")?.focus({ preventScroll: true });
+    /** @type {HTMLElement | null} */ (form.querySelector("input, select"))?.focus({ preventScroll: true });
   }
 
+  /** @param {Pruefergebnis} ergebnis */
   const markiere = (ergebnis) => markiereFelder(felder, aufgabe, ergebnis);
 
+  /** @param {boolean} korrekt */
   function zaehle(korrekt) {
     if (gezaehlt) return;
     gezaehlt = true;
@@ -78,11 +108,12 @@ export function starteTrainer({ wurzel, modul, seed, vorgaben = {}, zeichne, bil
     gesamtSpan.textContent = String(zaehler.gesamt);
   }
 
+  /** @param {number | undefined} eigenerSeed @param {Vorgaben} eigeneVorgaben @returns {NummerierteAufgabe} */
   function erzeuge(eigenerSeed, eigeneVorgaben) {
     const zufall = erzeugeZufall(eigenerSeed);
     const a = modul.erzeugeAufgabe(zufall, eigeneVorgaben);
     a.seed = zufall.seed;
-    return a;
+    return /** @type {NummerierteAufgabe} */ (a);
   }
 
   form.addEventListener("submit", (ev) => {

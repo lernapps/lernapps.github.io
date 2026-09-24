@@ -22,6 +22,9 @@ repository: one shared kern, one layout, one build (Eleventy 3.1.6), deployed to
   app's `llms.njk`, never rename existing ones. `tutor.njk` is the learner-facing prompt; under 120 lines, German.
 - Verify UI changes in a browser (Playwright) before reporting them done: without JS (text + picture visible),
   360 px and 1280 px, zero console errors, zero external requests before the video click.
+- Browser tests (`e2e/`, Playwright + axe-core, #26) automate most of that check in the `browser` workflow. Run them
+  locally with `npm run build && npm run test:browser` (once: `npx --package=@playwright/test playwright install
+  chromium`; never `npx playwright`). They derive the page list from `lib/apps.js`, so new apps are covered.
 
 ## Layout of the repository
 - `src/_data/site.js` – THE one place holding the base URL. `lib/adressen.js` derives pathPrefix, canonicals, app
@@ -60,6 +63,9 @@ repository: one shared kern, one layout, one build (Eleventy 3.1.6), deployed to
 ## Build rules (enforced by `npm run build`)
 - The required check `test-und-build` (`pruefen.yml`) also runs `npm audit --audit-level=high` and `npm run lint`
   (ESLint flat config: `no-eval`, `no-implied-eval`, `no-unsanitized` against T-003). Never set `innerHTML`; build DOM.
+- `npm run typecheck` (`tsc --checkJs`, `strict`, `jsconfig.json`) checks `src/kern/js` only, also in the required check.
+  Type kern code with JSDoc (`@param`, `@returns`, `@typedef`); cast with `/** @type {…} */ (x)` only where the DOM or a
+  contract guarantees more than tsc can see, and say why in a comment.
 - After writing `_site`, `eleventy.config.js` runs `lib/pruefungen.js`: no external resources in HTML, no external
   imports in JS/CSS, every source file under 500 lines, per competency `<id>.md` + generator + `test/<id>.test.js`,
   the app's `llms.txt` mentions every page. Any violation fails the build.
@@ -147,7 +153,7 @@ _Architecture Decision: See [ADR-023](src/docs/arc42/chapters/_adr-risiko.adoc) 
 | Dimension        | Score | Level                  | Evidence                                                                 |
 | ---------------- | ----- | ---------------------- | ------------------------------------------------------------------------ |
 | Code Type        | 2     | Business Logic         | term parser and rounding in `src/kern/js/`, generators and checkers per app |
-| Language         | 2     | Dynamically typed      | JavaScript ES modules, no type checking                                  |
+| Language         | 2     | Dynamically typed      | JavaScript ES modules; `tsc --checkJs` only for `src/kern`               |
 | Deployment       | 2     | Public-facing app      | user input: public GitHub Pages site, no accounts, no personal data      |
 | Data Sensitivity | 0     | Public data            | user input: no data storage; localStorage holds only self-assessment levels |
 | Blast Radius     | 1     | Performance / DoS      | user input: a broken app is unavailable or wrong, no data loss           |
@@ -163,7 +169,7 @@ branch protection, secret scanning with push protection, org-wide 2FA and the tu
 | Measure                | Status  | Details                                                                        |
 | ---------------------- | ------- | ------------------------------------------------------------------------------ |
 | Linter & Formatter     | Present | ESLint flat config `eslint.config.js` in required check (#21); no formatter     |
-| Type Checking          | Pending | `tsc --checkJs`, first `src/kern` (#25, Could)                                  |
+| Type Checking          | Present | `tsc --checkJs` (strict) in required check, scope `src/kern` (#25)              |
 | Pre-Commit Hooks       | N/A     | Won't (#27): the required check runs the same gates                             |
 | Dependency Check       | Present | `npm audit --audit-level=high` in `pruefen.yml` (#20); exact pins, `npm ci`     |
 | CI Build & Unit Tests  | Present | `pruefen.yml`, required check `test-und-build`                                  |
