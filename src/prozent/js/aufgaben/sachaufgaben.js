@@ -90,7 +90,8 @@ function aufgabeDreisatz(zufall, vorgaben) {
   const ding = { preis: "Ein Laptop kostet", umfrage: "Befragt wurden", akku: "Der Akku fasst" }[kontext.id];
   // Zählbares heißt „wie viele“ (L-029).
   const frage = { preis: "wie viel Euro", umfrage: "wie viele Personen", akku: "wie viel mAh" }[kontext.id];
-  const text = `${ding} ${mitEinheit(grundwert, einheit)}. Rechne mit dem Dreisatz aus, ${frage} ${formatZahl(prozentsatz)}\u00a0% davon sind.`;
+  const mah = kontext.id === "akku" ? " (Milliamperestunden: so viel Ladung speichert der Akku)" : "";
+  const text = `${ding} ${mitEinheit(grundwert, einheit)}${mah}. Rechne mit dem Dreisatz aus, ${frage} ${formatZahl(prozentsatz)}\u00a0% davon sind.`;
   return {
     thema: "sachaufgaben", typ: "dreisatz", kontext: kontext.id, text, grundwert, prozentsatz, prozentwert, einheit, gesucht: "W",
     exakt: { eins: einsExakt, prozent: prozentExakt },

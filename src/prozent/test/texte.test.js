@@ -59,3 +59,11 @@ test("L-029: bei Personen heißt es „wie viele Personen“", () => {
   assert.ok(umfrage.length > 10);
   for (const a of umfrage) assert.match(a.text, /wie viele Personen [\d,]+\u00a0% davon sind\./, a.text);
 });
+
+test("L-012: jede Akku-Aufgabe erklärt mAh", () => {
+  for (const [name, modul, vorgaben] of [["prozentwert", prozentwert], ["prozentsatz", prozentsatz], ["grundwert", grundwert], ["sachaufgaben", sachaufgaben, { typ: "dreisatz" }]]) {
+    const akku = alle(modul, vorgaben).filter((a) => a.kontext === "akku");
+    assert.ok(akku.length > 5, name);
+    for (const a of akku) assert.match(a.text, /mAh \(Milliamperestunden/, `${name}: ${a.text}`);
+  }
+});

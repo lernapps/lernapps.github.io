@@ -17,7 +17,7 @@ const TEXTE = {
   preis: (g, p) => `Ein Fahrrad kostet ${g}. Im Angebot gibt es ${p} Rabatt. Wie viel Euro sparst du?`,
   klasse: (g, p) => `In einer Klasse sind ${g}. ${p} von ihnen fahren mit dem Rad zur Schule. Wie viele Schüler sind das?`,
   umfrage: (g, p) => `Bei einer Umfrage wurden ${g} befragt. ${p} davon lesen täglich Nachrichten. Wie viele Personen sind das?`,
-  akku: (g, p) => `Ein Handy-Akku fasst ${g}. Er ist noch zu ${p} geladen. Wie viel mAh sind noch drin?`,
+  akku: (g, p) => `Ein Handy-Akku fasst ${g} (Milliamperestunden: so viel Ladung speichert der Akku). Er ist noch zu ${p} geladen. Wie viel mAh sind noch drin?`,
   sport: (g, p) => `Beim Basketball wirft Lina ${g} auf den Korb. ${p} davon treffen. Wie viele Treffer sind das?`,
   neutral: (g, p) => `Berechne ${p} von ${g}.`,
 };

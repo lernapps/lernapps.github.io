@@ -17,7 +17,7 @@ const TEXTE = {
   preis: (g, w) => `Eine Jacke kostet ${g}. Der Rabatt beträgt ${w}. Wie viel Prozent Rabatt sind das?`,
   klasse: (g, w) => `In einer Klasse sind ${g}. ${w} davon haben ein Haustier. Wie viel Prozent der Klasse sind das?`,
   umfrage: (g, w) => `${g} wurden befragt, ${w} davon mögen Pizza am liebsten. Wie viel Prozent sind das?`,
-  akku: (g, w) => `Ein Akku fasst ${g}. Er ist noch mit ${w} geladen. Wie viel Prozent sind das?`,
+  akku: (g, w) => `Ein Akku fasst ${g} (Milliamperestunden: so viel Ladung speichert der Akku). Er ist noch mit ${w} geladen. Wie viel Prozent sind das?`,
   sport: (g, w, anzahlG, anzahlW) => `Tom wirft ${anzahlG}-mal auf den Korb und trifft ${anzahlW}-mal. Wie viel Prozent seiner Würfe sind Treffer?`,
   neutral: (g, w) => `Wie viel Prozent sind ${w} von ${g}?`,
 };
@@ -45,6 +45,7 @@ export function erzeugeAufgabe(zufall, vorgaben = {}) {
     prozentsatz,
     prozentwert,
     einheit,
+    wEinheit,
     exakt,
     gesucht: "prozentsatz",
     felder: [zahlenfeld({ id: "prozentsatz", label: "Prozentsatz p", einheit: "%", art: "prozent" }, exakt)],
