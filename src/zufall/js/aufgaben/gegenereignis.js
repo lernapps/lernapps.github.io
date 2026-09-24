@@ -6,11 +6,11 @@
  * URL-Parameter (llms.txt): p, art, experiment, urne, rad, zuege, modus, ereignis, lose, gewinne, wuerfel, seed/nr.
  */
 import { bruch, subtrahiere, EINS, formatBruch } from "../../../kern/js/bruch.js";
-import { urne, muenze, wuerfelSechs, ergebnisName, experimentAusVorgaben } from "../modell/experimente.js";
+import { urne, muenze, wuerfelSechs, ergebnisName, experimentAusVorgaben, kugelListe } from "../modell/experimente.js";
 import { baueBaum, ereignisWahrscheinlichkeit, ereignisPfade } from "../modell/baum.js";
 import { parseEreignis } from "../modell/ereignis.js";
 import { ergebnismengeAus, frageText, verbFuer, LAPLACE_EREIGNISSE } from "./laplace.js";
-import { pruefeEinFeld, wahrscheinlichkeitsFeld, vorgabeOder, trifft, URNEN_VORLAGEN } from "./gemeinsam.js";
+import { pruefeEinFeld, wahrscheinlichkeitsFeld, vorgabeOder, trifft, gekuerzt, hoch, URNEN_VORLAGEN } from "./gemeinsam.js";
 
 // Testseite: bei "einfach" neutral – die Markierung von „nicht E“ würde die Antwort verraten.
 export { zeichneGegenereignisTest as zeichneBild } from "../vis/gegenereignis.js";
@@ -71,7 +71,7 @@ function einfach(zufall, vorgaben) {
     text: `${menge.kontext} ${frageText({ ...menge, ereignisName: gegen.frage })} (nicht E: ${gegen.kurz})`,
     tipp: `E heißt: Du ${verbFuer(menge.art)} ${menge.ereignisName}. Rechne zuerst P(E) mit der Laplace-Formel: ${guenstig}/${moeglich}. Dann 1 − P(E).`,
     rechenweg: [
-      `P(E) = ${guenstig}/${moeglich} = ${formatBruch(p)}`,
+      `P(E) = ${gekuerzt(guenstig, moeglich)}`,
       `P(nicht E) = 1 − ${formatBruch(p)} = <strong>${formatBruch(loesung)}</strong>`,
       `Kontrolle: ${moeglich - guenstig} von ${moeglich} Ergebnissen sind „nicht E“.`,
     ],
@@ -85,7 +85,7 @@ function zweigW(baum, pfad, i) {
 }
 
 function beschreibe(exp) {
-  if (exp.typ === "urne") return `In einer Urne liegen ${exp.ergebnisse.map((e) => `${e.anzahl} ${e.name}e`).join(", ")} Kugeln.`;
+  if (exp.typ === "urne") return `In einer Urne liegen ${kugelListe(exp.ergebnisse)}.`;
   if (exp.typ === "muenze") return "Du hast eine faire Münze.";
   return "Du hast einen normalen Würfel; es zählt nur „6“ oder „keine 6“.";
 }
@@ -114,7 +114,7 @@ function mindestens(zufall, vorgaben) {
   const zurueck = exp.typ === "urne" ? (mitZuruecklegen ? " mit Zurücklegen" : " ohne Zurücklegen") : "";
   const faktoren = gegenPfade.length === 1 ? gegenPfade[0].pfad.map((_, i) => formatBruch(zweigW(baum, gegenPfade[0].pfad, i))) : [];
   const alleGleich = faktoren.length && faktoren.every((f) => f === faktoren[0]);
-  const gegenTerm = alleGleich ? `(${faktoren[0]})^${zuege}` : faktoren.join(" · ");
+  const gegenTerm = alleGleich ? `(${faktoren[0]})${hoch(zuege)}` : faktoren.join(" · ");
   return aufgabe("mindestens", pGegen, loesung, {
     experiment: exp, baum, zuege, mitZuruecklegen, ereignis, gegen, gegenKurz,
     text: `${beschreibe(exp)} Du ${aktion} ${zuege}-mal${zurueck}. Wie groß ist die Wahrscheinlichkeit, dass du mindestens einmal „${name}“ bekommst?`,

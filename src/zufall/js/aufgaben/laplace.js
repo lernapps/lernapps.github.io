@@ -5,7 +5,7 @@
  * urne, rad, lose, gewinne, schwer, Kurzform wuerfel=<Ereignis>, seed/nr.
  */
 import { bruch, formatBruch } from "../../../kern/js/bruch.js";
-import { FARBEN, parseUrne, elementarErgebnisse, urne, gluecksrad } from "../modell/experimente.js";
+import { FARBEN, parseUrne, elementarErgebnisse, urne, gluecksrad, kugelListe } from "../modell/experimente.js";
 import { pruefeEinFeld, wahrscheinlichkeitsFeld, vorgabeOder, URNEN_VORLAGEN, trifft } from "./gemeinsam.js";
 
 // Testseite: neutrales Bild – eine Vorab-Markierung würde die Antwort verraten.
@@ -67,8 +67,8 @@ function mengeFarben(exp, code, art) {
   const ev = exp.ergebnisse.find((e) => e.id === code) ? code : exp.ergebnisse[0].id;
   const name = FARBEN[ev].name;
   const kontext = art === "urne"
-    ? `In einer Urne liegen ${exp.ergebnisse.map((e) => `${e.anzahl} ${e.name}e`).join(", ")} Kugeln. Du ziehst blind eine Kugel.`
-    : `Ein Glücksrad hat ${exp.ergebnisse.reduce((s, e) => s + e.anzahl, 0)} gleich große Felder: ${exp.ergebnisse.map((e) => `${e.anzahl} ${e.name}`).join(", ")}. Du drehst einmal.`;
+    ? `In einer Urne liegen ${kugelListe(exp.ergebnisse)}. Du ziehst blind eine Kugel.`
+    : `Ein Glücksrad hat ${exp.ergebnisse.reduce((s, e) => s + e.anzahl, 0)} gleich große Felder: ${exp.ergebnisse.map((e) => `${e.anzahl} ${e.name}`).join(", ").replace(/, ([^,]*)$/, " und $1")}. Du drehst einmal.`;
   return {
     art, kontext, code: ev, spec: exp.spec,
     ereignisName: art === "urne" ? `eine ${name}e Kugel` : `ein ${name}es Feld`,
