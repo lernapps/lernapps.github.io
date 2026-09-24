@@ -4,6 +4,8 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import { SCHICHTEN, ABSCHNITTE, zeichneRad, schreibeInventar, abdeckung, ZIELE } from "../../scripts/harness-rad.js";
 import { baueOriginalUrl, schreibeOriginalAbschnitt } from "../../scripts/harness-rad-original.js";
+import { BELEGE, pruefeBeleg, jobsVon } from "../../scripts/harness-belege.js";
+import eslintConfig from "../../eslint.config.js";
 
 test("das Inventar nennt alle 69 Schichten des Harness Coverage Wheel in neun Abschnitten", () => {
   assert.equal(SCHICHTEN.length, 69);
@@ -39,4 +41,38 @@ test("die eingecheckten Dateien entsprechen dem Generator (node scripts/harness-
   const original = fs.readFileSync(ZIELE.original, "utf8");
   assert.equal(original, schreibeOriginalAbschnitt(SCHICHTEN, abdeckung(SCHICHTEN)));
   assert.ok(original.includes(`link:${baueOriginalUrl(SCHICHTEN)}[`), "Link zum Original zeigt den aktuellen Stand");
+});
+
+// Belege (scripts/harness-belege.js): was „vorhanden“ heißt, muss im Repo stehen – nicht nur im Text.
+const VORHANDEN = SCHICHTEN.filter((s) => s.status === "vorhanden");
+
+test("jede vorhandene Schicht nennt mindestens einen maschinenprüfbaren Beleg, und kein Beleg ist verwaist", () => {
+  for (const s of VORHANDEN) assert.ok(BELEGE[s.id]?.length, `${s.id} braucht einen Eintrag in BELEGE`);
+  for (const id of Object.keys(BELEGE)) {
+    assert.ok(VORHANDEN.some((s) => s.id === id), `BELEGE.${id}: keine vorhandene Schicht mit dieser id`);
+  }
+});
+
+test("jeder Beleg außer github: löst sich im Repo auf (Datei, npm-Skript, Workflow-Job, ESLint-Regel, Export)", () => {
+  const fehler = VORHANDEN.flatMap((s) => (BELEGE[s.id] ?? [])
+    .map((b) => [b, pruefeBeleg(b, eslintConfig)])
+    .filter(([, e]) => e && e !== "github")
+    .map(([b, e]) => `${s.id} – ${b}: ${e}`));
+  assert.deepEqual(fehler, []);
+});
+
+test("Schichten, die nur github:-Belege haben, prüft allein das Audit (arc42 8.16)", (t) => {
+  const nurGithub = VORHANDEN.filter((s) => BELEGE[s.id]?.every((b) => b.startsWith("github:"))).map((s) => s.id);
+  t.diagnostic(`nur per GitHub-Audit prüfbar: ${nurGithub.join(", ")}`);
+  assert.deepEqual(nurGithub, ["secret-scanning", "sast", "code-review"]);
+});
+
+test("pruefeBeleg meldet fehlende Datei, fehlenden Job, fehlendes Skript und unbekannte Art", () => {
+  assert.match(pruefeBeleg("datei:e2e/gibt-es-nicht.spec.js", eslintConfig), /Datei fehlt/);
+  assert.match(pruefeBeleg("job:pruefen.yml#gibt-es-nicht", eslintConfig), /Job gibt-es-nicht fehlt/);
+  assert.match(pruefeBeleg("skript:gibt-es-nicht", eslintConfig), /npm-Skript fehlt/);
+  assert.match(pruefeBeleg("regel:no-debugger-gibt-es-nicht", eslintConfig), /nicht eingeschaltet/);
+  assert.match(pruefeBeleg("funktion:lib/pruefungen.js#gibtEsNicht", eslintConfig), /exportiert gibtEsNicht nicht/);
+  assert.match(pruefeBeleg("irgendwas:x", eslintConfig), /unbekannte Beleg-Art/);
+  assert.deepEqual(jobsVon("on:\n  push:\njobs:\n  a-b:\n    steps:\n  c:\n"), ["a-b", "c"]);
 });

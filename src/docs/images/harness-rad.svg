@@ -13,8 +13,8 @@
 <text x="497.8" y="66.2" text-anchor="start" font-size="12" fill="#495057">60 %</text>
 <path d="M551.2 152 A226 226 0 0 1 621.1 273 L490 300.9 A92 92 0 0 0 461.6 251.6 Z" fill="#f1f3f5"/>
 <path d="M551.2 152 A226 226 0 0 1 621.1 273 L490 300.9 A92 92 0 0 0 461.6 251.6 Z" fill="#1d4ed8" fill-opacity="0.28"/>
-<polygon points="568.9,137.5 574.4,147.1 563.4,147.1" fill="#c92a2a" stroke="#c92a2a" stroke-width="1.4"><title>Unit tests – vorhanden, Tier 2: rund 500 node:test-Tests in test/ und src/&lt;app&gt;/test/</title></polygon>
-<polygon points="579.6,148.4 585.1,158 574.1,158" fill="#c92a2a" stroke="#c92a2a" stroke-width="1.4"><title>Property-based / fuzz – vorhanden, Tier 4: fast-check, 17 Properties, #22: Zahlen und Terme (test/kern/*.property.test.js, Fund #30 behoben); jede Rechnung im Lösungsweg jeder App wird nachgerechnet (test/apps/rechenweg.property.test.js, L-021)</title></polygon>
+<polygon points="568.9,137.5 574.4,147.1 563.4,147.1" fill="#c92a2a" stroke="#c92a2a" stroke-width="1.4"><title>Unit tests – vorhanden, Tier 2: node:test-Tests in test/ und src/&lt;app&gt;/test/, im Pflicht-Check test-und-build</title></polygon>
+<polygon points="579.6,148.4 585.1,158 574.1,158" fill="#c92a2a" stroke="#c92a2a" stroke-width="1.4"><title>Property-based / fuzz – vorhanden, Tier 4: fast-check, #22: Zahlen und Terme (test/kern/*.property.test.js, Fund #30 behoben); jede Rechnung im Lösungsweg jeder App wird nachgerechnet (test/apps/rechenweg.property.test.js, L-021)</title></polygon>
 <polygon points="589.6,160 595.1,169.6 584.1,169.6" fill="#fff" stroke="#c92a2a" stroke-width="1.4" opacity="0.3"><title>Mutation testing – offen, Tier 4</title></polygon>
 <polygon points="598.9,172.3 604.4,181.9 593.4,181.9" fill="#c92a2a" stroke="#c92a2a" stroke-width="1.4"><title>Integration tests – vorhanden, Tier 2: Vertragstest test/apps/vertrag.test.js: jede Kompetenz jeder App, Seeds 1–20</title></polygon>
 <polygon points="607.4,185 612.9,194.6 601.9,194.6" fill="#c92a2a" stroke="#c92a2a" stroke-width="1.4"><title>Contract tests – vorhanden, Tier 3: Tutor-Vertrag lib/llms-vertrag.js: Deep Links in llms.txt/tutor.md gegen Generator-Parameter</title></polygon>
@@ -58,11 +58,11 @@
 <text x="583.8" y="554.1" text-anchor="start" font-size="12" fill="#495057">50 %</text>
 <path d="M469.8 534.9 A226 226 0 0 1 330.2 534.9 L371.6 407.5 A92 92 0 0 0 428.4 407.5 Z" fill="#f1f3f5"/>
 <path d="M469.8 534.9 A226 226 0 0 1 330.2 534.9 L371.6 407.5 A92 92 0 0 0 428.4 407.5 Z" fill="#1d4ed8" fill-opacity="0.28"/>
-<rect x="456.4" y="552" width="8.6" height="8.6" rx="1" fill="#e67700" stroke="#e67700" stroke-width="1.4"><title>Schema validation – vorhanden, Tier 2: Front Matter der Kompetenzen (pruefeKompetenzen) und Kartendaten (src/karte/schemas/)</title></rect>
+<rect x="456.4" y="552" width="8.6" height="8.6" rx="1" fill="#e67700" stroke="#e67700" stroke-width="1.4"><title>Schema validation – vorhanden, Tier 2: Front Matter der Kompetenzen (pruefeKompetenzen) und Kartendaten (pruefeReferenzen in lib/karte/daten.js: Pflichtfelder, Enum-Werte); die JSON-Schemas in src/karte/schemas/ prüft kein Build</title></rect>
 <rect x="426.3" y="557.8" width="8.6" height="8.6" rx="1" fill="#e9ecef" stroke="#adb5bd" stroke-width="1.4"><title>DB migration dry-run – entfällt, Tier 2: keine Datenbank</title></rect>
 <rect x="395.7" y="559.7" width="8.6" height="8.6" rx="1" fill="#e9ecef" stroke="#adb5bd" stroke-width="1.4" opacity="0.3"><title>PII scanner – entfällt, Tier 3: keine personenbezogenen Daten (Risk Radar: Data 0)</title></rect>
 <polygon points="369.4,555.7 374.9,565.3 363.9,565.3" fill="#c92a2a" stroke="#c92a2a" stroke-width="1.4"><title>Config validation – vorhanden, Tier 2: App-Konfiguration: unbekanntes Fach bricht den Build (lib/fachfarben.js)</title></polygon>
-<polygon points="339.3,549.9 344.8,559.5 333.8,559.5" fill="#c92a2a" stroke="#c92a2a" stroke-width="1.4"><title>Data contract – vorhanden, Tier 3: Karten-Knoten müssen existieren (test/build/karte-daten.test.js)</title></polygon>
+<polygon points="339.3,549.9 344.8,559.5 333.8,559.5" fill="#c92a2a" stroke="#c92a2a" stroke-width="1.4"><title>Data contract – vorhanden, Tier 3: Karten-Knoten müssen existieren: pruefeReferenzen bricht den Build (lib/karte/laden.js), Tests in test/build/karte-daten.test.js</title></polygon>
 <text x="400" y="606" text-anchor="middle" font-size="13" font-weight="600" fill="#212529">Data</text>
 <text x="400" y="621" text-anchor="middle" font-size="12" fill="#495057">100 %</text>
 <path d="M315.3 529.5 A226 226 0 0 1 208.3 439.8 L322 368.8 A92 92 0 0 0 365.5 405.3 Z" fill="#f1f3f5"/>
@@ -97,10 +97,10 @@
 <path d="M260.9 141.9 A226 226 0 0 1 392.1 94.1 L396.8 228.1 A92 92 0 0 0 343.4 247.5 Z" fill="#f1f3f5"/>
 <path d="M302.1 194.7 A159 159 0 0 1 394.5 161.1 L396.8 228.1 A92 92 0 0 0 343.4 247.5 Z" fill="#1d4ed8" fill-opacity="0.28"/>
 <circle cx="258.6" cy="121.2" r="4.8" fill="#fff" stroke="#2b8a3e" stroke-width="1.4"><title>Markdown / AsciiDoc lint – offen, Tier 1</title></circle>
-<circle cx="276.9" cy="109.3" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"><title>Link checker – vorhanden, Tier 1: test/build/doku-verweise.test.js, geprüfte serlo-Links, Tutor-Deep-Links</title></circle>
+<circle cx="276.9" cy="109.3" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"><title>Link checker – vorhanden, Tier 1: Tutor-Deep-Links gegen Seiten, Anker und Parameter (pruefeLink, im Build), serlo-Links nur auf die Domain (pruefeSerloLinks), Verweise auf die Doku (test/build/doku-verweise.test.js); tote Links im HTML prüft nichts</title></circle>
 <circle cx="296.3" cy="99.1" r="4.8" fill="#fff" stroke="#2b8a3e" stroke-width="1.4"><title>Code-in-docs validation – offen, Tier 2</title></circle>
 <circle cx="316.5" cy="90.7" r="4.8" fill="#fff" stroke="#2b8a3e" stroke-width="1.4"><title>Spell check – offen, Tier 1</title></circle>
-<circle cx="337.4" cy="84.2" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"><title>Diagram build – vorhanden, Tier 2: doku.yml baut PlantUML und prüft die Ausgabe in jedem PR</title></circle>
+<circle cx="337.4" cy="84.2" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"><title>Diagram build – vorhanden, Tier 2: doku.yml baut PlantUML und prüft die Ausgabe in jedem PR, der Doku oder Doku-Build ändert (kein Pflicht-Check); pages.yml baut sie vor jedem Deployment</title></circle>
 <rect x="354.5" y="75.2" width="8.6" height="8.6" rx="1" fill="#e67700" stroke="#e67700" stroke-width="1.4"><title>Prose lint – vorhanden, Tier 2: tutor.md unter 120 Zeilen (MAX_TUTOR_ZEILEN in eleventy.config.js bricht den Build), #29</title></rect>
 <polygon points="380.6,70.4 386.1,80 375.1,80" fill="#c92a2a" stroke="#c92a2a" stroke-width="1.4"><title>Doc-code drift – vorhanden, Tier 3: Tutor-Vertrag: jeder Generator-Parameter steht in llms.txt</title></polygon>
 <text x="302.2" y="51.2" text-anchor="end" font-size="13" font-weight="600" fill="#212529">Docs</text>
