@@ -6,7 +6,15 @@
  *    den Doku-Job, WARNING und INFO erscheinen nur als Annotation. Dazu liest der Wrapper --format json.
  *  - IMG001 sucht Bilder relativ zum Arbeitsverzeichnis und kennt :imagesdir: nicht (Fehlalarm für das arc42-Logo).
  *    Abschalten ginge nur für die ganze Regel (config: rules.IMG001.enabled) und verlöre echte Funde. Der Wrapper
- *    unterdrückt „Image file not found“ nur, wenn das Bild relativ zur Datei bzw. ihrem :imagesdir: existiert.
+ *    unterdrückt „Image file not found“ nur, wenn das Bild relativ zur Datei bzw. ihrem :imagesdir: existiert
+ *    (upstream docToolchain/asciidoc-linter#60, offen).
+ *  - HEAD002 prüft den ersten Buchstaben des Überschriftentexts und hält darum ein Inline-Makro am Anfang
+ *    (`= image:arc42-logo.png[arc42] Titel`, arc42-Vorlage) für eine kleingeschriebene Überschrift. Der Wrapper
+ *    unterdrückt HEAD002 nur, wenn die Überschrift mit einem Inline-Makro `name:ziel[…]` beginnt; kleine
+ *    Überschriften aus Wörtern meldet er weiter.
+ * Gepinnt ist 911440a (nach docToolchain/asciidoc-linter#62, der die Überschriften-, Block- und Bildregeln im CLI
+ * erst aktiviert). Offen upstream: #58 (Exit-Code/--fail-level, darum bewertet der Wrapper die Schwere selbst),
+ * #59 (Konfigurationsfehler werden ignoriert), #60 (:imagesdir:).
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -21,12 +29,18 @@ export function bildDa(adoc, bild, lies = (p) => fs.readFileSync(p, "utf8"), gib
     .filter(Boolean).some((p) => gibt(p));
 }
 
+/** Überschrift, deren Text mit einem Inline-Makro wie image:logo.png[…] beginnt. */
+export const MAKRO_AM_ANFANG = /^=+\s+[a-z]+:[^\s[]*\[/;
+
 /** Teilt die Befunde des Linters in fehler (ERROR), warnungen (alles andere) und unterdrueckt (Fehlalarme). */
 export function bewerte(befunde, istBildDa = bildDa) {
   const r = { fehler: [], warnungen: [], unterdrueckt: [] };
   for (const b of befunde) {
     const bild = b.rule_id === "IMG001" && b.message?.match(/^Image file not found: (.+)$/)?.[1];
-    if (bild && istBildDa(b.file, bild)) r.unterdrueckt.push(b);
+    if (bild && istBildDa(b.file, bild)) r.unterdrueckt.push({ ...b, grund: "Bild über :imagesdir: vorhanden" });
+    else if (b.rule_id === "HEAD002" && MAKRO_AM_ANFANG.test(b.context ?? "")) {
+      r.unterdrueckt.push({ ...b, grund: "Überschrift beginnt mit Inline-Makro" });
+    }
     else if (String(b.severity).toLowerCase() === "error") r.fehler.push(b);
     else r.warnungen.push(b);
   }
@@ -48,7 +62,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.ar
   const r = bewerte(befunde);
   for (const b of r.fehler) console.log(annotation("error", b));
   for (const b of r.warnungen) console.log(annotation("warning", b));
-  for (const b of r.unterdrueckt) console.log(`unterdrückt (Bild über :imagesdir: vorhanden): ${b.file}:${b.line} ${b.message}`);
+  for (const b of r.unterdrueckt) console.log(`unterdrückt (${b.grund}): ${b.file}:${b.line} ${b.message}`);
   console.log(`asciidoc-linter: ${dateien.length} Dateien, ${r.fehler.length} Fehler, ${r.warnungen.length} Warnungen, ${r.unterdrueckt.length} unterdrückt`);
   process.exit(r.fehler.length ? 1 : 0);
 }

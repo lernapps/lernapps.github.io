@@ -56,7 +56,7 @@ jobs:
       - name: AsciiDoc prüfen (asciidoc-linter)
         if: steps.vorhanden.outputs.doku == 'ja'
         env:
-          ASCIIDOC_LINTER_SHA: 52e7fa5982d980eefd5b548f68ff6f58767fe772
+          ASCIIDOC_LINTER_SHA: 911440ac35d5849349389cce7ba04311d75dca49
         run: |
           python -m pip install --disable-pip-version-check "git+https://github.com/docToolchain/asciidoc-linter@${ASCIIDOC_LINTER_SHA}"
           node scripts/doku-lint.js
