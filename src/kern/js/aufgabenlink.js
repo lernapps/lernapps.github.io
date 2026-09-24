@@ -4,9 +4,12 @@
 import { parseZahl } from "./zahlen.js";
 import { leseSeed } from "./zufall.js";
 
+/** Zahlen und Texte aus der URL für die erste Aufgabe. @typedef {Record<string, number | string>} Vorgaben */
+
 const KOPIEREN = "Link kopieren";
 const KOPIERT = "Kopiert";
 
+/** @param {Node} element */
 function markiereText(element) {
   const auswahl = window.getSelection?.();
   if (!auswahl) return;
@@ -16,7 +19,8 @@ function markiereText(element) {
   auswahl.addRange(bereich);
 }
 
-/** Kopiert einen Text in die Zwischenablage; ohne Zwischenablage wird `element` markiert, damit das Kind selbst kopieren kann. */
+/** Kopiert einen Text in die Zwischenablage; ohne Zwischenablage wird `element` markiert, damit das Kind selbst kopieren kann.
+ * @param {HTMLElement} knopf @param {string} text @param {Element & { select?: () => void }} element */
 export async function kopiereText(knopf, text, element) {
   const vorher = knopf.textContent;
   try {
@@ -29,12 +33,14 @@ export async function kopiereText(knopf, text, element) {
   }
 }
 
-/** Kopiert den absoluten Link in die Zwischenablage; ohne Zwischenablage wird der Linktext markiert. */
+/** Kopiert den absoluten Link in die Zwischenablage; ohne Zwischenablage wird der Linktext markiert.
+ * @param {HTMLElement} knopf @param {HTMLAnchorElement} link */
 export function kopiereLink(knopf, link) {
-  return kopiereText(knopf, new URL(link.getAttribute("href"), window.location.href).href, link);
+  return kopiereText(knopf, new URL(/** @type {string} */ (link.getAttribute("href")), window.location.href).href, link);
 }
 
-/** Liefert die Kinder für die Aufgabenzeile: Text, Link, Kopierknopf. */
+/** Liefert die Kinder für die Aufgabenzeile: Text, Link, Kopierknopf.
+ * @param {number} nummer @param {string} href @returns {(string | HTMLElement)[]} */
 export function aufgabenzeile(nummer, href) {
   const link = document.createElement("a");
   link.href = href;
@@ -46,9 +52,11 @@ export function aufgabenzeile(nummer, href) {
   return [`Aufgabe Nr. ${nummer} · `, link, knopf];
 }
 
-/** Liest benannte URL-Parameter: `zahlen` müssen positive Zahlen sein, `texte` nur Kleinbuchstaben, Ziffern, Bindestrich (nicht vorn). */
+/** Liest benannte URL-Parameter: `zahlen` müssen positive Zahlen sein, `texte` nur Kleinbuchstaben, Ziffern, Bindestrich (nicht vorn).
+ * @param {string | null | undefined} query @param {readonly string[]} [zahlen] @param {readonly string[]} [texte] @returns {Vorgaben} */
 export function leseVorgaben(query, zahlen = [], texte = []) {
   const params = new URLSearchParams(query || "");
+  /** @type {Vorgaben} */
   const vorgaben = {};
   for (const name of zahlen) {
     const zahl = parseZahl(params.get(name));
@@ -61,7 +69,8 @@ export function leseVorgaben(query, zahlen = [], texte = []) {
   return vorgaben;
 }
 
-/** Link zu einer Aufgabe: Vorgaben (Zahlen mit Komma) und die Aufgabennummer als `seed`. */
+/** Link zu einer Aufgabe: Vorgaben (Zahlen mit Komma) und die Aufgabennummer als `seed`.
+ * @param {string} seitenPfad @param {Vorgaben} vorgaben @param {number} seed */
 export function aufgabenHref(seitenPfad, vorgaben, seed) {
   const params = new URLSearchParams();
   for (const [k, v] of Object.entries(vorgaben)) params.set(k, String(v).replace(".", ","));
@@ -72,7 +81,8 @@ export function aufgabenHref(seitenPfad, vorgaben, seed) {
 /** Anker, bei denen die Übung das Ziel ist; jeder andere Anker zeigt in die Erklärung. */
 const UEBUNGS_ANKER = ["", "#uebung", "#aufgabenbild", "#trainer"];
 
-/** Deep Link auf eine Aufgabe (Nummer oder gültiger Aufgabenparameter), Anker nicht in der Erklärung → Übung im Fokus. */
+/** Deep Link auf eine Aufgabe (Nummer oder gültiger Aufgabenparameter), Anker nicht in der Erklärung → Übung im Fokus.
+ * @param {string | null | undefined} query @param {string} hash @param {readonly string[]} [zahlen] @param {readonly string[]} [texte] */
 export function aufgabeImFokus(query, hash, zahlen = [], texte = []) {
   if (!UEBUNGS_ANKER.includes(hash || "")) return false;
   return leseSeed(query) !== undefined || Object.keys(leseVorgaben(query, zahlen, texte)).length > 0;
