@@ -1,0 +1,49 @@
+name: KI-Review
+
+# #24, ADR-026: Ein PR ist erst mergebereit, wenn nach seinem letzten Commit ein KI-Review aus frischem
+# Kontext mit „Ergebnis: freigegeben“ für genau diesen Stand vorliegt. Der Check ruft kein Sprachmodell
+# auf; er liest nur PR-Kommentare und Reviews (scripts/ki-review-pruefen.js).
+#
+# Warum pull_request_review und nicht issue_comment: Ein issue_comment-Lauf hängt am letzten Commit von
+# main, nicht am PR; sein Ergebnis erscheint nicht im PR. Ein Review (auch „Comment“ auf den eigenen PR)
+# startet den Check am Kopf-Commit des PRs, mit Leserechten. Ein gewöhnlicher PR-Kommentar zählt ebenfalls,
+# braucht danach aber „Re-run“ dieses Checks (gh run rerun <id>).
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  pull_request_review:
+    types: [submitted, edited, dismissed]
+
+permissions:
+  contents: read
+  pull-requests: read
+  issues: read
+
+concurrency:
+  group: ki-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  ki-review:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      REPO: ${{ github.repository }}
+      NR: ${{ github.event.pull_request.number }}
+      KOPF_SHA: ${{ github.event.pull_request.head.sha }}
+      # Konten, deren KI-Review zählt. Änderung nur per PR.
+      KI_REVIEW_KONTEN: raifdmueller
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+      - name: Kommentare und Reviews holen
+        run: |
+          gh api --paginate "repos/$REPO/issues/$NR/comments" \
+            --jq '.[] | {autor: .user.login, zeit: .updated_at, text: (.body // "")}' > beitraege.jsonl
+          gh api --paginate "repos/$REPO/pulls/$NR/reviews" \
+            --jq '.[] | select(.submitted_at != null) | {autor: .user.login, zeit: .submitted_at, text: (.body // "")}' >> beitraege.jsonl
+          jq -s . beitraege.jsonl > beitraege.json
+          echo "COMMIT_ZEIT=$(gh api "repos/$REPO/commits/$KOPF_SHA" --jq .commit.committer.date)" >> "$GITHUB_ENV"
+      - name: KI-Review prüfen
+        run: node scripts/ki-review-pruefen.js beitraege.json
