@@ -11,6 +11,7 @@
     "pruefe": "npm test && npm run build"
   },
   "devDependencies": {
-    "@11ty/eleventy": "3.1.6"
+    "@11ty/eleventy": "3.1.6",
+    "fast-check": "4.10.2"
   }
 }
