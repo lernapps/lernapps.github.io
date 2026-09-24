@@ -9,7 +9,8 @@
 import { svgEl } from "../../../kern/js/svg.js";
 import { formatBruch } from "../../../kern/js/bruch.js";
 import { blaetter, alleKnoten } from "../modell/baum.js";
-import { BETONT, textFarbe } from "./rahmen.js";
+import { textFarbe } from "./rahmen.js";
+import { elternKarte, faerberFuer, zweigLabel, macheAuswaehlbar } from "./baum-gemeinsam.js";
 
 const STUFE_BREITE = 150;
 const ZEILE = 34;
@@ -42,22 +43,11 @@ function knotenGrafik(k, q) {
   return g;
 }
 
-/** Liegt der Zweig zu knotenId auf dem Pfad zum Blatt blattId? */
-const liegtAufPfad = (knotenId, blattId) => blattId === knotenId || blattId.startsWith(`${knotenId}-`);
-
-function faerbe(linie, an) {
-  linie.setAttribute("stroke", an ? BETONT : "#90a4ae");
-  linie.setAttribute("stroke-width", an ? "4" : "2");
-  linie.classList.toggle("hervor", an);
-}
-
 const bez = (t, a, b, c, d) => (1 - t) ** 3 * a + 3 * (1 - t) ** 2 * t * b + 3 * (1 - t) * t ** 2 * c + t ** 3 * d;
 
 export function zeichneBaumIn(ziel, baum, optionen = {}) {
   const { pos, hoehe } = positionen(baum);
-  const versteckt = optionen.versteckt || new Map();
   const auswahl = optionen.auswahl;
-  const markiert = () => new Set([...(optionen.hervorgehoben || []), ...(auswahl || [])]);
   const linien = new Map();
   const wp = pos.get(baum.wurzel.id);
   const ebeneLinien = svgEl("g", { class: "baum-ebene-linien", fill: "none" });
@@ -66,10 +56,8 @@ export function zeichneBaumIn(ziel, baum, optionen = {}) {
   ziel.append(svgEl("circle", { cx: wp.x, cy: wp.y, r: 6, fill: "#455a64" }), ebeneLinien, ebeneKnoten, ebeneLabels);
 
   const knoten = alleKnoten(baum);
-  const eltern = new Map();
-  const merke = (k) => k.kinder.forEach((c) => { eltern.set(c.id, k); merke(c); });
-  merke(baum.wurzel);
-  const faerbeAlle = () => { const m = markiert(); for (const [id, l] of linien) faerbe(l, [...m].some((b) => liegtAufPfad(id, b))); };
+  const eltern = elternKarte(baum);
+  const faerbeAlle = faerberFuer(linien, optionen);
 
   for (const k of knoten) {
     const p = pos.get(eltern.get(k.id).id);
@@ -80,12 +68,7 @@ export function zeichneBaumIn(ziel, baum, optionen = {}) {
     ebeneLinien.append(linie);
     ebeneKnoten.append(knotenGrafik(k, q));
     // Beschriftung bei t = 0,7 der Kurve: dort sind Geschwisterzweige schon auseinander.
-    const buchstabe = versteckt.get(k.id);
-    const wert = `${k.anzahl}/${k.gesamt}`;
-    const text = buchstabe ? `${buchstabe}) ${optionen.geloest ? wert : "?"}` : wert;
-    const label = svgEl("text", { x: bez(0.7, ...x), y: bez(0.7, p.y, p.y, q.y, q.y) - 5, "text-anchor": "middle", class: `baum-label${buchstabe ? " versteckt" : ""}`, fill: buchstabe ? "#b45309" : "#1a1a1a", "font-weight": buchstabe ? 700 : undefined }, text);
-    label.append(svgEl("title", {}, buchstabe && !optionen.geloest ? `Zweig ${buchstabe}: fehlt` : `P(${k.name}) = ${formatBruch(k.wahrscheinlichkeit)}`));
-    ebeneLabels.append(label);
+    ebeneLabels.append(zweigLabel(k, optionen, { x: bez(0.7, ...x), y: bez(0.7, p.y, p.y, q.y, q.y) - 5, "text-anchor": "middle" }));
   }
   faerbeAlle();
 
@@ -95,20 +78,7 @@ export function zeichneBaumIn(ziel, baum, optionen = {}) {
     const links = b.name.length > 2 ? 38 : 16; // Rahmen um den ganzen Knoten (Pille oder Kreis)
     g.append(svgEl("rect", { x: q.x - links, y: q.y - 14, width: RECHTS - 6 + links, height: 28, rx: 6, class: "baum-treffer", fill: "transparent" }));
     if (optionen.zeigePfad) g.append(svgEl("text", { x: q.x + links + 2, y: q.y + 4, class: "pfad-w", "font-size": 13, fill: "#1a1a1a" }, `= ${formatBruch(b.pfadWahrscheinlichkeit)}`));
-    if (auswahl) {
-      const namen = b.pfad.map((id) => knoten.find((k) => k.ergebnis === id)?.name ?? id).join("-");
-      g.setAttribute("role", "button");
-      g.setAttribute("tabindex", "0");
-      g.setAttribute("aria-pressed", auswahl.has(b.id) ? "true" : "false");
-      g.append(svgEl("title", {}, `Pfad ${namen} auswählen`));
-      const umschalten = () => {
-        if (auswahl.has(b.id)) auswahl.delete(b.id); else auswahl.add(b.id);
-        g.setAttribute("aria-pressed", auswahl.has(b.id) ? "true" : "false");
-        faerbeAlle();
-      };
-      g.addEventListener("click", umschalten);
-      g.addEventListener("keydown", (ev) => { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); umschalten(); } });
-    }
+    if (auswahl) macheAuswaehlbar(g, b, knoten, auswahl, faerbeAlle);
     ziel.append(g);
   }
   return { breite: LINKS + baum.zuege * STUFE_BREITE + RECHTS, hoehe };
