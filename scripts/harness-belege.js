@@ -49,6 +49,8 @@ export const BELEGE = {
   "link-checker": ["funktion:lib/pruefe-links.js#pruefeLinks", "datei:test/build/pruefe-links.test.js",
     "funktion:lib/llms-vertrag.js#pruefeLink", "funktion:lib/pruefungen.js#pruefeSerloLinks",
     "datei:test/build/doku-verweise.test.js"],
+  "markdown-asciidoc-lint": ["job:doku.yml#doku-bauen-und-pruefen", "funktion:scripts/doku-lint.js#bewerte",
+    "datei:test/build/doku-lint.test.js"],
   "diagram-build": ["job:doku.yml#doku-bauen-und-pruefen", "job:pages.yml#build", "datei:scripts/dtc-v4.sh"],
   "doc-code-drift": ["funktion:lib/llms-vertrag.js#pruefeParameterDoku"],
 };
