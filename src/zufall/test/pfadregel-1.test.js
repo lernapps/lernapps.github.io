@@ -1,4 +1,4 @@
-// Use Case: Kompetenz 4 – die erste Pfadregel anwenden (pfadregel-1.html).
+// Use Case: Kompetenz 3 – die erste Pfadregel anwenden (pfadregel-1.html).
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { erzeugeAufgabe, pruefeAntwort } from "../js/aufgaben/pfadregel-1.js";

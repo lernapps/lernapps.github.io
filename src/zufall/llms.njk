@@ -98,9 +98,9 @@ darunter), der Bruch jedes Zweigs über seinem Kreis, die Pfadwahrscheinlichkeit
 dreistufige Bäume (mehr als zwei Ergebnisse je Stufe) liegen quer (Start links, Pfadwahrscheinlichkeit rechts); auf einem Handy im
 Hochformat steht darüber „Tipp: Dreh dein Handy, dann siehst du den ganzen Baum.“ Sag also „unter dem
 Ende“ bzw. „am Ende des Pfades“, nicht „rechts“, wenn du nicht weißt, welche Lage das Kind sieht.
-Auf Seite 3 steht bei fehlenden Zweigen ein „?“ am Zweigende und der Buchstabe (a, b …) auf dem Zweig.
+Auf Seite 2 steht bei fehlenden Zweigen ein „?“ am Zweigende und der Buchstabe (a, b …) auf dem Zweig.
 
-Zufallsversuche (Baum-Seiten 3, 4, 6, 7, 8 und „mindestens einmal“ auf Seite 2):
+Zufallsversuche (Baum-Seiten 2, 3, 6, 7, 8 und „mindestens einmal“ auf Seite 4):
 
 - `experiment=urne|muenze|wuerfel` (wuerfel = Würfel mit „6“ / „keine 6“)
 - `urne=3r2b1g` – Urneninhalt: Anzahl + Farbbuchstabe, beliebig viele Paare.
@@ -212,7 +212,28 @@ In der Übung ist das Bild neutral: Das Kind klickt die günstigen Ergebnisse se
 zeigt die richtige Markierung. Das Bild unter `#visualisierung` bleibt das markierte Beispiel.
 Beispiel: {{ app.basisUrl }}laplace.html?experiment=urne&urne=3r2b1g&ereignis=b&seed=4#uebung
 
-### 2 Gegenereignis – {{ app.basisUrl }}gegenereignis.html
+### 2 Baumdiagramm – {{ app.basisUrl }}baumdiagramm.html
+
+Kompetenz: Baumdiagramm zu einem mehrstufigen Zufallsversuch zeichnen.
+Regel: Je Stufe Zweige zu allen Ergebnissen; Zweige an einem Knoten ergeben 1.
+Der Abschnitt `#bauen` (nur mit JavaScript) zeichnet den vollständigen Baum zur
+gewählten Einstellung; "Übung mit diesem Baum" lädt die Seite mit diesen Parametern.
+`#uebung` versteckt 2–4 Zweigwahrscheinlichkeiten (a, b, c, d) zum Eintragen.
+Parameter: `experiment`, `urne`, `zuege`, `modus` (siehe Grammatik).
+Video (`#video`): „Baumdiagramm | mehrstufiger Zufallsversuch | Wahrscheinlichkeit | Stochastik | Lehrerschmidt“,
+https://www.youtube.com/watch?v=mBknBnww5fA – die App bettet es erst nach einem Klick ein.
+Beispiel: {{ app.basisUrl }}baumdiagramm.html?urne=3r2b1g&zuege=3&modus=ohne&seed=7#uebung
+
+### 3 Erste Pfadregel – {{ app.basisUrl }}pfadregel-1.html
+
+Kompetenz: Entlang eines Pfades multiplizieren.
+Regel: P(Pfad) = Produkt der Zweigwahrscheinlichkeiten. Der Pfad ist im Baum markiert.
+Parameter: `experiment`, `urne`, `zuege`, `modus`, `ereignis=<Reihenfolge>` (z. B. `rb`, `kzk`, `sk`).
+Video (`#video`): „Produktregel | Wahrscheinlichkeitsrechnung - einfach erklärt | Lehrerschmidt“,
+https://www.youtube.com/watch?v=fLPxMfgUxVk – die App bettet es erst nach einem Klick ein.
+Beispiel: {{ app.basisUrl }}pfadregel-1.html?urne=3r2b1g&zuege=2&modus=ohne&ereignis=rb&seed=3#uebung
+
+### 4 Gegenereignis – {{ app.basisUrl }}gegenereignis.html
 
 Kompetenz: P(nicht E) = 1 − P(E), besonders für „mindestens einmal“.
 Drei Aufgabenarten:
@@ -229,27 +250,6 @@ Video: keines; die Seite hat keinen Abschnitt `#video`.
 In der Übung (`art=einfach`) ist die Ergebnismenge neutral; das Kind markiert die Ergebnisse von E selbst
 und rechnet 1 − P(E). Auf der Testseite sind Laplace- und einfache Gegenereignis-Bilder neutral.
 Beispiel: {{ app.basisUrl }}gegenereignis.html?experiment=wuerfel&zuege=3&ereignis=mind1s&seed=1#uebung
-
-### 3 Baumdiagramm – {{ app.basisUrl }}baumdiagramm.html
-
-Kompetenz: Baumdiagramm zu einem mehrstufigen Zufallsversuch zeichnen.
-Regel: Je Stufe Zweige zu allen Ergebnissen; Zweige an einem Knoten ergeben 1.
-Der Abschnitt `#bauen` (nur mit JavaScript) zeichnet den vollständigen Baum zur
-gewählten Einstellung; "Übung mit diesem Baum" lädt die Seite mit diesen Parametern.
-`#uebung` versteckt 2–4 Zweigwahrscheinlichkeiten (a, b, c, d) zum Eintragen.
-Parameter: `experiment`, `urne`, `zuege`, `modus` (siehe Grammatik).
-Video (`#video`): „Baumdiagramm | mehrstufiger Zufallsversuch | Wahrscheinlichkeit | Stochastik | Lehrerschmidt“,
-https://www.youtube.com/watch?v=mBknBnww5fA – die App bettet es erst nach einem Klick ein.
-Beispiel: {{ app.basisUrl }}baumdiagramm.html?urne=3r2b1g&zuege=3&modus=ohne&seed=7#uebung
-
-### 4 Erste Pfadregel – {{ app.basisUrl }}pfadregel-1.html
-
-Kompetenz: Entlang eines Pfades multiplizieren.
-Regel: P(Pfad) = Produkt der Zweigwahrscheinlichkeiten. Der Pfad ist im Baum markiert.
-Parameter: `experiment`, `urne`, `zuege`, `modus`, `ereignis=<Reihenfolge>` (z. B. `rb`, `kzk`, `sk`).
-Video (`#video`): „Produktregel | Wahrscheinlichkeitsrechnung - einfach erklärt | Lehrerschmidt“,
-https://www.youtube.com/watch?v=fLPxMfgUxVk – die App bettet es erst nach einem Klick ein.
-Beispiel: {{ app.basisUrl }}pfadregel-1.html?urne=3r2b1g&zuege=2&modus=ohne&ereignis=rb&seed=3#uebung
 
 ### 5 Ziehen ohne Zurücklegen – {{ app.basisUrl }}ohne-zuruecklegen.html
 
@@ -303,9 +303,9 @@ Beispiel: {{ app.basisUrl }}pfade-uebersetzen.html?urne=3r2b1g&zuege=2&modus=mit
 |------------------------|--------------------------------------------------------|-------------------------------------------------------|
 | test.html              | nr (oder seed), modus=voll/schnell                     | ?nr=4711&modus=schnell                                |
 | laplace.html           | experiment, ereignis, urne, rad, lose, gewinne, schwer, seed | ?experiment=urne&urne=3r2b1g&ereignis=b&seed=4  |
-| gegenereignis.html     | p oder experiment, ereignis, zuege, urne, rad, lose, gewinne, modus, art, seed | ?experiment=wuerfel&zuege=3&ereignis=mind1s&seed=1    |
 | baumdiagramm.html      | experiment, urne, zuege, modus, seed                   | ?urne=3r2b1g&zuege=3&modus=ohne&seed=7                |
 | pfadregel-1.html       | experiment, urne, zuege, modus, ereignis, seed         | ?urne=3r2b1g&zuege=2&modus=ohne&ereignis=rb&seed=3    |
+| gegenereignis.html     | p oder experiment, ereignis, zuege, urne, rad, lose, gewinne, modus, art, seed | ?experiment=wuerfel&zuege=3&ereignis=mind1s&seed=1    |
 | ohne-zuruecklegen.html | urne, erster, zweiter, art=zweig/pfad, seed            | ?urne=3r2b1g&erster=r&zweiter=b&art=zweig&seed=3      |
 | pfadregel-2.html       | experiment, urne, zuege, modus, ereignis, art=pfade/term, seed | ?urne=3r2b1g&zuege=2&modus=ohne&ereignis=genau1r&art=pfade&seed=3 |
 | ergebnisformen.html    | experiment, urne, zuege, modus, ereignis, seed         | ?urne=3r2b&zuege=2&modus=ohne&ereignis=genau1r&seed=2 |

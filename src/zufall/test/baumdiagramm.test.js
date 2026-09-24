@@ -1,4 +1,4 @@
-// Use Case: Kompetenz 3 – ein Baumdiagramm zeichnen (baumdiagramm.html).
+// Use Case: Kompetenz 2 – ein Baumdiagramm zeichnen (baumdiagramm.html).
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { erzeugeAufgabe, pruefeAntwort, zeichneBild } from "../js/aufgaben/baumdiagramm.js";

@@ -1,5 +1,5 @@
 /*
- * Kompetenz 3: Baumdiagramm zeichnen – einige Zweigwahrscheinlichkeiten sind versteckt (a, b, c, d), das Kind
+ * Kompetenz 2: Baumdiagramm zeichnen – einige Zweigwahrscheinlichkeiten sind versteckt (a, b, c, d), das Kind
  * trägt sie ein. URL-Parameter (llms.txt): experiment, urne, zuege, modus, Kurzformen muenze=<Züge>, wuerfel=<Züge>, seed/nr.
  */
 import { formatBruch } from "../../../kern/js/bruch.js";

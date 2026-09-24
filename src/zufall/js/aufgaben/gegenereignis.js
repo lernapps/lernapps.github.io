@@ -1,5 +1,5 @@
 /*
- * Kompetenz 2: Gegenwahrscheinlichkeit P(nicht E) = 1 − P(E). Drei Aufgabenarten:
+ * Kompetenz 4: Gegenwahrscheinlichkeit P(nicht E) = 1 − P(E). Drei Aufgabenarten:
  *   direkt      – P(E) ist gegeben (p=1/6; p über 1 gilt als Prozent: p=45 heißt 45 %)
  *   einfach     – Gegenereignis eines Laplace-Ereignisses (Parameter wie auf laplace.html)
  *   mindestens  – "mindestens einmal" bei mehreren Zügen über das Gegenereignis; ab drei Zügen zeigt der Baum nur
