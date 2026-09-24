@@ -104,8 +104,8 @@ müssten (QZ-4 −1). Kein Linter spart den Schritt, lässt die Schicht aber off
 nicht; den Ausschlag gibt, dass asciidoc-linter ohne eigene Regeln Struktur und Markdown-Reste prüft und
 aus dem docToolchain-Umfeld kommt.
 
-*Konsequenzen.* Die Schicht „Markdown / AsciiDoc lint“ steht auf „vorhanden“; Markdown-Dateien prüft sie
-nicht. Das Werkzeug ist ein reines Entwicklungswerkzeug: Es läuft nur in `doku.yml` mit Leserechten und
+*Konsequenzen.* Die Schicht „Markdown / AsciiDoc lint“ sollte auf „vorhanden“ stehen (siehe aber den Nachtrag);
+Markdown-Dateien prüft sie nicht. Das Werkzeug ist ein reines Entwicklungswerkzeug: Es läuft nur in `doku.yml` mit Leserechten und
 ohne Secret, seine Ausgabe gelangt nicht in die Site. Eine kompromittierte Version (T-012) könnte also den
 Doku-Job, aber keine App verändern; der SHA-Pin schließt ungeprüfte Updates aus. Eine fehlende
 `LICENSE`-Datei akzeptieren wir für ein Werkzeug, das wir nur ausführen und nicht ausliefern. Beides ist
@@ -113,3 +113,11 @@ bewusst akzeptiert, ohne eigenes Risiko in Kapitel 11. Fällt GitHub oder der Li
 nur der Doku-Job in PRs, nicht das Deployment (pages.yml ruft den Linter nicht auf;
 xref:11_technical_risks.adoc#r-011[R-011] bleibt unverändert). Der Linter ist jung: Einige Regeln melden
 in unseren Proben nichts, wo sie sollten; er ergänzt das Review, ersetzt es nicht.
+
+*Nachtrag 24.09.2026.* Die Kernregeln feuern in der gepinnten Version nicht. Nachgestellt mit Proben: Ein
+übersprungener Überschriften-Level, ein nicht geschlossener `----`-Block, eine kleingeschriebene Überschrift
+und eine Markdown-Überschrift `##` in einer `.adoc`-Datei ergeben jeweils „No issues found“; zuverlässig
+meldet nur die Markdown-Tabellen-Regel FMT005. Unser „0 Fehler“ belegt also wenig. Die Schicht „Markdown /
+AsciiDoc lint“ steht darum auf „in Arbeit“, nicht auf „vorhanden“, bis der Fix upstream da ist. Der Schritt
+in `doku.yml` bleibt, weil FMT005 und der Wrapper funktionieren; nach dem Fix genügt es, den SHA anzuheben
+und die Schicht wieder auf „vorhanden“ zu setzen.
