@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 724" width="800" height="724" role="img" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
-<title>Harness Coverage Wheel für lernapps (Tier 2): 69 % abgedeckt</title>
+<title>Harness Coverage Wheel für lernapps (Tier 2): 62 % abgedeckt</title>
 <defs><linearGradient id="halb-G"><stop offset="50%" stop-color="#2b8a3e"/><stop offset="50%" stop-color="#fff"/></linearGradient><linearGradient id="halb-A"><stop offset="50%" stop-color="#e67700"/><stop offset="50%" stop-color="#fff"/></linearGradient><linearGradient id="halb-R"><stop offset="50%" stop-color="#c92a2a"/><stop offset="50%" stop-color="#fff"/></linearGradient></defs>
 <rect width="800" height="724" fill="#fff"/>
 <path d="M407.9 94.1 A226 226 0 0 1 539.1 141.9 L456.6 247.5 A92 92 0 0 0 403.2 228.1 Z" fill="#f1f3f5"/>
@@ -38,7 +38,7 @@
 <rect x="628.4" y="389.1" width="8.6" height="8.6" rx="1" fill="#fff" stroke="#e67700" stroke-width="1.4" opacity="0.3"><title>DAST – offen, Tier 3</title></rect>
 <rect x="624.2" y="401.2" width="8.6" height="8.6" rx="1" fill="#e9ecef" stroke="#adb5bd" stroke-width="1.4" opacity="0.3"><title>IAST – entfällt, Tier 4: kein Server, keine Laufzeit-Instrumentierung</title></rect>
 <rect x="619.5" y="413" width="8.6" height="8.6" rx="1" fill="#e67700" stroke="#e67700" stroke-width="1.4"><title>LLM security review – vorhanden, Tier 2: OWASP-Teil des KI-Reviews (werkzeuge/review/ki-review.md), Check ki-review, #24, ADR-027</title></rect>
-<polygon points="618.4,422.5 623.9,432.1 612.9,432.1" fill="#c92a2a" stroke="#c92a2a" stroke-width="1.4"><title>Threat modeling – vorhanden, Tier 3: STRIDE in arc42 8.1</title></polygon>
+<polygon points="618.4,422.5 623.9,432.1 612.9,432.1" fill="#c92a2a" stroke="#c92a2a" stroke-width="1.4"><title>Threat modeling – vorhanden, Tier 3: STRIDE-Tabelle in arc42 8.1 (T-IDs); das KI-Review prüft jedes neue Feature dagegen (werkzeuge/review/ki-review.md, Punkt 3), Check ki-review</title></polygon>
 <text x="681.7" y="369.7" text-anchor="start" font-size="13" font-weight="600" fill="#212529">Security</text>
 <text x="681.7" y="384.7" text-anchor="start" font-size="12" fill="#495057">80 %</text>
 <path d="M591.7 439.8 A226 226 0 0 1 484.7 529.5 L434.5 405.3 A92 92 0 0 0 478 368.8 Z" fill="#f1f3f5"/>
@@ -46,7 +46,7 @@
 <circle cx="603.1" cy="455.2" r="4.8" fill="#fff" stroke="#868e96" stroke-width="1.4"><title>Complexity metrics – verworfen, Tier 2: SonarQube abgelehnt (#28); nur Dateilänge ≤ 500 Zeilen</title></circle>
 <rect x="590.8" y="462.2" width="8.6" height="8.6" rx="1" fill="#e9ecef" stroke="#adb5bd" stroke-width="1.4"><title>API contract lint – entfällt, Tier 2: keine API</title></rect>
 <polygon points="586.4,471 591.9,480.6 580.9,480.6" fill="#fff" stroke="#c92a2a" stroke-width="1.4" opacity="0.3"><title>Fagan inspection – offen, Tier 4</title></polygon>
-<polygon points="577.1,481.4 582.6,491 571.6,491" fill="#c92a2a" stroke="#c92a2a" stroke-width="1.4"><title>Code review – vorhanden, Tier 2: Product Owner prüft und merged jeden PR; kein Pflicht-Approval</title></polygon>
+<polygon points="577.1,481.4 582.6,491 571.6,491" fill="#c92a2a" stroke="#c92a2a" stroke-width="1.4"><title>Code review – vorhanden, Tier 2: Der Product Owner merged jeden PR selbst; ein Pflicht-Approval kann GitHub bei nur einem Maintainer nicht verlangen – erzwungen wird das Review über den Pflicht-Check ki-review (ADR-027)</title></polygon>
 <rect x="563" y="493.4" width="8.6" height="8.6" rx="1" fill="#e67700" stroke="#e67700" stroke-width="1.4"><title>LLM code review – vorhanden, Tier 2: KI-Review in frischem Kontext vor jedem Merge (werkzeuge/review/ki-review.md), Check ki-review, #24, ADR-027</title></rect>
 <polygon points="556.8,500.5 562.3,510.1 551.3,510.1" fill="#fff" stroke="#c92a2a" stroke-width="1.4" opacity="0.3"><title>ArchUnit / dependency-cruiser – offen, Tier 3</title></polygon>
 <polygon points="545.9,509.2 551.4,518.8 540.4,518.8" fill="#c92a2a" stroke="#c92a2a" stroke-width="1.4"><title>ADR enforcement – vorhanden, Tier 3: lib/pruefungen.js bricht den Build bei Regelverstößen (ADR-008), auch bei Links außerhalb der Tutor-Allowlist (pruefeTutorLinks, ADR-023)</title></polygon>
@@ -66,16 +66,16 @@
 <text x="400" y="606" text-anchor="middle" font-size="13" font-weight="600" fill="#212529">Data</text>
 <text x="400" y="621" text-anchor="middle" font-size="12" fill="#495057">100 %</text>
 <path d="M315.3 529.5 A226 226 0 0 1 208.3 439.8 L322 368.8 A92 92 0 0 0 365.5 405.3 Z" fill="#f1f3f5"/>
-<path d="M315.3 529.5 A226 226 0 0 1 208.3 439.8 L322 368.8 A92 92 0 0 0 365.5 405.3 Z" fill="#1d4ed8" fill-opacity="0.28"/>
+<path d="M332.1 488.1 A181.33333333333331 181.33333333333331 0 0 1 246.2 416.1 L322 368.8 A92 92 0 0 0 365.5 405.3 Z" fill="#1d4ed8" fill-opacity="0.28"/>
 <circle cx="298.5" cy="541.9" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"><title>Accessibility automated – vorhanden, Tier 2: axe-core, WCAG 2.2 AA, 0 schwere/kritische Verstöße (e2e/axe.spec.js), #26</title></circle>
 <circle cx="279.1" cy="531.9" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"><title>Contrast checker – vorhanden, Tier 2: WCAG-Kontrast je Fachfarbe (test/build/fachfarben.test.js)</title></circle>
 <circle cx="260.5" cy="520.2" r="4.8" fill="#fff" stroke="#2b8a3e" stroke-width="1.4" opacity="0.3"><title>Cross-browser tests – offen, Tier 3</title></circle>
-<circle cx="243.2" cy="506.9" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"><title>UI prose lint – vorhanden, Tier 2: Tutor-Texte nennen keinen Wettbewerb (pruefeTutorText in lib/pruefungen.js), #29</title></circle>
+<circle cx="243.2" cy="506.9" r="4.8" fill="url(#halb-G)" stroke="#2b8a3e" stroke-width="1.4"><title>UI prose lint – in Arbeit, Tier 2: Vorhanden ist nur eine Regex: Tutor-Texte nennen keinen Wettbewerb (pruefeTutorText, #29). Es fehlt ein Prose-Linter für UI-Texte (Anrede „du“, Terminologie, Satzlänge)</title></circle>
 <rect x="222.7" y="487.8" width="8.6" height="8.6" rx="1" fill="#fff" stroke="#e67700" stroke-width="1.4" opacity="0.3"><title>Accessibility manual – offen, Tier 3</title></rect>
 <rect x="208" y="471.6" width="8.6" height="8.6" rx="1" fill="#e9ecef" stroke="#adb5bd" stroke-width="1.4" opacity="0.3"><title>i18n lint – entfällt, Tier 3: nur Deutsch</title></rect>
 <polygon points="199.1,452.1 204.6,461.7 193.6,461.7" fill="#fff" stroke="#c92a2a" stroke-width="1.4" opacity="0.3"><title>Visual regression – offen, Tier 3</title></polygon>
 <text x="216.2" y="539.1" text-anchor="end" font-size="13" font-weight="600" fill="#212529">UX &amp; A11y</text>
-<text x="216.2" y="554.1" text-anchor="end" font-size="12" fill="#495057">100 %</text>
+<text x="216.2" y="554.1" text-anchor="end" font-size="12" fill="#495057">67 %</text>
 <path d="M200.5 426.1 A226 226 0 0 1 176.2 288.5 L308.9 307.2 A92 92 0 0 0 318.8 363.2 Z" fill="#f1f3f5"/>
 <circle cx="180.2" cy="426" r="4.8" fill="#e9ecef" stroke="#adb5bd" stroke-width="1.4"><title>Distributed tracing – entfällt, Tier 2: keine Laufzeit-Telemetrie (arc42 8.4)</title></circle>
 <rect x="168.3" y="404.1" width="8.6" height="8.6" rx="1" fill="#e9ecef" stroke="#adb5bd" stroke-width="1.4" opacity="0.3"><title>Canary delivery – entfällt, Tier 3: statisches Hosting</title></rect>
@@ -95,19 +95,19 @@
 <text x="152.3" y="177" text-anchor="end" font-size="13" font-weight="600" fill="#212529">Formal</text>
 <text x="152.3" y="192" text-anchor="end" font-size="12" fill="#495057">–</text>
 <path d="M260.9 141.9 A226 226 0 0 1 392.1 94.1 L396.8 228.1 A92 92 0 0 0 343.4 247.5 Z" fill="#f1f3f5"/>
-<path d="M302.1 194.7 A159 159 0 0 1 394.5 161.1 L396.8 228.1 A92 92 0 0 0 343.4 247.5 Z" fill="#1d4ed8" fill-opacity="0.28"/>
+<path d="M315.9 212.3 A136.66666666666666 136.66666666666666 0 0 1 395.2 183.4 L396.8 228.1 A92 92 0 0 0 343.4 247.5 Z" fill="#1d4ed8" fill-opacity="0.28"/>
 <circle cx="258.6" cy="121.2" r="4.8" fill="#fff" stroke="#2b8a3e" stroke-width="1.4"><title>Markdown / AsciiDoc lint – offen, Tier 1</title></circle>
 <circle cx="276.9" cy="109.3" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"><title>Link checker – vorhanden, Tier 1: Tutor-Deep-Links gegen Seiten, Anker und Parameter (pruefeLink, im Build), serlo-Links nur auf die Domain (pruefeSerloLinks), Verweise auf die Doku (test/build/doku-verweise.test.js); tote Links im HTML prüft nichts</title></circle>
 <circle cx="296.3" cy="99.1" r="4.8" fill="#fff" stroke="#2b8a3e" stroke-width="1.4"><title>Code-in-docs validation – offen, Tier 2</title></circle>
 <circle cx="316.5" cy="90.7" r="4.8" fill="#fff" stroke="#2b8a3e" stroke-width="1.4"><title>Spell check – offen, Tier 1</title></circle>
 <circle cx="337.4" cy="84.2" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"><title>Diagram build – vorhanden, Tier 2: doku.yml baut PlantUML und prüft die Ausgabe in jedem PR, der Doku oder Doku-Build ändert (kein Pflicht-Check); pages.yml baut sie vor jedem Deployment</title></circle>
-<rect x="354.5" y="75.2" width="8.6" height="8.6" rx="1" fill="#e67700" stroke="#e67700" stroke-width="1.4"><title>Prose lint – vorhanden, Tier 2: tutor.md unter 120 Zeilen (MAX_TUTOR_ZEILEN in eleventy.config.js bricht den Build), #29</title></rect>
+<rect x="354.5" y="75.2" width="8.6" height="8.6" rx="1" fill="url(#halb-A)" stroke="#e67700" stroke-width="1.4"><title>Prose lint – in Arbeit, Tier 2: Vorhanden ist nur die Längengrenze: tutor.md unter 120 Zeilen (MAX_TUTOR_ZEILEN, #29). Es fehlt ein Prose-Linter für Doku und Kompetenztexte (Stil, Satzlänge, Terminologie)</title></rect>
 <polygon points="380.6,70.4 386.1,80 375.1,80" fill="#c92a2a" stroke="#c92a2a" stroke-width="1.4"><title>Doc-code drift – vorhanden, Tier 3: Tutor-Vertrag: jeder Generator-Parameter steht in llms.txt</title></polygon>
 <text x="302.2" y="51.2" text-anchor="end" font-size="13" font-weight="600" fill="#212529">Docs</text>
-<text x="302.2" y="66.2" text-anchor="end" font-size="12" fill="#495057">50 %</text>
+<text x="302.2" y="66.2" text-anchor="end" font-size="12" fill="#495057">33 %</text>
 <circle cx="400" cy="320" r="84" fill="#fff" stroke="#dee2e6"/>
-<text x="400" y="324" text-anchor="middle" font-size="30" font-weight="700" fill="#1d4ed8">69 %</text>
-<text x="400" y="344" text-anchor="middle" font-size="11" fill="#495057">20 von 29</text>
+<text x="400" y="324" text-anchor="middle" font-size="30" font-weight="700" fill="#1d4ed8">62 %</text>
+<text x="400" y="344" text-anchor="middle" font-size="11" fill="#495057">18 von 29</text>
 <text x="400" y="358" text-anchor="middle" font-size="11" fill="#495057">Tier 2</text>
 <circle cx="70" cy="634" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"></circle>
 <text x="80" y="638" font-size="11" fill="#343a40">extrinsisch (Kreis)</text>

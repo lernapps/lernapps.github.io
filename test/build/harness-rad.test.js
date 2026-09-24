@@ -64,7 +64,7 @@ test("jeder Beleg außer github: löst sich im Repo auf (Datei, npm-Skript, Work
 test("Schichten, die nur github:-Belege haben, prüft allein das Audit (arc42 8.16)", (t) => {
   const nurGithub = VORHANDEN.filter((s) => BELEGE[s.id]?.every((b) => b.startsWith("github:"))).map((s) => s.id);
   t.diagnostic(`nur per GitHub-Audit prüfbar: ${nurGithub.join(", ")}`);
-  assert.deepEqual(nurGithub, ["secret-scanning", "sast", "code-review"]);
+  assert.deepEqual(nurGithub, ["secret-scanning", "sast"]);
 });
 
 test("pruefeBeleg meldet fehlende Datei, fehlenden Job, fehlendes Skript und unbekannte Art", () => {
