@@ -8,7 +8,7 @@ regel: |
   <p><strong>2. Pfadregel (Summenregel):</strong> Gehören mehrere Pfade zu einem Ereignis, dann <strong>addierst</strong> du ihre Pfadwahrscheinlichkeiten.</p>
   <div class="formel"><code>P(E) = P(Pfad 1) + P(Pfad 2) + …</code></div>
   <p>Merkhilfe: <strong>entlang</strong> des Pfades <strong>mal</strong>, <strong>über</strong> mehrere Pfade <strong>plus</strong>.</p>
-  <h3 id="formen">Ergebnisse als Produkt, Summe oder Potenz</h3>
+  <h3 id="formen">Wahrscheinlichkeiten als Produkt, Summe oder Potenz</h3>
   <p>Du musst nicht alles ausrechnen. Diese Schreibweisen sind vollständige Antworten:</p>
   <ul>
   <li>Produkt: <code>1/2 · 1/3</code></li>

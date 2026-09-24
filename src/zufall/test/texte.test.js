@@ -40,3 +40,16 @@ test("L-033: keine Gleichung mit gleichen Seiten wie „3/5 = 3/5“, Potenzen a
 test("L-042: kein „NICHT“ in Großbuchstaben in Aufgaben, Tipps und Lösungswegen", () => {
   jedeAufgabe((a, fall) => assert.doesNotMatch(texte(a), /\bNICHT\b/, fall));
 });
+
+test("L-030: „Ergebnis“ bleibt der Fachbegriff – Titel und Tipp sprechen von Wahrscheinlichkeiten und deiner Antwort", async () => {
+  const fs = await import("node:fs");
+  const k = KOMPETENZEN.find((x) => x.id === "ergebnisformen");
+  assert.equal(k.titel, "Wahrscheinlichkeiten als Produkt, Summe oder Potenz angeben");
+  assert.equal(k.seite, "ergebnisformen.html");
+  jedeAufgabe((a, fall) => assert.doesNotMatch(texte(a), /Ergebnisse dürfen/, fall));
+  const { TIPP_FORMEN } = await import("../js/aufgaben/pfade.js");
+  assert.equal(TIPP_FORMEN, "Deine Antwort darf als Produkt, Summe oder Potenz stehen bleiben.");
+  for (const p of ["src/zufall/llms.njk", "src/zufall/tutor.njk", "src/zufall/ergebnisformen.md", "src/zufall/pfadregel-2.md"]) {
+    assert.doesNotMatch(fs.readFileSync(p, "utf8"), /Ergebnisse (als Produkt|dürfen)/, p);
+  }
+});

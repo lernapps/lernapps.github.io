@@ -10,7 +10,7 @@ import { ereignisPfade, ereignisWahrscheinlichkeit, blaetter, baueBaum } from ".
 import { parseEreignis, moeglicheEreignisse } from "../modell/ereignis.js";
 import { pruefeEinFeld, wahrscheinlichkeitsFeld, versuchAusVorgaben, versuchText, pfadTerm, zweigBruch, trifft } from "./gemeinsam.js";
 
-export const TIPP_FORMEN = "Ergebnisse dürfen als Produkt, Summe oder Potenz stehen bleiben.";
+export const TIPP_FORMEN = "Deine Antwort darf als Produkt, Summe oder Potenz stehen bleiben.";
 
 function waehleEreignis(vorgaben, exp, zuege, baum, zufall, maxPfade) {
   let ereignis = parseEreignis(vorgaben.ereignis || "", exp, zuege);

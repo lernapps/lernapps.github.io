@@ -1,4 +1,4 @@
-// Use Case: Kompetenz 7 – Ergebnisse als Produkt, Summe oder Potenz angeben (ergebnisformen.html).
+// Use Case: Kompetenz 7 – Wahrscheinlichkeiten als Produkt, Summe oder Potenz angeben (ergebnisformen.html).
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { erzeugeAufgabe, pruefeAntwort } from "../js/aufgaben/ergebnisformen.js";

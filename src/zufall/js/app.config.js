@@ -34,6 +34,6 @@ export const KOMPETENZEN = [
   { id: "pfadregel-1", titel: "Die erste Pfadregel anwenden (entlang des Pfades multiplizieren)", kurz: "Pfadregel 1", seite: "pfadregel-1.html", generator: "./aufgaben/pfadregel-1.js", kartenKnoten: ["zufall-pfadregel-1"] },
   { id: "ohne-zuruecklegen", titel: "Beim Ziehen ohne Zurücklegen die veränderten Wahrscheinlichkeiten bestimmen", kurz: "Ohne Zurücklegen", seite: "ohne-zuruecklegen.html", generator: "./aufgaben/ohne-zuruecklegen.js", kartenKnoten: ["zufall-ohne-zuruecklegen"] },
   { id: "pfadregel-2", titel: "Die zweite Pfadregel anwenden (Pfade eines Ereignisses addieren)", kurz: "Pfadregel 2", seite: "pfadregel-2.html", generator: "./aufgaben/pfadregel-2.js", kartenKnoten: ["zufall-pfadregel-2"] },
-  { id: "ergebnisformen", titel: "Ergebnisse als Produkt, Summe oder Potenz angeben", kurz: "Produkt, Summe, Potenz", seite: "ergebnisformen.html", generator: "./aufgaben/ergebnisformen.js", kartenKnoten: ["zufall-ergebnisform"] },
+  { id: "ergebnisformen", titel: "Wahrscheinlichkeiten als Produkt, Summe oder Potenz angeben", kurz: "Produkt, Summe, Potenz", seite: "ergebnisformen.html", generator: "./aufgaben/ergebnisformen.js", kartenKnoten: ["zufall-ergebnisform"] },
   { id: "pfade-uebersetzen", titel: "„Genau einmal“, „beide gleich“ und „mindestens einmal“ in Pfade übersetzen", kurz: "In Pfade übersetzen", seite: "pfade-uebersetzen.html", generator: "./aufgaben/pfade-uebersetzen.js", kartenKnoten: ["zufall-ereignis-uebersetzen"] },
 ];
