@@ -54,8 +54,11 @@ Neue Kern- und Build-Entscheidungen brauchen ein ADR hier (`CLAUDE.md`, „Archi
 | <<adr-020,ADR-020>> | Keine Volltextsuche; Navigation über Bundesland, Klassenstufe und Fach | Accepted
 | <<adr-021,ADR-021>> | „Zurück zu Claude“ schließt den Tab mit `window.close()` und prüft danach | Accepted
 | <<adr-022,ADR-022>> | Rechenweg auf Papier, geprüft vom Tutor per Foto; kein Rechenweg-Feld in der App | Accepted
+| <<adr-024,ADR-024>> | Wahrscheinlichkeitsbäume von oben nach unten; dreistufige quer mit Dreh-Hinweis | Accepted
 |===
 
 include::_adr-vorlage.adoc[]
 
 include::_adr-monorepo.adoc[]
+
+include::_adr-darstellung.adoc[]
