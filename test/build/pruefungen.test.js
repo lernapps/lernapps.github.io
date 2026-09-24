@@ -1,7 +1,7 @@
 // Use Case: Build bricht ab, wenn eine Regel verletzt ist (früher scripts/pruefe.mjs).
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { pruefeExterneRessourcen, pruefeExterneImporte, pruefeZeilen, pruefeLlms, pruefeKompetenzen, pruefeMeldeLink, pruefeSerloLinks } from "../../lib/pruefungen.js";
+import { pruefeExterneRessourcen, pruefeExterneImporte, pruefeZeilen, pruefeLlms, pruefeKompetenzen, pruefeMeldeLink, pruefeSerloLinks, pruefeTutorText } from "../../lib/pruefungen.js";
 
 test("externe Ressourcen in script/link/img/iframe sind Fehler, Links und Canonical nicht", () => {
   assert.deepEqual(pruefeExterneRessourcen("a.html", `<link rel="canonical" href="https://x.org/"><a href="https://x.org">x</a>`), []);
@@ -52,4 +52,11 @@ test("serlo-Links in #serlo zeigen nur auf https://de.serlo.org/…", () => {
   for (const falsch of ["http://de.serlo.org/mathe/1", "https://serlo.org/mathe/1", "https://de.serlo.org.evil.com/x", "de.serlo.org/mathe/1", "https://de.serlo.org/", ""]) {
     assert.equal(pruefeSerloLinks("a.html", seite(falsch)).length, 1, falsch);
   }
+});
+
+test("Tutor-Texte (tutor.md, llms.txt) nennen keinen Wettbewerb: die Apps sind für alle Lernenden", () => {
+  assert.deepEqual(pruefeTutorText("binom/tutor.md", "Ziel: sicher werden für Unterricht und Klassenarbeit."), []);
+  assert.match(pruefeTutorText("binom/tutor.md", "Ziel: Vorbereitung auf einen Mathe-Wettbewerb.")[0], /binom\/tutor\.md: .*Wettbewerb/);
+  assert.equal(pruefeTutorText("llms.txt", "die kniffligen Wettbewerbsaufgaben").length, 1);
+  assert.equal(pruefeTutorText("llms.txt", "WETTBEWERB").length, 1);
 });

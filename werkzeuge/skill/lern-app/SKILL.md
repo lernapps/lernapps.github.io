@@ -99,7 +99,7 @@ End with: app URL, the PR URL, the claude.ai tutor link, the Schnelltest link, a
 ## Rules that came from mistakes
 
 - Never guess YouTube IDs, Lehrplan units, or curriculum wording — look them up and cite.
-- Learner-specific goals (a competition, one child's test date, name or class) never go into public texts: `tutor.njk`, `llms.njk`, page texts, app config. The apps are for any learner. Tutor texts say "das Kind", "du" or "Lernende" (plural, as a role); the goal is generic, e.g. "sicher werden für Unterricht und Klassenarbeit". Grade and Lehrplan may stay as curriculum context.
+- Learner-specific goals (a competition, one child's test date, name or class) never go into public texts: `tutor.njk`, `llms.njk`, page texts, app config. The apps are for any learner. Tutor texts say "das Kind", "du" or "Lernende" (plural, as a role); the goal is generic, e.g. "sicher werden für Unterricht und Klassenarbeit". Grade and Lehrplan may stay as curriculum context. The build fails if a `tutor.md` or `llms.txt` mentions "Wettbewerb", or if `tutor.md` reaches 120 lines.
 - "seed" never appears in learner-facing text; it is "Aufgabe Nr. 42". The URL keeps `seed=`/`nr=`.
 - No thumbnails from ytimg before the click — that already sends the IP to Google. Videos use the two-click embed in `src/kern/js/video.js`.
 - `backend: none` is not "DSGVO-safe"; declare `external-requests` honestly.
