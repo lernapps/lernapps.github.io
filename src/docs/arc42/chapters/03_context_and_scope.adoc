@@ -42,7 +42,7 @@ System_Ext(pages, "GitHub Pages", "liefert lernapps.github.io aus")
 System_Ext(pakete, "Paketquellen", "npm-Registry (Eleventy), GitHub/Maven (docToolchain) – nur zur Build-Zeit")
 
 Rel(kind, lernapps, "übt, macht den Test, liest die Karte", "Browser")
-Rel(kind, claude, "spricht mit dem Tutor, schickt Aufgabennummer und Ergebniszeile")
+Rel(kind, claude, "spricht mit dem Tutor, schickt Aufgabennummer, Ergebniszeile und Fotos des Rechenwegs")
 Rel(claude, lernapps, "liest llms.txt, tutor.md; schickt Aufgabenlinks", "HTTPS")
 Rel(lernapps, youtube, "bettet Video ein, nur nach Klick", "iframe")
 Rel(kind, issues, "meldet Fehler oder Wünsche, nur nach Klick auf den Link", "HTTPS")
@@ -60,7 +60,7 @@ Rel(lernapps, pages, "wird ausgeliefert als ein Artefakt", "deploy-pages")
 | Nachbar | Was er vom System bekommt | Was das System von ihm bekommt
 | Lernende | Seiten, Aufgaben, Rückmeldung, Ergebniszeile, Karte | Eingaben, Selbsteinschätzung (nur im eigenen Browser)
 | App-Autor:in | Test- und Build-Meldungen (`npm test`, `npm run build`) | Konfiguration, Generatoren, Zeichenfunktionen, Markdown-Seiten, Kartendaten, ADRs
-| claude.ai | `tutor.md` und `llms.txt` je App, `llms.txt` der Übersicht und der Karte, Aufgaben-URLs | Nichts. Das System meldet dem Tutor nichts; das Kind trägt Nummer und Ergebniszeile.
+| claude.ai | `tutor.md` und `llms.txt` je App, `llms.txt` der Übersicht und der Karte, Aufgaben-URLs | Nichts. Das System meldet dem Tutor nichts; das Kind trägt Nummer und Ergebniszeile und schickt Fotos seines Rechenwegs selbst in den Chat (ADR-022).
 | YouTube | Video-ID im iframe-Aufruf, IP-Adresse und Browserdaten des Kindes (erst nach Klick) | Videoplayer
 | serlo.org | Nichts. Die Kompetenzseite enthält nur einen Link unter `#serlo`; erst der Klick öffnet de.serlo.org. | Einen Artikel in anderen Worten, kostenlos, werbefrei, ohne Anmeldung (gemeinnütziger Serlo Education e.V.). Die Adresse prüft die Autor:in beim Anlegen; der Build prüft nur `https://de.serlo.org/…`, ohne Netzabruf.
 | GitHub Issues | Nichts. Die Seite enthält nur einen Link; erst der Klick öffnet GitHub. | Rückmeldungen als Issues, die die Autor:in liest. GitHub verlangt ein Konto und ein Mindestalter von 13 Jahren.
