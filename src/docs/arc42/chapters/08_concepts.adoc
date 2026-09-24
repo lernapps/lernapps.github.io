@@ -90,11 +90,13 @@ rectangle "Tutor-Dialog\n(manuell, mit claude.ai)" as t5
 rectangle "Browser-Check\n(Playwright, 360 und 1280 px, ohne JS, 0 fremde Requests; manuell)" as t4
 rectangle "Build-Prüfungen\n(lib/pruefungen.js, Kartendaten, App-Konfiguration)" as t3
 rectangle "Vertragstest\n(test/apps/vertrag.test.js: jede Kompetenz jeder App, Seeds 1–20)" as t2
+rectangle "Property-Based Tests\n(fast-check, test/kern/*.property.test.js: Zahlen, Rundung, Terme)" as t1b
 rectangle "Unit-Tests\n(node --test, 297 Tests in 57 Dateien)" as t1
 t5 -[hidden]- t4
 t4 -[hidden]- t3
 t3 -[hidden]- t2
-t2 -[hidden]- t1
+t2 -[hidden]- t1b
+t1b -[hidden]- t1
 @enduml
 ....
 
@@ -102,14 +104,16 @@ t2 -[hidden]- t1
 |===
 | Ebene | Was sie prüft | Rückverfolgung
 | Unit-Tests (`test/kern/`, `test/build/`, `src/<app>/test/`, `src/karte/test/`) | Jedes Kern-Modul, jede Build-Funktion und jeder Generator als reine Funktion; test-first. | 50 von 57 Testdateien nennen im Kopf den Use Case (`// Use Case: …`); `zahlantwort.test.js` nennt BR-1 bis BR-5, `variablenterm.test.js`/`termantwort.test.js` BR-T1 bis BR-T9.
+| Property-Based Tests (`test/kern/*.property.test.js`) | Eigenschaften der Kern-Mathematik über viele erzeugte Eingaben statt Einzelbeispiele: Round-Trip formatierter Zahlen, monotone Rundung, Stellenregel, „=“ nur bei exakten Werten, Gleichwertigkeit und Form von Binomen, abgelehnte Fehlterme. fast-check mit festem Seed 22 und 300 Läufen je Eigenschaft (zusammen unter 1 s); anderer Seed lokal mit `FC_SEED=<Zahl> npm test`. Ein gefundener Fehler wird Issue mit `risk-radar` und bleibt bis zum Fix als `todo` sichtbar. | Jeder Test nennt QZ-3 und R-004 oder R-012 im Namen, dazu BR-2, BR-5, BR-T7, BR-T8 (Issue #22)
 | Vertragstest | Für jede Kompetenz jeder App aus `lib/apps.js`: Generator liefert Aufgaben, die eigene Lösung ist richtig, Unsinn falsch, Seeds 1–20. | UC-1, UC-4 (`test/apps/vertrag.test.js:1`, `:34`)
 | Build-Prüfungen | Regeln, die kein Unit-Test sieht: externe Ressourcen in der Ausgabe, Dateilänge, vollständige Kompetenz (Seite, Generator, Test), `llms.txt` nennt jede Seite, Karten-Knoten existieren, Fach bekannt. | UC-8, UC-9; QZ-1, QZ-2, QZ-4
 | Browser-Check | Jede Seite bei 360 und 1280 px, ohne JS Text und Bild, Deep Link mit `nr=`, Schnelltest, 0 Konsolenfehler, 0 externe Requests vor dem Video-Klick. Nicht in CI (TD-5). | `CLAUDE.md` Project rules; UC-1 bis UC-7
 | Tutor-Dialog | Ob Claude mit `tutor.md` und `llms.txt` sinnvoll unterrichtet und korrekte Links baut. | UC-7; nicht automatisiert
 |===
 
-Alle Tests nutzen nur Node-Bordmittel (`node:test`, `node:assert`); die einzige Abhängigkeit des
-Repositorys ist Eleventy.
+Alle Tests laufen auf Node-Bordmitteln (`node:test`, `node:assert`); einzige Test-Bibliothek ist
+fast-check (exakt gepinnte devDependency) für die Property-Based Tests. Ausgeliefert wird keine der beiden
+Abhängigkeiten: Eleventy baut, fast-check prüft.
 
 [[section-observability]]
 === 8.4 Beobachtbarkeit: Die Apps messen absichtlich nichts, der Build meldet alles
