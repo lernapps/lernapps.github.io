@@ -94,7 +94,7 @@ const ROH = [
   [F, "formal-verification", "Formal verification", "R", 4, "offen", ""],
   [F, "model-checker", "Model checker", "R", 4, "offen", ""],
   [Doc, "markdown-asciidoc-lint", "Markdown / AsciiDoc lint", "G", 1, "offen", ""],
-  [Doc, "link-checker", "Link checker", "G", 1, "vorhanden", "Tutor-Deep-Links gegen Seiten, Anker und Parameter (`pruefeLink`, im Build), serlo-Links nur auf die Domain (`pruefeSerloLinks`), Verweise auf die Doku (`test/build/doku-verweise.test.js`); tote Links im HTML prüft nichts"],
+  [Doc, "link-checker", "Link checker", "G", 1, "vorhanden", "Jedes interne href/src in `_site` führt auf eine Datei, jeder #anker auf eine id (`pruefeLinks` in `lib/pruefe-links.js`, bricht den Build); Tutor-Deep-Links gegen Seiten, Anker und Parameter (`pruefeLink`), serlo-Links nur auf die Domain (`pruefeSerloLinks`), Verweise auf die Doku (`test/build/doku-verweise.test.js`); externe Links prüft der Build nicht"],
   [Doc, "code-in-docs-validation", "Code-in-docs validation", "G", 2, "offen", ""],
   [Doc, "spell-check", "Spell check", "G", 1, "offen", ""],
   [Doc, "diagram-build", "Diagram build", "G", 2, "vorhanden", "`doku.yml` baut PlantUML und prüft die Ausgabe in jedem PR, der Doku oder Doku-Build ändert (kein Pflicht-Check); `pages.yml` baut sie vor jedem Deployment"],
