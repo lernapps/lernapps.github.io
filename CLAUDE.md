@@ -22,6 +22,9 @@ repository: one shared kern, one layout, one build (Eleventy 3.1.6), deployed to
   app's `llms.njk`, never rename existing ones. `tutor.njk` is the learner-facing prompt; under 120 lines, German.
 - Verify UI changes in a browser (Playwright) before reporting them done: without JS (text + picture visible),
   360 px and 1280 px, zero console errors, zero external requests before the video click.
+- Browser tests (`e2e/`, Playwright + axe-core, #26) automate most of that check in the `browser` workflow. Run them
+  locally with `npm run build && npm run test:browser` (once: `npx --package=@playwright/test playwright install
+  chromium`; never `npx playwright`). They derive the page list from `lib/apps.js`, so new apps are covered.
 
 ## Layout of the repository
 - `src/_data/site.js` – THE one place holding the base URL. `lib/adressen.js` derives pathPrefix, canonicals, app

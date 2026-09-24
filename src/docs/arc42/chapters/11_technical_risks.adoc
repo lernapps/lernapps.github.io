@@ -73,7 +73,7 @@ und R-014 „Version nicht gehoben“ (durch ADR-014).
 | ID | Schuld | Belasteter Baustein (Kapitel 5) | Abbau
 | TD-3 | `llms.txt` jeder App wird von Hand gepflegt; der Build prüft nur, dass jede Seite genannt ist, nicht Parameter oder Fehlercodes. | xref:05_building_block_view.adoc#bb-apps[Apps] | Entschieden am 23.09.2026: ja, Umsetzung läuft. Der Build prüft `URL_ZAHLEN`, `URL_TEXTE` und Fehlercodes aus den Generatoren gegen `llms.txt`.
 | TD-4 | Die Mathe-Karte kennt nur Mathe und nur das Gymnasium; Physik- und Chemie-Apps haben keine Karte. | xref:05_building_block_view.adoc#bb-karte[Mathe-Karte] | Karte für weitere Fächer und Schulformen (edugo).
-| TD-5 | Der Browser-Test (360/1280 px, ohne JS, 0 fremde Requests, Deep Link, Schnelltest) läuft nicht in CI, sondern von Hand mit Playwright. | xref:05_building_block_view.adoc#bb-ci[Tests und CI] | Entschieden am 23.09.2026: später. Dann Playwright-Test in `pruefen.yml` mit neuem ADR für die Testabhängigkeit.
+| TD-5 | Der Browser-Test (360/1280 px, ohne JS, 0 fremde Requests, Deep Link, Schnelltest) lief nicht in CI, sondern von Hand mit Playwright. | xref:05_building_block_view.adoc#bb-ci[Tests und CI] | Erledigt am 24.09.2026 (#26): Playwright und axe-core im eigenen Workflow `browser.yml`, Job `browser` (xref:08_concepts.adoc#section-test-concept[8.3], xref:09_architecture_decisions.adoc#adr-026[ADR-026]). Noch kein Pflicht-Check.
 | TD-7 | 7 von 57 Testdateien nennen im Kopf keinen Use Case; die Exponent-Grenze in `bruch.js` ist ungetestet. | xref:05_building_block_view.adoc#bb-ci[Tests und CI], xref:05_building_block_view.adoc#bb-kern[Kern] | Kopfzeile `// Use Case: …` ergänzen; Test für `MAX_EXPONENT`.
 | TD-9 | docToolchain v4 ist unveröffentlicht; `scripts/dtc-v4.sh` klont `main-4.x@6de96fb7`, baut `lib/` mit Gradle und ruft `dtcw` auf (R-011). | xref:05_building_block_view.adoc#bb-doku[Architektur-Doku] | Nach dem Release von v4.0.0: Skript löschen, `dtcw` direkt nutzen, Cache-Schritt in `pages.yml` löschen (https://github.com/docToolchain/docToolchain/issues/1704[docToolchain#1704]).
 | TD-10 | Fremde Hosts im Theme (https://github.com/docToolchain/docToolchain/issues/1705[#1705]): gepatchte Kopien von `main.min.*.css` und `asciidoctor.css` ohne `@import` in `src/site/assets/css/`; von der Zeilengrenze ausgenommen (`eleventy.config.js`, `THEME_KOPIEN`). | xref:05_building_block_view.adoc#bb-doku[Architektur-Doku] | Nach dem Fix beide Kopien und die Ausnahme löschen.
@@ -94,7 +94,8 @@ und R-014 „Version nicht gehoben“ (durch ADR-014).
 
 Erledigt: TD-1 (Kern kopiert) und TD-2 (Prozent/Zufall nicht migriert) durch ADR-012 und die Migration
 in PR #2; TD-6 (`APP.uebersicht` ungelesen) entfällt, das Layout verlinkt „Alle Apps“; TD-8 (Pages-Modus
-uneinheitlich) galt nur noch für die alten Repos und ist mit R-016 erledigt; TD-17 (nur ein Video je Seite) mit L-023.
+uneinheitlich) galt nur noch für die alten Repos und ist mit R-016 erledigt; TD-17 (nur ein Video je Seite) mit L-023;
+TD-5 (Browser-Test nur von Hand) mit #26.
 
 [[section-open-questions]]
 === Offene Fragen: Nur die Lizenz ist noch offen

@@ -10,11 +10,14 @@
     "serve": "eleventy --serve",
     "pruefe": "npm test && npm run build",
     "lint": "eslint .",
-    "typecheck": "tsc -p jsconfig.json"
+    "typecheck": "tsc -p jsconfig.json",
+    "test:browser": "playwright test"
   },
   "devDependencies": {
     "@11ty/eleventy": "3.1.6",
+    "@axe-core/playwright": "4.13.0",
     "@eslint/js": "10.0.1",
+    "@playwright/test": "1.63.0",
     "eslint": "10.11.0",
     "eslint-plugin-no-unsanitized": "4.1.5",
     "fast-check": "4.10.2",

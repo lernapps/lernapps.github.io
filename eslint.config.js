@@ -38,4 +38,10 @@ export default [
     // App-Konfigurationen und Generatoren aus dem Repository, keine fremden Eingaben.
     rules: { "no-unsanitized/method": "off", "no-unsanitized/property": "off" },
   },
+  // Browser-Tests (#26): Node, aber page.evaluate() führt einzelne Funktionen im Browser aus.
+  {
+    files: ["e2e/**/*.js"],
+    languageOptions: { globals: { ...globals.node, ...globals.browser } },
+    rules: { "no-unsanitized/method": "off", "no-unsanitized/property": "off" },
+  },
 ];
