@@ -13,6 +13,7 @@ on:
       - "scripts/dtc-v4.sh"
       - "lib/pruefe-ausgabe.js"
       - "lib/pruefungen.js"
+      - "scripts/doku-lint.js"
       - ".github/workflows/doku.yml"
   workflow_dispatch:
 
@@ -44,6 +45,21 @@ jobs:
         if: steps.vorhanden.outputs.doku == 'ja'
         with:
           node-version: 22
+
+      # ADR-028: asciidoc-linter hat weder Release noch PyPI-Paket, darum per Commit-SHA gepinnt.
+      # ERRORs brechen den Job, WARNINGs erscheinen nur als Annotation (Wrapper scripts/doku-lint.js).
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        if: steps.vorhanden.outputs.doku == 'ja'
+        with:
+          python-version: "3.12"
+
+      - name: AsciiDoc prüfen (asciidoc-linter)
+        if: steps.vorhanden.outputs.doku == 'ja'
+        env:
+          ASCIIDOC_LINTER_SHA: 52e7fa5982d980eefd5b548f68ff6f58767fe772
+        run: |
+          python -m pip install --disable-pip-version-check "git+https://github.com/docToolchain/asciidoc-linter@${ASCIIDOC_LINTER_SHA}"
+          node scripts/doku-lint.js
 
       - name: Java 17 für docToolchain v4
         if: steps.vorhanden.outputs.doku == 'ja'

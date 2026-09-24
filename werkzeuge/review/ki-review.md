@@ -44,6 +44,8 @@ Check every point. A point that does not apply gets "n/a", never silence.
    `tutor.njk` that tells the child's chat AI to do something outside its tutor role (T-015). Workflows:
    minimal `permissions`, no secrets, third-party actions pinned to a SHA (A06). New dependencies: exact
    pin, needed at all?
+   New feature, input, dependency or workflow: check it against the STRIDE table in arc42 8.1. A threat
+   that no T-ID covers is a finding: it needs a new T-ID and a mitigation in 8.2.
 4. **Static first.** Every page is fully readable without JavaScript, text and picture. JS only for
    exercises, checking, test, self-assessment, redraw.
 5. **Privacy.** No request to another host before the learner clicks a video card; then only

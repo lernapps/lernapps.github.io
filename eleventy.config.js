@@ -14,6 +14,7 @@ import { versionsHash, versioniere } from "./lib/versionierung.js";
 import { richteKarteEin } from "./lib/karte/eleventy.js";
 import { pruefeZeilen, pruefeLlms, pruefeKompetenzen, pruefeMeldeLink, pruefeSerloLinks, pruefeTutorText, pruefeTutorLinks, pruefeTutorHerkunft, erlaubteTutorZiele } from "./lib/pruefungen.js";
 import { pruefeAusgabe } from "./lib/pruefe-ausgabe.js";
+import { pruefeLinks } from "./lib/pruefe-links.js";
 import {
   findeLinks, pruefeLink, pruefeVorgaben, pruefeParameterDoku, pruefeUebersicht, dokumentierteWerte, erlaubeHerkunft, herkunftKollision,
 } from "./lib/llms-vertrag.js";
@@ -51,6 +52,10 @@ function pruefe(apps, ausgabe) {
     const html = fs.readFileSync(p, "utf8");
     fehler.push(...pruefeMeldeLink(p, html, site.repo), ...pruefeSerloLinks(p, html));
   }
+  // Tote interne Links und Anker; die Doku unter docs/ baut docToolchain erst im Deploy dazu (pages.yml).
+  const inhalte = Object.fromEntries(dateien.map((p) => [path.relative(ausgabe, p).split(path.sep).join("/"),
+    p.endsWith(".html") ? fs.readFileSync(p, "utf8") : ""]));
+  fehler.push(...pruefeLinks(inhalte, site.basis, { ausser: ["docs/"] }));
   for (const app of apps) {
     const ordner = path.join(QUELLE, app.pfad);
     fehler.push(...pruefeKompetenzen(app.pfad, app.kompetenzen, (p) => fs.existsSync(path.join(ordner, p))));
