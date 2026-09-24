@@ -45,7 +45,7 @@ mit je 2. Es gelten die Maßnahmen von Tier 1 und Tier 2, mit dem Stand aus EPIC
 | Pre-Commit-Hooks (T1) | Won't, #27 | Der Pflicht-Check prüft dasselbe; Hooks lassen sich lokal umgehen
 | SAST (T2) | umgesetzt, #19 | CodeQL Default Setup; dazu Secret Scanning mit Push Protection und Dependabot
 | Property-Based Tests (T2) | umgesetzt, #22 | fast-check für Term-Parser, Termgleichheit und Rundung; fand gleich den Fehler #30, behoben
-| KI-Code-Review (T2) | offen, Should, #24 | Fester Schritt vor jedem Merge
+| KI-Code-Review (T2) | umgesetzt, #24 | Review in frischem Kontext vor jedem Merge, Check `ki-review` (<<adr-026,ADR-026>>)
 | SonarQube Quality Gate (T2) | Won't, #28 | Dateilänge ≤ 500 Zeilen und ESLint decken das Nötige ab
 | Sampling Review, ~20 % (T2) | 100 % | Der Product Owner merged jeden PR selbst und sieht ihn dabei durch
 | Playwright in CI | offen, Could, #26 | Browser-Check heute von Hand (TD-5)

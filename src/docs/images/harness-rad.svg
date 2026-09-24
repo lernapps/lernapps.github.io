@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 724" width="800" height="724" role="img" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
-<title>Harness Coverage Wheel für lernapps (Tier 2): 52 % abgedeckt</title>
+<title>Harness Coverage Wheel für lernapps (Tier 2): 59 % abgedeckt</title>
 <defs><linearGradient id="halb-G"><stop offset="50%" stop-color="#2b8a3e"/><stop offset="50%" stop-color="#fff"/></linearGradient><linearGradient id="halb-A"><stop offset="50%" stop-color="#e67700"/><stop offset="50%" stop-color="#fff"/></linearGradient><linearGradient id="halb-R"><stop offset="50%" stop-color="#c92a2a"/><stop offset="50%" stop-color="#fff"/></linearGradient></defs>
 <rect width="800" height="724" fill="#fff"/>
 <path d="M407.9 94.1 A226 226 0 0 1 539.1 141.9 L456.6 247.5 A92 92 0 0 0 403.2 228.1 Z" fill="#f1f3f5"/>
@@ -26,7 +26,7 @@
 <text x="647.7" y="177" text-anchor="start" font-size="13" font-weight="600" fill="#212529">Testing</text>
 <text x="647.7" y="192" text-anchor="start" font-size="12" fill="#495057">67 %</text>
 <path d="M623.8 288.5 A226 226 0 0 1 599.5 426.1 L481.2 363.2 A92 92 0 0 0 491.1 307.2 Z" fill="#f1f3f5"/>
-<path d="M570.7 296 A172.39999999999998 172.39999999999998 0 0 1 552.2 400.9 L481.2 363.2 A92 92 0 0 0 491.1 307.2 Z" fill="#1d4ed8" fill-opacity="0.28"/>
+<path d="M597.3 292.3 A199.2 199.2 0 0 1 575.9 413.5 L481.2 363.2 A92 92 0 0 0 491.1 307.2 Z" fill="#1d4ed8" fill-opacity="0.28"/>
 <circle cx="642.4" cy="292.4" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"><title>Secret scanning – vorhanden, Tier 1: GitHub Secret Scanning mit Push Protection</title></circle>
 <circle cx="643.5" cy="305.1" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"><title>SCA – vorhanden, Tier 1: Dependabot-Alerts und -Security-Updates; npm audit --audit-level=high im Pflicht-Check, #20</title></circle>
 <circle cx="644" cy="317.9" r="4.8" fill="#e9ecef" stroke="#adb5bd" stroke-width="1.4"><title>Container / image scanning – entfällt, Tier 2: keine Container: statische Seiten auf GitHub Pages</title></circle>
@@ -37,17 +37,17 @@
 <rect x="631.9" y="376.8" width="8.6" height="8.6" rx="1" fill="#e67700" stroke="#e67700" stroke-width="1.4"><title>SAST – vorhanden, Tier 2: CodeQL Default Setup (JavaScript/TypeScript, Actions)</title></rect>
 <rect x="628.4" y="389.1" width="8.6" height="8.6" rx="1" fill="#fff" stroke="#e67700" stroke-width="1.4" opacity="0.3"><title>DAST – offen, Tier 3</title></rect>
 <rect x="624.2" y="401.2" width="8.6" height="8.6" rx="1" fill="#e9ecef" stroke="#adb5bd" stroke-width="1.4" opacity="0.3"><title>IAST – entfällt, Tier 4: kein Server, keine Laufzeit-Instrumentierung</title></rect>
-<rect x="619.5" y="413" width="8.6" height="8.6" rx="1" fill="#fff" stroke="#e67700" stroke-dasharray="2 1.5" stroke-width="1.4"><title>LLM security review – geplant, Tier 2: #24 KI-Code-Review vor jedem Merge</title></rect>
+<rect x="619.5" y="413" width="8.6" height="8.6" rx="1" fill="#e67700" stroke="#e67700" stroke-width="1.4"><title>LLM security review – vorhanden, Tier 2: OWASP-Teil des KI-Reviews (werkzeuge/review/ki-review.md), Check ki-review, #24, ADR-026</title></rect>
 <polygon points="618.4,422.5 623.9,432.1 612.9,432.1" fill="#c92a2a" stroke="#c92a2a" stroke-width="1.4"><title>Threat modeling – vorhanden, Tier 3: STRIDE in arc42 8.1</title></polygon>
 <text x="681.7" y="369.7" text-anchor="start" font-size="13" font-weight="600" fill="#212529">Security</text>
-<text x="681.7" y="384.7" text-anchor="start" font-size="12" fill="#495057">60 %</text>
+<text x="681.7" y="384.7" text-anchor="start" font-size="12" fill="#495057">80 %</text>
 <path d="M591.7 439.8 A226 226 0 0 1 484.7 529.5 L434.5 405.3 A92 92 0 0 0 478 368.8 Z" fill="#f1f3f5"/>
-<path d="M506.4 386.5 A125.5 125.5 0 0 1 447 436.4 L434.5 405.3 A92 92 0 0 0 478 368.8 Z" fill="#1d4ed8" fill-opacity="0.28"/>
+<path d="M534.8 404.3 A159 159 0 0 1 459.6 467.4 L434.5 405.3 A92 92 0 0 0 478 368.8 Z" fill="#1d4ed8" fill-opacity="0.28"/>
 <circle cx="603.1" cy="455.2" r="4.8" fill="#fff" stroke="#868e96" stroke-width="1.4"><title>Complexity metrics – verworfen, Tier 2: SonarQube abgelehnt (#28); nur Dateilänge ≤ 500 Zeilen</title></circle>
 <rect x="590.8" y="462.2" width="8.6" height="8.6" rx="1" fill="#e9ecef" stroke="#adb5bd" stroke-width="1.4"><title>API contract lint – entfällt, Tier 2: keine API</title></rect>
 <polygon points="586.4,471 591.9,480.6 580.9,480.6" fill="#fff" stroke="#c92a2a" stroke-width="1.4" opacity="0.3"><title>Fagan inspection – offen, Tier 4</title></polygon>
 <polygon points="577.1,481.4 582.6,491 571.6,491" fill="#c92a2a" stroke="#c92a2a" stroke-width="1.4"><title>Code review – vorhanden, Tier 2: Product Owner prüft und merged jeden PR; kein Pflicht-Approval</title></polygon>
-<rect x="563" y="493.4" width="8.6" height="8.6" rx="1" fill="#fff" stroke="#e67700" stroke-dasharray="2 1.5" stroke-width="1.4"><title>LLM code review – geplant, Tier 2: #24 KI-Code-Review vor jedem Merge</title></rect>
+<rect x="563" y="493.4" width="8.6" height="8.6" rx="1" fill="#e67700" stroke="#e67700" stroke-width="1.4"><title>LLM code review – vorhanden, Tier 2: KI-Review in frischem Kontext vor jedem Merge (werkzeuge/review/ki-review.md), Check ki-review, #24, ADR-026</title></rect>
 <polygon points="556.8,500.5 562.3,510.1 551.3,510.1" fill="#fff" stroke="#c92a2a" stroke-width="1.4" opacity="0.3"><title>ArchUnit / dependency-cruiser – offen, Tier 3</title></polygon>
 <polygon points="545.9,509.2 551.4,518.8 540.4,518.8" fill="#c92a2a" stroke="#c92a2a" stroke-width="1.4"><title>ADR enforcement – vorhanden, Tier 3: lib/pruefungen.js bricht den Build bei Regelverstößen (ADR-008), auch bei Links außerhalb der Tutor-Allowlist (pruefeTutorLinks, ADR-023)</title></polygon>
 <polygon points="534.5,517.2 540,526.8 529,526.8" fill="#fff" stroke="#c92a2a" stroke-width="1.4" opacity="0.3"><title>Spec traceability – offen, Tier 3</title></polygon>
@@ -55,7 +55,7 @@
 <polygon points="510.4,531.2 515.9,540.8 504.9,540.8" fill="#e9ecef" stroke="#adb5bd" stroke-width="1.4" opacity="0.3"><title>Schema diff – entfällt, Tier 3: keine Datenbank</title></polygon>
 <polygon points="497.8,537.1 503.3,546.7 492.3,546.7" fill="#fff" stroke="#c92a2a" stroke-width="1.4"><title>LLM design review – offen, Tier 2</title></polygon>
 <text x="583.8" y="539.1" text-anchor="start" font-size="13" font-weight="600" fill="#212529">Architecture</text>
-<text x="583.8" y="554.1" text-anchor="start" font-size="12" fill="#495057">25 %</text>
+<text x="583.8" y="554.1" text-anchor="start" font-size="12" fill="#495057">50 %</text>
 <path d="M469.8 534.9 A226 226 0 0 1 330.2 534.9 L371.6 407.5 A92 92 0 0 0 428.4 407.5 Z" fill="#f1f3f5"/>
 <path d="M469.8 534.9 A226 226 0 0 1 330.2 534.9 L371.6 407.5 A92 92 0 0 0 428.4 407.5 Z" fill="#1d4ed8" fill-opacity="0.28"/>
 <rect x="456.4" y="552" width="8.6" height="8.6" rx="1" fill="#e67700" stroke="#e67700" stroke-width="1.4"><title>Schema validation – vorhanden, Tier 2: Front Matter der Kompetenzen (pruefeKompetenzen) und Kartendaten (src/karte/schemas/)</title></rect>
@@ -106,8 +106,8 @@
 <text x="302.2" y="51.2" text-anchor="end" font-size="13" font-weight="600" fill="#212529">Docs</text>
 <text x="302.2" y="66.2" text-anchor="end" font-size="12" fill="#495057">50 %</text>
 <circle cx="400" cy="320" r="84" fill="#fff" stroke="#dee2e6"/>
-<text x="400" y="324" text-anchor="middle" font-size="30" font-weight="700" fill="#1d4ed8">52 %</text>
-<text x="400" y="344" text-anchor="middle" font-size="11" fill="#495057">15 von 29</text>
+<text x="400" y="324" text-anchor="middle" font-size="30" font-weight="700" fill="#1d4ed8">59 %</text>
+<text x="400" y="344" text-anchor="middle" font-size="11" fill="#495057">17 von 29</text>
 <text x="400" y="358" text-anchor="middle" font-size="11" fill="#495057">Tier 2</text>
 <circle cx="70" cy="634" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"></circle>
 <text x="80" y="638" font-size="11" fill="#343a40">extrinsisch (Kreis)</text>

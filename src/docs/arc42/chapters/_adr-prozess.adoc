@@ -1,0 +1,60 @@
+// ADR-026: KI-Review als Pflichtschritt vor dem Merge (#24, EPIC #18).
+// Prozess-Entscheidungen stehen hier, getrennt von Kern, Build und Darstellung. Eingebunden von 09_architecture_decisions.adoc.
+
+[[adr-026]]
+=== ADR-026: KI-Review in frischem Kontext als Pflichtschritt vor dem Merge
+
+*Kontext.* Claude-Code-Agenten schreiben fast den ganzen Code. Das Review hängt an einer Person: Der
+Product Owner sieht jeden PR durch und merged ihn (<<adr-023,ADR-023>>,
+xref:11_technical_risks.adoc#r-026[R-026]). Das Vibe-Coding Risk Radar verlangt für Tier 2 zusätzlich
+ein KI-Code-Review. Die Session, die einen PR schreibt, ist dafür der falsche Prüfer: Sie kennt ihre
+Absicht und liest deshalb, was sie gemeint hat, nicht was dasteht. Eine Freigabe lässt sich über den
+Branch-Schutz nicht erzwingen, denn ein einzelner Maintainer kann seinen eigenen PR nicht freigeben.
+
+*Entscheidung.* Vor jedem Merge prüft ein Reviewer in *frischem Kontext* den PR: ein neuer Sub-Agent oder
+eine neue Session, nie die Autoren-Session, am besten ein anderes Modell. Er folgt dem Prompt
+`werkzeuge/review/ki-review.md`, einer Checkliste nach Fagan: Korrektheit, Tests mit Bezug auf Issue oder
+Befund, Sicherheit nach OWASP (`innerHTML`, `eval`, externe Anfragen, Tutor-Link-Allowlist), Static
+First, Datenschutz, Lehrerstimme und richtige Mathematik, ADR, Doku und Version. Sein Ergebnis postet er
+als PR-Review vom Typ „Comment“; es beginnt mit `## KI-Review` und nennt `Stand: <Kopf-SHA>` und
+`Ergebnis: freigegeben` oder `Ergebnis: Änderungen nötig`.
+
+Der Check `ki-review` (`.github/workflows/ki-review.yml`, `scripts/ki-review-pruefen.js`) macht den
+Schritt sichtbar. Er ist grün, wenn das neueste KI-Review eines berechtigten Kontos nach dem letzten
+Commit kam, den Kopf-Commit nennt und „freigegeben“ sagt. Jeder neue Commit macht ihn wieder rot. Der
+Check ruft kein Sprachmodell auf, braucht kein Secret und liest nur, mit dem `GITHUB_TOKEN` und
+Leserechten. Er startet bei `pull_request` und `pull_request_review`: Ein `issue_comment`-Lauf hinge
+am letzten Commit von `main` und erschiene nicht im PR. Pflicht im Branch-Schutz macht ihn der Product
+Owner mit einem Aufruf (8.2 M-23).
+
+*Status.* Accepted. Vom Product Owner entschieden am 24.09.2026.
+
+[cols="2,1,1,1,1",options="header"]
+|===
+| Ziel | Frischer Kontext plus Check (Referenz) | Claude-GitHub-Action mit API-Schlüssel | Copilot-Code-Review | Nur menschliches Review
+| QZ-1 Datenschutz | 0 | 0 | 0 | 0
+| QZ-2 Tutor-Anschluss | 0 | 0 | ? | 0
+| QZ-3 Richtige Rückmeldung | 0 | +1 | ? | −1
+| QZ-4 Neue Apps schnell | 0 | +1 | +1 | +1
+| QZ-5 Zugänglich | 0 | 0 | 0 | 0
+| *Summe* | *0* | *+2* | *+1 + ?* | *0*
+|===
+
+Die Claude-GitHub-Action (`anthropics/claude-code-action`) prüft jeden Push von selbst; niemand muss
+daran denken (QZ-3 +1), und kein Schritt kommt hinzu (QZ-4 +1). Sie verlangt aber einen bezahlten
+API-Schlüssel als Secret im Repository: laufende Kosten und ein neues Geheimnis, das der Product Owner
+anlegen und schützen muss (T-001). Wir verwerfen sie vorerst; sie ist die naheliegende Erweiterung, wenn
+Kosten und Secret tragbar werden. Das Copilot-Code-Review braucht ein Abonnement; ob es die Regeln aus
+`CLAUDE.md`, die Tutor-Texte und die Mathematik so genau prüft wie unsere Checkliste, ist offen (`?`).
+Nur menschliches Review spart den Schritt (QZ-4 +1), lässt aber alles an einer eiligen Person hängen
+(QZ-3 −1). Die Summen sprechen für die Action; den Ausschlag geben Kosten und Secret, die keines der
+Qualitätsziele misst.
+
+*Konsequenzen.* Jeder PR bekommt einen zweiten, dokumentierten Blick; offene Befunde brauchen eine
+Begründung im PR. Das mindert xref:11_technical_risks.adoc#r-026[R-026], löst es aber nicht:
+Autor und Reviewer posten über dasselbe Konto, der Check prüft also Konto, Zeitpunkt und Stand, nicht die
+Unabhängigkeit des Kontexts. Ein Review aus demselben Modell teilt dessen blinde Flecken. Workflow und
+Skript kommen bei `pull_request` aus dem PR-Zweig; ein PR könnte den Check selbst aufweichen, deshalb
+gehört jede Änderung an `ki-review.yml` und `ki-review-pruefen.js` ausdrücklich ins Review. Admins
+können den Branch-Schutz weiter umgehen. Ein fehlerhaftes Beispiel in einem Lerntext fängt das Review nur,
+wenn es nachrechnet; die Checkliste verlangt das (xref:11_technical_risks.adoc#r-025[R-025]).
