@@ -28,7 +28,7 @@ export function erzeugeAufgabe(zufall, vorgaben = {}) {
     text: `${versuchText(exp, zuege, mitZuruecklegen)} Wie groß ist P(${namen.join(", ")})? Also: ${ereignis.name}.`,
     felder: [wahrscheinlichkeitsFeld("antwort", `P(${namen.join(", ")}) =`, loesung, "z. B. 3/6*2/5 oder 1/5")],
     loesung: { antwort: formatBruch(loesung) },
-    tipp: "Folge dem Pfad von links nach rechts und multipliziere die Wahrscheinlichkeiten der Zweige. Du darfst das Produkt so stehen lassen.",
+    tipp: "Folge dem Pfad vom Start bis zum Ende und multipliziere die Wahrscheinlichkeiten der Zweige. Du darfst das Produkt so stehen lassen.",
     rechenweg: [
       `Pfad: Start → ${namen.join(" → ")}`,
       `Zweige: ${zweige.map((z) => `P(${z.name}) = ${zweigBruch(z)}`).join(", ")}`,

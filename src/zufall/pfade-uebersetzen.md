@@ -25,7 +25,7 @@ video:
   titel: Summenregel | Wahrscheinlichkeitsrechnung | Mathematik | Lehrerschmidt
   kanal: Lehrerschmidt
 bild:
-  text: 'Der Baum aus dem Beispiel. Orange sind die drei Pfade von „beide gleich“, rechts stehen die Pfadwahrscheinlichkeiten.'
+  text: 'Der Baum aus dem Beispiel. Orange sind die drei Pfade von „beide gleich“, unter den Enden stehen die Pfadwahrscheinlichkeiten.'
   uebung: 'Fragt die Aufgabe nach Pfaden, klick auf das Ende eines Pfades.'
   funktion: zeichnePfadeUebersetzen
   modul: pfadregel-2

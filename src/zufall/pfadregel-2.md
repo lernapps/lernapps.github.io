@@ -40,7 +40,7 @@ video:
   titel: Summenregel | Wahrscheinlichkeitsrechnung | Mathematik | Lehrerschmidt
   kanal: Lehrerschmidt
 bild:
-  text: 'Der Baum aus dem Beispiel. Orange sind die vier Pfade von „genau einmal rot“, rechts stehen alle Pfadwahrscheinlichkeiten.'
+  text: 'Der Baum aus dem Beispiel. Orange sind die vier Pfade von „genau einmal rot“, unter den Enden stehen alle Pfadwahrscheinlichkeiten.'
   uebung: 'Fragt die Aufgabe nach Pfaden, klick auf das Ende eines Pfades.'
   funktion: zeichnePfadregel2
   seed: 3
