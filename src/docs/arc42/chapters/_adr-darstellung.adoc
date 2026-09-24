@@ -58,3 +58,58 @@ könnte Brüche in der Gruppe berühren lassen
 Browser-Check mit `getBoundingClientRect`. Die Bildtexte der Seiten sagen „unter den Enden“ statt
 „rechts“; `llms.txt` und `tutor.md` beschreiben beide Richtungen
 (xref:08_concepts.adoc#section-bilder[8.12]).
+
+// ADR-025: Original-Harness-Rad in arc42 8.16.
+
+[[adr-025]]
+=== ADR-025: Original-Harness-Rad als Zwei-Klick-Einbettung in der Doku
+
+*Kontext.* Kapitel 8.16 zeigt den Harness als eigenes, statisches SVG aus `scripts/harness-rad.js`.
+Wer den Stand im Original-Rad von Semantic Anchors prüfen wollte, musste bisher eine
+`localStorage.setItem(…)`-Zeile in die Browser-Konsole kopieren. Seit
+LLM-Coding/Semantic-Anchors#748 liest das Original den Stand aus der URL
+(`harness-coverage-wheel.html?tier=2#on=<ids>&na=<ids>`) und kennt die Marke „nicht zutreffend“.
+„In Arbeit“, „geplant“ und „verworfen“ hat es bewusst nicht übernommen: Sie sagen nichts darüber,
+was der Harness heute abdeckt. Die Doku selbst lädt bisher nichts von fremden Hosts; `doku.yml`
+prüft das mit `lib/pruefe-ausgabe.js` in jedem PR.
+
+*Entscheidung.* `scripts/harness-rad-original.js` baut aus `ROH` die URL: „vorhanden“ wird `on`,
+„entfällt“ wird `na`, alles andere bleibt Lücke. Eine Schicht-id, die das Original nicht kennt, bricht den
+Generator ab. Unter dem SVG stehen der Link „Unseren Stand im Original öffnen“, beide Prozentwerte und
+ein lokaler Platzhalter mit dem Hinweis „Beim Laden wird die Seite llm-coding.github.io (GitHub Pages)
+aufgerufen.“ Erst der Klick auf den Knopf setzt ein `<iframe>` mit `loading="lazy"`,
+`referrerpolicy="no-referrer"` und `sandbox="allow-scripts allow-same-origin"`. Die URL steht bis dahin
+nur im Attribut `data-quelle`; ein kleines Inline-Skript im erzeugten Abschnitt setzt den Rahmen und
+akzeptiert nur Adressen, die mit der Original-Seite beginnen. Ohne JavaScript bleibt der Platzhalter
+versteckt: SVG und Link genügen. Das Muster folgt den Videos (<<adr-005,ADR-005>>).
+
+*Status.* Accepted. Vom Product Owner entschieden am 24.09.2026.
+
+[cols="2,1,1,1",options="header"]
+|===
+| Ziel | Zwei-Klick-Einbettung plus Link (Referenz) | Nur Link | Nur statisches SVG
+| QZ-1 Datenschutz | 0 | 0 | +1
+| QZ-2 Tutor-Anschluss | 0 | 0 | 0
+| QZ-3 Richtige Rückmeldung | 0 | 0 | 0
+| QZ-4 Neue Apps schnell | 0 | +1 | +1
+| QZ-5 Zugänglich | 0 | 0 | 0
+| *Summe* | *0* | *+1* | *+2*
+|===
+
+Der Link allein ruft llm-coding.github.io ebenfalls erst beim Klick auf (QZ-1 0) und braucht kein Skript
+(QZ-4 +1). Das SVG allein fragt nie einen fremden Host (QZ-1 +1) und braucht weder Skript noch Link
+(QZ-4 +1), lässt den Leser aber unsere Einstufung nicht im Original nachprüfen. Die Summen sprechen für die
+Alternativen, weil QZ-1 bis QZ-5 die Apps für Kinder bewerten; die Doku lesen Team und Reviewer. Den
+Ausschlag gibt die Nachprüfbarkeit: Der Leser vergleicht unser Rad mit dem Original auf derselben Seite,
+ohne Konsole und ohne den Stand von Hand nachzustellen. In der Sandbox läuft das Original vollständig
+(Playwright, 24.09.2026: 52 %, 15 von 29, alle 21 Häkchen und 15 n/a-Marken); `allow-same-origin`
+braucht es für seinen `localStorage`. Weil die Doku auf lernapps.github.io und das Original auf
+llm-coding.github.io liegen, gibt `allow-same-origin` dem Rahmen keinen Zugriff auf die Doku.
+
+*Konsequenzen.* Die Doku stellt jetzt genau eine externe Anfrage, und nur nach einem Klick: an
+llm-coding.github.io, also an GitHub Pages, denselben Anbieter, der die Site selbst ausliefert. Einen
+neuen Dritten gibt es damit nicht; das nehmen wir ohne eigenes Risiko hin. `pruefe-ausgabe` bleibt ohne
+Ausnahme grün, weil die URL nur in `data-quelle` und im `<a href>` steht. Ändert das Original sein
+URL-Format oder seine ids, zeigt der Link einen falschen Stand
+(xref:11_technical_risks.adoc#r-029[R-029]). Die Prozentwerte stimmen heute überein, weil auch unser
+Rad nur Vorhandenes zählt; das Original zeigt aber nicht, welche Lücken in Arbeit oder geplant sind.

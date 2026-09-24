@@ -3,16 +3,19 @@
  * Inventar-Tabelle als AsciiDoc. Schichten, Abschnitte, Klassen (G/A/R) und Mindest-Tier stammen aus
  * https://llm-coding.github.io/Semantic-Anchors/harness-coverage-wheel.html (Semantic Anchors,
  * Ralf D. Müller u. a., Apache-2.0). Zeichnung und Status sind eigene Arbeit dieses Repos.
- *   node scripts/harness-rad.js   → src/docs/images/harness-rad.svg, src/docs/arc42/chapters/_harness-inventar.adoc
+ *   node scripts/harness-rad.js   → src/docs/images/harness-rad.svg, src/docs/arc42/chapters/_harness-inventar.adoc,
+ *                                   src/docs/arc42/chapters/_harness-original.adoc (Link und Einbettung, ADR-025)
  */
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { schreibeOriginalAbschnitt } from "./harness-rad-original.js";
 
 const WURZEL = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 export const ZIELE = {
   svg: path.join(WURZEL, "src/docs/images/harness-rad.svg"),
   adoc: path.join(WURZEL, "src/docs/arc42/chapters/_harness-inventar.adoc"),
+  original: path.join(WURZEL, "src/docs/arc42/chapters/_harness-original.adoc"),
 };
 export const TIER = 2; // Risk Radar, EPIC #18
 
@@ -33,8 +36,8 @@ const ROH = [
   [B, "formatter", "Formatter", "G", 1, "offen", ""],
   [B, "import-sorter-dead-code", "Import sorter / dead code", "G", 1, "offen", ""],
   [B, "linter", "Linter", "A", 1, "vorhanden", "ESLint (`eslint.config.js`: no-eval, no-implied-eval, no-unsanitized) im Pflicht-Check, #21"],
-  [T, "unit-tests", "Unit tests", "R", 2, "vorhanden", "rund 380 `node:test`-Tests in `test/` und `src/<app>/test/`"],
-  [T, "property-based-fuzz", "Property-based / fuzz", "R", 4, "vorhanden", "fast-check, 15 Properties (`test/kern/*.property.test.js`), #22; Fund #30 in Arbeit"],
+  [T, "unit-tests", "Unit tests", "R", 2, "vorhanden", "rund 500 `node:test`-Tests in `test/` und `src/<app>/test/`"],
+  [T, "property-based-fuzz", "Property-based / fuzz", "R", 4, "vorhanden", "fast-check, 17 Properties, #22: Zahlen und Terme (`test/kern/*.property.test.js`, Fund #30 behoben); jede Rechnung im Lösungsweg jeder App wird nachgerechnet (`test/apps/rechenweg.property.test.js`, L-021)"],
   [T, "mutation-testing", "Mutation testing", "R", 4, "offen", ""],
   [T, "integration-tests", "Integration tests", "R", 2, "vorhanden", "Vertragstest `test/apps/vertrag.test.js`: jede Kompetenz jeder App, Seeds 1–20"],
   [T, "contract-tests", "Contract tests", "R", 3, "vorhanden", "Tutor-Vertrag `lib/llms-vertrag.js`: Deep Links in `llms.txt`/`tutor.md` gegen Generator-Parameter"],
@@ -61,7 +64,7 @@ const ROH = [
   [A, "code-review", "Code review", "R", 2, "vorhanden", "Product Owner prüft und merged jeden PR; kein Pflicht-Approval"],
   [A, "llm-code-review", "LLM code review", "A", 2, "geplant", "#24 KI-Code-Review vor jedem Merge"],
   [A, "archunit-dependency-cruiser", "ArchUnit / dependency-cruiser", "R", 3, "offen", ""],
-  [A, "adr-enforcement", "ADR enforcement", "R", 3, "vorhanden", "`lib/pruefungen.js` bricht den Build bei Regelverstößen (ADR-008)"],
+  [A, "adr-enforcement", "ADR enforcement", "R", 3, "vorhanden", "`lib/pruefungen.js` bricht den Build bei Regelverstößen (ADR-008), auch bei Links außerhalb der Tutor-Allowlist (`pruefeTutorLinks`, ADR-023)"],
   [A, "spec-traceability", "Spec traceability", "R", 3, "offen", ""],
   [A, "atam", "ATAM", "R", 4, "offen", ""],
   [A, "schema-diff", "Schema diff", "R", 3, "entfällt", "keine Datenbank"],
@@ -95,20 +98,19 @@ const ROH = [
   [Doc, "code-in-docs-validation", "Code-in-docs validation", "G", 2, "offen", ""],
   [Doc, "spell-check", "Spell check", "G", 1, "offen", ""],
   [Doc, "diagram-build", "Diagram build", "G", 2, "vorhanden", "`doku.yml` baut PlantUML und prüft die Ausgabe in jedem PR"],
-  [Doc, "prose-lint", "Prose lint", "A", 2, "vorhanden", "`tutor.md` höchstens 119 Zeilen (`MAX_TUTOR_ZEILEN` in `eleventy.config.js`), #29"],
+  [Doc, "prose-lint", "Prose lint", "A", 2, "vorhanden", "`tutor.md` unter 120 Zeilen (`MAX_TUTOR_ZEILEN` in `eleventy.config.js` bricht den Build), #29"],
   [Doc, "doc-code-drift", "Doc-code drift", "R", 3, "vorhanden", "Tutor-Vertrag: jeder Generator-Parameter steht in `llms.txt`"],
 ];
 export const SCHICHTEN = ROH.map(([abschnitt, id, name, klasse, tier, status, beleg]) =>
   ({ abschnitt, id, name, klasse, tier, status, beleg }));
 
-/** Zählt Schichten bis `tier`; entfallene zählen nicht mit, das Original zählt sie als offen. */
+/** Zählt Schichten bis `tier`; entfallene zählen nicht mit (im Original: „not applicable“). */
 export function abdeckung(schichten, tier = TIER) {
   const imTier = schichten.filter((s) => s.tier <= tier);
   const relevant = imTier.filter((s) => s.status !== "entfällt");
   const vorhanden = relevant.filter((s) => s.status === "vorhanden").length;
   return { imTier: imTier.length, relevant: relevant.length, vorhanden,
-    anteil: relevant.length ? vorhanden / relevant.length : 0,
-    anteilOriginal: imTier.length ? vorhanden / imTier.length : 0 };
+    anteil: relevant.length ? vorhanden / relevant.length : 0 };
 }
 
 const FARBE = { G: "#2b8a3e", A: "#e67700", R: "#c92a2a" };
@@ -210,20 +212,15 @@ export function schreibeInventar(schichten) {
   }
   z.push("|===", "");
   const ges = abdeckung(schichten);
-  const ids = schichten.filter((s) => s.status === "vorhanden").map((s) => s.id);
   z.push(`Gesamt bis Tier ${TIER}: ${ges.vorhanden} von ${ges.relevant} zutreffenden Schichten ` +
-    `(${Math.round(ges.anteil * 100)} %). Das Original zählt entfallene Schichten als offen und käme auf ` +
-    `${ges.vorhanden} von ${ges.imTier} (${Math.round(ges.anteilOriginal * 100)} %).`, "");
-  z.push("Stand im Original-Rad nachstellen: Seite öffnen, in der Browser-Konsole ausführen, neu laden.", "");
-  z.push("[source,js]", "----",
-    `localStorage.setItem("harness-wheel-v1", '${JSON.stringify({ ids, tier: String(TIER), width: "equal", view: "harness" })}');`,
-    "----", "");
+    `(${Math.round(ges.anteil * 100)} %); entfallene Schichten zählen nicht mit.`, "");
   return z.join("\n");
 }
 
 if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
   fs.writeFileSync(ZIELE.svg, zeichneRad(SCHICHTEN));
   fs.writeFileSync(ZIELE.adoc, schreibeInventar(SCHICHTEN));
+  fs.writeFileSync(ZIELE.original, schreibeOriginalAbschnitt(SCHICHTEN, abdeckung(SCHICHTEN), TIER));
   const a = abdeckung(SCHICHTEN);
   console.log(`Harness-Rad: ${a.vorhanden}/${a.relevant} (${Math.round(a.anteil * 100)} %) bis Tier ${TIER}`);
 }

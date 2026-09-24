@@ -331,18 +331,25 @@ link:https://llm-coding.github.io/Semantic-Anchors/harness-coverage-wheel.html[H
 außen, einschalten genügt), hybrid oder intrinsisch (das Projekt definiert richtig und falsch) eingestuft
 und mit dem kleinsten Risk-Radar-Tier versehen, ab dem sie zählt. Die Einstufung Tier 2 entscheidet xref:09_architecture_decisions.adoc#adr-023[ADR-023] (EPIC #18).
 
-Das Bild ist eine eigene Zeichnung aus `scripts/harness-rad.js`; das Original-Rad rendert per JavaScript
-und kennt weder SVG-Export noch Zwischenzustände. Das Rad zeigt deshalb zusätzlich „in Arbeit“ (offener PR),
-„geplant“ (offenes Issue) und „entfällt“ (trifft auf statische Seiten ohne Server und Daten nicht zu).
-Der Test `test/build/harness-rad.test.js` bricht, wenn Bild oder Tabelle vom Generator abweichen.
+Das Bild ist eine eigene Zeichnung aus `scripts/harness-rad.js`. Das Original-Rad rendert per JavaScript,
+kennt keinen SVG-Export und neben „abgedeckt“ nur „nicht zutreffend“. Unser Rad zeigt zusätzlich „in Arbeit“
+(offener PR), „geplant“ (offenes Issue) und „verworfen“; „entfällt“ heißt, die Schicht trifft auf statische
+Seiten ohne Server und Daten nicht zu. Unter dem Bild öffnet ein Link denselben Stand im Original; auf
+Wunsch lädt es sich per Zwei-Klick direkt hier (xref:09_architecture_decisions.adoc#adr-025[ADR-025]).
+Die Tests `test/build/harness-rad.test.js` und `harness-rad-original.test.js` brechen, wenn Bild, Tabelle
+oder Link vom Generator abweichen.
 
 image::harness-rad.svg[Harness Coverage Wheel für lernapps: Abdeckung je Abschnitt bis Tier 2,800]
 
+include::_harness-original.adoc[]
+
 include::_harness-inventar.adoc[]
 
-Linter, `npm audit` und Property-based Tests laufen seit #20, #21 und #22 im Pflicht-Check; die
-Properties fanden gleich einen Fehler (#30). Die größte Lücke liegt weiter bei billigen extrinsischen
+Linter, `npm audit` und Property-based Tests laufen seit #20, #21 und #22 im Pflicht-Check, CodeQL und
+Dependabot daneben. Die Properties fanden gleich einen Fehler (#30, behoben); seit dem Lektorat rechnet
+eine weitere jede Rechnung im Lösungsweg nach (L-021). Die größte Lücke liegt weiter bei billigen extrinsischen
 Schichten: Typprüfung (#25), Formatter und Dead-Code-Erkennung. Stark sind die intrinsischen Schichten,
 also Vertragstest, Tutor-Vertrag und Build-Prüfungen.
 
-Wer den Stand ändert, passt `ROH` in `scripts/harness-rad.js` an und ruft `node scripts/harness-rad.js` auf.
+Wer den Stand ändert, passt `ROH` in `scripts/harness-rad.js` an und ruft `node scripts/harness-rad.js` auf;
+das erneuert Bild, Tabelle und den Link ins Original.

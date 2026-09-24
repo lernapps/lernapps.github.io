@@ -3,6 +3,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import { SCHICHTEN, ABSCHNITTE, zeichneRad, schreibeInventar, abdeckung, ZIELE } from "../../scripts/harness-rad.js";
+import { baueOriginalUrl, schreibeOriginalAbschnitt } from "../../scripts/harness-rad-original.js";
 
 test("das Inventar nennt alle 69 Schichten des Harness Coverage Wheel in neun Abschnitten", () => {
   assert.equal(SCHICHTEN.length, 69);
@@ -35,4 +36,7 @@ test("das SVG lädt nichts von außen und nennt die Quelle", () => {
 test("die eingecheckten Dateien entsprechen dem Generator (node scripts/harness-rad.js)", () => {
   assert.equal(fs.readFileSync(ZIELE.svg, "utf8"), zeichneRad(SCHICHTEN));
   assert.equal(fs.readFileSync(ZIELE.adoc, "utf8"), schreibeInventar(SCHICHTEN));
+  const original = fs.readFileSync(ZIELE.original, "utf8");
+  assert.equal(original, schreibeOriginalAbschnitt(SCHICHTEN, abdeckung(SCHICHTEN)));
+  assert.ok(original.includes(`link:${baueOriginalUrl(SCHICHTEN)}[`), "Link zum Original zeigt den aktuellen Stand");
 });
