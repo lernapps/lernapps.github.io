@@ -52,3 +52,13 @@ test("L-018: „von“ verlangt den Dativ – 65 % von 60 Würfen, 12 % von 25 S
   zeichneSachaufgaben(s, { grundwert: 25, prozentsatz: 12, prozentwert: 3, einheit: "Schüler" });
   assert.match(alsSvgText(s), /von 25 Schülern/);
 });
+
+test("L-014: das Beispielbild zu Grundbegriffe zeigt das Beispiel – 12 blaue Kästchen, 250 € und 30 €", async () => {
+  const { zeichneGrundbegriffeBeispiel } = await import("../js/vis/grundbegriffe.js");
+  const svg = leeresSvg();
+  zeichneGrundbegriffeBeispiel(svg);
+  const t = alsSvgText(svg);
+  assert.equal(zaehle(t, /fill="#1d4ed8"/g), 12);
+  assert.match(t, /250 €/);
+  assert.match(t, /30 €/);
+});

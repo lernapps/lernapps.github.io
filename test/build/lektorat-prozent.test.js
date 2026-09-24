@@ -17,3 +17,13 @@ test("L-010: kein normales Leerzeichen zwischen Zahl (oder p) und % bzw. €", (
   const funde = seiten.flatMap(([name, text]) => (fliesstext(text).match(/.{0,20}(?:\d|\bp) [%€].{0,10}/g) ?? []).map((f) => `${name}: ${f}`));
   assert.deepEqual(funde, []);
 });
+
+test("L-015: jede Tabelle der Prozent-Seiten steht in einem seitlich scrollbaren Rahmen (360 px)", async () => {
+  const ohneRahmen = seiten.flatMap(([name, text]) => {
+    const zeilen = text.split("\n");
+    return zeilen.flatMap((z, i) => (/<table/.test(z) && !/<div class="tabelle-rahmen">\s*$/.test(zeilen[i - 1] ?? "") && !/<div class="tabelle-rahmen"><table/.test(z) ? [`${name}:${i + 1}`] : []));
+  });
+  assert.deepEqual(ohneRahmen, []);
+  const css = await readFile(path.join("src", "kern", "css", "stil.css"), "utf8");
+  assert.match(css, /\.tabelle-rahmen\s*\{[^}]*overflow-x:\s*auto/);
+});

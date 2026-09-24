@@ -120,6 +120,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .merke { background: var(--farbe-hinweis-hell); padding: 0.6rem 0.9rem; border-radius: var(--radius); }
 
 table { border-collapse: collapse; width: 100%; margin: 0.75rem 0; }
+/* Breite Tabellen scrollen in ihrem Rahmen seitlich, die Seite selbst bleibt 360 px breit (L-015). */
+.tabelle-rahmen { overflow-x: auto; max-width: 100%; }
+.tabelle-rahmen > table { margin: 0.75rem 0; }
 th, td { border: 1px solid var(--farbe-rand); padding: 0.45rem 0.6rem; text-align: left; vertical-align: top; }
 th { background: var(--farbe-flaeche); }
 td.zahl, th.zahl { text-align: right; white-space: nowrap; }

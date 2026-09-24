@@ -12,6 +12,7 @@ regel: |
   </div>
 beispiel: |
   <p>In einer Klasse sind 24 Schüler. 18 davon haben ein Haustier. Wie viel Prozent der Klasse sind das?</p>
+  <div class="tabelle-rahmen">
   <table>
     <tbody>
       <tr><th scope="row">Grundwert G</th><td>24 Schüler (die ganze Klasse)</td></tr>
@@ -20,17 +21,18 @@ beispiel: |
       <tr><th scope="row">Prozentsatz</th><td><strong>p&nbsp;% = 75&nbsp;%</strong></td></tr>
     </tbody>
   </table>
+  </div>
   <p>Probe: 75&nbsp;% von 24 sind 24 · 0,75 = 18. Passt.</p>
 video:
   id: YdBcJa8-81s
   titel: 'Prozentsatz berechnen - Prozentrechnung mit Formel - Mathematik einfach erklärt | Lehrerschmidt'
   kanal: Lehrerschmidt
 bild:
-  text: 'Der ganze Balken ist der Grundwert (100 %). Der blaue Teil zeigt den Prozentwert – die Frage ist, wie viele Hundertstel das sind.'
+  text: 'Der ganze Balken ist der Grundwert: 24 Schüler sind 100 %. Der blaue Teil ist der Prozentwert: 18 Schüler sind 75 %.'
   funktion: zeichneProzentsatz
   seed: 3
   geloest: true
   vorgaben:
-    'g': 80
-    'w': 20
+    'g': 24
+    'w': 18
 ---

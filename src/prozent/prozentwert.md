@@ -7,11 +7,12 @@ warum: |
 regel: |
   <div id="formel">
   <div class="formel"><code>W = G · p / 100</code></div>
-  <p>Der <strong>Grundwert G</strong> ist das Ganze (100&nbsp;%). Der <strong>Prozentsatz p&nbsp;%</strong> sagt, welcher Anteil gemeint ist. Der <strong>Prozentwert W</strong> ist dieser Anteil in der Einheit des Grundwerts (€, Schüler, mAh …).</p>
+  <p>Der <strong>Grundwert G</strong> ist das Ganze (100&nbsp;%). Der <strong>Prozentsatz p&nbsp;%</strong> sagt, welcher Anteil gemeint ist. Der <strong>Prozentwert W</strong> ist dieser Anteil in der Einheit des Grundwerts (€, Schüler, mAh …). mAh (Milliamperestunden) gibt an, wie viel Ladung ein Akku speichert.</p>
   <p class="merke">Merkhilfe: Erst 1&nbsp;% ausrechnen (G geteilt durch 100), dann mal p nehmen.</p>
   </div>
 beispiel: |
   <p>Ein Skateboard kostet 250&nbsp;€. Es gibt 12&nbsp;% Rabatt. Wie viel Euro sparst du?</p>
+  <div class="tabelle-rahmen">
   <table>
     <tbody>
       <tr><th scope="row">Grundwert G</th><td>250&nbsp;€ (der volle Preis)</td></tr>
@@ -20,6 +21,7 @@ beispiel: |
       <tr><th scope="row">Prozentwert W</th><td><strong>30&nbsp;€</strong> Rabatt</td></tr>
     </tbody>
   </table>
+  </div>
   <p>Über 1&nbsp;%: 250&nbsp;€ : 100 = 2,50&nbsp;€ sind 1&nbsp;%. Dann 2,50&nbsp;€ · 12 = 30&nbsp;€.</p>
 video:
   id: XDvDfzdP_Fc

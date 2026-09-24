@@ -11,6 +11,7 @@ regel: |
   </div>
 beispiel: |
   <p>Ein Rucksack kostet in Laden A 150&nbsp;€, in Laden B 120&nbsp;€.</p>
+  <div class="tabelle-rahmen">
   <table>
     <thead><tr><th scope="col">Frage</th><th scope="col">Bezugsgröße (100&nbsp;%)</th><th scope="col">Rechnung</th></tr></thead>
     <tbody>
@@ -18,6 +19,7 @@ beispiel: |
       <tr><td>Um wie viel Prozent ist B billiger als A?</td><td>A = 150&nbsp;€</td><td><code>p = 30 / 150 · 100 = 20</code><br><strong>p&nbsp;% = 20&nbsp;%</strong></td></tr>
     </tbody>
   </table>
+  </div>
   <p>Der Unterschied ist beide Male 30&nbsp;€. Weil 30&nbsp;€ von 120&nbsp;€ ein größerer Anteil ist als 30&nbsp;€ von 150&nbsp;€, ist die erste Zahl größer.</p>
 videoVerweis: 'Wie man einen Prozentsatz ausrechnet, zeigt das Video auf der Seite <a href="prozentsatz.html#video">Prozentsatz berechnen</a>.'
 bild:

@@ -12,6 +12,7 @@ regel: |
   </div>
 beispiel: |
   <p>Beim Kauf eines Rollers sparst du 30&nbsp;€. Das sind 12&nbsp;% Rabatt. Wie viel hat der Roller vorher gekostet?</p>
+  <div class="tabelle-rahmen">
   <table>
     <tbody>
       <tr><th scope="row">Prozentwert W</th><td>30&nbsp;€ (der Teil, der bekannt ist)</td></tr>
@@ -20,13 +21,14 @@ beispiel: |
       <tr><th scope="row">Grundwert G</th><td><strong>250&nbsp;€</strong> war der alte Preis</td></tr>
     </tbody>
   </table>
+  </div>
   <p>Über 1&nbsp;%: 30&nbsp;€ : 12 = 2,50&nbsp;€ sind 1&nbsp;%. Dann 2,50&nbsp;€ · 100 = 250&nbsp;€.</p>
 video:
   id: gtEAmp8-K-8
   titel: 'Grundwert berechnen - Prozentrechnung mit Formel - Mathematik einfach erklärt | Lehrerschmidt'
   kanal: Lehrerschmidt
 bild:
-  text: 'Die blauen Kästchen sind der bekannte Teil. Gesucht ist, wofür alle 100 Kästchen stehen.'
+  text: 'Die 12 blauen Kästchen sind der bekannte Teil: 30 €. Alle 100 Kästchen stehen für den Grundwert: 250 €.'
   funktion: zeichneGrundwert
   seed: 3
   geloest: true
