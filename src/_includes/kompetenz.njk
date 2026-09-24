@@ -1,7 +1,8 @@
 ---
 layout: basis.njk
 ---
-{#- Kompetenzseite: Warum, Regel, Beispiel, Bild, Video, serlo-Link (optional), Übung – Inhalte aus dem Front Matter von src/<app>/<id>.md. -#}
+{#- Kompetenzseite: Warum, Regel, Beispiel, Bild, Video, serlo-Link (optional), Übung – Inhalte aus dem Front Matter von src/<app>/<id>.md.
+    Ohne eigenes Video: videoVerweis (ein Satz mit Link auf das Video einer verwandten Seite) oder gar kein Abschnitt #video. -#}
 {%- set k = kompetenzDaten -%}
     <h1>{{ k.titel }}</h1>
 
@@ -36,10 +37,10 @@ layout: basis.njk
       <p class="video-kanal">{{ video.kanal }} · YouTube</p>
       <p class="video-hinweis">Beim Start werden Daten (u. a. deine IP-Adresse) an YouTube/Google übertragen.</p>
     </section>
-{% else %}
+{% elif videoVerweis %}
     <section id="video">
       <h2>Video dazu</h2>
-      <p>{{ ohneVideo or "Zu diesem Schritt gibt es kein passendes Video." }}</p>
+      <p>{{ videoVerweis | safe }}</p>
     </section>
 {% endif %}
 {% if serlo %}

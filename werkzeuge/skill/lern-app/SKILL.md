@@ -27,7 +27,7 @@ You need: **topic**, **Land**, **Schulform**, **Jahrgang**, and whether the user
 
 ## Phase 2 — Videos and serlo links (optional, verified)
 
-Search the channel the user trusts (default: Lehrerschmidt; ask for Physik/Chemie, e.g. "Lehrerschmidt", "musstewissen Physik/Chemie", "simpleclub"). Verify every ID with `curl -s "https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=<id>&format=json"` and check `author_name`. Never use an ID you did not verify. No verified video → no card; set `ohneVideo: "<one-line note>"` in the front matter instead. Details: `references/videos.md`.
+Search the channel the user trusts (default: Lehrerschmidt; ask for Physik/Chemie, e.g. "Lehrerschmidt", "musstewissen Physik/Chemie", "simpleclub"). Verify every ID with `curl -s "https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=<id>&format=json"` and check `author_name`. Never use an ID you did not verify. No verified video → no card; either `videoVerweis` (one learner-facing sentence linking the video of a related page) or no video section at all. Details: `references/videos.md`.
 
 The same way, look up one serlo.org article per competency as a second explanation (free, ad-free, no login; Serlo Education e.V.). Fetch every URL with curl: status 200, the article itself (not a search or a generic page), and content that covers exactly this competency. Prefer `https://de.serlo.org/mathe/<id>/<slug>`. No good match → leave `serlo` out and name the page in the PR; never force a weak match. Details: `references/serlo.md`.
 
@@ -60,7 +60,7 @@ Follow "New competency" in `CLAUDE.md`, test-first:
 - **Numbers**: one rule for numeric answers (`src/kern/js/zahlantwort.js`): declare `art` and `stellen`, build with `zahlenfeld`, check with `pruefeZahlAntwort`, diagnose with `passtZu`. No per-call tolerances.
 - **Algebra**: field type `variablenterm` with `form: "ausmultipliziert"` or `"faktorisiert"`, and `passtZuTerm` to diagnose typical wrong terms. A wrong form is only a neutral hint, and "faktorisiert" is coarse — for factorising tasks also check the product structure in the app's checker.
 - **Picture** (`src/<app>/js/vis/<id>.js`, `zeichne…(svg, aufgabe, ergebnis)` with `svgEl`): the same function renders the static SVG at build time and redraws it in the browser; never touch `document`. Sciences live here — see `references/visualisierungen.md`.
-- **Page** `src/<app>/<id>.md`, front matter only (layout `kompetenz.njk`): `kompetenz`, `beschreibung`, `warum` (2–3 sentences), `regel`, `beispiel`, `video: { id, titel, kanal }` or `ohneVideo`, `bild: { text, funktion, seed, … }`, optional `serlo: { url, titel }`. The page shows Warum, Regel, Beispiel, Bild, Video, serlo link (if any), Übung in this order. Everything but the exercise reads without JavaScript.
+- **Page** `src/<app>/<id>.md`, front matter only (layout `kompetenz.njk`): `kompetenz`, `beschreibung`, `warum` (2–3 sentences), `regel`, `beispiel`, `video: { id, titel, kanal }` or `videoVerweis` (or neither), `bild: { text, funktion, seed, … }`, optional `serlo: { url, titel }`. The page shows Warum, Regel, Beispiel, Bild, Video, serlo link (if any), Übung in this order. Everything but the exercise reads without JavaScript.
 - **Config**: entry in `KOMPETENZEN` (`id`, `titel`, `kurz`, `seite`, `generator`, for Mathe `kartenKnoten`). The menu numbers entries itself, so `kurz` is a formula or keyword ("(a+b)²", "Ausklammern"), never an ordinal like "1. Formel".
 - `npm test && npm run build` green, commit, next competency.
 

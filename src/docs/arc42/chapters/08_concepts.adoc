@@ -276,7 +276,7 @@ nicht.
 
 Entschieden in xref:09_architecture_decisions.adoc#adr-017[ADR-017]. `src/<app>/<id>.md` enthält nur
 Front Matter: `kompetenz`, `beschreibung`, `warum`, `regel`, `beispiel` (Markdown oder HTML),
-`video: { id, titel, kanal }` oder `ohneVideo`, `bild: { text, funktion, seed, geloest, vorgaben }`,
+`video: { id, titel, kanal }`, sonst `videoVerweis` (ein Satz mit Link auf das Video einer verwandten Seite) oder gar kein Abschnitt `#video`, `bild: { text, funktion, seed, geloest, vorgaben }`,
 optional `serlo: { url, titel }` (ein geprüfter serlo.org-Artikel als zweite Erklärung nach dem Video, 8.2 M-17).
 `src/_includes/kompetenz.njk` setzt daraus immer dieselben Abschnitte mit denselben Ankern, in dieser Reihenfolge: Warum, Regel,
 Beispiel, Bild, Video, Übung. Der Build

@@ -21,7 +21,6 @@ beispiel: |
   <li>P(mindestens eine 6) = 1 − 125/216 = 91/216 ≈ 42 %.</li>
   </ol>
   <p>Ohne den Trick müsstest du 7 Pfade addieren. Mit dem Trick ist es eine Rechnung.</p>
-ohneVideo: Zu dieser Frage gibt es kein Lehrerschmidt-Video; die Erklärung oben reicht.
 bild:
   text: 'Der Baum zum dreimaligen Würfeln. Orange ist der einzige Pfad des Gegenereignisses „kein einziges Mal 6“: 5/6 · 5/6 · 5/6. Rechts stehen die Pfadwahrscheinlichkeiten.'
   funktion: zeichneGegenereignis
