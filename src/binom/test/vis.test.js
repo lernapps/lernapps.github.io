@@ -58,7 +58,7 @@ test("L-003: Geschickt rechnen 49² – Maße 1 und 49 links außen, Ecke 1 lesb
 
 test("L-003: Geschickt rechnen 21 · 19 – die fehlende Ecke − 1² ist so groß wie die Seite 20", () => {
   const svg = leeresSvg();
-  zeichneGeschicktRechnen(svg, geschickt(erzeugeZufall(1), { formel: 3, basis: 20, abstand: 1 }));
+  zeichneGeschicktRechnen(svg, geschickt(erzeugeZufall(1), { formel: 3, basis: 20, abstand: 1 }), { korrekt: false });
   const t = texte(svg);
   const [seite] = finde(t, "20");
   const [ecke] = finde(t, "− 1²");

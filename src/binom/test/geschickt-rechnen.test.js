@@ -60,3 +60,35 @@ test("L-006: Tipp und Rückmeldung sprechen von einer glatten Zahl (Zehner oder 
     assert.doesNotMatch(pruefeAntwort(b, { formel: "3", ergebnis: "1" }).meldung, /Zehner\b(?! oder)/);
   }
 });
+
+test("L-007: vor dem Prüfen zeigt das Bild nur „91 · 89 = ?“ – keine Zerlegung, kein Formelbild", async () => {
+  const { leeresSvg } = await import("../../kern/js/svg.js");
+  const { zeichneGeschicktRechnen } = await import("../js/vis/geschickt-rechnen.js");
+  const alleTexte = (svg) => svg.children.filter((e) => e.tagName === "text").map((e) => e.textContent).join(" | ");
+  const faelle = [
+    [{ formel: 3, basis: 90, abstand: 1 }, "91 · 89 = ?", /90|1²|\(/],
+    [{ formel: 1, basis: 40, abstand: 3 }, "43² = ?", /40|\(|\+/],
+    [{ formel: 2, basis: 50, abstand: 1 }, "49² = ?", /50|\(|1²/],
+  ];
+  for (const [vorgaben, titel, verraeterisch] of faelle) {
+    const a = erzeugeAufgabe(erzeugeZufall(1), vorgaben);
+    for (const ergebnis of [undefined, { korrekt: false, fehler: "keine-eingabe" }]) {
+      const svg = leeresSvg();
+      zeichneGeschicktRechnen(svg, a, ergebnis);
+      const t = alleTexte(svg);
+      assert.match(t, new RegExp(titel.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")), t);
+      assert.doesNotMatch(t, verraeterisch, `vorher verraten: ${t}`);
+      assert.doesNotMatch(svg.getAttribute("aria-label"), verraeterisch);
+    }
+    for (const ergebnis of [{ korrekt: false, fehler: "falsch" }, { korrekt: true, loesungGezeigt: true }]) {
+      const svg = leeresSvg();
+      zeichneGeschicktRechnen(svg, a, ergebnis);
+      assert.match(alleTexte(svg) + svg.getAttribute("aria-label"), verraeterisch, "nach dem Prüfen: Zerlegung sichtbar");
+    }
+  }
+});
+
+test("L-007: der Tipp zur 3. Formel verrät die Zerlegung nicht", () => {
+  const a = erzeugeAufgabe(erzeugeZufall(1), { formel: 3, basis: 90, abstand: 1 });
+  assert.equal(a.tipp, "Liegen beide Zahlen gleich weit neben einer glatten Zahl?");
+});
