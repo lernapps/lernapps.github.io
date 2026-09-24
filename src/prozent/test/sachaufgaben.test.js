@@ -22,7 +22,7 @@ test("erzeugeAufgabe liefert beide Typen", () => {
     } else {
       assert.equal(a.typ, "dreisatz");
       assert.equal(a.tabelle.length, 3);
-      assert.equal(a.tabelle[0].links, "100 %");
+      assert.equal(a.tabelle[0].links, "100\u00a0%");
       assert.equal(a.tabelle[1].feld, "eins");
       assert.equal(a.tabelle[2].feld, "prozent");
       assert.equal(a.grundwert % 100, 0);

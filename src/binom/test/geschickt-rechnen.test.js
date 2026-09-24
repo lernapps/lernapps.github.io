@@ -50,3 +50,13 @@ test("Prüfer: richtig, falsche-formel, zerlegung-falsch, leere Eingabe, Ausdruc
   const b = erzeugeAufgabe(erzeugeZufall(1), { formel: 3, basis: 20, abstand: 1 });
   assert.equal(pruefeAntwort(b, { formel: "3", ergebnis: "401" }).fehler, "zerlegung-falsch");
 });
+
+test("L-006: Tipp und Rückmeldung sprechen von einer glatten Zahl (Zehner oder Hunderter), nicht nur vom Zehner", () => {
+  const a = erzeugeAufgabe(erzeugeZufall(1), { formel: 1, basis: 100, abstand: 3 });
+  assert.match(a.tipp, /glatte Zahl \(Zehner oder Hunderter\)/);
+  assert.match(pruefeAntwort(a, { formel: "1", ergebnis: "1" }).meldung, /glatte Zahl/);
+  for (const f of [1, 2]) {
+    const b = erzeugeAufgabe(erzeugeZufall(1), { formel: f, basis: 100, abstand: 3 });
+    assert.doesNotMatch(pruefeAntwort(b, { formel: "3", ergebnis: "1" }).meldung, /Zehner\b(?! oder)/);
+  }
+});

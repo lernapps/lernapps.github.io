@@ -1,15 +1,19 @@
 /* Aufgaben: Sachaufgabe übersetzen — Typ "gleichung" (richtige Formel wählen + rechnen) und Typ "dreisatz" (Tabelle). */
-import { formatZahl, runde } from "../../../kern/js/zahlen.js";
+import { formatZahl, formatGenau, gleichheitszeichen, runde } from "../../../kern/js/zahlen.js";
 import { multipliziere, dividiere, bruch } from "../../../kern/js/bruch.js";
 import { zahlenfeld, pruefeZahlAntwort, HINWEIS_FEHLER } from "../../../kern/js/zahlantwort.js";
 import {
-  erzeugeTripel, waehleKontext, mitEinheit, MELDUNG_KEINE_ZAHL, PROZENTSAETZE, alsBruch, artFuer,
+  erzeugeTripel, waehleKontext, mitEinheit, formatWert, MELDUNG_KEINE_ZAHL, PROZENTSAETZE, RABATTE, alsBruch, artFuer,
 } from "./gemeinsam.js";
 
 export const THEMA = "sachaufgaben";
 // URL-Parameter (öffentlicher Vertrag, in llms.txt dokumentiert); der Kern liest sie mit leseVorgaben.
 export const URL_ZAHLEN = ["g", "p"];
 export const URL_TEXTE = ["typ", "gesucht"];
+
+// Plausible Zahlen für das Ding im Text (L-011): Skateboard mit Rabatt, Laptop im Dreisatz.
+const BEREICHE_GLEICHUNG = { preis: { min: 30, max: 300, saetze: RABATTE } };
+const BEREICHE_DREISATZ = { preis: { min: 300, max: 1500 } };
 
 const TEXTE = {
   preis: {
@@ -25,9 +29,9 @@ const TEXTE = {
 };
 
 /** Richtige Gleichung und zwei Fallen (Formeln verwechselt) für die gesuchte Größe. */
-function gleichungen(gesucht, g, w, p) {
-  const G = formatZahl(g);
-  const W = formatZahl(w);
+function gleichungen(gesucht, g, w, p, einheit) {
+  const G = formatWert(g, einheit);
+  const W = formatWert(w, einheit);
   const P = formatZahl(p);
   if (gesucht === "W") return { richtig: `W = ${G} · ${P} / 100`, falsch: [`W = ${G} · 100 / ${P}`, `W = ${P} / ${G} · 100`] };
   if (gesucht === "G") return { richtig: `G = ${W} · 100 / ${P}`, falsch: [`G = ${W} · ${P} / 100`, `G = ${P} / ${W} · 100`] };
@@ -38,12 +42,12 @@ const GESUCHT = { g: "G", w: "W", p: "p" };
 const EINHEIT_W = { umfrage: "Personen" };
 
 function aufgabeGleichung(zufall, vorgaben) {
-  const kontext = waehleKontext(zufall, Object.keys(TEXTE));
+  const kontext = waehleKontext(zufall, Object.keys(TEXTE), BEREICHE_GLEICHUNG);
   const { grundwert, prozentsatz, prozentwert } = erzeugeTripel(zufall, kontext);
   const gesucht = GESUCHT[vorgaben.gesucht] || zufall.wahl(["W", "G", "p"]);
   const einheit = kontext.einheit;
   const text = TEXTE[kontext.id][gesucht](mitEinheit(grundwert, einheit), mitEinheit(prozentwert, EINHEIT_W[kontext.id] || einheit), mitEinheit(prozentsatz, "%"));
-  const gl = gleichungen(gesucht, grundwert, prozentwert, prozentsatz);
+  const gl = gleichungen(gesucht, grundwert, prozentwert, prozentsatz, einheit);
   const optionen = zufall.mischen([gl.richtig, ...gl.falsch]).map((t) => ({ wert: t, text: t }));
   const ergebnis = { W: prozentwert, G: grundwert, p: prozentsatz }[gesucht];
   const ergebnisEinheit = gesucht === "p" ? "%" : einheit;
@@ -69,7 +73,7 @@ function aufgabeGleichung(zufall, vorgaben) {
 }
 
 function aufgabeDreisatz(zufall, vorgaben) {
-  const kontext = waehleKontext(zufall, ["preis", "umfrage", "akku"]);
+  const kontext = waehleKontext(zufall, ["preis", "umfrage", "akku"], BEREICHE_DREISATZ);
   let grundwert = 100 * zufall.ganzzahl(Math.max(1, Math.ceil(kontext.min / 100)), Math.floor(kontext.max / 100));
   let prozentsatz = zufall.wahl(PROZENTSAETZE);
   if (vorgaben.g && vorgaben.p) {
@@ -81,26 +85,32 @@ function aufgabeDreisatz(zufall, vorgaben) {
   const eins = runde(grundwert / 100, 2);
   const prozentwert = runde(grundwert * prozentsatz / 100, 2);
   const einheit = kontext.einheit;
+  const einsGenau = einsExakt.z / einsExakt.n;
+  const einsText = runde(einsGenau, 2) === einsGenau ? formatWert(einsGenau, einheit) : formatGenau(einsGenau);
   const ding = { preis: "Ein Laptop kostet", umfrage: "Befragt wurden", akku: "Der Akku fasst" }[kontext.id];
-  const text = `${ding} ${mitEinheit(grundwert, einheit)}. Rechne mit dem Dreisatz aus, wie viel ${formatZahl(prozentsatz)} % davon sind.`;
+  // Zählbares heißt „wie viele“ (L-029).
+  const frage = { preis: "wie viel Euro", umfrage: "wie viele Personen", akku: "wie viel mAh" }[kontext.id];
+  const mah = kontext.id === "akku" ? " (Milliamperestunden: so viel Ladung speichert der Akku)" : "";
+  const text = `${ding} ${mitEinheit(grundwert, einheit)}${mah}. Rechne mit dem Dreisatz aus, ${frage} ${formatZahl(prozentsatz)}\u00a0% davon sind.`;
   return {
     thema: "sachaufgaben", typ: "dreisatz", kontext: kontext.id, text, grundwert, prozentsatz, prozentwert, einheit, gesucht: "W",
     exakt: { eins: einsExakt, prozent: prozentExakt },
     tabelle: [
-      { links: "100 %", rechts: mitEinheit(grundwert, einheit) },
-      { links: "1 %", feld: "eins" },
-      { links: `${formatZahl(prozentsatz)} %`, feld: "prozent" },
+      { links: "100\u00a0%", rechts: mitEinheit(grundwert, einheit) },
+      { links: "1\u00a0%", feld: "eins" },
+      { links: `${formatZahl(prozentsatz)}\u00a0%`, feld: "prozent" },
     ],
     felder: [
-      zahlenfeld({ id: "eins", label: "1 %", einheit, art: "zahl" }, einsExakt),
-      zahlenfeld({ id: "prozent", label: `${formatZahl(prozentsatz)} %`, einheit, art: "zahl" }, prozentExakt),
+      zahlenfeld({ id: "eins", label: "1\u00a0%", einheit, art: "zahl" }, einsExakt),
+      zahlenfeld({ id: "prozent", label: `${formatZahl(prozentsatz)}\u00a0%`, einheit, art: "zahl" }, prozentExakt),
     ],
     loesung: { eins, prozent: prozentwert },
-    tipp: "Von 100 % auf 1 %: durch 100 teilen. Von 1 % auf p %: mal p nehmen.",
+    tipp: "Von 100\u00a0% auf 1\u00a0%: durch 100 teilen. Von 1\u00a0% auf p\u00a0%: mal p nehmen.",
+    // 1\u00a0% steht ungerundet (Geld mit Cent wie 2,50 €): Mit genau dieser Zahl geht die nächste Zeile weiter (L-021).
     rechenweg: [
-      `100 % = ${mitEinheit(grundwert, einheit)}`,
-      `1 % = ${formatZahl(grundwert)} : 100 = ${mitEinheit(eins, einheit)}`,
-      `${formatZahl(prozentsatz)} % = ${formatZahl(eins)} · ${formatZahl(prozentsatz)} = ${mitEinheit(prozentwert, einheit)}`,
+      `100\u00a0% = ${mitEinheit(grundwert, einheit)}`,
+      `1\u00a0% = ${formatWert(grundwert, einheit)} : 100 = ${einheit ? `${einsText}\u00a0${einheit}` : einsText}`,
+      `${formatZahl(prozentsatz)}\u00a0% = ${einsText} · ${formatZahl(prozentsatz)} ${gleichheitszeichen(prozentExakt.z / prozentExakt.n, prozentwert)} ${mitEinheit(prozentwert, einheit)}`,
     ],
   };
 }
@@ -147,6 +157,6 @@ export function pruefeAntwort(aufgabe, antworten) {
   else fehler = "falsch";
   const richtigText = aufgabe.typ === "gleichung"
     ? `${mitEinheit(aufgabe.loesung.ergebnis, aufgabe.gesucht === "p" ? "%" : aufgabe.einheit)}.`
-    : `${formatZahl(aufgabe.prozentsatz)} % sind ${mitEinheit(aufgabe.loesung.prozent, aufgabe.einheit)}.`;
+    : `${formatZahl(aufgabe.prozentsatz)}\u00a0% sind ${mitEinheit(aufgabe.loesung.prozent, aufgabe.einheit)}.`;
   return { korrekt: alle, fehler, felder, meldung: alle ? `Richtig! ${richtigText}` : MELDUNGEN[fehler] || MELDUNG_KEINE_ZAHL };
 }

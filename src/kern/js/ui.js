@@ -99,7 +99,7 @@ export function starteTrainer({ wurzel, modul, seed, vorgaben = {}, zeichne, bil
     visualisiere(aufgabe, ergebnis);
   });
   tipp.addEventListener("click", () => {
-    tippText.textContent = aufgabe.tipp;
+    tippText.replaceChildren(...hervorgehoben(aufgabe.tipp));
     tippText.hidden = false;
   });
   loesung.addEventListener("click", () => {

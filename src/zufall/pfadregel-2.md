@@ -15,14 +15,14 @@ regel: |
   <li>Summe von Produkten: <code>1/2 · 1/3 + 1/3 · 1/2</code></li>
   <li>Potenz, wenn derselbe Faktor mehrmals vorkommt: <code>(5/6)³</code> statt 5/6 · 5/6 · 5/6</li>
   </ul>
-  <p>Der Trainer akzeptiert alle Formen. Üben: <a href="ergebnisformen.html">Produkt, Summe, Potenz</a>.</p>
+  <p>Du darfst jede dieser Formen als Antwort schreiben. Üben: <a href="ergebnisformen.html">Produkt, Summe, Potenz</a>.</p>
   <h3 id="uebersetzen">Ereignisse in Pfade übersetzen</h3>
   <table>
   <thead><tr><th scope="col">Ereignis in Worten</th><th scope="col">Welche Pfade?</th></tr></thead>
   <tbody>
   <tr><th scope="row">genau einmal rot (2 Züge)</th><td>rot-nicht rot <em>und</em> nicht rot-rot. Die Reihenfolge nicht vergessen: zwei Pfade!</td></tr>
   <tr><th scope="row">beide gleich</th><td>rot-rot, blau-blau, gelb-gelb: ein Pfad pro Farbe.</td></tr>
-  <tr><th scope="row">mindestens einmal rot</th><td>Alle Pfade mit rot – oder schneller: 1 − P(kein rot) (Kompetenz 2).</td></tr>
+  <tr><th scope="row">mindestens einmal rot</th><td>Alle Pfade mit rot – oder schneller: 1 − P(kein rot) (siehe <a href="gegenereignis.html">Gegenereignis</a>).</td></tr>
   <tr><th scope="row">kein rot</th><td>Alle Pfade ohne rot.</td></tr>
   </tbody>
   </table>
@@ -34,7 +34,7 @@ beispiel: |
   <li>Jeden Pfad multiplizieren: 3/6 · 2/5, 3/6 · 1/5, 2/6 · 3/5, 1/6 · 3/5.</li>
   <li>Addieren: 6/30 + 3/30 + 6/30 + 3/30 = 18/30 = 3/5.</li>
   </ol>
-  <p>Kürzer: „genau einmal rot“ = rot-nichtrot + nichtrot-rot = 3/6 · 3/5 + 3/6 · 3/5 = 2 · 9/30 = 3/5.</p>
+  <p>Kürzer: „genau einmal rot“ = rot-nicht rot + nicht rot-rot = 3/6 · 3/5 + 3/6 · 3/5 = 2 · 9/30 = 3/5.</p>
 video:
   id: Pi1M1F2l024
   titel: Summenregel | Wahrscheinlichkeitsrechnung | Mathematik | Lehrerschmidt

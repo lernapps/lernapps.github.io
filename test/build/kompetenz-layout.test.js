@@ -61,3 +61,9 @@ test("die Seite übergibt Nummer und Titel der Kompetenz für die Ergebniszeile 
   assert.equal(aufrufe.length, 2);
   for (const a of aufrufe) assert.match(a, /\bkompetenz \}\);$/);
 });
+
+test("L-036: der Videokasten zeigt einen optionalen Hinweis aus video.hinweis", () => {
+  const start = layout.indexOf('<section id="video" class="video-karte"');
+  const kasten = layout.slice(start, layout.indexOf("</section>", start));
+  assert.match(kasten, /\{% if video\.hinweis %\}[\s\S]*\{\{ video\.hinweis \}\}[\s\S]*\{% endif %\}/);
+});

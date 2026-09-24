@@ -53,3 +53,21 @@ test("Bild im Test: versteckte Zweige als Buchstaben, ohne Lösung", () => {
   assert.doesNotMatch(text, new RegExp(`versteckt"[^>]*>${a.versteckt[0].anzahl}/${a.versteckt[0].gesamt}<`));
   assert.match(text, /versteckt"[^>]*>\?</);
 });
+
+test("L-045: Münze und Würfel haben Würfe, kein Ziehen und kein Zurücklegen; die Urne hat Züge", () => {
+  for (const experiment of ["muenze", "wuerfel"]) for (let s = 0; s < 10; s++) {
+    const a = erzeugeAufgabe(z(s), { experiment, zuege: 2 });
+    const texte = [a.text, a.tipp, ...a.felder.map((f) => f.label), ...a.rechenweg].join(" ");
+    assert.doesNotMatch(texte, /Zug|Zurücklegen|Kugel/, `${experiment} Seed ${s}`);
+    assert.match(a.felder[0].label, /\d\. Wurf:/);
+    assert.match(a.tipp, /Jeder Wurf ist wie der erste/);
+  }
+  const u = erzeugeAufgabe(z(1), { urne: "3r2b", zuege: 2, modus: "mit" });
+  assert.match(u.felder[0].label, /\d\. Zug:/);
+  assert.doesNotMatch(u.tipp, /Seiten/);
+});
+
+test("L-047: Der Tipp ohne Zurücklegen sagt, welcher Zähler kleiner wird", () => {
+  const a = erzeugeAufgabe(z(1), { urne: "3r2b", zuege: 2, modus: "ohne" });
+  assert.match(a.tipp, /der Zähler einer Farbe auch, wenn vorher eine Kugel dieser Farbe gezogen wurde/);
+});

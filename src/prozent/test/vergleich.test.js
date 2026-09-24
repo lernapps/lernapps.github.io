@@ -14,7 +14,7 @@ test("erzeugeAufgabe stellt beide Fragen mit schönen Antworten", () => {
     assert.equal(a.thema, "vergleich");
     assert.ok(istSchoen(a.a) && istSchoen(a.b));
     assert.ok(istSchoen(a.prozentsatz), `p=${a.prozentsatz}`);
-    assert.ok(a.text.includes(a.frage === "groesser" ? "größer" : "kleiner"));
+    assert.ok(a.text.includes(a.wort) && a.wort === (a.kontext === "laeden" ? { groesser: "teurer", kleiner: "billiger" } : { groesser: "größer", kleiner: "kleiner" })[a.frage]);
     assert.equal(a.felder[0].id, "prozentsatz");
     assert.ok(a.bezug === a.a || a.bezug === a.b);
   }
@@ -49,6 +49,6 @@ test("L-008: Rechenweg schreibt p = Unterschied / Bezugsgröße · 100 und das E
     const formel = a.rechenweg.filter((z) => z.includes("· 100"));
     assert.equal(formel.length, 1);
     assert.match(formel[0], /^p = [\d,]+ \/ [\d,]+ · 100 = [\d,]+$/);
-    assert.match(a.rechenweg.at(-1), /^p % = [\d,]+ %$/);
+    assert.match(a.rechenweg.at(-1), /^p\u00a0% = [\d,]+\u00a0%$/);
   }
 });

@@ -11,7 +11,8 @@ regel: |
   <li>An jeden Zweig schreibst du seine <strong>Wahrscheinlichkeit</strong> (Laplace: günstig/möglich).</li>
   <li>Die Zweige an einem Knoten ergeben zusammen immer <strong>1</strong>.</li>
   <li>Ein Weg vom Start bis zu einem Ende heißt <strong>Pfad</strong>.</li>
-  <li><strong>Ohne Zurücklegen</strong> ändern sich ab der zweiten Stufe Zähler und Nenner (siehe Kompetenz 5).</li>
+  <li>Reihenfolge beim Zeichnen: Erst alle Zweige, dann die Kugeln, dann die Brüche.</li>
+  <li><strong>Ohne Zurücklegen</strong> ändern sich ab der zweiten Stufe Zähler und Nenner (mehr dazu unter <a href="ohne-zuruecklegen.html">Ohne Zurücklegen</a>).</li>
   </ul>
 beispiel: |
   <p>In einer Urne liegen 3 rote und 2 blaue Kugeln. Du ziehst zweimal <strong>ohne Zurücklegen</strong>. Das Bild unten zeigt den fertigen Baum.</p>
@@ -19,14 +20,14 @@ beispiel: |
   <li><strong>1. Stufe:</strong> 5 Kugeln. P(rot) = 3/5, P(blau) = 2/5. Zusammen 1.</li>
   <li><strong>2. Stufe nach rot:</strong> nur noch 4 Kugeln, davon 2 rote. P(rot) = 2/4, P(blau) = 2/4.</li>
   <li><strong>2. Stufe nach blau:</strong> 4 Kugeln, 3 rote, 1 blaue. P(rot) = 3/4, P(blau) = 1/4.</li>
-  <li>Unter den Enden stehen schon die Pfadwahrscheinlichkeiten (Kompetenz 4). Ihre Summe ist 1 – ein guter Test für jeden Baum.</li>
+  <li>Unter den Enden stehen schon die Pfadwahrscheinlichkeiten (siehe <a href="pfadregel-1.html">1. Pfadregel</a>). Ihre Summe ist 1 – ein guter Test für jeden Baum.</li>
   </ol>
 video:
   id: mBknBnww5fA
   titel: Baumdiagramm | mehrstufiger Zufallsversuch | Wahrscheinlichkeit | Stochastik | Lehrerschmidt
   kanal: Lehrerschmidt
 bild:
-  text: 'Der Baum aus dem Beispiel: Urne mit 3 roten und 2 blauen Kugeln, zweimal ohne Zurücklegen. Erst alle Zweige, dann die Kugeln, dann die Brüche.'
+  text: 'Der Baum aus dem Beispiel: Urne mit 3 roten und 2 blauen Kugeln, zweimal ohne Zurücklegen. Die orangen Zweige a, b, c sind die, die du in der Übung selbst ausfüllst.'
   uebung: 'Einige Zweige fehlen (a, b, …).'
   funktion: zeichneBaumdiagramm
   seed: 2

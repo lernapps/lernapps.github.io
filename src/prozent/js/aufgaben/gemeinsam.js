@@ -1,11 +1,14 @@
 /* Gemeinsame Bausteine für alle Prozent-Generatoren: schöne Zahlen, Kontexte, Einheiten. URL-Vorgaben liest der Kern. */
-import { runde, formatZahl } from "../../../kern/js/zahlen.js";
+import { runde, formatWert as formatWertKern } from "../../../kern/js/zahlen.js";
 import { bruch, leseTerm } from "../../../kern/js/bruch.js";
 
 export const PROZENTSAETZE = [
   2, 3, 4, 5, 6, 8, 10, 12, 12.5, 15, 18, 20, 24, 25, 30, 35, 40, 45, 50,
   60, 65, 70, 75, 80, 85, 90, 95,
 ];
+
+/** Rabatte, wie sie im Laden vorkommen (L-011): 5 bis 50 %. */
+export const RABATTE = PROZENTSAETZE.filter((p) => p >= 5 && p <= 50);
 
 /** Realistische Kontexte mit Einheit und Zahlenbereich für den Grundwert. */
 export const KONTEXTE = [
@@ -40,8 +43,16 @@ export function waehleGrundwert(zufall, prozentsatz, { min, max, nachkomma = 0, 
   return zufall.ganzzahl(kMin, kMax) * basis;
 }
 
-/** Grundwert, Prozentsatz und Prozentwert, die zusammen "schön" sind. */
-export function erzeugeTripel(zufall, kontext, prozentsaetze = PROZENTSAETZE) {
+/**
+ * Kontext mit dem plausiblen Bereich des Dings aus dem Aufgabentext (L-011), z. B. { preis: { min: 30, max: 300,
+ * saetze: RABATTE } } für eine Jacke. Kontexte ohne Eintrag bleiben, wie sie sind.
+ */
+export function mitBereich(kontext, bereiche = {}) {
+  return bereiche[kontext.id] ? { ...kontext, ...bereiche[kontext.id] } : kontext;
+}
+
+/** Grundwert, Prozentsatz und Prozentwert, die zusammen "schön" sind. Prozentsätze: eigene des Kontexts, sonst alle. */
+export function erzeugeTripel(zufall, kontext, prozentsaetze = kontext.saetze ?? PROZENTSAETZE) {
   for (let versuch = 0; versuch < 50; versuch++) {
     const prozentsatz = zufall.wahl(prozentsaetze);
     const grundwert = waehleGrundwert(zufall, prozentsatz, kontext);
@@ -57,19 +68,31 @@ export function erzeugeTripel(zufall, kontext, prozentsaetze = PROZENTSAETZE) {
 export const NEUTRAL = { id: "neutral", einheit: "", min: 0, max: Infinity, nachkomma: 2 };
 
 /** Kontext, dessen Bereich den Grundwert enthält; sonst der neutrale Kontext ohne Einheit. */
-export function passenderKontext(zufall, grundwert, ids) {
-  const kandidaten = KONTEXTE.filter((k) => (!ids || ids.includes(k.id)) && grundwert >= k.min && grundwert <= k.max);
+export function passenderKontext(zufall, grundwert, ids, bereiche) {
+  // Nur Kontexte, deren Zahlen so aussehen können: keine 90,91 Personen (L-011).
+  const kandidaten = KONTEXTE.map((k) => mitBereich(k, bereiche)).filter((k) => (!ids || ids.includes(k.id)) && grundwert >= k.min && grundwert <= k.max
+    && runde(grundwert, k.nachkomma) === grundwert);
   return kandidaten.length ? zufall.wahl(kandidaten) : NEUTRAL;
 }
 
-export function waehleKontext(zufall, ids) {
+export function waehleKontext(zufall, ids, bereiche) {
   const auswahl = ids ? KONTEXTE.filter((k) => ids.includes(k.id)) : KONTEXTE;
-  return zufall.wahl(auswahl);
+  return mitBereich(zufall.wahl(auswahl), bereiche);
 }
 
-/** Zahl mit Einheit, z. B. "250 €" oder "12,5 %". */
-export function mitEinheit(zahl, einheit) {
-  return einheit ? `${formatZahl(zahl)} ${einheit}` : formatZahl(zahl);
+/** Zahl mit Einheit ("250 €", "780,50 €", "12,5 %") und Zahl nach ihrer Art ohne Einheit kommen aus dem Kern. */
+export { mitEinheit, formatWert } from "../../../kern/js/zahlen.js";
+
+const DATIV = { "Würfe": "Würfen", "Schüler": "Schülern" };
+
+/** Einheit nach „von“ im Dativ: „65 % von 60 Würfen“ (L-018). */
+export function imDativ(einheit) {
+  return DATIV[einheit] ?? einheit;
+}
+
+/** Wert mit Einheit für Bilder (SVG bricht nicht um): Geld mit Cent wie im Text, normales Leerzeichen. */
+export function bildWert(zahl, einheit) {
+  return `${formatWertKern(zahl, einheit)} ${einheit}`.trim();
 }
 
 /** Erkennt eine leere oder unlesbare Eingabe. */

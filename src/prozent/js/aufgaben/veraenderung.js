@@ -1,9 +1,9 @@
 /* Aufgaben: prozentuale Zu- und Abnahme. Typ "neu": neuer Wert gesucht. Typ "alt": alter Wert gesucht. */
-import { formatZahl, runde } from "../../../kern/js/zahlen.js";
+import { formatZahl, formatGenau, gleichheitszeichen, runde } from "../../../kern/js/zahlen.js";
 import { addiere, subtrahiere, multipliziere, dividiere, bruch, EINS } from "../../../kern/js/bruch.js";
 import { zahlenfeld, pruefeZahlAntwort, passtZu } from "../../../kern/js/zahlantwort.js";
 import {
-  waehleGrundwert, mitEinheit, ergebnisFuer, MELDUNG_KEINE_ZAHL, PROZENTSAETZE, alsBruch, artFuer,
+  waehleGrundwert, mitEinheit, formatWert, ergebnisFuer, MELDUNG_KEINE_ZAHL, PROZENTSAETZE, RABATTE, alsBruch, artFuer,
 } from "./gemeinsam.js";
 
 export const THEMA = "veraenderung";
@@ -15,12 +15,12 @@ const KONTEXTE = [
   { id: "ticket", einheit: "€", min: 20, max: 500, nachkomma: 1, schritt: 5, richtung: "plus",
     neu: (alt, p) => `Ein Konzertticket kostet ${alt}. Der Preis steigt um ${p}. Wie viel kostet es danach?`,
     alt: (neu, p) => `Der Preis eines Konzerttickets steigt um ${p}. Danach kostet es ${neu}. Wie viel hat es vorher gekostet?` },
-  { id: "rabatt", einheit: "€", min: 20, max: 500, nachkomma: 1, schritt: 5, richtung: "minus",
+  { id: "rabatt", einheit: "€", min: 20, max: 120, nachkomma: 1, schritt: 5, richtung: "minus", saetze: RABATTE,
     neu: (alt, p) => `Eine Hose kostet ${alt}. Im Ausverkauf gibt es ${p} Rabatt. Wie viel kostet sie jetzt?`,
     alt: (neu, p) => `Nach ${p} Rabatt kostet eine Hose ${neu}. Wie viel hat sie vorher gekostet?` },
   { id: "mwst", einheit: "€", min: 100, max: 1500, nachkomma: 0, schritt: 100, richtung: "plus", saetze: [19],
-    neu: (alt) => `Ein Fahrrad kostet netto ${alt}. Dazu kommen 19 % Mehrwertsteuer. Wie viel kostet es brutto?`,
-    alt: (neu) => `Ein Fahrrad kostet brutto ${neu}. Darin sind 19 % Mehrwertsteuer enthalten. Wie hoch ist der Nettopreis?` },
+    neu: (alt) => `Ein Fahrrad kostet netto ${alt}. Dazu kommen 19\u00a0% Mehrwertsteuer. Wie viel kostet es brutto?`,
+    alt: (neu) => `Ein Fahrrad kostet brutto ${neu}. Darin sind 19\u00a0% Mehrwertsteuer enthalten. Wie hoch ist der Nettopreis?` },
   { id: "gehalt", einheit: "€", min: 2000, max: 5000, nachkomma: 0, schritt: 100, richtung: "plus",
     neu: (alt, p) => `Frau Berg verdient ${alt} im Monat. Sie bekommt ${p} mehr. Wie viel verdient sie danach?`,
     alt: (neu, p) => `Nach einer Gehaltserhöhung um ${p} verdient Frau Berg ${neu} im Monat. Wie viel hat sie vorher verdient?` },
@@ -53,7 +53,7 @@ export function erzeugeAufgabe(zufall, vorgaben = {}) {
     richtung = vorgaben.richtung === "plus" ? "plus" : "minus";
     prozentsatz = vorgaben.p;
     if (richtung === "minus" && prozentsatz >= 100) prozentsatz = 50;
-    const passend = KONTEXTE.filter((k) => k.richtung === richtung && !k.saetze);
+    const passend = KONTEXTE.filter((k) => k.richtung === richtung && k.id !== "mwst");
     kontext = zufall.wahl(passend);
     if (vorgaben.alt) {
       alt = vorgaben.alt;
@@ -73,15 +73,18 @@ export function erzeugeAufgabe(zufall, vorgaben = {}) {
     ? kontext.neu(mitEinheit(alt, einheit), mitEinheit(prozentsatz, "%"), richtung)
     : kontext.alt(mitEinheit(neu, einheit), mitEinheit(prozentsatz, "%"), richtung);
   const vorzeichen = richtung === "plus" ? "+" : "−";
-  const f = formatZahl(faktor(richtung, prozentsatz));
+  // Der Faktor steht ungerundet (1,125, nicht 1,13): Das Kind rechnet mit genau dieser Zahl weiter (L-021).
+  const f = formatGenau(faktor(richtung, prozentsatz));
+  const ergebnis = typ === "neu" ? neu : alt;
+  const zeichen = gleichheitszeichen(exakt.z / exakt.n, ergebnis);
   const rechenweg = typ === "neu"
     ? [`Neuer Wert = alter Wert · (1 ${vorzeichen} p/100)`, `Faktor: 1 ${vorzeichen} ${formatZahl(prozentsatz)}/100 = ${f}`,
-      `${formatZahl(alt)} · ${f} = ${mitEinheit(neu, einheit)}`]
+      `${formatWert(alt, einheit)} · ${f} ${zeichen} ${mitEinheit(neu, einheit)}`]
     : [`Alter Wert = neuer Wert : (1 ${vorzeichen} p/100)`, `Faktor: 1 ${vorzeichen} ${formatZahl(prozentsatz)}/100 = ${f}`,
-      `${formatZahl(neu)} : ${f} = ${mitEinheit(alt, einheit)}`];
+      `${formatWert(neu, einheit)} : ${f} ${zeichen} ${mitEinheit(alt, einheit)}`];
   const tipp = typ === "neu"
-    ? `Der alte Wert (${mitEinheit(alt, einheit)}) ist 100 %. Nach der Änderung sind es ${richtung === "plus" ? 100 + prozentsatz : 100 - prozentsatz} %. Rechne den Prozentwert aus und ${richtung === "plus" ? "addiere" : "subtrahiere"} ihn – oder nimm gleich den Faktor ${f}.`
-    : `Vorsicht: Die ${formatZahl(prozentsatz)} % beziehen sich auf den ALTEN Wert, nicht auf ${mitEinheit(neu, einheit)}. Der neue Wert entspricht ${richtung === "plus" ? 100 + prozentsatz : 100 - prozentsatz} %. Teile durch den Faktor ${f}.`;
+    ? `Der alte Wert (${mitEinheit(alt, einheit)}) ist 100\u00a0%. Nach der Änderung sind es ${richtung === "plus" ? 100 + prozentsatz : 100 - prozentsatz}\u00a0%. Rechne den Prozentwert aus und ${richtung === "plus" ? "addiere" : "subtrahiere"} ihn – oder nimm gleich den Faktor ${f}.`
+    : `Vorsicht: Die ${formatZahl(prozentsatz)}\u00a0% beziehen sich auf den <strong>alten</strong> Wert, nicht auf ${mitEinheit(neu, einheit)}. Der neue Wert entspricht ${richtung === "plus" ? 100 + prozentsatz : 100 - prozentsatz}\u00a0%. Teile durch den Faktor ${f}.`;
   return {
     thema: "veraenderung", typ, kontext: kontext.id, text, alt, neu, prozentsatz, richtung, einheit, exakt,
     gesucht: typ,
@@ -96,7 +99,7 @@ const MELDUNGEN = {
   "keine-zahl": MELDUNG_KEINE_ZAHL,
   "richtung-verwechselt": "Du hast in die falsche Richtung gerechnet. Lies noch einmal: steigt oder sinkt der Wert?",
   "nur-prozentwert": "Das ist nur die Veränderung (der Prozentwert). Gefragt ist der neue Wert: alter Wert plus/minus Veränderung.",
-  "grundwert-neuer-wert": "Die Prozente beziehen sich auf den alten Wert, nicht auf den neuen. Der neue Wert ist nicht 100 %.",
+  "grundwert-neuer-wert": "Die Prozente beziehen sich auf den alten Wert, nicht auf den neuen. Der neue Wert ist nicht 100\u00a0%.",
   "falsch": "Das stimmt noch nicht. Bestimme zuerst den Faktor (1 plus/minus p/100) und rechne dann.",
 };
 

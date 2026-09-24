@@ -1,15 +1,17 @@
 /* Aufgaben: Grundwert, Prozentwert und Prozentsatz in Textaufgaben erkennen. Reine Funktionen, kein DOM. */
-import { erzeugeTripel, waehleKontext, mitEinheit } from "./gemeinsam.js";
+import { erzeugeTripel, waehleKontext, RABATTE, mitEinheit } from "./gemeinsam.js";
 
 export const THEMA = "grundbegriffe";
 // URL-Parameter (öffentlicher Vertrag, in llms.txt dokumentiert); der Kern liest sie mit leseVorgaben.
 export const URL_ZAHLEN = [];
 export const URL_TEXTE = ["gesucht"];
+// Plausible Zahlen für das Ding im Text (L-011).
+const BEREICHE = { preis: { min: 150, max: 1500, saetze: RABATTE } };
 
 export const ROLLEN = [
-  { wert: "G", text: "Grundwert G (das Ganze, 100 %)" },
+  { wert: "G", text: "Grundwert G (das Ganze, 100\u00a0%)" },
   { wert: "W", text: "Prozentwert W (der Teil)" },
-  { wert: "p", text: "Prozentsatz p % (der Anteil in Prozent)" },
+  { wert: "p", text: "Prozentsatz p\u00a0% (der Anteil in Prozent)" },
 ];
 
 /* Pro Kontext und gesuchter Größe: Text, die zwei gegebenen Größen in Textreihenfolge, die gesuchte Größe. */
@@ -35,7 +37,7 @@ const GESUCHT = { g: "G", w: "W", p: "p" };
 
 /** Erzeugt eine Zuordnungsaufgabe. Vorgabe {gesucht: "g" | "w" | "p"} legt die gesuchte Größe fest. */
 export function erzeugeAufgabe(zufall, vorgaben = {}) {
-  const kontext = waehleKontext(zufall, Object.keys(VORLAGEN));
+  const kontext = waehleKontext(zufall, Object.keys(VORLAGEN), BEREICHE);
   const { grundwert, prozentsatz, prozentwert } = erzeugeTripel(zufall, kontext);
   const gesucht = GESUCHT[vorgaben.gesucht] || zufall.wahl(["G", "W", "p"]);
   const wEinheit = kontext.id === "klasse" ? "Schüler" : kontext.einheit;
@@ -60,7 +62,7 @@ export function erzeugeAufgabe(zufall, vorgaben = {}) {
 
 const MELDUNGEN = {
   unvollstaendig: "Ordne bitte alle drei Größen zu.",
-  "g-w-vertauscht": "Grundwert und Prozentwert sind vertauscht. Der Grundwert ist das Ganze (100 %), der Prozentwert nur ein Teil davon.",
+  "g-w-vertauscht": "Grundwert und Prozentwert sind vertauscht. Der Grundwert ist das Ganze (100\u00a0%), der Prozentwert nur ein Teil davon.",
   falsch: "Noch nicht alles richtig. Frag dich bei jeder Zahl: Ist das das Ganze, der Teil oder der Anteil in Prozent?",
 };
 

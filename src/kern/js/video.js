@@ -89,7 +89,7 @@ function zeigeIframe(section, daten, praefix, { mitAufheben = false } = {}) {
       allow: "autoplay; encrypted-media; picture-in-picture", allowfullscreen: true, loading: "lazy",
     }),
   ]);
-  section.querySelectorAll(":scope > :not(h2)").forEach((kind) => kind.remove());
+  section.querySelectorAll(":scope > :not(h2, .video-notiz)").forEach((kind) => kind.remove());
   section.append(rahmen);
   if (mitAufheben) {
     const aufheben = el("button", { type: "button", class: "video-link", text: "Merken aufheben" });
@@ -117,7 +117,7 @@ function zeigePlatzhalter(section, daten, praefix) {
     if (merken.checked) speichereDirektLaden(praefix, true);
     zeigeIframe(section, daten, praefix);
   });
-  section.querySelectorAll(":scope > :not(h2)").forEach((kind) => kind.remove());
+  section.querySelectorAll(":scope > :not(h2, .video-notiz)").forEach((kind) => kind.remove());
   section.append(karte);
 }
 

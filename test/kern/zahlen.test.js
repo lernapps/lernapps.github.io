@@ -33,7 +33,7 @@ test("formatZahl schreibt deutsch mit Komma", () => {
   assert.equal(formatZahl(0.125), "0,13");
   assert.equal(formatZahl(1234.5), "1234,5");
   assert.equal(formatZahl(2.5, 2), "2,50");
-  assert.equal(mitEinheit(12.5, "m"), "12,5 m");
+  assert.equal(mitEinheit(12.5, "m"), "12,5\u00a0m");
   assert.equal(mitEinheit(3, ""), "3");
 });
 
@@ -56,4 +56,20 @@ test("istSchoen erkennt ganze Zahlen und eine Nachkommastelle", () => {
   assert.ok(istSchoen(12.5));
   assert.ok(!istSchoen(12.55));
   assert.ok(!istSchoen(1 / 3));
+});
+
+test("formatGenau zeigt Zwischenwerte ungerundet (L-021): 1,125 statt 1,13", async () => {
+  const { formatGenau } = await import("../../src/kern/js/zahlen.js");
+  assert.equal(formatGenau(1.125), "1,125");
+  assert.equal(formatGenau(0.875), "0,875");
+  assert.equal(formatGenau(1 + 1.1 / 100), "1,011");
+  assert.equal(formatGenau(250), "250");
+  assert.equal(formatGenau(1 / 3), "0,333333");
+});
+
+test("gleichheitszeichen: „=“ nur, wenn die gezeigte Zahl exakt ist, sonst „≈“ (L-021)", async () => {
+  const { gleichheitszeichen } = await import("../../src/kern/js/zahlen.js");
+  assert.equal(gleichheitszeichen(440, 440), "=");
+  assert.equal(gleichheitszeichen(0.1 + 0.2, 0.3), "=");
+  assert.equal(gleichheitszeichen(100 / 3, 33.33), "≈");
 });

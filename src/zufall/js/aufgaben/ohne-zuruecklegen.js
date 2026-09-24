@@ -5,9 +5,9 @@
  */
 import { formatBruch, multipliziere, istGleich } from "../../../kern/js/bruch.js";
 import { ergebnisAusFeldern } from "../../../kern/js/pruefung.js";
-import { urne, parseUrne, entferne, wahrscheinlichkeit, gesamtAnzahl } from "../modell/experimente.js";
+import { urne, parseUrne, entferne, wahrscheinlichkeit, gesamtAnzahl, kugelListe } from "../modell/experimente.js";
 import { baueBaum } from "../modell/baum.js";
-import { pruefeWahrscheinlichkeit, wahrscheinlichkeitsFeld, trifft, URNEN_VORLAGEN, MELDUNG_UNLESBAR } from "./gemeinsam.js";
+import { pruefeWahrscheinlichkeit, wahrscheinlichkeitsFeld, trifft, gekuerzt, URNEN_VORLAGEN, MELDUNG_UNLESBAR } from "./gemeinsam.js";
 
 export { zeichneOhneZuruecklegen as zeichneBild } from "../vis/ohne-zuruecklegen.js";
 
@@ -32,7 +32,7 @@ export function erzeugeAufgabe(zufall, vorgaben = {}) {
   const anzE = exp.ergebnisse.find((e) => e.id === erster).anzahl;
   const anzZ = exp.ergebnisse.find((e) => e.id === zweiter).anzahl;
   const anzZDanach = anzZ - (erster === zweiter ? 1 : 0);
-  const kontext = `In einer Urne liegen ${exp.ergebnisse.map((e) => `${e.anzahl} ${e.name}e`).join(", ")} Kugeln (${gesamt} insgesamt). Du ziehst zweimal.`;
+  const kontext = `In einer Urne liegen ${kugelListe(exp.ergebnisse)} (${gesamt} insgesamt). Du ziehst zweimal.`;
   const zweig = art === "zweig";
   const loesungMit = zweig ? zweigMit : multipliziere(pErster, zweigMit);
   const loesungOhne = zweig ? zweigOhne : multipliziere(pErster, zweigOhne);
@@ -53,8 +53,8 @@ export function erzeugeAufgabe(zufall, vorgaben = {}) {
       : "Beide Male: 1. Pfadregel, also multiplizieren. Nur der zweite Zweig unterscheidet sich: ohne Zurücklegen fehlt eine Kugel in der Urne.",
     rechenweg: zweig
       ? [
-        `Mit Zurücklegen: ${anzZ} ${nameZ}e von ${gesamt} Kugeln → ${anzZ}/${gesamt} = <strong>${formatBruch(zweigMit)}</strong>`,
-        `Ohne Zurücklegen: die ${nameE}e Kugel ist weg → ${anzZDanach} ${nameZ}e von ${gesamt - 1} Kugeln → ${anzZDanach}/${gesamt - 1} = <strong>${formatBruch(zweigOhne)}</strong>`,
+        `Mit Zurücklegen: ${anzZ} ${nameZ}e von ${gesamt} Kugeln → ${gekuerzt(anzZ, gesamt, true)}`,
+        `Ohne Zurücklegen: die ${nameE}e Kugel ist weg → ${anzZDanach} ${nameZ}e von ${gesamt - 1} Kugeln → ${gekuerzt(anzZDanach, gesamt - 1, true)}`,
       ]
       : [
         `Mit Zurücklegen: ${anzE}/${gesamt} · ${anzZ}/${gesamt} = <strong>${formatBruch(loesungMit)}</strong>`,

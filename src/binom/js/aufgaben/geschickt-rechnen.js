@@ -51,15 +51,15 @@ export function erzeugeAufgabe(zufall, vorgaben = {}) {
     loesung: { formel: String(formel), ergebnis: t.ergebnis },
     tipp: formel === 3
       ? `Beide Zahlen liegen gleich weit neben ${basis}. Schreib sie als (${basis} + ${abstand}) und (${basis} − ${abstand}).`
-      : `Zerlege die Zahl in einen glatten Zehner und einen kleinen Rest: ${t.zerlegung}.`,
+      : `Zerlege die Zahl in eine glatte Zahl (Zehner oder Hunderter) und einen kleinen Rest: ${t.zerlegung}.`,
     rechenweg: rechenweg(formel, basis, abstand, t),
   };
 }
 
 const MELDUNG_FORMEL = {
-  1: "Die Zahl liegt knapp über einem glatten Zehner – Plus: die 1. Formel (a + b)².",
-  2: "Die Zahl liegt knapp unter einem glatten Zehner – Minus: die 2. Formel (a − b)².",
-  3: "Zwei verschiedene Zahlen, gleich weit neben einem Zehner – einmal plus, einmal minus: die 3. Formel.",
+  1: "Die Zahl liegt knapp über einer glatten Zahl – Plus: die 1. Formel (a + b)².",
+  2: "Die Zahl liegt knapp unter einer glatten Zahl – Minus: die 2. Formel (a − b)².",
+  3: "Zwei verschiedene Zahlen, gleich weit neben einer glatten Zahl – einmal plus, einmal minus: die 3. Formel.",
 };
 
 /** Ergebnisse, die aus einer falsch angewendeten Formel entstehen: Mittelglied fehlt, halb, mit falschem Vorzeichen; b² mit falschem Vorzeichen. */
@@ -82,7 +82,7 @@ export function pruefeAntwort(aufgabe, antworten) {
   };
   const ergebnis = ergebnisAusFeldern(felder, {
     richtig: `${aufgabe.rechnung} = ${aufgabe.formelText} = ${aufgabe.ergebnis}.`,
-    falsch: "Das stimmt noch nicht. Zerlege die Zahl in einen glatten Zehner und einen kleinen Rest.",
+    falsch: "Das stimmt noch nicht. Zerlege die Zahl in eine glatte Zahl (Zehner oder Hunderter) und einen kleinen Rest.",
   });
   if (ergebnis.korrekt || ergebnis.fehler === "keine-eingabe") return ergebnis;
   if (wahl && !formelRichtig) return { ...ergebnis, fehler: "falsche-formel", meldung: MELDUNG_FORMEL[aufgabe.formel] };

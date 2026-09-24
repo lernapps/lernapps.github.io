@@ -3,10 +3,10 @@
  * Versuch aus den Vorgaben (URL-Parameter), Texte. Reine Funktionen, kein DOM.
  * Vorgaben-Namen sind öffentlicher Vertrag (llms.txt): experiment, urne, rad, zuege, modus, muenze, wuerfel, ereignis, art …
  */
-import { formatBruch, formatAlle, istGleich } from "../../../kern/js/bruch.js";
+import { bruch, formatBruch, formatAlle, istGleich } from "../../../kern/js/bruch.js";
 import { zahlenfeld, rundungsHinweis } from "../../../kern/js/zahlantwort.js";
 import { pruefeBruchEingabe, ergebnisFuer } from "../../../kern/js/pruefung.js";
-import { experimentAusVorgaben, urne, muenze, wuerfelSechs } from "../modell/experimente.js";
+import { experimentAusVorgaben, urne, muenze, wuerfelSechs, kugelListe } from "../modell/experimente.js";
 import { baueBaum, zweigeEntlang } from "../modell/baum.js";
 
 /** Jedes Wahrscheinlichkeitsfeld: Bruch bevorzugt, sonst auf zwei Nachkommastellen runden. */
@@ -84,12 +84,27 @@ export function versuchAusVorgaben(vorgaben, zufall, optionen = {}) {
 export function versuchText(exp, zuege, mitZuruecklegen) {
   const male = zuege === 2 ? "zweimal" : `${zuege}-mal`;
   if (exp.typ === "urne") {
-    const inhalt = exp.ergebnisse.map((e) => `${e.anzahl} ${e.name}e`).join(", ");
-    return `In einer Urne liegen ${inhalt} Kugeln. Du ziehst ${male} nacheinander ${mitZuruecklegen ? "mit" : "ohne"} Zurücklegen.`;
+    return `In einer Urne liegen ${kugelListe(exp.ergebnisse)}. Du ziehst ${male} nacheinander ${mitZuruecklegen ? "mit" : "ohne"} Zurücklegen.`;
   }
   if (exp.typ === "muenze") return `Du wirfst eine Münze ${male}.`;
   return `Du würfelst ${male}. Es zählt nur: 6 oder keine 6.`;
 }
+
+/** Name einer Stufe: Aus der Urne wird gezogen, Münze und Würfel werden geworfen, das Glücksrad gedreht. */
+export function stufenWort(exp) {
+  return exp.typ === "urne" ? "Zug" : exp.typ === "gluecksrad" ? "Drehung" : "Wurf";
+}
+
+/** „z/n“ für den Lösungsweg; „= gekürzt“ nur, wenn sich der Bruch dabei ändert. fett: das Ergebnis in <strong>. */
+export function gekuerzt(z, n, fett = false) {
+  const roh = `${z}/${n}`;
+  const kurz = formatBruch(bruch(z, n));
+  const ergebnis = (t) => (fett ? `<strong>${t}</strong>` : t);
+  return kurz === roh ? ergebnis(roh) : `${roh} = ${ergebnis(kurz)}`;
+}
+
+/** Hochzahl in Schulschreibweise: (5/6)³ statt (5/6)^3. */
+export const hoch = (n) => String(n).replace(/\d/g, (d) => "⁰¹²³⁴⁵⁶⁷⁸⁹"[d]);
 
 export function zweigBruch(knoten) { return `${knoten.anzahl}/${knoten.gesamt}`; }
 

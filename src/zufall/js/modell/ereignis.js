@@ -23,6 +23,14 @@ function reihenfolgeName(exp, ids) {
   return namen.map((n, i) => (i === 0 ? `erst ${n}` : i === namen.length - 1 ? `zuletzt ${n}` : `dann ${n}`)).join(", ");
 }
 
+// „kein einziges Mal keine 6“ wäre eine doppelte Verneinung; positiv heißt es „jedes Mal eine 6“.
+function keinMalName(exp, id) {
+  const name = ergebnisName(exp, id);
+  const andere = exp.ergebnisse.filter((e) => e.id !== id);
+  if (!name.startsWith("keine ") || andere.length !== 1) return `kein einziges Mal ${name}`;
+  return `jedes Mal ${/^\d+$/.test(andere[0].name) ? `eine ${andere[0].name}` : andere[0].name}`;
+}
+
 export function parseEreignis(code, exp, zuege) {
   const s = String(code ?? "").trim().toLowerCase();
   const ids = exp.ergebnisse.map((e) => e.id);
@@ -48,7 +56,7 @@ export function parseEreignis(code, exp, zuege) {
   m = /^kein([a-z0-9])$/.exec(s);
   if (m && ids.includes(m[1])) {
     const id = m[1];
-    return { gueltig: true, code: s, name: `kein einziges Mal ${ergebnisName(exp, id)}`, praedikat: (p) => zaehle(p, id) === 0 };
+    return { gueltig: true, code: s, name: keinMalName(exp, id), praedikat: (p) => zaehle(p, id) === 0 };
   }
   const folge = s.split("");
   if (folge.length === zuege && folge.every((id) => ids.includes(id))) {

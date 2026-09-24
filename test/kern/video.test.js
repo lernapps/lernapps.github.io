@@ -87,7 +87,7 @@ function fakeDom() {
       addEventListener(typ, f) { this.hoerer[typ] = f; },
       click() { this.hoerer.click?.(); },
       querySelectorAll(sel) {
-        if (sel === ":scope > :not(h2)") return [...this.kinder.filter((k) => k.tag !== "h2")];
+        if (sel === ":scope > :not(h2, .video-notiz)") return [...this.kinder.filter((k) => k.tag !== "h2" && k.attrs.class !== "video-notiz")];
         const alle = []; const lauf = (x) => { for (const k of x.kinder) { alle.push(k); lauf(k); } }; lauf(this);
         if (sel === "button" || sel === "iframe") return alle.filter((k) => k.tag === sel);
         if (sel === "section.video-karte[data-youtube-id]") return alle.filter((k) => k.tag === "section");
@@ -133,6 +133,24 @@ test("mit Merker lädt das Video direkt, bietet \"Merken aufheben\" und keinen T
     section.querySelectorAll("button")[0].click();
     assert.equal(ladeDirektLaden(P), false);
     assert.match(section.textContent, /Videos werden ab jetzt erst nach Klick geladen\./);
+  } finally {
+    delete globalThis.document;
+  }
+});
+
+test("L-036: ein Hinweis zum Video (p.video-notiz aus video.hinweis) bleibt vor und nach dem Klick stehen", async () => {
+  const { initVideos } = await import("../../src/kern/js/video.js");
+  const { wurzel, section } = fakeDom();
+  const notiz = globalThis.document.createElement("p");
+  notiz.setAttribute("class", "video-notiz");
+  notiz.textContent = "Im Video heißt das anders.";
+  section.append(notiz);
+  try {
+    initVideos(P, wurzel);
+    assert.match(section.textContent, /Im Video heißt das anders\./);
+    section.querySelectorAll("button")[0].click();
+    assert.equal(section.querySelectorAll("iframe").length, 1);
+    assert.match(section.textContent, /Im Video heißt das anders\./);
   } finally {
     delete globalThis.document;
   }

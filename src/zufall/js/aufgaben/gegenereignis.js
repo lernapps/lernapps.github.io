@@ -6,11 +6,11 @@
  * URL-Parameter (llms.txt): p, art, experiment, urne, rad, zuege, modus, ereignis, lose, gewinne, wuerfel, seed/nr.
  */
 import { bruch, subtrahiere, EINS, formatBruch } from "../../../kern/js/bruch.js";
-import { urne, muenze, wuerfelSechs, ergebnisName, experimentAusVorgaben } from "../modell/experimente.js";
+import { urne, muenze, wuerfelSechs, ergebnisName, experimentAusVorgaben, kugelListe } from "../modell/experimente.js";
 import { baueBaum, ereignisWahrscheinlichkeit, ereignisPfade } from "../modell/baum.js";
 import { parseEreignis } from "../modell/ereignis.js";
-import { ergebnismengeAus, frageText } from "./laplace.js";
-import { pruefeEinFeld, wahrscheinlichkeitsFeld, vorgabeOder, trifft, URNEN_VORLAGEN } from "./gemeinsam.js";
+import { ergebnismengeAus, frageText, verbFuer, LAPLACE_EREIGNISSE } from "./laplace.js";
+import { pruefeEinFeld, wahrscheinlichkeitsFeld, vorgabeOder, trifft, gekuerzt, hoch, URNEN_VORLAGEN } from "./gemeinsam.js";
 
 // Testseite: bei "einfach" neutral – die Markierung von „nicht E“ würde die Antwort verraten.
 export { zeichneGegenereignisTest as zeichneBild } from "../vis/gegenereignis.js";
@@ -46,9 +46,17 @@ function direkt(zufall, vorgaben) {
   const loesung = subtrahiere(EINS, p);
   return aufgabe("direkt", p, loesung, {
     text: `Für ein Ereignis E gilt: P(E) = ${formatBruch(p)}. Wie groß ist die Gegenwahrscheinlichkeit P(nicht E)?`,
-    tipp: "E und „nicht E“ zusammen ergeben immer 1 (also 100 %). Rechne 1 − P(E).",
+    tipp: "Die Wahrscheinlichkeiten von E und „nicht E“ ergeben zusammen 1 (also 100 %). Rechne 1 − P(E).",
     rechenweg: [`P(nicht E) = 1 − P(E) = 1 − ${formatBruch(p)} = <strong>${formatBruch(loesung)}</strong>`],
   });
+}
+
+/** „nicht E“ ohne Verneinung in Großbuchstaben: { frage: Satzteil wie ereignisName, kurz: Name nach „nicht E:“ }. */
+export function gegenereignisName(menge) {
+  const gegen = LAPLACE_EREIGNISSE[menge.art]?.[menge.code]?.gegen;
+  if (gegen) return gegen;
+  const frage = menge.ereignisName.replace(/^(ein|eine|einen) /, "k$1 ");
+  return { frage, kurz: frage.replace(/^keinen /, "kein ") };
 }
 
 function einfach(zufall, vorgaben) {
@@ -57,13 +65,13 @@ function einfach(zufall, vorgaben) {
   const moeglich = menge.elemente.length;
   const p = bruch(guenstig, moeglich);
   const loesung = subtrahiere(EINS, p);
-  const frage = frageText(menge).replace("Wie groß ist die Wahrscheinlichkeit, dass du", "Wie groß ist die Wahrscheinlichkeit, dass du NICHT");
+  const gegen = gegenereignisName(menge);
   return aufgabe("einfach", p, loesung, {
     menge,
-    text: `${menge.kontext} ${frage} (Ereignis: nicht ${menge.ereignisName.replace(/^(eine|einen|ein) /, "")})`,
-    tipp: `Rechne zuerst P(E) mit der Laplace-Formel: ${guenstig}/${moeglich}. Dann 1 − P(E).`,
+    text: `${menge.kontext} ${frageText({ ...menge, ereignisName: gegen.frage })} (nicht E: ${gegen.kurz})`,
+    tipp: `E heißt: Du ${verbFuer(menge.art)} ${menge.ereignisName}. Rechne zuerst P(E) mit der Laplace-Formel: ${guenstig}/${moeglich}. Dann 1 − P(E).`,
     rechenweg: [
-      `P(E) = ${guenstig}/${moeglich} = ${formatBruch(p)}`,
+      `P(E) = ${gekuerzt(guenstig, moeglich)}`,
       `P(nicht E) = 1 − ${formatBruch(p)} = <strong>${formatBruch(loesung)}</strong>`,
       `Kontrolle: ${moeglich - guenstig} von ${moeglich} Ergebnissen sind „nicht E“.`,
     ],
@@ -77,7 +85,7 @@ function zweigW(baum, pfad, i) {
 }
 
 function beschreibe(exp) {
-  if (exp.typ === "urne") return `In einer Urne liegen ${exp.ergebnisse.map((e) => `${e.anzahl} ${e.name}e`).join(", ")} Kugeln.`;
+  if (exp.typ === "urne") return `In einer Urne liegen ${kugelListe(exp.ergebnisse)}.`;
   if (exp.typ === "muenze") return "Du hast eine faire Münze.";
   return "Du hast einen normalen Würfel; es zählt nur „6“ oder „keine 6“.";
 }
@@ -101,18 +109,19 @@ function mindestens(zufall, vorgaben) {
   const pGegen = ereignisWahrscheinlichkeit(baum, gegen);
   const loesung = subtrahiere(EINS, pGegen);
   const name = ergebnisName(exp, id);
+  const gegenKurz = gegen.name.replace("kein einziges Mal", "kein Mal");
   const aktion = exp.typ === "muenze" ? "wirfst die Münze" : exp.typ === "wuerfelSechs" ? "würfelst" : "ziehst";
   const zurueck = exp.typ === "urne" ? (mitZuruecklegen ? " mit Zurücklegen" : " ohne Zurücklegen") : "";
   const faktoren = gegenPfade.length === 1 ? gegenPfade[0].pfad.map((_, i) => formatBruch(zweigW(baum, gegenPfade[0].pfad, i))) : [];
   const alleGleich = faktoren.length && faktoren.every((f) => f === faktoren[0]);
-  const gegenTerm = alleGleich ? `(${faktoren[0]})^${zuege}` : faktoren.join(" · ");
+  const gegenTerm = alleGleich ? `(${faktoren[0]})${hoch(zuege)}` : faktoren.join(" · ");
   return aufgabe("mindestens", pGegen, loesung, {
-    experiment: exp, baum, zuege, mitZuruecklegen, ereignis, gegen,
+    experiment: exp, baum, zuege, mitZuruecklegen, ereignis, gegen, gegenKurz,
     text: `${beschreibe(exp)} Du ${aktion} ${zuege}-mal${zurueck}. Wie groß ist die Wahrscheinlichkeit, dass du mindestens einmal „${name}“ bekommst?`,
-    tipp: `„Mindestens einmal“ hat viele Pfade. Das Gegenereignis „kein einziges Mal ${name}“ hat nur einen Pfad. Rechne P(kein Mal) und dann 1 − P(kein Mal).`,
+    tipp: `„Mindestens einmal“ hat viele Pfade. Das Gegenereignis „${gegen.name}“ hat nur einen Pfad. Rechne P(${gegenKurz}) und dann 1 − P(${gegenKurz}).`,
     rechenweg: [
-      `Gegenereignis: kein einziges Mal ${name}.`,
-      `P(kein Mal ${name}) = ${gegenTerm} = ${formatBruch(pGegen)}`,
+      `Gegenereignis: ${gegen.name}.`,
+      `P(${gegenKurz}) = ${gegenTerm} = ${formatBruch(pGegen)}`,
       `P(mindestens einmal ${name}) = 1 − ${formatBruch(pGegen)} = <strong>${formatBruch(loesung)}</strong>`,
     ],
   });
@@ -134,7 +143,7 @@ export function pruefeAntwort(aufgabe, antworten) {
     fehler: "p-statt-gegen",
     passt: (teil) => trifft(teil, aufgabe.p),
     meldung: aufgabe.art === "mindestens"
-      ? "Das ist P(kein einziges Mal) – das Gegenereignis. Jetzt noch 1 − diesen Wert."
+      ? `Das ist P(${aufgabe.gegenKurz}) – das Gegenereignis. Jetzt noch 1 − diesen Wert.`
       : "Das ist P(E). Gefragt ist das Gegenereignis: 1 − P(E).",
   }]);
 }

@@ -120,6 +120,20 @@ export function entferne(exp, id) {
   return { ...exp, ergebnisse };
 }
 
+/**
+ * Inhalt einer Urne als Aufzählung: „3 rote, 2 blaue und 1 gelbe Kugel“. Das Nomen richtet sich nach der letzten
+ * Zahl; bei zwei Farben mit Einzahl und Mehrzahl steht es zweimal („4 rote Kugeln und 1 blaue Kugel“). lila bleibt ungebeugt.
+ */
+export function kugelListe(ergebnisse) {
+  const adjektiv = (e) => `${e.anzahl} ${e.name}${e.name === "lila" ? "" : "e"}`;
+  const nomen = (e) => (e.anzahl === 1 ? "Kugel" : "Kugeln");
+  const liste = ergebnisse.filter((e) => e.anzahl > 0);
+  const letzte = liste[liste.length - 1];
+  if (liste.length === 2 && (liste[0].anzahl === 1) !== (letzte.anzahl === 1)) return liste.map((e) => `${adjektiv(e)} ${nomen(e)}`).join(" und ");
+  const vorne = liste.slice(0, -1).map(adjektiv).join(", ");
+  return `${vorne ? `${vorne} und ` : ""}${adjektiv(letzte)} ${nomen(letzte)}`;
+}
+
 export function beschreibung(exp) {
   if (exp.typ === "urne" || exp.typ === "gluecksrad") {
     const teile = exp.ergebnisse.map((e) => `${e.anzahl} ${e.name}${e.anzahl === 1 ? "e" : "e"}`);
