@@ -41,6 +41,7 @@ in Node.
 | [[t-011]]T-011 | R | Nicht nachvollziehbar, wer `tutor.md`, `llms.txt`, Kern oder Build wann geändert hat. | Repository
 | [[t-012]]T-012 | T, E | Lieferkette: Eine kompromittierte Version von Eleventy, einer transitiven npm-Abhängigkeit oder von docToolchain schleust beim Build Code in die Ausgabe. | Build, Architektur-Doku
 | [[t-013]]T-013 | T, E | Ein Beitrag (PR) führt beim Build Code aus: App-Konfigurationen, Generatoren und Zeichenfunktionen laufen in Node. | Build, Tests und CI
+| [[t-014]]T-014 | I | Das Kind schickt Fotos seines Rechenwegs in den Chat (xref:09_architecture_decisions.adoc#adr-022[ADR-022]). Der Chat-Anbieter erhält Handschrift und alles, was sonst auf dem Bild ist: Name, Schulstempel, Umgebung, je nach Gerät Metadaten wie den Aufnahmeort. | Chat-Anbieter (außerhalb)
 |===
 
 [[section-security]]
@@ -65,12 +66,14 @@ in Node.
 | M-14 | Die Doku lädt nichts von fremden Hosts: Theme-CSS ohne CDN-Importe, Schriften und Symbole lokal. | T-007 | `src/site/assets/css/`; TD-10
 | M-15 | Branch-Schutz für `main`, seit 23.09.2026: PR-Pflicht, Pflicht-Check `test-und-build`, kein Force-Push, kein Löschen. Admins dürfen ihn umgehen. Die Zwei-Faktor-Pflicht für die Organisation ist zurückgestellt, bis weitere Personen mitarbeiten (`two_factor_requirement_enabled: false`, `gh api orgs/lernapps`, 23.09.2026). | T-001 (teilweise), T-011, T-013 (teilweise) | `gh api repos/lernapps/lernapps.github.io/branches/main/protection`; xref:11_technical_risks.adoc#r-017[R-017]
 | M-17 | Die zweite Erklärung bei serlo.org ist ein reiner Link (`<a rel="noopener">` unter `#serlo`): kein iframe, kein Vorschaubild, keine Anfrage vor dem Klick. Erst der Klick des Kindes öffnet de.serlo.org; dann erfährt serlo.org (Serlo Education e.V., gemeinnützig, werbefrei, ohne Anmeldung) IP-Adresse und Browserdaten wie bei jedem Link. Der Build lässt unter `#serlo` nur `https://de.serlo.org/…` zu, ohne Netzabruf. | T-007 | `src/_includes/kompetenz.njk`; `lib/pruefungen.js` (`pruefeSerloLinks`)
+| M-18 | Die App überträgt keine Fotos und hat kein Upload-Feld; nur das Kind schickt ein Foto, in seinem eigenen Chat-Werkzeug. `tutor.md` und `llms.txt` bitten, nur das Blatt zu fotografieren, ohne Namen. Ob Fotos in den Chat gehen, entscheiden das Kind und seine Eltern. | T-014 (teilweise) | `src/<app>/tutor.njk`, `src/<app>/llms.njk`; ADR-022
 | M-16 | Rückmeldung nur über einen Link auf GitHub Issues. Die Seite lädt nichts von GitHub; erst der Klick des Kindes oder der Eltern öffnet GitHub. GitHub verlangt ein Konto und ein Mindestalter von 13 Jahren; jüngere Kinder brauchen die Eltern. Entschieden am 23.09.2026, noch nicht umgesetzt. | T-007 (hält den Link frei von Einbettungen) | xref:03_context_and_scope.adoc#section-technical-context[Kapitel 3]
 |===
 
 Offene Restrisiken: T-001 ist ohne Zwei-Faktor-Pflicht nur teilweise geschlossen, und Admins können
 den Branch-Schutz umgehen; T-012 bleibt ein Lieferketten-Risiko
-(xref:11_technical_risks.adoc#r-015[R-015]), T-002 hängt am Review.
+(xref:11_technical_risks.adoc#r-015[R-015]), T-002 hängt am Review. T-014 ist bewusst nur teilweise
+geschlossen: Was auf dem Foto steht, liegt beim Kind (xref:11_technical_risks.adoc#r-022[R-022]).
 
 [[section-test-concept]]
 === 8.3 Test: Viele schnelle Unit-Tests, ein Vertragstest für alle Apps, der Build als Prüfstand
@@ -87,11 +90,13 @@ rectangle "Tutor-Dialog\n(manuell, mit claude.ai)" as t5
 rectangle "Browser-Check\n(Playwright, 360 und 1280 px, ohne JS, 0 fremde Requests; manuell)" as t4
 rectangle "Build-Prüfungen\n(lib/pruefungen.js, Kartendaten, App-Konfiguration)" as t3
 rectangle "Vertragstest\n(test/apps/vertrag.test.js: jede Kompetenz jeder App, Seeds 1–20)" as t2
+rectangle "Property-Based Tests\n(fast-check, test/kern/*.property.test.js: Zahlen, Rundung, Terme)" as t1b
 rectangle "Unit-Tests\n(node --test, 297 Tests in 57 Dateien)" as t1
 t5 -[hidden]- t4
 t4 -[hidden]- t3
 t3 -[hidden]- t2
-t2 -[hidden]- t1
+t2 -[hidden]- t1b
+t1b -[hidden]- t1
 @enduml
 ....
 
@@ -99,14 +104,16 @@ t2 -[hidden]- t1
 |===
 | Ebene | Was sie prüft | Rückverfolgung
 | Unit-Tests (`test/kern/`, `test/build/`, `src/<app>/test/`, `src/karte/test/`) | Jedes Kern-Modul, jede Build-Funktion und jeder Generator als reine Funktion; test-first. | 50 von 57 Testdateien nennen im Kopf den Use Case (`// Use Case: …`); `zahlantwort.test.js` nennt BR-1 bis BR-5, `variablenterm.test.js`/`termantwort.test.js` BR-T1 bis BR-T9.
+| Property-Based Tests (`test/kern/*.property.test.js`) | Eigenschaften der Kern-Mathematik über viele erzeugte Eingaben statt Einzelbeispiele: Round-Trip formatierter Zahlen, monotone Rundung, Stellenregel, „=“ nur bei exakten Werten, Gleichwertigkeit und Form von Binomen, abgelehnte Fehlterme. fast-check mit festem Seed 22 und 300 Läufen je Eigenschaft (zusammen unter 1 s); anderer Seed lokal mit `FC_SEED=<Zahl> npm test`. Ein gefundener Fehler wird Issue mit `risk-radar` und bleibt bis zum Fix als `todo` sichtbar. | Jeder Test nennt QZ-3 und R-004 oder R-012 im Namen, dazu BR-2, BR-5, BR-T7, BR-T8 (Issue #22)
 | Vertragstest | Für jede Kompetenz jeder App aus `lib/apps.js`: Generator liefert Aufgaben, die eigene Lösung ist richtig, Unsinn falsch, Seeds 1–20. | UC-1, UC-4 (`test/apps/vertrag.test.js:1`, `:34`)
 | Build-Prüfungen | Regeln, die kein Unit-Test sieht: externe Ressourcen in der Ausgabe, Dateilänge, vollständige Kompetenz (Seite, Generator, Test), `llms.txt` nennt jede Seite, Karten-Knoten existieren, Fach bekannt. | UC-8, UC-9; QZ-1, QZ-2, QZ-4
 | Browser-Check | Jede Seite bei 360 und 1280 px, ohne JS Text und Bild, Deep Link mit `nr=`, Schnelltest, 0 Konsolenfehler, 0 externe Requests vor dem Video-Klick. Nicht in CI (TD-5). | `CLAUDE.md` Project rules; UC-1 bis UC-7
 | Tutor-Dialog | Ob Claude mit `tutor.md` und `llms.txt` sinnvoll unterrichtet und korrekte Links baut. | UC-7; nicht automatisiert
 |===
 
-Alle Tests nutzen nur Node-Bordmittel (`node:test`, `node:assert`); die einzige Abhängigkeit des
-Repositorys ist Eleventy.
+Alle Tests laufen auf Node-Bordmitteln (`node:test`, `node:assert`); einzige Test-Bibliothek ist
+fast-check (exakt gepinnte devDependency) für die Property-Based Tests. Ausgeliefert wird keine der beiden
+Abhängigkeiten: Eleventy baut, fast-check prüft.
 
 [[section-observability]]
 === 8.4 Beobachtbarkeit: Die Apps messen absichtlich nichts, der Build meldet alles
@@ -121,7 +128,9 @@ das Kind verrät. An ihre Stelle treten:
 * *Beim Kind:* Ergebniszeile und Aufgabennummer sind die einzige „Telemetrie“; das Kind entscheidet,
   ob es sie teilt. Auch „Zurück zu Claude“ (xref:09_architecture_decisions.adoc#adr-021[ADR-021]) sendet
   nichts: Die Zeile landet nur in der Zwischenablage des Geräts und bleibt lokal, bis das Kind sie
-  selbst bei Claude einfügt. Kein Request, kein `postMessage`, kein Speichern.
+  selbst bei Claude einfügt. Kein Request, kein `postMessage`, kein Speichern. Den Rechenweg sieht die
+  App nie: Das Kind schickt ein Foto des Blatts selbst in den Chat
+  (xref:09_architecture_decisions.adoc#adr-022[ADR-022]); die Fotos liegen dann beim Chat-Anbieter.
 * *Beim Tutor:* Was nicht funktioniert, zeigt sich im Gespräch.
 * *Rückmeldung an die Autor:in:* Jede Seite bekommt einen Link auf GitHub Issues (entschieden am
   23.09.2026). Nur wer klickt und ein GitHub-Konto hat, meldet etwas; die App selbst sendet nichts

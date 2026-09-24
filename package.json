@@ -1,6 +1,6 @@
 {
   "name": "lern-apps",
-  "version": "0.8.0",
+  "version": "0.8.2",
   "description": "Lern-Apps für Mathe, Physik und Chemie – statisches HTML, ein Kern, gebaut mit Eleventy.",
   "private": true,
   "type": "module",
@@ -8,9 +8,15 @@
     "test": "node --test \"test/**/*.test.js\" \"src/*/test/*.test.js\"",
     "build": "eleventy",
     "serve": "eleventy --serve",
-    "pruefe": "npm test && npm run build"
+    "pruefe": "npm test && npm run build",
+    "lint": "eslint ."
   },
   "devDependencies": {
-    "@11ty/eleventy": "3.1.6"
+    "@11ty/eleventy": "3.1.6",
+    "@eslint/js": "10.0.1",
+    "eslint": "10.11.0",
+    "eslint-plugin-no-unsanitized": "4.1.5",
+    "fast-check": "4.10.2",
+    "globals": "17.12.0"
   }
 }

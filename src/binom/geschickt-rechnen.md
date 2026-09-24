@@ -3,7 +3,7 @@ kompetenz: geschickt-rechnen
 serlo: { url: 'https://de.serlo.org/mathe/18631/ueberblick-zu-den-binomischen-formeln#19104', titel: 'Exkurs: Kopfrechnen mit binomischen Formeln' }
 beschreibung: 'Geschickt rechnen mit den binomischen Formeln: 49², 21 · 19 und 102² im Kopf. Erklärung, Flächenbild mit Zahlen, Video und Übungsaufgaben mit Sofort-Feedback.'
 warum: |
-  <p>Die binomischen Formeln sind nicht nur für Buchstaben da. Mit ihnen rechnest du Aufgaben wie 49² oder 21 · 19 im Kopf aus – schneller als mit dem schriftlichen Verfahren. Das hilft bei Kopfrechenaufgaben im Wettbewerb und beim Überschlagen. Und es zeigt dir, dass die Formeln wirklich für jede Zahl gelten: Buchstaben sind nur Platzhalter.</p>
+  <p>Die binomischen Formeln sind nicht nur für Buchstaben da. Mit ihnen rechnest du Aufgaben wie 49² oder 21 · 19 im Kopf aus – schneller als mit dem schriftlichen Verfahren. Das hilft beim Kopfrechnen, beim Überschlagen und in der Klassenarbeit ohne Taschenrechner. Und es zeigt dir, dass die Formeln wirklich für jede Zahl gelten: Buchstaben sind nur Platzhalter.</p>
 regel: |
   <div class="formel"><code>49² = (50 − 1)² = 2500 − 100 + 1 = 2401</code></div>
   <p>Zerlege die Zahl in einen <strong>glatten Zehner</strong> und einen kleinen Rest. Liegt sie knapp darüber, nimmst du die 1. Formel (a + b)², knapp darunter die 2. Formel (a − b)². Zwei Zahlen, die gleich weit links und rechts von einem Zehner liegen, rechnest du mit der 3. Formel: 21 · 19 = (20 + 1)(20 − 1) = 20² − 1².</p>

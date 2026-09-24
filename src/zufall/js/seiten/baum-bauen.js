@@ -5,37 +5,36 @@
  * und der Kern-Trainer liest sie wie jeden anderen Aufgabenlink.
  */
 import { svgEl } from "../../../kern/js/svg.js";
+import { el } from "../../../kern/js/aufgabe-eingabe.js";
 import { parseUrne, urne, muenze, wuerfelSechs } from "../modell/experimente.js";
 import { baueBaum } from "../modell/baum.js";
 import { zeichneBaumIn } from "../vis/baum.js";
 import { gruppe, rahmen } from "../vis/rahmen.js";
 
-const FORMULAR = `
-  <h2>Baum bauen</h2>
-  <p>Stell dir einen Zufallsversuch zusammen. Der Baum wird sofort gezeichnet, mit allen Zweig- und Pfadwahrscheinlichkeiten.</p>
-  <form class="konfig" method="get" action="baumdiagramm.html#uebung">
-    <label>Zufallsversuch
-      <select name="experiment">
-        <option value="urne">Urne mit Kugeln</option>
-        <option value="muenze">Münze</option>
-        <option value="wuerfel">Würfel: 6 / keine 6</option>
-      </select>
-    </label>
-    <label>Urne (z. B. 3r2b1g)
-      <input type="text" name="urne" value="3r2b1g" size="9" autocomplete="off" spellcheck="false"
-        title="Anzahl und Farbe: r rot, b blau, g gelb, n grün, s schwarz, w weiß, l lila">
-    </label>
-    <label>Züge
-      <select name="zuege"><option value="2">2</option><option value="3">3</option></select>
-    </label>
-    <fieldset>
-      <legend>Zurücklegen</legend>
-      <label><span><input type="radio" name="modus" value="mit" checked> mit</span></label>
-      <label><span><input type="radio" name="modus" value="ohne"> ohne</span></label>
-    </fieldset>
-    <button type="submit" class="primaer">Übung mit diesem Baum</button>
-  </form>
-  <div class="bauer"></div>`;
+const option = (wert, text) => el("option", { value: wert, text });
+const radio = (wert, text, checked) => el("label", {}, [el("span", {}, [el("input", { type: "radio", name: "modus", value: wert, checked }), ` ${text}`])]);
+
+/** Der Abschnitt #bauen als DOM (kein HTML-String, T-003): Überschrift, Einleitung, Formular, Platz für den Baum. */
+function baueAbschnitt() {
+  const formular = el("form", { class: "konfig", method: "get", action: "baumdiagramm.html#uebung" }, [
+    el("label", {}, ["Zufallsversuch ", el("select", { name: "experiment" }, [
+      option("urne", "Urne mit Kugeln"), option("muenze", "Münze"), option("wuerfel", "Würfel: 6 / keine 6"),
+    ])]),
+    el("label", {}, ["Urne (z. B. 3r2b1g) ", el("input", {
+      type: "text", name: "urne", value: "3r2b1g", size: "9", autocomplete: "off", spellcheck: "false",
+      title: "Anzahl und Farbe: r rot, b blau, g gelb, n grün, s schwarz, w weiß, l lila",
+    })]),
+    el("label", {}, ["Züge ", el("select", { name: "zuege" }, [option("2", "2"), option("3", "3")])]),
+    el("fieldset", {}, [el("legend", { text: "Zurücklegen" }), radio("mit", "mit", true), radio("ohne", "ohne", false)]),
+    el("button", { type: "submit", class: "primaer", text: "Übung mit diesem Baum" }),
+  ]);
+  return el("section", { id: "bauen" }, [
+    el("h2", { text: "Baum bauen" }),
+    el("p", { text: "Stell dir einen Zufallsversuch zusammen. Der Baum wird sofort gezeichnet, mit allen Zweig- und Pfadwahrscheinlichkeiten." }),
+    formular,
+    el("div", { class: "bauer" }),
+  ]);
+}
 
 function setzeAusUrl(form, params) {
   const kurz = ["muenze", "wuerfel"].find((k) => /^\d+$/.test(params.get(k) || ""));
@@ -62,9 +61,7 @@ function zeichne(form, svg) {
 
 const uebung = document.getElementById("uebung");
 if (uebung) {
-  const abschnitt = document.createElement("section");
-  abschnitt.id = "bauen";
-  abschnitt.innerHTML = FORMULAR;
+  const abschnitt = baueAbschnitt();
   uebung.before(abschnitt);
   const form = abschnitt.querySelector("form");
   const svg = svgEl("svg", { class: "vis" });

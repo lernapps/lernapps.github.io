@@ -2,7 +2,7 @@
 kompetenz: vergleich
 beschreibung: 'Um wie viel Prozent ist A größer als B – und warum ist B nicht um denselben Prozentsatz kleiner? Bezugsgröße, Beispiel und Übungen.'
 warum: |
-  <p>„Laden A ist 25 % teurer als Laden B“ und „Laden B ist 20 % billiger als Laden A“ – beides stimmt, mit denselben Preisen. Wer hier den Trick kennt, fällt auf keine Werbung und auf keine Fangfrage im Wettbewerb herein: Es kommt darauf an, welcher Wert 100 % ist.</p>
+  <p>„Laden A ist 25 % teurer als Laden B“ und „Laden B ist 20 % billiger als Laden A“ – beides stimmt, mit denselben Preisen. Wer hier den Trick kennt, fällt auf keine Werbung und auf keine Fangfrage in der Klassenarbeit herein: Es kommt darauf an, welcher Wert 100 % ist.</p>
 regel: |
   <div id="formel">
   <div class="formel"><code>p % = Unterschied / Bezugsgröße · 100</code></div>

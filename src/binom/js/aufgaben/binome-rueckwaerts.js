@@ -10,7 +10,7 @@
 import { pruefeTermAntwort, MELDUNG_KEIN_VARIABLENTERM } from "../../../kern/js/termantwort.js";
 import { zahlenfeld, pruefeZahlAntwort, passtZu } from "../../../kern/js/zahlantwort.js";
 import { ergebnisFuer, MELDUNG_KEINE_ZAHL } from "../../../kern/js/pruefung.js";
-import { glied, multipliziere, negiere, alsEingabe, alsAnzeige, gliedAnzeige, binomAnzeige, binomEingabe, istBinomProdukt } from "./terme.js";
+import { glied, multipliziere, negiere, alsAnzeige, gliedAnzeige, binomAnzeige, binomEingabe, istBinomProdukt } from "./terme.js";
 import { BINOM_URL_ZAHLEN, BINOM_URL_TEXTE, waehleBinom, diagnose, ganz, quadratAnzeige } from "./binom.js";
 
 export const THEMA = "binome-rueckwaerts";

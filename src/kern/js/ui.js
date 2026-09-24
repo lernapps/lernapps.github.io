@@ -6,7 +6,7 @@ import { LOESUNG_ZEIGEN, schalteLoesung } from "./loesung-schalter.js";
 import { bildBeschriftung } from "./aufgabenbild.js";
 import { leeresSvg } from "./svg.js";
 import { nachVersuch, uebungsStatus } from "./zurueck.js";
-import { el, zeigeEingaben, zeigeAufgabentext, lieseAntworten, markiereFelder } from "./aufgabe-eingabe.js";
+import { el, hervorgehoben, zeigeEingaben, zeigeAufgabentext, lieseAntworten, markiereFelder } from "./aufgabe-eingabe.js";
 
 /**
  * Startet einen Trainer im Element `wurzel`.
@@ -108,7 +108,7 @@ export function starteTrainer({ wurzel, modul, seed, vorgaben = {}, zeichne, bil
     if (!stand.richtigImVersuch) stand = { ...stand, loesungGezeigt: true };
     loesungText.replaceChildren(
       el("strong", { text: "Lösung" }),
-      el("ol", { class: "rechenweg" }, aufgabe.rechenweg.map((s) => el("li", { html: s }))),
+      el("ol", { class: "rechenweg" }, aufgabe.rechenweg.map((s) => el("li", {}, hervorgehoben(s)))),
     );
     schalteLoesung(loesung, loesungText, true);
     visualisiere(aufgabe, { korrekt: true, loesungGezeigt: true });
