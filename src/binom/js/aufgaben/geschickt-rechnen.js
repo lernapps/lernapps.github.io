@@ -50,7 +50,7 @@ export function erzeugeAufgabe(zufall, vorgaben = {}) {
     ],
     loesung: { formel: String(formel), ergebnis: t.ergebnis },
     tipp: formel === 3
-      ? `Beide Zahlen liegen gleich weit neben ${basis}. Schreib sie als (${basis} + ${abstand}) und (${basis} − ${abstand}).`
+      ? "Liegen beide Zahlen gleich weit neben einer glatten Zahl?"
       : `Zerlege die Zahl in eine glatte Zahl (Zehner oder Hunderter) und einen kleinen Rest: ${t.zerlegung}.`,
     rechenweg: rechenweg(formel, basis, abstand, t),
   };

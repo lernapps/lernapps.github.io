@@ -92,15 +92,15 @@ und einem Zähler richtig/gesamt für die Sitzung.
 - "Neue Aufgabe" würfelt eine neue Nummer und vergisst die Parameter aus der Adresse
   (auch `schwer=1`). Für eine bestimmte Art von Aufgabe schickst du wieder einen Link.
 
-So sehen die Bäume aus: Passt ein Baum in 279 px (alle zweistufigen, kleine dreistufige), steht er
+So sehen die Bäume aus: Passt ein Baum in 279 px (alle zweistufigen, dreistufige mit zwei Ergebnissen je Stufe), steht er
 hochkant – Start oben, Zweige nach unten, die Kugeln als Kreise mit Kürzel (R = rot, B = blau …, Legende
 darunter), der Bruch jedes Zweigs über seinem Kreis, die Pfadwahrscheinlichkeit unter dem Ende. Größere
-dreistufige Bäume liegen quer (Start links, Pfadwahrscheinlichkeit rechts); auf einem Handy im
+dreistufige Bäume (mehr als zwei Ergebnisse je Stufe) liegen quer (Start links, Pfadwahrscheinlichkeit rechts); auf einem Handy im
 Hochformat steht darüber „Tipp: Dreh dein Handy, dann siehst du den ganzen Baum.“ Sag also „unter dem
 Ende“ bzw. „am Ende des Pfades“, nicht „rechts“, wenn du nicht weißt, welche Lage das Kind sieht.
-Auf Seite 3 steht bei fehlenden Zweigen ein „?“ am Zweigende und der Buchstabe (a, b …) auf dem Zweig.
+Auf Seite 2 steht bei fehlenden Zweigen ein „?“ am Zweigende und der Buchstabe (a, b …) auf dem Zweig.
 
-Zufallsversuche (Baum-Seiten 3, 4, 6, 7, 8 und „mindestens einmal“ auf Seite 2):
+Zufallsversuche (Baum-Seiten 2, 3, 6, 7, 8 und „mindestens einmal“ auf Seite 4):
 
 - `experiment=urne|muenze|wuerfel` (wuerfel = Würfel mit „6“ / „keine 6“)
 - `urne=3r2b1g` – Urneninhalt: Anzahl + Farbbuchstabe, beliebig viele Paare.
@@ -212,24 +212,7 @@ In der Übung ist das Bild neutral: Das Kind klickt die günstigen Ergebnisse se
 zeigt die richtige Markierung. Das Bild unter `#visualisierung` bleibt das markierte Beispiel.
 Beispiel: {{ app.basisUrl }}laplace.html?experiment=urne&urne=3r2b1g&ereignis=b&seed=4#uebung
 
-### 2 Gegenereignis – {{ app.basisUrl }}gegenereignis.html
-
-Kompetenz: P(nicht E) = 1 − P(E), besonders für „mindestens einmal“.
-Drei Aufgabenarten:
-- `p=1/6` – P(E) ist gegeben, gesucht P(nicht E). Auch `p=0,3` oder `p=45` (eine Zahl
-  über 1 gilt als Prozent). Die Aufgabe zeigt P(E) immer als gekürzten Bruch.
-- Laplace-Parameter wie auf Seite 1 (`experiment=…&ereignis=…`, dazu `urne=`, `rad=`,
-  `lose=`, `gewinne=`) – gesucht ist das Gegenereignis des genannten Ereignisses.
-- `experiment=wuerfel|muenze|urne&zuege=2|3&ereignis=mind1<id>` (+ `urne=`, `modus=`)
-  – „mindestens einmal“ über 1 − P(kein Mal).
-`art=direkt|einfach|mindestens` wählt nur die Aufgabenart (Zahlen zufällig); ein Parameter
-von oben geht vor.
-Video: keines; die Seite hat keinen Abschnitt `#video`.
-In der Übung (`art=einfach`) ist die Ergebnismenge neutral; das Kind markiert die Ergebnisse von E selbst
-und rechnet 1 − P(E). Auf der Testseite sind Laplace- und einfache Gegenereignis-Bilder neutral.
-Beispiel: {{ app.basisUrl }}gegenereignis.html?experiment=wuerfel&zuege=3&ereignis=mind1s&seed=1#uebung
-
-### 3 Baumdiagramm – {{ app.basisUrl }}baumdiagramm.html
+### 2 Baumdiagramm – {{ app.basisUrl }}baumdiagramm.html
 
 Kompetenz: Baumdiagramm zu einem mehrstufigen Zufallsversuch zeichnen.
 Regel: Je Stufe Zweige zu allen Ergebnissen; Zweige an einem Knoten ergeben 1.
@@ -241,7 +224,7 @@ Video (`#video`): „Baumdiagramm | mehrstufiger Zufallsversuch | Wahrscheinlich
 https://www.youtube.com/watch?v=mBknBnww5fA – die App bettet es erst nach einem Klick ein.
 Beispiel: {{ app.basisUrl }}baumdiagramm.html?urne=3r2b1g&zuege=3&modus=ohne&seed=7#uebung
 
-### 4 Erste Pfadregel – {{ app.basisUrl }}pfadregel-1.html
+### 3 Erste Pfadregel – {{ app.basisUrl }}pfadregel-1.html
 
 Kompetenz: Entlang eines Pfades multiplizieren.
 Regel: P(Pfad) = Produkt der Zweigwahrscheinlichkeiten. Der Pfad ist im Baum markiert.
@@ -249,6 +232,24 @@ Parameter: `experiment`, `urne`, `zuege`, `modus`, `ereignis=<Reihenfolge>` (z. 
 Video (`#video`): „Produktregel | Wahrscheinlichkeitsrechnung - einfach erklärt | Lehrerschmidt“,
 https://www.youtube.com/watch?v=fLPxMfgUxVk – die App bettet es erst nach einem Klick ein.
 Beispiel: {{ app.basisUrl }}pfadregel-1.html?urne=3r2b1g&zuege=2&modus=ohne&ereignis=rb&seed=3#uebung
+
+### 4 Gegenereignis – {{ app.basisUrl }}gegenereignis.html
+
+Kompetenz: P(nicht E) = 1 − P(E), besonders für „mindestens einmal“.
+Drei Aufgabenarten:
+- `p=1/6` – P(E) ist gegeben, gesucht P(nicht E). Auch `p=0,3` oder `p=45` (eine Zahl
+  über 1 gilt als Prozent). Die Aufgabe zeigt P(E) immer als gekürzten Bruch.
+- Laplace-Parameter wie auf Seite 1 (`experiment=…&ereignis=…`, dazu `urne=`, `rad=`,
+  `lose=`, `gewinne=`) – gesucht ist das Gegenereignis des genannten Ereignisses.
+- `experiment=wuerfel|muenze|urne&zuege=2|3&ereignis=mind1<id>` (+ `urne=`, `modus=`)
+  – „mindestens einmal“ über 1 − P(kein Mal). Ab drei Zügen zeigt der Baum nur die gefragte Farbe und
+  „nicht <Farbe>“ (z. B. „gelb / nicht gelb“, zwei Zweige je Stufe); so steht er auch auf dem Handy hochkant.
+`art=direkt|einfach|mindestens` wählt nur die Aufgabenart (Zahlen zufällig); ein Parameter
+von oben geht vor.
+Video: keines; die Seite hat keinen Abschnitt `#video`.
+In der Übung (`art=einfach`) ist die Ergebnismenge neutral; das Kind markiert die Ergebnisse von E selbst
+und rechnet 1 − P(E). Auf der Testseite sind Laplace- und einfache Gegenereignis-Bilder neutral.
+Beispiel: {{ app.basisUrl }}gegenereignis.html?experiment=wuerfel&zuege=3&ereignis=mind1s&seed=1#uebung
 
 ### 5 Ziehen ohne Zurücklegen – {{ app.basisUrl }}ohne-zuruecklegen.html
 
@@ -262,9 +263,10 @@ Beispiel: {{ app.basisUrl }}ohne-zuruecklegen.html?urne=3r2b1g&erster=r&zweiter=
 
 ### 6 Zweite Pfadregel – {{ app.basisUrl }}pfadregel-2.html
 
-Kompetenz: Pfade eines Ereignisses addieren. Die Regel-Abschnitte `#formen` (Produkt,
-Summe, Potenz) und `#uebersetzen` (Ereignisse in Pfade) stehen hier; geübt werden sie
-auf den Seiten 7 und 8.
+Kompetenz: Pfade eines Ereignisses addieren. Die Regel ist kurz: Summenregel und Merkhilfe
+(entlang mal, über mehrere Pfade plus). Produkt, Summe, Potenz und das Übersetzen von
+Ereignissen in Pfade erklären die Seiten 7 und 8; die alten Anker `#formen` und `#uebersetzen`
+zeigen auf die Links dorthin.
 - `art=pfade`: Das Kind kann die passenden Pfade im Baum anklicken (orange) und
   rechnet P(E). Entscheidend ist P(E); sind die angeklickten Pfade falsch, sagt die
   App, wie viele fehlen oder zu viel sind.
@@ -280,7 +282,7 @@ Beispiele:
 
 ### 7 Produkt, Summe, Potenz – {{ app.basisUrl }}ergebnisformen.html
 
-Kompetenz: Ergebnisse als Produkt, Summe oder Potenz stehen lassen und den passenden
+Kompetenz: Wahrscheinlichkeiten als Produkt, Summe oder Potenz stehen lassen und den passenden
 Term erkennen. Aufgabe wie `pfadregel-2.html?art=term`: drei Terme, einer passt.
 Parameter: `experiment`, `urne`, `zuege`, `modus`, `ereignis`.
 Video: dasselbe wie Seite 6.
@@ -301,9 +303,9 @@ Beispiel: {{ app.basisUrl }}pfade-uebersetzen.html?urne=3r2b1g&zuege=2&modus=mit
 |------------------------|--------------------------------------------------------|-------------------------------------------------------|
 | test.html              | nr (oder seed), modus=voll/schnell                     | ?nr=4711&modus=schnell                                |
 | laplace.html           | experiment, ereignis, urne, rad, lose, gewinne, schwer, seed | ?experiment=urne&urne=3r2b1g&ereignis=b&seed=4  |
-| gegenereignis.html     | p oder experiment, ereignis, zuege, urne, rad, lose, gewinne, modus, art, seed | ?experiment=wuerfel&zuege=3&ereignis=mind1s&seed=1    |
 | baumdiagramm.html      | experiment, urne, zuege, modus, seed                   | ?urne=3r2b1g&zuege=3&modus=ohne&seed=7                |
 | pfadregel-1.html       | experiment, urne, zuege, modus, ereignis, seed         | ?urne=3r2b1g&zuege=2&modus=ohne&ereignis=rb&seed=3    |
+| gegenereignis.html     | p oder experiment, ereignis, zuege, urne, rad, lose, gewinne, modus, art, seed | ?experiment=wuerfel&zuege=3&ereignis=mind1s&seed=1    |
 | ohne-zuruecklegen.html | urne, erster, zweiter, art=zweig/pfad, seed            | ?urne=3r2b1g&erster=r&zweiter=b&art=zweig&seed=3      |
 | pfadregel-2.html       | experiment, urne, zuege, modus, ereignis, art=pfade/term, seed | ?urne=3r2b1g&zuege=2&modus=ohne&ereignis=genau1r&art=pfade&seed=3 |
 | ergebnisformen.html    | experiment, urne, zuege, modus, ereignis, seed         | ?urne=3r2b&zuege=2&modus=ohne&ereignis=genau1r&seed=2 |

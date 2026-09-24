@@ -2,6 +2,7 @@
 layout: basis.njk
 ---
 {#- Kompetenzseite: Warum, Regel, Beispiel, Bild, Video, serlo-Link (optional), Übung – Inhalte aus dem Front Matter von src/<app>/<id>.md.
+    Mehrere Videos: videos: [{ ueberschrift, id, titel, kanal, hinweis? }] – eine Karte je Video unter „Video dazu“ (#video-1, #video-2 …).
     Ohne eigenes Video: videoVerweis (ein Satz mit Link auf das Video einer verwandten Seite) oder gar kein Abschnitt #video. -#}
 {%- set k = kompetenzDaten -%}
     <h1>{{ k.titel }}</h1>
@@ -30,7 +31,20 @@ layout: basis.njk
       {% bild app.pfad, k, bild %}
     </section>
 {% endif %}
-{% if video %}
+{% if videos %}
+    <section id="video">
+      <h2>Video dazu</h2>
+{% for v in videos %}
+      <div class="video-karte" id="video-{{ loop.index }}" data-youtube-id="{{ v.id }}" data-titel="{{ v.titel }}" data-kanal="{{ v.kanal }}">
+        <h3>{{ v.ueberschrift }}</h3>
+{% if v.hinweis %}        <p class="video-notiz">{{ v.hinweis }}</p>
+{% endif %}        <p><a href="https://www.youtube.com/watch?v={{ v.id }}" rel="noopener">{{ v.titel }}</a></p>
+        <p class="video-kanal">{{ v.kanal }} · YouTube</p>
+        <p class="video-hinweis">Beim Start werden Daten (u. a. deine IP-Adresse) an YouTube/Google übertragen.</p>
+      </div>
+{% endfor %}
+    </section>
+{% elif video %}
     <section id="video" class="video-karte" data-youtube-id="{{ video.id }}" data-titel="{{ video.titel }}" data-kanal="{{ video.kanal }}">
       <h2>Video dazu</h2>
 {% if video.hinweis %}      <p class="video-notiz">{{ video.hinweis }}</p>

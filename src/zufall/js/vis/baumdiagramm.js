@@ -1,4 +1,4 @@
-/* Bild zu Kompetenz 3: der Baum, die gesuchten Zweige als a), b) … mit "?"; nach der richtigen Antwort mit Wert. */
+/* Bild zu Kompetenz 2: der Baum, die gesuchten Zweige als a), b) … mit "?"; nach der richtigen Antwort mit Wert. */
 import { gruppe, rahmen } from "./rahmen.js";
 import { zeichneBaumIn } from "./baum.js";
 

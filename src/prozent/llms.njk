@@ -80,7 +80,8 @@ Balken) und einem Aufgabengenerator mit Sofort-Feedback, Tipp, "Lösung zeigen/v
 - Anker auf jeder Kompetenzseite: `#warum` (Warum-Absatz), `#formel` (Formel; liegt im
   Abschnitt `#regel`, beide Anker gehen), `#beispiel` (Beispiel), `#visualisierung` (Bild zum Beispiel, ändert sich nie), `#video` (Lehrerschmidt-Video als
   Zwei-Klick-Karte oder Hinweis, dass es keines gibt), `#uebung` (Aufgabengenerator mit eigenem
-  Bild zur aktuellen Aufgabe, `#aufgabenbild`, nur mit JavaScript).
+  Bild zur aktuellen Aufgabe, `#aufgabenbild`, nur mit JavaScript; die gesuchte Größe steht darin als
+  „?“, bis das Kind richtig antwortet oder „Lösung zeigen“ drückt).
 - Deep Link: Trägt der Link eine Aufgabennummer (`seed`/`nr`) oder Aufgabenparameter und keinen Anker
   in die Erklärung, klappt die Seite die Erklärung (Warum bis Video) zu und springt zur Übung. Ein Anker
   wie `#visualisierung` oder `#regel` lässt die Erklärung offen. Ohne JavaScript ist alles offen.
@@ -224,9 +225,9 @@ Beispiele:
 Typische Fehler: "richtung-verwechselt" (erhöht statt gesenkt), "nur-prozentwert"
 (nur die Veränderung, nicht der neue Wert), "grundwert-neuer-wert" (die Prozente
 auf den neuen statt auf den alten Wert bezogen – der Klassiker beim Rückwärtsrechnen).
-Videos: #video "Rabatt, Nachlass, Preissenkung berechnen | Prozentrechnung - einfach erklärt | Lehrerschmidt"
+Videos (beide unter "Video dazu", Anker #video): #video-1 "Senkung" – "Rabatt, Nachlass, Preissenkung berechnen | Prozentrechnung - einfach erklärt | Lehrerschmidt"
 https://www.youtube.com/watch?v=7qPr-ik4wp8
-und #video-2 (am Ende des Beispiels) "Preiserhöhung, Aufschlag berechnen | Prozentrechnung - einfach erklärt | Lehrerschmidt"
+und #video-2 "Erhöhung" – "Preiserhöhung, Aufschlag berechnen | Prozentrechnung - einfach erklärt | Lehrerschmidt"
 https://www.youtube.com/watch?v=hyKgJKGCjHc
 Die App bettet sie erst nach einem Klick ein (youtube-nocookie.com).
 

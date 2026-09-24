@@ -13,7 +13,7 @@
 
 ## Embedding (already in the kern)
 
-Front matter of `src/<app>/<id>.md`: `video: { id: <id>, titel: '<exact title>', kanal: <Kanal> }`. The layout `kompetenz.njk` renders the card with a plain watch link (no-JS fallback) and the hint that starting sends data (including the IP address) to YouTube/Google. `src/kern/js/video.js` draws a local placeholder; only a click loads `youtube-nocookie.com` (two-click embed).
+Front matter of `src/<app>/<id>.md`: `video: { id: <id>, titel: '<exact title>', kanal: <Kanal> }`. The layout `kompetenz.njk` renders the card with a plain watch link (no-JS fallback) and the hint that starting sends data (including the IP address) to YouTube/Google. Two videos for one page (e.g. Senkung and Erhöhung): `videos: [{ ueberschrift: Senkung, id, titel, kanal }, …]` – all cards sit together under „Video dazu“, never inside `beispiel`. `src/kern/js/video.js` draws a local placeholder; only a click loads `youtube-nocookie.com` (two-click embed).
 
 ## Pages without a video
 

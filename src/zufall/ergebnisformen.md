@@ -1,8 +1,8 @@
 ---
 kompetenz: ergebnisformen
-beschreibung: 'Ergebnisse als Produkt, Summe oder Potenz angeben: den passenden Term zu einem Ereignis im Baumdiagramm erkennen. Übungsaufgaben mit typischen Fehlern.'
+beschreibung: 'Wahrscheinlichkeiten als Produkt, Summe oder Potenz angeben: den passenden Term zu einem Ereignis im Baumdiagramm erkennen. Übungsaufgaben mit typischen Fehlern.'
 warum: |
-  <p>Wer jede Wahrscheinlichkeit bis zum gekürzten Bruch ausrechnet, verliert Zeit und macht Rechenfehler. Oft reicht der Term: 3/6 · 2/5 ist schon die Antwort. Wichtig ist, dass der Term stimmt – und genau das übst du hier: Du erkennst, welcher Term zu einem Ereignis passt und welcher einen typischen Fehler enthält.</p>
+  <p>Wer jede Wahrscheinlichkeit bis zum gekürzten Bruch ausrechnet, verliert Zeit und macht Rechenfehler. Oft reicht der Term: 3/6 · 2/5. Frag deine Lehrerin oder deinen Lehrer, ob du in der Klassenarbeit ausrechnen musst. Wichtig ist, dass der Term stimmt – und genau das übst du hier: Du erkennst, welcher Term zu einem Ereignis passt und welcher einen typischen Fehler enthält.</p>
 regel: |
   <p>Ein Term für P(E) hat immer denselben Aufbau:</p>
   <ul>

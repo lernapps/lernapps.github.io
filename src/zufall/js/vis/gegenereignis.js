@@ -1,5 +1,5 @@
 /*
- * Bild zu Kompetenz 2: direkt – ein Streifen, aufgeteilt in P(E) und P(nicht E); einfach – die Ergebnismenge mit
+ * Bild zu Kompetenz 4: direkt – ein Streifen, aufgeteilt in P(E) und P(nicht E); einfach – die Ergebnismenge mit
  * umgedrehter Markierung (orange = nicht E); mindestens – der Baum, der eine Pfad des Gegenereignisses markiert.
  * Übung (zeichneGegenereignisMarkierbar): bei "einfach" markiert das Kind E selbst, wie auf der Laplace-Seite.
  * Testseite (zeichneGegenereignisTest): bei "einfach" neutral.

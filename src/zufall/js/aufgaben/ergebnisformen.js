@@ -1,5 +1,5 @@
 /*
- * Kompetenz 7: Ergebnisse als Produkt, Summe oder Potenz – den Term wählen, der P(E) berechnet.
+ * Kompetenz 7: Wahrscheinlichkeiten als Produkt, Summe oder Potenz – den Term wählen, der P(E) berechnet.
  * Dieselbe Aufgabe wie pfadregel-2.html?art=term. URL-Parameter (llms.txt): experiment, urne, zuege, modus, ereignis, seed/nr.
  */
 import { aufgabeTerm, pruefeTerm } from "./pfade.js";

@@ -1,12 +1,13 @@
 /*
- * Kompetenz 2: Gegenwahrscheinlichkeit P(nicht E) = 1 − P(E). Drei Aufgabenarten:
+ * Kompetenz 4: Gegenwahrscheinlichkeit P(nicht E) = 1 − P(E). Drei Aufgabenarten:
  *   direkt      – P(E) ist gegeben (p=1/6; p über 1 gilt als Prozent: p=45 heißt 45 %)
  *   einfach     – Gegenereignis eines Laplace-Ereignisses (Parameter wie auf laplace.html)
- *   mindestens  – "mindestens einmal" bei mehreren Zügen über das Gegenereignis
+ *   mindestens  – "mindestens einmal" bei mehreren Zügen über das Gegenereignis; ab drei Zügen zeigt der Baum nur
+ *                 „gelb / nicht gelb“ (zwei Zweige je Stufe, L-040)
  * URL-Parameter (llms.txt): p, art, experiment, urne, rad, zuege, modus, ereignis, lose, gewinne, wuerfel, seed/nr.
  */
 import { bruch, subtrahiere, EINS, formatBruch } from "../../../kern/js/bruch.js";
-import { urne, muenze, wuerfelSechs, ergebnisName, experimentAusVorgaben, kugelListe } from "../modell/experimente.js";
+import { urne, muenze, wuerfelSechs, ergebnisName, experimentAusVorgaben, kugelListe, nurErgebnisUndRest } from "../modell/experimente.js";
 import { baueBaum, ereignisWahrscheinlichkeit, ereignisPfade } from "../modell/baum.js";
 import { parseEreignis } from "../modell/ereignis.js";
 import { ergebnismengeAus, frageText, verbFuer, LAPLACE_EREIGNISSE } from "./laplace.js";
@@ -103,16 +104,20 @@ function mindestens(zufall, vorgaben) {
   let ereignis = parseEreignis(vorgaben.ereignis || "", exp, zuege);
   if (!ereignis.gueltig || !ereignis.code.startsWith("mind1")) ereignis = parseEreignis(`mind1${zufall.wahl(exp.ergebnisse).id}`, exp, zuege);
   const id = ereignis.code.slice(5);
-  const baum = baueBaum(exp, zuege, mitZuruecklegen);
-  const gegen = parseEreignis(`kein${id}`, exp, zuege);
-  const gegenPfade = ereignisPfade(baum, gegen);
+  // „gelb / nicht gelb“ statt aller Farben: ab drei Zügen im Baum (8 statt 27 Blätter, L-040), immer im Rechenweg –
+  // dort ist das Gegenereignis ein einziger Pfad.
+  const zweiErgebnisse = nurErgebnisUndRest(exp, id);
+  const baum = baueBaum(zuege >= 3 ? zweiErgebnisse : exp, zuege, mitZuruecklegen);
+  const gegen = parseEreignis(`kein${id}`, baum.experiment, zuege);
   const pGegen = ereignisWahrscheinlichkeit(baum, gegen);
+  const rechenBaum = baueBaum(zweiErgebnisse, zuege, mitZuruecklegen);
+  const gegenPfade = ereignisPfade(rechenBaum, parseEreignis(`kein${id}`, zweiErgebnisse, zuege));
   const loesung = subtrahiere(EINS, pGegen);
   const name = ergebnisName(exp, id);
   const gegenKurz = gegen.name.replace("kein einziges Mal", "kein Mal");
   const aktion = exp.typ === "muenze" ? "wirfst die Münze" : exp.typ === "wuerfelSechs" ? "würfelst" : "ziehst";
   const zurueck = exp.typ === "urne" ? (mitZuruecklegen ? " mit Zurücklegen" : " ohne Zurücklegen") : "";
-  const faktoren = gegenPfade.length === 1 ? gegenPfade[0].pfad.map((_, i) => formatBruch(zweigW(baum, gegenPfade[0].pfad, i))) : [];
+  const faktoren = gegenPfade.length === 1 ? gegenPfade[0].pfad.map((_, i) => formatBruch(zweigW(rechenBaum, gegenPfade[0].pfad, i))) : [];
   const alleGleich = faktoren.length && faktoren.every((f) => f === faktoren[0]);
   const gegenTerm = alleGleich ? `(${faktoren[0]})${hoch(zuege)}` : faktoren.join(" · ");
   return aufgabe("mindestens", pGegen, loesung, {

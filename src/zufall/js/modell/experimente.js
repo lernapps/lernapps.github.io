@@ -109,6 +109,18 @@ export function elementarErgebnisse(exp) {
   return liste;
 }
 
+/**
+ * Vereinfachter Versuch mit zwei Ergebnissen: das Ergebnis `id` und „nicht …“ (alle übrigen zusammen), z. B. „gelb /
+ * nicht gelb“. Für „mindestens einmal“ reicht diese Unterscheidung; der Baum hat zwei Zweige je Stufe (L-040).
+ * Ohne Zurücklegen stimmt die Rechnung weiter: Jede gezogene „nicht gelb“-Kugel verringert den Rest um 1.
+ */
+export function nurErgebnisUndRest(exp, id) {
+  const e = ergebnis(exp, id);
+  const rest = gesamtAnzahl(exp) - (e ? e.anzahl : 0);
+  if (!e || exp.ergebnisse.length <= 2 || rest === 0) return exp;
+  return { ...exp, ergebnisse: [{ ...e }, { id: "x", name: `nicht ${e.name}`, farbe: "#cfd8dc", anzahl: rest }] };
+}
+
 // Ziehen ohne Zurücklegen: neuer Versuch mit einem Ergebnis weniger.
 export function entferne(exp, id) {
   if (!exp.ohneZuruecklegenMoeglich) return null;

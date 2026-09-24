@@ -41,7 +41,7 @@ test("Lücke zwischen Geschwistergruppen: mindestens 6 px mehr als in der Gruppe
 
 test("ohne richtung wählt zeichneBaumIn: hochkant, wenn der Baum in 279 px passt, sonst quer", () => {
   const faelle = [[urne("3r2b1g"), 2, "baum-hochkant"], [urne("2r2b2g"), 2, "baum-hochkant"], [wuerfelSechs(), 2, "baum-hochkant"],
-    [muenze(), 3, "baum-hochkant"], [urne("3r2b1g"), 3, "baum-quer"], [wuerfelSechs(), 3, "baum-quer"]];
+    [muenze(), 3, "baum-hochkant"], [urne("3r2b1g"), 3, "baum-quer"], [wuerfelSechs(), 3, "baum-hochkant"]]; // L-040: 6 / keine 6 passt
   for (const [exp, zuege, erwartet] of faelle) {
     const g = svgEl("g");
     const groesse = zeichneBaumIn(g, baueBaum(exp, zuege, true), { zeigePfad: true });

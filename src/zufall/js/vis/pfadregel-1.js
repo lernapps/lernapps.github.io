@@ -1,4 +1,4 @@
-/* Bild zu Kompetenz 4: der Baum, der gefragte Pfad orange; nach der richtigen Antwort mit Pfadwahrscheinlichkeiten. */
+/* Bild zu Kompetenz 3: der Baum, der gefragte Pfad orange; nach der richtigen Antwort mit Pfadwahrscheinlichkeiten. */
 import { gruppe, rahmen } from "./rahmen.js";
 import { zeichneBaumIn } from "./baum.js";
 

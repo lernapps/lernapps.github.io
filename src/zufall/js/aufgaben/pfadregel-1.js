@@ -1,5 +1,5 @@
 /*
- * Kompetenz 4: Erste Pfadregel – entlang eines Pfades werden die Zweigwahrscheinlichkeiten multipliziert.
+ * Kompetenz 3: Erste Pfadregel – entlang eines Pfades werden die Zweigwahrscheinlichkeiten multipliziert.
  * URL-Parameter (llms.txt): experiment, urne, zuege, modus, ereignis=<Reihenfolge> (rb, kzk, sk), seed/nr.
  */
 import { formatBruch } from "../../../kern/js/bruch.js";

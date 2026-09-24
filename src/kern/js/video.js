@@ -89,7 +89,7 @@ function zeigeIframe(section, daten, praefix, { mitAufheben = false } = {}) {
       allow: "autoplay; encrypted-media; picture-in-picture", allowfullscreen: true, loading: "lazy",
     }),
   ]);
-  section.querySelectorAll(":scope > :not(h2, .video-notiz)").forEach((kind) => kind.remove());
+  section.querySelectorAll(":scope > :not(h2, h3, .video-notiz)").forEach((kind) => kind.remove());
   section.append(rahmen);
   if (mitAufheben) {
     const aufheben = el("button", { type: "button", class: "video-link", text: "Merken aufheben" });
@@ -117,14 +117,17 @@ function zeigePlatzhalter(section, daten, praefix) {
     if (merken.checked) speichereDirektLaden(praefix, true);
     zeigeIframe(section, daten, praefix);
   });
-  section.querySelectorAll(":scope > :not(h2, .video-notiz)").forEach((kind) => kind.remove());
+  section.querySelectorAll(":scope > :not(h2, h3, .video-notiz)").forEach((kind) => kind.remove());
   section.append(karte);
 }
 
-/** praefix: APP.id. Wandelt alle <section class="video-karte" data-youtube-id data-titel> in Zwei-Klick-Karten um. */
+/**
+ * praefix: APP.id. Wandelt alle Elemente class="video-karte" mit data-youtube-id und data-titel in Zwei-Klick-Karten um:
+ * den Abschnitt #video bei einem Video, je ein <div> mit <h3> bei mehreren (videos: im Front Matter, TD-17).
+ */
 export function initVideos(praefix, wurzel = document) {
   const direkt = ladeDirektLaden(praefix);
-  for (const section of wurzel.querySelectorAll("section.video-karte[data-youtube-id]")) {
+  for (const section of wurzel.querySelectorAll(".video-karte[data-youtube-id]")) {
     const daten = leseVideoDaten(section.dataset);
     if (!daten) continue;
     if (direkt) zeigeIframe(section, daten, praefix, { mitAufheben: true });

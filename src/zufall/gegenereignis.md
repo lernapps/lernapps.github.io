@@ -17,12 +17,12 @@ beispiel: |
   <p><strong>Der Trick mit „mindestens einmal“:</strong> Du würfelst dreimal. Wie groß ist P(mindestens eine 6)?</p>
   <ol>
   <li>Gegenereignis: <em>kein einziges Mal</em> eine 6. Das ist ein einziger Pfad: keine 6, keine 6, keine 6.</li>
-  <li>P(keine 6, keine 6, keine 6) = 5/6 · 5/6 · 5/6 = (5/6)³ = 125/216.</li>
+  <li>Nach der <a href="pfadregel-1.html">1. Pfadregel</a> multiplizierst du entlang des Pfades: P(keine 6, keine 6, keine 6) = 5/6 · 5/6 · 5/6 = (5/6)³ = 125/216.</li>
   <li>P(mindestens eine 6) = 1 − 125/216 = 91/216 ≈ 42 %.</li>
   </ol>
   <p>Ohne den Trick müsstest du 7 Pfade addieren. Mit dem Trick ist es eine Rechnung.</p>
 bild:
-  text: 'Der Baum zum dreimaligen Würfeln. Orange ist der einzige Pfad des Gegenereignisses „kein einziges Mal 6“: 5/6 · 5/6 · 5/6. Rechts stehen die Pfadwahrscheinlichkeiten.'
+  text: 'Der Baum zum dreimaligen Würfeln. Orange ist der einzige Pfad des Gegenereignisses „kein einziges Mal 6“: 5/6 · 5/6 · 5/6. Unter den Enden stehen die Pfadwahrscheinlichkeiten.'
   funktion: zeichneGegenereignis
   uebungFunktion: zeichneGegenereignisMarkierbar
   uebung: 'Zeigt das Bild einzelne Ergebnisse, klick die Ergebnisse von E an – „nicht E“ sind die übrigen.'

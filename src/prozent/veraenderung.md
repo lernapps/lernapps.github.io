@@ -36,16 +36,15 @@ beispiel: |
   </table>
   </div>
   <p>Falsch wäre: 100&nbsp;€ − 25&nbsp;% von 100&nbsp;€ = 75&nbsp;€. Die 25&nbsp;% beziehen sich auf den alten Preis, nicht auf 100&nbsp;€.</p>
-  <section id="video-2" class="video-karte" data-youtube-id="hyKgJKGCjHc" data-titel="Preiserhöhung, Aufschlag berechnen | Prozentrechnung - einfach erklärt | Lehrerschmidt" data-kanal="Lehrerschmidt">
-  <h2>Video: Preiserhöhung</h2>
-  <p><a href="https://www.youtube.com/watch?v=hyKgJKGCjHc" rel="noopener">Preiserhöhung, Aufschlag berechnen | Prozentrechnung - einfach erklärt | Lehrerschmidt</a></p>
-  <p class="video-kanal">Lehrerschmidt · YouTube</p>
-  <p class="video-hinweis">Beim Start werden Daten (u. a. deine IP-Adresse) an YouTube/Google übertragen.</p>
-  </section>
-video:
-  id: 7qPr-ik4wp8
-  titel: 'Rabatt, Nachlass, Preissenkung berechnen | Prozentrechnung - einfach erklärt | Lehrerschmidt'
-  kanal: Lehrerschmidt
+videos:
+  - ueberschrift: Senkung
+    id: 7qPr-ik4wp8
+    titel: 'Rabatt, Nachlass, Preissenkung berechnen | Prozentrechnung - einfach erklärt | Lehrerschmidt'
+    kanal: Lehrerschmidt
+  - ueberschrift: Erhöhung
+    id: hyKgJKGCjHc
+    titel: 'Preiserhöhung, Aufschlag berechnen | Prozentrechnung - einfach erklärt | Lehrerschmidt'
+    kanal: Lehrerschmidt
 bild:
   text: 'Der obere Balken ist der alte Preis 80 € (100 %), der untere der neue Preis 60 € (75 %).'
   funktion: zeichneVeraenderung

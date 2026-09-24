@@ -1,4 +1,4 @@
-// Use Case: Kompetenz 2 – die Gegenwahrscheinlichkeit 1 − p berechnen (gegenereignis.html).
+// Use Case: Kompetenz 4 – die Gegenwahrscheinlichkeit 1 − p berechnen (gegenereignis.html).
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { erzeugeAufgabe, pruefeAntwort, bruchAusZahl, URL_ZAHLEN, URL_TEXTE } from "../js/aufgaben/gegenereignis.js";
