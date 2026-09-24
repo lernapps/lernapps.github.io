@@ -41,7 +41,7 @@ mit je 2. Es gelten die Maßnahmen von Tier 1 und Tier 2, mit dem Stand aus EPIC
 | CI-Build und Unit-Tests (T1) | vorhanden | Pflicht-Check `test-und-build` (`pruefen.yml`)
 | Dependency-Check (T1) | umgesetzt, #20 | `npm audit --audit-level=high` im Pflicht-Check; Versionen exakt gepinnt, `npm ci`
 | Linter (T1) | umgesetzt, #21 | ESLint Flat Config mit `no-eval`, `no-implied-eval`, `no-unsanitized` (`eslint.config.js`)
-| Type Checking (T1) | offen, Could, #25 | `tsc --checkJs`, zuerst `src/kern`
+| Type Checking (T1) | umgesetzt, #25 | `tsc --checkJs` mit `strict` im Pflicht-Check (`npm run typecheck`, `jsconfig.json`), vorerst nur `src/kern`; die Apps folgen
 | Pre-Commit-Hooks (T1) | Won't, #27 | Der Pflicht-Check prüft dasselbe; Hooks lassen sich lokal umgehen
 | SAST (T2) | umgesetzt, #19 | CodeQL Default Setup; dazu Secret Scanning mit Push Protection und Dependabot
 | Property-Based Tests (T2) | umgesetzt, #22 | fast-check für Term-Parser, Termgleichheit und Rundung; fand gleich den Fehler #30, behoben

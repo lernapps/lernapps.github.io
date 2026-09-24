@@ -10,11 +10,15 @@ import { starteTrainer } from "./ui.js";
 import { initVideos } from "./video.js";
 import { vomTutor, zurueckKnopf, uebungsZeile } from "./zurueck.js";
 
+/** App-Konfiguration (APP in js/app.config.js). @typedef {{ id: string, titel: string }} App */
+
 /**
  * app: APP aus js/app.config.js (id = localStorage-Präfix). modul: der Generator (js/aufgaben/<id>.js); welche
  * URL-Parameter er annimmt, sagen seine Exporte URL_ZAHLEN und URL_TEXTE. zeichne(svg, aufgabe, ergebnis|undefined)
  * zeichnet das Bild zur Aufgabe in der Übung (optional), bildHinweis ergänzt dessen Beschriftung.
  * kompetenz: { nr, titel } für die Ergebniszeile von "Zurück zu Claude" (nur mit ?von=tutor, ADR-021).
+ * @param {{ app: App, modul: import("./ui.js").Generator, zeichne?: import("./ui.js").Zeichner, bildHinweis?: string,
+ *   kompetenz?: { nr: number, titel: string } }} seite
  */
 export function starteSeite({ app, modul, zeichne, bildHinweis, kompetenz }) {
   initVideos(app.id);
@@ -44,7 +48,7 @@ export function starteSeite({ app, modul, zeichne, bildHinweis, kompetenz }) {
 }
 
 function holeUebungNachVorn() {
-  const erklaerung = document.getElementById("erklaerung");
+  const erklaerung = /** @type {HTMLDetailsElement | null} */ (document.getElementById("erklaerung"));
   if (erklaerung) erklaerung.open = false;
   // Die zugeklappte Zusammenfassung bleibt oben sichtbar, die Übung steht direkt darunter. Der Browser springt beim
   // Laden selbst noch zum Anker (#uebung) – deshalb nach "load" noch einmal.

@@ -18,8 +18,30 @@
  *   | { art: "wurzel", arg }
  */
 
+/**
+ * Knoten des Syntaxbaums (siehe oben). Die Kindfelder der anderen Arten sind optional mitgetypt, damit Durchläufe über
+ * alle Kinder ([k.arg, k.links, k.rechts, k.basis]) ohne switch gehen.
+ * @typedef {{ arg?: Knoten, links?: Knoten, rechts?: Knoten, basis?: Knoten, name?: string }} Kinder
+ * @typedef {Kinder & (
+ *   { art: "zahl", wert: number, text: string }
+ *   | { art: "variable", name: string }
+ *   | { art: "pi" }
+ *   | { art: "klammer" | "negativ" | "wurzel", arg: Knoten }
+ *   | { art: "plus" | "minus" | "mal" | "geteilt", links: Knoten, rechts: Knoten }
+ *   | { art: "potenz", basis: Knoten, exponent: number })} Knoten
+ * @typedef {{ text?: string, name?: string, wert?: number }} Tokenfelder
+ * @typedef {Tokenfelder & ({ typ: "zahl" | "wurzel" | "op", text: string } | { typ: "pi" }
+ *   | { typ: "variable", name: string } | { typ: "hoch", wert: number })} Token
+ * @typedef {"zeichen" | "grossbuchstabe" | "klammer-fehlt" | "klammer-zu-viel" | "unvollstaendig" | "zahl-dahinter"
+ *   | "exponent" | "wurzel-klammer"} Syntaxcode
+ * @typedef {{ baum: Knoten, variablen: string[], text: string, fehler?: undefined, meldung?: undefined }
+ *   | { fehler: "leer" | Syntaxcode, meldung: string, baum?: undefined, variablen?: undefined, text?: undefined }} GelesenerTerm
+ */
+
 const MAX_EXPONENT = 64;
-const HOCHZAHLEN = "⁰¹²³⁴⁵⁶⁷⁸⁹";
+// Auch als Tabelle Ziffer → Hochzahl gelesen (HOCHZAHLEN["2"] = "²").
+const HOCHZAHLEN = /** @type {string & Record<string, string>} */ ("⁰¹²³⁴⁵⁶⁷⁸⁹");
+/** @type {Record<string, string>} */
 const ERSATZ = { "−": "-", "–": "-", "·": "*", "×": "*", "⋅": "*", ":": "/" };
 const TOKEN = /\s*(?:(\d+(?:[.,]\d+)?)|(sqrt|wurzel|√)|(pi|π)|([a-z])|([-+*/^()])|([⁰¹²³⁴⁵⁶⁷⁸⁹]+)|(\S))/iy;
 
@@ -34,15 +56,19 @@ export const SYNTAX_MELDUNGEN = Object.freeze({
 });
 
 class SyntaxFehler extends Error {
+  /** @param {Syntaxcode} code @param {string} [zeichen] */
   constructor(code, zeichen) {
     super(code);
     this.code = code;
-    this.meldung = code === "zeichen" ? `Das Zeichen „${zeichen}“ kenne ich hier nicht.` : SYNTAX_MELDUNGEN[code];
+    /** @type {string} */
+    this.meldung = code === "zeichen" ? `Das Zeichen „${zeichen}“ kenne ich hier nicht.` : SYNTAX_MELDUNGEN[/** @type {Exclude<Syntaxcode, "zeichen">} */ (code)];
   }
 }
 
+/** @param {unknown} text @returns {Token[]} */
 function tokenisiere(text) {
   const s = String(text ?? "").replace(/[−–·×⋅:]/g, (z) => ERSATZ[z]).trim();
+  /** @type {Token[]} */
   const tokens = [];
   let pos = 0;
   while (pos < s.length) {
@@ -63,12 +89,16 @@ function tokenisiere(text) {
   return tokens;
 }
 
+/** @param {Token[]} tokens @returns {Knoten} */
 function parse(tokens) {
   let i = 0;
   const jetzt = () => tokens[i];
+  /** @param {string} text */
   const istOp = (text) => jetzt()?.typ === "op" && jetzt().text === text;
+  /** @param {Token | undefined} t */
   const beginntFaktor = (t) => t && (t.typ === "variable" || t.typ === "pi" || t.typ === "wurzel" || (t.typ === "op" && t.text === "("));
 
+  /** @returns {Knoten} */
   function klammer() {
     i++; // "("
     const arg = ausdruck();
@@ -76,6 +106,7 @@ function parse(tokens) {
     i++;
     return { art: "klammer", arg };
   }
+  /** @returns {Knoten} */
   function basis() {
     const t = jetzt();
     if (!t) throw new SyntaxFehler("unvollstaendig");
@@ -91,8 +122,9 @@ function parse(tokens) {
     if (istOp("(")) return klammer();
     throw new SyntaxFehler("unvollstaendig");
   }
+  /** @returns {number} */
   function exponent() {
-    if (jetzt()?.typ === "hoch") return tokens[i++].wert;
+    if (jetzt()?.typ === "hoch") return /** @type {number} */ (tokens[i++].wert);
     i++; // "^"
     const inKlammer = istOp("(");
     if (inKlammer) i++;
@@ -105,6 +137,7 @@ function parse(tokens) {
     }
     return Number(t.text);
   }
+  /** @returns {Knoten} */
   function faktor() {
     if (istOp("-")) { i++; return { art: "negativ", arg: faktor() }; }
     if (istOp("+")) { i++; return faktor(); }
@@ -116,6 +149,7 @@ function parse(tokens) {
     }
     return b;
   }
+  /** @returns {Knoten} */
   function term() {
     let a = faktor();
     for (;;) {
@@ -128,6 +162,7 @@ function parse(tokens) {
       else return a;
     }
   }
+  /** @returns {Knoten} */
   function ausdruck() {
     let a = term();
     while (istOp("+") || istOp("-")) {
@@ -142,6 +177,7 @@ function parse(tokens) {
   return baum;
 }
 
+/** @param {Knoten} k @param {Set<string>} [menge] @returns {Set<string>} */
 function sammleVariablen(k, menge = new Set()) {
   if (k.art === "variable") menge.add(k.name);
   for (const kind of [k.arg, k.links, k.rechts, k.basis]) if (kind) sammleVariablen(kind, menge);
@@ -152,6 +188,7 @@ function sammleVariablen(k, menge = new Set()) {
  * Liest einen Term. → { baum, variablen: ["a", "b", …] (sortiert), text: schön gesetzt }
  * oder { fehler: "leer" | "zeichen" | "grossbuchstabe" | "klammer-fehlt" | "klammer-zu-viel" | "unvollstaendig"
  *        | "zahl-dahinter" | "exponent" | "wurzel-klammer", meldung }.
+ * @param {unknown} text @returns {GelesenerTerm}
  */
 export function leseVariablenterm(text) {
   try {
@@ -165,8 +202,10 @@ export function leseVariablenterm(text) {
   }
 }
 
-/** Wert des Baums für eine Belegung { x: 2, … }; NaN oder ±Infinity, wo der Term nicht definiert ist. */
+/** Wert des Baums für eine Belegung { x: 2, … }; NaN oder ±Infinity, wo der Term nicht definiert ist.
+ * @param {Knoten} k @param {Record<string, number>} [belegung] @returns {number} */
 export function auswerten(k, belegung = {}) {
+  /** @param {Knoten} kind */
   const w = (kind) => auswerten(kind, belegung);
   switch (k.art) {
     case "zahl": return k.wert;
@@ -184,11 +223,14 @@ export function auswerten(k, belegung = {}) {
   }
 }
 
+/** @param {number} n */
 const hoch = (n) => [...String(n)].map((d) => HOCHZAHLEN[d]).join("");
 const ATOMAR = new Set(["zahl", "variable", "pi", "klammer"]);
+/** @param {Knoten} k */
 const mitVorzeichenInKlammer = (k) => (k.art === "negativ" ? `(${formatTerm(k)})` : formatTerm(k));
 
 // Produkt ohne Malpunkt, wo das eindeutig ist (3x, ab, 2(x + 1)); sonst "·" (x·3, √2·x, p·i statt "pi").
+/** @param {Knoten & { links: Knoten, rechts: Knoten }} k Produkt ("mal") */
 function setzeProdukt(k) {
   const links = k.links.art === "geteilt" ? `(${formatTerm(k.links)})` : formatTerm(k.links);
   const rechts = mitVorzeichenInKlammer(k.rechts);
@@ -198,7 +240,8 @@ function setzeProdukt(k) {
   return ohnePunkt ? `${links}${rechts}` : `${links}·${rechts}`;
 }
 
-/** Setzt einen Baum schön: x^2 → x², 3*x → 3x, - → −, Dezimalpunkt → Komma. Klammern der Eingabe bleiben stehen. */
+/** Setzt einen Baum schön: x^2 → x², 3*x → 3x, - → −, Dezimalpunkt → Komma. Klammern der Eingabe bleiben stehen.
+ * @param {Knoten} k @returns {string} */
 export function formatTerm(k) {
   switch (k.art) {
     case "zahl": return k.text.replace(".", ",");

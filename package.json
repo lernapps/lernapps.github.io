@@ -10,6 +10,7 @@
     "serve": "eleventy --serve",
     "pruefe": "npm test && npm run build",
     "lint": "eslint .",
+    "typecheck": "tsc -p jsconfig.json",
     "test:browser": "playwright test"
   },
   "devDependencies": {
@@ -20,6 +21,7 @@
     "eslint": "10.11.0",
     "eslint-plugin-no-unsanitized": "4.1.5",
     "fast-check": "4.10.2",
-    "globals": "17.12.0"
+    "globals": "17.12.0",
+    "typescript": "7.0.2"
   }
 }
