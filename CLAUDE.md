@@ -113,6 +113,16 @@ repository: one shared kern, one layout, one build (Eleventy 3.1.6), deployed to
   `<org>.github.io` gets Pages auto-enabled in legacy branch mode; switch it once to source "GitHub Actions" with
   `gh api -X PUT repos/<owner>/<repo>/pages -f build_type=workflow` (POST fails because Pages already exists).
 
+## AI review before every merge (#24, ADR-026)
+- Before a PR is proposed for merge, a reviewer in a FRESH context (sub-agent or new session, not the author;
+  ideally another model) runs `werkzeuge/review/ki-review.md`: Fagan-style checklist (correctness, tests trace to
+  the issue, OWASP incl. `innerHTML`/`eval`/external requests/tutor-link allowlist, static first, privacy, teacher
+  voice and maths, ADR/docs/version). The author never writes the verdict.
+- The reviewer posts a PR review (type comment) starting with `## KI-Review`, with the lines `Stand: <head SHA>` and
+  `Ergebnis: freigegeben` or `Ergebnis: Änderungen nötig`, and the findings. Unfixed findings get a reason in the PR.
+- The check `ki-review` (`.github/workflows/ki-review.yml`, read-only token, no LLM call) is green only if the newest
+  such review from `raifdmueller` came after the last commit and names the head SHA. Every new commit needs a new review.
+
 ## Architecture
 - arc42 documentation (German) lives in `src/docs/arc42/` (chapters in `chapters/`, ADRs in `chapters/_adr-*.adoc`,
   index in chapter 9); theme overrides without CDN resources in `src/site/`; config `docToolchainConfig.groovy`.
@@ -158,7 +168,7 @@ branch protection, secret scanning with push protection, org-wide 2FA and the tu
 | Dependency Check       | Present | `npm audit --audit-level=high` in `pruefen.yml` (#20); exact pins, `npm ci`     |
 | CI Build & Unit Tests  | Present | `pruefen.yml`, required check `test-und-build`                                  |
 | SAST                   | Present | CodeQL default setup, secret scanning with push protection, Dependabot (#19)    |
-| AI Code Review         | Pending | fixed step before every merge (#24, Should)                                     |
+| AI Code Review         | Present | fresh-context review before every merge, check `ki-review` (#24, ADR-026)       |
 | Property-Based Tests   | Present | fast-check, `test/kern/*.property.test.js` (#22; found and fixed #30)           |
 | SonarQube Quality Gate | N/A     | Won't (#28): file length ≤ 500 lines and ESLint cover it                        |
 | Sampling Review (~20%) | Present | 100 %: the PO merges every PR; not enforceable (a single maintainer cannot approve their own PR) |
