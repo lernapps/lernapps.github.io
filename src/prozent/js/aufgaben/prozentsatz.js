@@ -1,4 +1,4 @@
-/* Aufgaben: Prozentsatz berechnen — p % = W / G · 100. Reine Funktionen, kein DOM. */
+/* Aufgaben: Prozentsatz berechnen — p = W / G · 100. Reine Funktionen, kein DOM. */
 import { formatZahl, runde } from "../../../kern/js/zahlen.js";
 import { multipliziere, dividiere, bruch } from "../../../kern/js/bruch.js";
 import { zahlenfeld, pruefeZahlAntwort, passtZu } from "../../../kern/js/zahlantwort.js";
@@ -49,8 +49,8 @@ export function erzeugeAufgabe(zufall, vorgaben = {}) {
     tipp: `Der Grundwert ist das Ganze: ${mitEinheit(grundwert, einheit)} sind 100 %. `
       + `Teile den Teil (${mitEinheit(prozentwert, wEinheit)}) durch das Ganze und nimm das Ergebnis mal 100.`,
     rechenweg: [
-      "p % = W / G · 100",
-      `p % = ${formatZahl(prozentwert)} / ${formatZahl(grundwert)} · 100`,
+      "p = W / G · 100",
+      `p = ${formatZahl(prozentwert)} / ${formatZahl(grundwert)} · 100 = ${formatZahl(prozentsatz)}`,
       `p % = ${formatZahl(prozentsatz)} %`,
     ],
   };
