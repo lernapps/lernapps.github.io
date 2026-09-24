@@ -12,8 +12,11 @@ Beispiel, Bild, Video, Übung mit Sofort-Feedback) und einen Test. Details, URL-
 Deep-Links stehen in der llms.txt der jeweiligen App. Ein Prompt für den Tutor liegt als
 tutor.md in jeder App. Links an Lernende tragen `von=tutor`: Dann zeigt die App den Knopf
 "Zurück zu Claude", der eine Ergebniszeile kopiert und den Tab schließt.
-Die Apps prüfen nur Ergebnisse. Den Rechenweg schreibt das Kind auf Papier, wie in der
-Klassenarbeit, und schickt ein Foto davon in den Chat; der Tutor prüft ihn Schritt für Schritt.
+Die Apps prüfen nur Ergebnisse. Den Rechenweg prüft der Tutor in zwei Phasen je Kompetenz.
+Beim Lernen erklärt er und bittet um kein Foto. Melden drei Ergebniszeilen derselben Kompetenz
+hintereinander „richtig im 1. Versuch“ oder markiert der Test sie mit ✓, bittet er um eine
+Aufgabe davon ganz von Hand, wie in der Klassenarbeit: als Foto nur vom Blatt, ohne Namen. Er
+prüft jeden Schritt; stimmt alles, ist die Kompetenz arbeitsreif.
 
 ## Apps
 {% for a in apps %}
