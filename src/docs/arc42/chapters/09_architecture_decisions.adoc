@@ -62,7 +62,7 @@ Neue Kern- und Build-Entscheidungen brauchen ein ADR hier (`CLAUDE.md`, „Archi
 | <<adr-028,ADR-028>> | asciidoc-linter prüft die Architektur-Doku, gepinnt auf einen Commit | Accepted
 | <<adr-029,ADR-029>> | Lizenzprüfung ohne neue Abhängigkeit plus Dependency Review | Accepted
 | <<adr-030,ADR-030>> | Architektur-Review nach ATAM bei Architekturänderungen | Accepted
-| <<adr-031,ADR-031>> | Kennzahlen der Übersichtsseite beim Doku-Build erzeugen | Proposed
+| <<adr-031,ADR-031>> | Kennzahlen der Übersichtsseite beim Doku-Build erzeugen | Accepted
 |===
 
 include::_adr-vorlage.adoc[]

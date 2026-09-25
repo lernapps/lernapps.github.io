@@ -254,8 +254,8 @@ offene PRs geraten in einen Merge-Konflikt.
 Die Dateien sind git-ignoriert. `test/build/dashboard.test.js` läuft in `npm test` gegen das echte
 Repository, damit ein Formatbruch im Pflicht-Check `test-und-build` auffällt und nicht erst beim Deployment.
 
-*Status.* Proposed. Der Product Owner hat die Übersichtsseite (Option 2) am 25.09.2026 gewählt; die
-Erzeugung beim Build schlägt PR „Übersichtsseite“ vor.
+*Status.* Accepted. Vom Product Owner entschieden am 25.09.2026: erst die Übersichtsseite (Option 2),
+dann die Erzeugung beim Build statt eingecheckter Dateien.
 
 [cols="2,1,1,1",options="header"]
 |===
