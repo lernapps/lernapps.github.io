@@ -98,6 +98,8 @@ function zeigeIframe(section, daten, praefix, { mitAufheben = false } = {}) {
     el("iframe", {
       src: baueEmbedUrl(daten.id), title: daten.titel,
       allow: "autoplay; encrypted-media; picture-in-picture", allowfullscreen: true, loading: "lazy",
+      // Explizit statt Browser-Vorgabe: YouTube sieht nur https://lernapps.github.io/, nie ?seed= oder von=tutor.
+      referrerpolicy: "strict-origin-when-cross-origin",
     }),
   ]);
   section.querySelectorAll(":scope > :not(h2, h3, .video-notiz)").forEach((kind) => kind.remove());
