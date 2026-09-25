@@ -251,7 +251,8 @@ offene PRs geraten in einen Merge-Konflikt.
 
 *Entscheidung.* `scripts/dashboard.js` erzeugt die Dateien der Übersicht beim Doku-Build.
 `scripts/dtc-v4.sh` ruft es vor docToolchain auf; `doku.yml` ruft es zusätzlich vor dem AsciiDoc-Lint auf.
-Die Dateien sind git-ignoriert. `test/build/dashboard.test.js` läuft in `npm test` gegen das echte
+Die Dateien sind git-ignoriert. Tests zählt es mit einem echten `node --test`-Lauf und mit
+`playwright test --list`; deshalb laufen vor dem Doku-Build `npm ci` und `npm run build`. `test/build/dashboard.test.js` läuft in `npm test` gegen das echte
 Repository, damit ein Formatbruch im Pflicht-Check `test-und-build` auffällt und nicht erst beim Deployment.
 
 *Status.* Accepted. Vom Product Owner entschieden am 25.09.2026: erst die Übersichtsseite (Option 2),
