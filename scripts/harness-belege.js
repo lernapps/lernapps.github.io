@@ -31,10 +31,11 @@ export const BELEGE = {
     "datei:e2e/zurueck.spec.js", "datei:e2e/ueberlauf.spec.js", "datei:e2e/ohne-js.spec.js"],
   "smoke-tests": ["datei:e2e/smoke.spec.js", "datei:e2e/extern.spec.js", "pflicht:browser"],
   "secret-scanning": ["github:secret_scanning", "github:secret_scanning_push_protection"],
-  sca: ["github:vulnerability-alerts", "github:dependabot_security_updates", "job:pruefen.yml#test-und-build"],
+  sca: ["github:vulnerability-alerts", "github:dependabot_security_updates", "job:pruefen.yml#test-und-build",
+    "job:abhaengigkeiten.yml#abhaengigkeiten"],
   sast: ["github:code-scanning/default-setup"],
   "license-compliance": ["funktion:lib/pruefe-lizenzen.js#pruefeLizenzen", "funktion:lib/pruefe-lizenzen.js#pruefeVendorKoepfe",
-    "datei:test/build/pruefe-lizenzen.test.js", "job:abhaengigkeiten.yml#abhaengigkeiten", "pflicht:test-und-build"],
+    "datei:test/build/pruefe-lizenzen.test.js", "job:abhaengigkeiten.yml#abhaengigkeiten", "pflicht:test-und-build", "pflicht:abhaengigkeiten"],
   "llm-security-review": ["datei:werkzeuge/review/ki-review.md", "job:ki-review.yml#ki-review", "pflicht:ki-review"],
   "threat-modeling": ["datei:src/docs/arc42/chapters/08_concepts.adoc", "datei:werkzeuge/review/ki-review.md",
     "pflicht:ki-review"],
@@ -54,7 +55,7 @@ export const BELEGE = {
   "markdown-asciidoc-lint": ["job:doku.yml#doku-bauen-und-pruefen", "funktion:scripts/doku-lint.js#bewerte",
     "datei:test/build/doku-lint.test.js"],
   "diagram-build": ["job:doku.yml#doku-bauen-und-pruefen", "job:pages.yml#build", "datei:scripts/dtc-v4.sh"],
-  "doc-code-drift": ["funktion:lib/llms-vertrag.js#pruefeParameterDoku"],
+  "doc-code-drift": ["funktion:lib/llms-vertrag.js#pruefeParameterDoku", "datei:test/build/kontext-bausteine.test.js"],
 };
 
 const lies = (datei) => fs.readFileSync(path.join(WURZEL, datei), "utf8");

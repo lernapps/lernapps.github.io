@@ -65,7 +65,8 @@ repository: one shared kern, one layout, one build (Eleventy 3.1.6), deployed to
   (ESLint flat config: `no-eval`, `no-implied-eval`, `no-unsanitized` against T-003). Never set `innerHTML`; build DOM.
 - Licences (`lib/pruefe-lizenzen.js`, run by `npm test`): every package in `package-lock.json` needs a licence from the
   allowlist (shipped packages permissive only; dev packages also MPL-2.0), every file under `src/**/vendor/` a licence
-  header. Changing the allowlist needs an ADR (ADR-029). `abhaengigkeiten.yml` runs Dependency Review on every PR.
+  header. Changing the allowlist needs an ADR (ADR-029). `abhaengigkeiten.yml` runs Dependency Review on every PR
+  (required check `abhaengigkeiten` since 25.09.2026).
 - `npm run typecheck` (`tsc --checkJs`, `strict`, `jsconfig.json`) checks `src/kern/js` only, also in the required check.
   Type kern code with JSDoc (`@param`, `@returns`, `@typedef`); cast with `/** @type {…} */ (x)` only where the DOM or a
   contract guarantees more than tsc can see, and say why in a comment.
@@ -187,11 +188,12 @@ branch protection, secret scanning with push protection, org-wide 2FA and the tu
 | SAST                   | Present | CodeQL default setup, secret scanning with push protection, Dependabot (#19)    |
 | AI Code Review         | Present | fresh-context review before every merge, check `ki-review` (#24, ADR-027)       |
 | Property-Based Tests   | Present | fast-check, `test/kern/*.property.test.js` (#22; found and fixed #30)           |
+| Browser Tests          | Present | Playwright + axe-core in `e2e/`, workflow `browser.yml`, required check `browser` (#26, ADR-026) |
 | SonarQube Quality Gate | N/A     | Won't (#28): file length ≤ 500 lines and ESLint cover it                        |
-| Sampling Review (~20%) | Present | 100 %: the PO merges every PR; not enforceable (a single maintainer cannot approve their own PR) |
+| Sampling Review (~20%) | Present | 100 %: the PO merges every PR; a human approval is not enforceable (a single maintainer cannot approve their own PR), but the required check `ki-review` enforces a fresh-context review on every PR (ADR-027) |
 | Tutor link allowlist   | Present | `pruefeTutorLinks` in `lib/pruefungen.js` (ADR-023, M-22)                       |
 | Org 2FA requirement    | Present | decided and enabled 2026-09-24 (R-017, M-21)                                    |
-| License compliance     | Present | `lib/pruefe-lizenzen.js` in `npm test`; Dependency Review in `abhaengigkeiten.yml` (ADR-029, M-24) |
+| License compliance     | Present | `lib/pruefe-lizenzen.js` in `npm test`; Dependency Review in `abhaengigkeiten.yml`, required check `abhaengigkeiten` (ADR-029, M-24) |
 
 ## Semantic Contracts
 Source: https://llm-coding.github.io/Semantic-Anchors/contracts/ — copied from lern-app-template so the repo is self-contained.

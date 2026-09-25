@@ -135,7 +135,9 @@ behoben, der Generator setzt jetzt eine Leerzeile. HEAD002 am Titel von `arc42.a
 beginnt, ist ein Fehlalarm, weil die Regel ein Inline-Makro am Anfang für ein kleingeschriebenes Wort hält; der Wrapper
 unterdrückt HEAD002 nur für Überschriften, die mit einem Inline-Makro beginnen. Offen upstream bleiben #58
 (Exit-Code und `--fail-level`; die Schwere bewertet weiter der Wrapper), #59 (Fehler in der Konfiguration
-werden ignoriert) und #60 (`:imagesdir:`; der Wrapper filtert IMG001 weiter).
+werden ignoriert) und #60 (`:imagesdir:`; der Wrapper filtert IMG001 weiter). Am 24.09.2026 kamen #63 (HEAD002
+meldet eine Überschrift, die mit einem Inline-Makro beginnt; genau diesen Fall unterdrückt der Wrapper
+`scripts/doku-lint.js`) und #64 (BLOCK002 bei Zeilenkommentaren und am Dateianfang) dazu.
 
 [[adr-029]]
 === ADR-029: Lizenzprüfung ohne neue Abhängigkeit plus Dependency Review
@@ -180,8 +182,8 @@ Linie der Strukturprüfung (xref:09_architecture_decisions.adoc#adr-008[ADR-008]
 
 *Konsequenzen.* Die Schicht „License compliance“ steht auf „vorhanden“ (8.2 M-24). Die Prüfung vertraut dem
 Feld `license` aus dem Lockfile, also der Angabe im `package.json` des Pakets; eine falsche Angabe dort sieht
-sie nicht. Dependency Review braucht den Abhängigkeitsgraphen von GitHub und ist kein Pflicht-Check; ein Ausfall
-von GitHubs Dienst hält keinen Merge auf. Pflicht würde er mit einem weiteren Eintrag `abhaengigkeiten` in
-`required_status_checks` (wie bei M-23). Die Action ist ein Werkzeug von außen im PR-Lauf mit Leserechten
+sie nicht. Dependency Review braucht den Abhängigkeitsgraphen von GitHub. Seit dem 25.09.2026 ist der Job
+`abhaengigkeiten` Pflicht-Check in `required_status_checks` (wie bei M-23); ein Ausfall von GitHubs Dienst hält
+damit Merges auf, bis er zurück ist. Die Action ist ein Werkzeug von außen im PR-Lauf mit Leserechten
 (xref:11_technical_risks.adoc#r-015[R-015]); der SHA-Pin schließt ungeprüfte Updates aus. Die Lizenz des
 Projekts selbst regelt diese Entscheidung nicht; sie bleibt offen (xref:11_technical_risks.adoc#r-018[R-018]).

@@ -73,7 +73,7 @@ in Node.
 | M-21 | Zwei-Faktor-Pflicht für die Organisation `lernapps`, entschieden am 24.09.2026 und vom Product Owner in der GitHub-Oberfläche eingeschaltet. Ein gestohlenes Passwort reicht nicht mehr, um Kern, Apps oder `tutor.md` zu ändern. | T-001, T-015 (teilweise) | `gh api orgs/lernapps` (`two_factor_requirement_enabled`); xref:11_technical_risks.adoc#r-017[R-017]; ADR-023
 | M-22 | Link-Allowlist für Tutor-Dateien: Der Build lässt in `tutor.md` und `llms.txt` jeder App, in `/llms.txt` und `karte/llms.txt` nur relative Links und Links auf `https://lernapps.github.io/`, das eigene Repository, `https://de.serlo.org/` und `https://www.youtube.com/watch?v=` zu. Erkannt werden URLs mit Schema, protokoll-relative `//host`, `www.host` und `javascript:`/`data:`. Jedes andere Ziel bricht den Build. | T-015 (teilweise), T-002 (teilweise) | `lib/pruefungen.js` (`pruefeTutorLinks`, `erlaubteTutorZiele`); ADR-023
 | M-23 | KI-Review vor jedem Merge: Ein Reviewer in frischem Kontext prüft den PR nach `werkzeuge/review/ki-review.md` (Fagan-Checkliste mit OWASP, Tutor-Link-Allowlist, Datenschutz, Mathematik) und postet `## KI-Review` mit `Stand:` und `Ergebnis:`. Der Check `ki-review` ist nur für den geprüften Kopf-Commit grün. Pflicht im Branch-Schutz wird er mit `gh api -X PATCH repos/lernapps/lernapps.github.io/branches/main/protection/required_status_checks --input -` und `{"strict":false,"checks":[{"context":"test-und-build","app_id":15368},{"context":"ki-review","app_id":15368}]}`. | T-002 (teilweise), T-003 (teilweise), T-015 (teilweise) | `.github/workflows/ki-review.yml`, `scripts/ki-review-pruefen.js`; #24; ADR-027
-| M-24 | Lizenzprüfung ohne neue Abhängigkeit: `npm test` (Pflicht-Check `test-und-build`) prüft jede Lizenz in `package-lock.json` gegen eine Allowlist, ausgelieferte Pakete nur permissiv, dev-Pakete zusätzlich MPL-2.0, dazu einen Lizenzkopf in jeder Datei unter `src/**/vendor/`. In jedem PR prüft `abhaengigkeiten.yml` (Dependency Review, per SHA gepinnt, kein Pflicht-Check) neue Abhängigkeiten auf dieselben Lizenzen und auf Schwachstellen ab „high“. Eine Änderung der Allowlist braucht ein ADR. | T-012 (teilweise), T-004 (teilweise) | `lib/pruefe-lizenzen.js`, `test/build/pruefe-lizenzen.test.js`, `.github/workflows/abhaengigkeiten.yml`; xref:09_architecture_decisions.adoc#adr-029[ADR-029]
+| M-24 | Lizenzprüfung ohne neue Abhängigkeit: `npm test` (Pflicht-Check `test-und-build`) prüft jede Lizenz in `package-lock.json` gegen eine Allowlist, ausgelieferte Pakete nur permissiv, dev-Pakete zusätzlich MPL-2.0, dazu einen Lizenzkopf in jeder Datei unter `src/**/vendor/`. In jedem PR prüft `abhaengigkeiten.yml` (Dependency Review, per SHA gepinnt, seit 25.09.2026 Pflicht-Check `abhaengigkeiten`) neue Abhängigkeiten auf dieselben Lizenzen und auf Schwachstellen ab „high“. Eine Änderung der Allowlist braucht ein ADR. | T-012 (teilweise), T-004 (teilweise) | `lib/pruefe-lizenzen.js`, `test/build/pruefe-lizenzen.test.js`, `.github/workflows/abhaengigkeiten.yml`; xref:09_architecture_decisions.adoc#adr-029[ADR-029]
 | M-16 | Rückmeldung nur über einen Link auf GitHub Issues. Die Seite lädt nichts von GitHub; erst der Klick des Kindes oder der Eltern öffnet GitHub. GitHub verlangt ein Konto und ein Mindestalter von 13 Jahren; jüngere Kinder brauchen die Eltern. Entschieden am 23.09.2026, noch nicht umgesetzt. | T-007 (hält den Link frei von Einbettungen) | xref:03_context_and_scope.adoc#section-technical-context[Kapitel 3]
 |===
 
@@ -110,7 +110,7 @@ t1b -[hidden]- t1
 [cols="2,3,3",options="header"]
 |===
 | Ebene | Was sie prüft | Rückverfolgung
-| Unit-Tests (`test/kern/`, `test/build/`, `src/<app>/test/`, `src/karte/test/`) | Jedes Kern-Modul, jede Build-Funktion und jeder Generator als reine Funktion; test-first. | 50 von 57 Testdateien nennen im Kopf den Use Case (`// Use Case: …`); `zahlantwort.test.js` nennt BR-1 bis BR-5, `variablenterm.test.js`/`termantwort.test.js` BR-T1 bis BR-T9.
+| Unit-Tests (`test/kern/`, `test/build/`, `src/<app>/test/`, `src/karte/test/`) | Jedes Kern-Modul, jede Build-Funktion und jeder Generator als reine Funktion; test-first. | Mindestens 90 % der Testdateien nennen im Kopf den Use Case (`// Use Case: …`; `test/build/use-case-verweise.test.js` bricht darunter); `zahlantwort.test.js` nennt BR-1 bis BR-5, `variablenterm.test.js`/`termantwort.test.js` BR-T1 bis BR-T9.
 | Property-Based Tests (`test/kern/*.property.test.js`) | Eigenschaften der Kern-Mathematik über viele erzeugte Eingaben statt Einzelbeispiele: Round-Trip formatierter Zahlen, monotone Rundung, Stellenregel, „=“ nur bei exakten Werten, Gleichwertigkeit und Form von Binomen, abgelehnte Fehlterme. fast-check mit festem Seed 22 und 300 Läufen je Eigenschaft (zusammen unter 1 s); anderer Seed lokal mit `FC_SEED=<Zahl> npm test`. Ein gefundener Fehler wird Issue mit `risk-radar` und bleibt bis zum Fix als `todo` sichtbar. | Jeder Test nennt QZ-3 und R-004 oder R-012 im Namen, dazu BR-2, BR-5, BR-T7, BR-T8 (Issue #22)
 | Vertragstest | Für jede Kompetenz jeder App aus `lib/apps.js`: Generator liefert Aufgaben, die eigene Lösung ist richtig, Unsinn falsch, Seeds 1–20. | UC-1, UC-4 (`test/apps/vertrag.test.js:1`, `:34`)
 | Typprüfung (`npm run typecheck`) | `tsc --checkJs` mit `strict` über `src/kern/js` (`jsconfig.json`), im Pflicht-Check nach dem Lint. JSDoc-Typen beschreiben die Verträge zwischen Kern und Apps: Aufgabe, Feld, Generator, Prüfergebnis. Die Apps (`src/<app>/js`) prüft sie noch nicht. | ADR-023, Issue #25
@@ -320,7 +320,7 @@ Entschieden in xref:09_architecture_decisions.adoc#adr-015[ADR-015]. `src/_data/
 `{{ site.basis }}`. `site.js` behält genau einen `default`-Export.
 
 [[section-harness]]
-=== 8.16 Harness für KI-gestützte Entwicklung: 20 von 29 Prüfschichten laufen, Formatter und Dead-Code-Erkennung fehlen noch
+=== 8.16 Harness für KI-gestützte Entwicklung: 20 von 29 Prüfschichten laufen; die größten Lücken sind Formatter, Dead-Code-Erkennung und Rechtschreibprüfung
 
 Claude-Code-Agenten schreiben fast den ganzen Code; der Product Owner prüft und merged. Der Harness ist
 alles, was die Agenten dabei führt und was ihre Fehler fängt. Er gehört in dieses Kapitel, weil er jeden
@@ -363,8 +363,11 @@ internen Link und Anker in `_site` (`lib/pruefe-links.js`). Seit dem 25.09.2026 
 (xref:09_architecture_decisions.adoc#adr-028[ADR-028]); seit dem Fix upstream (docToolchain/asciidoc-linter#62)
 feuern auch seine Überschriften-, Block- und Bildregeln, und die Schicht zählt wieder als „vorhanden“. Code-Review
 und Bedrohungsmodell zählen, weil der Pflicht-Check `ki-review` sie erzwingt; die beiden Prose-Lint-Schichten
-stehen ehrlich auf „in Arbeit“, denn es gibt nur eine Regex und eine Zeilengrenze. Die größte Lücke liegt weiter bei billigen extrinsischen
-Schichten: Formatter, Dead-Code-Erkennung und die Typprüfung der Apps. Stark sind die intrinsischen Schichten,
+stehen auf „offen“, denn es gibt nur eine Regex und eine Zeilengrenze und keinen PR dafür. Bis Tier 2 fehlen neun
+Schichten: Formatter, Dead-Code-Erkennung und Rechtschreibprüfung (Tier 1), dazu Komplexitätsmetriken
+(verworfen, #28), LLM-Design-Review, beide Prose-Lint-Schichten, Runtime Assertions und die Prüfung von Code in
+der Doku. Die größte Lücke liegt also bei billigen extrinsischen Schichten; außerhalb des Rads fehlt noch die
+Typprüfung der Apps. Stark sind die intrinsischen Schichten,
 also Vertragstest, Tutor-Vertrag und Build-Prüfungen.
 
 Wer den Stand ändert, passt `ROH` in `scripts/harness-rad.js` an und ruft `node scripts/harness-rad.js` auf;
