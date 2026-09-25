@@ -18,6 +18,8 @@ export function zeichnePfadregel2(svg, aufgabe, ergebnis) {
   const titel = geloest ? `Baumdiagramm; orange: die Pfade von „${aufgabe.ereignis.name}“`
     : aufgabe.art === "pfade" ? "Baumdiagramm – klick auf das Ende eines Pfades, um ihn auszuwählen" : "Baumdiagramm zur Aufgabe";
   rahmen(svg, breite, hoehe, titel, g);
+  // Anklickbare Blätter sind Buttons; ein img darf keine Bedienelemente enthalten (axe nested-interactive, R-030).
+  if (optionen.auswahl) svg.setAttribute("role", "group");
 }
 
 /** Dasselbe Bild für die Kompetenzen 7 und 8 (eigene Namen für das Front Matter der Seiten). */

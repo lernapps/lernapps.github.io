@@ -64,6 +64,15 @@ test("Pfade anklicken: markierte Blätter kommen aus aufgabe.auswahl", () => {
   assert.equal((text.match(/aria-pressed="true"/g) || []).length, 1);
 });
 
+test("R-030: anklickbare Pfade liegen in einem svg mit role=group, nicht img (axe nested-interactive)", () => {
+  const a = p2.erzeugeAufgabe(z(1), { urne: "3r2b1g", zuege: 2, modus: "ohne", ereignis: "genau1r", art: "pfade" });
+  const svg = leeresSvg();
+  zeichnePfadregel2(svg, a);
+  assert.match(alsSvgText(svg), /^<svg[^>]*role="group"/);
+  zeichnePfadregel2(svg, a, { korrekt: true });
+  assert.match(alsSvgText(svg), /^<svg[^>]*role="img"/);
+});
+
 test("L-037: Kugeln und Glücksradfelder behalten ihre kräftige Farbe; das Ereignis zeigt nur der orange Ring", () => {
   for (const [experiment, feld] of [["urne", "urne"], ["gluecksrad", "rad"]]) {
     const a = laplace.erzeugeAufgabe(z(1), { experiment, [feld]: "3r2b1g", ereignis: "b" });
