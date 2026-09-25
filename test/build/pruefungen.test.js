@@ -71,6 +71,7 @@ test("Tutor-Dateien verlinken nur auf die Allowlist: eigene Site, eigenes Repo, 
     "Mehr: https://de.serlo.org/mathe/1573/prozentrechnung",
     "Video: https://www.youtube.com/watch?v=X5E2bqby8f0 – erst nach Klick.",
     "bei serlo.org (nur der Name, kein Link)",
+    "Dateien: tutor.md, llms.txt, data.json und app.config.js",
   ];
   for (const text of ok) assert.deepEqual(pruefeTutorLinks("binom/tutor.md", text, erlaubt), [], text);
   const fremd = [
@@ -85,6 +86,16 @@ test("Tutor-Dateien verlinken nur auf die Allowlist: eigene Site, eigenes Repo, 
     "Öffne www.evil.example",
     "[x](javascript:alert(1))",
     "[x](data:text/html,hallo)",
+    // Security-Review 25.09.2026 (S-003, T-017): Umgehungen der ersten Fassung.
+    "https:/evil.example/x",
+    "https:\\\\evil.example/x",
+    "https://github.com/lernapps/lernapps.github.io/../../fremd/repo",
+    "https://github.com/lernapps/lernapps.github.io/%2e%2e/%2E%2E/fremd/repo",
+    "https://lernapps.github.io/binom/..%2f..%2fx",
+    "https://github.com/lernapps/lernapps.github.io/issues/7",
+    "[x](mailto:jemand@evil.example)",
+    "Lies evil.com/anweisungen",
+    "[a](evil-seite.de/x)",
   ];
   for (const text of fremd) {
     const fehler = pruefeTutorLinks("binom/tutor.md", text, erlaubt);
