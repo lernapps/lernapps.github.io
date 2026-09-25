@@ -15,6 +15,7 @@ on:
       - "lib/pruefungen.js"
       - "scripts/doku-lint.js"
       - "scripts/dashboard.js"
+      - "package.json"
       - "e2e/**"
       - "playwright.config.js"
       - ".github/workflows/doku.yml"
@@ -59,22 +60,6 @@ jobs:
         if: steps.vorhanden.outputs.doku == 'ja'
         run: npm run build
 
-      # ADR-028: asciidoc-linter hat weder Release noch PyPI-Paket, darum per Commit-SHA gepinnt.
-      # ERRORs brechen den Job, WARNINGs erscheinen nur als Annotation (Wrapper scripts/doku-lint.js).
-      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
-        if: steps.vorhanden.outputs.doku == 'ja'
-        with:
-          python-version: "3.12"
-
-      - name: AsciiDoc prüfen (asciidoc-linter)
-        if: steps.vorhanden.outputs.doku == 'ja'
-        env:
-          ASCIIDOC_LINTER_SHA: 911440ac35d5849349389cce7ba04311d75dca49
-        run: |
-          python -m pip install --disable-pip-version-check "git+https://github.com/docToolchain/asciidoc-linter@${ASCIIDOC_LINTER_SHA}"
-          node scripts/dashboard.js   # Includes der Übersichtsseite (ADR-031), sonst meldet der Lint sie als fehlend
-          node scripts/doku-lint.js
-
       - name: Java 17 für docToolchain v4
         if: steps.vorhanden.outputs.doku == 'ja'
         uses: actions/setup-java@v4
@@ -115,6 +100,22 @@ jobs:
           start=$(date +%s)
           scripts/dtc-v4.sh generateSite
           echo "::notice::Doku-Build: $(( $(date +%s) - start )) s"
+
+      # Nach dem Doku-Build: dann gibt es die Includes der Übersichtsseite (ADR-031), und der Generator läuft nur einmal.
+      # ADR-028: asciidoc-linter hat weder Release noch PyPI-Paket, darum per Commit-SHA gepinnt.
+      # ERRORs brechen den Job, WARNINGs erscheinen nur als Annotation (Wrapper scripts/doku-lint.js).
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        if: steps.vorhanden.outputs.doku == 'ja'
+        with:
+          python-version: "3.12"
+
+      - name: AsciiDoc prüfen (asciidoc-linter)
+        if: steps.vorhanden.outputs.doku == 'ja'
+        env:
+          ASCIIDOC_LINTER_SHA: 911440ac35d5849349389cce7ba04311d75dca49
+        run: |
+          python -m pip install --disable-pip-version-check "git+https://github.com/docToolchain/asciidoc-linter@${ASCIIDOC_LINTER_SHA}"
+          node scripts/doku-lint.js
 
       - name: Keine fremden Ressourcen in der Doku
         if: steps.vorhanden.outputs.doku == 'ja'

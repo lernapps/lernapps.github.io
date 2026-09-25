@@ -5,7 +5,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import {
   leseRisiken, risikomatrix, leseAdrStatus, leseSchulden, leseRisikothemen, schreibeRisikothemen, leseUtilityTree, utilityTreeDiagramm,
-  leseNodeTestSumme, lesePlaywrightListe, lesePflichtChecks, leseDatum, sammleKennzahlen, schreibeKennzahlen, ZIELE,
+  leseNodeTestSumme, lesePlaywrightListe, leseTestGlobs, lesePflichtChecks, leseDatum, sammleKennzahlen, schreibeKennzahlen, ZIELE,
 } from "../../scripts/dashboard.js";
 import { SCHICHTEN, abdeckung } from "../../scripts/harness-rad.js";
 
@@ -86,6 +86,11 @@ test("leseNodeTestSumme liest die Summe eines echten node --test-Laufs (TAP), Sc
   assert.throws(() => leseNodeTestSumme("kaputt"), /node --test/);
 });
 
+test("leseTestGlobs übernimmt die Globs aus package.json, damit der Zähl-Lauf genau npm test entspricht", () => {
+  assert.deepEqual(leseTestGlobs(JSON.parse(lies("package.json"))), ["test/**/*.test.js", "src/*/test/*.test.js"]);
+  assert.throws(() => leseTestGlobs({ scripts: { test: "vitest" } }), /node --test/);
+});
+
 test("lesePlaywrightListe liest Tests und Specs aus playwright test --list", () => {
   const liste = "Listing tests:\n  [chromium] › a.spec.js:3:1 › x\nTotal: 166 tests in 7 files\n";
   assert.deepEqual(lesePlaywrightListe(liste), { tests: 166, dateien: 7 });
@@ -151,6 +156,7 @@ test("der Doku-Build in doku.yml und pages.yml baut die Site vor scripts/dtc-v4.
   for (const wf of ["doku.yml", "pages.yml"]) {
     const text = lies(`.github/workflows/${wf}`);
     const dtc = text.indexOf("scripts/dtc-v4.sh generateSite");
+    assert.ok(!text.includes("node scripts/dashboard.js"), `${wf}: der Generator läuft nur über scripts/dtc-v4.sh`);
     for (const schritt of ["npm ci", "npm run build"]) {
       const pos = text.indexOf(`run: ${schritt}`);
       assert.ok(pos > 0 && pos < dtc, `${wf}: ${schritt} vor dem Doku-Build`);

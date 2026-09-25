@@ -131,14 +131,25 @@ export function lesePlaywrightListe(ausgabe) {
   return { tests: Number(t[1]), dateien: Number(t[2]) };
 }
 
+/** Die Globs aus `scripts.test` in package.json, damit der Lauf genau die Tests von `npm test` zählt. */
+export function leseTestGlobs(paket) {
+  const skript = paket.scripts?.test ?? "";
+  const globs = [...skript.matchAll(/"([^"]+)"/g)].map((m) => m[1]);
+  if (!skript.startsWith("node --test ") || !globs.length) {
+    throw new Error(`scripts.test hat nicht die Form node --test "<glob>" …: ${skript}`);
+  }
+  return globs;
+}
+
 /** Echter Lauf der Unit-Tests mit denselben Globs wie `npm test` (rund 2 Sekunden). */
-function zaehleUnitTests() {
-  const globs = [...JSON.parse(lies("package.json")).scripts.test.matchAll(/"([^"]+)"/g)].map((m) => m[1]);
+export function zaehleUnitTests() {
+  const globs = leseTestGlobs(JSON.parse(lies("package.json")));
   const lauf = spawnSync(process.execPath, ["--test", "--test-reporter=tap", ...globs], { cwd: WURZEL, encoding: "utf8" });
   return leseNodeTestSumme(lauf.stdout ?? "");
 }
 
-function zaehleBrowserTests() {
+/** Braucht npm ci und ein gebautes _site/ (die Specs lesen die Seitenliste daraus). */
+export function zaehleBrowserTests() {
   const cli = path.join(WURZEL, "node_modules/@playwright/test/cli.js");
   const lauf = spawnSync(process.execPath, [cli, "test", "--list"], { cwd: WURZEL, encoding: "utf8" });
   return lesePlaywrightListe(`${lauf.stdout ?? ""}${lauf.stderr ?? ""}`);

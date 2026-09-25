@@ -387,11 +387,13 @@ C4-Diagramme bindet die Seite per `include::…[tag=…]` aus Kapitel 3 und 5 ei
 
 Kennzahlen, Risikomatrix, Utility Tree und Risikothemen schreibt `scripts/dashboard.js` in vier
 git-ignorierte Dateien `src/docs/uebersicht/_*.adoc` (xref:09_architecture_decisions.adoc#adr-031[ADR-031]).
-Es liest nur das Repository: `package.json`, die App-Konfigurationen, `CLAUDE.md` und die arc42-Kapitel.
+Es braucht kein Netz: Es liest `package.json`, die App-Konfigurationen, `CLAUDE.md` und die arc42-Kapitel und
+startet zwei lokale Prozesse.
 Die Tests zählt es nicht im Quelltext, weil Schleifen viele davon erzeugen (die Browser-Tests je Seite aus
 `e2e/seiten.js`): Die Unit-Tests laufen einmal mit `node --test` (rund 2 Sekunden), die Browser-Tests zählt
 `playwright test --list`, ohne einen Browser zu starten. Beides braucht `npm ci` und für die Browser-Specs ein
-gebautes `_site/`. Die Diagramm-Kacheln verlinken ihr SVG in voller Größe, damit man es auf dem Handy zoomen kann. `scripts/dtc-v4.sh` ruft es vor jedem Doku-Build auf, lokal wie in `doku.yml` und `pages.yml`.
+gebautes `_site/`. Die Diagramm-Kacheln verlinken ihr SVG in voller Größe, damit man es auf dem Handy zoomen kann. `scripts/dtc-v4.sh` ruft es vor jedem Doku-Build auf, lokal wie in `doku.yml` und `pages.yml`; `doku.yml`
+prüft die AsciiDoc-Quellen deshalb erst nach dem Build, wenn es die Includes gibt.
 `test/build/dashboard.test.js` rechnet die Zahlen gegen ihre Quellen nach und bricht, wenn sich das Format
 der Risikotabelle, des ADR-Index oder des Utility Tree so ändert, dass der Generator es nicht mehr liest.
 Die Pflicht-Checks stammen aus der Doku, nicht aus der Branch Protection, die nur ein Admin lesen kann.
