@@ -15,6 +15,8 @@ on:
       - "lib/pruefungen.js"
       - "scripts/doku-lint.js"
       - "scripts/dashboard.js"
+      - "e2e/**"
+      - "playwright.config.js"
       - ".github/workflows/doku.yml"
   workflow_dispatch:
 
@@ -46,6 +48,16 @@ jobs:
         if: steps.vorhanden.outputs.doku == 'ja'
         with:
           node-version: 22
+          cache: npm
+
+      # Die Übersichtsseite (ADR-031) zählt die Unit-Tests per Lauf und die Browser-Tests per
+      # "playwright test --list"; die Specs lesen _site/. Also Abhängigkeiten und Site vor dem Doku-Build.
+      - name: Abhängigkeiten
+        if: steps.vorhanden.outputs.doku == 'ja'
+        run: npm ci
+      - name: Site bauen
+        if: steps.vorhanden.outputs.doku == 'ja'
+        run: npm run build
 
       # ADR-028: asciidoc-linter hat weder Release noch PyPI-Paket, darum per Commit-SHA gepinnt.
       # ERRORs brechen den Job, WARNINGs erscheinen nur als Annotation (Wrapper scripts/doku-lint.js).

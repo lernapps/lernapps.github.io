@@ -7,6 +7,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
+import { spawnSync } from "node:child_process";
 import { ladeApps } from "../lib/apps.js";
 import site from "../src/_data/site.js";
 import { SCHICHTEN, abdeckung } from "./harness-rad.js";
@@ -113,10 +114,34 @@ export function utilityTreeDiagramm(blaetter) {
   return `${z.join("\n")}\n`;
 }
 
-/** Testdateien und Testfälle, statisch gezählt: `test(` oder `it(` am Zeilenanfang. */
-export function zaehleTests(quellen) {
-  const tests = quellen.reduce((s, q) => s + (q.match(/^\s*(?:test|it)\(/gm)?.length ?? 0), 0);
-  return { dateien: quellen.length, tests };
+/** Summe eines `node --test`-Laufs im TAP-Format. Zählt auch Tests, die Schleifen erzeugen. */
+export function leseNodeTestSumme(tap) {
+  const zahl = (name) => Number(tap.match(new RegExp(`^# ${name} (\\d+)$`, "m"))?.[1]);
+  const summe = { tests: zahl("tests"), pass: zahl("pass"), fail: zahl("fail"), skipped: zahl("skipped") };
+  if (Object.values(summe).some(Number.isNaN)) throw new Error("node --test lieferte keine TAP-Summe");
+  return summe;
+}
+
+/** Tests und Specs aus `playwright test --list` (zählt, ohne einen Browser zu starten). */
+export function lesePlaywrightListe(ausgabe) {
+  const t = ausgabe.match(/^Total: (\d+) tests? in (\d+) files?$/m);
+  if (!t || t[1] === "0") {
+    throw new Error("playwright test --list fand keine Tests; die Specs lesen _site/, also erst npm ci und npm run build");
+  }
+  return { tests: Number(t[1]), dateien: Number(t[2]) };
+}
+
+/** Echter Lauf der Unit-Tests mit denselben Globs wie `npm test` (rund 2 Sekunden). */
+function zaehleUnitTests() {
+  const globs = [...JSON.parse(lies("package.json")).scripts.test.matchAll(/"([^"]+)"/g)].map((m) => m[1]);
+  const lauf = spawnSync(process.execPath, ["--test", "--test-reporter=tap", ...globs], { cwd: WURZEL, encoding: "utf8" });
+  return leseNodeTestSumme(lauf.stdout ?? "");
+}
+
+function zaehleBrowserTests() {
+  const cli = path.join(WURZEL, "node_modules/@playwright/test/cli.js");
+  const lauf = spawnSync(process.execPath, [cli, "test", "--list"], { cwd: WURZEL, encoding: "utf8" });
+  return lesePlaywrightListe(`${lauf.stdout ?? ""}${lauf.stderr ?? ""}`);
 }
 
 /** Namen der Pflicht-Checks, wie CLAUDE.md und die Doku sie nennen (Branch Protection braucht Admin-Rechte). */
@@ -147,11 +172,10 @@ function alleDokuTexte() {
   return ["CLAUDE.md", ...dateienUnter("src/docs", ".adoc")].map(lies);
 }
 
-export async function sammleKennzahlen() {
+/** zaehler: für Tests austauschbar; ein echter node --test-Lauf aus einem Test heraus riefe sich selbst auf. */
+export async function sammleKennzahlen(zaehler = { unit: zaehleUnitTests, browser: zaehleBrowserTests }) {
   const paket = JSON.parse(lies("package.json"));
   const apps = await ladeApps({ quelle: path.join(WURZEL, "src"), adressen: site });
-  const appTests = fs.readdirSync(path.join(WURZEL, "src"))
-    .flatMap((app) => dateienUnter(`src/${app}/test`, ".test.js"));
   const kap11 = lies(`${KAPITEL}11_technical_risks.adoc`);
   const risiken = {};
   for (const r of leseRisiken(kap11)) risiken[r.prio] = (risiken[r.prio] ?? 0) + 1;
@@ -160,8 +184,8 @@ export async function sammleKennzahlen() {
     version: paket.version,
     apps: apps.length,
     kompetenzen: apps.reduce((s, a) => s + a.kompetenzen.length, 0),
-    unitTests: zaehleTests([...dateienUnter("test", ".test.js"), ...appTests].map(lies)),
-    browserTests: zaehleTests(dateienUnter("e2e", ".spec.js").map(lies)),
+    unitTests: zaehler.unit(),
+    browserTests: zaehler.browser(),
     pflichtChecks: lesePflichtChecks(alleDokuTexte()),
     adrs: leseAdrStatus(lies(`${KAPITEL}09_architecture_decisions.adoc`)),
     risiken,
@@ -178,8 +202,9 @@ export function schreibeKennzahlen(k) {
   const zeilen = [
     ["Version der Site", `${k.version} (\`package.json\`)`],
     ["Apps und Kompetenzen", `link:../../[${k.apps} Apps] mit ${k.kompetenzen} Kompetenzen`],
-    ["Unit-Tests", `${k.unitTests.tests} Tests in ${k.unitTests.dateien} Dateien (${xref("08_concepts", "section-test-concept", "8.3")})`],
-    ["Browser-Tests", `${k.browserTests.tests} Tests in ${k.browserTests.dateien} Specs (Playwright, axe-core)`],
+    ["Unit-Tests", `${k.unitTests.tests} Tests, ${k.unitTests.pass} grün${k.unitTests.fail ? `, ${k.unitTests.fail} rot` : ""}${
+      k.unitTests.skipped ? `, ${k.unitTests.skipped} übersprungen` : ""} (Lauf beim Doku-Build; ${xref("08_concepts", "section-test-concept", "8.3")})`],
+    ["Browser-Tests", `${k.browserTests.tests} Tests in ${k.browserTests.dateien} Specs (Playwright und axe-core, gezählt mit \`--list\`)`],
     ["Pflicht-Checks laut Doku", `${k.pflichtChecks.map((c) => `\`${c}\``).join(", ")} (${xref("08_concepts", "section-security", "8.2")})`],
     ["ADRs", `${liste(k.adrs)} (${xref("09_architecture_decisions", "", "Kapitel 9")})`],
     ["Risiken", `${liste(k.risiken)} (${xref(RISIKO_KAPITEL, "", "Kapitel 11")})`],

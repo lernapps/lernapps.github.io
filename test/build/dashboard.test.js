@@ -5,7 +5,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import {
   leseRisiken, risikomatrix, leseAdrStatus, leseSchulden, leseRisikothemen, schreibeRisikothemen, leseUtilityTree, utilityTreeDiagramm,
-  zaehleTests, lesePflichtChecks, leseDatum, sammleKennzahlen, schreibeKennzahlen, ZIELE,
+  leseNodeTestSumme, lesePlaywrightListe, lesePflichtChecks, leseDatum, sammleKennzahlen, schreibeKennzahlen, ZIELE,
 } from "../../scripts/dashboard.js";
 import { SCHICHTEN, abdeckung } from "../../scripts/harness-rad.js";
 
@@ -80,9 +80,16 @@ test("der Utility Tree wird zur Mindmap: Ziel, Verfeinerung, Szenarien mit Noten
   assert.match(puml, /\n\*\*\*\* QS-27 \(M,H\)\n/);
 });
 
-test("zaehleTests zählt test( und it( am Zeilenanfang, nicht test.skip oder Wörter wie Kontext(", () => {
-  const quellen = ["test(\"a\", () => {});\n  it(\"b\", f);\nKontext(1);\n// test( im Kommentar\n", "test('c', f)"];
-  assert.deepEqual(zaehleTests(quellen), { dateien: 2, tests: 3 });
+test("leseNodeTestSumme liest die Summe eines echten node --test-Laufs (TAP), Schleifen-Tests eingeschlossen", () => {
+  const tap = "ok 1 - a\n1..571\n# tests 571\n# suites 0\n# pass 568\n# fail 1\n# cancelled 0\n# skipped 2\n# todo 0\n";
+  assert.deepEqual(leseNodeTestSumme(tap), { tests: 571, pass: 568, fail: 1, skipped: 2 });
+  assert.throws(() => leseNodeTestSumme("kaputt"), /node --test/);
+});
+
+test("lesePlaywrightListe liest Tests und Specs aus playwright test --list", () => {
+  const liste = "Listing tests:\n  [chromium] › a.spec.js:3:1 › x\nTotal: 166 tests in 7 files\n";
+  assert.deepEqual(lesePlaywrightListe(liste), { tests: 166, dateien: 7 });
+  assert.throws(() => lesePlaywrightListe("Error: No tests found\nTotal: 0 tests in 0 files"), /npm run build/);
 });
 
 test("lesePflichtChecks sammelt die Namen aus CLAUDE.md und der Doku, ohne Doppelte", () => {
@@ -96,11 +103,13 @@ test("leseDatum findet das Datum hinter einem Muster", () => {
 });
 
 test("die Kennzahlen aus dem echten Repository stimmen mit ihren Quellen überein", async () => {
-  const k = await sammleKennzahlen();
+  // Zähler als Stubs: ein echter node --test-Lauf aus diesem Test heraus riefe diesen Test wieder auf.
+  const k = await sammleKennzahlen({ unit: () => ({ tests: 9, pass: 9, fail: 0, skipped: 0 }),
+    browser: () => ({ tests: 8, dateien: 7 }) });
   assert.equal(k.version, JSON.parse(lies("package.json")).version);
   assert.ok(k.apps >= 3 && k.kompetenzen > k.apps);
-  assert.ok(k.unitTests.dateien > 50 && k.unitTests.tests > k.unitTests.dateien);
-  assert.ok(k.browserTests.dateien >= 7);
+  assert.deepEqual(k.unitTests, { tests: 9, pass: 9, fail: 0, skipped: 0 });
+  assert.deepEqual(k.browserTests, { tests: 8, dateien: 7 });
   assert.ok(k.pflichtChecks.includes("test-und-build") && k.pflichtChecks.includes("browser"));
   const a = abdeckung(SCHICHTEN);
   assert.deepEqual(k.rad, { vorhanden: a.vorhanden, relevant: a.relevant });
@@ -125,8 +134,26 @@ test("die Übersichtsseite bindet die erzeugten Dateien ein, und Git ignoriert s
     assert.ok(seite.includes(`include::${name}[]`), name);
     assert.ok(ignoriert.includes(`/${ziel}`), ziel);
   }
-  assert.match(schreibeKennzahlen({ version: "1.2.3", apps: 3, kompetenzen: 20, unitTests: { dateien: 1, tests: 2 },
+  assert.match(schreibeKennzahlen({ version: "1.2.3", apps: 3, kompetenzen: 20, unitTests: { tests: 2, pass: 2, fail: 0, skipped: 0 },
     browserTests: { dateien: 1, tests: 2 }, pflichtChecks: ["a"], adrs: { Accepted: 1 }, risiken: { hoch: 1 },
     schulden: { offen: 1, erledigt: 2 }, rad: { vorhanden: 21, relevant: 29 }, atam: "25.09.2026", audit: "24.09.2026" }),
   /1\.2\.3/);
+});
+
+test("jedes Diagramm der Übersicht verlinkt sein SVG in voller Größe (auf 360 px sonst unlesbar)", () => {
+  const seite = lies("src/docs/uebersicht/index.adoc");
+  for (const ziel of ["kontext-fachlich", "bausteine-ebene-1", "uebersicht-utility-tree", "harness-rad"]) {
+    assert.ok(seite.includes(`link:../images/${ziel}.svg[`), ziel);
+  }
+});
+
+test("der Doku-Build in doku.yml und pages.yml baut die Site vor scripts/dtc-v4.sh (playwright --list braucht _site)", () => {
+  for (const wf of ["doku.yml", "pages.yml"]) {
+    const text = lies(`.github/workflows/${wf}`);
+    const dtc = text.indexOf("scripts/dtc-v4.sh generateSite");
+    for (const schritt of ["npm ci", "npm run build"]) {
+      const pos = text.indexOf(`run: ${schritt}`);
+      assert.ok(pos > 0 && pos < dtc, `${wf}: ${schritt} vor dem Doku-Build`);
+    }
+  }
 });
