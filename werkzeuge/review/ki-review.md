@@ -71,10 +71,10 @@ Check every point. A point that does not apply gets "n/a", never silence.
 
 8. **Architecture (ATAM), only if the PR touches a trigger path** (ADR-030). Trigger paths, the same list
    as `ARCHITEKTUR_PFADE` in `scripts/ki-review-pruefen.js`: ADR bodies `src/docs/arc42/chapters/_adr-*.adoc`,
-   the ATAM baseline (`_atam-*.adoc`),
+   the dated ATAM reports (`_atam-*.adoc`),
    chapter 9 (`09_*.adoc`), the quality definitions in chapter 1 (`01_*.adoc`) and chapter 10 (`10_*.adoc`),
    the solution strategy (`04_*.adoc`) and the building blocks (`05_*.adoc`). Evaluate the change against the
-   utility tree (arc42 10, „Utility Tree“) and the ATAM baseline (arc42 11, „Ergebnisse der ATAM-Bewertung“):
+   utility tree (arc42 10, „Utility Tree“) and the newest ATAM report (arc42 appendix „Bewertungen“):
    which scenarios (QS-n) it affects; new or changed sensitivity points (SP-n) and tradeoff points (TP-n);
    new risks with an R-ID from chapter 11, or „keine“; for a new or changed ADR, whether its Pugh matrix
    and its consequences agree with QZ-1…QZ-5 and name the right R-IDs. Missing this section on a trigger

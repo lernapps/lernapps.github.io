@@ -26,6 +26,7 @@ export const ZIELE = {
 /** Verweis von der Übersicht auf ein arc42-Kapitel (xref wandelt .adoc in .html). */
 const xref = (kapitel, anker, text) => `xref:../arc42/chapters/${kapitel}.adoc${anker ? `#${anker}` : ""}[${text}]`;
 const RISIKO_KAPITEL = "11_technical_risks";
+const ANHANG = "13_bewertungen";
 
 /** Zeilen der Risikotabelle in Kapitel 11: ID, Anker, Wahrscheinlichkeit, Auswirkung, Priorität. */
 export function leseRisiken(adoc) {
@@ -77,7 +78,7 @@ export function leseSchulden(adoc) {
   return { offen: offen.size, erledigt: erledigt.size };
 }
 
-/** Risikothemen RT-n aus der ATAM-Baseline. */
+/** Risikothemen RT-n aus Kapitel 11 (Abschnitt [[section-atam-themen]]). */
 export function leseRisikothemen(adoc) {
   return [...adoc.matchAll(/^\*(RT-\d+): ([^*]+)\*/gm)].map(([, id, titel]) => ({ id, titel }));
 }
@@ -172,6 +173,22 @@ export function leseDatum(text, muster) {
 
 const lies = (datei) => fs.readFileSync(path.join(WURZEL, datei), "utf8");
 
+/** Jüngster datierter Bericht einer Art im Anhang Bewertungen, z. B. `_atam-2026-09-25.adoc`. */
+export function neuesteBewertung(dateien, art) {
+  const muster = new RegExp(`^_${art}-\\d{4}-\\d\\d-\\d\\d\\.adoc$`);
+  const treffer = dateien.filter((d) => muster.test(d)).sort().at(-1);
+  if (!treffer) throw new Error(`Kein Bericht der Art ${art}`);
+  return treffer;
+}
+
+/** Datum aus der Überschrift und Anker aus der ersten Zeile des jüngsten Berichts. */
+function bewertung(art, muster) {
+  const text = lies(KAPITEL + neuesteBewertung(fs.readdirSync(path.join(WURZEL, KAPITEL)), art));
+  const anker = text.match(/^\[\[([\w-]+)\]\]/);
+  if (!anker) throw new Error(`Bericht ${art} ohne Anker in der ersten Zeile`);
+  return { datum: leseDatum(text, muster), anker: anker[1] };
+}
+
 function dateienUnter(ordner, endung) {
   const voll = path.join(WURZEL, ordner);
   if (!fs.existsSync(voll)) return [];
@@ -191,6 +208,8 @@ export async function sammleKennzahlen(zaehler = { unit: zaehleUnitTests, browse
   const risiken = {};
   for (const r of leseRisiken(kap11)) risiken[r.prio] = (risiken[r.prio] ?? 0) + 1;
   const rad = abdeckung(SCHICHTEN);
+  const atam = bewertung("atam", /ATAM-Bewertung vom (\d\d\.\d\d\.\d{4})/);
+  const audit = bewertung("harness-audit", /Harness-Audit vom (\d\d\.\d\d\.\d{4})/);
   return {
     version: paket.version,
     apps: apps.length,
@@ -202,8 +221,9 @@ export async function sammleKennzahlen(zaehler = { unit: zaehleUnitTests, browse
     risiken,
     schulden: leseSchulden(kap11),
     rad: { vorhanden: rad.vorhanden, relevant: rad.relevant },
-    atam: leseDatum(lies(`${KAPITEL}_atam-baseline.adoc`), /ATAM-Bewertung vom (\d\d\.\d\d\.\d{4})/),
-    audit: leseDatum(lies(`${KAPITEL}08_concepts.adoc`), /am (\d\d\.\d\d\.\d{4}) ein Audit/),
+    atam: atam.datum,
+    audit: audit.datum,
+    anker: { atam: atam.anker, "harness-audit": audit.anker },
   };
 }
 
@@ -221,8 +241,8 @@ export function schreibeKennzahlen(k) {
     ["Risiken", `${liste(k.risiken)} (${xref(RISIKO_KAPITEL, "", "Kapitel 11")})`],
     ["Technische Schulden", `${k.schulden.offen} offen, ${k.schulden.erledigt} erledigt (${xref(RISIKO_KAPITEL, "", "Kapitel 11")})`],
     ["Harness-Rad bis Tier 2", `${k.rad.vorhanden} von ${k.rad.relevant} Schichten (${xref("08_concepts", "section-harness", "8.16")})`],
-    ["Letzte ATAM-Bewertung", `${k.atam} (${xref(RISIKO_KAPITEL, "section-atam", "Kapitel 11")})`],
-    ["Letztes Harness-Audit", `${k.audit} (${xref("08_concepts", "section-harness", "8.16")})`],
+    ["Letzte ATAM-Bewertung", `${k.atam} (${xref(ANHANG, k.anker.atam, "Anhang Bewertungen")})`],
+    ["Letztes Harness-Audit", `${k.audit} (${xref(ANHANG, k.anker["harness-audit"], "Anhang Bewertungen")})`],
   ];
   return ['[cols="2,3",role="kennzahlen"]', "|===", ...zeilen.map(([a, b]) => `| ${a} | ${b}`), "|===", ""].join("\n");
 }
@@ -234,6 +254,6 @@ if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
   fs.writeFileSync(path.join(WURZEL, ZIELE.utilityTree),
     utilityTreeDiagramm(leseUtilityTree(lies(`${KAPITEL}10_quality_requirements.adoc`))));
   fs.writeFileSync(path.join(WURZEL, ZIELE.risikothemen),
-    schreibeRisikothemen(leseRisikothemen(lies(`${KAPITEL}_atam-baseline.adoc`))));
+    schreibeRisikothemen(leseRisikothemen(lies(`${KAPITEL}11_technical_risks.adoc`))));
   console.log(`Übersicht: ${k.apps} Apps, ${k.unitTests.tests} Unit-Tests, Rad ${k.rad.vorhanden}/${k.rad.relevant}`);
 }

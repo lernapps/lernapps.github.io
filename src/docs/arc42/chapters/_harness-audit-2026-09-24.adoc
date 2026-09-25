@@ -1,0 +1,16 @@
+[[bewertung-harness-audit-2026-09-24]]
+=== Harness-Audit vom 24.09.2026: Jede vorhandene Schicht hat jetzt einen prüfbaren Beleg
+
+Das Audit prüft, ob jede Schicht, die das Harness-Rad
+(xref:08_concepts.adoc#section-harness[8.16]) als „vorhanden“ zählt, wirklich läuft. Am 24.09.2026 hat
+Claude Code es zum ersten Mal durchgeführt. Seitdem nennt jede vorhandene Schicht in
+`scripts/harness-belege.js` maschinenprüfbare Belege, und `test/build/harness-rad.test.js` bricht, wenn
+einer fehlt. Repo-Einstellungen sieht kein Test: Secret Scanning mit Push Protection, Dependabot-Warnungen
+und -Updates, CodeQL Default Setup und die Branch Protection auf `main` (Belege `github:`). Sie hat das
+Audit über die GitHub-API bestätigt.
+
+Die Befunde betrafen den Text, nicht die Schichten, und sind behoben (Commit `c48e4c5`). Zahlen, die mit
+jedem PR veralten, etwa die Anzahl der Unit-Tests und Properties, sind aus 8.16 entfernt. Falsch
+beschrieben waren drei Details: JSON-Schemas werden nicht validiert, `doku.yml` läuft nur bei PRs mit
+Doku-Änderungen, und der Umfang des Link-Prüfers stimmte nicht. Seit dem Audit beschreibt 8.16, wie der
+Stand geprüft wird.

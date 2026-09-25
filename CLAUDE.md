@@ -138,10 +138,13 @@ repository: one shared kern, one layout, one build (Eleventy 3.1.6), deployed to
   `Ergebnis: freigegeben` or `Ergebnis: Änderungen nötig`, and the findings. Unfixed findings get a reason in the PR.
 - The check `ki-review` (`.github/workflows/ki-review.yml`, read-only token, no LLM call) is green only if the newest
   such review from `raifdmueller` came after the last commit and names the head SHA. Every new commit needs a new review.
-- Architecture review (ADR-030): if a PR touches ADR bodies (`src/docs/arc42/chapters/_adr-*.adoc`), the ATAM baseline
+- Architecture review (ADR-030): if a PR touches ADR bodies (`src/docs/arc42/chapters/_adr-*.adoc`), the dated ATAM reports
   (`_atam-*.adoc`) or arc42 chapter 1, 4, 5, 9 or 10 (`ARCHITEKTUR_PFADE` in `scripts/ki-review-pruefen.js`), the review needs a section
-  `### Architektur (ATAM)` evaluating the change against the utility tree (chapter 10) and the ATAM baseline
-  (chapter 11); without it `ki-review` stays red. Repeat the ATAM baseline quarterly with the harness audit.
+  `### Architektur (ATAM)` evaluating the change against the utility tree (chapter 10) and the newest ATAM report
+  (appendix „Bewertungen“); without it `ki-review` stays red. Repeat ATAM, security review and harness audit quarterly.
+- Dated assessments (ATAM, security review, harness audit) are snapshots: they live in the appendix
+  `13_bewertungen.adoc`, one dated section per quarter, one file per report (`_atam-JJJJ-MM-TT.adoc`,
+  `_security-…`, `_harness-audit-…`); never edit an old report. Results flow into chapters 8, 10 and 11.
 - Inside Herdr (`HERDR_ENV=1`) the reviewer runs as its own named Herdr Claude session (`review: PR #<n>`), not as an
   invisible sub-agent.
 
@@ -207,7 +210,7 @@ branch protection, secret scanning with push protection, org-wide 2FA and the tu
 | Tutor link allowlist   | Present | `pruefeTutorLinks` in `lib/pruefungen.js` (ADR-023, M-22)                       |
 | Org 2FA requirement    | Present | decided and enabled 2026-09-24 (R-017, M-21)                                    |
 | License compliance     | Present | `lib/pruefe-lizenzen.js` in `npm test`; Dependency Review in `abhaengigkeiten.yml`, required check `abhaengigkeiten` (ADR-029, M-24) |
-| Security review        | Present | full OWASP baseline 25.09.2026 (arc42 ch. 11, `_security-baseline.adoc`), repeated quarterly with ATAM and the harness audit |
+| Security review        | Present | full OWASP baseline 25.09.2026 (arc42 appendix „Bewertungen“, `_security-2026-09-25.adoc`), repeated quarterly with ATAM and the harness audit |
 
 ## Semantic Contracts
 Source: https://llm-coding.github.io/Semantic-Anchors/contracts/ — copied from lern-app-template so the repo is self-contained.

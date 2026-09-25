@@ -1,4 +1,4 @@
-[[section-security-baseline]]
+[[bewertung-security-2026-09-25]]
 === Security-Review vom 25.09.2026: Kein XSS-Pfad, aber Lücken in der Tutor-Allowlist und in der CI-Lieferkette
 
 Das KI-Review jedes PRs prüft OWASP nur am Diff. Am 25.09.2026 hat Claude Code erstmals den ganzen
@@ -48,7 +48,3 @@ Datenschutz: localStorage hält nur Stufen je Kompetenz, den letzten Test (Numme
 den Video-Merker und den TalkItOver-Provider, keine Namen und keinen Freitext. Nach einer Eingabe geht
 keine Anfrage an fremde Hosts; YouTube lädt erst nach dem Klick. Der Deploy liefert nur `_site/` und die
 Doku, ohne Quelltext-Maps. R-031 bleibt offen, weil der Build fremde Hosts nur an Mustern erkennt.
-
-Wiederholung: Das Security-Review läuft jedes Quartal zusammen mit der ATAM-Bewertung und dem
-Harness-Audit (xref:11_technical_risks.adoc#section-atam-wiederholung[Wiederholung]). Es schreibt die
-S-IDs fort; ein neuer Befund bekommt die nächste freie ID.

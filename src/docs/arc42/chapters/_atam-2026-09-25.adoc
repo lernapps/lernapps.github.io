@@ -1,4 +1,4 @@
-[[section-atam]]
+[[bewertung-atam-2026-09-25]]
 === Ergebnisse der ATAM-Bewertung vom 25.09.2026: Das größte Risiko ist ein Kern-Fehler, den jede App sofort erbt
 
 Die Architecture Tradeoff Analysis Method (ATAM) prüft, ob die Architekturansätze die wichtigsten
@@ -11,7 +11,7 @@ und die Ladezeit (QS-26) als Nicht-Risiko eingestuft. Die Befunde tragen feste I
 Bewertungen sie fortschreiben können: SP für Sensitivity Points, TP für Tradeoff Points, AR für Risiken
 und NR für Non-Risks.
 
-[[section-atam-ansaetze]]
+[[bewertung-atam-2026-09-25-ansaetze]]
 ==== Neun Architekturansätze tragen die Szenarien
 
 [cols="1,4,2,2",options="header"]
@@ -28,7 +28,7 @@ und NR für Non-Risks.
 | AA-9 | Harness: Pflicht-Checks, Property-Tests, Browser-Tests, KI-Review | ADR-026, ADR-027, ADR-029 | QS-27, QS-28, alle
 |===
 
-[[section-atam-analyse]]
+[[bewertung-atam-2026-09-25-analyse]]
 ==== Sechs Stellen reagieren empfindlich, an sechs Stellen ziehen Ziele gegeneinander
 
 [cols="1,6,1,1,1",options="header"]
@@ -62,28 +62,10 @@ und NR für Non-Risks.
 | NR-7 | Die CI-Läufe dauern 13 bis 92 Sekunden bei einem Ziel unter 5 Minuten; Platz für weitere Prüfungen ist da. | QS-28 | ADR-026 | –
 |===
 
-[[section-atam-themen]]
-==== Drei Risikothemen bedrohen drei Geschäftsziele
+[[bewertung-atam-2026-09-25-themen]]
+==== Die Befunde bündeln sich zu drei Risikothemen
 
-*RT-1: Ein Fehler trifft alle Apps zugleich* (AR-1, AR-2, SP-1, SP-2, TP-1, TP-3). Das Monorepo macht
-Korrekturen billig und Fehler teuer. Bedroht ist das Ziel, dass ein Kind der Rückmeldung trauen kann
-(QZ-3); der Schaden ist Lernschaden, der still bleibt (xref:11_technical_risks.adoc#r-025[R-025]).
-Property-Tests und der Vertragstest je Kompetenz sind die Gegenwehr; sie wirken nur, solange jede
-Kern-Änderung sie erweitert.
-
-*RT-2: Der Vertrag mit dem Tutor bewegt sich* (AR-4, AR-5, SP-3, TP-2). Die App übt, Claude unterrichtet;
-beide verbinden nur Links und Texte. Bedroht ist die Tutor-Anbindung (QZ-2) und damit das Lernmodell der
-Apps. Zwei Ursachen liegen außerhalb des Repositorys (claude.ai), eine ist bewusst akzeptiert (R-003).
-
-*RT-3: Die Prüfer sehen nur Stichproben* (AR-3, AR-6, AR-7, SP-4, SP-6). Build und Browser-Tests prüfen
-das Laden jeder Seite, aber nicht jede Interaktion und nicht jede Seitenform; das Review hängt an einem
-Konto. Bedroht sind die Zusagen an Eltern und Schulen: kein Datenabfluss (QZ-1) und Zugänglichkeit
-(QZ-5). Neu in Kapitel 11 sind deshalb R-030 und R-031.
-
-[[section-atam-wiederholung]]
-==== Wiederholung: Jedes Quartal mit dem Harness-Audit
-
-Die Bewertung wiederholen wir jedes Quartal zusammen mit dem Audit des Harness-Rads
-(xref:08_concepts.adoc#section-harness[8.16]), das nächste Mal im Dezember 2026. Dann prüfen wir, ob neue
-Szenarien in den Utility Tree gehören, ob sich Wichtigkeit oder Schwierigkeit verschoben haben und welche
-AR-Befunde erledigt sind. IDs bleiben; erledigte Befunde bleiben mit Datum stehen.
+Die Befunde fassen drei Risikothemen zusammen: RT-1 „Ein Fehler trifft alle Apps zugleich“, RT-2 „Der
+Vertrag mit dem Tutor bewegt sich“ und RT-3 „Die Prüfer sehen nur Stichproben“. Den laufenden Stand der
+Themen und die daraus entstandenen Risiken R-030 und R-031 führt
+xref:11_technical_risks.adoc#section-atam-themen[Kapitel 11].
