@@ -136,3 +136,52 @@ beginnt, ist ein Fehlalarm, weil die Regel ein Inline-Makro am Anfang für ein k
 unterdrückt HEAD002 nur für Überschriften, die mit einem Inline-Makro beginnen. Offen upstream bleiben #58
 (Exit-Code und `--fail-level`; die Schwere bewertet weiter der Wrapper), #59 (Fehler in der Konfiguration
 werden ignoriert) und #60 (`:imagesdir:`; der Wrapper filtert IMG001 weiter).
+
+[[adr-029]]
+=== ADR-029: Lizenzprüfung ohne neue Abhängigkeit plus Dependency Review
+
+*Kontext.* Die Site liefert keine npm-Pakete aus; alle 236 Pakete in `package-lock.json` sind
+devDependencies, die bauen und prüfen. Am 25.09.2026 trugen alle eine Lizenz: MIT 161, Apache-2.0 36,
+BSD-2-Clause 15, ISC 13, BSD-3-Clause 4, BlueOak-1.0.0 3, MPL-2.0 3 (axe-core, `@axe-core/playwright`,
+`eslint-plugin-no-unsanitized`), Python-2.0 1 (argparse). Ausgeliefert wird nur fremder Code unter
+`src/kern/vendor/` (`talkitover.js`, MIT im Dateikopf). Geprüft hat das bisher niemand: Ein Update oder ein
+neues Paket könnte eine Copyleft-Lizenz oder gar keine mitbringen, ohne dass es auffällt. Das Harness-Rad
+führt die Schicht „License compliance“ ab Tier 2 (xref:08_concepts.adoc#section-harness[8.16]).
+
+*Entscheidung.* Zwei Stufen. Erstens prüft `lib/pruefe-lizenzen.js` ohne neue Abhängigkeit in `npm test`
+(Pflicht-Check `test-und-build`) jede Lizenz im Lockfile gegen eine Allowlist, die von der Verwendung
+abhängt: ausgelieferte Pakete nur permissiv (MIT, ISC, Apache-2.0, BSD-2-Clause, BSD-3-Clause, 0BSD,
+BlueOak-1.0.0, CC0-1.0, Unlicense, Python-2.0), dev-Pakete zusätzlich MPL-2.0. MPL-2.0 ist
+Datei-Copyleft und betrifft nur weitergegebene, geänderte Dateien; im Build laufen diese Pakete nur. SPDX-Ausdrücke
+wertet die Prüfung aus: OR genügt ein erlaubter Teil, AND brauchen alle. Jede Datei unter `src/**/vendor/`
+braucht einen Lizenzkopf. Zweitens läuft `actions/dependency-review-action` (v5.0.0, per Commit-SHA gepinnt)
+in `abhaengigkeiten.yml` auf jedem PR mit derselben dev-Allowlist und `fail-on-severity: high`. Es sieht nur
+die Änderung im PR, meldet aber schon vor dem Merge und mit GitHubs Lizenz- und Schwachstellendaten. Eine
+Änderung der Allowlist braucht ein neues ADR.
+
+*Status.* Accepted. Vom Product Owner entschieden am 25.09.2026.
+
+[cols="2,1,1,1",options="header"]
+|===
+| Ziel | Eigene Prüfung plus Dependency Review (Referenz) | `license-checker-rseidelsohn` | Keine Prüfung
+| QZ-1 Datenschutz | 0 | 0 | 0
+| QZ-2 Tutor-Anschluss | 0 | 0 | 0
+| QZ-3 Richtige Rückmeldung | 0 | 0 | 0
+| QZ-4 Neue Apps schnell | 0 | −1 | 0
+| QZ-5 Zugänglich | 0 | 0 | 0
+| *Summe* | *0* | *−1* | *0*
+|===
+
+Keine Option berührt die Apps selbst. `license-checker-rseidelsohn` liest `node_modules` und kann mehr (Berichte,
+Lizenztexte), bringt aber eine weitere devDependency mit eigenem Paketbaum und damit mehr Lieferkette (T-012);
+jedes Update muss geprüft werden (QZ-4 −1). Keine Prüfung kostet nichts, lässt die Schicht aber offen, und
+eine GPL-Lizenz fiele erst bei einer Weitergabe auf. Die Summen entscheiden nicht; den Ausschlag geben die
+Linie der Strukturprüfung (xref:09_architecture_decisions.adoc#adr-008[ADR-008]: eigene Prüfung ohne Abhängigkeit) und dass das Lockfile die Lizenzen schon enthält.
+
+*Konsequenzen.* Die Schicht „License compliance“ steht auf „vorhanden“ (8.2 M-24). Die Prüfung vertraut dem
+Feld `license` aus dem Lockfile, also der Angabe im `package.json` des Pakets; eine falsche Angabe dort sieht
+sie nicht. Dependency Review braucht den Abhängigkeitsgraphen von GitHub und ist kein Pflicht-Check; ein Ausfall
+von GitHubs Dienst hält keinen Merge auf. Pflicht würde er mit einem weiteren Eintrag `abhaengigkeiten` in
+`required_status_checks` (wie bei M-23). Die Action ist ein Werkzeug von außen im PR-Lauf mit Leserechten
+(xref:11_technical_risks.adoc#r-015[R-015]); der SHA-Pin schließt ungeprüfte Updates aus. Die Lizenz des
+Projekts selbst regelt diese Entscheidung nicht; sie bleibt offen (xref:11_technical_risks.adoc#r-018[R-018]).

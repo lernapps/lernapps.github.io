@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 724" width="800" height="724" role="img" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
-<title>Harness Coverage Wheel für lernapps (Tier 2): 66 % abgedeckt</title>
+<title>Harness Coverage Wheel für lernapps (Tier 2): 69 % abgedeckt</title>
 <defs><linearGradient id="halb-G"><stop offset="50%" stop-color="#2b8a3e"/><stop offset="50%" stop-color="#fff"/></linearGradient><linearGradient id="halb-A"><stop offset="50%" stop-color="#e67700"/><stop offset="50%" stop-color="#fff"/></linearGradient><linearGradient id="halb-R"><stop offset="50%" stop-color="#c92a2a"/><stop offset="50%" stop-color="#fff"/></linearGradient></defs>
 <rect width="800" height="724" fill="#fff"/>
 <path d="M407.9 94.1 A226 226 0 0 1 539.1 141.9 L456.6 247.5 A92 92 0 0 0 403.2 228.1 Z" fill="#f1f3f5"/>
@@ -26,21 +26,21 @@
 <text x="647.7" y="177" text-anchor="start" font-size="13" font-weight="600" fill="#212529">Testing</text>
 <text x="647.7" y="192" text-anchor="start" font-size="12" fill="#495057">100 %</text>
 <path d="M623.8 288.5 A226 226 0 0 1 599.5 426.1 L481.2 363.2 A92 92 0 0 0 491.1 307.2 Z" fill="#f1f3f5"/>
-<path d="M597.3 292.3 A199.2 199.2 0 0 1 575.9 413.5 L481.2 363.2 A92 92 0 0 0 491.1 307.2 Z" fill="#1d4ed8" fill-opacity="0.28"/>
+<path d="M623.8 288.5 A226 226 0 0 1 599.5 426.1 L481.2 363.2 A92 92 0 0 0 491.1 307.2 Z" fill="#1d4ed8" fill-opacity="0.28"/>
 <circle cx="642.4" cy="292.4" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"><title>Secret scanning – vorhanden, Tier 1: GitHub Secret Scanning mit Push Protection</title></circle>
 <circle cx="643.5" cy="305.1" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"><title>SCA – vorhanden, Tier 1: Dependabot-Alerts und -Security-Updates; npm audit --audit-level=high im Pflicht-Check, #20</title></circle>
 <circle cx="644" cy="317.9" r="4.8" fill="#e9ecef" stroke="#adb5bd" stroke-width="1.4"><title>Container / image scanning – entfällt, Tier 2: keine Container: statische Seiten auf GitHub Pages</title></circle>
 <circle cx="643.8" cy="330.6" r="4.8" fill="#e9ecef" stroke="#adb5bd" stroke-width="1.4"><title>IaC scanning – entfällt, Tier 2: keine Infrastruktur als Code; Workflows prüft CodeQL (actions)</title></circle>
 <circle cx="642.9" cy="343.4" r="4.8" fill="#fff" stroke="#2b8a3e" stroke-width="1.4" opacity="0.3"><title>Supply chain / SBOM – offen, Tier 3</title></circle>
 <circle cx="641.3" cy="356.1" r="4.8" fill="#fff" stroke="#2b8a3e" stroke-width="1.4" opacity="0.3"><title>Compliance scanning – offen, Tier 3</title></circle>
-<circle cx="639.1" cy="368.6" r="4.8" fill="#fff" stroke="#2b8a3e" stroke-width="1.4"><title>License compliance – offen, Tier 2</title></circle>
+<circle cx="639.1" cy="368.6" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"><title>License compliance – vorhanden, Tier 2: lib/pruefe-lizenzen.js in npm test (Allowlist je Verwendung, Lizenzköpfe unter vendor/), Dependency Review in PRs (abhaengigkeiten.yml), ADR-029</title></circle>
 <rect x="631.9" y="376.8" width="8.6" height="8.6" rx="1" fill="#e67700" stroke="#e67700" stroke-width="1.4"><title>SAST – vorhanden, Tier 2: CodeQL Default Setup (JavaScript/TypeScript, Actions)</title></rect>
 <rect x="628.4" y="389.1" width="8.6" height="8.6" rx="1" fill="#fff" stroke="#e67700" stroke-width="1.4" opacity="0.3"><title>DAST – offen, Tier 3</title></rect>
 <rect x="624.2" y="401.2" width="8.6" height="8.6" rx="1" fill="#e9ecef" stroke="#adb5bd" stroke-width="1.4" opacity="0.3"><title>IAST – entfällt, Tier 4: kein Server, keine Laufzeit-Instrumentierung</title></rect>
 <rect x="619.5" y="413" width="8.6" height="8.6" rx="1" fill="#e67700" stroke="#e67700" stroke-width="1.4"><title>LLM security review – vorhanden, Tier 2: OWASP-Teil des KI-Reviews (werkzeuge/review/ki-review.md), Check ki-review, #24, ADR-027</title></rect>
 <polygon points="618.4,422.5 623.9,432.1 612.9,432.1" fill="#c92a2a" stroke="#c92a2a" stroke-width="1.4"><title>Threat modeling – vorhanden, Tier 3: STRIDE-Tabelle in arc42 8.1 (T-IDs); das KI-Review prüft jedes neue Feature dagegen (werkzeuge/review/ki-review.md, Punkt 3), Check ki-review</title></polygon>
 <text x="681.7" y="369.7" text-anchor="start" font-size="13" font-weight="600" fill="#212529">Security</text>
-<text x="681.7" y="384.7" text-anchor="start" font-size="12" fill="#495057">80 %</text>
+<text x="681.7" y="384.7" text-anchor="start" font-size="12" fill="#495057">100 %</text>
 <path d="M591.7 439.8 A226 226 0 0 1 484.7 529.5 L434.5 405.3 A92 92 0 0 0 478 368.8 Z" fill="#f1f3f5"/>
 <path d="M534.8 404.3 A159 159 0 0 1 459.6 467.4 L434.5 405.3 A92 92 0 0 0 478 368.8 Z" fill="#1d4ed8" fill-opacity="0.28"/>
 <circle cx="603.1" cy="455.2" r="4.8" fill="#fff" stroke="#868e96" stroke-width="1.4"><title>Complexity metrics – verworfen, Tier 2: SonarQube abgelehnt (#28); nur Dateilänge ≤ 500 Zeilen</title></circle>
@@ -106,8 +106,8 @@
 <text x="302.2" y="51.2" text-anchor="end" font-size="13" font-weight="600" fill="#212529">Docs</text>
 <text x="302.2" y="66.2" text-anchor="end" font-size="12" fill="#495057">50 %</text>
 <circle cx="400" cy="320" r="84" fill="#fff" stroke="#dee2e6"/>
-<text x="400" y="324" text-anchor="middle" font-size="30" font-weight="700" fill="#1d4ed8">66 %</text>
-<text x="400" y="344" text-anchor="middle" font-size="11" fill="#495057">19 von 29</text>
+<text x="400" y="324" text-anchor="middle" font-size="30" font-weight="700" fill="#1d4ed8">69 %</text>
+<text x="400" y="344" text-anchor="middle" font-size="11" fill="#495057">20 von 29</text>
 <text x="400" y="358" text-anchor="middle" font-size="11" fill="#495057">Tier 2</text>
 <circle cx="70" cy="634" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"></circle>
 <text x="80" y="638" font-size="11" fill="#343a40">extrinsisch (Kreis)</text>

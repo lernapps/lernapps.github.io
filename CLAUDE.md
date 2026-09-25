@@ -63,6 +63,9 @@ repository: one shared kern, one layout, one build (Eleventy 3.1.6), deployed to
 ## Build rules (enforced by `npm run build`)
 - The required check `test-und-build` (`pruefen.yml`) also runs `npm audit --audit-level=high` and `npm run lint`
   (ESLint flat config: `no-eval`, `no-implied-eval`, `no-unsanitized` against T-003). Never set `innerHTML`; build DOM.
+- Licences (`lib/pruefe-lizenzen.js`, run by `npm test`): every package in `package-lock.json` needs a licence from the
+  allowlist (shipped packages permissive only; dev packages also MPL-2.0), every file under `src/**/vendor/` a licence
+  header. Changing the allowlist needs an ADR (ADR-029). `abhaengigkeiten.yml` runs Dependency Review on every PR.
 - `npm run typecheck` (`tsc --checkJs`, `strict`, `jsconfig.json`) checks `src/kern/js` only, also in the required check.
   Type kern code with JSDoc (`@param`, `@returns`, `@typedef`); cast with `/** @type {…} */ (x)` only where the DOM or a
   contract guarantees more than tsc can see, and say why in a comment.
@@ -188,6 +191,7 @@ branch protection, secret scanning with push protection, org-wide 2FA and the tu
 | Sampling Review (~20%) | Present | 100 %: the PO merges every PR; not enforceable (a single maintainer cannot approve their own PR) |
 | Tutor link allowlist   | Present | `pruefeTutorLinks` in `lib/pruefungen.js` (ADR-023, M-22)                       |
 | Org 2FA requirement    | Present | decided and enabled 2026-09-24 (R-017, M-21)                                    |
+| License compliance     | Present | `lib/pruefe-lizenzen.js` in `npm test`; Dependency Review in `abhaengigkeiten.yml` (ADR-029, M-24) |
 
 ## Semantic Contracts
 Source: https://llm-coding.github.io/Semantic-Anchors/contracts/ — copied from lern-app-template so the repo is self-contained.
