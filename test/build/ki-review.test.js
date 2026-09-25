@@ -95,11 +95,14 @@ test("ohne Architekturänderung braucht das Review keinen ATAM-Abschnitt", () =>
   assert.equal(pruefeMit([review()], []).ok, true);
 });
 
-test("die Auslösepfade: ADRs, ATAM-Baseline, Kapitel 1, 4, 5, 9 und 10", () => {
+test("die Auslösepfade: ADRs, ATAM-Berichte im Anhang, Kapitel 1, 4, 5, 9 und 10", () => {
   const kapitel = "src/docs/arc42/chapters/";
-  const treffer = ["_adr-vorlage.adoc", "_atam-baseline.adoc", "01_introduction_and_goals.adoc", "04_solution_strategy.adoc",
+  const treffer = ["_adr-vorlage.adoc", "_atam-2026-09-25.adoc", "01_introduction_and_goals.adoc", "04_solution_strategy.adoc",
     "05_building_block_view.adoc", "09_architecture_decisions.adoc", "10_quality_requirements.adoc"].map((d) => kapitel + d);
-  assert.deepEqual(beruehrteArchitektur([...treffer, `${kapitel}08_concepts.adoc`, "docs/_adr-x.adoc"]), treffer);
+  // Security-Review, Harness-Audit und die Einleitung des Anhangs lösen nicht aus (ADR-030, Nachtrag 25.09.2026).
+  const keine = ["08_concepts.adoc", "13_bewertungen.adoc", "_security-2026-09-25.adoc", "_harness-audit-2026-09-24.adoc"]
+    .map((d) => kapitel + d);
+  assert.deepEqual(beruehrteArchitektur([...treffer, ...keine, "docs/_adr-x.adoc"]), treffer);
   assert.equal(ARCHITEKTUR_PFADE.length, 7);
 });
 

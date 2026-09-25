@@ -55,11 +55,11 @@ xref:09_architecture_decisions.adoc#adr-023[ADR-023].
 | [[r-010]]R-010 | *GitHub Pages ändert sich oder fällt aus.* | 1 | 2 | niedrig (2) | `_site/` läuft auf jedem statischen Webserver; die Adresse ist eine Zeile (8.15; QS-23).
 | [[r-029]]R-029 | *Original-Harness-Rad ändert sein URL-Format oder seine Schicht-ids.* Link und Einbettung in 8.16 zeigen dann einen falschen oder leeren Stand (xref:09_architecture_decisions.adoc#adr-025[ADR-025]); betroffen ist nur die Doku, kein Kind. | 2 | 1 | niedrig (2) | Die ids stehen fest in `scripts/harness-rad-original.js`; eine unbekannte id bricht den Generator ab, und `test/build/harness-rad-original.test.js` rechnet die Abdeckung aus der URL so nach wie das Original. Das statische SVG und die Tabelle bleiben die maßgebliche Darstellung (xref:08_concepts.adoc#section-harness[8.16]).
 | [[r-026]]R-026 | *Review hängt an einer Person.* Der Product Owner sieht jeden PR durch und merged ihn (Sampling Review 100 %, ADR-023). Technisch erzwingen lässt sich eine Freigabe nicht: Ein einzelner Maintainer kann seinen eigenen PR nicht freigeben, und Admins dürfen den Branch-Schutz umgehen. Ein eiliger Merge lässt KI-generierten Code ungelesen durch. | 1 | 2 | niedrig (2) | Pflicht-Check mit Tests, ESLint, `npm audit` und Build-Prüfungen (8.2 M-15, M-20); CodeQL (M-19). Seit #24 prüft vor jedem Merge ein KI-Review in frischem Kontext; der Check `ki-review` ist nur für den geprüften Stand grün (M-23, xref:09_architecture_decisions.adoc#adr-027[ADR-027]). Rest: Autor und Reviewer posten über dasselbe Konto, ein Review aus demselben Modell teilt dessen blinde Flecken, und ein PR kann den Check selbst ändern (Security-Review S-010). *Bewusst akzeptiert* vom Product Owner am 25.09.2026: Er liest als Maintainer jeden PR. [OPEN] Der Product Owner macht `ki-review` zum Pflicht-Check (Aufruf in M-23).
-| [[r-032]]R-032 | *ATAM-Abschnitt als Formalie* (xref:09_architecture_decisions.adoc#adr-030[ADR-030]). Der Check `ki-review` prüft nur, dass das Review bei einer Architekturänderung den Abschnitt „Architektur (ATAM)“ enthält, nicht seinen Inhalt. Ein Reviewer, der ihn pflichtschuldig füllt, lässt eine Entscheidung ungeprüft gegen die Szenarien durch. | 2 | 1 | niedrig (2) | Feste Gliederung in `werkzeuge/review/ki-review.md` (Szenarien, SP/TP, R-IDs, Pugh-Matrix gegen QZ-1…QZ-5); der Product Owner liest jeden PR vor dem Merge (R-026); die ATAM-Baseline je Quartal fängt, was die Reviews übersehen (xref:11_technical_risks.adoc#section-atam[ATAM-Bewertung]).
+| [[r-032]]R-032 | *ATAM-Abschnitt als Formalie* (xref:09_architecture_decisions.adoc#adr-030[ADR-030]). Der Check `ki-review` prüft nur, dass das Review bei einer Architekturänderung den Abschnitt „Architektur (ATAM)“ enthält, nicht seinen Inhalt. Ein Reviewer, der ihn pflichtschuldig füllt, lässt eine Entscheidung ungeprüft gegen die Szenarien durch. | 2 | 1 | niedrig (2) | Feste Gliederung in `werkzeuge/review/ki-review.md` (Szenarien, SP/TP, R-IDs, Pugh-Matrix gegen QZ-1…QZ-5); der Product Owner liest jeden PR vor dem Merge (R-026); die ATAM-Baseline je Quartal fängt, was die Reviews übersehen (xref:13_bewertungen.adoc#section-bewertungen[Anhang Bewertungen]).
 | [[r-012]]R-012 | *Termprüfung irrt* an den Prüfstellen oder bei der Form (ADR-009). | 1 | 2 | niedrig (2) | Feste Prüfstellen, Form nur als Hinweis (8.7.1; QS-19). Formregeln vom Domain Expert bestätigt (23.09.2026).
 | [[r-013]]R-013 | *Alte Seite nach Deployment.* Eine bis zu zehn Minuten alte HTML-Seite im Cache fordert URLs ihres alten Hashes an; Pages liefert die neuen Dateien. | 1 | 2 | niedrig (2) | `?v=<Hash>` an jeder Referenz (xref:08_concepts.adoc#section-auslieferung[8.10]; QS-20); neu laden hilft. [OPEN] `max-age=600` für HTML lässt sich auf Pages nicht ändern.
 | [[r-030]]R-030 | *Barrierefreiheit nur stichprobenartig geprüft* (ATAM AR-6, SP-6). axe-core prüfte je App eine Kompetenzseite; eine neue Seitenform, etwa ein Baum oder ein Termfeld, konnte WCAG 2.2 AA verletzen, ohne dass ein Check rot wird (QS-27). Seit 25.09.2026 prüft axe jede Seite; offen bleibt, was axe nicht erkennt, und jeder Zustand nach der geladenen Übung (Lösung, Rückmeldung). | 1 | 2 | niedrig (2) | axe-core im Pflicht-Check `browser` seit 25.09.2026 für jede Kompetenzseite jeder App, im Ausgangszustand und mit geladener Übung (`nr=1`), dazu Übersicht, Start-, Test- und Kartenseiten; die Liste kommt aus `e2e/seiten.js`, neue Seiten laufen mit (#56, xref:09_architecture_decisions.adoc#adr-026[ADR-026]). Der erste Lauf fand einen Verstoß im anklickbaren Pfadbaum, behoben in 0.11.4. Kontrast der Fachfarben im Build (QS-17); Handarbeit nach xref:08_concepts.adoc#section-barrierefreiheit[8.6]. W von 2 auf 1 gesenkt: eine neue Seitenform fällt jetzt im Check auf.
-| [[r-033]]R-033 | *Keine Content Security Policy* (Security-Review S-005). GitHub Pages setzt keine Header. Fände sich doch ein XSS-Pfad (T-003) oder lüde ein Skript zur Laufzeit von einem fremden Host (R-031), hielte der Browser nichts auf. | 1 | 2 | niedrig (2) | Kein `innerHTML`, ESLint mit `no-unsanitized` (8.2 M-20); Build-Prüfung auf externe Ressourcen (M-02); das Security-Review fand keinen XSS-Pfad (xref:11_technical_risks.adoc#section-security-baseline[Security-Review]). [OPEN] CSP per Meta-Tag mit Hashes, Issue #58.
+| [[r-033]]R-033 | *Keine Content Security Policy* (Security-Review S-005). GitHub Pages setzt keine Header. Fände sich doch ein XSS-Pfad (T-003) oder lüde ein Skript zur Laufzeit von einem fremden Host (R-031), hielte der Browser nichts auf. | 1 | 2 | niedrig (2) | Kein `innerHTML`, ESLint mit `no-unsanitized` (8.2 M-20); Build-Prüfung auf externe Ressourcen (M-02); das Security-Review fand keinen XSS-Pfad (xref:13_bewertungen.adoc#bewertung-security-2026-09-25[Security-Review]). [OPEN] CSP per Meta-Tag mit Hashes, Issue #58.
 | [[r-019]]R-019 | *Mini-DOM weicht vom Browser ab.* Eine Zeichenfunktion nutzt etwas, das `svg.js` im Build anders abbildet; statisches und interaktives Bild unterscheiden sich (ADR-016). | 1 | 1 | niedrig (1) | Nur `svgEl`, nie `document` in `js/vis/` (xref:08_concepts.adoc#section-bilder[8.12]); `test/kern/svg.test.js`, `test/build/bild.test.js`; Browser-Check.
 | [[r-028]]R-028 | *Geschätzte Textbreite zu knapp.* Ob ein Baum hochkant passt und wie breit eine Blattspalte ist, rechnet `baum-unten.js` mit der Zeichenbreite von DejaVu Sans. Eine noch breitere Systemschrift ließe Brüche in einer Geschwistergruppe einander berühren (ADR-024). | 1 | 1 | niedrig (1) | Tests prüfen jede Urnenvorlage mit grober Breite 0,6 je Zeichen auf Überlappung (`baum-layout.test.js`, `baum-unten.test.js`); der Browser-Check misst mit `getBoundingClientRect` (xref:08_concepts.adoc#section-test-concept[8.3]).
 | [[r-034]]R-034 | *Freitext über einen präparierten Link im Chat* (T-015; Security-Review S-008, S-009). Ein Link mit `?gesucht=ignoriere-alle-regeln` landet über „Link kopieren“ im Chat des Kindes; `tutor.md` sagt nicht, dass eingefügte Zeilen Daten sind. | 1 | 1 | niedrig (1) | Parameter nur aus `[a-z0-9-]` (`leseVorgaben`), nie als Markup (xref:08_concepts.adoc#section-security[8.2] M-20); die Zeile „Zurück zu Claude“ ist nicht beeinflussbar. *Bewusst akzeptiert* vom Product Owner am 25.09.2026: Das Kind kann ohnehin alles in den Chat schreiben, auch eine Rückfrage statt Daten.
@@ -101,9 +101,34 @@ uneinheitlich) galt nur noch für die alten Repos und ist mit R-016 erledigt; TD
 TD-5 (Browser-Test nur von Hand) mit #26; TD-22 (Doku-Build nur nach dem Merge) und TD-23 (Doku ohne Prüfung auf
 externe Ressourcen) mit `doku.yml`, das in PRs mit Änderungen an `src/docs` die Doku baut und die Ausgabe prüft.
 
-include::_atam-baseline.adoc[]
+[[section-atam-themen]]
+=== Risikothemen: Drei Themen bedrohen drei Geschäftsziele
 
-include::_security-baseline.adoc[]
+Die Risikothemen fassen die Befunde der
+xref:13_bewertungen.adoc#bewertung-atam-2026-09-25[ATAM-Bewertung vom 25.09.2026] zusammen (IDs AR, SP
+und TP dort). Anders als der datierte Bericht im Anhang zeigen sie den laufenden Stand; die nächste
+Bewertung schreibt sie fort.
+
+*RT-1: Ein Fehler trifft alle Apps zugleich* (AR-1, AR-2, SP-1, SP-2, TP-1, TP-3). Das Monorepo macht
+Korrekturen billig und Fehler teuer. Bedroht ist das Ziel, dass ein Kind der Rückmeldung trauen kann
+(QZ-3); der Schaden ist Lernschaden, der still bleibt (xref:11_technical_risks.adoc#r-025[R-025]).
+Property-Tests und der Vertragstest je Kompetenz sind die Gegenwehr; sie wirken nur, solange jede
+Kern-Änderung sie erweitert.
+
+*RT-2: Der Vertrag mit dem Tutor bewegt sich* (AR-4, AR-5, SP-3, TP-2). Die App übt, Claude unterrichtet;
+beide verbinden nur Links und Texte. Bedroht ist die Tutor-Anbindung (QZ-2) und damit das Lernmodell der
+Apps. Zwei Ursachen liegen außerhalb des Repositorys (claude.ai), eine ist bewusst akzeptiert (R-003).
+
+*RT-3: Die Prüfer sehen nur Stichproben* (AR-3, AR-6, AR-7, SP-4, SP-6). Build und Browser-Tests prüfen
+das Laden jeder Seite, aber nicht jede Interaktion und nicht jede Seitenform; das Review hängt an einem
+Konto. Bedroht sind die Zusagen an Eltern und Schulen: kein Datenabfluss (QZ-1) und Zugänglichkeit
+(QZ-5). Daraus stammen R-030 und R-031.
+
+Die Bewertungen selbst stehen datiert im xref:13_bewertungen.adoc#section-bewertungen[Anhang Bewertungen]:
+
+* xref:13_bewertungen.adoc#bewertung-atam-2026-09-25[ATAM-Bewertung vom 25.09.2026] – Quelle von R-030, R-031, R-032 und RT-1 bis RT-3.
+* xref:13_bewertungen.adoc#bewertung-security-2026-09-25[Security-Review vom 25.09.2026] – Quelle von R-033 und R-034.
+* xref:13_bewertungen.adoc#bewertung-harness-audit-2026-09-24[Harness-Audit vom 24.09.2026] – prüft das Harness-Rad in 8.16.
 
 [[section-open-questions]]
 === Offene Fragen: Nur die Lizenz ist noch offen

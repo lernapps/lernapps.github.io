@@ -195,7 +195,7 @@ Projekts selbst regelt diese Entscheidung nicht; sie bleibt offen (xref:11_techn
 Mathematik. Ob eine neue Entscheidung zu den Qualitätszielen passt, fragt seine Checkliste nur mit einem
 Satz: „ADR mit Pugh-Matrix und Risiko-IDs“. Das reicht, um ein fehlendes ADR zu finden, aber nicht, um eine
 Abwägung zu prüfen. Am 25.09.2026 entstand die erste ATAM-Bewertung
-(xref:11_technical_risks.adoc#section-atam[Kapitel 11]) mit einem Utility Tree
+(xref:13_bewertungen.adoc#bewertung-atam-2026-09-25[Anhang Bewertungen]) mit einem Utility Tree
 (xref:10_quality_requirements.adoc#section-utility-tree[Kapitel 10]). Eine Baseline allein veraltet mit
 dem nächsten ADR; ein ATAM in jedem PR kostet bei Text- und App-PRs Zeit, ohne etwas zu finden. Das
 Harness-Rad führt „LLM design review“ ab Tier 2 als offene Lücke (xref:08_concepts.adoc#section-harness[8.16]).
@@ -239,6 +239,19 @@ Formalie ausfüllen (xref:11_technical_risks.adoc#r-032[R-032]). Autor und Revie
 (xref:11_technical_risks.adoc#r-026[R-026]). PRs, die nur Tippfehler in Kapitel 1 oder 10 beheben, brauchen den
 Abschnitt trotzdem; das ist bewusst akzeptiert, ein Satz „keine Szenarien betroffen“ genügt. Wer die
 Auslösepfade ändert, ändert Skript, Test, `ki-review.md` und dieses ADR gemeinsam.
+
+*Nachtrag vom 25.09.2026: Bewertungen stehen im Anhang.* Der Product Owner hat entschieden, dass datierte
+Bewertungen Momentaufnahmen sind und weder in das Konzeptkapitel 8 noch in das Risikokapitel 11 gehören. Sie
+stehen seitdem im xref:13_bewertungen.adoc#section-bewertungen[Anhang Bewertungen] nach Kapitel 12, jede
+Runde als eigener datierter Abschnitt; die Dateien heißen `_atam-JJJJ-MM-TT.adoc`,
+`_security-JJJJ-MM-TT.adoc` und `_harness-audit-JJJJ-MM-TT.adoc`. Kapitel 11 behält Risiken und
+Risikothemen, Kapitel 10 den Utility Tree, 8.1 und 8.2 die Bedrohungen und Maßnahmen mit Link auf den
+Bericht. Der Auslösepfad `_atam-*.adoc` bleibt und trifft jeden datierten ATAM-Bericht, auch die künftigen.
+Der Security-Bericht und das Harness-Audit lösen nicht aus: Sie bewerten keine Abwägung gegen den Utility
+Tree, sondern Bedrohungen und Prüfschichten, und ihre Ergebnisse landen in Kapitel 8 und 11, die aus
+demselben Grund nicht auslösen. Verlangt ein Befund eine Entscheidung, bekommt sie ein ADR, und das löst
+aus. Die Einleitung des Anhangs (`13_bewertungen.adoc`) löst ebenfalls nicht aus; sie bindet die Berichte
+nur ein.
 
 [[adr-031]]
 === ADR-031: Kennzahlen der Übersichtsseite beim Doku-Build erzeugen

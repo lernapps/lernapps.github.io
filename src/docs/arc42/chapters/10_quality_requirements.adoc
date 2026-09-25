@@ -130,7 +130,8 @@ Netz-Annahme in QS-26 ist eine Annahme der Doku; sie gilt, bis jemand ein andere
 === Utility Tree: Datenschutz, richtige Rückmeldung und die Aufgabennummer tragen die höchste Last
 
 Der Utility Tree ordnet die Szenarien für die ATAM-Bewertung vom 25.09.2026
-(xref:11_technical_risks.adoc#section-atam[Kapitel 11]). Jedes Blatt trägt zwei Noten: *Wichtigkeit*
+(xref:13_bewertungen.adoc#bewertung-atam-2026-09-25[Anhang Bewertungen]). Er bleibt in diesem Kapitel,
+weil er das Qualitätsmodell ist und laufend gilt; jede datierte Bewertung misst sich an ihm. Jedes Blatt trägt zwei Noten: *Wichtigkeit*
 für den Erfolg der Apps und *Schwierigkeit*, das Szenario mit der Architektur zu erfüllen, je hoch (H),
 mittel (M) oder niedrig (L). Die Wichtigkeit folgt der Rangfolge der Qualitätsziele aus
 xref:01_introduction_and_goals.adoc#section-quality-goals[Kapitel 1.2]; der Product Owner hat diese

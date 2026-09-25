@@ -3,7 +3,7 @@
 // Kapitel verweisen per xref:NN_….adoc#id aufeinander. Im Gesamtdokument zeigen diese Links auf die
 // einzelnen Kapitelseiten der Microsite (arc42/chapters/NN_….html).
 :relfileprefix: chapters/
-// Gesamtdokument: alle zwölf arc42-Kapitel in einer Datei (für generateHTML/generatePDF).
+// Gesamtdokument: alle zwölf arc42-Kapitel und der Anhang Bewertungen in einer Datei (für generateHTML/generatePDF).
 // Die Microsite zeigt jedes Kapitel als eigene Seite.
 
 include::chapters/_config.adoc[]
@@ -68,3 +68,9 @@ include::chapters/11_technical_risks.adoc[]
 
 <<<<
 include::chapters/12_glossary.adoc[]
+
+// Anhang ohne Kapitelnummer
+:numbered!:
+
+<<<<
+include::chapters/13_bewertungen.adoc[]

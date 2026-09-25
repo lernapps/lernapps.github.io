@@ -23,7 +23,8 @@ const ATAM_ABSCHNITT = /^### Architektur \(ATAM\)[ \t]*$/m;
 
 /**
  * Auslösepfade für das Architektur-Review nach ATAM (ADR-030): Entscheidungen (ADRs, Kapitel 9),
- * Qualitätsdefinitionen (Kapitel 1 und 10, ATAM-Baseline), Lösungsstrategie (Kapitel 4) und Bausteine (Kapitel 5).
+ * Qualitätsdefinitionen (Kapitel 1 und 10, datierte ATAM-Berichte `_atam-JJJJ-MM-TT.adoc` im Anhang),
+ * Lösungsstrategie (Kapitel 4) und Bausteine (Kapitel 5).
  * Änderung nur per PR, zusammen mit ADR-030 und `werkzeuge/review/ki-review.md`.
  */
 export const ARCHITEKTUR_PFADE = [

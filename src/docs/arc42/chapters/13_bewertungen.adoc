@@ -1,0 +1,54 @@
+:jbake-title: Anhang: Bewertungen
+:jbake-type: page_toc
+:jbake-status: published
+:jbake-menu: arc42
+:jbake-order: 13
+:filename: /chapters/13_bewertungen.adoc
+ifndef::imagesdir[:imagesdir: ../../images]
+
+:toc:
+
+[[section-bewertungen]]
+== Anhang: Bewertungen halten den Stand zu einem Stichtag fest
+
+Die Kapitel 1 bis 12 beschreiben die Architektur, wie sie heute gilt. Dieser Anhang hält fest, was
+Bewertungen an einem Stichtag gefunden haben. Drei Arten gibt es: die ATAM-Bewertung prüft die
+Architekturansätze gegen den Utility Tree, das Security-Review prüft den ganzen Bestand nach OWASP Top 10,
+und das Harness-Audit prüft, ob die Prüfschichten des Harness-Rads wirklich laufen. Ein Bericht ist wie ein
+Protokoll: Er bleibt, wie er am Stichtag war. Was sich danach ändert, steht in den Kapiteln und im nächsten
+Bericht.
+
+[[section-bewertungen-rhythmus]]
+=== Jedes Quartal kommt ein datierter Abschnitt dazu
+
+Die drei Bewertungen laufen jedes Quartal gemeinsam, das nächste Mal im Dezember 2026
+(xref:09_architecture_decisions.adoc#adr-030[ADR-030]). Jede Runde bekommt einen eigenen Abschnitt am Ende
+dieses Anhangs; ältere Runden bleiben unverändert stehen, damit die Geschichte lesbar bleibt. Jeder Bericht
+liegt in einer eigenen Datei mit Datum im Namen: `_atam-JJJJ-MM-TT.adoc`, `_security-JJJJ-MM-TT.adoc` und
+`_harness-audit-JJJJ-MM-TT.adoc`. Die Befund-IDs laufen über alle Runden fort (AA, SP, TP, AR und NR für
+ATAM, S für Security); ein neuer Befund bekommt die nächste freie ID, ein erledigter bleibt mit Datum stehen.
+Die Übersichtsseite zeigt das Datum des jüngsten ATAM-Berichts und des jüngsten Audits. Ein neuer
+ATAM-Bericht verlangt im KI-Review den Abschnitt „Architektur (ATAM)“, die anderen beiden nicht.
+
+[[section-bewertungen-fluss]]
+=== Die Ergebnisse wandern in die Kapitel 8, 10 und 11
+
+Ein Bericht erklärt, woher ein Befund kommt; gepflegt wird der Befund in den Kapiteln. Neue Bedrohungen
+(T) und Maßnahmen (M) stehen in xref:08_concepts.adoc#section-threat-model[8.1] und
+xref:08_concepts.adoc#section-security[8.2] und verlinken den Bericht. Neue oder anders benotete
+Qualitätsszenarien ändern den xref:10_quality_requirements.adoc#section-utility-tree[Utility Tree in
+Kapitel 10]. Risiken (R), Risikothemen (RT) und technische Schulden (TD) stehen in
+xref:11_technical_risks.adoc#section-technical-risks[Kapitel 11], der Stand der Prüfschichten im
+xref:08_concepts.adoc#section-harness[Harness-Rad in 8.16].
+
+[[section-bewertungen-2026-09]]
+=== September 2026: Die erste Runde legt die Baseline
+
+Die erste Runde fand am 24. und 25.09.2026 statt. Sie setzt die IDs, an denen sich alle späteren Runden
+messen.
+
+include::_harness-audit-2026-09-24.adoc[leveloffset=+1]
+
+include::_atam-2026-09-25.adoc[leveloffset=+1]
+
+include::_security-2026-09-25.adoc[leveloffset=+1]

@@ -44,7 +44,7 @@ export const BELEGE = {
     "job:ki-review.yml#ki-review", "pflicht:ki-review"],
   "llm-design-review": ["datei:werkzeuge/review/ki-review.md", "funktion:scripts/ki-review-pruefen.js#beruehrteArchitektur",
     "funktion:scripts/ki-review-pruefen.js#ARCHITEKTUR_PFADE", "datei:test/build/ki-review.test.js", "pflicht:ki-review"],
-  atam: ["datei:src/docs/arc42/chapters/_atam-baseline.adoc", "datei:src/docs/arc42/chapters/10_quality_requirements.adoc",
+  atam: ["datei:src/docs/arc42/chapters/_atam-2026-09-25.adoc", "datei:src/docs/arc42/chapters/10_quality_requirements.adoc",
     "funktion:scripts/ki-review-pruefen.js#ARCHITEKTUR_PFADE"],
   "adr-enforcement": ["funktion:lib/pruefungen.js#pruefeExterneRessourcen", "funktion:lib/pruefungen.js#pruefeTutorLinks"],
   "json-schema-openapi-validation": ["funktion:lib/pruefungen.js#pruefeKompetenzen", "funktion:lib/karte/daten.js#pruefeReferenzen"],

@@ -5,7 +5,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import {
   leseRisiken, risikomatrix, leseAdrStatus, leseSchulden, leseRisikothemen, schreibeRisikothemen, leseUtilityTree, utilityTreeDiagramm,
-  leseNodeTestSumme, lesePlaywrightListe, leseTestGlobs, lesePflichtChecks, leseDatum, sammleKennzahlen, schreibeKennzahlen, ZIELE,
+  leseNodeTestSumme, lesePlaywrightListe, leseTestGlobs, lesePflichtChecks, leseDatum, neuesteBewertung, sammleKennzahlen, schreibeKennzahlen, ZIELE,
 } from "../../scripts/dashboard.js";
 import { SCHICHTEN, abdeckung } from "../../scripts/harness-rad.js";
 
@@ -55,7 +55,7 @@ test("leseSchulden trennt offene und erledigte Schulden, auch die nur im Absatz 
   assert.deepEqual(leseSchulden(kap), { offen: 1, erledigt: 3 });
 });
 
-test("leseRisikothemen liest RT-Nummer und Titel aus der ATAM-Baseline", () => {
+test("leseRisikothemen liest RT-Nummer und Titel aus den Risikothemen in Kapitel 11", () => {
   const atam = "*RT-1: Ein Fehler trifft alle Apps zugleich* (AR-1). Text\n\n*RT-2: Der Vertrag bewegt sich* (AR-4).";
   assert.deepEqual(leseRisikothemen(atam), [
     { id: "RT-1", titel: "Ein Fehler trifft alle Apps zugleich" },
@@ -122,6 +122,21 @@ test("die Kennzahlen aus dem echten Repository stimmen mit ihren Quellen überei
   assert.equal(Object.values(k.adrs).reduce((s, n) => s + n, 0), adrs);
   assert.match(k.atam, /^\d\d\.\d\d\.\d{4}$/);
   assert.match(k.audit, /^\d\d\.\d\d\.\d{4}$/);
+  // Die Links der Kennzahlen treffen den neuesten Bericht im Anhang Bewertungen.
+  const anhang = lies(KAPITEL + "13_bewertungen.adoc");
+  for (const art of ["atam", "harness-audit"]) {
+    const datei = neuesteBewertung(fs.readdirSync(KAPITEL), art);
+    assert.ok(anhang.includes(`include::${datei}[`), datei);
+    assert.equal(k.anker[art], lies(KAPITEL + datei).match(/^\[\[([\w-]+)\]\]/)[1]);
+  }
+});
+
+test("neuesteBewertung wählt je Art den jüngsten datierten Bericht", () => {
+  const dateien = ["_atam-2026-09-25.adoc", "_atam-2026-12-10.adoc", "_atam-vorlage.adoc", "_security-2027-01-01.adoc",
+    "_harness-audit-2026-09-24.adoc", "13_bewertungen.adoc"];
+  assert.equal(neuesteBewertung(dateien, "atam"), "_atam-2026-12-10.adoc");
+  assert.equal(neuesteBewertung(dateien, "harness-audit"), "_harness-audit-2026-09-24.adoc");
+  assert.throws(() => neuesteBewertung(dateien, "fehlt"), /fehlt/);
 });
 
 test("jedes offene Risiko aus Kapitel 11 steht in der Matrix, und jeder Link trifft einen Anker", () => {
@@ -141,7 +156,8 @@ test("die Übersichtsseite bindet die erzeugten Dateien ein, und Git ignoriert s
   }
   assert.match(schreibeKennzahlen({ version: "1.2.3", apps: 3, kompetenzen: 20, unitTests: { tests: 2, pass: 2, fail: 0, skipped: 0 },
     browserTests: { dateien: 1, tests: 2 }, pflichtChecks: ["a"], adrs: { Accepted: 1 }, risiken: { hoch: 1 },
-    schulden: { offen: 1, erledigt: 2 }, rad: { vorhanden: 21, relevant: 29 }, atam: "25.09.2026", audit: "24.09.2026" }),
+    schulden: { offen: 1, erledigt: 2 }, rad: { vorhanden: 21, relevant: 29 }, atam: "25.09.2026", audit: "24.09.2026",
+    anker: { atam: "bewertung-atam-2026-09-25", "harness-audit": "bewertung-harness-audit-2026-09-24" } }),
   /1\.2\.3/);
 });
 
