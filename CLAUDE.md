@@ -151,7 +151,8 @@ repository: one shared kern, one layout, one build (Eleventy 3.1.6), deployed to
 - Overview page `src/docs/uebersicht/` (ADR-031): `scripts/dtc-v4.sh` first runs `node scripts/dashboard.js`, which
   writes key figures, risk matrix, utility tree and risk themes into git-ignored `src/docs/uebersicht/_*.adoc`. Never
   commit them; if you change the format of the chapter 11 risk table, the chapter 9 index or the utility tree, keep
-  `test/build/dashboard.test.js` green.
+  `test/build/dashboard.test.js` green. It runs the unit tests once and `playwright test --list` (needs `npm ci` and a
+  built `_site/`), so run `npm run build` before `scripts/dtc-v4.sh`.
 - Build locally: `scripts/dtc-v4.sh generateSite` (docToolchain v4 pinned to `main-4.x@6de96fb7`, needs Java 17 and
   Graphviz; first run clones and builds docToolchain). Output: `build/microsite/output/` (git-ignored). Check nav,
   chapter pages, rendered diagrams and links there before pushing.

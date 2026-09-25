@@ -25,18 +25,24 @@ include::_kennzahlen.adoc[]
 ====
 .Kontext (xref:../arc42/chapters/03_context_and_scope.adoc#section-business-context[Kapitel 3])
 include::../arc42/chapters/03_context_and_scope.adoc[tag=kontext-diagramm]
+
+link:../images/kontext-fachlich.svg[Diagramm in voller Größe öffnen] (zum Zoomen auf dem Handy)
 ====
 
 [.kachel.breit]
 ====
 .Bausteine, Ebene 1 (xref:../arc42/chapters/05_building_block_view.adoc#section-whitebox-overall-system[Kapitel 5])
 include::../arc42/chapters/05_building_block_view.adoc[tag=bausteine-diagramm]
+
+link:../images/bausteine-ebene-1.svg[Diagramm in voller Größe öffnen] (zum Zoomen auf dem Handy)
 ====
 
 [.kachel.breit]
 ====
 .Utility Tree (xref:../arc42/chapters/10_quality_requirements.adoc#section-utility-tree[Kapitel 10])
 include::_utility-tree.adoc[]
+
+link:../images/uebersicht-utility-tree.svg[Diagramm in voller Größe öffnen] (zum Zoomen auf dem Handy)
 
 Je Szenario: (Wichtigkeit, Schwierigkeit), hoch (H), mittel (M), niedrig (L).
 ====
@@ -45,6 +51,8 @@ Je Szenario: (Wichtigkeit, Schwierigkeit), hoch (H), mittel (M), niedrig (L).
 ====
 .Harness Coverage Wheel (xref:../arc42/chapters/08_concepts.adoc#section-harness[8.16])
 image::harness-rad.svg[Harness Coverage Wheel für lernapps: Abdeckung je Abschnitt bis Tier 2]
+
+link:../images/harness-rad.svg[Diagramm in voller Größe öffnen] (zum Zoomen auf dem Handy)
 ====
 
 [.kachel]
