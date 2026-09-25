@@ -26,3 +26,9 @@ test("leseVorgaben liest Texte, die mit einer Ziffer beginnen (Urneninhalt 3r2b1
   assert.deepEqual(leseVorgaben("?urne=3r2b1g&modus=ohne", [], ["urne", "modus"]), { urne: "3r2b1g", modus: "ohne" });
   assert.deepEqual(leseVorgaben("?urne=-3r", [], ["urne"]), {});
 });
+
+test("leseVorgaben verwirft Texte, die Objekt-Eigenschaften heißen (S-001, T-016)", () => {
+  // `constructor` passt auf das Muster, träfe in Nachschlagetabellen wie GESUCHT[vorgaben.gesucht] aber eine Funktion.
+  const vorgaben = leseVorgaben("?gesucht=constructor&art=Constructor", [], ["gesucht", "art"]);
+  assert.deepEqual(vorgaben, {});
+});

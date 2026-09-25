@@ -68,3 +68,10 @@ test("testLink und formatDatum", () => {
   assert.equal(formatDatum("2026-09-23T10:00:00.000Z"), "23.09.2026");
   assert.equal(formatDatum("kaputt"), "");
 });
+
+test("leseModus und testLink nehmen nur eigene Modi, keine geerbten Objekt-Schlüssel (S-001, T-016)", () => {
+  for (const modus of ["toString", "constructor", "__proto__", "hasOwnProperty"]) {
+    assert.equal(leseModus(`?modus=${modus}`), "voll");
+    assert.equal(testLink(7, modus), "test.html?nr=7&modus=voll");
+  }
+});

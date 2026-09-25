@@ -184,3 +184,15 @@ test("TD-17/L-023: mehrere Videokarten (div.video-karte mit h3) in einem Abschni
     delete globalThis.document;
   }
 });
+
+test("das iframe schickt YouTube nur die Herkunft, nie Pfad oder Aufgabennummer (S-004)", async () => {
+  const { initVideos } = await import("../../src/kern/js/video.js");
+  const { wurzel, section } = fakeDom();
+  try {
+    initVideos(P, wurzel);
+    section.querySelectorAll("button")[0].click();
+    assert.equal(section.querySelectorAll("iframe")[0].attrs.referrerpolicy, "strict-origin-when-cross-origin");
+  } finally {
+    delete globalThis.document;
+  }
+});

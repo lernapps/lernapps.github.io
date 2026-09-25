@@ -1,0 +1,54 @@
+[[section-security-baseline]]
+=== Security-Review vom 25.09.2026: Kein XSS-Pfad, aber Lücken in der Tutor-Allowlist und in der CI-Lieferkette
+
+Das KI-Review jedes PRs prüft OWASP nur am Diff. Am 25.09.2026 hat Claude Code erstmals den ganzen
+Bestand geprüft: jeden URL-Parameter und jeden localStorage-Wert bis zu jeder DOM-Senke in
+`src/kern/js/` und `src/*/js/`, die vendorte `talkitover.js`, die Nunjucks-Vorlagen, den Tutor-Vertrag
+(T-015), die Workflows unter `.github/workflows/` und den Datenschutz. Payloads liefen gegen die gebaute
+Site im Browser (Playwright). Grundlage ist die OWASP Top 10 (2021), angepasst an eine statische Site mit
+CI-Lieferkette. Der Product Owner hat S-008 bis S-010 am 25.09.2026 bewusst akzeptiert.
+
+Das Ergebnis: Kein Weg führt von außen zu fremdem Markup oder Skript. Jeder Parameter läuft durch eine
+Allowlist oder ein Muster und landet nur über `textContent`, `setAttribute` oder `value` im DOM;
+`innerHTML` steht nur in TalkItOver, dort mit festen Zeichenketten. Schwach waren zwei Prüfungen, die
+Angreifer nicht von außen erreichen, sondern nur über einen gemergten PR: die Link-Allowlist für
+Tutor-Dateien und die Pins der GitHub Actions. Beide sind in diesem Review behoben.
+
+[cols="1,1,3,4,1,4",options="header"]
+|===
+| ID | OWASP | Ort | Befund und Nachweis | Schwere | Stand
+| S-001 | A03 | `src/kern/js/testablauf.js:32`, `src/kern/js/aufgabenlink.js:67` | `modus in MODI` und Nachschlagetabellen finden auch geerbte Schlüssel. `/prozent/test.html?modus=toString` schrieb „function toString() …“ in den Titel, `/prozent/grundbegriffe.html?gesucht=constructor&nr=1` warf „VORLAGEN[…][gesucht] is not a function“. Kein Markup möglich (T-016). | niedrig | Behoben: `Object.hasOwn`, `leseVorgaben` verwirft Namen aus `Object.prototype` (M-25)
+| S-002 | A08 | `.github/workflows/*.yml` | 16 `uses:` an verschiebbaren Tags (`@v4`, `@v3`), auch im Deploy-Pfad von `pages.yml`. Wer ein Tag einer Action umhängt, führt Code mit `pages: write` aus (T-018). | mittel | Behoben: SHA-Pins, Dependabot für Actions (M-27)
+| S-003 | A03 / T-015 | `lib/pruefungen.js:77-88` | Die Tutor-Allowlist ließ durch: `https:/evil.example`, `https:\\evil.example`, `…/lernapps.github.io/../../fremd/repo` (auch `%2e`), `mailto:`, nackte Hosts mit Pfad, Port oder Query (`evil.com/x`, `evil.com:8080/x`, `evil.com?x=1`), UNC-Pfade (`\\evil.com\x`), Issues im eigenen Repository, die jeder nach dem Review ändern kann, und Fork-Commits, die GitHub unter der eigenen Repository-Adresse zeigt. Braucht einen gemergten PR (T-017). | mittel | Behoben: erweiterte Muster, Pfad-Tricks verboten, Repository nur `/blob/main/` und `/tree/main/` (M-26)
+| S-004 | Datenschutz | `src/_includes/basis.njk`, `src/kern/js/video.js:98` | Die Referrer-Policy hing an der Browser-Vorgabe. Ein Browser mit anderer Vorgabe schickte YouTube Pfad, `seed` und `von=tutor`. | niedrig | Behoben: `strict-origin-when-cross-origin` per Meta-Tag in beiden Layouts (Apps, Karte) und am iframe (M-28)
+| S-005 | A05 | alle Seiten | Keine Content Security Policy. Pages setzt keine Header; ein Meta-Tag geht, braucht aber Hashes für 27 Inline-Module und zwei Stile. Zweite Verteidigungslinie, kein offener Angriff. | niedrig | Issue #58 (R-033)
+| S-006 | A03 | `src/karte/js/karte.js:80-85`, `start.js:45` | `href` aus Kartendaten ohne Prüfung des Schemas; ein `javascript:` in einer Datendatei käme durch. Nur Repo-Daten. | info | Issue #59
+| S-007 | A03 | `src/_includes/kompetenz.njk:77,80` | `\| dump \| safe` in `<script>`: `</script>` in einem Titel bräche die Seite. Nur Repo-Daten. | info | Issue #59
+| S-008 | T-015 | `src/kern/js/aufgabenlink.js:57-70`, `src/kern/js/ui.js:93,149` | Ein präparierter Link trägt Freitext aus `[a-z0-9-]` in „Link kopieren“, etwa `?gesucht=ignoriere-alle-regeln`. Das Kind fügt ihn in den Chat ein. | niedrig | Akzeptiert: Das Kind kann ohnehin alles in den Chat schreiben (R-034)
+| S-009 | T-015 | `src/*/tutor.njk` | `tutor.md` sagt nicht, dass eingefügte Zeilen Daten sind und keine Anweisungen. Die Zeile „Zurück zu Claude“ selbst ist nicht beeinflussbar: Titel fest, Nummer nur Ziffern, `von` exakt `tutor`. | info | Akzeptiert (R-034)
+| S-010 | A08 | `.github/workflows/ki-review.yml`, `scripts/ki-review-pruefen.js` | Ein PR kann den Check `ki-review` selbst ändern und abschwächen; CODEOWNERS hilft bei einem Maintainer nicht. Bekannte Grenze aus ADR-027. | niedrig | Akzeptiert: Der Product Owner liest jeden PR (R-026)
+| S-011 | A06 | `src/kern/vendor/talkitover.js` | v1.1.0, MIT. `innerHTML` nur mit festen Zeichenketten, `window.open` mit `noopener,noreferrer`; ein gefälschter Provider in localStorage ändert nur ein Label. Keine bekannten Schwachstellen (Issue-Tracker nicht geprüft). | info | Keine Aktion (R-007 bleibt)
+| S-012 | A05 | docToolchain-Theme | Der Link „Create an issue“ hat `target=_blank` ohne `rel`; Browser setzen `noopener` inzwischen selbst. | info | Keine Aktion
+|===
+
+Geprüft und in Ordnung (A08): Kein Workflow nutzt `pull_request_target`, `workflow_run` oder
+`issue_comment`; `${{ github.event.* }}` steht nur in `env:`, nie in `run:`. Jeder Workflow hat
+`contents: read`, nur `pages.yml` darf `pages: write` und `id-token: write`, und nur auf `main`. Das
+Standard-Token des Repositorys ist lesend und darf keine PRs freigeben. Secrets nutzt kein Workflow außer
+dem automatischen `GITHUB_TOKEN`. Caches aus PRs sieht `main` nicht (Cache-Scope je Ref);
+docToolchain und asciidoc-linter hängen an Commits (M-13, ADR-028).
+
+Nicht anwendbar oder abgedeckt: A01 (Zugriffskontrolle) und A07 (Authentifizierung) – keine Konten,
+kein Backend (M-01); A02 (Kryptografie) – nur HTTPS über Pages, keine Geheimnisse im Browser; A06
+(Komponenten) – `npm audit`, Dependency Review und Dependabot (M-20, M-24); A09 (Logging) – die Apps
+messen bewusst nichts (xref:08_concepts.adoc#section-observability[8.4]), Änderungen zeigt die
+Git-Historie (M-08); A10 (SSRF) – kein Server, die Karte lädt nur ihre eigene `data.json`.
+
+Datenschutz: localStorage hält nur Stufen je Kompetenz, den letzten Test (Nummer, Modus, Datum, Stufen),
+den Video-Merker und den TalkItOver-Provider, keine Namen und keinen Freitext. Nach einer Eingabe geht
+keine Anfrage an fremde Hosts; YouTube lädt erst nach dem Klick. Der Deploy liefert nur `_site/` und die
+Doku, ohne Quelltext-Maps. R-031 bleibt offen, weil der Build fremde Hosts nur an Mustern erkennt.
+
+Wiederholung: Das Security-Review läuft jedes Quartal zusammen mit der ATAM-Bewertung und dem
+Harness-Audit (xref:11_technical_risks.adoc#section-atam-wiederholung[Wiederholung]). Es schreibt die
+S-IDs fort; ein neuer Befund bekommt die nächste freie ID.

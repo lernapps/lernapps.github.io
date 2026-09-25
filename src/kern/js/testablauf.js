@@ -27,9 +27,9 @@ const MAX_JE_KOMPETENZ = Math.max(...Object.values(MODI));
 
 /** Liest ?modus=voll|schnell; alles andere ist "voll". @param {string | null | undefined} query @returns {string} */
 export function leseModus(query) {
-  // Fehlt der Parameter (null), ist `null in MODI` false – also "voll".
+  // Fehlt der Parameter (null), ist er kein eigener Schlüssel – also "voll". `in` fände auch geerbte wie `toString`.
   const modus = /** @type {string} */ (new URLSearchParams(query || "").get("modus"));
-  return modus in MODI ? modus : "voll";
+  return Object.hasOwn(MODI, modus) ? modus : "voll";
 }
 
 /**
@@ -87,7 +87,7 @@ export function ergebnisZeile(nr, modus, ergebnis, kompetenzen, appTitel) {
 
 /** Link, der denselben Test noch einmal öffnet. @param {number} nr @param {string} modus */
 export function testLink(nr, modus) {
-  return `test.html?nr=${nr}&modus=${modus in MODI ? modus : "voll"}`;
+  return `test.html?nr=${nr}&modus=${Object.hasOwn(MODI, modus) ? modus : "voll"}`;
 }
 
 /** ISO-Datum → "23.09.2026" (Ortszeit); leer bei Unsinn. @param {string} iso */

@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # v5.0.0, per Commit-SHA gepinnt (T-012). Update: neuen SHA eintragen, PR.
-      - uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294
+      - uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v5.0.0
         with:
           fail-on-severity: high
           # Muss zu ERLAUBT_DEV in lib/pruefe-lizenzen.js passen; eine Änderung braucht ein ADR.

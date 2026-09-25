@@ -77,7 +77,8 @@ repository: one shared kern, one layout, one build (Eleventy 3.1.6), deployed to
   root-relative or `https://lernapps.github.io/…`) must hit an existing file, and a `#anchor` an existing id. External
   links and `mailto:` stay unchecked; `docs/` is skipped (docToolchain adds it only in the deploy).
 - Tutor link allowlist (ADR-023, `pruefeTutorLinks`): `tutor.md` and `llms.txt` of every app, the root `llms.txt` and
-  `karte/llms.txt` may link only to relative targets, `https://lernapps.github.io/`, the own repository,
+  `karte/llms.txt` may link only to relative targets, `https://lernapps.github.io/`, `/blob/main/` and `/tree/main/` of
+  the own repository (no issues or fork commits: anyone can change them),
   `https://de.serlo.org/` and `https://www.youtube.com/watch?v=`. Any other URL fails the build. These files are
   prompts in a child's chat; widen the allowlist only with an ADR.
 - Every app-page link (`.html`) in a built `tutor.md` carries `von=tutor` before any `#` (`pruefeTutorHerkunft`, ADR-021);
@@ -206,6 +207,7 @@ branch protection, secret scanning with push protection, org-wide 2FA and the tu
 | Tutor link allowlist   | Present | `pruefeTutorLinks` in `lib/pruefungen.js` (ADR-023, M-22)                       |
 | Org 2FA requirement    | Present | decided and enabled 2026-09-24 (R-017, M-21)                                    |
 | License compliance     | Present | `lib/pruefe-lizenzen.js` in `npm test`; Dependency Review in `abhaengigkeiten.yml`, required check `abhaengigkeiten` (ADR-029, M-24) |
+| Security review        | Present | full OWASP baseline 25.09.2026 (arc42 ch. 11, `_security-baseline.adoc`), repeated quarterly with ATAM and the harness audit |
 
 ## Semantic Contracts
 Source: https://llm-coding.github.io/Semantic-Anchors/contracts/ — copied from lern-app-template so the repo is self-contained.

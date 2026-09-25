@@ -64,7 +64,8 @@ export function leseVorgaben(query, zahlen = [], texte = []) {
   }
   for (const name of texte) {
     const roh = (params.get(name) || "").trim().toLowerCase();
-    if (/^[a-z0-9][a-z0-9-]*$/.test(roh)) vorgaben[name] = roh;
+    // Geerbte Namen wie `constructor` träfen in Nachschlagetabellen der Generatoren eine Funktion (S-001).
+    if (/^[a-z0-9][a-z0-9-]*$/.test(roh) && !(roh in Object.prototype)) vorgaben[name] = roh;
   }
   return vorgaben;
 }
