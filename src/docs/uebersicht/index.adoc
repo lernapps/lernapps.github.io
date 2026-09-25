@@ -1,0 +1,64 @@
+:jbake-title: Übersicht
+:jbake-type: page
+:jbake-status: published
+:jbake-menu: uebersicht
+:jbake-order: 1
+:filename: /uebersicht/index.adoc
+:imagesdir: ../images
+
+[[section-uebersicht]]
+== Übersicht: Die Architektur auf einen Blick
+
+Diese Seite zeigt die wichtigsten Bilder und Kennzahlen der Architektur-Doku. Jede Kachel führt zu ihrem
+Kapitel. Die Zahlen erzeugt `scripts/dashboard.js` bei jedem Doku-Build aus dem Repository; niemand pflegt sie
+von Hand (xref:../arc42/chapters/08_concepts.adoc#section-uebersicht-doku[8.17]).
+
+[.kacheln]
+--
+[.kachel.breit]
+====
+.Kennzahlen
+include::_kennzahlen.adoc[]
+====
+
+[.kachel.breit]
+====
+.Kontext (xref:../arc42/chapters/03_context_and_scope.adoc#section-business-context[Kapitel 3])
+include::../arc42/chapters/03_context_and_scope.adoc[tag=kontext-diagramm]
+====
+
+[.kachel.breit]
+====
+.Bausteine, Ebene 1 (xref:../arc42/chapters/05_building_block_view.adoc#section-whitebox-overall-system[Kapitel 5])
+include::../arc42/chapters/05_building_block_view.adoc[tag=bausteine-diagramm]
+====
+
+[.kachel.breit]
+====
+.Utility Tree (xref:../arc42/chapters/10_quality_requirements.adoc#section-utility-tree[Kapitel 10])
+include::_utility-tree.adoc[]
+
+Je Szenario: (Wichtigkeit, Schwierigkeit), hoch (H), mittel (M), niedrig (L).
+====
+
+[.kachel]
+====
+.Harness Coverage Wheel (xref:../arc42/chapters/08_concepts.adoc#section-harness[8.16])
+image::harness-rad.svg[Harness Coverage Wheel für lernapps: Abdeckung je Abschnitt bis Tier 2]
+====
+
+[.kachel]
+====
+.Risikomatrix (xref:../arc42/chapters/11_technical_risks.adoc#section-risks[Kapitel 11])
+include::_risikomatrix.adoc[]
+
+Offene Risiken nach Wahrscheinlichkeit (W, Zeilen) und Auswirkung (A, Spalten), je 1 gering bis 3 hoch;
+erledigte fehlen.
+====
+
+[.kachel]
+====
+.Risikothemen der ATAM-Bewertung (xref:../arc42/chapters/11_technical_risks.adoc#section-atam-themen[Kapitel 11])
+include::_risikothemen.adoc[]
+====
+--

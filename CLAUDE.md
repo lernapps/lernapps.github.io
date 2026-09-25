@@ -148,6 +148,10 @@ repository: one shared kern, one layout, one build (Eleventy 3.1.6), deployed to
 - arc42 documentation (German) lives in `src/docs/arc42/` (chapters in `chapters/`, ADRs in `chapters/_adr-*.adoc`,
   index in chapter 9); theme overrides without CDN resources in `src/site/`; config `docToolchainConfig.groovy`.
   Eleventy ignores `src/docs/` and `src/site/`. Live at `https://lernapps.github.io/docs/`.
+- Overview page `src/docs/uebersicht/` (ADR-031): `scripts/dtc-v4.sh` first runs `node scripts/dashboard.js`, which
+  writes key figures, risk matrix, utility tree and risk themes into git-ignored `src/docs/uebersicht/_*.adoc`. Never
+  commit them; if you change the format of the chapter 11 risk table, the chapter 9 index or the utility tree, keep
+  `test/build/dashboard.test.js` green.
 - Build locally: `scripts/dtc-v4.sh generateSite` (docToolchain v4 pinned to `main-4.x@6de96fb7`, needs Java 17 and
   Graphviz; first run clones and builds docToolchain). Output: `build/microsite/output/` (git-ignored). Check nav,
   chapter pages, rendered diagrams and links there before pushing.

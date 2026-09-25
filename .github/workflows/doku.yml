@@ -14,6 +14,7 @@ on:
       - "lib/pruefe-ausgabe.js"
       - "lib/pruefungen.js"
       - "scripts/doku-lint.js"
+      - "scripts/dashboard.js"
       - ".github/workflows/doku.yml"
   workflow_dispatch:
 
@@ -59,6 +60,7 @@ jobs:
           ASCIIDOC_LINTER_SHA: 911440ac35d5849349389cce7ba04311d75dca49
         run: |
           python -m pip install --disable-pip-version-check "git+https://github.com/docToolchain/asciidoc-linter@${ASCIIDOC_LINTER_SHA}"
+          node scripts/dashboard.js   # Includes der Übersichtsseite (ADR-031), sonst meldet der Lint sie als fehlend
           node scripts/doku-lint.js
 
       - name: Java 17 für docToolchain v4

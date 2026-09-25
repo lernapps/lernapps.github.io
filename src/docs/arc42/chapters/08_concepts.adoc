@@ -375,3 +375,19 @@ also Vertragstest, Tutor-Vertrag und Build-Prüfungen.
 
 Wer den Stand ändert, passt `ROH` in `scripts/harness-rad.js` an und ruft `node scripts/harness-rad.js` auf;
 das erneuert Bild, Tabelle und den Link ins Original.
+
+[[section-uebersicht-doku]]
+=== 8.17 Übersichtsseite: Kennzahlen entstehen beim Doku-Build, nicht im Repository
+
+Die Seite xref:../../uebersicht/index.adoc[Übersicht] (`/docs/uebersicht/`) zeigt die wichtigsten Bilder
+und Kennzahlen auf einer Seite: Kontext und Bausteine als C4-Diagramm, das Harness-Rad, den Utility Tree,
+eine Risikomatrix und die Risikothemen der ATAM-Bewertung. Jede Kachel führt zu ihrem Kapitel. Die beiden
+C4-Diagramme bindet die Seite per `include::…[tag=…]` aus Kapitel 3 und 5 ein; es gibt sie nur einmal.
+
+Kennzahlen, Risikomatrix, Utility Tree und Risikothemen schreibt `scripts/dashboard.js` in vier
+git-ignorierte Dateien `src/docs/uebersicht/_*.adoc` (xref:09_architecture_decisions.adoc#adr-031[ADR-031]).
+Es liest nur das Repository: `package.json`, die App-Konfigurationen, die Testdateien, `CLAUDE.md` und die
+arc42-Kapitel. `scripts/dtc-v4.sh` ruft es vor jedem Doku-Build auf, lokal wie in `doku.yml` und `pages.yml`.
+`test/build/dashboard.test.js` rechnet die Zahlen gegen ihre Quellen nach und bricht, wenn sich das Format
+der Risikotabelle, des ADR-Index oder des Utility Tree so ändert, dass der Generator es nicht mehr liest.
+Die Pflicht-Checks stammen aus der Doku, nicht aus der Branch Protection, die nur ein Admin lesen kann.
