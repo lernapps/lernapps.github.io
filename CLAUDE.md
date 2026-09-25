@@ -77,8 +77,8 @@ repository: one shared kern, one layout, one build (Eleventy 3.1.6), deployed to
   root-relative or `https://lernapps.github.io/…`) must hit an existing file, and a `#anchor` an existing id. External
   links and `mailto:` stay unchecked; `docs/` is skipped (docToolchain adds it only in the deploy).
 - Tutor link allowlist (ADR-023, `pruefeTutorLinks`): `tutor.md` and `llms.txt` of every app, the root `llms.txt` and
-  `karte/llms.txt` may link only to relative targets, `https://lernapps.github.io/`, `/blob/` and `/tree/` of the own
-  repository (no issues: anyone can edit them),
+  `karte/llms.txt` may link only to relative targets, `https://lernapps.github.io/`, `/blob/main/` and `/tree/main/` of
+  the own repository (no issues or fork commits: anyone can change them),
   `https://de.serlo.org/` and `https://www.youtube.com/watch?v=`. Any other URL fails the build. These files are
   prompts in a child's chat; widen the allowlist only with an ADR.
 - Every app-page link (`.html`) in a built `tutor.md` carries `von=tutor` before any `#` (`pruefeTutorHerkunft`, ADR-021);
