@@ -33,7 +33,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
 
       - name: Gibt es die Doku schon?
         id: vorhanden
@@ -45,7 +45,7 @@ jobs:
             echo "doku=nein" >> "$GITHUB_OUTPUT"
           fi
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         if: steps.vorhanden.outputs.doku == 'ja'
         with:
           node-version: 22
@@ -62,7 +62,7 @@ jobs:
 
       - name: Java 17 für docToolchain v4
         if: steps.vorhanden.outputs.doku == 'ja'
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3 # v4.9.1
         with:
           distribution: temurin
           java-version: 17
@@ -79,7 +79,7 @@ jobs:
 
       - name: docToolchain v4 und Gradle-Abhängigkeiten aus dem Cache
         if: steps.vorhanden.outputs.doku == 'ja'
-        uses: actions/cache@v4
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
         with:
           path: |
             ~/.doctoolchain/docToolchain-4.0.0-${{ steps.dtc.outputs.short }}

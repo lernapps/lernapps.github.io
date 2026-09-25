@@ -1,0 +1,8 @@
+# Security-Review 25.09.2026 (S-002): Alle Actions sind per Commit-SHA gepinnt. Dependabot hebt die Pins
+# samt Versionskommentar monatlich per PR; ein PR durchläuft wie jeder andere die Pflicht-Checks.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
