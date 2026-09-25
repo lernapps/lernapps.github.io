@@ -33,6 +33,8 @@ export const BELEGE = {
   "secret-scanning": ["github:secret_scanning", "github:secret_scanning_push_protection"],
   sca: ["github:vulnerability-alerts", "github:dependabot_security_updates", "job:pruefen.yml#test-und-build"],
   sast: ["github:code-scanning/default-setup"],
+  "license-compliance": ["funktion:lib/pruefe-lizenzen.js#pruefeLizenzen", "funktion:lib/pruefe-lizenzen.js#pruefeVendorKoepfe",
+    "datei:test/build/pruefe-lizenzen.test.js", "job:abhaengigkeiten.yml#abhaengigkeiten", "pflicht:test-und-build"],
   "llm-security-review": ["datei:werkzeuge/review/ki-review.md", "job:ki-review.yml#ki-review", "pflicht:ki-review"],
   "threat-modeling": ["datei:src/docs/arc42/chapters/08_concepts.adoc", "datei:werkzeuge/review/ki-review.md",
     "pflicht:ki-review"],

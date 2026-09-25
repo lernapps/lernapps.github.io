@@ -52,7 +52,7 @@ const ROH = [
   [S, "iac-scanning", "IaC scanning", "G", 2, "entfällt", "keine Infrastruktur als Code; Workflows prüft CodeQL (`actions`)"],
   [S, "supply-chain-sbom-slsa", "Supply chain / SBOM", "G", 3, "offen", ""],
   [S, "compliance-scanning", "Compliance scanning", "G", 3, "offen", ""],
-  [S, "license-compliance", "License compliance", "G", 2, "offen", ""],
+  [S, "license-compliance", "License compliance", "G", 2, "vorhanden", "`lib/pruefe-lizenzen.js` in `npm test` (Allowlist je Verwendung, Lizenzköpfe unter `vendor/`), Dependency Review in PRs (`abhaengigkeiten.yml`), ADR-029"],
   [S, "sast", "SAST", "A", 2, "vorhanden", "CodeQL Default Setup (JavaScript/TypeScript, Actions)"],
   [S, "dast", "DAST", "A", 3, "offen", ""],
   [S, "iast", "IAST", "A", 4, "entfällt", "kein Server, keine Laufzeit-Instrumentierung"],
