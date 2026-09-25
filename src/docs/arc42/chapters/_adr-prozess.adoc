@@ -187,3 +187,54 @@ sie nicht. Dependency Review braucht den Abhängigkeitsgraphen von GitHub. Seit 
 damit Merges auf, bis er zurück ist. Die Action ist ein Werkzeug von außen im PR-Lauf mit Leserechten
 (xref:11_technical_risks.adoc#r-015[R-015]); der SHA-Pin schließt ungeprüfte Updates aus. Die Lizenz des
 Projekts selbst regelt diese Entscheidung nicht; sie bleibt offen (xref:11_technical_risks.adoc#r-018[R-018]).
+
+[[adr-030]]
+=== ADR-030: Architektur-Review nach ATAM bei Architekturänderungen
+
+*Kontext.* Das KI-Review (<<adr-027,ADR-027>>) prüft jeden PR auf Korrektheit, Sicherheit, Datenschutz und
+Mathematik. Ob eine neue Entscheidung zu den Qualitätszielen passt, fragt seine Checkliste nur mit einem
+Satz: „ADR mit Pugh-Matrix und Risiko-IDs“. Das reicht, um ein fehlendes ADR zu finden, aber nicht, um eine
+Abwägung zu prüfen. Am 25.09.2026 entstand die erste ATAM-Bewertung
+(xref:11_technical_risks.adoc#section-atam[Kapitel 11]) mit einem Utility Tree
+(xref:10_quality_requirements.adoc#section-utility-tree[Kapitel 10]). Eine Baseline allein veraltet mit
+dem nächsten ADR; ein ATAM in jedem PR kostet bei Text- und App-PRs Zeit, ohne etwas zu finden. Das
+Harness-Rad führt „LLM design review“ ab Tier 2 als offene Lücke (xref:08_concepts.adoc#section-harness[8.16]).
+
+*Entscheidung.* Ein PR bekommt ein Architektur-Review nach ATAM nur, wenn er Entscheidungen oder
+Qualitätsdefinitionen ändert. Auslöser sind ADR-Texte (`src/docs/arc42/chapters/_adr-*.adoc`), Kapitel 9
+(`09_*.adoc`), die Qualitätsziele in Kapitel 1 (`01_*.adoc`), die Szenarien in Kapitel 10 (`10_*.adoc`),
+die Lösungsstrategie in Kapitel 4 (`04_*.adoc`) und die Bausteine in Kapitel 5 (`05_*.adoc`). Die Liste
+steht an einer Stelle, `ARCHITEKTUR_PFADE` in `scripts/ki-review-pruefen.js`; Kapitel 8 und 11 lösen
+nicht aus, weil fast jeder PR sie nachführt und sie Entscheidungen umsetzen, nicht treffen. Der Reviewer
+schreibt dann den Abschnitt `### Architektur (ATAM)` nach `werkzeuge/review/ki-review.md`: betroffene
+Szenarien, neue Sensitivity und Tradeoff Points, neue Risiken mit R-ID oder „keine“ und ob Pugh-Matrix und
+Konsequenzen eines neuen ADR zu QZ-1 bis QZ-5 passen. Der Check `ki-review` holt die geänderten Dateien
+lesend über `pulls/{n}/files` und bleibt rot, wenn der Abschnitt fehlt. Die Baseline wiederholen wir jedes
+Quartal mit dem Harness-Audit.
+
+*Status.* Accepted. Vom Product Owner entschieden am 25.09.2026.
+
+[cols="2,1,1,1,1",options="header"]
+|===
+| Ziel | ATAM bei Architekturänderung (Referenz) | ATAM in jedem PR | Nur Baseline je Quartal | Kein Architektur-Review
+| QZ-1 Datenschutz | 0 | 0 | 0 | 0
+| QZ-2 Tutor-Anschluss | 0 | 0 | −1 | −1
+| QZ-3 Richtige Rückmeldung | 0 | 0 | −1 | −1
+| QZ-4 Neue Apps schnell | 0 | −1 | +1 | +1
+| QZ-5 Zugänglich | 0 | 0 | 0 | ?
+| *Summe* | *0* | *−1* | *−1* | *−1 + ?*
+|===
+
+Ein ATAM in jedem PR findet nichts, was die Auslöser nicht auch finden: Eine App oder ein Lerntext ändert
+keine Abwägung, kostet aber bei jedem der rund 20 App-PRs je Schuljahr einen Abschnitt (QZ-4 −1). Nur die
+Baseline spart diesen Schritt (QZ-4 +1); ein neues ADR, das zum Beispiel den Tutor-Vertrag oder den Kern
+berührt, bliebe bis zu drei Monate ungeprüft gegen die Szenarien (QZ-2, QZ-3 −1). Ohne Review fehlt
+auch die Baseline. Ob das die Zugänglichkeit trifft, deren automatische Prüfung nur Stichproben zieht
+(R-030), ist offen (QZ-5 `?`); die Wahl ändert es nicht.
+
+*Konsequenzen.* Die Harness-Schichten „LLM design review“ (Tier 2) und „ATAM“ stehen auf „vorhanden“.
+Der Check prüft nur, dass der Abschnitt da ist, nicht, dass er etwas taugt: Ein Reviewer kann ihn als
+Formalie ausfüllen (xref:11_technical_risks.adoc#r-032[R-032]). Autor und Reviewer bleiben dasselbe Konto
+(xref:11_technical_risks.adoc#r-026[R-026]). PRs, die nur Tippfehler in Kapitel 1 oder 10 beheben, brauchen den
+Abschnitt trotzdem; das ist bewusst akzeptiert, ein Satz „keine Szenarien betroffen“ genügt. Wer die
+Auslösepfade ändert, ändert Skript, Test, `ki-review.md` und dieses ADR gemeinsam.

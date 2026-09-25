@@ -320,7 +320,7 @@ Entschieden in xref:09_architecture_decisions.adoc#adr-015[ADR-015]. `src/_data/
 `{{ site.basis }}`. `site.js` behält genau einen `default`-Export.
 
 [[section-harness]]
-=== 8.16 Harness für KI-gestützte Entwicklung: 20 von 29 Prüfschichten laufen; die größten Lücken sind Formatter, Dead-Code-Erkennung und Rechtschreibprüfung
+=== 8.16 Harness für KI-gestützte Entwicklung: 21 von 29 Prüfschichten laufen; die größten Lücken sind Formatter, Dead-Code-Erkennung und Rechtschreibprüfung
 
 Claude-Code-Agenten schreiben fast den ganzen Code; der Product Owner prüft und merged. Der Harness ist
 alles, was die Agenten dabei führt und was ihre Fehler fängt. Er gehört in dieses Kapitel, weil er jeden
@@ -363,9 +363,12 @@ internen Link und Anker in `_site` (`lib/pruefe-links.js`). Seit dem 25.09.2026 
 (xref:09_architecture_decisions.adoc#adr-028[ADR-028]); seit dem Fix upstream (docToolchain/asciidoc-linter#62)
 feuern auch seine Überschriften-, Block- und Bildregeln, und die Schicht zählt wieder als „vorhanden“. Code-Review
 und Bedrohungsmodell zählen, weil der Pflicht-Check `ki-review` sie erzwingt; die beiden Prose-Lint-Schichten
-stehen auf „offen“, denn es gibt nur eine Regex und eine Zeilengrenze und keinen PR dafür. Bis Tier 2 fehlen neun
+stehen auf „offen“, denn es gibt nur eine Regex und eine Zeilengrenze und keinen PR dafür. Seit dem 25.09.2026
+zählt auch das LLM-Design-Review: Ändert ein PR ADRs oder die Kapitel 1, 4, 5, 9 oder 10, verlangt der Check
+`ki-review` einen Abschnitt nach ATAM gegen den Utility Tree; die ATAM-Baseline wiederholen wir mit dem Audit
+jedes Quartal (xref:09_architecture_decisions.adoc#adr-030[ADR-030]). Bis Tier 2 fehlen acht
 Schichten: Formatter, Dead-Code-Erkennung und Rechtschreibprüfung (Tier 1), dazu Komplexitätsmetriken
-(verworfen, #28), LLM-Design-Review, beide Prose-Lint-Schichten, Runtime Assertions und die Prüfung von Code in
+(verworfen, #28), beide Prose-Lint-Schichten, Runtime Assertions und die Prüfung von Code in
 der Doku. Die größte Lücke liegt also bei billigen extrinsischen Schichten; außerhalb des Rads fehlt noch die
 Typprüfung der Apps. Stark sind die intrinsischen Schichten,
 also Vertragstest, Tutor-Vertrag und Build-Prüfungen.
