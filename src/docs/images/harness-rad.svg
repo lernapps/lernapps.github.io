@@ -67,7 +67,7 @@
 <text x="400" y="621" text-anchor="middle" font-size="12" fill="#495057">100 %</text>
 <path d="M315.3 529.5 A226 226 0 0 1 208.3 439.8 L322 368.8 A92 92 0 0 0 365.5 405.3 Z" fill="#f1f3f5"/>
 <path d="M332.1 488.1 A181.33333333333331 181.33333333333331 0 0 1 246.2 416.1 L322 368.8 A92 92 0 0 0 365.5 405.3 Z" fill="#1d4ed8" fill-opacity="0.28"/>
-<circle cx="298.5" cy="541.9" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"><title>Accessibility automated – vorhanden, Tier 2: axe-core, WCAG 2.2 AA, 0 schwere/kritische Verstöße (e2e/axe.spec.js), #26</title></circle>
+<circle cx="298.5" cy="541.9" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"><title>Accessibility automated – vorhanden, Tier 2: axe-core, WCAG 2.2 AA, 0 schwere/kritische Verstöße auf jeder Seite, jede Kompetenzseite auch mit Übung (e2e/axe.spec.js), #26, R-030</title></circle>
 <circle cx="279.1" cy="531.9" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"><title>Contrast checker – vorhanden, Tier 2: WCAG-Kontrast je Fachfarbe (test/build/fachfarben.test.js)</title></circle>
 <circle cx="260.5" cy="520.2" r="4.8" fill="#fff" stroke="#2b8a3e" stroke-width="1.4" opacity="0.3"><title>Cross-browser tests – offen, Tier 3</title></circle>
 <circle cx="243.2" cy="506.9" r="4.8" fill="#fff" stroke="#2b8a3e" stroke-width="1.4"><title>UI prose lint – offen, Tier 2: Kein PR, kein Werkzeug. Vorhanden ist nur eine Regex: Tutor-Texte nennen keinen Wettbewerb (pruefeTutorText, #29). Es fehlt ein Prose-Linter für UI-Texte (Anrede „du“, Terminologie, Satzlänge)</title></circle>

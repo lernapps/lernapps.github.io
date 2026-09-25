@@ -39,7 +39,7 @@ und NR für Non-Risks.
 | SP-3 | Die Reihenfolge, in der ein Generator Zufallszahlen zieht. Ein neuer `zufall()`-Aufruf vor einem alten ändert jede Aufgabe jeder Nummer. | QS-3 | ADR-004 | R-003
 | SP-4 | `pruefeExterneRessourcen` und `pruefeExterneImporte` erkennen fremde Hosts an Mustern im Quelltext. Eine URL, die JavaScript erst zur Laufzeit zusammensetzt, sehen sie nicht; `e2e/extern.spec.js` prüft nur das Laden der Seite, nicht die Übung danach. | QS-1, QS-2 | ADR-008, ADR-026 | R-031
 | SP-5 | Der Term-Auswerter begrenzt Exponenten auf 64 und kennt nur seine eigenen Tokens. Jede neue Funktion im Parser erweitert die Eingabefläche. | QS-8 | ADR-006 | R-025
-| SP-6 | axe-core prüft je App nur eine Kompetenzseite (`eineJeApp` in `e2e/seiten.js`). Was eine andere Seite anders macht, etwa ein Baum oder ein Termfeld, prüft nur der Mensch. | QS-27 | ADR-026 | R-030
+| SP-6 | axe-core prüft je App nur eine Kompetenzseite (`eineJeApp` in `e2e/seiten.js`). Was eine andere Seite anders macht, etwa ein Baum oder ein Termfeld, prüft nur der Mensch. _Erledigt 25.09.2026:_ axe prüft jede Kompetenzseite (`kompetenzSeiten`, R-030). | QS-27 | ADR-026 | R-030
 | TP-1 | Ein Kern für alle Apps: Eine Korrektur erreicht jede App mit einem Commit (QZ-4, QS-25), ein Fehler ebenso (QZ-3, QS-6, QS-19). | QS-25, QS-6 | ADR-012, ADR-013 | R-004, R-025
 | TP-2 | Stabile Aufgabennummern (QZ-2) gegen bessere Generatoren (QZ-3, QZ-4). Der Product Owner hat einen Einfrier-Test am 23.09.2026 verworfen. | QS-3 | ADR-004 | R-003
 | TP-3 | Eigene Parser ohne `eval` und ohne Bibliothek (QZ-1, QS-8) gegen die Korrektheit eines selbstgebauten Parsers (QZ-3, QS-19). | QS-8, QS-19 | ADR-006, ADR-009 | R-012, R-025
@@ -51,7 +51,7 @@ und NR für Non-Risks.
 | AR-3 | Eine fremde Anfrage, die erst nach einer Eingabe entsteht (außer dem Video), fängt kein automatischer Test. | QS-1 | ADR-001, ADR-026 | R-031
 | AR-4 | Eine Generator-Änderung lässt alte Tutor-Links auf eine andere Aufgabe zeigen. | QS-3 | ADR-004 | R-003
 | AR-5 | Der Tutor hängt an claude.ai; ändert sich `?q=` oder das Laden von `tutor.md`, reißt die Verbindung. | QS-3, QS-4 | ADR-004 | R-002
-| AR-6 | Barrierefreiheit prüft die Automatik nur stichprobenartig; eine neue Seitenform kann WCAG verletzen, ohne dass ein Check rot wird. | QS-27 | ADR-026 | R-030
+| AR-6 | Barrierefreiheit prüft die Automatik nur stichprobenartig; eine neue Seitenform kann WCAG verletzen, ohne dass ein Check rot wird. _Gemildert 25.09.2026:_ axe prüft jede Seite; der erste Lauf fand einen Verstoß im Pfadbaum (R-030). | QS-27 | ADR-026 | R-030
 | AR-7 | Autor und Reviewer posten über dasselbe Konto, oft mit demselben Modell; blinde Flecken teilen beide. | alle | ADR-027 | R-026
 | NR-1 | Ohne Backend gibt es keinen Server zum Angreifen und keine personenbezogenen Daten zum Verlieren. | QS-1 | ADR-001 | –
 | NR-2 | Eine externe Ressource in der Ausgabe bricht den Build; beim Laden prüft `e2e/extern.spec.js` jede App-Seite im Pflicht-Check `browser`. | QS-2 | ADR-008, ADR-026 | –

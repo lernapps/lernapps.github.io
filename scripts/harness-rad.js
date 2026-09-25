@@ -74,7 +74,7 @@ const ROH = [
   [D, "pii-scanner", "PII scanner", "A", 3, "entfällt", "keine personenbezogenen Daten (Risk Radar: Data 0)"],
   [D, "config-validation", "Config validation", "R", 2, "vorhanden", "App-Konfiguration: unbekanntes Fach bricht den Build (`lib/fachfarben.js`)"],
   [D, "data-contract", "Data contract", "R", 3, "vorhanden", "Karten-Knoten müssen existieren: `pruefeReferenzen` bricht den Build (`lib/karte/laden.js`), Tests in `test/build/karte-daten.test.js`"],
-  [U, "accessibility-automated", "Accessibility automated", "G", 2, "vorhanden", "axe-core, WCAG 2.2 AA, 0 schwere/kritische Verstöße (`e2e/axe.spec.js`), #26"],
+  [U, "accessibility-automated", "Accessibility automated", "G", 2, "vorhanden", "axe-core, WCAG 2.2 AA, 0 schwere/kritische Verstöße auf jeder Seite, jede Kompetenzseite auch mit Übung (`e2e/axe.spec.js`), #26, R-030"],
   [U, "contrast-checker", "Contrast checker", "G", 2, "vorhanden", "WCAG-Kontrast je Fachfarbe (`test/build/fachfarben.test.js`)"],
   [U, "cross-browser-tests", "Cross-browser tests", "G", 3, "offen", ""],
   [U, "ui-prose-lint", "UI prose lint", "G", 2, "offen", "Kein PR, kein Werkzeug. Vorhanden ist nur eine Regex: Tutor-Texte nennen keinen Wettbewerb (`pruefeTutorText`, #29). Es fehlt ein Prose-Linter für UI-Texte (Anrede „du“, Terminologie, Satzlänge)"],
