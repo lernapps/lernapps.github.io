@@ -95,12 +95,12 @@ test("ohne Architekturänderung braucht das Review keinen ATAM-Abschnitt", () =>
   assert.equal(pruefeMit([review()], []).ok, true);
 });
 
-test("die Auslösepfade: ADRs, Kapitel 1, 4, 5, 9 und 10", () => {
+test("die Auslösepfade: ADRs, ATAM-Baseline, Kapitel 1, 4, 5, 9 und 10", () => {
   const kapitel = "src/docs/arc42/chapters/";
-  const treffer = ["_adr-vorlage.adoc", "01_introduction_and_goals.adoc", "04_solution_strategy.adoc",
+  const treffer = ["_adr-vorlage.adoc", "_atam-baseline.adoc", "01_introduction_and_goals.adoc", "04_solution_strategy.adoc",
     "05_building_block_view.adoc", "09_architecture_decisions.adoc", "10_quality_requirements.adoc"].map((d) => kapitel + d);
   assert.deepEqual(beruehrteArchitektur([...treffer, `${kapitel}08_concepts.adoc`, "docs/_adr-x.adoc"]), treffer);
-  assert.equal(ARCHITEKTUR_PFADE.length, 6);
+  assert.equal(ARCHITEKTUR_PFADE.length, 7);
 });
 
 test("ein Abschnitt nur im Fließtext oder mit anderer Ebene zählt nicht", () => {

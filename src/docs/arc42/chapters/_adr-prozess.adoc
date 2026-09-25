@@ -201,11 +201,12 @@ dem nächsten ADR; ein ATAM in jedem PR kostet bei Text- und App-PRs Zeit, ohne 
 Harness-Rad führt „LLM design review“ ab Tier 2 als offene Lücke (xref:08_concepts.adoc#section-harness[8.16]).
 
 *Entscheidung.* Ein PR bekommt ein Architektur-Review nach ATAM nur, wenn er Entscheidungen oder
-Qualitätsdefinitionen ändert. Auslöser sind ADR-Texte (`src/docs/arc42/chapters/_adr-*.adoc`), Kapitel 9
+Qualitätsdefinitionen ändert. Auslöser sind ADR-Texte (`src/docs/arc42/chapters/_adr-*.adoc`), die
+ATAM-Baseline selbst (`_atam-*.adoc`, sie ist die Bewertung, kein Nachtrag), Kapitel 9
 (`09_*.adoc`), die Qualitätsziele in Kapitel 1 (`01_*.adoc`), die Szenarien in Kapitel 10 (`10_*.adoc`),
 die Lösungsstrategie in Kapitel 4 (`04_*.adoc`) und die Bausteine in Kapitel 5 (`05_*.adoc`). Die Liste
-steht an einer Stelle, `ARCHITEKTUR_PFADE` in `scripts/ki-review-pruefen.js`; Kapitel 8 und 11 lösen
-nicht aus, weil fast jeder PR sie nachführt und sie Entscheidungen umsetzen, nicht treffen. Der Reviewer
+steht an einer Stelle, `ARCHITEKTUR_PFADE` in `scripts/ki-review-pruefen.js`; Kapitel 8 und der Rest von
+Kapitel 11 lösen nicht aus, weil fast jeder PR sie nachführt und sie Entscheidungen umsetzen, nicht treffen. Der Reviewer
 schreibt dann den Abschnitt `### Architektur (ATAM)` nach `werkzeuge/review/ki-review.md`: betroffene
 Szenarien, neue Sensitivity und Tradeoff Points, neue Risiken mit R-ID oder „keine“ und ob Pugh-Matrix und
 Konsequenzen eines neuen ADR zu QZ-1 bis QZ-5 passen. Der Check `ki-review` holt die geänderten Dateien

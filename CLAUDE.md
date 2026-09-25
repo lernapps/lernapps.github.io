@@ -137,8 +137,8 @@ repository: one shared kern, one layout, one build (Eleventy 3.1.6), deployed to
   `Ergebnis: freigegeben` or `Ergebnis: Änderungen nötig`, and the findings. Unfixed findings get a reason in the PR.
 - The check `ki-review` (`.github/workflows/ki-review.yml`, read-only token, no LLM call) is green only if the newest
   such review from `raifdmueller` came after the last commit and names the head SHA. Every new commit needs a new review.
-- Architecture review (ADR-030): if a PR touches ADR bodies (`src/docs/arc42/chapters/_adr-*.adoc`) or arc42 chapter
-  1, 4, 5, 9 or 10 (`ARCHITEKTUR_PFADE` in `scripts/ki-review-pruefen.js`), the review needs a section
+- Architecture review (ADR-030): if a PR touches ADR bodies (`src/docs/arc42/chapters/_adr-*.adoc`), the ATAM baseline
+  (`_atam-*.adoc`) or arc42 chapter 1, 4, 5, 9 or 10 (`ARCHITEKTUR_PFADE` in `scripts/ki-review-pruefen.js`), the review needs a section
   `### Architektur (ATAM)` evaluating the change against the utility tree (chapter 10) and the ATAM baseline
   (chapter 11); without it `ki-review` stays red. Repeat the ATAM baseline quarterly with the harness audit.
 - Inside Herdr (`HERDR_ENV=1`) the reviewer runs as its own named Herdr Claude session (`review: PR #<n>`), not as an

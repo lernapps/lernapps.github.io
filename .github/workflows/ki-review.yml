@@ -10,7 +10,7 @@ name: KI-Review
 # bliebe neben dem grünen des Reviews am selben Commit stehen und färbte den PR rot. Als Pflicht-Check steht
 # `ki-review` ohne Review auf „Expected“ und sperrt den Merge; jeder neue Commit braucht ein neues Review.
 # Ein gewöhnlicher PR-Kommentar zählt ebenfalls, braucht danach aber „Re-run“ des letzten Review-Laufs.
-# ADR-030: Ändert der PR ADRs, Kapitel 1, 4, 5, 9 oder 10 der arc42-Doku (ARCHITEKTUR_PFADE im Skript), braucht
+# ADR-030: Ändert der PR ADRs, die ATAM-Baseline oder Kapitel 1, 4, 5, 9 oder 10 der arc42-Doku (ARCHITEKTUR_PFADE im Skript), braucht
 # das Review den Abschnitt „### Architektur (ATAM)“. Die geänderten Dateien liest der Check über pulls/{n}/files.
 on:
   pull_request_review:
