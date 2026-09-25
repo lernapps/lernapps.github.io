@@ -28,12 +28,12 @@
 <path d="M623.8 288.5 A226 226 0 0 1 599.5 426.1 L481.2 363.2 A92 92 0 0 0 491.1 307.2 Z" fill="#f1f3f5"/>
 <path d="M623.8 288.5 A226 226 0 0 1 599.5 426.1 L481.2 363.2 A92 92 0 0 0 491.1 307.2 Z" fill="#1d4ed8" fill-opacity="0.28"/>
 <circle cx="642.4" cy="292.4" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"><title>Secret scanning – vorhanden, Tier 1: GitHub Secret Scanning mit Push Protection</title></circle>
-<circle cx="643.5" cy="305.1" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"><title>SCA – vorhanden, Tier 1: Dependabot-Alerts und -Security-Updates; npm audit --audit-level=high im Pflicht-Check, #20</title></circle>
+<circle cx="643.5" cy="305.1" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"><title>SCA – vorhanden, Tier 1: Dependabot-Alerts und -Security-Updates; npm audit --audit-level=high im Pflicht-Check, #20; Dependency Review prüft neue Abhängigkeiten jedes PRs auf Schwachstellen ab „high“ (Pflicht-Check abhaengigkeiten, ADR-029)</title></circle>
 <circle cx="644" cy="317.9" r="4.8" fill="#e9ecef" stroke="#adb5bd" stroke-width="1.4"><title>Container / image scanning – entfällt, Tier 2: keine Container: statische Seiten auf GitHub Pages</title></circle>
 <circle cx="643.8" cy="330.6" r="4.8" fill="#e9ecef" stroke="#adb5bd" stroke-width="1.4"><title>IaC scanning – entfällt, Tier 2: keine Infrastruktur als Code; Workflows prüft CodeQL (actions)</title></circle>
 <circle cx="642.9" cy="343.4" r="4.8" fill="#fff" stroke="#2b8a3e" stroke-width="1.4" opacity="0.3"><title>Supply chain / SBOM – offen, Tier 3</title></circle>
 <circle cx="641.3" cy="356.1" r="4.8" fill="#fff" stroke="#2b8a3e" stroke-width="1.4" opacity="0.3"><title>Compliance scanning – offen, Tier 3</title></circle>
-<circle cx="639.1" cy="368.6" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"><title>License compliance – vorhanden, Tier 2: lib/pruefe-lizenzen.js in npm test (Allowlist je Verwendung, Lizenzköpfe unter vendor/), Dependency Review in PRs (abhaengigkeiten.yml), ADR-029</title></circle>
+<circle cx="639.1" cy="368.6" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"><title>License compliance – vorhanden, Tier 2: lib/pruefe-lizenzen.js in npm test (Allowlist je Verwendung, Lizenzköpfe unter vendor/), Dependency Review in PRs (Pflicht-Check abhaengigkeiten), ADR-029</title></circle>
 <rect x="631.9" y="376.8" width="8.6" height="8.6" rx="1" fill="#e67700" stroke="#e67700" stroke-width="1.4"><title>SAST – vorhanden, Tier 2: CodeQL Default Setup (JavaScript/TypeScript, Actions)</title></rect>
 <rect x="628.4" y="389.1" width="8.6" height="8.6" rx="1" fill="#fff" stroke="#e67700" stroke-width="1.4" opacity="0.3"><title>DAST – offen, Tier 3</title></rect>
 <rect x="624.2" y="401.2" width="8.6" height="8.6" rx="1" fill="#e9ecef" stroke="#adb5bd" stroke-width="1.4" opacity="0.3"><title>IAST – entfällt, Tier 4: kein Server, keine Laufzeit-Instrumentierung</title></rect>
@@ -70,7 +70,7 @@
 <circle cx="298.5" cy="541.9" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"><title>Accessibility automated – vorhanden, Tier 2: axe-core, WCAG 2.2 AA, 0 schwere/kritische Verstöße (e2e/axe.spec.js), #26</title></circle>
 <circle cx="279.1" cy="531.9" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"><title>Contrast checker – vorhanden, Tier 2: WCAG-Kontrast je Fachfarbe (test/build/fachfarben.test.js)</title></circle>
 <circle cx="260.5" cy="520.2" r="4.8" fill="#fff" stroke="#2b8a3e" stroke-width="1.4" opacity="0.3"><title>Cross-browser tests – offen, Tier 3</title></circle>
-<circle cx="243.2" cy="506.9" r="4.8" fill="url(#halb-G)" stroke="#2b8a3e" stroke-width="1.4"><title>UI prose lint – in Arbeit, Tier 2: Vorhanden ist nur eine Regex: Tutor-Texte nennen keinen Wettbewerb (pruefeTutorText, #29). Es fehlt ein Prose-Linter für UI-Texte (Anrede „du“, Terminologie, Satzlänge)</title></circle>
+<circle cx="243.2" cy="506.9" r="4.8" fill="#fff" stroke="#2b8a3e" stroke-width="1.4"><title>UI prose lint – offen, Tier 2: Kein PR, kein Werkzeug. Vorhanden ist nur eine Regex: Tutor-Texte nennen keinen Wettbewerb (pruefeTutorText, #29). Es fehlt ein Prose-Linter für UI-Texte (Anrede „du“, Terminologie, Satzlänge)</title></circle>
 <rect x="222.7" y="487.8" width="8.6" height="8.6" rx="1" fill="#fff" stroke="#e67700" stroke-width="1.4" opacity="0.3"><title>Accessibility manual – offen, Tier 3</title></rect>
 <rect x="208" y="471.6" width="8.6" height="8.6" rx="1" fill="#e9ecef" stroke="#adb5bd" stroke-width="1.4" opacity="0.3"><title>i18n lint – entfällt, Tier 3: nur Deutsch</title></rect>
 <polygon points="199.1,452.1 204.6,461.7 193.6,461.7" fill="#fff" stroke="#c92a2a" stroke-width="1.4" opacity="0.3"><title>Visual regression – offen, Tier 3</title></polygon>
@@ -101,8 +101,8 @@
 <circle cx="296.3" cy="99.1" r="4.8" fill="#fff" stroke="#2b8a3e" stroke-width="1.4"><title>Code-in-docs validation – offen, Tier 2</title></circle>
 <circle cx="316.5" cy="90.7" r="4.8" fill="#fff" stroke="#2b8a3e" stroke-width="1.4"><title>Spell check – offen, Tier 1</title></circle>
 <circle cx="337.4" cy="84.2" r="4.8" fill="#2b8a3e" stroke="#2b8a3e" stroke-width="1.4"><title>Diagram build – vorhanden, Tier 2: doku.yml baut PlantUML und prüft die Ausgabe in jedem PR, der Doku oder Doku-Build ändert (kein Pflicht-Check); pages.yml baut sie vor jedem Deployment</title></circle>
-<rect x="354.5" y="75.2" width="8.6" height="8.6" rx="1" fill="url(#halb-A)" stroke="#e67700" stroke-width="1.4"><title>Prose lint – in Arbeit, Tier 2: Vorhanden ist nur die Längengrenze: tutor.md unter 120 Zeilen (MAX_TUTOR_ZEILEN, #29). Es fehlt ein Prose-Linter für Doku und Kompetenztexte (Stil, Satzlänge, Terminologie)</title></rect>
-<polygon points="380.6,70.4 386.1,80 375.1,80" fill="#c92a2a" stroke="#c92a2a" stroke-width="1.4"><title>Doc-code drift – vorhanden, Tier 3: Tutor-Vertrag: jeder Generator-Parameter steht in llms.txt</title></polygon>
+<rect x="354.5" y="75.2" width="8.6" height="8.6" rx="1" fill="#fff" stroke="#e67700" stroke-width="1.4"><title>Prose lint – offen, Tier 2: Kein PR, kein Werkzeug. Vorhanden ist nur die Längengrenze: tutor.md unter 120 Zeilen (MAX_TUTOR_ZEILEN, #29). Es fehlt ein Prose-Linter für Doku und Kompetenztexte (Stil, Satzlänge, Terminologie)</title></rect>
+<polygon points="380.6,70.4 386.1,80 375.1,80" fill="#c92a2a" stroke="#c92a2a" stroke-width="1.4"><title>Doc-code drift – vorhanden, Tier 3: Tutor-Vertrag: jeder Generator-Parameter steht in llms.txt; Kontext (arc42 3) und Bausteinsicht (arc42 5) nennen dieselben Personen und Fremdsysteme (test/build/kontext-bausteine.test.js)</title></polygon>
 <text x="302.2" y="51.2" text-anchor="end" font-size="13" font-weight="600" fill="#212529">Docs</text>
 <text x="302.2" y="66.2" text-anchor="end" font-size="12" fill="#495057">50 %</text>
 <circle cx="400" cy="320" r="84" fill="#fff" stroke="#dee2e6"/>
