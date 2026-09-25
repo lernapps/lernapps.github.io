@@ -1,14 +1,16 @@
-// Barrierefreiheit (#26): axe-core findet keine schweren oder kritischen Verstöße gegen WCAG 2.2 AA – je App eine
-// Kompetenzseite (mit geladener Übung), die Startseite und die Testseite, dazu die Übersicht.
+// Barrierefreiheit (#26, R-030): axe-core findet keine schweren oder kritischen Verstöße gegen WCAG 2.2 AA – auf jeder
+// Kompetenzseite jeder App (im Ausgangszustand und mit geladener Übung), den Start- und Testseiten, der Übersicht und
+// der Mathe-Karte. Die Liste kommt aus seiten.js: neue Apps und Kompetenzen laufen automatisch mit.
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
-import { apps, eineJeApp } from "./seiten.js";
+import { alleSeiten, kompetenzSeiten } from "./seiten.js";
 
 const TAGS = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"];
 // Bekannte Verstöße, je Regel ein Issue (Teil von #18). Leer halten; ein Eintrag braucht die Issue-Nummer.
 const BEKANNT = [];
 
-const seiten = ["", ...apps.flatMap((a) => [`${a.pfad}/`, `${a.pfad}/test.html`]), ...eineJeApp.map((k) => `${k.pfad}?nr=1`)];
+// Die Architektur-Doku (docs/) kommt von docToolchain, nicht aus unseren Vorlagen: nicht Teil dieser Prüfung.
+const seiten = [...alleSeiten.filter((p) => !p.startsWith("docs/")), ...kompetenzSeiten.map((k) => `${k.pfad}?nr=1`)];
 
 for (const pfad of seiten) {
   test(`axe WCAG 2.2 AA: /${pfad}`, async ({ page }) => {
