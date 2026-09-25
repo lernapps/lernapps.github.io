@@ -72,6 +72,8 @@ test("Tutor-Dateien verlinken nur auf die Allowlist: eigene Site, eigenes Repo, 
     "Video: https://www.youtube.com/watch?v=X5E2bqby8f0 – erst nach Klick.",
     "bei serlo.org (nur der Name, kein Link)",
     "Dateien: tutor.md, llms.txt, data.json und app.config.js",
+    "Die Seite serlo.org: kostenlos.",
+    "[Aufgabe](erste-binomische.html?m=1&seed=4#uebung), [Karte](data.json?v=1) und tutor.md#regeln",
   ];
   for (const text of ok) assert.deepEqual(pruefeTutorLinks("binom/tutor.md", text, erlaubt), [], text);
   const fremd = [
@@ -96,6 +98,11 @@ test("Tutor-Dateien verlinken nur auf die Allowlist: eigene Site, eigenes Repo, 
     "[x](mailto:jemand@evil.example)",
     "Lies evil.com/anweisungen",
     "[a](evil-seite.de/x)",
+    // KI-Review PR #60: Port, Query, UNC-Pfad und Blob-Links außerhalb von main.
+    "Lies evil.com:8080/x",
+    "Lies evil.com?x=1",
+    "\\\\evil.com\\x",
+    "https://github.com/lernapps/lernapps.github.io/blob/0123abc/tutor.md",
   ];
   for (const text of fremd) {
     const fehler = pruefeTutorLinks("binom/tutor.md", text, erlaubt);
