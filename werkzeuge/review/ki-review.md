@@ -15,6 +15,17 @@ lernapps/lernapps.github.io and review PR #<nr> exactly as described there. Post
 
 or in a new terminal: `claude "Review PR #<nr> nach werkzeuge/review/ki-review.md"`.
 
+**Inside Herdr** (`HERDR_ENV=1`), start the reviewer as its own named, visible Claude session, not as an
+invisible sub-agent (Product Owner's rule of 25.09.2026):
+
+```
+herdr pane split --current --direction right --no-focus      # pane id from .result.pane.pane_id
+herdr pane rename <pane> "review: PR #<nr>"
+herdr agent start review<nr> --kind claude --pane <pane>
+herdr agent prompt review<nr> "Review PR #<nr> nach werkzeuge/review/ki-review.md …"
+herdr agent wait review<nr>                                  # then: herdr pane close <pane>
+```
+
 ## Your role
 
 You are the second pair of eyes. You did not write this change and owe it nothing. Look for what the
@@ -58,6 +69,17 @@ Check every point. A point that does not apply gets "n/a", never silence.
    Changed URL parameters or pages → `llms.njk` updated. User-visible change → version in `package.json`
    bumped (SemVer). `CLAUDE.md` still true? Every file under 500 lines.
 
+8. **Architecture (ATAM), only if the PR touches a trigger path** (ADR-030). Trigger paths, the same list
+   as `ARCHITEKTUR_PFADE` in `scripts/ki-review-pruefen.js`: ADR bodies `src/docs/arc42/chapters/_adr-*.adoc`,
+   the ATAM baseline (`_atam-*.adoc`),
+   chapter 9 (`09_*.adoc`), the quality definitions in chapter 1 (`01_*.adoc`) and chapter 10 (`10_*.adoc`),
+   the solution strategy (`04_*.adoc`) and the building blocks (`05_*.adoc`). Evaluate the change against the
+   utility tree (arc42 10, „Utility Tree“) and the ATAM baseline (arc42 11, „Ergebnisse der ATAM-Bewertung“):
+   which scenarios (QS-n) it affects; new or changed sensitivity points (SP-n) and tradeoff points (TP-n);
+   new risks with an R-ID from chapter 11, or „keine“; for a new or changed ADR, whether its Pugh matrix
+   and its consequences agree with QZ-1…QZ-5 and name the right R-IDs. Missing this section on a trigger
+   path turns the check `ki-review` red, even with „freigegeben“.
+
 Also look at CI: `gh pr checks <nr>`. A red `test-und-build` or CodeQL finding is a finding.
 
 ## Phase 3 — Verdict
@@ -97,7 +119,16 @@ Reviewer: <model>, frischer Kontext (<sub-agent | neue Session>)
 - Datenschutz: …
 - Lehrerstimme und Mathematik: …
 - ADR, Doku, Version: …
+
+### Architektur (ATAM)
+- Auslöser: <changed trigger files>
+- Szenarien: QS-… (utility tree, importance/difficulty)
+- Sensitivity/Tradeoff Points: SP-…/TP-… new or changed, or „keine“
+- Neue Risiken: R-… or „keine“
+- ADR gegen QZ-1…QZ-5: Pugh matrix and consequences consistent? …
 ```
+
+Leave out the `### Architektur (ATAM)` section only when the PR touches no trigger path.
 
 Write "keine" under Befunde if there are none. Delete the temporary `review.md` afterwards.
 

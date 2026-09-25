@@ -137,6 +137,12 @@ repository: one shared kern, one layout, one build (Eleventy 3.1.6), deployed to
   `Ergebnis: freigegeben` or `Ergebnis: Änderungen nötig`, and the findings. Unfixed findings get a reason in the PR.
 - The check `ki-review` (`.github/workflows/ki-review.yml`, read-only token, no LLM call) is green only if the newest
   such review from `raifdmueller` came after the last commit and names the head SHA. Every new commit needs a new review.
+- Architecture review (ADR-030): if a PR touches ADR bodies (`src/docs/arc42/chapters/_adr-*.adoc`), the ATAM baseline
+  (`_atam-*.adoc`) or arc42 chapter 1, 4, 5, 9 or 10 (`ARCHITEKTUR_PFADE` in `scripts/ki-review-pruefen.js`), the review needs a section
+  `### Architektur (ATAM)` evaluating the change against the utility tree (chapter 10) and the ATAM baseline
+  (chapter 11); without it `ki-review` stays red. Repeat the ATAM baseline quarterly with the harness audit.
+- Inside Herdr (`HERDR_ENV=1`) the reviewer runs as its own named Herdr Claude session (`review: PR #<n>`), not as an
+  invisible sub-agent.
 
 ## Architecture
 - arc42 documentation (German) lives in `src/docs/arc42/` (chapters in `chapters/`, ADRs in `chapters/_adr-*.adoc`,
@@ -187,6 +193,7 @@ branch protection, secret scanning with push protection, org-wide 2FA and the tu
 | CI Build & Unit Tests  | Present | `pruefen.yml`, required check `test-und-build`                                  |
 | SAST                   | Present | CodeQL default setup, secret scanning with push protection, Dependabot (#19)    |
 | AI Code Review         | Present | fresh-context review before every merge, check `ki-review` (#24, ADR-027)       |
+| AI Design Review       | Present | ATAM section in the review when ADRs or arc42 ch. 1/4/5/9/10 change, enforced by `ki-review`; quarterly ATAM baseline (ADR-030) |
 | Property-Based Tests   | Present | fast-check, `test/kern/*.property.test.js` (#22; found and fixed #30)           |
 | Browser Tests          | Present | Playwright + axe-core in `e2e/`, workflow `browser.yml`, required check `browser` (#26, ADR-026) |
 | SonarQube Quality Gate | N/A     | Won't (#28): file length ≤ 500 lines and ESLint cover it                        |

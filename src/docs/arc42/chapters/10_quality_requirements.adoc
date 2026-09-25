@@ -110,7 +110,7 @@ Jedes Szenario hat sechs Teile: Quelle, Stimulus, Artefakt, Umgebung, Antwort, A
 | QS-12 | QZ-5 | Lernende | öffnet eine App auf dem Handy | Layout, `stil.css` | Viewport 360 px | alles lesbar, kein waagerechtes Scrollen | *360 px* Grundlayout, breiter ab *40rem* (`src/kern/css/stil.css:2`, `:223`; Commit `928f6e5`)
 | QS-13 | QZ-5 | Lernende, Suchmaschine, LLM | lädt eine Kompetenzseite ohne JavaScript | Layout, Build (Bild) | JS aus | Warum, Regel, Beispiel, Bild und Video-Link lesbar; Hinweis für die Übung | *5 von 6* Abschnitten statisch, nur `#uebung` braucht JS und hat `<noscript>` (`src/_includes/kompetenz.njk:8-49`; `lib/bild.js`)
 | QS-26 | QZ-5 | Lernende | öffnet eine Kompetenzseite auf dem Handy | Layout, Kern, Apps, GitHub Pages | Produktion, erster Besuch ohne Cache. *Annahme:* langsames 4G (Lighthouse-Profil „Slow 4G“: 1,6 Mbit/s, 150 ms RTT); vom Product Owner nicht festgelegt | Seite ist lesbar und bedienbar | *< 2 s* bis die Seite geladen ist (Zielwert des Product Owners, 23.09.2026). Noch nicht gemessen; kein automatischer Test
-| QS-27 | QZ-5 | Lernende, auch mit Screenreader oder nur mit Tastatur | nutzt eine Kompetenzseite, den Test und die Übersicht | Layout, Kern, `stil.css`, Fachfarben | Produktion, Handy und Desktop | alle Inhalte und Bedienelemente wahrnehmbar, bedienbar und verständlich | *0 Verstöße gegen WCAG 2.2, Stufe AA* (Zielwert des Product Owners, 23.09.2026). Der Build prüft den Kontrast der Fachfarben (*≥ 4,5:1*, QS-17); axe-core prüft in CI Übersicht, Start-, Test- und eine Kompetenzseite je App auf *0 schwere oder kritische* Verstöße (`e2e/axe.spec.js`, #26; Stand 24.09.2026: 0). Leichtere Befunde und alles, was axe nicht erkennt, bleiben Handarbeit (xref:08_concepts.adoc#section-barrierefreiheit[8.6])
+| QS-27 | QZ-5 | Lernende, auch mit Screenreader oder nur mit Tastatur | nutzt eine Kompetenzseite, den Test und die Übersicht | Layout, Kern, `stil.css`, Fachfarben | Produktion, Handy und Desktop | alle Inhalte und Bedienelemente wahrnehmbar, bedienbar und verständlich | *0 Verstöße gegen WCAG 2.2, Stufe AA* (Zielwert des Product Owners, 23.09.2026). Der Build prüft den Kontrast der Fachfarben (*≥ 4,5:1*, QS-17); axe-core prüft in CI Übersicht, Karte, Start- und Testseiten und seit 25.09.2026 jede Kompetenzseite (ohne und mit geladener Übung) auf *0 schwere oder kritische* Verstöße (`e2e/axe.spec.js`, #26, R-030; Stand 25.09.2026: 0 nach einer Korrektur in 0.11.4). Leichtere Befunde und alles, was axe nicht erkennt, bleiben Handarbeit (xref:08_concepts.adoc#section-barrierefreiheit[8.6])
 | QS-28 | QZ-4 | Autor:in, CI | öffnet einen PR oder merged nach `main` | `pruefen.yml`, `pages.yml` | GitHub Actions, Cache für docToolchain vorhanden | Tests, Build, Prüfungen und Deployment laufen durch | *< 5 min* je Workflow-Lauf (Zielwert des Product Owners, 23.09.2026). Gemessen am 23.09.2026: `pruefen.yml` 13–19 s, `pages.yml` 29–32 s (`gh run list`); am 24.09.2026 `browser.yml` (#26, parallel zu `pruefen.yml`) 57–73 s mit Browser-Cache, 92 s ohne
 | QS-14 | abgeleitet | Lernende | tippt einen Term | Kern (Eingabe) | Übung | Vorschau nach der Tipp-Pause | *150 ms* (`src/kern/js/aufgabe-eingabe.js:17`)
 | QS-22 | abgeleitet | Autor:in, CI | `npm run build` | Build | Entwicklung, WSL | vollständige, geprüfte Site | *0,41 s* für 3 Apps, Karte, 45 Seiten (Eleventy-Ausgabe, 23.09.2026); Spike vom 23.09.2026: *≈ 1,5 s* für 20 Apps, Code verworfen. Zielwert für den ganzen CI-Lauf: QS-28.
@@ -125,3 +125,46 @@ Jedes Szenario hat sechs Teile: Quelle, Stimulus, Artefakt, Umgebung, Antwort, A
 
 Die Zielwerte von QS-26 bis QS-28 stehen nicht im Code, sondern kommen vom Product Owner. Die
 Netz-Annahme in QS-26 ist eine Annahme der Doku; sie gilt, bis jemand ein anderes Profil festlegt.
+
+[[section-utility-tree]]
+=== Utility Tree: Datenschutz, richtige Rückmeldung und die Aufgabennummer tragen die höchste Last
+
+Der Utility Tree ordnet die Szenarien für die ATAM-Bewertung vom 25.09.2026
+(xref:11_technical_risks.adoc#section-atam[Kapitel 11]). Jedes Blatt trägt zwei Noten: *Wichtigkeit*
+für den Erfolg der Apps und *Schwierigkeit*, das Szenario mit der Architektur zu erfüllen, je hoch (H),
+mittel (M) oder niedrig (L). Die Wichtigkeit folgt der Rangfolge der Qualitätsziele aus
+xref:01_introduction_and_goals.adoc#section-quality-goals[Kapitel 1.2]; der Product Owner hat diese
+Ableitung am 25.09.2026 bestätigt. Die Schwierigkeit ist aus dem Code abgeleitet: L heißt, eine Prüfung im
+Build erzwingt das Szenario; M heißt, Tests decken es ab, aber jede Änderung kann es brechen; H heißt,
+kein Werkzeug prüft es vollständig. Die abgeleiteten Szenarien aus dem Qualitätsbaum oben fehlen hier; sie
+treiben keine Architekturentscheidung.
+
+[cols="2,3,1,1,1",options="header"]
+|===
+| Qualitätsziel (Prio) | Verfeinerung | Szenario | Wichtigkeit | Schwierigkeit
+| QZ-1 Datenschutz (1) | Kein fremder Host ohne Klick | QS-1 | H | M
+| QZ-1 Datenschutz (1) | Kein fremder Host ohne Klick | QS-2 | H | L
+| QZ-1 Datenschutz (1) | Eingaben führen keinen Code aus | QS-8 | H | M
+| QZ-3 Richtige Rückmeldung (2) | Zahlen nach einer Rundungsregel | QS-6 | H | M
+| QZ-3 Richtige Rückmeldung (2) | Zahlen nach einer Rundungsregel | QS-7 | H | M
+| QZ-3 Richtige Rückmeldung (2) | Terme gleichwertig erkennen | QS-19 | H | H
+| QZ-2 Tutor-Anschluss (3) | Aufgaben reproduzierbar | QS-3 | H | M
+| QZ-2 Tutor-Anschluss (3) | Aufgaben reproduzierbar | QS-4 | M | M
+| QZ-2 Tutor-Anschluss (3) | Vertrag vollständig | QS-5 | M | L
+| QZ-4 Neue Apps schnell (4) | Wenig Handarbeit je Kompetenz | QS-9 | M | M
+| QZ-4 Neue Apps schnell (4) | Eine Korrektur für alle Apps | QS-25 | M | L
+| QZ-4 Neue Apps schnell (4) | Build-Hygiene | QS-10 | L | L
+| QZ-4 Neue Apps schnell (4) | Build-Hygiene | QS-11 | L | L
+| QZ-4 Neue Apps schnell (4) | Build-Hygiene | QS-21 | L | L
+| QZ-4 Neue Apps schnell (4) | Build-Hygiene | QS-28 | L | L
+| QZ-5 Zugänglich (5) | Handy zuerst | QS-12 | M | M
+| QZ-5 Zugänglich (5) | Handy zuerst | QS-26 | M | L
+| QZ-5 Zugänglich (5) | Lesbar ohne JavaScript | QS-13 | M | M
+| QZ-5 Zugänglich (5) | Bedienbar für alle | QS-27 | M | H
+|===
+
+Die Bewertung nimmt sich die Blätter mit (H, H) und (H, M) vor, dazu QS-27 (M, H) als schwierigstes
+Blatt: QS-19, QS-1, QS-8, QS-6, QS-7, QS-3 und QS-27. QS-2 (H, L) ist wichtig, aber durch den Build
+erzwungen; es erscheint als Non-Risk. QS-26 hat Schwierigkeit L, weil die Seiten klein und statisch sind;
+der Product Owner schätzt die Ladezeit am 25.09.2026 als „weit unter 2 Sekunden“ ein. Gemessen ist sie
+weiter nicht.

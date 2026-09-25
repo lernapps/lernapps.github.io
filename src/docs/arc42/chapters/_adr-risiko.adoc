@@ -143,3 +143,6 @@ wie dort gemildert: exakte Pins, `npm ci`, `npm audit`, Dependabot. Browser-Test
 nutzen sie keine Wartezeiten, nur Playwright-Assertions mit Auto-Wait, und laufen ohne Wiederholung, damit
 ein Flackern auffällt. Dieses Risiko ist bewusst ohne eigene Risiko-ID akzeptiert. Bis der Job `browser`
 Pflicht-Check ist, verhindert ein roter Browser-Test den Merge nicht (Branch-Schutz: Check „browser“ ergänzen).
+
+*Nachtrag vom 25.09.2026.* Seit dem 24.09.2026 ist `browser` Pflicht-Check im Branch-Schutz von `main`;
+ein roter Browser-Test verhindert den Merge.

@@ -9,7 +9,7 @@ ifndef::imagesdir[:imagesdir: ../../images]
 :toc:
 
 [[section-design-decisions]]
-== Architekturentscheidungen: Achtzehn neue ADRs tragen das Monorepo, drei der Vorlage sind ersetzt
+== Architekturentscheidungen: Neunzehn neue ADRs tragen das Monorepo, drei der Vorlage sind ersetzt
 
 Die ADRs folgen Michael Nygard: Kontext, Entscheidung, Status, Konsequenzen. Jede enthält eine
 Pugh-Matrix gegen die Qualitätsziele QZ-1 bis QZ-5 aus
@@ -61,6 +61,7 @@ Neue Kern- und Build-Entscheidungen brauchen ein ADR hier (`CLAUDE.md`, „Archi
 | <<adr-027,ADR-027>> | KI-Review in frischem Kontext als Pflichtschritt vor dem Merge | Accepted
 | <<adr-028,ADR-028>> | asciidoc-linter prüft die Architektur-Doku, gepinnt auf einen Commit | Accepted
 | <<adr-029,ADR-029>> | Lizenzprüfung ohne neue Abhängigkeit plus Dependency Review | Accepted
+| <<adr-030,ADR-030>> | Architektur-Review nach ATAM bei Architekturänderungen | Accepted
 |===
 
 include::_adr-vorlage.adoc[]
