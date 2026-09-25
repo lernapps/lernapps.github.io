@@ -125,3 +125,46 @@ Jedes Szenario hat sechs Teile: Quelle, Stimulus, Artefakt, Umgebung, Antwort, A
 
 Die Zielwerte von QS-26 bis QS-28 stehen nicht im Code, sondern kommen vom Product Owner. Die
 Netz-Annahme in QS-26 ist eine Annahme der Doku; sie gilt, bis jemand ein anderes Profil festlegt.
+
+[[section-utility-tree]]
+=== Utility Tree: Datenschutz, richtige Rückmeldung und die Aufgabennummer tragen die höchste Last
+
+Der Utility Tree ordnet die Szenarien für die ATAM-Bewertung vom 25.09.2026
+(xref:11_technical_risks.adoc#section-atam[Kapitel 11]). Jedes Blatt trägt zwei Noten: *Wichtigkeit*
+für den Erfolg der Apps und *Schwierigkeit*, das Szenario mit der Architektur zu erfüllen, je hoch (H),
+mittel (M) oder niedrig (L). Die Wichtigkeit folgt der Rangfolge der Qualitätsziele aus
+xref:01_introduction_and_goals.adoc#section-quality-goals[Kapitel 1.2]; der Product Owner hat diese
+Ableitung am 25.09.2026 bestätigt. Die Schwierigkeit ist aus dem Code abgeleitet: L heißt, eine Prüfung im
+Build erzwingt das Szenario; M heißt, Tests decken es ab, aber jede Änderung kann es brechen; H heißt,
+kein Werkzeug prüft es vollständig. Die abgeleiteten Szenarien aus dem Qualitätsbaum oben fehlen hier; sie
+treiben keine Architekturentscheidung.
+
+[cols="2,3,1,1,1",options="header"]
+|===
+| Qualitätsziel (Prio) | Verfeinerung | Szenario | Wichtigkeit | Schwierigkeit
+| QZ-1 Datenschutz (1) | Kein fremder Host ohne Klick | QS-1 | H | M
+| QZ-1 Datenschutz (1) | Kein fremder Host ohne Klick | QS-2 | H | L
+| QZ-1 Datenschutz (1) | Eingaben führen keinen Code aus | QS-8 | H | M
+| QZ-3 Richtige Rückmeldung (2) | Zahlen nach einer Rundungsregel | QS-6 | H | M
+| QZ-3 Richtige Rückmeldung (2) | Zahlen nach einer Rundungsregel | QS-7 | H | M
+| QZ-3 Richtige Rückmeldung (2) | Terme gleichwertig erkennen | QS-19 | H | H
+| QZ-2 Tutor-Anschluss (3) | Aufgaben reproduzierbar | QS-3 | H | M
+| QZ-2 Tutor-Anschluss (3) | Aufgaben reproduzierbar | QS-4 | M | M
+| QZ-2 Tutor-Anschluss (3) | Vertrag vollständig | QS-5 | M | L
+| QZ-4 Neue Apps schnell (4) | Wenig Handarbeit je Kompetenz | QS-9 | M | M
+| QZ-4 Neue Apps schnell (4) | Eine Korrektur für alle Apps | QS-25 | M | L
+| QZ-4 Neue Apps schnell (4) | Build-Hygiene | QS-10 | L | L
+| QZ-4 Neue Apps schnell (4) | Build-Hygiene | QS-11 | L | L
+| QZ-4 Neue Apps schnell (4) | Build-Hygiene | QS-21 | L | L
+| QZ-4 Neue Apps schnell (4) | Build-Hygiene | QS-28 | L | L
+| QZ-5 Zugänglich (5) | Handy zuerst | QS-12 | M | M
+| QZ-5 Zugänglich (5) | Handy zuerst | QS-26 | M | L
+| QZ-5 Zugänglich (5) | Lesbar ohne JavaScript | QS-13 | M | M
+| QZ-5 Zugänglich (5) | Bedienbar für alle | QS-27 | M | H
+|===
+
+Die Bewertung nimmt sich die Blätter mit (H, H) und (H, M) vor, dazu QS-27 (M, H) als schwierigstes
+Blatt: QS-19, QS-1, QS-8, QS-6, QS-7, QS-3 und QS-27. QS-2 (H, L) ist wichtig, aber durch den Build
+erzwungen; es erscheint als Non-Risk. QS-26 hat Schwierigkeit L, weil die Seiten klein und statisch sind;
+der Product Owner schätzt die Ladezeit am 25.09.2026 als „weit unter 2 Sekunden“ ein. Gemessen ist sie
+weiter nicht.

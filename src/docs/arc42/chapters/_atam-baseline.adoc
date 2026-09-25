@@ -1,0 +1,89 @@
+[[section-atam]]
+=== Ergebnisse der ATAM-Bewertung vom 25.09.2026: Das größte Risiko ist ein Kern-Fehler, den jede App sofort erbt
+
+Die Architecture Tradeoff Analysis Method (ATAM) prüft, ob die Architekturansätze die wichtigsten
+Qualitätsszenarien tragen. Grundlage sind der
+xref:10_quality_requirements.adoc#section-utility-tree[Utility Tree in Kapitel 10], die Ansätze aus
+xref:04_solution_strategy.adoc#section-solution-strategy[Kapitel 4] und die ADRs aus
+xref:09_architecture_decisions.adoc#section-adr-index[Kapitel 9]. Die Bewertung hat Claude Code am
+25.09.2026 aus Doku und Code abgeleitet; der Product Owner hat die Wichtigkeit im Utility Tree bestätigt
+und die Ladezeit (QS-26) als Nicht-Risiko eingestuft. Die Befunde tragen feste IDs, damit spätere
+Bewertungen sie fortschreiben können: SP für Sensitivity Points, TP für Tradeoff Points, AR für Risiken
+und NR für Non-Risks.
+
+[[section-atam-ansaetze]]
+==== Neun Architekturansätze tragen die Szenarien
+
+[cols="1,4,2,2",options="header"]
+|===
+| ID | Ansatz | ADR | Szenarien
+| AA-1 | Statische Site ohne Backend; alles läuft im Build oder im Browser | ADR-001 | QS-1, QS-13, QS-26
+| AA-2 | Monorepo, Kern einmal unter `/kern/`, App-Konfiguration per Dependency Inversion | ADR-012, ADR-013 | QS-6, QS-9, QS-25
+| AA-3 | Der Build als Prüfstand: Regelverstöße sind Build-Fehler | ADR-008, ADR-017, ADR-023 | QS-2, QS-5, QS-10
+| AA-4 | Deterministischer Zufall aus der Aufgabennummer, `llms.txt` als Vertrag | ADR-004, ADR-007 | QS-3, QS-4, QS-5
+| AA-5 | Zwei-Klick-Video mit lokalem Platzhalter | ADR-005, ADR-019 | QS-1
+| AA-6 | Eigene Parser ohne `eval`, exakte Brüche, eine Rundungsregel, Terme an Prüfstellen | ADR-006, ADR-009 | QS-6, QS-7, QS-8, QS-19
+| AA-7 | Eine Zeichenfunktion für Build (Mini-DOM) und Browser | ADR-016 | QS-13
+| AA-8 | Inhalts-Hash an jeder Referenz, Basis-URL an einer Stelle | ADR-014, ADR-015 | QS-20, QS-21, QS-23
+| AA-9 | Harness: Pflicht-Checks, Property-Tests, Browser-Tests, KI-Review | ADR-026, ADR-027, ADR-029 | QS-27, QS-28, alle
+|===
+
+[[section-atam-analyse]]
+==== Sechs Stellen reagieren empfindlich, an sechs Stellen ziehen Ziele gegeneinander
+
+[cols="1,6,1,1,1",options="header"]
+|===
+| ID | Befund | Szenario | ADR | Risiko
+| SP-1 | `zahlantwort.js`, `termantwort.js` und `bruch.js` entscheiden in jeder App über richtig und falsch. Die Korrektheit aller Apps hängt an wenigen hundert Zeilen Kern. | QS-6, QS-7, QS-19 | ADR-013, ADR-006 | R-004
+| SP-2 | Termprüfung: 8 Prüfstellen, mindestens 5 gültig, Toleranz 1e-9. Weniger Stellen lassen falsche Terme durch, eine engere Toleranz weist richtige ab. | QS-19 | ADR-009 | R-012
+| SP-3 | Die Reihenfolge, in der ein Generator Zufallszahlen zieht. Ein neuer `zufall()`-Aufruf vor einem alten ändert jede Aufgabe jeder Nummer. | QS-3 | ADR-004 | R-003
+| SP-4 | `pruefeExterneRessourcen` und `pruefeExterneImporte` erkennen fremde Hosts an Mustern im Quelltext. Eine URL, die JavaScript erst zur Laufzeit zusammensetzt, sehen sie nicht; `e2e/extern.spec.js` prüft nur das Laden der Seite, nicht die Übung danach. | QS-1, QS-2 | ADR-008, ADR-026 | R-031
+| SP-5 | Der Term-Auswerter begrenzt Exponenten auf 64 und kennt nur seine eigenen Tokens. Jede neue Funktion im Parser erweitert die Eingabefläche. | QS-8 | ADR-006 | R-025
+| SP-6 | axe-core prüft je App nur eine Kompetenzseite (`eineJeApp` in `e2e/seiten.js`). Was eine andere Seite anders macht, etwa ein Baum oder ein Termfeld, prüft nur der Mensch. | QS-27 | ADR-026 | R-030
+| TP-1 | Ein Kern für alle Apps: Eine Korrektur erreicht jede App mit einem Commit (QZ-4, QS-25), ein Fehler ebenso (QZ-3, QS-6, QS-19). | QS-25, QS-6 | ADR-012, ADR-013 | R-004, R-025
+| TP-2 | Stabile Aufgabennummern (QZ-2) gegen bessere Generatoren (QZ-3, QZ-4). Der Product Owner hat einen Einfrier-Test am 23.09.2026 verworfen. | QS-3 | ADR-004 | R-003
+| TP-3 | Eigene Parser ohne `eval` und ohne Bibliothek (QZ-1, QS-8) gegen die Korrektheit eines selbstgebauten Parsers (QZ-3, QS-19). | QS-8, QS-19 | ADR-006, ADR-009 | R-012, R-025
+| TP-4 | Zwei-Klick-Video (QZ-1, QS-1) gegen einen Klick mehr für das Kind (QZ-5). | QS-1 | ADR-005, ADR-019 | R-009
+| TP-5 | Pflicht-Review je Kopf-Commit (QZ-3) gegen Tempo beim Bauen neuer Apps (QZ-4): Jeder neue Commit braucht ein neues Review. | QS-28 | ADR-027 | R-026
+| TP-6 | Statisches Bild im Build (QZ-5, QS-13) gegen eine Zeichenfunktion mit zwei Laufzeiten (QZ-4). | QS-13 | ADR-016 | R-019
+| AR-1 | Ein Fehler im Kern-Prüfer meldet in allen Apps zugleich eine richtige Antwort als falsch oder eine falsche als richtig. Den zweiten Fall bemerkt niemand. | QS-6, QS-7, QS-19 | ADR-013 | R-004, R-025
+| AR-2 | Ein falscher Term, der an allen Prüfstellen zufällig mit dem richtigen übereinstimmt, gilt als richtig. | QS-19 | ADR-009 | R-012
+| AR-3 | Eine fremde Anfrage, die erst nach einer Eingabe entsteht (außer dem Video), fängt kein automatischer Test. | QS-1 | ADR-001, ADR-026 | R-031
+| AR-4 | Eine Generator-Änderung lässt alte Tutor-Links auf eine andere Aufgabe zeigen. | QS-3 | ADR-004 | R-003
+| AR-5 | Der Tutor hängt an claude.ai; ändert sich `?q=` oder das Laden von `tutor.md`, reißt die Verbindung. | QS-3, QS-4 | ADR-004 | R-002
+| AR-6 | Barrierefreiheit prüft die Automatik nur stichprobenartig; eine neue Seitenform kann WCAG verletzen, ohne dass ein Check rot wird. | QS-27 | ADR-026 | R-030
+| AR-7 | Autor und Reviewer posten über dasselbe Konto, oft mit demselben Modell; blinde Flecken teilen beide. | alle | ADR-027 | R-026
+| NR-1 | Ohne Backend gibt es keinen Server zum Angreifen und keine personenbezogenen Daten zum Verlieren. | QS-1 | ADR-001 | –
+| NR-2 | Eine externe Ressource in der Ausgabe bricht den Build; beim Laden prüft `e2e/extern.spec.js` jede App-Seite im Pflicht-Check `browser`. | QS-2 | ADR-008, ADR-026 | –
+| NR-3 | Brüche rechnen exakt; gerundet wird erst beim Vergleich und nur nach den getippten Stellen. Property-Tests decken die Regel ab. | QS-6, QS-7 | ADR-006 | –
+| NR-4 | Kein `eval`: der Parser ist eigen, ESLint verbietet `eval` im Pflicht-Check, Exponenten über 64 sind ungültig. | QS-8 | ADR-006, ADR-023 | –
+| NR-5 | Die Ladezeit ist kein Risiko: statische Seiten ohne Framework, Web-Fonts und Tracking. Der Product Owner schätzt sie am 25.09.2026 als weit unter 2 Sekunden ein. | QS-26 | ADR-001 | –
+| NR-6 | Inhalts-Hash und eine Basis-URL: Nach einem Deployment mischen sich keine Modulversionen, ein Umzug ist eine Zeile. | QS-20, QS-21, QS-23 | ADR-014, ADR-015 | –
+| NR-7 | Die CI-Läufe dauern 13 bis 92 Sekunden bei einem Ziel unter 5 Minuten; Platz für weitere Prüfungen ist da. | QS-28 | ADR-026 | –
+|===
+
+[[section-atam-themen]]
+==== Drei Risikothemen bedrohen drei Geschäftsziele
+
+*RT-1: Ein Fehler trifft alle Apps zugleich* (AR-1, AR-2, SP-1, SP-2, TP-1, TP-3). Das Monorepo macht
+Korrekturen billig und Fehler teuer. Bedroht ist das Ziel, dass ein Kind der Rückmeldung trauen kann
+(QZ-3); der Schaden ist Lernschaden, der still bleibt (xref:11_technical_risks.adoc#r-025[R-025]).
+Property-Tests und der Vertragstest je Kompetenz sind die Gegenwehr; sie wirken nur, solange jede
+Kern-Änderung sie erweitert.
+
+*RT-2: Der Vertrag mit dem Tutor bewegt sich* (AR-4, AR-5, SP-3, TP-2). Die App übt, Claude unterrichtet;
+beide verbinden nur Links und Texte. Bedroht ist die Tutor-Anbindung (QZ-2) und damit das Lernmodell der
+Apps. Zwei Ursachen liegen außerhalb des Repositorys (claude.ai), eine ist bewusst akzeptiert (R-003).
+
+*RT-3: Die Prüfer sehen nur Stichproben* (AR-3, AR-6, AR-7, SP-4, SP-6). Build und Browser-Tests prüfen
+das Laden jeder Seite, aber nicht jede Interaktion und nicht jede Seitenform; das Review hängt an einem
+Konto. Bedroht sind die Zusagen an Eltern und Schulen: kein Datenabfluss (QZ-1) und Zugänglichkeit
+(QZ-5). Neu in Kapitel 11 sind deshalb R-030 und R-031.
+
+[[section-atam-wiederholung]]
+==== Wiederholung: Jedes Quartal mit dem Harness-Audit
+
+Die Bewertung wiederholen wir jedes Quartal zusammen mit dem Audit des Harness-Rads
+(xref:08_concepts.adoc#section-harness[8.16]), das nächste Mal im Dezember 2026. Dann prüfen wir, ob neue
+Szenarien in den Utility Tree gehören, ob sich Wichtigkeit oder Schwierigkeit verschoben haben und welche
+AR-Befunde erledigt sind. IDs bleiben; erledigte Befunde bleiben mit Datum stehen.
