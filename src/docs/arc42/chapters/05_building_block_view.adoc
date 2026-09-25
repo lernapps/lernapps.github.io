@@ -21,6 +21,7 @@ erzeugt daraus alles, was eine App sonst von Hand pflegen müsste.
 [[section-whitebox-overall-system]]
 === Ebene 1: Whitebox Lern-Apps
 
+// tag::bausteine-diagramm[] – auch auf der Übersichtsseite (src/docs/uebersicht/index.adoc)
 [plantuml, target=bausteine-ebene-1, format=svg]
 ....
 @startuml
@@ -71,6 +72,7 @@ Rel(doku, pakete, "docToolchain, Gradle")
 Rel(ci, pages, "ein Artefakt: _site + _site/docs")
 @enduml
 ....
+// end::bausteine-diagramm[]
 
 Die externen Nachbarn sind dieselben sieben Systeme und zwei Personen wie im
 xref:03_context_and_scope.adoc#section-business-context[fachlichen Kontext].

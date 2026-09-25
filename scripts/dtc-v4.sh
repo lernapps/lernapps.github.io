@@ -31,4 +31,5 @@ if ! compgen -G "${dtc_home}/lib/*.jar" > /dev/null; then
 fi
 
 cd "$(dirname "$0")/.."
+node scripts/dashboard.js   # Kennzahlen der Übersichtsseite, git-ignoriert (ADR-031)
 exec ./dtcw local "$@"

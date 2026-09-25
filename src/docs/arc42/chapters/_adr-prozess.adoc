@@ -239,3 +239,40 @@ Formalie ausfüllen (xref:11_technical_risks.adoc#r-032[R-032]). Autor und Revie
 (xref:11_technical_risks.adoc#r-026[R-026]). PRs, die nur Tippfehler in Kapitel 1 oder 10 beheben, brauchen den
 Abschnitt trotzdem; das ist bewusst akzeptiert, ein Satz „keine Szenarien betroffen“ genügt. Wer die
 Auslösepfade ändert, ändert Skript, Test, `ki-review.md` und dieses ADR gemeinsam.
+
+[[adr-031]]
+=== ADR-031: Kennzahlen der Übersichtsseite beim Doku-Build erzeugen
+
+*Kontext.* Die Übersichtsseite (xref:08_concepts.adoc#section-uebersicht-doku[8.17]) zeigt Zahlen, die
+sich mit fast jedem PR ändern: Tests, Kompetenzen, Risiken, ADRs. Von Hand gepflegt veralten sie. Das
+Harness-Rad löst dasselbe Problem mit eingecheckten, erzeugten Dateien und einem Test, der sie gegen den
+Generator prüft. Bei Zahlen, die jeder PR bewegt, hieße das: Jeder PR ändert dieselben Dateien, und zwei
+offene PRs geraten in einen Merge-Konflikt.
+
+*Entscheidung.* `scripts/dashboard.js` erzeugt die Dateien der Übersicht beim Doku-Build.
+`scripts/dtc-v4.sh` ruft es vor docToolchain auf; `doku.yml` ruft es zusätzlich vor dem AsciiDoc-Lint auf.
+Die Dateien sind git-ignoriert. `test/build/dashboard.test.js` läuft in `npm test` gegen das echte
+Repository, damit ein Formatbruch im Pflicht-Check `test-und-build` auffällt und nicht erst beim Deployment.
+
+*Status.* Accepted. Vom Product Owner entschieden am 25.09.2026: erst die Übersichtsseite (Option 2),
+dann die Erzeugung beim Build statt eingecheckter Dateien.
+
+[cols="2,1,1,1",options="header"]
+|===
+| Ziel | Beim Doku-Build erzeugen (Referenz) | Eingecheckt, Test prüft | Von Hand pflegen
+| QZ-1 Datenschutz | 0 | 0 | 0
+| QZ-2 Tutor-Anschluss | 0 | 0 | 0
+| QZ-3 Richtige Rückmeldung | 0 | 0 | 0
+| QZ-4 Neue Apps schnell | 0 | −1 | −1
+| QZ-5 Zugänglich | 0 | 0 | 0
+| *Summe* | *0* | *−1* | *−1*
+|===
+
+Eingecheckte Dateien kosten jeden PR einen Generatorlauf und bringen Merge-Konflikte (QZ-4 −1); von Hand
+gepflegte Zahlen veralten still (QZ-4 −1). Die Qualitätsziele der Apps berührt keine der drei Varianten.
+
+*Konsequenzen.* Die Zahlen können nicht driften, und kein PR ändert erzeugte Dateien. Dafür hängt der
+Doku-Build an einem weiteren Skript: Liest es eine Tabelle nicht mehr, scheitert der Build, und
+`pages.yml` deployt auch keine App (xref:11_technical_risks.adoc#r-011[R-011]). Der Test in `npm test`
+fängt das vor dem Merge. Wer die Seite ohne den Build liest, etwa in der GitHub-Ansicht, sieht leere
+Includes; das nehmen wir ohne eigenes Risiko hin.

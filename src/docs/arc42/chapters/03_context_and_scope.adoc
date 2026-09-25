@@ -21,6 +21,7 @@ Systemgrenze zeigt xref:05_building_block_view.adoc#section-whitebox-overall-sys
 [[section-business-context]]
 === Fachlicher Kontext: Zwei Menschen, sieben Nachbarsysteme
 
+// tag::kontext-diagramm[] – auch auf der Übersichtsseite (src/docs/uebersicht/index.adoc)
 [plantuml, target=kontext-fachlich, format=svg]
 ....
 @startuml
@@ -54,6 +55,7 @@ Rel(lernapps, pakete, "lädt Eleventy und docToolchain", "npm ci, Gradle")
 Rel(lernapps, pages, "wird ausgeliefert als ein Artefakt", "deploy-pages")
 @enduml
 ....
+// end::kontext-diagramm[]
 
 [cols="2,3,3",options="header"]
 |===

@@ -1,0 +1,132 @@
+// Use Case: Architektur-Doku pflegen – die Übersichtsseite (/docs/uebersicht/) zeigt Kennzahlen, die der Doku-Build
+// aus dem Repository erzeugt; keine Zahl wird von Hand gepflegt.
+import { test } from "node:test";
+import assert from "node:assert/strict";
+import fs from "node:fs";
+import {
+  leseRisiken, risikomatrix, leseAdrStatus, leseSchulden, leseRisikothemen, schreibeRisikothemen, leseUtilityTree, utilityTreeDiagramm,
+  zaehleTests, lesePflichtChecks, leseDatum, sammleKennzahlen, schreibeKennzahlen, ZIELE,
+} from "../../scripts/dashboard.js";
+import { SCHICHTEN, abdeckung } from "../../scripts/harness-rad.js";
+
+const KAPITEL = "src/docs/arc42/chapters/";
+const lies = (datei) => fs.readFileSync(datei, "utf8");
+
+const RISIKEN = [
+  "| [[r-002]]R-002 | *Tutor.* Text | 2 | 3 | hoch (6) | Maßnahme",
+  "| [[r-019]]R-019 | *Mini-DOM.* a | b | 1 | 1 | niedrig (1) | Maßnahme | mit Strich",
+  "| [[r-016]]R-016 | *Alt.* | – | – | erledigt | Erledigt am 23.09.2026",
+].join("\n");
+
+test("leseRisiken liest ID, Anker, Wahrscheinlichkeit, Auswirkung und Priorität; erledigte ohne Zahlen", () => {
+  assert.deepEqual(leseRisiken(RISIKEN), [
+    { id: "R-002", anker: "r-002", w: 2, a: 3, prio: "hoch" },
+    { id: "R-019", anker: "r-019", w: 1, a: 1, prio: "niedrig" },
+    { id: "R-016", anker: "r-016", w: null, a: null, prio: "erledigt" },
+  ]);
+});
+
+test("die Risikomatrix setzt jedes offene Risiko in seine Zelle und verlinkt seinen Anker", () => {
+  const adoc = risikomatrix(leseRisiken(RISIKEN));
+  const zeilen = adoc.split("\n");
+  const w2 = zeilen.find((z) => z.startsWith("h| 2"));
+  assert.match(w2, /\| +\| +\| xref:\.\.\/arc42\/chapters\/11_technical_risks\.adoc#r-002\[R-002\]$/);
+  assert.match(zeilen.find((z) => z.startsWith("h| 1")), /^h\| 1[^|]*\| xref:[^\]]*#r-019\[R-019\]/);
+  assert.doesNotMatch(adoc, /R-016/);
+});
+
+test("leseAdrStatus zählt die ADRs je Status; Superseded zählt zusammen", () => {
+  const index = [
+    "| <<adr-001,ADR-001>> | Statisch | Accepted",
+    "| <<adr-002,ADR-002>> | Vanilla | Superseded by ADR-012",
+    "| <<adr-003,ADR-003>> | Kern | Superseded by ADR-012",
+    "| <<adr-026,ADR-026>> | Browser | Accepted (inferred)",
+  ].join("\n");
+  assert.deepEqual(leseAdrStatus(index), { Accepted: 1, Superseded: 2, "Accepted (inferred)": 1 });
+});
+
+test("leseSchulden trennt offene und erledigte Schulden, auch die nur im Absatz „Erledigt:“ genannten", () => {
+  const kap = [
+    "=== Technische Schulden", "|===", "| ID | Schuld | Baustein | Maßnahme",
+    "| TD-3 | a | b | Entschieden, Umsetzung läuft.",
+    "| TD-5 | a | b | Erledigt am 24.09.2026 (#26).",
+    "|===", "", "Erledigt: TD-1 (Kern kopiert) und TD-2 durch ADR-012; TD-5 mit #26.",
+  ].join("\n");
+  assert.deepEqual(leseSchulden(kap), { offen: 1, erledigt: 3 });
+});
+
+test("leseRisikothemen liest RT-Nummer und Titel aus der ATAM-Baseline", () => {
+  const atam = "*RT-1: Ein Fehler trifft alle Apps zugleich* (AR-1). Text\n\n*RT-2: Der Vertrag bewegt sich* (AR-4).";
+  assert.deepEqual(leseRisikothemen(atam), [
+    { id: "RT-1", titel: "Ein Fehler trifft alle Apps zugleich" },
+    { id: "RT-2", titel: "Der Vertrag bewegt sich" },
+  ]);
+  assert.match(schreibeRisikothemen(leseRisikothemen(atam)),
+    /^\* xref:\.\.\/arc42\/chapters\/11_technical_risks\.adoc#section-atam-themen\[RT-1\]: Ein Fehler/);
+});
+
+test("der Utility Tree wird zur Mindmap: Ziel, Verfeinerung, Szenarien mit Noten", () => {
+  const kap = [
+    "[[section-utility-tree]]", "|===", "| Qualitätsziel (Prio) | Verfeinerung | Szenario | Wichtigkeit | Schwierigkeit",
+    "| QZ-1 Datenschutz (1) | Kein fremder Host | QS-1 | H | M",
+    "| QZ-1 Datenschutz (1) | Kein fremder Host | QS-2 | H | L",
+    "| QZ-5 Zugänglich (5) | Bedienbar | QS-27 | M | H", "|===",
+  ].join("\n");
+  const baum = leseUtilityTree(kap);
+  assert.equal(baum.length, 3);
+  const puml = utilityTreeDiagramm(baum);
+  assert.match(puml, /@startmindmap/);
+  assert.match(puml, /\n\*\* QZ-1 Datenschutz \(1\)\n\*\*\* Kein fremder Host\n\*\*\*\* QS-1 \(H,M\) · QS-2 \(H,L\)\n/);
+  assert.match(puml, /\n\*\*\*\* QS-27 \(M,H\)\n/);
+});
+
+test("zaehleTests zählt test( und it( am Zeilenanfang, nicht test.skip oder Wörter wie Kontext(", () => {
+  const quellen = ["test(\"a\", () => {});\n  it(\"b\", f);\nKontext(1);\n// test( im Kommentar\n", "test('c', f)"];
+  assert.deepEqual(zaehleTests(quellen), { dateien: 2, tests: 3 });
+});
+
+test("lesePflichtChecks sammelt die Namen aus CLAUDE.md und der Doku, ohne Doppelte", () => {
+  const texte = ["The required check `test-und-build` (`pruefen.yml`)", "Pflicht-Check `browser` und Pflicht-Check `test-und-build`"];
+  assert.deepEqual(lesePflichtChecks(texte), ["browser", "test-und-build"]);
+});
+
+test("leseDatum findet das Datum hinter einem Muster", () => {
+  assert.equal(leseDatum("Ergebnisse der ATAM-Bewertung vom 25.09.2026: X", /ATAM-Bewertung vom (\d\d\.\d\d\.\d{4})/), "25.09.2026");
+  assert.throws(() => leseDatum("nichts", /vom (\d\d\.\d\d\.\d{4})/), /nicht gefunden/);
+});
+
+test("die Kennzahlen aus dem echten Repository stimmen mit ihren Quellen überein", async () => {
+  const k = await sammleKennzahlen();
+  assert.equal(k.version, JSON.parse(lies("package.json")).version);
+  assert.ok(k.apps >= 3 && k.kompetenzen > k.apps);
+  assert.ok(k.unitTests.dateien > 50 && k.unitTests.tests > k.unitTests.dateien);
+  assert.ok(k.browserTests.dateien >= 7);
+  assert.ok(k.pflichtChecks.includes("test-und-build") && k.pflichtChecks.includes("browser"));
+  const a = abdeckung(SCHICHTEN);
+  assert.deepEqual(k.rad, { vorhanden: a.vorhanden, relevant: a.relevant });
+  const adrs = lies(KAPITEL + "09_architecture_decisions.adoc").match(/^\| <<adr-\d+,ADR-\d+>>/gm).length;
+  assert.equal(Object.values(k.adrs).reduce((s, n) => s + n, 0), adrs);
+  assert.match(k.atam, /^\d\d\.\d\d\.\d{4}$/);
+  assert.match(k.audit, /^\d\d\.\d\d\.\d{4}$/);
+});
+
+test("jedes offene Risiko aus Kapitel 11 steht in der Matrix, und jeder Link trifft einen Anker", () => {
+  const kap = lies(KAPITEL + "11_technical_risks.adoc");
+  const matrix = risikomatrix(leseRisiken(kap));
+  for (const r of leseRisiken(kap).filter((r) => r.w)) assert.ok(matrix.includes(`[${r.id}]`), r.id);
+  for (const [, anker] of matrix.matchAll(/#(r-\d+)\[/g)) assert.ok(kap.includes(`[[${anker}]]`), anker);
+});
+
+test("die Übersichtsseite bindet die erzeugten Dateien ein, und Git ignoriert sie", () => {
+  const seite = lies("src/docs/uebersicht/index.adoc");
+  const ignoriert = lies(".gitignore");
+  for (const ziel of Object.values(ZIELE)) {
+    const name = ziel.split("/").pop();
+    assert.ok(seite.includes(`include::${name}[]`), name);
+    assert.ok(ignoriert.includes(`/${ziel}`), ziel);
+  }
+  assert.match(schreibeKennzahlen({ version: "1.2.3", apps: 3, kompetenzen: 20, unitTests: { dateien: 1, tests: 2 },
+    browserTests: { dateien: 1, tests: 2 }, pflichtChecks: ["a"], adrs: { Accepted: 1 }, risiken: { hoch: 1 },
+    schulden: { offen: 1, erledigt: 2 }, rad: { vorhanden: 21, relevant: 29 }, atam: "25.09.2026", audit: "24.09.2026" }),
+  /1\.2\.3/);
+});

@@ -22,6 +22,7 @@
         </p>
         <div class="dtc-cta">
             <a class="dtc-btn dtc-btn-primary" href="arc42/chapters/01_introduction_and_goals.html">Mit Kapitel 1 beginnen</a>
+            <a class="dtc-btn dtc-btn-ghost" href="uebersicht/">Übersicht auf einen Blick</a>
             <a class="dtc-btn dtc-btn-ghost" href="../">Alle Apps öffnen</a>
         </div>
     </section>
