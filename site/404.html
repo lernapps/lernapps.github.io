@@ -12,7 +12,7 @@
     // /mathe-karte/. Schon geteilte Links, auch Deep Links des KI-Tutors mit ?seed=…&von=tutor, landen hier und
     // werden samt Query und Anker weitergeleitet. Liste: ALTE_PFADE, siehe README.md.
     (function () {
-      var ALTE_PFADE = /^\/(binom|prozent|zufall|karte|kern|docs)(\/|$)|^\/favicon\.(svg|ico)$/;
+      var ALTE_PFADE = /^\/(binom|prozent|zufall|karte|kern)(\/|$)|^\/favicon\.(svg|ico)$/;
       var pfad = location.pathname;
       if (ALTE_PFADE.test(pfad)) {
         location.replace("/mathe-karte" + pfad + location.search + location.hash);
