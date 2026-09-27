@@ -18,11 +18,11 @@ It holds the home page and the navigation between the common sites. It does **no
 
 Until 2026-09-27 the Mathe-Karte lived at the root (`lernapps.github.io/binom/…`). It now lives at `/mathe-karte/`. Tutor links with that old prefix are already in learners' chats, so this repo keeps them working:
 
-- **Browsers:** `404.html` forwards `/binom/`, `/prozent/`, `/zufall/`, `/karte/`, `/kern/`, `/docs/` and the favicons to `/mathe-karte/…`, keeping query and hash (e.g. `?seed=42&von=tutor`).
+- **Browsers:** `404.html` forwards `/binom/`, `/prozent/`, `/zufall/`, `/karte/`, `/kern/` and the favicons to `/mathe-karte/…`, keeping query and hash (e.g. `?seed=42&von=tutor`).
 - **AI tutors fetching files:** the stubs at the old `tutor.md`/`llms.txt` paths name the new address. The root `llms.txt` describes lernapps and points to the Mathe-Karte; it stays.
 - The old root `index.html` is now the lernapps home page, which links to the Mathe-Karte.
 
-Remove both once the old links have died out. `/docs/` stops being forwarded when the `docs` repo takes over that path.
+Remove both once the old links have died out. Old `/docs/…` links are forwarded by the `404.html` of [lernapps/docs](https://github.com/lernapps/docs), which owns `/docs/` since 2026-09-27.
 
 ## Local preview
 
