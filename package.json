@@ -1,0 +1,16 @@
+{
+  "name": "lernapps.github.io",
+  "private": true,
+  "type": "module",
+  "description": "Home page of the lernapps organisation",
+  "scripts": {
+    "build": "eleventy && unocss \"_site/**/*.html\" --out-file _site/uno.css --minify",
+    "check": "node scripts/check.mjs"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "3.1.6",
+    "@unocss/cli": "66.10.5",
+    "@unocss/preset-typography": "66.10.5",
+    "@unocss/preset-wind4": "66.10.5"
+  }
+}

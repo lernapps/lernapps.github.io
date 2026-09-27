@@ -1,18 +1,36 @@
 # lernapps.github.io
 
-Home page of the lernapps organisation, served at <https://lernapps.github.io/>.
+Home page of the lernapps organisation (brand: lernapps.net), served at <https://lernapps.github.io/>.
 
-It holds the home page and the navigation between the common sites. It does **not** list apps; that is the job of the map (planned). See [ORGANIZATION.md](https://github.com/lernapps/.github/blob/main/ORGANIZATION.md) for the target structure.
+The home page is the former edugo landing page, rebuilt as static HTML: same texts (brand renamed), same look, readable without JavaScript. It links to the sites that live in other repos on the same origin: the map (`/map/`), the docs (`/docs/`) and the Mathe-Karte (`/mathe-karte/`). It does **not** list apps itself; that is the job of the map. See [ORGANIZATION.md](https://github.com/lernapps/.github/blob/main/ORGANIZATION.md) for the target structure.
 
 ## Layout
 
 | Path | Purpose |
 |---|---|
-| `site/` | Published as is. Static HTML/CSS, readable without JS, no external requests |
-| `site/404.html` | Forwards old addresses of the Mathe-Karte (see below), otherwise a plain "not found" page |
-| `site/{binom,prozent,zufall,karte}/*.{md,txt}`, `site/llms.txt` | "Moved" notes for AI tutors that fetch the old `tutor.md`/`llms.txt` addresses (fetchers don't run the JS in `404.html`) |
-| `scripts/check.mjs` | CI check: no external resources, no broken relative links |
-| `.github/workflows/pages.yml` | Check on every PR and push; deploy from `main` |
+| `src/index.njk` | Home page template (Nunjucks). Markup and utility classes only, no texts |
+| `src/_data/de.js` | All texts of the home page (German) and its link targets |
+| `src/start.js` | Progressive enhancement: turns the stacked persona quotes/cards into tabs (ARIA tabs pattern, arrow keys, auto-advance). Without it, everything is shown stacked |
+| `src/start.css` | The few rules utilities don't cover (tab panel animation) |
+| `uno.config.js` | UnoCSS presets (wind4 + typography, as in the original); CSS is generated at build time into `_site/uno.css` |
+| `eleventy.config.js` | Eleventy: input `src/`, output `_site/`; only `.njk` are templates, everything else is copied as is |
+| `src/404.html` | Forwards old addresses of the Mathe-Karte (see below), otherwise a plain "not found" page. Styled by `src/stil.css` |
+| `src/{binom,prozent,zufall,karte}/*.{md,txt}`, `src/llms.txt` | "Moved" notes for AI tutors that fetch the old `tutor.md`/`llms.txt` addresses (fetchers don't run the JS in `404.html`). Copied unchanged, never rendered |
+| `scripts/check.mjs` | CI check on the build output: no external resources, no broken relative links (`/map/`, `/docs/`, `/mathe-karte/` are skipped, they belong to other repos) |
+| `.github/workflows/pages.yml` | Job `check` (required status check): `npm ci`, build, check; on `main` it uploads `_site/` and the `deploy` job publishes it |
+
+Rules for the page (org-wide): no external requests (system fonts, no CDNs), `referrer` meta, `lang="de"`, skip link, WCAG 2.1 AA contrast, no horizontal scrolling at 360 px, all content readable without JavaScript.
+
+## Commands
+
+```sh
+npm ci                      # install the exact pinned versions
+npm run build               # Eleventy → _site/, then UnoCSS scans _site/**/*.html → _site/uno.css
+node scripts/check.mjs      # check _site/ (run after the build, before pushing)
+python3 -m http.server -d _site 8080   # preview at http://localhost:8080/
+```
+
+Links to `/map/`, `/docs/` and `/mathe-karte/` only resolve on the deployed origin.
 
 ## Old addresses of the Mathe-Karte
 
@@ -23,7 +41,3 @@ Until 2026-09-27 the Mathe-Karte lived at the root (`lernapps.github.io/binom/�
 - The old root `index.html` is now the lernapps home page, which links to the Mathe-Karte.
 
 Remove both once the old links have died out. Old `/docs/…` links are forwarded by the `404.html` of [lernapps/docs](https://github.com/lernapps/docs), which owns `/docs/` since 2026-09-27.
-
-## Local preview
-
-Any static server works, e.g. `npx serve site` or `python3 -m http.server -d site`. Run `node scripts/check.mjs` before pushing.
