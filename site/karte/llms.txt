@@ -1,0 +1,6 @@
+# Umgezogen
+
+Diese Datei liegt jetzt unter https://lernapps.github.io/mathe-karte/karte/llms.txt
+
+Alle Seiten der Karte liegen jetzt unter https://lernapps.github.io/mathe-karte/karte/
+statt unter https://lernapps.github.io/karte/.
