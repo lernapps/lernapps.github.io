@@ -1,0 +1,9 @@
+{#- Postal address and email of the controller; `lang` ("de" or "en") picks the country name. -#}
+<p>
+  {{ legal.name }}<br>
+  {{ legal.street }}<br>
+  {{ legal.city }}<br>
+  {{ legal.country[lang] }}<br>
+  {% if lang == "de" %}E-Mail{% else %}Email{% endif %}:
+  {% if legal.email %}<a href="mailto:{{ legal.email }}">{{ legal.email }}</a>{% else %}<strong>{{ legal.emailMissing }}</strong>{% endif %}
+</p>

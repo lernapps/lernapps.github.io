@@ -1,0 +1,38 @@
+---
+permalink: /imprint/index.html
+layout: legal.njk
+title: Impressum / Imprint
+description: Impressum von lernapps.net. Legal notice of lernapps.net.
+---
+<section lang="de" id="de">
+  <h1>Impressum</h1>
+
+  <h2>Angaben gemäß § 5 DDG</h2>
+  {% set lang = "de" %}{% include "contact.njk" %}
+
+  <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
+  <p>{{ legal.name }}, Anschrift wie oben.</p>
+
+  <h2>Über das Projekt</h2>
+  <p>lernapps.net ist ein nicht-kommerzielles Projekt. Die Lern-Apps werden von ihren Autorinnen und Autoren entwickelt; wer eine App verantwortet, steht in ihrem Quellcode-Repository auf <a href="https://github.com/lernapps">GitHub</a>.</p>
+
+  <p>Hinweise zum Datenschutz: <a href="/privacy/">Datenschutzerklärung</a>.</p>
+</section>
+
+<hr>
+
+<section lang="en" id="en">
+  <h1>Imprint</h1>
+  <p>This is a translation; if the versions differ, the <a href="#de" hreflang="de">German version</a> applies.</p>
+
+  <h2>Information according to § 5 DDG (German Digital Services Act)</h2>
+  {% set lang = "en" %}{% include "contact.njk" %}
+
+  <h2>Responsible for the content according to § 18(2) MStV (German Interstate Media Treaty)</h2>
+  <p>{{ legal.name }}, address as above.</p>
+
+  <h2>About the project</h2>
+  <p>lernapps.net is a non-commercial project. The learning apps are developed by their authors; who is responsible for an app is stated in its source repository on <a href="https://github.com/lernapps">GitHub</a>.</p>
+
+  <p>Privacy information: <a href="/privacy/#en">privacy notice</a>.</p>
+</section>
