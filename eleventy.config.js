@@ -13,6 +13,10 @@ export default function (eleventyConfig) {
     "src/prozent",
     "src/zufall",
     "src/karte",
+    "src/favicon.svg",
+    "src/favicon.ico",
+    "src/apple-touch-icon.png",
+    "src/brand",
   ]) {
     eleventyConfig.addPassthroughCopy(path);
   }
