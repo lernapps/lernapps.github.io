@@ -141,3 +141,20 @@
   }
   schedule();
 })();
+
+// Burger menu: <details data-menu> opens and closes on its own; this adds closing with Escape
+// (focus back to the button) and on a click outside the menu.
+(function () {
+  "use strict";
+  var menu = document.querySelector("[data-menu]");
+  if (!menu) return;
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && menu.open) {
+      menu.open = false;
+      menu.querySelector("summary").focus();
+    }
+  });
+  document.addEventListener("click", function (e) {
+    if (menu.open && !menu.contains(e.target)) menu.open = false;
+  });
+})();
