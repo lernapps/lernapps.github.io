@@ -1,6 +1,6 @@
 # lernapps.github.io
 
-Home page of the lernapps organisation (brand: lernapps.net), served at <https://lernapps.github.io/>.
+Home page of the lernapps organisation (brand: lernapps.net), served at <https://lernapps.net/> (custom domain; <https://lernapps.github.io/> redirects there).
 
 The home page is the former edugo landing page, rebuilt as static HTML: same texts (brand renamed), same look, readable without JavaScript. It links to the sites that live in other repos on the same origin: the map (`/map/`), the docs (`/docs/`) and the Mathe-Karte (`/mathe-karte/`). It does **not** list apps itself; that is the job of the map. See [ORGANIZATION.md](https://github.com/lernapps/.github/blob/main/ORGANIZATION.md) for the target structure.
 

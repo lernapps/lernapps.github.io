@@ -9,7 +9,7 @@ import legal from "../src/_data/legal.js";
 const ROOT = resolve(process.argv[2] ?? "_site");
 // Paths on this origin served by other repos (checked there): map, docs, Mathe-Karte.
 const OTHER_REPOS = ["/map/", "/docs/", "/mathe-karte"];
-const OWN_ORIGIN = "https://lernapps.github.io/";
+const OWN_ORIGIN = "https://lernapps.net/";
 const errors = [];
 
 if (!existsSync(join(ROOT, "index.html"))) {
