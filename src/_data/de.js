@@ -149,8 +149,10 @@ export default {
         { label: "Beitragen", href: "https://github.com/lernapps/.github/blob/main/CONTRIBUTING.md" },
         { label: "Architektur", href: "/map/architecture/" },
         { label: "GitHub", href: "https://github.com/lernapps" },
+        { label: "Datenschutz", href: "/privacy/" },
+        { label: "Impressum", href: "/imprint/" },
       ],
-      dsgvo: "Diese Seite setzt keine Cookies und sendet keine Daten an Dritte.",
+      dsgvo: "Keine Cookies, kein Tracking, keine Konten.",
     },
   },
 };
