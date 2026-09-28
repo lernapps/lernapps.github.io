@@ -4,6 +4,7 @@
   "type": "module",
   "description": "Home page of the lernapps organisation",
   "scripts": {
+    "dev": "npm run build && (eleventy --serve --quiet & unocss \"_site/**/*.html\" --out-file _site/uno.css --watch; wait)",
     "build": "eleventy && unocss \"_site/**/*.html\" --out-file _site/uno.css --minify",
     "check": "node scripts/check.mjs"
   },
