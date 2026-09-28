@@ -7,7 +7,7 @@ export default {
   street: "Am Wiesenteich 10",
   city: "64653 Lorsch",
   country: { de: "Deutschland", en: "Germany" },
-  email: null,
+  email: "lernapps@beimir.net",
   emailMissing: "TODO-EMAIL",
   // Date of the current version of the privacy notice. Update on every change of content.
   updated: { de: "28. September 2026", en: "28 September 2026" },
