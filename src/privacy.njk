@@ -5,9 +5,10 @@ title: Datenschutz / Privacy
 description: Datenschutzerklärung von lernapps.net – keine Cookies, kein Tracking, keine Konten. Privacy notice of lernapps.net – no cookies, no tracking, no accounts.
 ---
 {#-
-  Must match what the sites actually do. Checked on 2026-09-28 for the home page, /map/, /map/architecture/,
-  /docs/ and /mathe-karte/. Before adding usage statistics or error reporting, update both languages and
-  legal.updated in src/_data/legal.js.
+  States rules that hold for every page and app on lernapps.net, never the specifics of one app.
+  Must match what the sites actually do (checked 2026-09-28). An app that needs anything beyond these rules
+  (other storage, other third parties) needs this notice changed first. Before adding usage statistics or
+  error reporting, update both languages and legal.updated in src/_data/legal.js.
 -#}
 <section lang="de" id="de">
   <h1>Datenschutzerklärung</h1>
@@ -20,7 +21,7 @@ description: Datenschutzerklärung von lernapps.net – keine Cookies, kein Trac
   {% set lang = "de" %}{% include "contact.njk" %}
 
   <h2>Geltungsbereich</h2>
-  <p>Diese Erklärung gilt für alle Seiten unter lernapps.net: die Startseite, die Karte (/map/), die Dokumentation (/docs/) und die dort veröffentlichten Lern-Apps, zum Beispiel die Mathe-Karte (/mathe-karte/). Sie gilt auch für die früheren Adressen unter lernapps.github.io, die auf lernapps.net weiterleiten. Enthält eine App eigene Hinweise zum Datenschutz, gelten diese zusätzlich.</p>
+  <p>Diese Erklärung gilt für alle Seiten und Lern-Apps unter lernapps.net, auch für die früheren Adressen unter lernapps.github.io, die auf lernapps.net weiterleiten.</p>
 
   <h2 id="de-hosting">Hosting durch GitHub Pages</h2>
   <p>Die Seiten werden von GitHub Pages ausgeliefert. Anbieter ist GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA.</p>
@@ -31,15 +32,10 @@ description: Datenschutzerklärung von lernapps.net – keine Cookies, kein Trac
   <p>Wir setzen keine Cookies. Wir verwenden keine Analyse- oder Tracking-Dienste, keine Werbung und keine Schriften, Skripte oder Bilder von Dritten.</p>
 
   <h2>Speicherung in deinem Browser</h2>
-  <p>Einige Seiten merken sich Einstellungen im lokalen Speicher deines Browsers (localStorage):</p>
-  <ul>
-    <li>die Architekturdokumentation (/map/architecture/) deine Wahl zwischen hellem und dunklem Design,</li>
-    <li>die Mathe-Karte deine Selbsteinschätzung pro Thema.</li>
-  </ul>
-  <p>Diese Daten bleiben auf deinem Gerät und werden nicht übertragen. Du kannst sie jederzeit in den Einstellungen deines Browsers löschen. Die Speicherung dient allein der Funktion, die du nutzt (§ 25 Abs. 2 Nr. 2 TDDDG).</p>
+  <p>Seiten und Apps können Einstellungen und deinen Lernstand im lokalen Speicher deines Browsers (localStorage) ablegen, zum Beispiel ein helles oder dunkles Design oder deine Selbsteinschätzung. Diese Daten bleiben auf deinem Gerät und werden nicht übertragen. Du kannst sie jederzeit in den Einstellungen deines Browsers löschen. Die Speicherung dient allein der Funktion, die du nutzt (§ 25 Abs. 2 Nr. 2 TDDDG).</p>
 
   <h2>Videos von YouTube</h2>
-  <p>Einige Übungsseiten bieten Erklärvideos von YouTube an. Ein Video wird erst geladen, wenn du darauf klickst; vorher werden keine Daten an YouTube übertragen. Nach dem Klick lädt dein Browser das Video über youtube-nocookie.com. Dabei erhält Google (Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland) deine IP-Adresse und technische Daten deines Browsers. Rechtsgrundlage ist deine Einwilligung durch den Klick (Art. 6 Abs. 1 lit. a DSGVO). Mehr dazu in der <a href="https://policies.google.com/privacy?hl=de">Datenschutzerklärung von Google</a>.</p>
+  <p>Apps können Erklärvideos von YouTube einbinden. Ein Video wird erst geladen, wenn du darauf klickst; vorher werden keine Daten an YouTube übertragen. Nach dem Klick lädt dein Browser das Video über youtube-nocookie.com. Dabei erhält Google (Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland) deine IP-Adresse und technische Daten deines Browsers. Rechtsgrundlage ist deine Einwilligung durch den Klick (Art. 6 Abs. 1 lit. a DSGVO). Mehr dazu in der <a href="https://policies.google.com/privacy?hl=de">Datenschutzerklärung von Google</a>.</p>
 
   <h2>Links zu anderen Seiten</h2>
   <p>Wir verlinken auf andere Seiten, vor allem auf GitHub. Wenn du einem Link folgst, gilt dort die Datenschutzerklärung des jeweiligen Anbieters.</p>
@@ -68,7 +64,7 @@ description: Datenschutzerklärung von lernapps.net – keine Cookies, kein Trac
   {% set lang = "en" %}{% include "contact.njk" %}
 
   <h2>Scope</h2>
-  <p>This notice covers all pages under lernapps.net: the home page, the map (/map/), the documentation (/docs/) and the learning apps published there, for example the Mathe-Karte (/mathe-karte/). It also covers the former addresses under lernapps.github.io, which redirect to lernapps.net. If an app has its own privacy notes, they apply in addition.</p>
+  <p>This notice covers all pages and learning apps under lernapps.net, including the former addresses under lernapps.github.io that redirect to lernapps.net.</p>
 
   <h2 id="en-hosting">Hosting by GitHub Pages</h2>
   <p>The pages are served by GitHub Pages, provided by GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA.</p>
@@ -79,15 +75,10 @@ description: Datenschutzerklärung von lernapps.net – keine Cookies, kein Trac
   <p>We set no cookies. We use no analytics or tracking services, no advertising, and no fonts, scripts or images from third parties.</p>
 
   <h2>Storage in your browser</h2>
-  <p>Some pages remember settings in your browser's local storage (localStorage):</p>
-  <ul>
-    <li>the architecture documentation (/map/architecture/) remembers your choice of light or dark theme,</li>
-    <li>the Mathe-Karte remembers your self-assessment per topic.</li>
-  </ul>
-  <p>This data stays on your device and is never transmitted. You can delete it at any time in your browser settings. It is stored only for the feature you use (§ 25(2) no. 2 TDDDG).</p>
+  <p>Pages and apps may keep settings and your learning progress in your browser's local storage (localStorage), for example a light or dark theme or your self-assessment. This data stays on your device and is never transmitted. You can delete it at any time in your browser settings. It is stored only for the feature you use (§ 25(2) no. 2 TDDDG).</p>
 
   <h2>Videos from YouTube</h2>
-  <p>Some exercise pages offer explanatory videos from YouTube. A video loads only when you click it; before that, no data is sent to YouTube. After the click, your browser loads the video from youtube-nocookie.com, and Google (Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Ireland) receives your IP address and technical data about your browser. The legal basis is your consent given by the click (Art. 6(1)(a) GDPR). See the <a href="https://policies.google.com/privacy?hl=en">Google privacy policy</a>.</p>
+  <p>Apps may embed explanatory videos from YouTube. A video loads only when you click it; before that, no data is sent to YouTube. After the click, your browser loads the video from youtube-nocookie.com, and Google (Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Ireland) receives your IP address and technical data about your browser. The legal basis is your consent given by the click (Art. 6(1)(a) GDPR). See the <a href="https://policies.google.com/privacy?hl=en">Google privacy policy</a>.</p>
 
   <h2>Links to other sites</h2>
   <p>We link to other sites, mainly GitHub. If you follow a link, the privacy policy of that site applies.</p>
