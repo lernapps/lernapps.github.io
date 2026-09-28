@@ -27,7 +27,7 @@ Rules for the page (org-wide): no external requests (system fonts, no CDNs), `re
 npm ci                      # install the exact pinned versions
 npm run build               # Eleventy → _site/, then UnoCSS scans _site/**/*.html → _site/uno.css
 node scripts/check.mjs      # check _site/ (run after the build, before pushing)
-python3 -m http.server -d _site 8080   # preview at http://localhost:8080/
+npm run dev                 # build, then serve http://localhost:8080/ with live reload (HTML and CSS)
 ```
 
 Links to `/map/`, `/docs/` and `/mathe-karte/` only resolve on the deployed origin.

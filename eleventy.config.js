@@ -21,6 +21,9 @@ export default function (eleventyConfig) {
     eleventyConfig.addPassthroughCopy(path);
   }
 
+  // npm run dev: UnoCSS rewrites _site/uno.css after each Eleventy build; reload the browser for that too.
+  eleventyConfig.setServerOptions({ watch: ["_site/uno.css"] });
+
   // Texts in src/_data/de.js separate paragraphs with a blank line, as in the original.
   eleventyConfig.addFilter("paragraphs", (text) => String(text).split("\n\n"));
 
