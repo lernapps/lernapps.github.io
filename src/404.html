@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="robots" content="noindex">
   <title>Seite nicht gefunden – lernapps</title>
@@ -12,7 +14,7 @@
     // /mathe-karte/. Schon geteilte Links, auch Deep Links des KI-Tutors mit ?seed=…&von=tutor, landen hier und
     // werden samt Query und Anker weitergeleitet. Liste: ALTE_PFADE, siehe README.md.
     (function () {
-      var ALTE_PFADE = /^\/(binom|prozent|zufall|karte|kern)(\/|$)|^\/favicon\.(svg|ico)$/;
+      var ALTE_PFADE = /^\/(binom|prozent|zufall|karte|kern)(\/|$)/;
       var pfad = location.pathname;
       if (ALTE_PFADE.test(pfad)) {
         location.replace("/mathe-karte" + pfad + location.search + location.hash);
