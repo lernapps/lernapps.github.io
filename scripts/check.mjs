@@ -4,6 +4,7 @@
 // No dependencies on purpose; replaced by @lernapps/checks once tooling exists (lernapps/.github#5).
 import { readFileSync, readdirSync, existsSync, statSync } from "node:fs";
 import { join, dirname, resolve } from "node:path";
+import legal from "../src/_data/legal.js";
 
 const ROOT = resolve(process.argv[2] ?? "_site");
 // Paths on this origin served by other repos (checked there): map, docs, Mathe-Karte.
@@ -28,6 +29,8 @@ for (const file of files(ROOT)) {
   const rel = file.slice(ROOT.length + 1);
 
   if (file.endsWith(".html")) {
+    // Legal pages must not go live with missing contact data (src/_data/legal.js).
+    if (text.includes(legal.emailMissing)) errors.push(`${rel}: contact email missing (set email in src/_data/legal.js)`);
     // Resources: anything loaded without a click.
     for (const m of text.matchAll(/<(script|img|iframe|source|audio|video|embed)\b[^>]*\bsrc="([^"]*)"/gi)) {
       if (isExternal(m[2])) errors.push(`${rel}: external resource <${m[1]} src="${m[2]}">`);
