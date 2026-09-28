@@ -56,3 +56,7 @@ The mark is a lowercase "l" drawn as a route from a start point to a goal: white
 | `src/favicon.svg`, `src/favicon.ico` (16/32/48), `src/apple-touch-icon.png` (180) | Browser icons |
 
 Deployed under `https://lernapps.net/brand/`, so other repos can link the mark instead of copying it. The PNG and ICO files are rendered from the SVGs with a headless browser; re-render them whenever the SVG changes.
+
+## License
+
+[MIT](LICENSE), for the code and the texts in this repo. Contributions are made under the same license.
