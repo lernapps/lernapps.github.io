@@ -140,6 +140,19 @@ export default {
       secondaryHref: "https://github.com/lernapps",
     },
 
+    nav: {
+      ariaLabel: "Hauptnavigation",
+      homeLabel: "lernapps.net – Startseite",
+      menuLabel: "Menü",
+      links: [
+        { label: "Tools", href: "/map/#/apps" },
+        { label: "Kompetenzkarte", href: "/map/#/catalog" },
+        { label: "Vision", href: "/docs/vision/" },
+        { label: "Mitmachen", href: "https://github.com/lernapps/.github/blob/main/CONTRIBUTING.md" },
+        { label: "GitHub", href: "https://github.com/lernapps" },
+      ],
+    },
+
     footer: {
       brand: "lernapps.net",
       tagline: "lernapps.net — die fehlende Infrastruktur für Bildungsinnovation.",

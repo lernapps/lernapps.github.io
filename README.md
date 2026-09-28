@@ -49,6 +49,7 @@ The mark is a lowercase "l" drawn as a route from a start point to a goal: white
 | File | Use |
 |---|---|
 | `src/brand/mark.svg` | Master, rounded tile. Source for everything else. |
+| `src/brand/mark-plain.svg` | Mark without tile, for the wordmark on dark backgrounds (nav, footer): same height as the text, on its baseline, gap ≈ 0.8 em |
 | `src/brand/mark-square.svg` | Square tile, for places that round corners themselves |
 | `src/brand/avatar-500.png` | GitHub org avatar (from `mark-square.svg`) |
 | `src/brand/mark-512.png` | Raster version of the master, transparent corners |

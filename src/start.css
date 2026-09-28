@@ -17,3 +17,9 @@
     animation: none;
   }
 }
+
+/* Burger menu (<details data-menu>): no disclosure triangle, swap the icons. */
+[data-menu] > summary { list-style: none; }
+[data-menu] > summary::-webkit-details-marker { display: none; }
+[data-menu]:not([open]) [data-icon="close"],
+[data-menu][open] [data-icon="open"] { display: none; }
