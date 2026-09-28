@@ -36,8 +36,22 @@ Links to `/map/`, `/docs/` and `/mathe-karte/` only resolve on the deployed orig
 
 Until 2026-09-27 the Mathe-Karte lived at the root (`lernapps.github.io/binom/…`). It now lives at `/mathe-karte/`. Tutor links with that old prefix are already in learners' chats, so this repo keeps them working:
 
-- **Browsers:** `404.html` forwards `/binom/`, `/prozent/`, `/zufall/`, `/karte/`, `/kern/` and the favicons to `/mathe-karte/…`, keeping query and hash (e.g. `?seed=42&von=tutor`).
+- **Browsers:** `404.html` forwards `/binom/`, `/prozent/`, `/zufall/`, `/karte/`, `/kern/` to `/mathe-karte/…`, keeping query and hash (e.g. `?seed=42&von=tutor`).
 - **AI tutors fetching files:** the stubs at the old `tutor.md`/`llms.txt` paths name the new address. The root `llms.txt` describes lernapps and points to the Mathe-Karte; it stays.
 - The old root `index.html` is now the lernapps home page, which links to the Mathe-Karte.
 
 Remove both once the old links have died out. Old `/docs/…` links are forwarded by the `404.html` of [lernapps/docs](https://github.com/lernapps/docs), which owns `/docs/` since 2026-09-27.
+
+## Brand mark
+
+The mark is a lowercase "l" drawn as a route from a start point to a goal: white line, blue points (`#60a5fa`) on dark slate (`#0f172a`). It was chosen on 2026-09-28 over more geometric variants because it is the calmest; keep it unchanged.
+
+| File | Use |
+|---|---|
+| `src/brand/mark.svg` | Master, rounded tile. Source for everything else. |
+| `src/brand/mark-square.svg` | Square tile, for places that round corners themselves |
+| `src/brand/avatar-500.png` | GitHub org avatar (from `mark-square.svg`) |
+| `src/brand/mark-512.png` | Raster version of the master, transparent corners |
+| `src/favicon.svg`, `src/favicon.ico` (16/32/48), `src/apple-touch-icon.png` (180) | Browser icons |
+
+Deployed under `https://lernapps.net/brand/`, so other repos can link the mark instead of copying it. The PNG and ICO files are rendered from the SVGs with a headless browser; re-render them whenever the SVG changes.
