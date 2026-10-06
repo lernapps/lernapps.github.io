@@ -2,15 +2,15 @@
 
 Home page of the lernapps organisation (brand: lernapps.net), served at <https://lernapps.net/> (custom domain; <https://lernapps.github.io/> redirects there).
 
-The home page is the former edugo landing page, rebuilt as static HTML: same texts (brand renamed), same look, readable without JavaScript. It links to the sites that live in other repos on the same origin: the map (`/map/`), the docs (`/docs/`) and the Mathe-Karte (`/mathe-karte/`). It does **not** list apps itself; that is the job of the map. See [ORGANIZATION.md](https://github.com/lernapps/.github/blob/main/ORGANIZATION.md) for the target structure.
+The home page keeps the look of the former edugo landing page, as static HTML readable without JavaScript. Its story follows the [platform design](https://lernapps.github.io/docs/platform-design/) (agents: see the skill [`skills/pdt`](https://github.com/lernapps/docs/tree/main/skills/pdt) in lernapps/docs): problems and portraits for teachers, parents, people who build apps and learners; the principles (free, open counting instead of tracking, thanks as what keeps it alive); why it is free, with a personal word; and an honest answer for sceptics that links to the design. It links to the sites that live in other repos on the same origin: the map (`/map/`), the docs (`/docs/`) and the Mathe-Karte (`/mathe-karte/`). It does **not** list apps itself; that is the job of the map. See [ORGANIZATION.md](https://github.com/lernapps/.github/blob/main/ORGANIZATION.md) for the target structure.
 
 ## Layout
 
 | Path | Purpose |
 |---|---|
 | `src/index.njk` | Home page template (Nunjucks). Markup and utility classes only, no texts |
-| `src/_data/de.js` | All texts of the home page (German) and its link targets |
-| `src/start.js` | Progressive enhancement: turns the stacked persona quotes/cards into tabs (ARIA tabs pattern, arrow keys, auto-advance). Without it, everything is shown stacked |
+| `src/_data/de.js` | All texts of the home page (German, plain language after ISO 24495-1) and its link targets |
+| `src/start.js` | Progressive enhancement: turns the stacked persona quotes/portraits into tabs (ARIA tabs pattern, arrow keys, auto-advance). Without it, everything is shown stacked |
 | `src/start.css` | The few rules utilities don't cover (tab panel animation) |
 | `uno.config.js` | UnoCSS presets (wind4 + typography, as in the original); CSS is generated at build time into `_site/uno.css` |
 | `eleventy.config.js` | Eleventy: input `src/`, output `_site/`; only `.njk` are templates, everything else is copied as is |

@@ -1,25 +1,27 @@
-// All texts of the home page (German). Taken from the former edugo landing page
-// (edugo/src/i18n/de.ts, section "landing"); brand renamed edugo → lernapps.net, link targets
-// point to the lernapps sites on this origin. Templates contain no copy of their own.
+// All texts of the home page (German). Templates contain no copy of their own.
+// The story follows the platform design (https://lernapps.github.io/docs/platform-design/):
+// adults look for an app in an acute moment, people who build apps do it for their own class or child,
+// the platform is free and lives on thanks, and nothing is collected in secret.
+// Language: plain German (ISO 24495-1): short sentences, active voice, no jargon, "du".
 export default {
   meta: {
-    title: "lernapps.net — Die fehlende Infrastruktur für Bildungsinnovation",
+    title: "lernapps.net — kleine Lern-Apps, kostenlos und ohne Anmeldung",
     description:
-      "lernapps.net verbindet gute Bildungs-Tools mit den Schulen, die sie brauchen — über eine lebendige Kompetenzkarte und kuratierte Apps.",
+      "lernapps.net hilft, kleine Lern-Apps zu finden, die sofort laufen: kostenlos, ohne Anmeldung und ohne heimliche Datensammlung. Und es hilft allen, die solche Apps bauen.",
     skipLink: "Zum Inhalt springen",
   },
 
   landing: {
     // ── HERO ──────────────────────────────────────────────────────────────────
     hero: {
-      headline: "Deutschlands Schulen haben ein\nDigitalisierungsproblem.",
+      headline: "Deutschlands Schulen haben ein\nDigitalisierungs\u00ADproblem.", // soft hyphen for narrow screens
       subtitle: "Und da geht es nicht um WLAN oder iPads, sondern um passende Lösungen.",
     },
 
     // Order of the persona tabs (problems and solutions share it).
-    personas: ["teacher", "navigator", "builder"],
+    personas: ["teacher", "parent", "creator", "learner"],
 
-    // ── SECTION 1: Problem cards ───────────────────────────────────────────────
+    // ── SECTION 1: Problem quotes ──────────────────────────────────────────────
     problems: {
       tabsAriaLabel: "Perspektiven",
       scrollCue: "Klingt das vertraut?",
@@ -27,46 +29,48 @@ export default {
         role: "Lehrkraft",
         icon: "📚",
         quote:
-          "Ich suche seit einer Stunde nach einem Tool, mit dem meine Klasse gemeinsam Argumente strukturieren kann. Alles, was ich finde, läuft entweder über US-Server oder will eine Einwilligung der Eltern. Ich gebe auf. Wir machen es wieder auf Papier.",
+          "In zehn Minuten beginnt die Stunde. Ich suche etwas, mit dem meine Klasse Brüche selbst ausprobieren kann. Alles, was ich finde, will eine Anmeldung oder läuft über fremde Server. Darf ich das überhaupt einsetzen? Ich nehme doch wieder das Arbeitsblatt.",
       },
-      navigator: {
-        role: "Schulleitung",
-        icon: "🗺️",
-        quote:
-          "Wir haben jetzt 40 iPads im Haus. Jede Lehrkraft nutzt andere Apps. Ich weiß nicht, welche Kompetenzen wir damit eigentlich fördern — und welche komplett auf der Strecke bleiben. Im nächsten Schulentwicklungsgespräch soll ich das beantworten können.",
-      },
-      builder: {
+      parent: {
         role: "Elternteil",
+        icon: "🏠",
+        quote:
+          "Morgen schreibt mein Sohn eine Mathearbeit. Er sitzt am Küchentisch und versteht Prozentrechnung nicht. Ich suche eine App, mit der er üben kann. Ich finde nur Werbung, Abos und Apps, die zuerst ein Konto wollen.",
+      },
+      creator: {
+        role: "Selbst gebaut",
         icon: "🔧",
         quote:
-          "Ich habe an einem Wochenende eine kleine App gebaut, mit der Schüler Wahrscheinlichkeiten durch Simulationen entdecken können. Meine Tochter liebt sie. Aber wie bekomme ich das zu anderen Schulen? Ich habe keine Zeit für Marketing. Das Ding liegt auf GitHub und wird nicht gefunden.",
+          "Ich habe am Wochenende eine kleine App gebaut, mit der meine Tochter Wahrscheinlichkeiten ausprobieren kann. Sie liebt sie. Ob sie auch anderen Kindern helfen würde? Keine Ahnung. Sie liegt auf GitHub, und niemand findet sie.",
+      },
+      learner: {
+        role: "Schülerin",
+        icon: "🎒",
+        quote:
+          "Übermorgen ist die Arbeit, und ich verstehe das mit den Funktionen einfach nicht. Videos bringen mir nichts. Ich will es selbst ausprobieren.",
       },
     },
 
-    // ── SECTION 2: Ecosystem problem reveal ───────────────────────────────────
+    // ── SECTION 2: Ecosystem ───────────────────────────────────────────────────
     ecosystemProblem: {
-      headline: "Das ist kein Einzelproblem.\nDas ist ein Ökosystem-Problem.",
+      headline: "Gute Apps gibt es.\nSie kommen nur nicht an.",
       body:
-        "Engagierte Lehrkräfte und Entwickler bauen gute Dinge — aber isoliert, ohne Verbindung. Gute Tools sind unsichtbar, schwer einzuschätzen, nicht aufeinander aufgebaut. Gute Arbeit verschwindet, weil sie nirgends zusammenkommt.",
-      bridge:
-        "Wir können nicht alles auf einmal lösen. Aber wir können anfangen, diese drei Probleme zu verbinden.",
+        "Menschen bauen kleine Lern-Apps für ihre Klasse oder ihr Kind. Mit KI-Hilfe geht das oft an einem Wochenende. Aber die Apps kommen nicht in andere Klassen. Wer sie einsetzen will, trägt das Risiko allein: Darf ich das? Ist das sicher? Und wer sie baut, erfährt nie, ob sie anderswo geholfen haben.",
+      bridge: "lernapps.net bringt diese Seiten zusammen.",
     },
 
-    // ── SECTION 3: Solution cards ──────────────────────────────────────────────
+    // ── SECTION 3: Portraits, one per persona ──────────────────────────────────
     solutions: {
       intro: "Was lernapps.net für dich tut",
       tabsAriaLabel: "Was lernapps.net für dich tut",
-      mapPreviewAriaLabel: "Vorschau der Kompetenzkarte",
-      mapPreviewLabel: "Kompetenzkarte — Vorschau",
       teacher: {
-        role: "Für Lehrkräfte",
+        role: "Wenn du unterrichtest",
         icon: "📚",
-        headline: "Finde Tools, denen du vertrauen kannst.",
+        headline: "Eine passende App, in wenigen Minuten im Unterricht.",
         story:
-          "lernapps.net bietet dir einen einfach zu durchsuchenden Katalog mit Apps, die sicher nutzbar sind. Keine dubiosen Seiten — einfache, zielgerichtete Apps mit einem klaren Bildungsbezug.\n\nJedes Tool zeigt sofort seinen Datenschutzstatus. Kein Backend heißt: Schülerdaten können gar nicht erst abfließen.",
-        cta: "Tools entdecken",
+          "Gleich beginnt die Stunde. Du brauchst eine App zu genau diesem Thema. Bei lernapps.net suchst du nach Thema und Klassenstufe. Die App läuft sofort im Browser: ohne Installation und ohne Anmeldung.\n\nWir nehmen nur Apps auf, die ohne eigenen Server auskommen. Was deine Klasse eingibt, bleibt auf ihren Geräten.\n\nNach der Stunde kannst du mit einem Klick Danke sagen oder kurz rückmelden, wie es lief. Mehr brauchen wir nicht.",
+        cta: "Apps finden",
         ctaHref: "/map/#/apps",
-        // New: the first real app, so the page leads to something usable today.
         tryIt: {
           label: "Ausprobieren:",
           linkText: "Mathe-Karte",
@@ -74,67 +78,106 @@ export default {
           text: "Mathematik der Sekundarstufe I mit Trainern und KI-Tutor.",
         },
       },
-      navigator: {
-        role: "Für Schulen & Koordinatoren",
-        icon: "🗺️",
-        headline: "Sieh, was abgedeckt ist — und was fehlt.",
+      parent: {
+        role: "Wenn dein Kind morgen eine Arbeit schreibt",
+        icon: "🏠",
+        headline: "Heute Abend noch üben.",
         story:
-          "Die Kompetenzkarte zeigt, welche Lernziele durch digitale Tools unterstützt werden — und wo die Lücken sind. Nicht als statisches Dokument, sondern als lebendige Karte, die wächst.\n\nDu bekommst eine ehrliche Antwort auf die Frage, die du im nächsten Schulentwicklungsgespräch beantworten musst.",
-        cta: "Kompetenzkarte ansehen",
-        ctaHref: "/map/#/catalog",
+          "Heute Abend soll dein Kind noch üben. Bei lernapps.net findest du eine App zum Thema der Arbeit. Dein Kind kann sofort anfangen. Es braucht kein Konto, und niemand erfährt, wer es ist.\n\nWenn die App geholfen hat, sag Danke. Ein Klick genügt.",
+        cta: "Apps finden",
+        ctaHref: "/map/#/apps",
       },
-      builder: {
-        role: "Für Digital Schaffende",
+      creator: {
+        role: "Wenn du Apps baust",
         icon: "🔧",
-        headline: "Bau in eine reale Lücke — und werde gefunden.",
+        headline: "Du baust ohnehin. Wir machen es dir leichter.",
         story:
-          "„It's the age of personal software.\" Aber wäre es nicht cool, wenn noch mehr Menschen davon profitieren könnten?\n\nlernapps.net zeigt dir, wo Bedarf ist: welche Lernziele keine passenden Tools haben. Du trägst dein Tool in wenigen Minuten ein — es landet auf der Karte, für alle Schulen findbar, ohne Marketing, ohne Vertrieb.",
-        cta: "Lücken ansehen",
-        ctaHref: "/map/#/catalog?gap=true",
+          "Du baust deine App ohnehin: für deine Klasse oder für dein Kind. lernapps.net macht dir das leichter. Du bekommst Anleitungen, mit denen dein KI-Assistent schneller eine App baut, die auch andere gut nutzen können.\n\nDeine App trägst du in wenigen Minuten ein. Du brauchst keine eigene Website und keine Werbung. Die App bleibt deine.\n\nWenn jemand deine App nutzt und auf „Danke“ klickt, erfährst du davon. So siehst du, wenn deine App einer anderen Klasse oder einem anderen Kind geholfen hat.\n\nWir fangen gerade erst an. Wenn du zu den Ersten gehören willst, mach mit.",
+        cta: "So machst du mit",
+        ctaHref: "https://github.com/lernapps/.github/blob/main/CONTRIBUTING.md",
+      },
+      learner: {
+        role: "Wenn du selbst lernst",
+        icon: "🎒",
+        headline: "Selbst ausprobieren statt nur zuschauen.",
+        story:
+          "Du willst den Stoff verstehen, zum Beispiel vor der nächsten Arbeit. Hier findest du kleine Apps, mit denen du selbst etwas ausprobierst. Du brauchst kein Konto. Wir wissen nicht, wer du bist.\n\nHat dir eine App geholfen? Klick auf „Danke“. Die Person, die sie gebaut hat, freut sich darüber.",
+        cta: "Apps finden",
+        ctaHref: "/map/#/apps",
+        tryIt: {
+          label: "Ausprobieren:",
+          linkText: "Mathe-Karte",
+          href: "/mathe-karte/",
+          text: "Mathematik der Sekundarstufe I mit Trainern und KI-Tutor.",
+        },
       },
     },
 
-    // ── SECTION 4: How it works ────────────────────────────────────────────────
-    howItWorks: {
-      // Visually hidden; names the section for screen readers.
-      heading: "So funktioniert es",
-      steps: [
+    // ── SECTION 4: Principles ──────────────────────────────────────────────────
+    principles: {
+      id: "so-funktioniert-es",
+      heading: "So funktioniert lernapps.net",
+      intro:
+        "lernapps.net ist kostenlos. Niemand verdient daran. Es gibt keine Werbung, und wir sammeln keine Daten im Verborgenen. Die Plattform lebt von zwei Dingen: Menschen bauen gute Lern-Apps. Und andere sagen Danke dafür.",
+      items: [
         {
-          number: "01",
-          title: "Kompetenzkarte",
-          description:
-            "Lernziele als lebendige Karte. Jeder Knoten zeigt, ob es gute Tools gibt — oder eine Lücke.",
+          title: "Kostenlos und ohne Werbung",
+          text: "Die Apps laufen in deinem Browser. Dafür braucht es keine teuren Server. Deshalb kostet lernapps.net nichts.",
         },
         {
-          number: "02",
-          title: "Tool-Katalog",
-          description:
-            "Jedes Tool mit Datenschutzstatus, Teaser und Link. Gefiltert nach dem, was Schüler dabei tun.",
+          title: "Was du eingibst, bleibt auf deinem Gerät",
+          text: "Wir nehmen nur Apps auf, die ohne eigenen Server auskommen. Sie brauchen keine Installation und keine Anmeldung.",
         },
         {
-          number: "03",
-          title: "Beitragen per Pull Request",
-          description:
-            "Ein neues Tool eintragen dauert wenige Minuten. GitHub als Backend — auditierbar, forkbar, kein Login.",
+          title: "Wir zählen offen, nicht heimlich",
+          text: "Wir zählen nur Klicks, die jemand bewusst macht, zum Beispiel „Danke“. Wir speichern nur die Summe. Wir wissen nicht, wer geklickt hat.",
+        },
+        {
+          title: "Danke hält alles am Leben",
+          text: "Ein Danke zeigt den Menschen, die Apps bauen, dass sich ihre Arbeit lohnt. Ohne diesen Dank gäbe es bald keine neuen Apps mehr.",
         },
       ],
-      // Static capability map mockup. tone: missing | partial | covered
-      mockNodes: [
-        { title: "Kollaborativ schreiben", statusLabel: "Fehlend", count: "Noch kein Tool", tone: "missing" },
-        { title: "Daten visualisieren", statusLabel: "Teilweise", count: "1 Tool", tone: "partial" },
-        { title: "Quellen bewerten", statusLabel: "Fehlend", count: "Noch kein Tool", tone: "missing" },
-        { title: "Präsentation erstellen", statusLabel: "Gut abgedeckt", count: "3 Tools", tone: "covered" },
-        { title: "Programmieren lernen", statusLabel: "Gut abgedeckt", count: "2 Tools", tone: "covered" },
-        { title: "Feedback geben & empfangen", statusLabel: "Fehlend", count: "Noch kein Tool", tone: "missing" },
-      ],
+      privacy: {
+        title: "Wenn du an deiner Schule auf den Datenschutz achtest",
+        text:
+          "Die Apps laufen nur im Browser. Sie haben keinen eigenen Server, keine Konten und keine Cookies.\n\nAuf der Plattform zählen wir nur Klicks, die jemand bewusst macht: „Danke“, „Im Unterricht genutzt“, „Ich schau mir das an“ und kurze Rückmeldungen. Wir speichern nur die Summe dieser Klicks. Wir speichern keine IP-Adressen und nichts im Browser. Daten von Schülerinnen und Schülern entstehen nicht.",
+      },
     },
 
-    // ── SECTION 5: Final CTA ───────────────────────────────────────────────────
+    // ── SECTION 5: Why it is free, and why I do this ───────────────────────────
+    whyFree: {
+      id: "warum-kostenlos",
+      heading: "Warum ist das kostenlos?",
+      text:
+        "Die Apps laufen in deinem Browser. Dafür brauchen wir keine teuren Server. Wer Apps baut, macht das ohnehin für die eigene Klasse oder das eigene Kind. Deshalb kann lernapps.net kostenlos sein, ohne Werbung und ohne Daten zu verkaufen.\n\nWas die Plattform braucht, ist dein Danke. Es zeigt den Menschen, die Apps bauen, dass sich ihre Arbeit lohnt.",
+      personal: {
+        heading: "Warum ich das mache",
+        text:
+          "Ich bin Softwareentwickler. Seit einiger Zeit sehe ich, wie leicht es geworden ist, kleine Apps zu bauen. Wer weiß, was er tut, braucht dafür kaum noch Zeit und Geld.\n\nIn der Schule kommt davon wenig an. Ob eine Lehrkraft eine neue App einsetzt, hängt vor allem davon ab, wie viel Risiko sie selbst tragen will. Gute Apps gibt es, aber sie finden nicht in die Klassen. Ich sehe da ein ganzes Ökosystem mit seinen Spannungen: zwischen denen, die bauen, denen, die einsetzen, und den Regeln, die alle schützen sollen.\n\nSich nur über schlechte Digitalisierung an Schulen zu beschweren, bringt nichts. Also versuche ich etwas.\n\nGeld will ich damit nicht verdienen. Ich will erst einmal sehen, ob es den Bedarf wirklich gibt. Wenn lernapps.net trägt, kann daraus zum Beispiel ein Verein werden. Dann gehört die Plattform denen, die sie mit Leben füllen.",
+        signature: "Oliver Jägle",
+      },
+    },
+
+    // ── SECTION 6: For sceptics ────────────────────────────────────────────────
+    sceptics: {
+      id: "funktioniert-das",
+      heading: "„Das funktioniert doch sowieso nicht.“",
+      text:
+        "Vielleicht. Wir wissen es noch nicht. Darum fangen wir klein an: mit wenigen Apps und wenigen Menschen, die sie bauen und einsetzen. Wir haben vorher aufgeschrieben, woran wir merken, ob es klappt. Und woran nicht.\n\nGeplant haben wir lernapps.net mit dem Platform Design Toolkit, einer Methode für den Entwurf von Plattformen. Dort steht, wer beteiligt ist, was alle davon haben und was wir als Erstes ausprobieren. Alles ist öffentlich.",
+      links: [
+        { label: "Was wir als Erstes ausprobieren", href: "/docs/platform-design/#2-design/d8-mvp.pdt42.md" },
+        { label: "Das ganze Plattform-Design", href: "/docs/platform-design/" },
+        { label: "Die Vision", href: "/docs/vision/" },
+      ],
+      note: "Die Unterlagen sind auf Englisch.",
+    },
+
+    // ── SECTION 7: Final CTA ───────────────────────────────────────────────────
     cta: {
       title: "Mit Machern mitmachen.",
       description:
-        "Es hilft nichts, sich über schlechte Digitalisierung zu beschweren. Wenn zukünftige Generationen nicht das beherrschen, was die Welt von ihnen verlangt, haben wir alle ein Problem. Lasst es uns ändern.",
-      primary: "Tools entdecken",
+        "Du baust Apps, du unterrichtest oder du willst üben? Probier lernapps.net aus. Und wenn dir eine App geholfen hat: Sag Danke.",
+      primary: "Apps finden",
       primaryHref: "/map/#/apps",
       secondary: "Auf GitHub ansehen",
       secondaryHref: "https://github.com/lernapps",
@@ -145,9 +188,9 @@ export default {
       homeLabel: "lernapps.net – Startseite",
       menuLabel: "Menü",
       links: [
-        { label: "Tools", href: "/map/#/apps" },
-        { label: "Kompetenzkarte", href: "/map/#/catalog" },
-        { label: "Vision", href: "/docs/vision/" },
+        { label: "Apps", href: "/map/#/apps" },
+        { label: "So funktioniert's", href: "#so-funktioniert-es" },
+        { label: "Plattform-Design", href: "/docs/platform-design/" },
         { label: "Mitmachen", href: "https://github.com/lernapps/.github/blob/main/CONTRIBUTING.md" },
         { label: "GitHub", href: "https://github.com/lernapps" },
       ],
@@ -155,12 +198,14 @@ export default {
 
     footer: {
       brand: "lernapps.net",
-      tagline: "lernapps.net — die fehlende Infrastruktur für Bildungsinnovation.",
+      tagline: "lernapps.net — kleine Lern-Apps, die sofort laufen. Kostenlos, und am Leben gehalten durch Danke.",
       navAriaLabel: "Footer-Navigation",
       links: [
+        { label: "So funktioniert's", href: "#so-funktioniert-es" },
+        { label: "Plattform-Design", href: "/docs/platform-design/" },
         { label: "Vision", href: "/docs/vision/" },
+        { label: "Dokumentation", href: "/docs/" },
         { label: "Beitragen", href: "https://github.com/lernapps/.github/blob/main/CONTRIBUTING.md" },
-        { label: "Architektur", href: "/map/architecture/" },
         { label: "GitHub", href: "https://github.com/lernapps" },
         { label: "Datenschutz", href: "/privacy/" },
         { label: "Impressum", href: "/imprint/" },
