@@ -16,7 +16,7 @@ The home page is static HTML, readable without JavaScript. Its story follows the
 | `eleventy.config.js` | Eleventy: input `src/`, output `_site/`; only `.njk` are templates, everything else is copied as is |
 | `src/404.html` | A plain "not found" page with links to the apps and the home page. Styled by `src/stil.css` |
 | `src/llms.txt` | Describes lernapps for AI assistants and points to the apps. Copied unchanged |
-| `scripts/check.mjs` | CI check on the build output: no external resources, no broken relative links (`/map/`, `/docs/`, `/mathe-karte/` are skipped, they belong to other repos) |
+| `scripts/check.mjs` | CI check on the build output: no external resources, no broken relative links (`/apps/`, `/docs/`, `/mathe-karte/` are skipped, they belong to other repos) |
 | `.github/workflows/pages.yml` | Job `check` (required status check): `npm ci`, build, check; on `main` the `deploy` job publishes `_site/` to the root of the `gh-pages` branch, which Pages serves |
 | `.github/workflows/pr-preview.yml` | A preview per pull request at `https://lernapps.net/pr-preview/pr-<number>/`, linked in a comment, removed on close. Built with `SITE_PATH_PREFIX` (own links get the prefix via the filter `own`) and `SITE_PREVIEW` (banner, `noindex`) |
 | `src/CNAME` | The custom domain `lernapps.net`; the `gh-pages` branch must carry it |
@@ -33,11 +33,6 @@ npm run dev                 # build, then serve http://localhost:8080/ with live
 ```
 
 Links to `/apps/`, `/docs/` and `/mathe-karte/` only resolve on the deployed origin. Links to pages of this repo go through the filter `own` (`eleventy.config.js`), so they also work in a preview.
-
-## No forwards
-
-Old addresses (the Mathe-Karte at the root until 2026-09-27, the map at `/map/`) are not forwarded: at
-this early stage nothing needs to stay compatible. `404.html` is a plain "not found" page.
 
 ## Brand mark
 
