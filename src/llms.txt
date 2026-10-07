@@ -4,6 +4,9 @@ Kleine, freie Lern-Apps für die Schule: im Browser, ohne Anmeldung, ohne Server
 
 ## Apps
 
+Alle Apps, mit Thema, Klasse und Direktlinks: https://lernapps.net/apps/
+Für KI: https://lernapps.net/apps/llms.txt (auch: wie man eine App einträgt)
+
 - Mathe-Karte (Mathematik, Sekundarstufe I, mit KI-Tutor): https://lernapps.net/mathe-karte/
   Für KI: https://lernapps.net/mathe-karte/llms.txt
 
