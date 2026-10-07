@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="robots" content="noindex">
+  <title>Seite nicht gefunden – lernapps</title>
+  <link rel="stylesheet" href="/stil.css">
+  <script>
+    // Die Mathe-Karte lag bis 27.09.2026 an der Wurzel (lernapps.github.io/binom/ …) und liegt jetzt unter
+    // /mathe-karte/. Schon geteilte Links, auch Deep Links des KI-Tutors mit ?seed=…&von=tutor, landen hier und
+    // werden samt Query und Anker weitergeleitet. Liste: ALTE_PFADE, siehe README.md.
+    (function () {
+      var ALTE_PFADE = /^\/(binom|prozent|zufall|karte|kern)(\/|$)/;
+      var pfad = location.pathname;
+      if (ALTE_PFADE.test(pfad)) {
+        location.replace("/mathe-karte" + pfad + location.search + location.hash);
+      }
+    })();
+  </script>
+</head>
+<body>
+  <header>
+    <p class="marke"><a href="/">lernapps</a></p>
+  </header>
+  <main id="inhalt">
+    <h1>Seite nicht gefunden</h1>
+    <p>Die Lern-Apps der Mathe-Karte sind umgezogen. Adressen, die mit
+      <code>https://lernapps.github.io/</code> begannen, beginnen jetzt mit
+      <code>https://lernapps.net/mathe-karte/</code>. Aus
+      <code>https://lernapps.github.io/binom/</code> wird also
+      <code>https://lernapps.net/mathe-karte/binom/</code>.</p>
+    <p><a href="/mathe-karte/">Zur Mathe-Karte</a> · <a href="/">Zur Startseite</a></p>
+  </main>
+</body>
+</html>

@@ -1,0 +1,14 @@
+# lernapps
+
+Kleine, freie Lern-Apps für die Schule: im Browser, ohne Anmeldung, ohne Server, ohne Tracking.
+
+## Apps
+
+- Mathe-Karte (Mathematik, Sekundarstufe I, mit KI-Tutor): https://lernapps.net/mathe-karte/
+  Für KI: https://lernapps.net/mathe-karte/llms.txt
+
+## Umzug am 27.09.2026
+
+Die Mathe-Karte lag bis zum 27.09.2026 unter https://lernapps.github.io/ und liegt jetzt unter
+https://lernapps.net/mathe-karte/. Aus https://lernapps.github.io/binom/tutor.md wird also
+https://lernapps.net/mathe-karte/binom/tutor.md, entsprechend für alle anderen Adressen.
