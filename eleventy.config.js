@@ -1,6 +1,5 @@
-// Builds src/ into _site/. Only Nunjucks files are templates; everything else (404.html with its
-// forwarding script, the "moved" stubs *.md/*.txt, llms.txt, stil.css, .nojekyll, the tab script)
-// is copied unchanged. Markdown stubs must NOT be rendered: AI tutors fetch them as plain files.
+// Builds src/ into _site/. Only Nunjucks files are templates; everything else (404.html, llms.txt,
+// stil.css, .nojekyll, the tab script, CNAME) is copied unchanged.
 export default function (eleventyConfig) {
   for (const path of [
     "src/CNAME", // custom domain; the gh-pages branch must carry it
@@ -10,10 +9,6 @@ export default function (eleventyConfig) {
     "src/stil.css",
     "src/start.css",
     "src/start.js",
-    "src/binom",
-    "src/prozent",
-    "src/zufall",
-    "src/karte",
     "src/favicon.svg",
     "src/favicon.ico",
     "src/apple-touch-icon.png",
@@ -28,7 +23,7 @@ export default function (eleventyConfig) {
   // Links to pages of this site get the path prefix: "/" in production, "/pr-preview/pr-<number>/" in a pull
   // request preview (pr-preview.yml). Paths served by other repos on the same origin stay as they are.
   const PREFIX = process.env.SITE_PATH_PREFIX ?? "/";
-  const OTHER_REPOS = ["/apps/", "/docs/", "/map/", "/mathe-karte/"];
+  const OTHER_REPOS = ["/apps/", "/docs/", "/mathe-karte/"];
   eleventyConfig.addFilter("own", (href) =>
     href.startsWith("/") && !OTHER_REPOS.some((p) => href.startsWith(p)) ? PREFIX + href.slice(1) : href,
   );
