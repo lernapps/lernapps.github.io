@@ -71,7 +71,7 @@ export default {
         story:
           "Gleich beginnt die Stunde. Du brauchst eine App zu genau diesem Thema. Bei lernapps.net suchst du nach Thema und Klassenstufe. Die App läuft sofort im Browser: ohne Installation und ohne Anmeldung.\n\nWir nehmen nur Apps auf, die ohne eigenen Server auskommen. Was deine Klasse eingibt, bleibt auf ihren Geräten.\n\nNach der Stunde kannst du mit einem Klick Danke sagen oder kurz rückmelden, wie es lief. Mehr brauchen wir nicht.",
         cta: "Apps finden",
-        ctaHref: "/map/#/apps",
+        ctaHref: "/apps/",
         tryIt: {
           label: "Ausprobieren:",
           linkText: "Mathe-Karte",
@@ -86,7 +86,7 @@ export default {
         story:
           "Heute Abend soll dein Kind noch üben. Bei lernapps.net findest du eine App zum Thema der Arbeit. Dein Kind kann sofort anfangen. Es braucht kein Konto, und niemand erfährt, wer es ist.\n\nWenn die App geholfen hat, sag Danke. Ein Klick genügt.",
         cta: "Apps finden",
-        ctaHref: "/map/#/apps",
+        ctaHref: "/apps/",
       },
       creator: {
         role: "Wenn du Apps baust",
@@ -94,8 +94,8 @@ export default {
         headline: "Du baust ohnehin. Wir machen es dir leichter.",
         story:
           "Du baust deine App ohnehin: für deine Klasse oder für dein Kind. lernapps.net macht dir das leichter. Du bekommst Anleitungen, mit denen dein KI-Assistent schneller eine App baut, die auch andere gut nutzen können.\n\nDeine App trägst du in wenigen Minuten ein. Du brauchst keine eigene Website und keine Werbung. Die App bleibt deine.\n\nWenn jemand deine App nutzt und auf „Danke“ klickt, erfährst du davon. So siehst du, wenn deine App einer anderen Klasse oder einem anderen Kind geholfen hat.\n\nWir fangen gerade erst an. Wenn du zu den Ersten gehören willst, mach mit.",
-        cta: "So machst du mit",
-        ctaHref: "https://github.com/lernapps/.github/blob/main/CONTRIBUTING.md",
+        cta: "Deine App eintragen",
+        ctaHref: "/apps/eintragen/",
       },
       learner: {
         role: "Wenn du selbst lernst",
@@ -104,7 +104,7 @@ export default {
         story:
           "Du willst den Stoff verstehen, zum Beispiel vor der nächsten Arbeit. Hier findest du kleine Apps, mit denen du selbst etwas ausprobierst. Du brauchst kein Konto. Wir wissen nicht, wer du bist.\n\nHat dir eine App geholfen? Klick auf „Danke“. Die Person, die sie gebaut hat, freut sich darüber.",
         cta: "Apps finden",
-        ctaHref: "/map/#/apps",
+        ctaHref: "/apps/",
         tryIt: {
           label: "Ausprobieren:",
           linkText: "Mathe-Karte",
@@ -179,7 +179,7 @@ export default {
       description:
         "Du baust Apps, du unterrichtest oder du willst üben? Probier lernapps.net aus. Und wenn dir eine App geholfen hat: Sag Danke.",
       primary: "Apps finden",
-      primaryHref: "/map/#/apps",
+      primaryHref: "/apps/",
       secondary: "Auf GitHub ansehen",
       secondaryHref: "https://github.com/lernapps",
     },
@@ -189,7 +189,7 @@ export default {
       homeLabel: "lernapps.net – Startseite",
       menuLabel: "Menü",
       links: [
-        { label: "Apps", href: "/map/#/apps" },
+        { label: "Apps", href: "/apps/" },
         { label: "So funktioniert's", href: "#so-funktioniert-es" },
         { label: "Plattform-Design", href: "/docs/platform-design/" },
         { label: "Mitmachen", href: "https://github.com/lernapps/.github/blob/main/CONTRIBUTING.md" },
@@ -202,6 +202,8 @@ export default {
       tagline: "lernapps.net — kleine Lern-Apps, die sofort laufen. Kostenlos, und am Leben gehalten durch Danke.",
       navAriaLabel: "Footer-Navigation",
       links: [
+        { label: "Apps finden", href: "/apps/" },
+        { label: "App eintragen", href: "/apps/eintragen/" },
         { label: "So funktioniert's", href: "#so-funktioniert-es" },
         { label: "Plattform-Design", href: "/docs/platform-design/" },
         { label: "Vision", href: "/docs/vision/" },
