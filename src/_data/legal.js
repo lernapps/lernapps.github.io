@@ -10,5 +10,5 @@ export default {
   email: "lernapps@beimir.net",
   emailMissing: "TODO-EMAIL",
   // Date of the current version of the privacy notice. Update on every change of content.
-  updated: { de: "28. September 2026", en: "28 September 2026" },
+  updated: { de: "7. Oktober 2026", en: "7 October 2026" },
 };

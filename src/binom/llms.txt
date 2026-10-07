@@ -1,6 +1,0 @@
-# Umgezogen
-
-Diese Datei liegt jetzt unter https://lernapps.net/mathe-karte/binom/llms.txt
-
-Alle Seiten dieser App liegen jetzt unter https://lernapps.net/mathe-karte/binom/
-statt unter https://lernapps.github.io/binom/.
