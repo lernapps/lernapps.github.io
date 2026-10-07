@@ -1,8 +1,9 @@
 name: Pages
 
-# Builds src/ with Eleventy + UnoCSS into _site/ and publishes it as the org root https://lernapps.github.io/.
-# Pages source must be "GitHub Actions": an <org>.github.io repo starts in branch mode; switch with
-#   gh api -X PUT repos/lernapps/lernapps.github.io/pages -f build_type=workflow
+# Builds src/ with Eleventy + UnoCSS into _site/, checks it, and on main publishes it to the gh-pages branch.
+# GitHub Pages serves that branch (Settings → Pages → Deploy from a branch → gh-pages, / (root)) at
+# https://lernapps.net/ (custom domain: src/CNAME). main lives at the root; pr-preview.yml puts each pull request's preview under
+# pr-preview/pr-<number>/, which this deployment leaves alone (clean-exclude).
 # Actions are pinned to full commit SHAs (same rule as mathe-karte, M-27); Dependabot bumps them.
 on:
   push:
@@ -29,9 +30,10 @@ jobs:
       - run: npm ci
       - run: npm run build
       - run: node scripts/check.mjs _site
-      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         if: github.ref == 'refs/heads/main'
         with:
+          name: site
           path: _site
 
   deploy:
@@ -39,11 +41,16 @@ jobs:
     needs: check
     runs-on: ubuntu-latest
     permissions:
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      contents: write
     steps:
-      - id: deployment
-        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: site
+          path: _site
+      - uses: JamesIves/github-pages-deploy-action@fa24774553152dd7873cd16ebd8d959b010c5445 # v4.9.0
+        with:
+          branch: gh-pages
+          folder: _site
+          clean-exclude: pr-preview/
+          force: false

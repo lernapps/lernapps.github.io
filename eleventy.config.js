@@ -3,6 +3,7 @@
 // is copied unchanged. Markdown stubs must NOT be rendered: AI tutors fetch them as plain files.
 export default function (eleventyConfig) {
   for (const path of [
+    "src/CNAME", // custom domain; the gh-pages branch must carry it
     "src/.nojekyll",
     "src/404.html",
     "src/llms.txt",
@@ -23,6 +24,14 @@ export default function (eleventyConfig) {
 
   // npm run dev: UnoCSS rewrites _site/uno.css after each Eleventy build; reload the browser for that too.
   eleventyConfig.setServerOptions({ watch: ["_site/uno.css"] });
+
+  // Links to pages of this site get the path prefix: "/" in production, "/pr-preview/pr-<number>/" in a pull
+  // request preview (pr-preview.yml). Paths served by other repos on the same origin stay as they are.
+  const PREFIX = process.env.SITE_PATH_PREFIX ?? "/";
+  const OTHER_REPOS = ["/apps/", "/docs/", "/map/", "/mathe-karte/"];
+  eleventyConfig.addFilter("own", (href) =>
+    href.startsWith("/") && !OTHER_REPOS.some((p) => href.startsWith(p)) ? PREFIX + href.slice(1) : href,
+  );
 
   // Texts in src/_data/de.js separate paragraphs with a blank line, as in the original.
   eleventyConfig.addFilter("paragraphs", (text) => String(text).split("\n\n"));
