@@ -14,8 +14,8 @@ The home page keeps the look of the former edugo landing page, as static HTML re
 | `src/start.css` | The few rules utilities don't cover (tab panel animation) |
 | `uno.config.js` | UnoCSS presets (wind4 + typography, as in the original); CSS is generated at build time into `_site/uno.css` |
 | `eleventy.config.js` | Eleventy: input `src/`, output `_site/`; only `.njk` are templates, everything else is copied as is |
-| `src/404.html` | Forwards old addresses of the Mathe-Karte (see below), otherwise a plain "not found" page. Styled by `src/stil.css` |
-| `src/{binom,prozent,zufall,karte}/*.{md,txt}`, `src/llms.txt` | "Moved" notes for AI tutors that fetch the old `tutor.md`/`llms.txt` addresses (fetchers don't run the JS in `404.html`). Copied unchanged, never rendered |
+| `src/404.html` | A plain "not found" page with links to the apps and the home page. Styled by `src/stil.css` |
+| `src/llms.txt` | Describes lernapps for AI assistants and points to the apps. Copied unchanged |
 | `scripts/check.mjs` | CI check on the build output: no external resources, no broken relative links (`/map/`, `/docs/`, `/mathe-karte/` are skipped, they belong to other repos) |
 | `.github/workflows/pages.yml` | Job `check` (required status check): `npm ci`, build, check; on `main` the `deploy` job publishes `_site/` to the root of the `gh-pages` branch, which Pages serves |
 | `.github/workflows/pr-preview.yml` | A preview per pull request at `https://lernapps.net/pr-preview/pr-<number>/`, linked in a comment, removed on close. Built with `SITE_PATH_PREFIX` (own links get the prefix via the filter `own`) and `SITE_PREVIEW` (banner, `noindex`) |
@@ -32,17 +32,12 @@ node scripts/check.mjs      # check _site/ (run after the build, before pushing)
 npm run dev                 # build, then serve http://localhost:8080/ with live reload (HTML and CSS)
 ```
 
-Links to `/apps/`, `/map/`, `/docs/` and `/mathe-karte/` only resolve on the deployed origin. Links to pages of this repo go through the filter `own` (`eleventy.config.js`), so they also work in a preview.
+Links to `/apps/`, `/docs/` and `/mathe-karte/` only resolve on the deployed origin. Links to pages of this repo go through the filter `own` (`eleventy.config.js`), so they also work in a preview.
 
-## Old addresses of the Mathe-Karte
+## No forwards
 
-Until 2026-09-27 the Mathe-Karte lived at the root (`lernapps.github.io/binom/…`). It now lives at `/mathe-karte/`. Tutor links with that old prefix are already in learners' chats, so this repo keeps them working:
-
-- **Browsers:** `404.html` forwards `/binom/`, `/prozent/`, `/zufall/`, `/karte/`, `/kern/` to `/mathe-karte/…`, keeping query and hash (e.g. `?seed=42&von=tutor`).
-- **AI tutors fetching files:** the stubs at the old `tutor.md`/`llms.txt` paths name the new address. The root `llms.txt` describes lernapps and points to the Mathe-Karte; it stays.
-- The old root `index.html` is now the lernapps home page, which links to the Mathe-Karte.
-
-Remove both once the old links have died out. Old `/docs/…` links are forwarded by the `404.html` of [lernapps/docs](https://github.com/lernapps/docs), which owns `/docs/` since 2026-09-27.
+Old addresses (the Mathe-Karte at the root until 2026-09-27, the map at `/map/`) are not forwarded: at
+this early stage nothing needs to stay compatible. `404.html` is a plain "not found" page.
 
 ## Brand mark
 
