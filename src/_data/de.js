@@ -1,5 +1,5 @@
 // All texts of the home page (German). Templates contain no copy of their own.
-// The story follows the platform design (https://lernapps.github.io/docs/platform-design/):
+// The story follows the platform design (https://lernapps.net/docs/platform-design/):
 // adults look for an app in an acute moment, people who build apps do it for their own class or child,
 // the platform is free and lives on thanks, and nothing is collected in secret.
 // Language: plain German (ISO 24495-1): short sentences, active voice, no jargon, "du".
