@@ -12,15 +12,21 @@
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>{{ title }} · lernapps.net</title>
   <meta name="description" content="{{ description }}">
-  <link rel="icon" href="/favicon.ico" sizes="32x32">
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-  <link rel="stylesheet" href="/uno.css">
+  {%- if site.preview %}
+  <meta name="robots" content="noindex">
+  {%- endif %}
+  <link rel="icon" href="{{ '/favicon.ico' | own }}" sizes="32x32">
+  <link rel="icon" href="{{ '/favicon.svg' | own }}" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="{{ '/apple-touch-icon.png' | own }}">
+  <link rel="stylesheet" href="{{ '/uno.css' | own }}">
 </head>
 <body class="bg-white text-slate-800" style="font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;">
+  {%- if site.preview %}
+  <p class="m-0 px-4 py-2 text-center text-sm bg-amber-300 text-slate-900">{{ de.meta.preview }} <a href="https://lernapps.net{{ page.url }}" class="underline">lernapps.net{{ page.url }}</a></p>
+  {%- endif %}
   <header class="bg-slate-900 text-white">
     <div class="max-w-3xl mx-auto px-6 py-4 flex flex-wrap items-center justify-between gap-4">
-      <a href="/" class="flex items-end gap-[14px] leading-none font-semibold tracking-tight"><img src="/brand/mark-plain.svg" alt="" style="height: 1.25em; margin-bottom: -.12em;"><span>lernapps<span class="text-blue-400">.net</span></span></a>
+      <a href="{{ '/' | own }}" class="flex items-end gap-[14px] leading-none font-semibold tracking-tight"><img src="{{ '/brand/mark-plain.svg' | own }}" alt="" style="height: 1.25em; margin-bottom: -.12em;"><span>lernapps<span class="text-blue-400">.net</span></span></a>
       <nav aria-label="Sprache / Language">
         <ul class="flex gap-4 list-none p-0 m-0 text-sm">
           <li><a href="#de" hreflang="de" class="text-slate-300 hover:text-white">Deutsch</a></li>
@@ -37,9 +43,9 @@
   <footer class="bg-slate-900 text-slate-400 py-8">
     <nav class="max-w-3xl mx-auto px-6" aria-label="Rechtliches / Legal">
       <ul class="flex flex-wrap gap-4 list-none p-0 m-0 text-xs">
-        <li><a href="/" class="hover:text-white">Startseite / Home</a></li>
-        <li><a href="/privacy/" class="hover:text-white">Datenschutz / Privacy</a></li>
-        <li><a href="/imprint/" class="hover:text-white">Impressum / Imprint</a></li>
+        <li><a href="{{ '/' | own }}" class="hover:text-white">Startseite / Home</a></li>
+        <li><a href="{{ '/privacy/' | own }}" class="hover:text-white">Datenschutz / Privacy</a></li>
+        <li><a href="{{ '/imprint/' | own }}" class="hover:text-white">Impressum / Imprint</a></li>
       </ul>
     </nav>
   </footer>

@@ -17,7 +17,9 @@ The home page keeps the look of the former edugo landing page, as static HTML re
 | `src/404.html` | Forwards old addresses of the Mathe-Karte (see below), otherwise a plain "not found" page. Styled by `src/stil.css` |
 | `src/{binom,prozent,zufall,karte}/*.{md,txt}`, `src/llms.txt` | "Moved" notes for AI tutors that fetch the old `tutor.md`/`llms.txt` addresses (fetchers don't run the JS in `404.html`). Copied unchanged, never rendered |
 | `scripts/check.mjs` | CI check on the build output: no external resources, no broken relative links (`/map/`, `/docs/`, `/mathe-karte/` are skipped, they belong to other repos) |
-| `.github/workflows/pages.yml` | Job `check` (required status check): `npm ci`, build, check; on `main` it uploads `_site/` and the `deploy` job publishes it |
+| `.github/workflows/pages.yml` | Job `check` (required status check): `npm ci`, build, check; on `main` the `deploy` job publishes `_site/` to the root of the `gh-pages` branch, which Pages serves |
+| `.github/workflows/pr-preview.yml` | A preview per pull request at `https://lernapps.net/pr-preview/pr-<number>/`, linked in a comment, removed on close. Built with `SITE_PATH_PREFIX` (own links get the prefix via the filter `own`) and `SITE_PREVIEW` (banner, `noindex`) |
+| `src/CNAME` | The custom domain `lernapps.net`; the `gh-pages` branch must carry it |
 
 Rules for the page (org-wide): no external requests (system fonts, no CDNs), `referrer` meta, `lang="de"`, skip link, WCAG 2.1 AA contrast, no horizontal scrolling at 360 px, all content readable without JavaScript.
 
@@ -30,7 +32,7 @@ node scripts/check.mjs      # check _site/ (run after the build, before pushing)
 npm run dev                 # build, then serve http://localhost:8080/ with live reload (HTML and CSS)
 ```
 
-Links to `/map/`, `/docs/` and `/mathe-karte/` only resolve on the deployed origin.
+Links to `/apps/`, `/map/`, `/docs/` and `/mathe-karte/` only resolve on the deployed origin. Links to pages of this repo go through the filter `own` (`eleventy.config.js`), so they also work in a preview.
 
 ## Old addresses of the Mathe-Karte
 

@@ -8,7 +8,9 @@ import legal from "../src/_data/legal.js";
 
 const ROOT = resolve(process.argv[2] ?? "_site");
 // Paths on this origin served by other repos (checked there): map, docs, Mathe-Karte.
-const OTHER_REPOS = ["/map/", "/docs/", "/mathe-karte"];
+const OTHER_REPOS = ["/apps/", "/map/", "/docs/", "/mathe-karte"];
+// "/" in production; "/pr-preview/pr-<number>/" in a pull request preview (pr-preview.yml).
+const PREFIX = process.env.SITE_PATH_PREFIX ?? "/";
 const OWN_ORIGIN = "https://lernapps.net/";
 const errors = [];
 
@@ -28,6 +30,9 @@ for (const file of files(ROOT)) {
   const text = readFileSync(file, "utf8");
   const rel = file.slice(ROOT.length + 1);
 
+  // 404.html only acts at the root of the origin (production); in a preview it is a plain copy.
+  if (PREFIX !== "/" && rel === "404.html") continue;
+
   if (file.endsWith(".html")) {
     // Legal pages must not go live with missing contact data (src/_data/legal.js).
     if (text.includes(legal.emailMissing)) errors.push(`${rel}: contact email missing (set email in src/_data/legal.js)`);
@@ -43,9 +48,15 @@ for (const file of files(ROOT)) {
       const url = m[1];
       if (/^[a-z]+:/i.test(url) || url.startsWith("//")) continue;
       // Root-relative, or relative from a file at the root (e.g. "mathe-karte/" in index.html).
-      const fromRoot = url.startsWith("/") ? url : "/" + url.replace(/^\.\//, "");
+      // In a preview, own links carry the prefix; a root link without it would leave the preview.
+      if (PREFIX !== "/" && url.startsWith("/") && !url.startsWith(PREFIX) && !OTHER_REPOS.some((p) => url.startsWith(p))) {
+        errors.push(`${rel}: link "${url}" leaves the preview (use the "own" filter)`);
+        continue;
+      }
+      const own = url.startsWith(PREFIX) ? "/" + url.slice(PREFIX.length) : url;
+      const fromRoot = own.startsWith("/") ? own : "/" + own.replace(/^\.\//, "");
       if (OTHER_REPOS.some((p) => fromRoot.startsWith(p))) continue;
-      const target = url.startsWith("/") ? join(ROOT, url) : join(dirname(file), url);
+      const target = own.startsWith("/") ? join(ROOT, own) : join(dirname(file), own);
       const exists = existsSync(target) && (statSync(target).isFile() || existsSync(join(target, "index.html")));
       if (!exists) errors.push(`${rel}: broken link "${url}"`);
     }

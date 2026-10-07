@@ -9,6 +9,7 @@ export default {
     description:
       "lernapps.net hilft, kleine Lern-Apps zu finden, die sofort laufen: kostenlos, ohne Anmeldung und ohne heimliche Datensammlung. Und es hilft allen, die solche Apps bauen.",
     skipLink: "Zum Inhalt springen",
+    preview: "Vorschau einer Änderung. Die echte Seite:",
   },
 
   landing: {
