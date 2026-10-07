@@ -8,7 +8,7 @@ import legal from "../src/_data/legal.js";
 
 const ROOT = resolve(process.argv[2] ?? "_site");
 // Paths on this origin served by other repos (checked there): map, docs, Mathe-Karte.
-const OTHER_REPOS = ["/apps/", "/map/", "/docs/", "/mathe-karte"];
+const OTHER_REPOS = ["/apps/", "/docs/", "/mathe-karte"];
 // "/" in production; "/pr-preview/pr-<number>/" in a pull request preview (pr-preview.yml).
 const PREFIX = process.env.SITE_PATH_PREFIX ?? "/";
 const OWN_ORIGIN = "https://lernapps.net/";
