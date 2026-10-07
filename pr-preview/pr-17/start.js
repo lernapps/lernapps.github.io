@@ -1,7 +1,7 @@
 // Persona tabs of the home page (progressive enhancement, no framework).
 //
 // Without this script every persona's problem quote and solution card is shown, stacked, each with its
-// role heading. With it they become the tabs of the former edugo landing page:
+// role heading. With it they become tabs:
 // - two tablists (problems in the hero, solutions further down) share one selected persona;
 // - WAI-ARIA tabs pattern: tablist/tab/tabpanel, roving tabindex, ArrowLeft/ArrowRight, Home/End;
 // - the problem tabs auto-advance every 5 s with a progress bar, like the original. Auto-advance stops
