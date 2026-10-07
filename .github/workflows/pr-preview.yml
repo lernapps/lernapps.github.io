@@ -18,8 +18,8 @@ concurrency:
 jobs:
   preview:
     runs-on: ubuntu-latest
-    # Pull requests from forks get a read-only token and cannot push to gh-pages.
-    if: github.event.pull_request.head.repo.full_name == github.repository
+    # Pull requests from forks and from Dependabot get a read-only token and cannot push to gh-pages.
+    if: github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.user.login != 'dependabot[bot]'
     env:
       SITE_PATH_PREFIX: /pr-preview/pr-${{ github.event.pull_request.number }}/
       SITE_PREVIEW: "1"
