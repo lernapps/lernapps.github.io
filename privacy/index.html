@@ -7,24 +7,28 @@
   <title>Datenschutz / Privacy · lernapps.net</title>
   <meta name="description" content="Datenschutzerklärung von lernapps.net – keine Cookies, kein Tracking, keine Konten. Privacy notice of lernapps.net – no cookies, no tracking, no accounts.">
   <link rel="icon" href="/favicon.ico" sizes="32x32">
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/lernapps-tokens.css">
+<link rel="stylesheet" href="/lernapps-frame.css">
   <link rel="stylesheet" href="/uno.css">
 </head>
 <body class="bg-white text-slate-800" style="font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;">
-  <header class="bg-slate-900 text-white">
-    <div class="max-w-3xl mx-auto px-6 py-4 flex flex-wrap items-center justify-between gap-4">
-      <a href="/" class="flex items-end gap-[14px] leading-none font-semibold tracking-tight"><img src="/brand/mark-plain.svg" alt="" style="height: 1.25em; margin-bottom: -.12em;"><span>lernapps<span class="text-blue-400">.net</span></span></a>
-      <nav aria-label="Sprache / Language">
-        <ul class="flex gap-4 list-none p-0 m-0 text-sm">
-          <li><a href="#de" hreflang="de" class="text-slate-300 hover:text-white">Deutsch</a></li>
-          <li><a href="#en" hreflang="en" lang="en" class="text-slate-300 hover:text-white">English</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+  <a class="la-skip" href="#main-content">Zum Inhalt springen</a>
+<header class="la-header">
+  <div class="la-header__inner">
+    <a class="la-brand" href="/" aria-label="lernapps.net – Startseite"><img src="/brand/mark-plain.svg" alt=""><span>lernapps<span class="la-brand__tld">.net</span></span></a>
+    <nav class="la-nav" aria-label="Hauptnavigation"><ul><li><a href="/apps/">Apps finden</a></li><li><a href="/apps/eintragen/">App eintragen</a></li><li><a href="/docs/">So ist es gedacht</a></li><li><a href="https://github.com/lernapps/.github/blob/main/CONTRIBUTING.md" rel="noopener">Mitmachen</a></li></ul></nav>
+  </div>
+</header>
+  <nav aria-label="Sprache / Language" class="max-w-3xl mx-auto px-6 pt-6">
+    <ul class="flex gap-4 list-none p-0 m-0 text-sm">
+      <li><a href="#de" hreflang="de" class="text-blue-700 underline">Deutsch</a></li>
+      <li><a href="#en" hreflang="en" lang="en" class="text-blue-700 underline">English</a></li>
+    </ul>
+  </nav>
 
-  <main id="main-content" class="max-w-3xl mx-auto px-6 py-12 prose prose-slate">
+  <main id="main-content" tabindex="-1" class="max-w-3xl mx-auto px-6 py-8 prose prose-slate outline-none">
     <section lang="de" id="de">
   <h1>Datenschutzerklärung</h1>
   <p>Stand: 7. Oktober 2026 · <a href="#en" hreflang="en" lang="en">English version below</a></p>
@@ -135,14 +139,11 @@
 
   </main>
 
-  <footer class="bg-slate-900 text-slate-400 py-8">
-    <nav class="max-w-3xl mx-auto px-6" aria-label="Rechtliches / Legal">
-      <ul class="flex flex-wrap gap-4 list-none p-0 m-0 text-xs">
-        <li><a href="/" class="hover:text-white">Startseite / Home</a></li>
-        <li><a href="/privacy/" class="hover:text-white">Datenschutz / Privacy</a></li>
-        <li><a href="/imprint/" class="hover:text-white">Impressum / Imprint</a></li>
-      </ul>
-    </nav>
-  </footer>
+  <footer class="la-footer">
+  <div class="la-footer__inner">
+    <p>lernapps.net ist kostenlos und ohne Werbung. Es lebt von deinem Danke.</p>
+    <nav aria-label="Fußzeile"><ul><li><a href="/privacy/">Datenschutz</a></li><li><a href="/imprint/">Impressum</a></li><li><a href="/docs/platform-design/">Plattform-Design</a></li><li><a href="https://github.com/lernapps/lernapps.github.io">Quellcode</a></li></ul></nav>
+  </div>
+</footer>
 </body>
 </html>
