@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Puts the shared chrome into HTML that was not built with Eleventy (the docs: biz42, pdt42, vision):
-// head links before </head>, skip link, banner and header after <body>, footer before </body>, and copies
+// head links (and noindex in a preview) before </head>, skip link, banner and header after <body>, footer before </body>, and copies
 // the stylesheets into the output folder. Idempotent: a page that has the chrome already is left alone.
 //
 //   lernapps-chrome --site /docs/ --source https://github.com/lernapps/docs --out _site [--main id]
@@ -43,7 +43,7 @@ for (const file of files(a.out)) {
   const main = a.main ?? html.match(/<main[^>]*\bid="([^"]+)"/i)?.[1];
   const anchor = main ? "" : '\n<div id="main-content" tabindex="-1"></div>';
   html = html
-    .replace(/<\/head>/i, `${MARK}\n${head({ site, prefix })}\n</head>`)
+    .replace(/<\/head>/i, `${MARK}\n${preview ? '<meta name="robots" content="noindex">\n' : ""}${head({ site, prefix })}\n</head>`)
     .replace(/<body[^>]*>/i, (body) => `${body}\n${header({ site, prefix, path, preview, main: main ?? "main-content" })}${anchor}`)
     .replace(/<\/body>(?![\s\S]*<\/body>)/i, `${footer({ site, prefix, source: a.source })}\n</body>`);
   writeFileSync(file, html);
