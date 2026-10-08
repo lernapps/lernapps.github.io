@@ -8,8 +8,6 @@ export default {
     title: "lernapps.net — kleine Lern-Apps, kostenlos und ohne Anmeldung",
     description:
       "lernapps.net hilft, kleine Lern-Apps zu finden, die sofort laufen: kostenlos, ohne Anmeldung und ohne heimliche Datensammlung. Und es hilft allen, die solche Apps bauen.",
-    skipLink: "Zum Inhalt springen",
-    preview: "Vorschau einer Änderung. Die echte Seite:",
   },
 
   landing: {
@@ -182,38 +180,6 @@ export default {
       primaryHref: "/apps/",
       secondary: "Auf GitHub ansehen",
       secondaryHref: "https://github.com/lernapps",
-    },
-
-    nav: {
-      ariaLabel: "Hauptnavigation",
-      homeLabel: "lernapps.net – Startseite",
-      menuLabel: "Menü",
-      links: [
-        { label: "Apps", href: "/apps/" },
-        { label: "So funktioniert's", href: "#so-funktioniert-es" },
-        { label: "Plattform-Design", href: "/docs/platform-design/" },
-        { label: "Mitmachen", href: "https://github.com/lernapps/.github/blob/main/CONTRIBUTING.md" },
-        { label: "GitHub", href: "https://github.com/lernapps" },
-      ],
-    },
-
-    footer: {
-      brand: "lernapps.net",
-      tagline: "lernapps.net — kleine Lern-Apps, die sofort laufen. Kostenlos, und am Leben gehalten durch Danke.",
-      navAriaLabel: "Footer-Navigation",
-      links: [
-        { label: "Apps finden", href: "/apps/" },
-        { label: "App eintragen", href: "/apps/eintragen/" },
-        { label: "So funktioniert's", href: "#so-funktioniert-es" },
-        { label: "Plattform-Design", href: "/docs/platform-design/" },
-        { label: "Vision", href: "/docs/vision/" },
-        { label: "Dokumentation", href: "/docs/" },
-        { label: "Beitragen", href: "https://github.com/lernapps/.github/blob/main/CONTRIBUTING.md" },
-        { label: "GitHub", href: "https://github.com/lernapps" },
-        { label: "Datenschutz", href: "/privacy/" },
-        { label: "Impressum", href: "/imprint/" },
-      ],
-      dsgvo: "Keine Cookies, kein Tracking, keine Konten.",
     },
   },
 };
