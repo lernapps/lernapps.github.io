@@ -4,7 +4,7 @@ name: Pages
 # GitHub Pages serves that branch (Settings → Pages → Deploy from a branch → gh-pages, / (root)) at
 # https://lernapps.net/ (custom domain: src/CNAME). main lives at the root; pr-preview.yml puts each pull request's preview under
 # pr-preview/pr-<number>/, which this deployment leaves alone (clean-exclude).
-# Actions are pinned to full commit SHAs (same rule as mathe-karte, M-27); Dependabot bumps them.
+# Actions are pinned to full commit SHAs (same rule as mathe-karte, M-27); Renovate bumps them (renovate.json).
 on:
   push:
     branches: [main]
