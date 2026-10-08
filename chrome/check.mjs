@@ -46,7 +46,9 @@ const exists = (p) => existsSync(p) && (statSync(p).isFile() || existsSync(join(
 for (const file of files(ROOT)) {
   const rel = file.slice(ROOT.length + 1);
   if (!/\.(html|css)$/.test(rel)) continue;
-  const text = readFileSync(file, "utf8");
+  const raw = readFileSync(file, "utf8");
+  // Inline scripts are code, not markup: strings like `<img src="${x}">` in them are not links.
+  const text = rel.endsWith(".html") ? raw.replace(/(<script\b[^>]*>)[\s\S]*?<\/script>/gi, "$1</script>") : raw;
 
   if (rel.endsWith(".css")) {
     for (const m of text.matchAll(/url\(\s*["']?([^"')]+)/gi)) {
