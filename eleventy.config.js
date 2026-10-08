@@ -1,10 +1,10 @@
 // Builds src/ into _site/. Only Nunjucks files are templates; everything else (llms.txt, .nojekyll,
 // the tab script, CNAME, brand) is copied unchanged.
-// Header, footer and the filter "own" come from the shared chrome (chrome/, also used by apps and docs).
-import chrome from "./chrome/eleventy.js";
+// Header, footer and the filter "own" come from the shared site frame (site-frame/, also used by apps and docs).
+import siteFrame from "./site-frame/eleventy.js";
 
 export default function (eleventyConfig) {
-  eleventyConfig.addPlugin(chrome, { site: "/", source: "https://github.com/lernapps/lernapps.github.io" });
+  eleventyConfig.addPlugin(siteFrame, { site: "/", source: "https://github.com/lernapps/lernapps.github.io" });
 
   for (const path of [
     "src/CNAME", // custom domain; the gh-pages branch must carry it

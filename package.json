@@ -2,25 +2,25 @@
   "name": "@lernapps/site",
   "private": true,
   "type": "module",
-  "description": "Home page of lernapps.net, and the shared chrome of all its sites (design tokens, header, footer, checks)",
+  "description": "Home page of lernapps.net, and the site frame shared by all its sites (design tokens, header, footer, checks)",
   "exports": {
-    "./chrome": "./chrome/chrome.js",
-    "./nav": "./chrome/nav.js",
-    "./eleventy": "./chrome/eleventy.js",
-    "./tokens.css": "./chrome/tokens.css",
-    "./chrome.css": "./chrome/chrome.css"
+    "./frame": "./site-frame/frame.js",
+    "./nav": "./site-frame/nav.js",
+    "./eleventy": "./site-frame/eleventy.js",
+    "./tokens.css": "./site-frame/tokens.css",
+    "./frame.css": "./site-frame/frame.css"
   },
   "bin": {
-    "lernapps-chrome": "chrome/inject.mjs",
-    "lernapps-check": "chrome/check.mjs"
+    "lernapps-frame": "site-frame/inject.mjs",
+    "lernapps-check": "site-frame/check.mjs"
   },
   "files": [
-    "chrome/"
+    "site-frame/"
   ],
   "scripts": {
     "dev": "npm run build && (eleventy --serve --quiet & unocss \"_site/**/*.html\" --out-file _site/uno.css --watch; wait)",
     "build": "eleventy && unocss \"_site/**/*.html\" --out-file _site/uno.css --minify",
-    "check": "node chrome/check.mjs --site / --forbid TODO-EMAIL"
+    "check": "node site-frame/check.mjs --site / --forbid TODO-EMAIL"
   },
   "devDependencies": {
     "@11ty/eleventy": "3.1.6",
