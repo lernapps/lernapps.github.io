@@ -1,8 +1,8 @@
-// Renders the chrome of every lernapps.net site as HTML strings: skip link, preview banner, header with the
+// Renders the site frame of every lernapps.net site as HTML strings: skip link, preview banner, header with the
 // shared navigation, footer with privacy notice and imprint (required on every page). No dependencies, so
 // it runs in Eleventy (eleventy.js) and in plain build scripts (inject.mjs).
 //
-//   import { head, header, footer } from "@lernapps/site/chrome";
+//   import { head, header, footer } from "@lernapps/site/frame";
 //   header({ site: "/apps/", path: "/apps/eintragen/", prefix: "/apps/" })
 //
 // site: the path prefix this repo is served at on lernapps.net ("/", "/apps/", "/docs/").
@@ -36,9 +36,9 @@ const currentHref = (path) =>
     .sort((a, b) => b.length - a.length)[0];
 
 /** The files a site serves next to its pages: source in this folder → published name. */
-export const STYLES = { "tokens.css": "lernapps-tokens.css", "chrome.css": "lernapps-chrome.css" };
+export const STYLES = { "tokens.css": "lernapps-tokens.css", "frame.css": "lernapps-frame.css" };
 
-/** For <head>: icons (served by the home site), the tokens and the chrome's stylesheet. */
+/** For <head>: icons (served by the home site), the tokens and the site frame's stylesheet. */
 export function head({ site = "/", prefix = site } = {}) {
   return [
     '<link rel="icon" href="/favicon.ico" sizes="32x32">',

@@ -1,9 +1,9 @@
 #!/usr/bin/env node
-// Puts the shared chrome into HTML that was not built with Eleventy (the docs: biz42, pdt42, vision):
+// Puts the shared site frame into HTML that was not built with Eleventy (the docs: biz42, pdt42, vision):
 // head links (and noindex in a preview) before </head>, skip link, banner and header after <body>, footer before </body>, and copies
-// the stylesheets into the output folder. Idempotent: a page that has the chrome already is left alone.
+// the stylesheets into the output folder. Idempotent: a page that has the site frame already is left alone.
 //
-//   lernapps-chrome --site /docs/ --source https://github.com/lernapps/docs --out _site [--main id]
+//   lernapps-frame --site /docs/ --source https://github.com/lernapps/docs --out _site [--main id]
 //
 // Takes every *.html below --out. Prefix and preview come from SITE_PATH_PREFIX and SITE_PREVIEW.
 // The page path for the current navigation entry is site + the file's folder.
@@ -11,19 +11,19 @@ import { readFileSync, writeFileSync, readdirSync, copyFileSync } from "node:fs"
 import { join, relative, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseArgs } from "node:util";
-import { head, header, footer, STYLES } from "./chrome.js";
+import { head, header, footer, STYLES } from "./frame.js";
 
 const { values: a } = parseArgs({
   options: { site: { type: "string" }, source: { type: "string" }, out: { type: "string" }, main: { type: "string" } },
 });
 if (!a.site || !a.out) {
-  console.error("usage: lernapps-chrome --site /docs/ --out _site [--source <repo url>] [--main <id>]");
+  console.error("usage: lernapps-frame --site /docs/ --out _site [--source <repo url>] [--main <id>]");
   process.exit(2);
 }
 const site = a.site;
 const prefix = process.env.SITE_PATH_PREFIX ?? site;
 const preview = Boolean(process.env.SITE_PREVIEW);
-const MARK = "<!-- lernapps-chrome -->";
+const MARK = "<!-- lernapps-frame -->";
 
 const here = dirname(fileURLToPath(import.meta.url));
 for (const [src, out] of Object.entries(STYLES)) copyFileSync(join(here, src), join(a.out, out));
@@ -49,4 +49,4 @@ for (const file of files(a.out)) {
   writeFileSync(file, html);
   n++;
 }
-console.log(`lernapps-chrome: ${n} pages in ${a.out}`);
+console.log(`lernapps-frame: ${n} pages in ${a.out}`);

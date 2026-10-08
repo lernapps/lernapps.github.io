@@ -1,4 +1,4 @@
-# Shared chrome of lernapps.net
+# Shared site frame of lernapps.net
 
 Every site on lernapps.net (home, `/apps/`, `/docs/`, and apps that want to look like part of it) uses the
 same design tokens, header, footer and checks. They live here, in the home site's repo, and are used as an
@@ -17,11 +17,11 @@ a change to the navigation or the tokens with its next update pull request.
 | File | What it is |
 |---|---|
 | `tokens.css` | Design tokens as CSS custom properties (`--la-*`): brand colours, text, links, font, widths |
-| `chrome.css` | Header, footer, skip link and preview banner, plain CSS on the tokens (class prefix `la-`) |
+| `frame.css` | Header, footer, skip link and preview banner, plain CSS on the tokens (class prefix `la-`) |
 | `nav.js` | The navigation and footer links of all sites, and which path belongs to which repo (`SITES`) |
-| `chrome.js` | `head()`, `header()`, `footer()` and `link()`: render the chrome as HTML strings |
+| `frame.js` | `head()`, `header()`, `footer()` and `link()`: render the site frame as HTML strings |
 | `eleventy.js` | Eleventy plugin: shortcodes `laHead`, `laHeader`, `laFooter`, filter `own`, copies the CSS |
-| `inject.mjs` | CLI `lernapps-chrome` for sites not built with Eleventy (docs): adds the chrome to built HTML |
+| `inject.mjs` | CLI `lernapps-frame` for sites not built with Eleventy (docs): adds the site frame to built HTML |
 | `check.mjs` | CLI `lernapps-check`: the deploy check of every site (no external resources, links, privacy notice and imprint linked) |
 
 ## Use it
@@ -30,8 +30,8 @@ Eleventy site, served at `/apps/`:
 
 ```js
 // eleventy.config.js
-import chrome from "@lernapps/site/eleventy";
-eleventyConfig.addPlugin(chrome, { site: "/apps/", source: "https://github.com/lernapps/apps" });
+import siteFrame from "@lernapps/site/eleventy";
+eleventyConfig.addPlugin(siteFrame, { site: "/apps/", source: "https://github.com/lernapps/apps" });
 ```
 
 ```njk
@@ -43,7 +43,7 @@ eleventyConfig.addPlugin(chrome, { site: "/apps/", source: "https://github.com/l
 </body>
 ```
 
-Built HTML (docs): `lernapps-chrome --site /docs/ --source https://github.com/lernapps/docs --out _site`.
+Built HTML (docs): `lernapps-frame --site /docs/ --source https://github.com/lernapps/docs --out _site`.
 
 Check before deploy: `lernapps-check --site /apps/` (`--out _site` is the default).
 

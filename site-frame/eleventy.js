@@ -1,19 +1,19 @@
-// Eleventy plugin for the shared chrome. Usage in eleventy.config.js:
+// Eleventy plugin for the shared site frame. Usage in eleventy.config.js:
 //
-//   import chrome from "@lernapps/site/eleventy";
-//   eleventyConfig.addPlugin(chrome, { site: "/apps/", source: "https://github.com/lernapps/apps" });
+//   import siteFrame from "@lernapps/site/eleventy";
+//   eleventyConfig.addPlugin(siteFrame, { site: "/apps/", source: "https://github.com/lernapps/apps" });
 //
 // Then in a layout: {% laHead %} in <head>, {% laHeader page.url %} after <body>, {% laFooter %} before
 // </body>, and <main id="main-content">. The build's prefix comes from SITE_PATH_PREFIX (pull request
-// previews), the banner from SITE_PREVIEW. Adds the filter "own" for links (see link() in chrome.js) and
-// copies tokens.css and chrome.css next to the site (STYLES).
+// previews), the banner from SITE_PREVIEW. Adds the filter "own" for links (see link() in frame.js) and
+// copies tokens.css and frame.css next to the site (STYLES).
 import { relative, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { head, header, footer, link, STYLES } from "./chrome.js";
+import { head, header, footer, link, STYLES } from "./frame.js";
 
 const here = relative(process.cwd(), dirname(fileURLToPath(import.meta.url))) || ".";
 
-export default function chrome(eleventyConfig, { site = "/", source } = {}) {
+export default function siteFrame(eleventyConfig, { site = "/", source } = {}) {
   const prefix = process.env.SITE_PATH_PREFIX ?? site;
   const preview = Boolean(process.env.SITE_PREVIEW);
   const opts = { site, prefix };

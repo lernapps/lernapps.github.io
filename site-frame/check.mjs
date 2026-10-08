@@ -13,7 +13,7 @@
 import { readFileSync, readdirSync, existsSync, statSync } from "node:fs";
 import { join, dirname, resolve } from "node:path";
 import { parseArgs } from "node:util";
-import { siteOf, link, SHARED_ASSETS } from "./chrome.js";
+import { siteOf, link, SHARED_ASSETS } from "./frame.js";
 
 const { values: a } = parseArgs({
   options: {
