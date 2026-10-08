@@ -2,7 +2,9 @@
 
 Home page of the lernapps organisation (brand: lernapps.net), served at <https://lernapps.net/> (custom domain; <https://lernapps.github.io/> redirects there).
 
-The home page is static HTML, readable without JavaScript. Its story follows the [platform design](https://lernapps.net/docs/platform-design/) (agents: see the skill [`skills/pdt`](https://github.com/lernapps/docs/tree/main/skills/pdt) in lernapps/docs): problems and portraits for teachers, parents, people who build apps and learners; the principles (free, open counting instead of tracking, thanks as what keeps it alive); why it is free, with a personal word; and an honest answer for sceptics that links to the design. It links to the sites that live in other repos on the same origin: the app overview (`/apps/`), the docs (`/docs/`) and the Mathe-Karte (`/mathe-karte/`). It does **not** list apps itself; that is the job of the map. See [ORGANIZATION.md](https://github.com/lernapps/.github/blob/main/ORGANIZATION.md) for the target structure.
+The home page is static HTML, readable without JavaScript. Its story follows the [platform design](https://lernapps.net/docs/platform-design/) (agents: see the skill [`skills/pdt`](https://github.com/lernapps/docs/tree/main/skills/pdt) in lernapps/docs): problems and portraits for teachers, parents, people who build apps and learners; the principles (free, open counting instead of tracking, thanks as what keeps it alive); why it is free, with a personal word; and an honest answer for sceptics that links to the design. It links to the sites that live in other repos on the same origin: the app overview (`/apps/`), the docs (`/docs/`) and the Mathe-Karte (`/mathe-karte/`). It does **not** list apps itself; that is the job of the app overview in [lernapps/apps](https://github.com/lernapps/apps). See [ORGANIZATION.md](https://github.com/lernapps/.github/blob/main/ORGANIZATION.md) for how the repos fit together.
+
+This repo also holds the **shared chrome of all sites** on lernapps.net: design tokens, header with the common navigation, footer, and the deploy check, in [`chrome/`](chrome/README.md). The sites use it as the npm package `@lernapps/site`, straight from git.
 
 ## Layout
 
@@ -14,11 +16,11 @@ The home page is static HTML, readable without JavaScript. Its story follows the
 | `src/start.css` | The few rules utilities don't cover (tab panel animation) |
 | `uno.config.js` | UnoCSS presets (wind4 + typography, as in the original); CSS is generated at build time into `_site/uno.css` |
 | `eleventy.config.js` | Eleventy: input `src/`, output `_site/`; only `.njk` are templates, everything else is copied as is |
-| `src/404.html` | A plain "not found" page with links to the apps and the home page. Styled by `src/stil.css` |
+| `src/404.njk` | The "not found" page of the whole origin, with the shared chrome |
 | `src/llms.txt` | Describes lernapps for AI assistants and points to the apps. Copied unchanged |
-| `scripts/check.mjs` | CI check on the build output: no external resources, no broken relative links (`/apps/`, `/docs/`, `/mathe-karte/` are skipped, they belong to other repos) |
-| `.github/workflows/pages.yml` | Job `check` (required status check): `npm ci`, build, check; on `main` the `deploy` job publishes `_site/` to the root of the `gh-pages` branch, which Pages serves |
-| `.github/workflows/pr-preview.yml` | A preview per pull request at `https://lernapps.net/pr-preview/pr-<number>/`, linked in a comment, removed on close. Built with `SITE_PATH_PREFIX` (own links get the prefix via the filter `own`) and `SITE_PREVIEW` (banner, `noindex`) |
+| `chrome/` | Shared chrome of all sites (tokens, header, footer, Eleventy plugin, `lernapps-check`); see [chrome/README.md](chrome/README.md) |
+| `.github/workflows/pages.yml` | Job `check` (required status check): `npm ci`, build, check; on `main` the `deploy` job publishes `_site/` to the root of the `gh-pages` branch, which Pages serves. The steps are the shared site actions of [lernapps/tooling](https://github.com/lernapps/tooling), the same for every site |
+| `.github/workflows/pr-preview.yml` | A preview per pull request at `https://lernapps.net/pr-preview/pr-<number>/`, linked in a comment, removed on close (shared action `site-preview`). Built with `SITE_PATH_PREFIX` (own links get the prefix via the filter `own`) and `SITE_PREVIEW` (banner, `noindex`) |
 | `src/CNAME` | The custom domain `lernapps.net`; the `gh-pages` branch must carry it |
 
 Rules for the page (org-wide): no external requests (system fonts, no CDNs), `referrer` meta, `lang="de"`, skip link, WCAG 2.1 AA contrast, no horizontal scrolling at 360 px, all content readable without JavaScript.
@@ -28,11 +30,11 @@ Rules for the page (org-wide): no external requests (system fonts, no CDNs), `re
 ```sh
 npm ci                      # install the exact pinned versions
 npm run build               # Eleventy → _site/, then UnoCSS scans _site/**/*.html → _site/uno.css
-node scripts/check.mjs      # check _site/ (run after the build, before pushing)
+npm run check               # lernapps-check on _site/ (run after the build, before pushing)
 npm run dev                 # build, then serve http://localhost:8080/ with live reload (HTML and CSS)
 ```
 
-Links to `/apps/`, `/docs/` and `/mathe-karte/` only resolve on the deployed origin. Links to pages of this repo go through the filter `own` (`eleventy.config.js`), so they also work in a preview.
+Links to `/apps/`, `/docs/` and `/mathe-karte/` only resolve on the deployed origin. Links to pages of this repo go through the filter `own` (from `chrome/eleventy.js`), so they also work in a preview.
 
 ## Brand mark
 

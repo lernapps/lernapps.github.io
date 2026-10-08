@@ -1,0 +1,26 @@
+---
+permalink: /404.html
+---
+{#- Served by GitHub Pages for every unknown path on lernapps.net (also below /apps/, /docs/ …), so all
+    links are root-relative. -#}
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="robots" content="noindex">
+  <title>Seite nicht gefunden · lernapps.net</title>
+  {% laHead %}
+  <link rel="stylesheet" href="{{ '/uno.css' | own }}">
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col" style="font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;">
+  {% laHeader "/404/" %}
+  <main id="main-content" tabindex="-1" class="flex-1 max-w-3xl w-full mx-auto px-6 py-12 outline-none">
+    <h1 class="text-3xl font-bold mb-4">Seite nicht gefunden</h1>
+    <p class="mb-4">Diese Seite gibt es nicht (mehr).</p>
+    <p><a href="/apps/" class="text-blue-700 underline">Apps finden</a> · <a href="{{ '/' | own }}" class="text-blue-700 underline">Zur Startseite</a></p>
+  </main>
+  {% laFooter %}
+</body>
+</html>

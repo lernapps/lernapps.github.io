@@ -1,12 +1,26 @@
 {
-  "name": "lernapps.github.io",
+  "name": "@lernapps/site",
   "private": true,
   "type": "module",
-  "description": "Home page of the lernapps organisation",
+  "description": "Home page of lernapps.net, and the shared chrome of all its sites (design tokens, header, footer, checks)",
+  "exports": {
+    "./chrome": "./chrome/chrome.js",
+    "./nav": "./chrome/nav.js",
+    "./eleventy": "./chrome/eleventy.js",
+    "./tokens.css": "./chrome/tokens.css",
+    "./chrome.css": "./chrome/chrome.css"
+  },
+  "bin": {
+    "lernapps-chrome": "chrome/inject.mjs",
+    "lernapps-check": "chrome/check.mjs"
+  },
+  "files": [
+    "chrome/"
+  ],
   "scripts": {
     "dev": "npm run build && (eleventy --serve --quiet & unocss \"_site/**/*.html\" --out-file _site/uno.css --watch; wait)",
     "build": "eleventy && unocss \"_site/**/*.html\" --out-file _site/uno.css --minify",
-    "check": "node scripts/check.mjs"
+    "check": "node chrome/check.mjs --site / --forbid TODO-EMAIL"
   },
   "devDependencies": {
     "@11ty/eleventy": "3.1.6",
