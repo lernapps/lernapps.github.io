@@ -19,7 +19,7 @@ This repo also holds the **site frame shared by all sites** on lernapps.net: des
 | `src/404.njk` | The "not found" page of the whole origin, with the shared site frame |
 | `src/llms.txt` | Describes lernapps for AI assistants and points to the apps. Copied unchanged |
 | `site-frame/` | The site frame shared by all sites (tokens, header, footer, Eleventy plugin, `lernapps-check`); see [site-frame/README.md](site-frame/README.md) |
-| `.github/workflows/pages.yml` | Job `check` (required status check): `npm ci`, build, check; on `main` the `deploy` job publishes `_site/` to the root of the `gh-pages` branch, which Pages serves. The steps are the shared site actions of [lernapps/tooling](https://github.com/lernapps/tooling), the same for every site |
+| `.github/workflows/pages.yml` | Job `site` (required status check): `npm ci`, build, check of the built site; on `main` the `deploy` job publishes `_site/` to the root of the `gh-pages` branch, which Pages serves. The steps are the shared site actions of [lernapps/tooling](https://github.com/lernapps/tooling), the same for every site |
 | `.github/workflows/pr-preview.yml` | A preview per pull request at `https://lernapps.net/pr-preview/pr-<number>/`, linked in a comment, removed on close (shared action `site-preview`). Built with `SITE_PATH_PREFIX` (own links get the prefix via the filter `own`) and `SITE_PREVIEW` (banner, `noindex`) |
 | `src/CNAME` | The custom domain `lernapps.net`; the `gh-pages` branch must carry it |
 
