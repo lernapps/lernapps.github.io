@@ -17,7 +17,7 @@ entstanden sind. lernapps.net bringt sie zu den Klassen und Kindern, die sie bra
 
 ## Schnellweg: eine App bauen
 
-- [Skill lernapps-app](https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-app/SKILL.md): der Ablauf und die Regeln jeder App. Installieren mit `npx skills add lernapps/tooling`.
+- [Skill lernapps-app](https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-app/SKILL.md): die Regeln jeder App; den Ablauf gibt das Plan-Template vor. Installieren mit `npx skills add lernapps/tooling`.
 - [Plan-Template](https://raw.githubusercontent.com/lernapps/tooling/main/guidance/plan-template.md): der Ablauf von der ersten Frage bis zum Eintrag. Als `.vibe/plan.md` speichern und genau befolgen.
 
 ## Für KI-Assistenten
