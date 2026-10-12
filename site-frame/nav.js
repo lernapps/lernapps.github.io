@@ -9,7 +9,8 @@ export const nav = {
   homeLabel: "lernapps.net – Startseite",
   links: [
     { label: "Apps finden", href: "/apps/" },
-    { label: "App eintragen", href: "/apps/eintragen/" },
+    { label: "App bauen", href: "/apps/build/" },
+    { label: "App eintragen", href: "/apps/enter/" },
     { label: "So ist es gedacht", href: "/docs/" },
     { label: "Mitmachen", href: "https://github.com/lernapps/.github/blob/main/CONTRIBUTING.md" },
   ],

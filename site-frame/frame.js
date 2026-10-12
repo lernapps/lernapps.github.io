@@ -3,7 +3,7 @@
 // it runs in Eleventy (eleventy.js) and in plain build scripts (inject.mjs).
 //
 //   import { head, header, footer } from "@lernapps/site/frame";
-//   header({ site: "/apps/", path: "/apps/eintragen/", prefix: "/apps/" })
+//   header({ site: "/apps/", path: "/apps/enter/", prefix: "/apps/" })
 //
 // site: the path prefix this repo is served at on lernapps.net ("/", "/apps/", "/docs/").
 // prefix: where this build is served; differs from site only in a pull request preview
