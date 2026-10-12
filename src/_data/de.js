@@ -92,8 +92,8 @@ export default {
         headline: "Du baust ohnehin. Wir machen es dir leichter.",
         story:
           "Du baust deine App ohnehin: für deine Klasse oder für dein Kind. lernapps.net macht dir das leichter. Du bekommst Anleitungen, mit denen dein KI-Assistent schneller eine App baut, die auch andere gut nutzen können.\n\nDeine App trägst du in wenigen Minuten ein. Du brauchst keine eigene Website und keine Werbung. Die App bleibt deine.\n\nWenn jemand deine App nutzt und auf „Danke“ klickt, erfährst du davon. So siehst du, wenn deine App einer anderen Klasse oder einem anderen Kind geholfen hat.\n\nWir fangen gerade erst an. Wenn du zu den Ersten gehören willst, mach mit.",
-        cta: "Deine App eintragen",
-        ctaHref: "/apps/eintragen/",
+        cta: "Eine App bauen",
+        ctaHref: "/apps/build/",
       },
       learner: {
         role: "Wenn du selbst lernst",
