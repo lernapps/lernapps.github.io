@@ -21,7 +21,7 @@ jobs:
   site: # required status check (builds and checks the site)
     runs-on: ubuntu-latest
     steps:
-      - uses: lernapps/tooling/actions/site-check@6c8760b7cb7efbc871c3e58c29366ccd5b7c9766 # main
+      - uses: lernapps/tooling/actions/site-check@32abf128ff067c8bceddab07dfa29b1e4661cb33 # main
 
   deploy:
     if: github.ref == 'refs/heads/main'
@@ -30,4 +30,4 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: lernapps/tooling/actions/site-deploy@6c8760b7cb7efbc871c3e58c29366ccd5b7c9766 # main
+      - uses: lernapps/tooling/actions/site-deploy@32abf128ff067c8bceddab07dfa29b1e4661cb33 # main
