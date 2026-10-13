@@ -21,6 +21,6 @@ jobs:
     # Pull requests from forks get a read-only token and cannot push to gh-pages.
     if: github.event.pull_request.head.repo.full_name == github.repository
     steps:
-      - uses: lernapps/tooling/actions/site-preview@3b05304791f2cdd5460a0b28849c7b663f61f6e8 # main
+      - uses: lernapps/tooling/actions/site-preview@53840790a6a006f307f2a79b419fc41345dffddb # main
         with:
           site: /
