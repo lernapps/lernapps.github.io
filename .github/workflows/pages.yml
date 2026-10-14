@@ -25,7 +25,7 @@ jobs:
   changes:
     uses: lernapps/tooling/.github/workflows/changes.yml@9b9a34c25af4fa397b64f5e01b1640245a1d3726 # main
     with:
-      tooling-ref: 9b9a34c25af4fa397b64f5e01b1640245a1d3726 # the classifier of the same commit
+      tooling-ref: 9b9a34c25af4fa397b64f5e01b1640245a1d3726 # the classifier of the same commit, and TOOLING_REF of the pre-push hook
 
   build: # builds and checks the site
     needs: changes
@@ -33,6 +33,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: lernapps/tooling/actions/site-check@c4aa91bef77eef12ea318db5cc6222beb8c422fe # main
+
+  # The tests of the pre-push hook (npm test, test/pre-push.test.mjs); they need no install
+  test:
+    needs: changes
+    if: needs.changes.outputs.code == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 22
+      - run: npm test
 
   deploy:
     if: github.ref == 'refs/heads/main' && needs.changes.outputs.site == 'true'
@@ -44,7 +58,7 @@ jobs:
       - uses: lernapps/tooling/actions/site-deploy@c4aa91bef77eef12ea318db5cc6222beb8c422fe # main
 
   site: # required status check: always runs, fails when a job above failed or was cancelled
-    needs: [changes, build, deploy]
+    needs: [changes, build, test, deploy]
     if: always()
     runs-on: ubuntu-latest
     steps:

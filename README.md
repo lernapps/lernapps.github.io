@@ -22,6 +22,7 @@ This repo also holds the **site frame shared by all sites** on lernapps.net: des
 | `.github/workflows/pages.yml` | Job `site` (required status check): `npm ci`, build, check of the built site; on `main` the `deploy` job publishes `_site/` to the root of the `gh-pages` branch, which Pages serves. The steps are the shared site actions of [lernapps/tooling](https://github.com/lernapps/tooling), the same for every site |
 | `.github/workflows/pr-preview.yml` | A preview per pull request at `https://lernapps.net/pr-preview/pr-<number>/`, linked in a comment, removed on close (shared action `site-preview`). Built with `SITE_PATH_PREFIX` (own links get the prefix via the filter `own`) and `SITE_PREVIEW` (banner, `noindex`) |
 | `src/CNAME` | The custom domain `lernapps.net`; the `gh-pages` branch must carry it |
+| `.githooks/`, `scripts/`, `test/` | The git hooks (set by `npm ci`, the `prepare` script), the pre-push hook's change scope (`scripts/pre-push.mjs`) and its tests; see Commands |
 
 Rules for the page (org-wide): no external requests (system fonts, no CDNs), `referrer` meta, `lang="de"`, skip link, WCAG 2.1 AA contrast, no horizontal scrolling at 360 px, all content readable without JavaScript.
 
@@ -33,6 +34,11 @@ npm run build               # Eleventy → _site/, then UnoCSS scans _site/**/*.
 npm run check               # lernapps-check on _site/ (run after the build, before pushing)
 npm run dev                 # build, then serve http://localhost:8080/ with live reload (HTML and CSS)
 ```
+
+`npm ci` sets the git hooks in `.githooks/`. Both are quiet and log to `node_modules/.cache/lernapps/`.
+**pre-commit:** no whitespace errors or conflict markers, the staged JavaScript and JSON parse. **pre-push:** the
+change scope of the pushed commits (the classifier of lernapps/tooling, at the commit the workflows pin): nothing for
+only the plan (`.vibe/**`), otherwise `npm run build && npm run check`. `npm test` tests the hook (CI's job `test`).
 
 Links to `/apps/`, `/docs/` and `/mathe-karte/` only resolve on the deployed origin. Links to pages of this repo go through the filter `own` (from `site-frame/eleventy.js`), so they also work in a preview.
 

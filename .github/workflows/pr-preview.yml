@@ -22,7 +22,7 @@ jobs:
   changes:
     uses: lernapps/tooling/.github/workflows/changes.yml@9b9a34c25af4fa397b64f5e01b1640245a1d3726 # main
     with:
-      tooling-ref: 9b9a34c25af4fa397b64f5e01b1640245a1d3726 # the classifier of the same commit
+      tooling-ref: 9b9a34c25af4fa397b64f5e01b1640245a1d3726 # the classifier of the same commit, and TOOLING_REF of the pre-push hook
     permissions:
       contents: read
 
