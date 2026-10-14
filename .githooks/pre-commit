@@ -1,0 +1,20 @@
+#!/bin/sh
+# The pre-commit hook of this repo: what breaks the build or the check, on the staged files only, so a commit stays
+# fast; the pre-push hook and CI run the build and the check. This repo has no formatter and
+# no linter, and CI runs none. Quiet, like the pre-commit hook of lernapps/tooling: the steps print into the log
+# below; on a failure the hook prints one line with the step, its exit code and the log. npm install sets the hooks
+# (the prepare script: git config core.hooksPath .githooks).
+log=node_modules/.cache/lernapps/pre-commit.log
+mkdir -p "$(dirname "$log")"
+: >"$log"
+step() {
+  name=$1
+  shift
+  echo "\$ $*" >>"$log"
+  "$@" >>"$log" 2>&1 && return 0
+  code=$?
+  echo "lernapps pre-commit: $name failed (exit $code); the full output is in $log" >&2
+  exit "$code"
+}
+step "whitespace errors and conflict markers (git diff --cached --check)" git diff --cached --check
+step "the staged JavaScript and JSON parse (scripts/staged.mjs)" node scripts/staged.mjs
