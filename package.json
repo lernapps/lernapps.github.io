@@ -20,7 +20,9 @@
   "scripts": {
     "dev": "npm run build && (eleventy --serve --quiet & unocss \"_site/**/*.html\" --out-file _site/uno.css --watch; wait)",
     "build": "eleventy && unocss \"_site/**/*.html\" --out-file _site/uno.css --minify",
-    "check": "node site-frame/check.mjs --site / --forbid TODO-EMAIL"
+    "check": "node site-frame/check.mjs --site / --forbid TODO-EMAIL",
+    "test": "node --test \"test/**/*.test.mjs\"",
+    "prepare": "git rev-parse --git-dir >/dev/null 2>&1 && git config core.hooksPath .githooks || true"
   },
   "devDependencies": {
     "@11ty/eleventy": "3.1.6",
