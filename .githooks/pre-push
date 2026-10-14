@@ -1,0 +1,5 @@
+#!/bin/sh
+# The pre-push hook of this repo: the change scope first (nothing for only the plan), then the site's build and
+# check (scripts/pre-push.mjs); CI runs everything. Quiet: on
+# a failure one line names the log in node_modules/.cache/lernapps/.
+exec node scripts/pre-push.mjs "$@"

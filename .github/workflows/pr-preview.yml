@@ -3,6 +3,9 @@ name: Preview
 # A preview of the site for every pull request, at https://lernapps.net/pr-preview/pr-<number>/:
 # commented on the pull request, updated on every push, removed when the pull request is closed.
 # Banner and noindex; links stay inside the preview. Shared action in lernapps/tooling.
+# The change scope (lernapps/tooling changes.yml) gates it: no preview for a change of only the plan (.vibe/**);
+# closing a pull request always removes its preview. The job `preview` always runs and reports the result, the
+# check that never stays "Pending".
 on:
   pull_request:
     types: [opened, reopened, synchronize, closed]
@@ -16,11 +19,32 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  preview:
+  changes:
+    uses: lernapps/tooling/.github/workflows/changes.yml@141ca8b78c27b78d8c2cddc06d0bfe25daad811f # main
+    with:
+      tooling-ref: 141ca8b78c27b78d8c2cddc06d0bfe25daad811f # the classifier of the same commit, and TOOLING_REF of the pre-push hook
+    permissions:
+      contents: read
+
+  build:
+    needs: changes
     runs-on: ubuntu-latest
     # Pull requests from forks get a read-only token and cannot push to gh-pages.
-    if: github.event.pull_request.head.repo.full_name == github.repository
+    if: >-
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      (github.event.action == 'closed' || needs.changes.outputs.site == 'true')
     steps:
       - uses: lernapps/tooling/actions/site-preview@141ca8b78c27b78d8c2cddc06d0bfe25daad811f # main
         with:
           site: /
+
+  preview: # always runs, fails when a job above failed or was cancelled
+    needs: [changes, build]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          RESULTS: ${{ join(needs.*.result, ' ') }}
+        run: |
+          echo "the jobs ended: $RESULTS"
+          case " $RESULTS " in *" failure "* | *" cancelled "*) exit 1 ;; esac
