@@ -13,7 +13,7 @@
 import { readFileSync, readdirSync, existsSync, statSync } from "node:fs";
 import { join, dirname, resolve } from "node:path";
 import { parseArgs } from "node:util";
-import { siteOf, link, SHARED_ASSETS } from "./frame.js";
+import { siteOf, link, languageOf, pathIn, SHARED_ASSETS } from "./frame.js";
 
 const { values: a } = parseArgs({
   options: {
@@ -30,7 +30,8 @@ const site = a.site;
 const prefix = process.env.SITE_PATH_PREFIX ?? site;
 const ROOT = resolve(a.out);
 const OWN_ORIGIN = "https://lernapps.net/";
-const LEGAL = ["/privacy/", "/imprint/"].map((p) => link(p, { site, prefix }));
+// Every page links the privacy notice and the imprint in its own language (/privacy/, or /en/privacy/ for English).
+const LEGAL = ["/privacy/", "/imprint/"].map((p) => ({ de: link(p, { site, prefix }), en: link(pathIn(p, "en"), { site, prefix }) }));
 const errors = [];
 
 if (!existsSync(join(ROOT, "index.html"))) {
@@ -72,7 +73,15 @@ for (const file of files(ROOT)) {
     if (isExternal(m[1]) && !/rel="canonical"/i.test(m[0])) errors.push(`${rel}: external <link href="${m[1]}">`);
   }
 
-  for (const href of LEGAL) if (!text.includes(`href="${href}"`)) errors.push(`${rel}: no link to ${href}`);
+  const lang = languageOf(site + rel.replace(/index\.html$/, ""));
+  for (const href of LEGAL) {
+    if (!text.includes(`href="${href.de}"`) && !text.includes(`href="${href.en}"`)) errors.push(`${rel}: no link to ${href[lang]}`);
+  }
+
+  // A page of the English tree says so: <html lang="en">, so that screen readers and translators know.
+  if (lang !== "de" && rel.endsWith(".html") && !new RegExp(`<html[^>]*\\slang="${lang}"`, "i").test(text)) {
+    errors.push(`${rel}: below the ${lang} tree but not <html lang="${lang}">`);
+  }
 
   for (const m of text.matchAll(/\b(?:href|src)="([^"#?]*)[^"]*"/gi)) {
     const url = m[1];
