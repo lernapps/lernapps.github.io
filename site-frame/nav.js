@@ -4,7 +4,7 @@
 // the origin lernapps.net.
 
 // Path prefixes served by other repos on the origin; everything else belongs to the home site ("/").
-export const SITES = ["/apps/", "/docs/", "/mathe-karte/"];
+export const SITES = ["/apps/", "/docs/", "/tooling/", "/mathe-karte/"];
 
 // The languages of the frame, German first, and the sites that have a tree for every language but German.
 // A link to another site stays German if that site has no tree in the language of the page.
@@ -31,6 +31,11 @@ export const nav = {
   links: [
     { label: { de: "Apps finden", en: "Find apps" }, href: "/apps/" },
     { label: { de: "App bauen", en: "Build an app" }, href: "/apps/build/" },
+    // What lernapps provides to build easier and faster; English only, so the same address in both languages.
+    {
+      label: { de: "Bauhilfen", en: "Build tools" },
+      href: { de: "/tooling/", en: "/tooling/" },
+    },
     { label: { de: "App eintragen", en: "List an app" }, href: "/apps/enter/" },
     { label: { de: "So ist es gedacht", en: "How it is meant" }, href: "/docs/" },
     {
