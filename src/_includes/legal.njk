@@ -1,11 +1,11 @@
 {#-
-  Layout for the legal pages (/privacy/, /imprint/). Each page carries both languages: German first
-  (binding), then English. Front matter: title (both languages), description, and the body with a
+  Layout for the legal pages (/privacy/, /imprint/). Each page carries both languages, the reader's own first (German in /, English
+  in /en/); the German version is binding. Pages are generated once per language (pagination over languages). Front matter: title (both languages), description, and the body with a
   <section lang="de" id="de"> and a <section lang="en" id="en">.
   Contact data comes from src/_data/legal.js.
 -#}
 <!doctype html>
-<html lang="de">
+<html lang="{{ l.code }}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,14 +15,14 @@
   {%- if site.preview %}
   <meta name="robots" content="noindex">
   {%- endif %}
-  {% laHead %}
+  {% laHead page.url %}
   <link rel="stylesheet" href="{{ '/uno.css' | own }}">
 </head>
 <body class="bg-white text-slate-800" style="font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;">
   {% laHeader page.url %}
   <nav aria-label="Sprache / Language" class="max-w-3xl mx-auto px-6 pt-6">
     <ul class="flex gap-4 list-none p-0 m-0 text-sm">
-      <li><a href="#de" hreflang="de" class="text-blue-700 underline">Deutsch</a></li>
+      <li><a href="#de" hreflang="de" lang="de" class="text-blue-700 underline">Deutsch</a></li>
       <li><a href="#en" hreflang="en" lang="en" class="text-blue-700 underline">English</a></li>
     </ul>
   </nav>
@@ -31,6 +31,6 @@
     {{ content | safe }}
   </main>
 
-  {% laFooter %}
+  {% laFooter page.url %}
 </body>
 </html>

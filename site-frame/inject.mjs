@@ -6,12 +6,14 @@
 //   lernapps-frame --site /docs/ --source https://github.com/lernapps/docs --out _site [--main id]
 //
 // Takes every *.html below --out. Prefix and preview come from SITE_PATH_PREFIX and SITE_PREVIEW.
-// The page path for the current navigation entry is site + the file's folder.
-import { readFileSync, writeFileSync, readdirSync, copyFileSync } from "node:fs";
+// The page path for the current navigation entry is site + the file's folder. German pages are at the root of the
+// site, English ones below en/ (see frame.js); a page gets a language switch for the languages that have the same page.
+import { readFileSync, writeFileSync, readdirSync, copyFileSync, existsSync } from "node:fs";
 import { join, relative, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseArgs } from "node:util";
-import { head, header, footer, STYLES } from "./frame.js";
+import { head, header, footer, STYLES, languageOf, pathIn } from "./frame.js";
+import { LANGUAGES } from "./nav.js";
 
 const { values: a } = parseArgs({
   options: { site: { type: "string" }, source: { type: "string" }, out: { type: "string" }, main: { type: "string" } },
@@ -33,19 +35,25 @@ const files = (dir) =>
     e.isDirectory() ? files(join(dir, e.name)) : e.name.endsWith(".html") ? [join(dir, e.name)] : [],
   );
 
+/** Is there a built page at this canonical path of the site? */
+const pageExists = (path) => path.startsWith(site) && existsSync(join(a.out, path.slice(site.length), "index.html"));
+
 let n = 0;
 for (const file of files(a.out)) {
   let html = readFileSync(file, "utf8");
   if (html.includes(MARK) || !/<body[^>]*>/i.test(html)) continue;
   const rel = relative(a.out, dirname(file)).split("\\").join("/");
   const path = site + (rel ? rel + "/" : "");
+  // The frame speaks the language of the page: its <html lang>, else the language its address says.
+  const lang = html.match(/<html[^>]*\slang="([a-z]{2})/i)?.[1] ?? languageOf(path);
+  const languages = LANGUAGES.filter((l) => l === lang || pageExists(pathIn(path, l)));
   // The skip link's target: --main, else the page's <main id>, else an anchor right after the header.
   const main = a.main ?? html.match(/<main[^>]*\bid="([^"]+)"/i)?.[1];
   const anchor = main ? "" : '\n<div id="main-content" tabindex="-1"></div>';
   html = html
-    .replace(/<\/head>/i, `${MARK}\n${preview ? '<meta name="robots" content="noindex">\n' : ""}${head({ site, prefix })}\n</head>`)
-    .replace(/<body[^>]*>/i, (body) => `${body}\n${header({ site, prefix, path, preview, main: main ?? "main-content" })}${anchor}`)
-    .replace(/<\/body>(?![\s\S]*<\/body>)/i, `${footer({ site, prefix, source: a.source })}\n</body>`);
+    .replace(/<\/head>/i, `${MARK}\n${preview ? '<meta name="robots" content="noindex">\n' : ""}${head({ site, prefix, path, lang, languages })}\n</head>`)
+    .replace(/<body[^>]*>/i, (body) => `${body}\n${header({ site, prefix, path, lang, preview, languages, main: main ?? "main-content" })}${anchor}`)
+    .replace(/<\/body>(?![\s\S]*<\/body>)/i, `${footer({ site, prefix, path, lang, source: a.source })}\n</body>`);
   writeFileSync(file, html);
   n++;
 }
