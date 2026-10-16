@@ -69,12 +69,6 @@ export default {
           "The lesson is about to start. You need an app for exactly this topic. On lernapps.net you search by topic and grade. The app runs right away in the browser: without installation and without sign-up.\n\nWe only list apps that need no server of their own. What your class types in stays on their devices.\n\nAfter the lesson you can say thanks with one click, or briefly tell us how it went. We don't need more.",
         cta: "Find apps",
         ctaHref: "/apps/en/",
-        tryIt: {
-          label: "Try it:",
-          linkText: "Mathe-Karte",
-          href: "/mathe-karte/",
-          text: "lower secondary maths with trainers and an AI tutor (in German).",
-        },
       },
       parent: {
         role: "If your child has a test tomorrow",
@@ -102,12 +96,6 @@ export default {
           "You want to understand the topic, for example before the next test. Here you find small apps that let you try things out yourself. You need no account. We don't know who you are.\n\nDid an app help you? Click “Thanks”. The person who built it will be glad.",
         cta: "Find apps",
         ctaHref: "/apps/en/",
-        tryIt: {
-          label: "Try it:",
-          linkText: "Mathe-Karte",
-          href: "/mathe-karte/",
-          text: "lower secondary maths with trainers and an AI tutor (in German).",
-        },
       },
     },
 
