@@ -1,0 +1,35 @@
+# lernapps
+
+> Kleine, freie Lern-Apps für die Schule: im Browser, ohne Anmeldung, ohne Server, ohne Tracking.
+> Lehrkräfte, Eltern und Entwickler bauen sie mit ihrem KI-Assistenten. lernapps.net gibt ihnen Anleitung und
+> Prüfungen und zeigt die Apps in einem Katalog. So finden Erwachsene in Minuten eine App, die sie ohne Zweifel
+> nutzen können.
+
+Warum: Gute kleine Lern-Apps entstehen heute schnell, oft an einem Wochenende mit KI. Aber sie bleiben, wo sie
+entstanden sind. lernapps.net bringt sie zu den Klassen und Kindern, die sie brauchen. Mehr in der
+[Vision](https://lernapps.net/docs/vision/).
+
+## Wege
+
+- [Eine App finden](https://lernapps.net/apps/): der Katalog, nach Fach und Klasse.
+- [Eine App bauen](https://lernapps.net/tooling/llms.txt): mit dem Skill und dem Plan-Template; der Schnellweg steht unten.
+- [Eine App eintragen](https://lernapps.net/apps/llms.txt): die Bedingungen, der Eintrag und der Pull Request.
+
+## Schnellweg: eine App bauen
+
+- [Skill lernapps-app](https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-app/SKILL.md): die Regeln jeder App; den Ablauf gibt das Plan-Template vor. Installieren mit `npx skills add lernapps/tooling`.
+- [Plan-Template](https://raw.githubusercontent.com/lernapps/tooling/main/guidance/plan-template.md): der Ablauf von der ersten Frage bis zum Eintrag. Als `.vibe/plan.md` speichern und genau befolgen.
+
+## Für KI-Assistenten
+
+- [Tooling](https://lernapps.net/tooling/llms.txt): alles zum Bauen und Prüfen einer App: Befehle, Skills, Regeln, Schemas.
+- [Doku](https://lernapps.net/docs/llms.txt): wie man die Doku liest: Vision, Organisation (biz42) und Plattform-Design (pdt42), mit ihren CLIs.
+- [Apps](https://lernapps.net/apps/llms.txt): alle Apps mit Direktlinks, und wie man eine App einträgt.
+
+## Apps
+
+Alle Apps, mit Thema, Klasse und Direktlinks: https://lernapps.net/apps/
+Für KI: https://lernapps.net/apps/llms.txt (auch: wie man eine App einträgt)
+
+- Mathe-Karte (Mathematik, Sekundarstufe I, mit KI-Tutor): https://lernapps.net/mathe-karte/
+  Für KI: https://lernapps.net/mathe-karte/llms.txt
