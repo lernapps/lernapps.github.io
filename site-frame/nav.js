@@ -31,11 +31,6 @@ export const nav = {
   links: [
     { label: { de: "Apps finden", en: "Find apps" }, href: "/apps/" },
     { label: { de: "App bauen", en: "Build an app" }, href: "/apps/build/" },
-    // What lernapps provides to build easier and faster; English only, so the same address in both languages.
-    {
-      label: { de: "Bauhilfen", en: "Build tools" },
-      href: { de: "/tooling/", en: "/tooling/" },
-    },
     { label: { de: "App eintragen", en: "List an app" }, href: "/apps/enter/" },
     { label: { de: "So ist es gedacht", en: "How it is meant" }, href: "/docs/" },
     {
