@@ -10,13 +10,14 @@ This repo also holds the **site frame shared by all sites** on lernapps.net: des
 
 | Path | Purpose |
 |---|---|
-| `src/index.njk` | Home page template (Nunjucks). Markup and utility classes only, no texts |
-| `src/_data/de.js` | All texts of the home page (German, plain language after ISO 24495-1) and its link targets |
+| `src/index.njk` | Home page template (Nunjucks). Markup and utility classes only, no texts. Generated once per language (pagination over `languages`): `/` is German, `/en/` English |
+| `src/_data/de.js`, `en.js` | All texts of the home page (German, plain language after ISO 24495-1; English is its translation, same structure) and its link targets. `languages.js` lists the languages |
 | `src/start.js` | Progressive enhancement: turns the stacked persona quotes/portraits into tabs (ARIA tabs pattern, arrow keys, auto-advance). Without it, everything is shown stacked |
 | `src/start.css` | The few rules utilities don't cover (tab panel animation) |
 | `uno.config.js` | UnoCSS presets (wind4 + typography, as in the original); CSS is generated at build time into `_site/uno.css` |
 | `eleventy.config.js` | Eleventy: input `src/`, output `_site/`; only `.njk` are templates, everything else is copied as is |
-| `src/404.njk` | The "not found" page of the whole origin, with the shared site frame |
+| `src/404.njk` | The "not found" page of the whole origin, with the shared site frame; German and English in one page |
+| `src/privacy.njk`, `imprint.njk` | Privacy notice and imprint, both languages in each page, the reader's own first: `/privacy/`, `/en/privacy/` |
 | `src/llms.txt` | For AI assistants: what lernapps.net is and why, the paths (find, build, list an app), the quick path to build one, the links to the llms.txt of docs, tooling and apps, and the app list. Copied unchanged |
 | `site-frame/` | The site frame shared by all sites (tokens, header, footer, Eleventy plugin, `lernapps-check`); see [site-frame/README.md](site-frame/README.md) |
 | `.github/workflows/pages.yml` | Job `site` (required status check): `npm ci`, build, check of the built site; on `main` the `deploy` job publishes `_site/` to the root of the `gh-pages` branch, which Pages serves. The steps are the shared site actions of [lernapps/tooling](https://github.com/lernapps/tooling), the same for every site |
@@ -24,7 +25,7 @@ This repo also holds the **site frame shared by all sites** on lernapps.net: des
 | `src/CNAME` | The custom domain `lernapps.net`; the `gh-pages` branch must carry it |
 | `.githooks/`, `scripts/`, `test/` | The git hooks (set by `npm ci`, the `prepare` script), the pre-push hook's change scope (`scripts/pre-push.mjs`) and its tests; see Commands |
 
-Rules for the page (org-wide): no external requests (system fonts, no CDNs), `referrer` meta, `lang="de"`, skip link, WCAG 2.1 AA contrast, no horizontal scrolling at 360 px, all content readable without JavaScript.
+Rules for the page (org-wide): no external requests (system fonts, no CDNs), `referrer` meta, `lang` on `<html>` (`de`, `en` below `/en/`), skip link, WCAG 2.1 AA contrast, no horizontal scrolling at 360 px, all content readable without JavaScript.
 
 ## Commands
 
