@@ -62,7 +62,7 @@ const entryHref = (l, lang) => (typeof l.href === "string" ? pathIn(l.href, lang
 /** The navigation entry a page belongs to: the longest href that the page's German path starts with. */
 const currentHref = (path) =>
   nav.links
-    .map((l) => l.href)
+    .map((l) => pick(l.href, "de"))
     .filter((h) => h.startsWith("/") && pathIn(path, "de").startsWith(h))
     .sort((a, b) => b.length - a.length)[0];
 
@@ -115,7 +115,7 @@ export function header({
   const items = nav.links.map((l) => {
     const href = entryHref(l, lang);
     const external = /^https?:/.test(href) ? ' rel="noopener"' : "";
-    const cur = l.href === current ? ' aria-current="page"' : "";
+    const cur = pick(l.href, "de") === current ? ' aria-current="page"' : "";
     return `<li><a href="${esc(link(href, { site, prefix }))}"${cur}${external}>${esc(pick(l.label, lang))}</a></li>`;
   });
   for (const o of otherLanguages(path, lang, languages)) {

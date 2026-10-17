@@ -2,7 +2,7 @@
 
 Home page of the lernapps organisation (brand: lernapps.net), served at <https://lernapps.net/> (custom domain; <https://lernapps.github.io/> redirects there).
 
-The home page is static HTML, readable without JavaScript. Its story follows the [platform design](https://lernapps.net/docs/platform-design/) (agents: see the skill [`skills/pdt`](https://github.com/lernapps/docs/tree/main/skills/pdt) in lernapps/docs): problems and portraits for teachers, parents, people who build apps and learners; the principles (free, open counting instead of tracking, thanks as what keeps it alive); why it is free, with a personal word; and an honest answer for sceptics that links to the design. It links to the sites that live in other repos on the same origin: the app overview (`/apps/`), the docs (`/docs/`) and the Mathe-Karte (`/mathe-karte/`). It does **not** list apps itself; that is the job of the app overview in [lernapps/apps](https://github.com/lernapps/apps). See [ORGANIZATION.md](https://github.com/lernapps/.github/blob/main/ORGANIZATION.md) for how the repos fit together.
+The home page is static HTML, readable without JavaScript. Its story follows the [platform design](https://lernapps.net/docs/platform-design/) (agents: see the skill [`skills/pdt`](https://github.com/lernapps/docs/tree/main/skills/pdt) in lernapps/docs): problems and portraits for teachers, parents, people who build apps and learners; the principles (free, open counting instead of tracking, thanks as what keeps it alive); why it is free, with a personal word; and an honest answer for sceptics that links to the design. It links to the sites that live in other repos on the same origin: the app overview (`/apps/`), the docs (`/docs/`), the tooling (`/tooling/`) and the Mathe-Karte (`/mathe-karte/`). It does **not** list apps itself; that is the job of the app overview in [lernapps/apps](https://github.com/lernapps/apps). See [ORGANIZATION.md](https://github.com/lernapps/.github/blob/main/ORGANIZATION.md) for how the repos fit together.
 
 This repo also holds the **site frame shared by all sites** on lernapps.net: design tokens, header with the common navigation, footer, and the deploy check, in [`site-frame/`](site-frame/README.md). The sites use it as the npm package `@lernapps/site`, straight from git.
 
@@ -41,7 +41,7 @@ npm run dev                 # build, then serve http://localhost:8080/ with live
 change scope of the pushed commits (the classifier of lernapps/tooling, at the commit the workflows pin): nothing for
 only the plan (`.vibe/**`), otherwise `npm run build && npm run check`. `npm test` tests the hook (CI's job `test`).
 
-Links to `/apps/`, `/docs/` and `/mathe-karte/` only resolve on the deployed origin. Links to pages of this repo go through the filter `own` (from `site-frame/eleventy.js`), so they also work in a preview.
+Links to `/apps/`, `/docs/`, `/tooling/` and `/mathe-karte/` only resolve on the deployed origin. Links to pages of this repo go through the filter `own` (from `site-frame/eleventy.js`), so they also work in a preview.
 
 ## Brand mark
 
