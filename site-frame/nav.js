@@ -4,7 +4,7 @@
 // the origin lernapps.net.
 
 // Path prefixes served by other repos on the origin; everything else belongs to the home site ("/").
-export const SITES = ["/apps/", "/docs/", "/mathe-karte/"];
+export const SITES = ["/apps/", "/docs/", "/tooling/", "/mathe-karte/"];
 
 // The languages of the frame, German first, and the sites that have a tree for every language but German.
 // A link to another site stays German if that site has no tree in the language of the page.
