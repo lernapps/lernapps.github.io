@@ -78,12 +78,6 @@ export default {
           "Gleich beginnt die Stunde. Du brauchst eine App zu genau diesem Thema. Bei lernapps.net suchst du nach Thema und Klassenstufe. Die App läuft sofort im Browser: ohne Installation und ohne Anmeldung.\n\nWir nehmen nur Apps auf, die ohne eigenen Server auskommen. Was deine Klasse eingibt, bleibt auf ihren Geräten.\n\nNach der Stunde kannst du mit einem Klick Danke sagen oder kurz rückmelden, wie es lief. Mehr brauchen wir nicht.",
         cta: "Apps finden",
         ctaHref: "/apps/",
-        tryIt: {
-          label: "Ausprobieren:",
-          linkText: "Mathe-Karte",
-          href: "/mathe-karte/",
-          text: "Mathematik der Sekundarstufe I mit Trainern und KI-Tutor.",
-        },
       },
       parent: {
         role: "Wenn dein Kind morgen eine Arbeit schreibt",
@@ -117,12 +111,6 @@ export default {
           "Du willst den Stoff verstehen, zum Beispiel vor der nächsten Arbeit. Hier findest du kleine Apps, mit denen du selbst etwas ausprobierst. Du brauchst kein Konto. Wir wissen nicht, wer du bist.\n\nHat dir eine App geholfen? Klick auf „Danke“. Die Person, die sie gebaut hat, freut sich darüber.",
         cta: "Apps finden",
         ctaHref: "/apps/",
-        tryIt: {
-          label: "Ausprobieren:",
-          linkText: "Mathe-Karte",
-          href: "/mathe-karte/",
-          text: "Mathematik der Sekundarstufe I mit Trainern und KI-Tutor.",
-        },
       },
     },
 
