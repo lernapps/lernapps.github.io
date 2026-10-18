@@ -62,25 +62,29 @@ export default {
     solutions: {
       intro: "Was lernapps.net für dich tut",
       tabsAriaLabel: "Was lernapps.net für dich tut",
+      askBox: {
+        title: "Frag deinen KI-Assistenten",
+        intro: "Kopiere diesen Text in deinen KI-Assistenten. Er liest lernapps.net und erklärt dir, was die Plattform für dich tut.",
+        copy: "Text kopieren",
+        copied: "Kopiert",
+      },
       teacher: {
         role: "Wenn du unterrichtest",
         icon: "📚",
         headline: "Eine passende App, in wenigen Minuten im Unterricht.",
+        ask:
+          "Ich unterrichte und suche digitale Lernangebote. Lies https://lernapps.net/llms.txt und die dort verlinkten Seiten. Erkläre mir in einfachen Worten, was lernapps.net ist, was die Plattform mir als Lehrkraft bietet und wie sie für Sicherheit sorgt. Passende Apps finde ich selbst im Katalog: https://lernapps.net/apps/. Sei ehrlich über die Grenzen.",
         story:
           "Gleich beginnt die Stunde. Du brauchst eine App zu genau diesem Thema. Bei lernapps.net suchst du nach Thema und Klassenstufe. Die App läuft sofort im Browser: ohne Installation und ohne Anmeldung.\n\nWir nehmen nur Apps auf, die ohne eigenen Server auskommen. Was deine Klasse eingibt, bleibt auf ihren Geräten.\n\nNach der Stunde kannst du mit einem Klick Danke sagen oder kurz rückmelden, wie es lief. Mehr brauchen wir nicht.",
         cta: "Apps finden",
         ctaHref: "/apps/",
-        tryIt: {
-          label: "Ausprobieren:",
-          linkText: "Mathe-Karte",
-          href: "/mathe-karte/",
-          text: "Mathematik der Sekundarstufe I mit Trainern und KI-Tutor.",
-        },
       },
       parent: {
         role: "Wenn dein Kind morgen eine Arbeit schreibt",
         icon: "🏠",
         headline: "Heute Abend noch üben.",
+        ask:
+          "Ich bin Elternteil und suche sichere Lern-Apps für mein Kind. Lies https://lernapps.net/llms.txt und die dort verlinkten Seiten. Erkläre mir in einfachen Worten, was lernapps.net ist, was die Plattform mir als Elternteil bietet und wie sie für Sicherheit sorgt. Passende Apps finde ich selbst im Katalog: https://lernapps.net/apps/. Sei ehrlich über die Grenzen.",
         story:
           "Heute Abend soll dein Kind noch üben. Bei lernapps.net findest du eine App zum Thema der Arbeit. Dein Kind kann sofort anfangen. Es braucht kein Konto, und niemand erfährt, wer es ist.\n\nWenn die App geholfen hat, sag Danke. Ein Klick genügt.",
         cta: "Apps finden",
@@ -90,6 +94,8 @@ export default {
         role: "Wenn du Apps baust",
         icon: "🔧",
         headline: "Du baust ohnehin. Wir machen es dir leichter.",
+        ask:
+          "Ich baue gern kleine Lern-Apps mit KI-Hilfe. Lies https://lernapps.net/llms.txt und die dort verlinkten Seiten. Erkläre mir in einfachen Worten, was lernapps.net ist, was die Plattform Menschen wie mir bietet und was ich zurückbekomme, wenn jemand meine App nutzt. Sag mir ehrlich, ob sich das für mich lohnt.",
         story:
           "Du baust deine App ohnehin: für deine Klasse oder für dein Kind. lernapps.net macht dir das leichter. Du bekommst Anleitungen, mit denen dein KI-Assistent schneller eine App baut, die auch andere gut nutzen können.\n\nDeine App trägst du in wenigen Minuten ein. Du brauchst keine eigene Website und keine Werbung. Die App bleibt deine.\n\nWenn jemand deine App nutzt und auf „Danke“ klickt, erfährst du davon. So siehst du, wenn deine App einer anderen Klasse oder einem anderen Kind geholfen hat.\n\nWir fangen gerade erst an. Wenn du zu den Ersten gehören willst, mach mit.",
         cta: "Eine App bauen",
@@ -99,16 +105,12 @@ export default {
         role: "Wenn du selbst lernst",
         icon: "🎒",
         headline: "Selbst ausprobieren statt nur zuschauen.",
+        ask:
+          "Ich lerne gerade und suche etwas zum Ausprobieren. Lies https://lernapps.net/llms.txt und die dort verlinkten Seiten. Erkläre mir kurz, was lernapps.net ist, was es mir beim Lernen bringt und wie es für Sicherheit sorgt. Ob es dort schon etwas zu meinem Thema gibt, sehe ich selbst im Katalog: https://lernapps.net/apps/. Falls nicht: Überlege mit mir, ob wir zusammen selbst eine kleine App dafür bauen können.",
         story:
           "Du willst den Stoff verstehen, zum Beispiel vor der nächsten Arbeit. Hier findest du kleine Apps, mit denen du selbst etwas ausprobierst. Du brauchst kein Konto. Wir wissen nicht, wer du bist.\n\nHat dir eine App geholfen? Klick auf „Danke“. Die Person, die sie gebaut hat, freut sich darüber.",
         cta: "Apps finden",
         ctaHref: "/apps/",
-        tryIt: {
-          label: "Ausprobieren:",
-          linkText: "Mathe-Karte",
-          href: "/mathe-karte/",
-          text: "Mathematik der Sekundarstufe I mit Trainern und KI-Tutor.",
-        },
       },
     },
 
