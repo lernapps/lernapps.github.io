@@ -73,7 +73,7 @@ export default {
         icon: "📚",
         headline: "Eine passende App, in wenigen Minuten im Unterricht.",
         ask:
-          "Ich unterrichte und suche digitale Lernangebote. Lies https://lernapps.net/llms.txt und die dort verlinkten Seiten. Erkläre mir in einfachen Worten, was lernapps.net ist und was die Plattform mir als Lehrkraft bietet. Erkläre mir auch, wie lernapps.net Apps prüft und ob für Apps, die nicht auf lernapps.net selbst liegen, sondern bei ihren Entwicklern, dieselben Anforderungen gelten. Was muss ich zum Datenschutz wissen? Passende Apps finde ich selbst im Katalog: https://lernapps.net/apps/. Sei ehrlich über die Grenzen.",
+          "Ich unterrichte und suche digitale Lernangebote. Lies https://lernapps.net/llms.txt und die dort verlinkten Seiten. Erkläre mir in einfachen Worten, was lernapps.net ist, was die Plattform mir als Lehrkraft bietet und wie sie für Sicherheit sorgt. Passende Apps finde ich selbst im Katalog: https://lernapps.net/apps/. Sei ehrlich über die Grenzen.",
         story:
           "Gleich beginnt die Stunde. Du brauchst eine App zu genau diesem Thema. Bei lernapps.net suchst du nach Thema und Klassenstufe. Die App läuft sofort im Browser: ohne Installation und ohne Anmeldung.\n\nWir nehmen nur Apps auf, die ohne eigenen Server auskommen. Was deine Klasse eingibt, bleibt auf ihren Geräten.\n\nNach der Stunde kannst du mit einem Klick Danke sagen oder kurz rückmelden, wie es lief. Mehr brauchen wir nicht.",
         cta: "Apps finden",
@@ -84,7 +84,7 @@ export default {
         icon: "🏠",
         headline: "Heute Abend noch üben.",
         ask:
-          "Ich bin Elternteil und suche sichere Lern-Apps für mein Kind. Lies https://lernapps.net/llms.txt und die dort verlinkten Seiten. Erkläre mir in einfachen Worten, was lernapps.net ist und was die Plattform mir als Elternteil bietet. Erkläre mir auch, wie lernapps.net Apps prüft und ob für Apps, die nicht auf lernapps.net selbst liegen, sondern bei ihren Entwicklern, dieselben Anforderungen gelten. Was muss ich zu Kosten, Anmeldung und Datenschutz wissen? Passende Apps finde ich selbst im Katalog: https://lernapps.net/apps/. Sei ehrlich über die Grenzen.",
+          "Ich bin Elternteil und suche sichere Lern-Apps für mein Kind. Lies https://lernapps.net/llms.txt und die dort verlinkten Seiten. Erkläre mir in einfachen Worten, was lernapps.net ist, was die Plattform mir als Elternteil bietet und wie sie für Sicherheit sorgt. Passende Apps finde ich selbst im Katalog: https://lernapps.net/apps/. Sei ehrlich über die Grenzen.",
         story:
           "Heute Abend soll dein Kind noch üben. Bei lernapps.net findest du eine App zum Thema der Arbeit. Dein Kind kann sofort anfangen. Es braucht kein Konto, und niemand erfährt, wer es ist.\n\nWenn die App geholfen hat, sag Danke. Ein Klick genügt.",
         cta: "Apps finden",
@@ -95,7 +95,7 @@ export default {
         icon: "🔧",
         headline: "Du baust ohnehin. Wir machen es dir leichter.",
         ask:
-          "Ich baue gern kleine Lern-Apps mit KI-Hilfe. Lies https://lernapps.net/llms.txt und die dort verlinkten Seiten. Erkläre mir in einfachen Worten, was lernapps.net ist und was die Plattform Menschen wie mir bietet. Was bekomme ich zurück, wenn jemand meine App nutzt? Was verlangt lernapps.net von einer App, auch von einer, die ich selbst hoste, und wie trage ich sie ein? Sag mir ehrlich, ob sich das für mich lohnt.",
+          "Ich baue gern kleine Lern-Apps mit KI-Hilfe. Lies https://lernapps.net/llms.txt und die dort verlinkten Seiten. Erkläre mir in einfachen Worten, was lernapps.net ist, was die Plattform Menschen wie mir bietet und was ich zurückbekomme, wenn jemand meine App nutzt. Sag mir ehrlich, ob sich das für mich lohnt.",
         story:
           "Du baust deine App ohnehin: für deine Klasse oder für dein Kind. lernapps.net macht dir das leichter. Du bekommst Anleitungen, mit denen dein KI-Assistent schneller eine App baut, die auch andere gut nutzen können.\n\nDeine App trägst du in wenigen Minuten ein. Du brauchst keine eigene Website und keine Werbung. Die App bleibt deine.\n\nWenn jemand deine App nutzt und auf „Danke“ klickt, erfährst du davon. So siehst du, wenn deine App einer anderen Klasse oder einem anderen Kind geholfen hat.\n\nWir fangen gerade erst an. Wenn du zu den Ersten gehören willst, mach mit.",
         cta: "Eine App bauen",
@@ -106,7 +106,7 @@ export default {
         icon: "🎒",
         headline: "Selbst ausprobieren statt nur zuschauen.",
         ask:
-          "Ich lerne gerade und suche etwas zum Ausprobieren. Lies https://lernapps.net/llms.txt und die dort verlinkten Seiten. Erkläre mir kurz, was lernapps.net ist und was es mir beim Lernen bringt. Ob es dort schon etwas zu meinem Thema gibt, sehe ich selbst im Katalog: https://lernapps.net/apps/. Sag mir auch, ob ich mich anmelden muss oder jemand etwas über mich erfährt. Und falls es nichts Passendes gibt: Überlege mit mir, ob wir zusammen selbst eine kleine App dafür bauen können.",
+          "Ich lerne gerade und suche etwas zum Ausprobieren. Lies https://lernapps.net/llms.txt und die dort verlinkten Seiten. Erkläre mir kurz, was lernapps.net ist, was es mir beim Lernen bringt und wie es für Sicherheit sorgt. Ob es dort schon etwas zu meinem Thema gibt, sehe ich selbst im Katalog: https://lernapps.net/apps/. Falls nicht: Überlege mit mir, ob wir zusammen selbst eine kleine App dafür bauen können.",
         story:
           "Du willst den Stoff verstehen, zum Beispiel vor der nächsten Arbeit. Hier findest du kleine Apps, mit denen du selbst etwas ausprobierst. Du brauchst kein Konto. Wir wissen nicht, wer du bist.\n\nHat dir eine App geholfen? Klick auf „Danke“. Die Person, die sie gebaut hat, freut sich darüber.",
         cta: "Apps finden",
