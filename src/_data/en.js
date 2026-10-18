@@ -61,10 +61,18 @@ export default {
     solutions: {
       intro: "What lernapps.net does for you",
       tabsAriaLabel: "What lernapps.net does for you",
+      askBox: {
+        title: "Ask your AI assistant",
+        intro: "Copy this text into your AI assistant. It reads lernapps.net and explains what the platform does for you.",
+        copy: "Copy text",
+        copied: "Copied",
+      },
       teacher: {
         role: "If you teach",
         icon: "📚",
         headline: "A fitting app, in your lesson in a few minutes.",
+        ask:
+          "I teach and I am looking for digital learning material. Read https://lernapps.net/llms.txt and the pages it links to. Explain to me in plain words what lernapps.net is, what the platform offers me as a teacher and how it keeps things safe. I can look for suitable apps myself in the catalogue: https://lernapps.net/apps/en/. Be honest about the limits.",
         story:
           "The lesson is about to start. You need an app for exactly this topic. On lernapps.net you search by topic and grade. The app runs right away in the browser: without installation and without sign-up.\n\nWe only list apps that need no server of their own. What your class types in stays on their devices.\n\nAfter the lesson you can say thanks with one click, or briefly tell us how it went. We don't need more.",
         cta: "Find apps",
@@ -74,6 +82,8 @@ export default {
         role: "If your child has a test tomorrow",
         icon: "🏠",
         headline: "Practise tonight.",
+        ask:
+          "I am a parent and I am looking for safe learning apps for my child. Read https://lernapps.net/llms.txt and the pages it links to. Explain to me in plain words what lernapps.net is, what the platform offers me as a parent and how it keeps things safe. I can look for suitable apps myself in the catalogue: https://lernapps.net/apps/en/. Be honest about the limits.",
         story:
           "Your child should practise tonight. On lernapps.net you find an app for the topic of the test. Your child can start right away. No account is needed, and nobody learns who they are.\n\nIf the app helped, say thanks. One click is enough.",
         cta: "Find apps",
@@ -83,6 +93,8 @@ export default {
         role: "If you build apps",
         icon: "🔧",
         headline: "You are building anyway. We make it easier.",
+        ask:
+          "I like building small learning apps with AI help. Read https://lernapps.net/llms.txt and the pages it links to. Explain to me in plain words what lernapps.net is, what the platform offers people like me and what I get back when someone uses my app. Tell me honestly whether it is worth it for me.",
         story:
           "You build your app anyway: for your class or for your child. lernapps.net makes that easier. You get guides that help your AI assistant build an app faster, one that others can use well too.\n\nYou list your app in a few minutes. You need no website of your own and no ads. The app stays yours.\n\nWhen someone uses your app and clicks “Thanks”, you hear about it. So you see when your app helped another class or another child.\n\nWe are only just starting. If you want to be among the first, join in.",
         cta: "Build an app",
@@ -92,6 +104,8 @@ export default {
         role: "If you are learning",
         icon: "🎒",
         headline: "Try it yourself instead of just watching.",
+        ask:
+          "I am learning something right now and I am looking for something to try out. Read https://lernapps.net/llms.txt and the pages it links to. Explain to me briefly what lernapps.net is, what it does for my learning and how it keeps things safe. I can check the catalogue myself to see whether there is already something on my topic: https://lernapps.net/apps/en/. If not: think with me about whether we can build a small app for it together.",
         story:
           "You want to understand the topic, for example before the next test. Here you find small apps that let you try things out yourself. You need no account. We don't know who you are.\n\nDid an app help you? Click “Thanks”. The person who built it will be glad.",
         cta: "Find apps",
