@@ -32,6 +32,7 @@ export const nav = {
     { label: { de: "Apps finden", en: "Find apps" }, href: "/apps/" },
     { label: { de: "App bauen", en: "Build an app" }, href: "/apps/build/" },
     { label: { de: "App eintragen", en: "List an app" }, href: "/apps/enter/" },
+    { label: { de: "Tooling", en: "Tooling" }, href: "/tooling/" },
     { label: { de: "So ist es gedacht", en: "How it is meant" }, href: "/docs/" },
     {
       label: { de: "Mitmachen", en: "Get involved" },
