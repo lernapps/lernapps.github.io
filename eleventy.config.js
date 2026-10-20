@@ -1,5 +1,5 @@
 // Builds src/ into _site/. Only Nunjucks files are templates; everything else (llms.txt, .nojekyll,
-// CNAME, brand) is copied unchanged.
+// CNAME, brand, the copy script of /join/) is copied unchanged.
 // Header, footer and the filter "own" come from the shared site frame (site-frame/, also used by apps and docs).
 import siteFrame from "./site-frame/eleventy.js";
 
@@ -10,6 +10,7 @@ export default function (eleventyConfig) {
     "src/CNAME", // custom domain; the gh-pages branch must carry it
     "src/.nojekyll",
     "src/llms.txt",
+    "src/join.js", // copy buttons of the prompts on /join/
     "src/favicon.svg",
     "src/favicon.ico",
     "src/apple-touch-icon.png",

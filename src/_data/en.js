@@ -58,7 +58,7 @@ export default {
       platform: { title: "The platform brings", items: ["foundations for a quiz, an explainer and an interactive app", "a method: based on the curriculum, exercises with feedback", "tools to build, check and list an app"] },
       result: "So every app feels familiar. And every app brings its own idea.",
       link: "What the apps can do",
-      linkHref: "/features/#apps",
+      linkHref: "/features/#users",
     },
 
     platform: {
@@ -72,7 +72,7 @@ export default {
       ],
       links: [
         { label: "All principles", href: "/features/#principles" },
-        { label: "Technology and costs, openly explained", href: "/features/#technology" },
+        { label: "How the platform works", href: "/features/#platform" },
       ],
     },
 
@@ -103,36 +103,24 @@ export default {
     },
   },
 
-  // ── FEATURES: principles, what the apps can do, technical transparency ─────
+  // ── FEATURES: for users, for developers, and what makes the platform unique ─
   features: {
     meta: {
-      title: "What lernapps is made of — lernapps.net",
-      description: "The principles of lernapps.net, what the apps can do, and openly explained: how the technology works, what it costs and how an app gets into the catalog.",
+      title: "Features — lernapps.net",
+      description: "What the apps can do, what you get when you build one, and what makes lernapps.net unique: no server, no company, no data collection, with GitHub as a free backbone.",
     },
     hero: {
       headline: "What lernapps is made of",
-      subtitle: "For everyone who uses apps: the principles and what the apps can do. For everyone who builds: how it works technically, openly explained.",
+      subtitle: "For everyone who uses apps. For everyone who builds apps. And what makes the platform behind them unique.",
       jump: [
-        { label: "Principles", href: "#principles" },
-        { label: "What the apps can do", href: "#apps" },
-        { label: "Technology, openly explained", href: "#technology" },
+        { label: "For users", href: "#users" },
+        { label: "For developers", href: "#developers" },
+        { label: "The platform", href: "#platform" },
       ],
     },
-    principles: {
-      id: "principles",
-      heading: "The principles",
-      intro: "They apply to everyone alike: to those who build apps and to those who use them.",
-      items: [
-        { icon: "🤝", title: "No company behind it", text: "Nobody earns money from lernapps.net. No subscription, no ads, no selling of data. Not later either." },
-        { icon: "📂", title: "Open, not closed", text: "The rules, the plan and the source code are public. Anyone can read how decisions are made here." },
-        { icon: "🏡", title: "Your app stays yours", text: "Every app stays with the person who built it. lernapps.net shows it but does not own it." },
-        { icon: "🔒", title: "Nothing is collected", text: "No account, no cookies, no tracking. What someone types stays on their device." },
-        { icon: "💬", title: "Honest about limits", text: "Every app says what it can do and what it can't. We say openly what we don't know yet." },
-        { icon: "💙", title: "Thanks instead of money", text: "Whoever uses an app can say thanks. That way the person who built it learns that it helped." },
-      ],
-    },
-    apps: {
-      id: "apps",
+    users: {
+      id: "users",
+      kicker: "For teachers, parents and learners",
       heading: "What the apps can do",
       intro: "Every app is built on one of three foundations. That is why they work in a similar way everywhere, and every one is made with the same care.",
       archetypes: [
@@ -148,17 +136,24 @@ export default {
         { title: "Accessible", text: "The apps meet WCAG 2.1 AA and work from 360 pixels wide. Where an app can't, it says so in the catalog." },
         { title: "Runs on every device", text: "In the browser, without installing anything: on the projector, on the class tablets or on a phone at home." },
       ],
+      cta: "Find apps",
+      ctaHref: "/apps/en/",
     },
-    tech: {
-      id: "technology",
+    developers: {
+      id: "developers",
       kicker: "For developers",
-      heading: "Technology, openly explained",
-      intro: "For us, technical transparency is not small print but a promise. Here is how lernapps.net works, what it costs and what you agree to when you contribute an app.",
+      heading: "What you get when you build",
+      intro: "You bring the idea and the content. lernapps.net gives you foundations, tools and guidance for your AI assistant. And it says openly what you agree to when you contribute an app.",
       blocks: [
         {
-          id: "costs",
-          title: "Why it works without money",
-          text: "Every app is a static page. It runs entirely in the browser, without its own server and without a database. It is hosted for free, for example with GitHub Pages, or wherever you like. The catalog is static too.\n\nSo there are no servers that cost money, and no data that anyone could earn money with. People do the work on an app anyway: for their own class or their own child.",
+          id: "stack",
+          title: "Foundations, or your own stack",
+          text: "With our tooling you create an app from a foundation: quiz, explainer or interactive app. Checks then run on every commit and in CI.\n\nBut you can also build freely, with any stack. Then only the platform rules apply: collect nothing, no account, no ads, accessible, usable from 360 pixels, no other servers before a click. Dependencies need an open licence.",
+        },
+        {
+          id: "assistant",
+          title: "Made for your AI assistant",
+          text: "Skills, a plan and rules with fixed IDs guide your assistant through the work: ask, plan, build, check, publish, list. You decide along with it at fixed points.\n\nWe test how closely different assistants follow this guidance and publish the results.",
         },
         {
           id: "review",
@@ -172,11 +167,6 @@ export default {
           ],
         },
         {
-          id: "stack",
-          title: "Your stack, your choice",
-          text: "With our tooling you create an app from a foundation: quiz, explainer or interactive app. Checks then run on every commit and in CI, and skills and a plan guide your AI assistant through the work.\n\nBut you can also build freely, with any stack. Then only the platform rules apply: collect nothing, no account, no ads, accessible, usable from 360 pixels, no other servers before a click. Dependencies need an open licence.",
-        },
-        {
           id: "ownership",
           title: "Ownership and licence",
           text: "Your app lives in your repository, at your address and under your licence. The catalog only links to it. We recommend open licences: MIT or Apache 2.0 for the code, CC BY 4.0 for the content. That way others can build on your app, and your name stays with it.\n\nYou use content by others, such as texts or pictures, only with a suitable licence and name the source and licence. The platform itself and the tooling are under the MIT licence.",
@@ -186,14 +176,101 @@ export default {
         { label: "The rules for every app", href: "/tooling/rules/" },
         { label: "The tooling", href: "/tooling/" },
         { label: "How we test the guidance", href: "/tooling/prompt-engineering/" },
-        { label: "The platform design", href: "/docs/platform-design/" },
-        { label: "The source code", href: "https://github.com/lernapps" },
       ],
       note: "The technical documents are in English.",
       cta: "Build an app",
       ctaHref: "/apps/en/build/",
     },
+    platform: {
+      id: "platform",
+      kicker: "What makes lernapps.net unique",
+      heading: "No server. No company. No data collection.",
+      intro: "Most learning platforms need servers, accounts and a business model. lernapps.net is built differently. That is why it can stay free.",
+      unique: [
+        { id: "costs", icon: "🐙", title: "GitHub as a free backbone", text: "This is why it works without money: the apps and the catalog are static pages on GitHub Pages. An entry is a pull request, the check runs in GitHub Actions. There is no server of our own that costs money." },
+        { id: "data", icon: "🔒", title: "No server, no data", text: "Every app runs entirely in the browser. There is no database and no account. What is not collected cannot be lost or sold." },
+        { id: "ai", icon: "🤖", title: "Readable for AI assistants", text: "Every part of lernapps.net has an llms.txt. So an assistant can find the right app, explain the platform or build an app itself. Without anyone having to run an API." },
+        { id: "open", icon: "🧭", title: "Planned in the open", text: "We designed lernapps.net with the Platform Design Toolkit: who takes part, what everyone gets out of it, what we try first. Everything is public, including what we don't know yet." },
+      ],
+      principles: {
+        id: "principles",
+        heading: "The principles",
+        intro: "They apply to everyone alike: to those who build apps and to those who use them.",
+        items: [
+          { icon: "🤝", title: "No company behind it", text: "Nobody earns money from lernapps.net. No subscription, no ads, no selling of data. Not later either." },
+          { icon: "📂", title: "Open, not closed", text: "The rules, the plan and the source code are public. Anyone can read how decisions are made here." },
+          { icon: "🏡", title: "Your app stays yours", text: "Every app stays with the person who built it. lernapps.net shows it but does not own it." },
+          { icon: "🔒", title: "Nothing is collected", text: "No account, no cookies, no tracking. What someone types stays on their device." },
+          { icon: "💬", title: "Honest about limits", text: "Every app says what it can do and what it can't. We say openly what we don't know yet." },
+          { icon: "💙", title: "Thanks instead of money", text: "Whoever uses an app can say thanks. That way the person who built it learns that it helped." },
+        ],
+      },
+      links: [
+        { label: "How it is meant", href: "/docs/en/" },
+        { label: "The platform design", href: "/docs/platform-design/" },
+        { label: "The source code", href: "https://github.com/lernapps" },
+      ],
+    },
   },
+
+
+  // ── JOIN: one block per persona, each with a prompt for their AI assistant ─
+  join: {
+    meta: {
+      title: "Get involved — lernapps.net",
+      description: "How you can take part in lernapps.net: as a teacher, as a parent, as a learner, with an app of your own or on the platform itself. With a prompt for your AI assistant.",
+    },
+    hero: {
+      headline: "Get involved",
+      subtitle: "lernapps.net lives on people who build apps, and on people who use them and say thanks. Pick where you stand.",
+    },
+    askBox: {
+      title: "Ask your AI assistant",
+      intro: "Copy this text into your AI assistant. It reads lernapps.net and explains what the platform does for you.",
+      copy: "Copy text",
+      copied: "Copied",
+    },
+    personas: [
+      {
+        id: "teachers", icon: "📚", role: "If you teach",
+        headline: "Use apps and tell us how it went.",
+        text: "Use an app in class or when you cover a lesson. Afterwards you can say thanks with one click or give short feedback on whether it fitted. Tell your colleagues about it. And if an app is missing: tell us, or build it yourself.",
+        cta: "Find apps", ctaHref: "/apps/en/",
+        ask: "I teach and I am looking for digital learning material. Read https://lernapps.net/llms.txt and the pages it links to. Explain to me in plain words what lernapps.net is, what the platform offers me as a teacher and how it keeps things safe. Also have a look at the catalogue: https://lernapps.net/apps/en/. Be honest about the limits.",
+      },
+      {
+        id: "parents", icon: "🏠", role: "If you help a child learn",
+        headline: "Practise together and say thanks.",
+        text: "Look for an app on the topic of the next test. Did it help? A thank-you shows the person who built it that their work is worth it. And share the link with other parents, for example in the class group.",
+        cta: "Find apps", ctaHref: "/apps/en/",
+        ask: "I am a parent and I am looking for safe learning apps for my child. Read https://lernapps.net/llms.txt and the pages it links to. Explain to me in plain words what lernapps.net is, what the platform offers me as a parent and how it keeps things safe. Also have a look at the catalogue: https://lernapps.net/apps/en/. Be honest about the limits.",
+      },
+      {
+        id: "learners", icon: "🎒", role: "If you are learning yourself",
+        headline: "Try things out instead of just watching.",
+        text: "Find an app on your topic. You don't need an account, and nobody knows who you are. Is there none yet? Maybe you build one yourself, with your AI assistant.",
+        cta: "Find apps", ctaHref: "/apps/en/",
+        ask: "I am learning something right now and I am looking for something to try out. Read https://lernapps.net/llms.txt and the pages it links to. Explain to me briefly what lernapps.net is, what it does for my learning and how it keeps things safe. Also have a look at the catalogue (https://lernapps.net/apps/en/): is there already something on my topic? If not: think with me about whether we can build a small app for it together.",
+      },
+      {
+        id: "makers", icon: "🔧", role: "If you want to build an app",
+        headline: "Build the app that is still missing.",
+        text: "You bring the idea and the content, your AI assistant builds it with you. lernapps.net gives you foundations, tools and checks. Your app stays yours. Whoever uses it can say thanks, and you hear about it.",
+        cta: "Build an app", ctaHref: "/apps/en/build/",
+        secondary: "Already have an app? List it", secondaryHref: "/apps/en/build/#eintragen",
+        ask: "I like building small learning apps with AI help. Read https://lernapps.net/llms.txt and the pages it links to. Explain to me in plain words what lernapps.net is, what the platform offers people like me and what I get back when someone uses my app. Tell me honestly whether it is worth it for me.",
+      },
+      {
+        id: "platform", icon: "🧩", role: "If you want to work on the platform",
+        headline: "Make lernapps.net better.",
+        text: "The platform is open: docs, tooling, catalog and this site are on GitHub. You can report bugs, improve texts, help build the tooling or think along about where it goes next.",
+        cta: "How to contribute", ctaHref: "https://github.com/lernapps/.github/blob/main/CONTRIBUTING.md",
+        secondary: "How it is meant", secondaryHref: "/docs/en/",
+        ask: "I would like to work on lernapps.net. Read https://lernapps.net/llms.txt, https://lernapps.net/docs/llms.txt and https://github.com/lernapps/.github/blob/main/CONTRIBUTING.md. Explain to me in plain words how the platform is built, which repositories there are and how I can make a first small contribution. Be honest about what is still missing.",
+      },
+    ],
+  },
+
 
   // ── ABOUT: the long story behind lernapps.net ──────────────────────────────
   about: {
