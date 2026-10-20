@@ -1,170 +1,216 @@
-// All texts of the home page (German); en.js is the English translation, with the same structure. Templates contain no copy of their own.
-// The story follows the platform design (https://lernapps.net/docs/platform-design/):
-// adults look for an app in an acute moment, people who build apps do it for their own class or child,
-// the platform is free and lives on thanks, and nothing is collected in secret.
+// All texts of the site's pages (German); en.js is the English translation, with the same structure. Templates contain no copy of their own.
+// The home page tells one story: the promise, real apps, what adults get, a solid foundation for makers, why another
+// platform (it belongs to no company), how to join, and why the founder does this. Details live on two pages:
+// features (principles, what the apps can do, and technical transparency for developers) and about (the long story).
 // Language: plain German (ISO 24495-1): short sentences, active voice, no jargon, "du".
 export default {
   meta: {
-    title: "lernapps.net — kleine Lern-Apps, kostenlos und ohne Anmeldung",
+    title: "lernapps.net — Lern-Apps ohne Haken",
     description:
-      "lernapps.net hilft, kleine Lern-Apps zu finden, die sofort laufen: kostenlos, ohne Anmeldung und ohne heimliche Datensammlung. Und es hilft allen, die solche Apps bauen.",
+      "Kleine Lern-Apps, gemacht von Eltern und Lehrkräften: kostenlos im Browser, ohne Konto, ohne Werbung, ohne Abo. Und ein solides Fundament für alle, die selbst eine App bauen wollen.",
   },
 
   landing: {
-    // ── HERO ──────────────────────────────────────────────────────────────────
     hero: {
-      headline: "Deutschlands Schulen haben ein\nDigitalisierungs\u00ADproblem.", // soft hyphen for narrow screens
-      subtitle: "Und da geht es nicht um WLAN oder iPads, sondern um passende Lösungen.",
+      headline: "Lern-Apps ohne Haken.",
+      subtitle: "Gemacht von Eltern und Lehrkräften, mit Leidenschaft. Kostenlos im Browser und sofort startklar.",
+      badges: ["Kein Konto", "Keine Werbung", "Kein Abo", "Nichts verlässt das Gerät"],
+      primary: "App finden",
+      primaryHref: "/apps/",
+      secondary: "Selbst eine App bauen",
+      secondaryHref: "#mitmachen",
     },
 
-    // Order of the persona tabs (problems and solutions share it).
-    personas: ["teacher", "parent", "creator", "learner"],
-
-    // ── SECTION 1: Problem quotes ──────────────────────────────────────────────
-    problems: {
-      tabsAriaLabel: "Perspektiven",
-      scrollCue: "Klingt das vertraut?",
-      teacher: {
-        role: "Lehrkraft",
-        icon: "📚",
-        quote:
-          "In zehn Minuten beginnt die Stunde. Ich suche etwas, mit dem meine Klasse Brüche selbst ausprobieren kann. Alles, was ich finde, will eine Anmeldung oder läuft über fremde Server. Darf ich das überhaupt einsetzen? Ich nehme doch wieder das Arbeitsblatt.",
-      },
-      parent: {
-        role: "Elternteil",
-        icon: "🏠",
-        quote:
-          "Morgen schreibt mein Sohn eine Mathearbeit. Er sitzt am Küchentisch und versteht Prozentrechnung nicht. Ich suche eine App, mit der er üben kann. Ich finde nur Werbung, Abos und Apps, die zuerst ein Konto wollen.",
-      },
-      creator: {
-        role: "Selbst gebaut",
-        icon: "🔧",
-        quote:
-          "Ich habe am Wochenende eine kleine App gebaut, mit der meine Tochter Wahrscheinlichkeiten ausprobieren kann. Sie liebt sie. Ob sie auch anderen Kindern helfen würde? Keine Ahnung. Sie liegt auf GitHub, und niemand findet sie.",
-      },
-      learner: {
-        role: "Schülerin",
-        icon: "🎒",
-        quote:
-          "Übermorgen ist die Arbeit, und ich verstehe das mit den Funktionen einfach nicht. Videos bringen mir nichts. Ich will es selbst ausprobieren.",
-      },
+    showcase: {
+      heading: "Ein paar Apps aus dem Katalog",
+      intro: "Von der umfassenden Übungs-App bis zum Spiel. Jede ist für eine echte Klasse oder ein echtes Kind entstanden.",
+      early: "Wir fangen gerade erst an. Der Katalog wächst mit jeder App, die jemand einträgt.",
+      apps: [
+        { icon: "🗺️", meta: "Mathematik · Klasse 8", title: "Mathe-Karte", text: "Prozent, binomische Formeln und Wahrscheinlichkeit: erklärt, mit Bild und vielen Aufgaben.", href: "/apps/mathe-karte/" },
+        { icon: "🎲", meta: "Mathematik · Klasse 7 und 8", title: "Kniffel-Trainer", text: "Kniffel spielen und dabei Chancen als Bruch und Prozent verstehen.", href: "/apps/kniffel-trainer/" },
+        { icon: "🔍", meta: "Deutsch · Klasse 3 bis 13", title: "Textcheck", text: "Fehler in Texten finden, bis hin zu Meinungen, die wie Tatsachen klingen.", href: "/apps/textcheck/" },
+        { icon: "🌋", meta: "Erdkunde · Klasse 5 bis 10", title: "Naturwunder-Quiz", text: "Vulkane, Wasserfälle, Wüsten: zu jeder Antwort eine Erklärung und Wikipedia zum Weiterlesen.", href: "/apps/naturwunder-quiz/" },
+      ],
+      all: "Alle Apps ansehen",
+      allHref: "/apps/",
     },
 
-    // ── SECTION 2: Ecosystem ───────────────────────────────────────────────────
-    ecosystemProblem: {
-      headline: "Gute Apps gibt es.\nSie kommen nur nicht an.",
-      body:
-        "Menschen bauen kleine Lern-Apps für ihre Klasse oder ihr Kind. Mit KI-Hilfe geht das oft an einem Wochenende. Aber die Apps kommen nicht in andere Klassen. Wer sie einsetzen will, trägt das Risiko allein: Darf ich das? Ist das sicher? Und wer sie baut, erfährt nie, ob sie anderswo geholfen haben.",
-      bridge: "lernapps.net bringt diese Seiten zusammen.",
-    },
-
-    // ── SECTION 3: Portraits, one per persona ──────────────────────────────────
-    solutions: {
-      intro: "Was lernapps.net für dich tut",
-      tabsAriaLabel: "Was lernapps.net für dich tut",
-      askBox: {
-        title: "Frag deinen KI-Assistenten",
-        intro: "Kopiere diesen Text in deinen KI-Assistenten. Er liest lernapps.net und erklärt dir, was die Plattform für dich tut.",
-        copy: "Text kopieren",
-        copied: "Kopiert",
-      },
-      teacher: {
-        role: "Wenn du unterrichtest",
-        icon: "📚",
-        headline: "Eine passende App, in wenigen Minuten im Unterricht.",
-        ask:
-          "Ich unterrichte und suche digitale Lernangebote. Lies https://lernapps.net/llms.txt und die dort verlinkten Seiten. Erkläre mir in einfachen Worten, was lernapps.net ist, was die Plattform mir als Lehrkraft bietet und wie sie für Sicherheit sorgt. Wirf auch einen Blick in den Katalog: https://lernapps.net/apps/. Sei ehrlich über die Grenzen.",
-        story:
-          "Gleich beginnt die Stunde. Du brauchst eine App zu genau diesem Thema. Bei lernapps.net suchst du nach Thema und Klassenstufe. Die App läuft sofort im Browser: ohne Installation und ohne Anmeldung.\n\nWir nehmen nur Apps auf, die ohne eigenen Server auskommen. Was deine Klasse eingibt, bleibt auf ihren Geräten.\n\nNach der Stunde kannst du mit einem Klick Danke sagen oder kurz rückmelden, wie es lief. Mehr brauchen wir nicht.",
-        cta: "Apps finden",
-        ctaHref: "/apps/",
-      },
-      parent: {
-        role: "Wenn dein Kind morgen eine Arbeit schreibt",
-        icon: "🏠",
-        headline: "Heute Abend noch üben.",
-        ask:
-          "Ich bin Elternteil und suche sichere Lern-Apps für mein Kind. Lies https://lernapps.net/llms.txt und die dort verlinkten Seiten. Erkläre mir in einfachen Worten, was lernapps.net ist, was die Plattform mir als Elternteil bietet und wie sie für Sicherheit sorgt. Wirf auch einen Blick in den Katalog: https://lernapps.net/apps/. Sei ehrlich über die Grenzen.",
-        story:
-          "Heute Abend soll dein Kind noch üben. Bei lernapps.net findest du eine App zum Thema der Arbeit. Dein Kind kann sofort anfangen. Es braucht kein Konto, und niemand erfährt, wer es ist.\n\nWenn die App geholfen hat, sag Danke. Ein Klick genügt.",
-        cta: "Apps finden",
-        ctaHref: "/apps/",
-      },
-      creator: {
-        role: "Wenn du Apps baust",
-        icon: "🔧",
-        headline: "Du baust ohnehin. Wir machen es dir leichter.",
-        ask:
-          "Ich baue gern kleine Lern-Apps mit KI-Hilfe. Lies https://lernapps.net/llms.txt und die dort verlinkten Seiten. Erkläre mir in einfachen Worten, was lernapps.net ist, was die Plattform Menschen wie mir bietet und was ich zurückbekomme, wenn jemand meine App nutzt. Sag mir ehrlich, ob sich das für mich lohnt.",
-        story:
-          "Du baust deine App ohnehin: für deine Klasse oder für dein Kind. lernapps.net macht dir das leichter. Du bekommst Anleitungen, mit denen dein KI-Assistent schneller eine App baut, die auch andere gut nutzen können.\n\nDeine App trägst du in wenigen Minuten ein. Du brauchst keine eigene Website und keine Werbung. Die App bleibt deine.\n\nWenn jemand deine App nutzt und auf „Danke“ klickt, erfährst du davon. So siehst du, wenn deine App einer anderen Klasse oder einem anderen Kind geholfen hat.\n\nWir fangen gerade erst an. Wenn du zu den Ersten gehören willst, mach mit.",
-        cta: "Eine App bauen",
-        ctaHref: "/apps/build/",
-      },
-      learner: {
-        role: "Wenn du selbst lernst",
-        icon: "🎒",
-        headline: "Selbst ausprobieren statt nur zuschauen.",
-        ask:
-          "Ich lerne gerade und suche etwas zum Ausprobieren. Lies https://lernapps.net/llms.txt und die dort verlinkten Seiten. Erkläre mir kurz, was lernapps.net ist, was es mir beim Lernen bringt und wie es für Sicherheit sorgt. Wirf auch einen Blick in den Katalog (https://lernapps.net/apps/): Gibt es dort schon etwas zu meinem Thema? Falls nicht: Überlege mit mir, ob wir zusammen selbst eine kleine App dafür bauen können.",
-        story:
-          "Du willst den Stoff verstehen, zum Beispiel vor der nächsten Arbeit. Hier findest du kleine Apps, mit denen du selbst etwas ausprobierst. Du brauchst kein Konto. Wir wissen nicht, wer du bist.\n\nHat dir eine App geholfen? Klick auf „Danke“. Die Person, die sie gebaut hat, freut sich darüber.",
-        cta: "Apps finden",
-        ctaHref: "/apps/",
-      },
-    },
-
-    // ── SECTION 4: Principles ──────────────────────────────────────────────────
-    principles: {
-      id: "so-funktioniert-es",
-      heading: "So funktioniert lernapps.net",
-      intro:
-        "lernapps.net ist kostenlos. Niemand verdient daran. Es gibt keine Werbung, und wir sammeln keine Daten im Verborgenen. Die Plattform lebt von zwei Dingen: Menschen bauen gute Lern-Apps. Und andere sagen Danke dafür.",
+    forYou: {
+      heading: "Was du davon hast",
       items: [
         {
-          title: "Kostenlos und ohne Werbung",
-          text: "Die Apps laufen in deinem Browser. Dafür braucht es keine teuren Server. Deshalb kostet lernapps.net nichts.",
+          icon: "📚", role: "Wenn du unterrichtest", headline: "Vertretungsstunde in der 7b?",
+          text: "Du übernimmst kurzfristig eine Klasse, vielleicht nicht einmal in deinem Fach. Such nach Fach und Klasse, teile einen Link oder zeig den QR-Code. Die Klasse arbeitet sinnvoll am Thema, und die App gibt jedem Kind Rückmeldung.\n\nNiemand braucht ein Konto, und es entstehen keine Daten deiner Schülerinnen und Schüler.",
+          cta: "Apps für den Unterricht", ctaHref: "/apps/",
         },
         {
-          title: "Was du eingibst, bleibt auf deinem Gerät",
-          text: "Wir nehmen nur Apps auf, die ohne eigenen Server auskommen. Sie brauchen keine Installation und keine Anmeldung.",
-        },
-        {
-          title: "Wir zählen offen, nicht heimlich",
-          text: "Wir zählen nur Klicks, die jemand bewusst macht, zum Beispiel „Danke“. Wir speichern nur die Summe. Wir wissen nicht, wer geklickt hat.",
-        },
-        {
-          title: "Danke hält alles am Leben",
-          text: "Ein Danke zeigt den Menschen, die Apps bauen, dass sich ihre Arbeit lohnt. Ohne diesen Dank gäbe es bald keine neuen Apps mehr.",
+          icon: "🏠", role: "Wenn dein Kind morgen eine Arbeit schreibt", headline: "Heute Abend noch üben.",
+          text: "Such eine App zum Thema der Arbeit. Dein Kind kann sofort anfangen: ohne Abo, ohne Werbung, ohne Konto. Niemand erfährt, wer es ist.",
+          tutor: { title: "Und wenn es hakt?", text: "In den Erklär-Apps hilft der KI-Assistent, den ihr ohnehin nutzt. Er kennt die Aufgabe, die Lösung und die typischen Fehler und erklärt Schritt für Schritt. Auch um neun Uhr abends, wenn du selbst nicht mehr weiterweißt. Die App selbst sendet nichts." },
+          cta: "Apps zum Üben", ctaHref: "/apps/",
         },
       ],
-      privacy: {
-        title: "Wenn du an deiner Schule auf den Datenschutz achtest",
-        text:
-          "Die Apps laufen nur im Browser. Sie haben keinen eigenen Server, keine Konten und keine Cookies.\n\nAuf der Plattform zählen wir nur Klicks, die jemand bewusst macht: „Danke“, „Im Unterricht genutzt“, „Ich schau mir das an“ und kurze Rückmeldungen. Wir speichern nur die Summe dieser Klicks. Wir speichern keine IP-Adressen und nichts im Browser. Daten von Schülerinnen und Schülern entstehen nicht.",
-      },
     },
 
-    // ── SECTION 5: Why it is free, and why I do this ───────────────────────────
-    whyFree: {
-      id: "warum-kostenlos",
-      heading: "Warum ist das kostenlos?",
-      text:
-        "Die Apps laufen in deinem Browser. Dafür brauchen wir keine teuren Server. Wer Apps baut, macht das ohnehin für die eigene Klasse oder das eigene Kind. Deshalb kann lernapps.net kostenlos sein, ohne Werbung und ohne Daten zu verkaufen.\n\nWas die Plattform braucht, ist dein Danke. Es zeigt den Menschen, die Apps bauen, dass sich ihre Arbeit lohnt.",
-      personal: {
-        heading: "Warum ich das mache",
-        text:
-          "Ich bin Softwareentwickler. Seit einiger Zeit sehe ich, wie leicht es geworden ist, kleine Apps zu bauen. Wer weiß, was er tut, braucht dafür kaum noch Zeit und Geld.\n\nIn der Schule kommt davon wenig an. Ob eine Lehrkraft eine neue App einsetzt, hängt vor allem davon ab, wie viel Risiko sie selbst tragen will. Gute Apps gibt es, aber sie finden nicht in die Klassen. Ich sehe da ein ganzes Ökosystem mit seinen Spannungen: zwischen denen, die bauen, denen, die einsetzen, und den Regeln, die alle schützen sollen.\n\nSich nur über schlechte Digitalisierung an Schulen zu beschweren, bringt nichts. Also versuche ich etwas.\n\nGeld will ich damit nicht verdienen. Ich will erst einmal sehen, ob es den Bedarf wirklich gibt. Wenn lernapps.net trägt, kann daraus zum Beispiel ein Verein werden. Dann gehört die Plattform denen, die sie mit Leben füllen.",
-        signature: "Oliver Jägle",
-      },
+    different: {
+      heading: "Ein solides Fundament für Macher.",
+      intro: "lernapps sind keine Produkte eines Verlags. Eltern und Lehrkräfte bauen sie, weil ihrem Kind oder ihrer Klasse etwas gefehlt hat. lernapps.net gibt ihnen ein Fundament, auf dem daraus gute Apps werden.",
+      makers: { title: "Die Macher bringen", items: ["ihre Idee", "ihr Wissen über das Fach", "ihre Erfahrung aus Klasse und Küchentisch"] },
+      platform: { title: "Die Plattform bringt", items: ["Grundgerüste für Quiz, Erklär-App und interaktive App", "eine Methodik: am Lehrplan orientiert, Übungen mit Rückmeldung", "Werkzeuge zum Bauen, Prüfen und Eintragen"] },
+      result: "So fühlt sich jede App vertraut an. Und jede bringt ihre eigene Idee mit.",
+      link: "Was die Apps können",
+      linkHref: "/features/#apps",
     },
 
-    // ── SECTION 6: For sceptics ────────────────────────────────────────────────
+    platform: {
+      objection: "Noch eine Plattform? Davon gibt es doch genug.",
+      heading: "Stimmt. Aber diese gehört keiner Firma.",
+      intro: "lernapps.net ist kein Produkt eines Anbieters und keiner Agentur. Es ist ein gemeinsamer Ort: Eltern und Lehrkräfte bauen hier Apps, teilen sie und setzen sie ein. Dabei gelten für alle dieselben Prinzipien.",
+      points: [
+        { title: "Niemand verdient daran.", text: "Kein Abo, keine Werbung, kein Verkauf von Daten. Auch später nicht.", link: { label: "Warum das trotzdem funktioniert", href: "/features/#kosten" } },
+        { title: "Ein Ort für den Austausch.", text: "Die einen bauen Apps, die anderen setzen sie ein. Rückmeldung und Danke kommen bei denen an, die gebaut haben." },
+        { title: "Offen, nach festen Prinzipien.", text: "Kein Konto, nichts wird gesammelt. Die Regeln, der Plan und der Quellcode der Plattform sind öffentlich." },
+      ],
+      links: [
+        { label: "Alle Prinzipien", href: "/features/#prinzipien" },
+        { label: "Technik und Kosten, offen erklärt", href: "/features/#technik" },
+      ],
+    },
+
+    join: {
+      id: "mitmachen",
+      heading: "Du willst nicht warten, bis sich etwas ändert?",
+      text: "Bau die App, die deiner Klasse oder deinem Kind fehlt. Du bringst die Idee und den Inhalt. Wir geben dir den Rahmen, die Methodik und die Werkzeuge. Dein KI-Assistent hilft dir beim Bauen. Und deine App bleibt deine.\n\nWer deine App nutzt, kann Danke sagen. Du erfährst davon und siehst, wo deine Arbeit ankommt.",
+      cta: "Eine App bauen",
+      ctaHref: "/apps/build/",
+    },
+
+    founder: {
+      heading: "Seit Jahren reden alle vom Digitalisierungs\u00ADproblem der Schulen. Ich glaube, wir haben ein anderes.",
+      text: "Es fehlt nicht an Tablets und WLAN. Es fehlt an einem Ökosystem, das gute Ideen dorthin bringt, wo sie gebraucht werden. Eltern und Lehrkräfte bauen längst Lern-Apps für ihr Kind oder ihre Klasse. Aber die Apps bleiben, wo sie entstanden sind.\n\nIch will nicht weiter klagen, sondern etwas tun. Und ich will, dass alle, denen gute Bildung am Herzen liegt, auch etwas tun können. Darum gründe ich lernapps.net.",
+      signature: "Oliver Jägle",
+      role: "Gründer von lernapps.net",
+      link: "Mehr über uns und die Idee",
+      linkHref: "/about/",
+    },
+
+    cta: {
+      title: "Lebt von Leidenschaft. Und von deinem Danke.",
+      description: "Finde eine App für morgen. Oder bau die, die noch fehlt.",
+      primary: "App finden",
+      primaryHref: "/apps/",
+      secondary: "Eine App bauen",
+      secondaryHref: "/apps/build/",
+    },
+  },
+
+  // ── FEATURES: principles, what the apps can do, technical transparency ─────
+  features: {
+    meta: {
+      title: "Was lernapps ausmacht — lernapps.net",
+      description: "Die Prinzipien von lernapps.net, was die Apps können, und offen erklärt: wie die Technik funktioniert, was sie kostet und wie eine App in den Katalog kommt.",
+    },
+    hero: {
+      headline: "Was lernapps ausmacht",
+      subtitle: "Für alle, die Apps einsetzen: die Prinzipien und was die Apps können. Für alle, die selbst bauen: wie es technisch funktioniert, offen erklärt.",
+      jump: [
+        { label: "Prinzipien", href: "#prinzipien" },
+        { label: "Was die Apps können", href: "#apps" },
+        { label: "Technik, offen erklärt", href: "#technik" },
+      ],
+    },
+    principles: {
+      id: "prinzipien",
+      heading: "Die Prinzipien",
+      intro: "Sie gelten für alle gleich: für die, die Apps bauen, und für die, die sie einsetzen.",
+      items: [
+        { icon: "🤝", title: "Keine Firma dahinter", text: "Niemand verdient an lernapps.net. Kein Abo, keine Werbung, kein Verkauf von Daten. Auch später nicht." },
+        { icon: "📂", title: "Offen statt geschlossen", text: "Die Regeln, der Plan und der Quellcode sind öffentlich. Jeder kann nachlesen, wie hier entschieden wird." },
+        { icon: "🏡", title: "Deine App bleibt deine", text: "Jede App liegt bei dem, der sie gebaut hat. lernapps.net zeigt sie, besitzt sie aber nicht." },
+        { icon: "🔒", title: "Nichts wird gesammelt", text: "Kein Konto, keine Cookies, kein Tracking. Was eingegeben wird, bleibt auf dem Gerät." },
+        { icon: "💬", title: "Ehrlich über Grenzen", text: "Jede App sagt, was sie kann und was nicht. Wir sagen offen, was wir noch nicht wissen." },
+        { icon: "💙", title: "Danke statt Geld", text: "Wer eine App nutzt, kann Danke sagen. So erfährt der, der sie gebaut hat, dass sie geholfen hat." },
+      ],
+    },
+    apps: {
+      id: "apps",
+      heading: "Was die Apps können",
+      intro: "Jede App baut auf einem von drei Grundgerüsten auf. Darum bedient man sie überall ähnlich, und in jeder steckt dieselbe Sorgfalt.",
+      archetypes: [
+        { icon: "❓", title: "Quiz", text: "Fragen mit Antworten zur Auswahl. Nach jeder Antwort steht, warum sie stimmt oder nicht, und wo man weiterlesen kann." },
+        { icon: "📖", title: "Erklär-App", text: "Kapitel mit Seiten, die erklären. Auf jeder Seite gibt es Übungen. Die Seiten sind auch ohne JavaScript lesbar." },
+        { icon: "🎮", title: "Interaktive App", text: "Lernen durch Tun: ein Spiel, ein Training, ein Versuch. Was die Lernenden tun, ist der Inhalt." },
+      ],
+      items: [
+        { title: "Am Lehrplan orientiert", text: "Der Inhalt kommt aus dem Lehrplan des Landes und dem Material der Lehrkraft. Jede App sagt, was man danach kann." },
+        { title: "Übungen mit Rückmeldung", text: "Eine falsche Antwort erklärt, warum sie falsch ist. Dann kann man es noch einmal versuchen." },
+        { title: "Ein Link führt genau dorthin", text: "Zum Thema, zum Abschnitt oder zu genau der Aufgabe, die die ganze Klasse rechnen soll. Auch als QR-Code." },
+        { title: "Mit deinem KI-Assistenten", text: "In den Erklär-Apps bekommt der KI-Assistent, den ihr ohnehin nutzt, die Aufgabe, die Lösung und die typischen Fehler. Er erklärt Schritt für Schritt. Die App selbst sendet nichts." },
+        { title: "Barrierearm", text: "Die Apps erfüllen WCAG 2.1 AA und laufen ab 360 Pixel Breite. Wo eine App das nicht kann, sagt sie es im Katalog." },
+        { title: "Läuft auf jedem Gerät", text: "Im Browser, ohne Installation: am Beamer, auf Tablets der Klasse oder auf dem Handy zu Hause." },
+      ],
+    },
+    tech: {
+      id: "technik",
+      kicker: "Für Entwicklerinnen und Entwickler",
+      heading: "Technik, offen erklärt",
+      intro: "Technische Transparenz ist bei uns kein Kleingedrucktes, sondern ein Versprechen. Hier steht, wie lernapps.net funktioniert, was es kostet und was du einhältst, wenn du eine App beiträgst.",
+      blocks: [
+        {
+          id: "kosten",
+          title: "Warum es ohne Geld funktioniert",
+          text: "Jede App ist eine statische Seite. Sie läuft ganz im Browser, ohne eigenen Server und ohne Datenbank. Gehostet wird sie kostenlos, zum Beispiel mit GitHub Pages, oder wo immer du willst. Auch der Katalog ist statisch.\n\nEs gibt also keine Server, die Geld kosten, und keine Daten, mit denen man Geld verdienen könnte. Die Arbeit an einer App machen Menschen ohnehin: für ihre eigene Klasse oder ihr eigenes Kind.",
+        },
+        {
+          id: "pruefung",
+          title: "Wie eine App in den Katalog kommt",
+          steps: [
+            "Du veröffentlichst die App in deinem eigenen Repository, unter deiner eigenen Adresse.",
+            "Du schickst einen Eintrag als Pull Request an lernapps/apps. Ohne GitHub geht es auch per Formular oder E-Mail.",
+            "Eine automatische Prüfung öffnet die App wie Lernende und vergleicht sie mit dem Eintrag: Lassen sich alle Themen öffnen, stimmen die Angaben, hält die App die Regeln ein?",
+            "Ein KI-Agent kann die App zusätzlich anhand einer Checkliste begutachten.",
+            "Der Betreiber von lernapps.net entscheidet über die Aufnahme.",
+          ],
+        },
+        {
+          id: "stack",
+          title: "Dein Stack, deine Wahl",
+          text: "Mit unserem Tooling legst du eine App aus einem Grundgerüst an: Quiz, Erklär-App oder interaktive App. Prüfungen laufen dann schon beim Commit und in der CI, und Skills und ein Plan führen deinen KI-Assistenten durch die Arbeit.\n\nDu kannst aber auch frei bauen, mit jedem Stack. Dann gelten nur die Plattformregeln: nichts sammeln, kein Konto, keine Werbung, barrierearm, ab 360 Pixel nutzbar, keine fremden Server vor einem Klick. Abhängigkeiten brauchen eine offene Lizenz.",
+        },
+        {
+          id: "eigentum",
+          title: "Eigentum und Lizenz",
+          text: "Deine App liegt in deinem Repository, unter deiner Adresse und deiner Lizenz. Der Katalog verlinkt sie nur. Inhalte anderer, etwa Texte oder Bilder, nutzt du nur mit passender Lizenz und nennst Quelle und Lizenz.\n\nDie Plattform selbst und das Tooling stehen unter der MIT-Lizenz.",
+        },
+      ],
+      links: [
+        { label: "Die Regeln für jede App", href: "/tooling/rules/" },
+        { label: "Das Tooling", href: "/tooling/" },
+        { label: "Wie wir die Anleitungen testen", href: "/tooling/prompt-engineering/" },
+        { label: "Das Plattform-Design", href: "/docs/platform-design/" },
+        { label: "Der Quellcode", href: "https://github.com/lernapps" },
+      ],
+      note: "Die technischen Unterlagen sind auf Englisch.",
+      cta: "Eine App bauen",
+      ctaHref: "/apps/build/",
+    },
+  },
+
+  // ── ABOUT: the long story behind lernapps.net ──────────────────────────────
+  about: {
+    meta: {
+      title: "Über uns — lernapps.net",
+      description: "Warum es lernapps.net gibt: Digitale Bildung in Deutschland hat kein Geräteproblem, sondern ein Ökosystem-Problem. Und eine ehrliche Antwort für Skeptiker.",
+    },
+    founder: {
+      heading: "Seit Jahren reden alle vom Digitalisierungs\u00ADproblem der Schulen. Ich glaube, wir haben ein anderes.",
+      text: "Politiker kündigen Programme an, Milliarden für Tablets und WLAN. Und dann heißt es wieder: Die Schulen hängen hinterher. Dabei fehlt es nicht an Geräten. Es fehlt an einem Ökosystem, das gute Ideen dorthin bringt, wo sie gebraucht werden.\n\nDiese Ideen gibt es längst. Eltern und Lehrkräfte bauen mit Leidenschaft Lern-Apps für ihr Kind oder ihre Klasse. Aber die Apps bleiben, wo sie entstanden sind. Wer sie einsetzen will, trägt das Risiko allein. Und wer sie gebaut hat, erfährt nie, ob sie geholfen hat.\n\nIch bin Softwareentwickler. Seit einiger Zeit sehe ich, wie leicht es geworden ist, kleine Apps zu bauen. Mit einem KI-Assistenten braucht man dafür kaum noch Zeit und Geld. In der Schule kommt davon trotzdem wenig an.\n\nIch will nicht weiter klagen. Ich will etwas tun. Und ich will, dass alle, denen gute Bildung am Herzen liegt, auch etwas tun können. Gerade jetzt, wo man sich an so vielen Stellen machtlos fühlt, ist das wichtig: zu sehen, dass die eigene Arbeit bei einem Kind ankommt, das man nie getroffen hat.\n\nDarum gründe ich lernapps.net. Geld will ich damit nicht verdienen. Ich will erst einmal sehen, ob es den Bedarf wirklich gibt. Wenn lernapps.net trägt, kann daraus zum Beispiel ein Verein werden. Dann gehört die Plattform denen, die sie mit Leben füllen.",
+      signature: "Oliver Jägle",
+      role: "Gründer von lernapps.net",
+    },
     sceptics: {
-      id: "funktioniert-das",
       heading: "„Das funktioniert doch sowieso nicht.“",
-      text:
-        "Vielleicht. Wir wissen es noch nicht. Darum fangen wir klein an: mit wenigen Apps und wenigen Menschen, die sie bauen und einsetzen. Wir haben vorher aufgeschrieben, woran wir merken, ob es klappt. Und woran nicht.\n\nGeplant haben wir lernapps.net mit dem Platform Design Toolkit, einer Methode für den Entwurf von Plattformen. Dort steht, wer beteiligt ist, was alle davon haben und was wir als Erstes ausprobieren. Alles ist öffentlich.",
+      text: "Vielleicht. Wir wissen es noch nicht. Darum fangen wir klein an: mit wenigen Apps und wenigen Menschen, die sie bauen und einsetzen. Wir haben vorher aufgeschrieben, woran wir merken, ob es klappt. Und woran nicht.\n\nGeplant haben wir lernapps.net mit dem Platform Design Toolkit, einer Methode für den Entwurf von Plattformen. Dort steht, wer beteiligt ist, was alle davon haben und was wir als Erstes ausprobieren. Alles ist öffentlich.",
       links: [
         { label: "Was wir als Erstes ausprobieren", href: "/docs/platform-design/#2-design/d8-mvp.pdt42.md" },
         { label: "Das ganze Plattform-Design", href: "/docs/platform-design/" },
@@ -172,16 +218,13 @@ export default {
       ],
       note: "Die Unterlagen sind auf Englisch.",
     },
-
-    // ── SECTION 7: Final CTA ───────────────────────────────────────────────────
     cta: {
-      title: "Mit Machern mitmachen.",
-      description:
-        "Du baust Apps, du unterrichtest oder du willst üben? Probier lernapps.net aus. Und wenn dir eine App geholfen hat: Sag Danke.",
-      primary: "Apps finden",
+      title: "Mach mit.",
+      description: "Finde eine App für morgen. Oder bau die, die noch fehlt.",
+      primary: "App finden",
       primaryHref: "/apps/",
-      secondary: "Auf GitHub ansehen",
-      secondaryHref: "https://github.com/lernapps",
+      secondary: "Eine App bauen",
+      secondaryHref: "/apps/build/",
     },
   },
 };

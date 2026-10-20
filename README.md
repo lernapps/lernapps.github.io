@@ -2,7 +2,7 @@
 
 Home page of the lernapps organisation (brand: lernapps.net), served at <https://lernapps.net/> (custom domain; <https://lernapps.github.io/> redirects there).
 
-The home page is static HTML, readable without JavaScript. Its story follows the [platform design](https://lernapps.net/docs/platform-design/) (agents: see the skill [`skills/pdt`](https://github.com/lernapps/docs/tree/main/skills/pdt) in lernapps/docs): problems and portraits for teachers, parents, people who build apps and learners; the principles (free, open counting instead of tracking, thanks as what keeps it alive); why it is free, with a personal word; and an honest answer for sceptics that links to the design. It links to the sites that live in other repos on the same origin: the app overview (`/apps/`), the docs (`/docs/`) and the tooling (`/tooling/`). It does **not** list apps itself; that is the job of the app overview in [lernapps/apps](https://github.com/lernapps/apps). See [ORGANIZATION.md](https://github.com/lernapps/.github/blob/main/ORGANIZATION.md) for how the repos fit together.
+The home page is static HTML without any script. Its story follows the [platform design](https://lernapps.net/docs/platform-design/) (agents: see the skill [`skills/pdt`](https://github.com/lernapps/docs/tree/main/skills/pdt) in lernapps/docs), solution first: the promise (learning apps with no strings attached, made by parents and teachers); four hand-picked apps from the catalog; what teachers and parents get; a solid foundation for makers; why another platform (it belongs to no company); how to join; and a short word from the founder. Two more pages hold the details: **features** (`/features/`: the principles, what the apps can do, and technical transparency for developers: costs, how an app is listed, stack, ownership and licence) and **about** (`/about/`: the founder's long text and an honest answer for sceptics that links to the design). It links to the sites that live in other repos on the same origin: the app overview (`/apps/`), the docs (`/docs/`) and the tooling (`/tooling/`). Apart from the four examples it does **not** list apps itself; that is the job of the app overview in [lernapps/apps](https://github.com/lernapps/apps). See [ORGANIZATION.md](https://github.com/lernapps/.github/blob/main/ORGANIZATION.md) for how the repos fit together.
 
 This repo also holds the **site frame shared by all sites** on lernapps.net: design tokens, header with the common navigation, footer, and the deploy check, in [`site-frame/`](site-frame/README.md). The sites use it as the npm package `@lernapps/site`, straight from git.
 
@@ -10,10 +10,8 @@ This repo also holds the **site frame shared by all sites** on lernapps.net: des
 
 | Path | Purpose |
 |---|---|
-| `src/index.njk` | Home page template (Nunjucks). Markup and utility classes only, no texts. Generated once per language (pagination over `languages`): `/` is German, `/en/` English |
-| `src/_data/de.js`, `en.js` | All texts of the home page (German, plain language after ISO 24495-1; English is its translation, same structure) and its link targets. `languages.js` lists the languages |
-| `src/start.js` | Progressive enhancement: turns the stacked persona quotes/portraits into tabs (ARIA tabs pattern, arrow keys, auto-advance). Without it, everything is shown stacked |
-| `src/start.css` | The few rules utilities don't cover (tab panel animation) |
+| `src/index.njk`, `features.njk`, `about.njk` | Templates (Nunjucks) of the home page, the features page and the about page. Markup and utility classes only, no texts. Each is generated once per language (pagination over `languages`): `/`, `/features/`, `/about/` in German, the same below `/en/` in English |
+| `src/_data/de.js`, `en.js` | All texts of these pages (German, plain language after ISO 24495-1; English is its translation, same structure) and its link targets. `languages.js` lists the languages |
 | `uno.config.js` | UnoCSS presets (wind4 + typography, as in the original); CSS is generated at build time into `_site/uno.css` |
 | `eleventy.config.js` | Eleventy: input `src/`, output `_site/`; only `.njk` are templates, everything else is copied as is |
 | `src/404.njk` | The "not found" page of the whole origin, with the shared site frame; German and English in one page |
