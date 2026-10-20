@@ -76,7 +76,12 @@ permalink: "{{ l.root }}index.html"
           <a href="{{ S.allHref | own }}" class="inline-flex items-center gap-2 font-semibold text-blue-700 hover:text-blue-800">{{ S.all }} →</a>
           <p class="text-sm text-slate-500">{{ S.early }}</p>
         </div>
-        <p class="mt-4 max-w-3xl text-sm text-slate-600 leading-relaxed">{{ S.honest }}</p>
+        {%- set B = S.browse %}
+        <div class="mt-6 space-y-3 text-sm">
+          <p class="flex flex-wrap items-center gap-2"><span class="font-semibold text-slate-700 mr-1">{{ B.grades }}</span>{% for g in B.gradeList %}<a href="{{ S.allHref | own }}?klasse={{ g }}" class="inline-flex items-center justify-center min-w-9 px-3 py-1.5 rounded-full border border-slate-300 text-slate-700 hover:border-blue-400 hover:text-blue-700 transition-colors">{{ g }}</a>{% endfor %}</p>
+          <p class="flex flex-wrap items-center gap-2"><span class="font-semibold text-slate-700 mr-1">{{ B.subjects }}</span>{% for f in B.subjectList %}<a href="{{ S.allHref | own }}?fach={{ f.value }}" class="inline-flex items-center px-3 py-1.5 rounded-full border border-slate-300 text-slate-700 hover:border-blue-400 hover:text-blue-700 transition-colors">{{ f.label }}</a>{% endfor %}</p>
+        </div>
+        <p class="mt-6 max-w-3xl text-sm text-slate-600 leading-relaxed">{{ S.lasting }} {{ S.honest }}</p>
       </div>
     </section>
 
