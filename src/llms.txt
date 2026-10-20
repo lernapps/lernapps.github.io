@@ -32,7 +32,8 @@ Die Plattform ist kostenlos, und niemand verdient daran. Sie lebt davon, dass Me
 - [Eine App finden](https://lernapps.net/apps/): der Katalog, nach Fach und Klasse.
 - [Eine App bauen](https://lernapps.net/tooling/llms.txt): mit dem Skill und dem Plan-Template; der Schnellweg steht unten.
 - [Eine App eintragen](https://lernapps.net/apps/llms.txt): die Bedingungen, der Eintrag und der Pull Request.
-- [Was lernapps ausmacht](https://lernapps.net/features/): die Prinzipien, was die Apps können, und die Technik offen erklärt: Kosten, Aufnahme in den Katalog, Stack, Eigentum und Lizenz.
+- [Features](https://lernapps.net/features/): was die Apps können, was Entwickler beim Bauen bekommen (Grundgerüste oder eigener Stack, Aufnahme in den Katalog, Eigentum und Lizenz) und was die Plattform einzigartig macht, mit den Prinzipien.
+- [Mitmachen](https://lernapps.net/join/): für Lehrkräfte, Eltern, Lernende, Macher und alle, die an der Plattform mitarbeiten wollen; je mit einem Auftrag für ihren KI-Assistenten.
 - [Über uns](https://lernapps.net/about/): warum es lernapps.net gibt, und eine ehrliche Antwort für Skeptiker.
 
 ## Schnellweg: eine App bauen
