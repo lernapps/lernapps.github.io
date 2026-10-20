@@ -24,6 +24,7 @@ export default {
       heading: "A few apps from the catalog",
       intro: "From a thorough practice app to a game. Each one was made for a real class or a real child.",
       early: "We are just getting started. The catalog grows with every app someone lists.",
+      honest: "Every app comes from a person. We help them build it, but that is no guarantee of quality. If you see a mistake in the content, report it on the app's page.",
       apps: [
         { icon: "🗺️", meta: "Maths · Grade 8", title: "Mathe-Karte", text: "Percentages, binomial formulas and probability: explained, with a picture and many exercises.", href: "/apps/en/mathe-karte/" },
         { icon: "🎲", meta: "Maths · Grades 7 and 8", title: "Kniffel-Trainer", text: "Play Yahtzee and learn to see chances as fractions and percentages.", href: "/apps/en/kniffel-trainer/" },
@@ -36,6 +37,9 @@ export default {
 
     forYou: {
       heading: "What you get",
+      next: "That is all you need to know. The rest of this page is for everyone who wants to build an app themselves.",
+      nextLink: "To the apps",
+      nextHref: "/apps/en/",
       items: [
         {
           icon: "📚", role: "If you teach", headline: "Covering a lesson in 7b?",
@@ -45,7 +49,6 @@ export default {
         {
           icon: "🏠", role: "If your child has a test tomorrow", headline: "Practise tonight.",
           text: "Look for an app on the topic of the test. Your child can start right away: no subscription, no ads, no account. Nobody finds out who they are.",
-          tutor: { title: "And if they get stuck?", text: "In the explainer apps, the AI assistant you already use can help. It knows the task, the solution and the typical mistakes and explains step by step. Even at nine in the evening, when you don't know the answer yourself. The app itself sends nothing." },
           cta: "Apps to practise", ctaHref: "/apps/en/",
         },
       ],
@@ -66,7 +69,7 @@ export default {
       heading: "True. But this one belongs to no company.",
       intro: "lernapps.net is not the product of a vendor or an agency. It is a shared place: parents and teachers build apps here, share them and use them. The same principles apply to everyone.",
       points: [
-        { title: "Nobody earns money from it.", text: "No subscription, no ads, no selling of data. Not later either.", link: { label: "Why it works anyway", href: "/features/#costs" } },
+        { title: "Nobody earns money from it.", text: "No subscription, no ads, no selling of data. Not later either. The apps need no server of their own, so running them costs almost nothing.", link: { label: "More about this", href: "/features/#costs" } },
         { title: "A place to share.", text: "Some build apps, others use them. Feedback and thanks reach the people who built them." },
         { title: "Open, with clear principles.", text: "No account, nothing is collected. The rules, the plan and the source code of the platform are public." },
       ],
@@ -125,14 +128,14 @@ export default {
       intro: "Every app is built on one of three foundations. That is why they work in a similar way everywhere, and every one is made with the same care.",
       archetypes: [
         { icon: "❓", title: "Quiz", text: "Questions with answers to choose from. After every answer it says why it is right or wrong, and where to read on." },
-        { icon: "📖", title: "Explainer", text: "Chapters of pages that explain. Every page has exercises. The pages can be read without JavaScript too." },
+        { icon: "📖", title: "Explainer", text: "Chapters of pages that explain. Every page has exercises. The pages can be read without JavaScript too.", extra: "If you like, add an AI tutor: the app gives your own AI assistant the task, the solution and the typical mistakes. This is optional. The app works entirely without AI and sends nothing itself." },
         { icon: "🎮", title: "Interactive app", text: "Learning by doing: a game, a training, an experiment. What the learners do is the content." },
       ],
       items: [
         { title: "Based on the curriculum", text: "The content comes from the state curriculum and the teacher's material. Every app says what you can do afterwards." },
         { title: "Exercises with feedback", text: "A wrong answer explains why it is wrong. Then you can try again." },
         { title: "One link takes you right there", text: "To the topic, to the section or to exactly the task the whole class should work on. As a QR code too." },
-        { title: "With your AI assistant", text: "In the explainer apps, the AI assistant you already use gets the task, the solution and the typical mistakes. It explains step by step. The app itself sends nothing." },
+        { title: "Made by people", text: "Every app comes from a teacher, a parent or someone who likes to build. We help them build it, but that is no guarantee of quality. You report a mistake in the content with one click on the app's page." },
         { title: "Accessible", text: "The apps meet WCAG 2.1 AA and work from 360 pixels wide. Where an app can't, it says so in the catalog." },
         { title: "Runs on every device", text: "In the browser, without installing anything: on the projector, on the class tablets or on a phone at home." },
       ],
@@ -160,10 +163,9 @@ export default {
           title: "How an app gets into the catalog",
           steps: [
             "You publish the app in your own repository, at your own address.",
-            "You send an entry as a pull request to lernapps/apps. Without GitHub, a form or an email works too.",
-            "An automatic check opens the app the way learners do and compares it with the entry: do all topics open, are the details right, does the app keep the rules?",
-            "An AI agent can also review the app against a checklist.",
-            "The operator of lernapps.net decides whether it is listed.",
+            "You submit it: as a pull request to lernapps/apps, or by form or email without GitHub. Anyone can submit an app.",
+            "An automatic check opens the app the way learners do and compares it with the entry: do all topics open, are the details right?",
+            "It is checked against the rules for every app. They are exclusion criteria: an app that collects data, needs an account or shows ads does not get into the catalog. An AI agent can also review the app against a checklist.",
           ],
         },
         {
@@ -202,7 +204,7 @@ export default {
           { icon: "🏡", title: "Your app stays yours", text: "Every app stays with the person who built it. lernapps.net shows it but does not own it." },
           { icon: "🔒", title: "Nothing is collected", text: "No account, no cookies, no tracking. What someone types stays on their device." },
           { icon: "💬", title: "Honest about limits", text: "Every app says what it can do and what it can't. We say openly what we don't know yet." },
-          { icon: "💙", title: "Thanks instead of money", text: "Whoever uses an app can say thanks. That way the person who built it learns that it helped." },
+          { icon: "💙", title: "Thanks instead of money", text: "Whoever uses an app can say thanks. Today one click opens a ready-made email to lernapps.net, and we pass the thanks on to the person who built the app. Later one click will be enough, without any email." },
         ],
       },
       links: [

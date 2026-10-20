@@ -25,6 +25,7 @@ export default {
       heading: "Ein paar Apps aus dem Katalog",
       intro: "Von der umfassenden Übungs-App bis zum Spiel. Jede ist für eine echte Klasse oder ein echtes Kind entstanden.",
       early: "Wir fangen gerade erst an. Der Katalog wächst mit jeder App, die jemand einträgt.",
+      honest: "Jede App kommt von einem Menschen. Wir helfen beim Bauen, aber eine Garantie für die Qualität ist das nicht. Siehst du einen Fehler im Inhalt, melde ihn auf der Seite der App.",
       apps: [
         { icon: "🗺️", meta: "Mathematik · Klasse 8", title: "Mathe-Karte", text: "Prozent, binomische Formeln und Wahrscheinlichkeit: erklärt, mit Bild und vielen Aufgaben.", href: "/apps/mathe-karte/" },
         { icon: "🎲", meta: "Mathematik · Klasse 7 und 8", title: "Kniffel-Trainer", text: "Kniffel spielen und dabei Chancen als Bruch und Prozent verstehen.", href: "/apps/kniffel-trainer/" },
@@ -37,6 +38,9 @@ export default {
 
     forYou: {
       heading: "Was du davon hast",
+      next: "Mehr musst du nicht wissen. Der Rest der Seite ist für alle, die selbst eine App bauen wollen.",
+      nextLink: "Zu den Apps",
+      nextHref: "/apps/",
       items: [
         {
           icon: "📚", role: "Wenn du unterrichtest", headline: "Vertretungsstunde in der 7b?",
@@ -46,7 +50,6 @@ export default {
         {
           icon: "🏠", role: "Wenn dein Kind morgen eine Arbeit schreibt", headline: "Heute Abend noch üben.",
           text: "Such eine App zum Thema der Arbeit. Dein Kind kann sofort anfangen: ohne Abo, ohne Werbung, ohne Konto. Niemand erfährt, wer es ist.",
-          tutor: { title: "Und wenn es hakt?", text: "In den Erklär-Apps hilft der KI-Assistent, den ihr ohnehin nutzt. Er kennt die Aufgabe, die Lösung und die typischen Fehler und erklärt Schritt für Schritt. Auch um neun Uhr abends, wenn du selbst nicht mehr weiterweißt. Die App selbst sendet nichts." },
           cta: "Apps zum Üben", ctaHref: "/apps/",
         },
       ],
@@ -67,7 +70,7 @@ export default {
       heading: "Stimmt. Aber diese gehört keiner Firma.",
       intro: "lernapps.net ist kein Produkt eines Anbieters und keiner Agentur. Es ist ein gemeinsamer Ort: Eltern und Lehrkräfte bauen hier Apps, teilen sie und setzen sie ein. Dabei gelten für alle dieselben Prinzipien.",
       points: [
-        { title: "Niemand verdient daran.", text: "Kein Abo, keine Werbung, kein Verkauf von Daten. Auch später nicht.", link: { label: "Warum das trotzdem funktioniert", href: "/features/#kosten" } },
+        { title: "Niemand verdient daran.", text: "Kein Abo, keine Werbung, kein Verkauf von Daten. Auch später nicht. Die Apps brauchen keinen eigenen Server, darum kostet der Betrieb fast nichts.", link: { label: "Mehr dazu", href: "/features/#kosten" } },
         { title: "Ein Ort für den Austausch.", text: "Die einen bauen Apps, die anderen setzen sie ein. Rückmeldung und Danke kommen bei denen an, die gebaut haben." },
         { title: "Offen, nach festen Prinzipien.", text: "Kein Konto, nichts wird gesammelt. Die Regeln, der Plan und der Quellcode der Plattform sind öffentlich." },
       ],
@@ -126,14 +129,14 @@ export default {
       intro: "Jede App baut auf einem von drei Grundgerüsten auf. Darum bedient man sie überall ähnlich, und in jeder steckt dieselbe Sorgfalt.",
       archetypes: [
         { icon: "❓", title: "Quiz", text: "Fragen mit Antworten zur Auswahl. Nach jeder Antwort steht, warum sie stimmt oder nicht, und wo man weiterlesen kann." },
-        { icon: "📖", title: "Erklär-App", text: "Kapitel mit Seiten, die erklären. Auf jeder Seite gibt es Übungen. Die Seiten sind auch ohne JavaScript lesbar." },
+        { icon: "📖", title: "Erklär-App", text: "Kapitel mit Seiten, die erklären. Auf jeder Seite gibt es Übungen. Die Seiten sind auch ohne JavaScript lesbar.", extra: "Wer will, nimmt einen KI-Tutor dazu: Die App gibt dem eigenen KI-Assistenten die Aufgabe, die Lösung und die typischen Fehler. Das ist freiwillig. Die App funktioniert ganz ohne KI und sendet selbst nichts." },
         { icon: "🎮", title: "Interaktive App", text: "Lernen durch Tun: ein Spiel, ein Training, ein Versuch. Was die Lernenden tun, ist der Inhalt." },
       ],
       items: [
         { title: "Am Lehrplan orientiert", text: "Der Inhalt kommt aus dem Lehrplan des Landes und dem Material der Lehrkraft. Jede App sagt, was man danach kann." },
         { title: "Übungen mit Rückmeldung", text: "Eine falsche Antwort erklärt, warum sie falsch ist. Dann kann man es noch einmal versuchen." },
         { title: "Ein Link führt genau dorthin", text: "Zum Thema, zum Abschnitt oder zu genau der Aufgabe, die die ganze Klasse rechnen soll. Auch als QR-Code." },
-        { title: "Mit deinem KI-Assistenten", text: "In den Erklär-Apps bekommt der KI-Assistent, den ihr ohnehin nutzt, die Aufgabe, die Lösung und die typischen Fehler. Er erklärt Schritt für Schritt. Die App selbst sendet nichts." },
+        { title: "Von Menschen gemacht", text: "Jede App kommt von einer Lehrkraft, einem Elternteil oder jemandem, der gern baut. Wir helfen beim Bauen, aber eine Garantie für die Qualität ist das nicht. Fehler im Inhalt meldest du mit einem Klick auf der Seite der App." },
         { title: "Barrierearm", text: "Die Apps erfüllen WCAG 2.1 AA und laufen ab 360 Pixel Breite. Wo eine App das nicht kann, sagt sie es im Katalog." },
         { title: "Läuft auf jedem Gerät", text: "Im Browser, ohne Installation: am Beamer, auf Tablets der Klasse oder auf dem Handy zu Hause." },
       ],
@@ -161,10 +164,9 @@ export default {
           title: "Wie eine App in den Katalog kommt",
           steps: [
             "Du veröffentlichst die App in deinem eigenen Repository, unter deiner eigenen Adresse.",
-            "Du schickst einen Eintrag als Pull Request an lernapps/apps. Ohne GitHub geht es auch per Formular oder E-Mail.",
-            "Eine automatische Prüfung öffnet die App wie Lernende und vergleicht sie mit dem Eintrag: Lassen sich alle Themen öffnen, stimmen die Angaben, hält die App die Regeln ein?",
-            "Ein KI-Agent kann die App zusätzlich anhand einer Checkliste begutachten.",
-            "Der Betreiber von lernapps.net entscheidet über die Aufnahme.",
+            "Du reichst sie ein: als Pull Request an lernapps/apps, ohne GitHub auch per Formular oder E-Mail. Einreichen kann jeder.",
+            "Eine automatische Prüfung öffnet die App wie Lernende und vergleicht sie mit dem Eintrag: Lassen sich alle Themen öffnen, stimmen die Angaben?",
+            "Geprüft wird gegen die Regeln für jede App. Sie sind Ausschlusskriterien: Wer etwas sammelt, ein Konto verlangt oder Werbung zeigt, kommt nicht in den Katalog. Ein KI-Agent kann die App zusätzlich anhand einer Checkliste begutachten.",
           ],
         },
         {
@@ -203,7 +205,7 @@ export default {
           { icon: "🏡", title: "Deine App bleibt deine", text: "Jede App liegt bei dem, der sie gebaut hat. lernapps.net zeigt sie, besitzt sie aber nicht." },
           { icon: "🔒", title: "Nichts wird gesammelt", text: "Kein Konto, keine Cookies, kein Tracking. Was eingegeben wird, bleibt auf dem Gerät." },
           { icon: "💬", title: "Ehrlich über Grenzen", text: "Jede App sagt, was sie kann und was nicht. Wir sagen offen, was wir noch nicht wissen." },
-          { icon: "💙", title: "Danke statt Geld", text: "Wer eine App nutzt, kann Danke sagen. So erfährt der, der sie gebaut hat, dass sie geholfen hat." },
+          { icon: "💙", title: "Danke statt Geld", text: "Wer eine App nutzt, kann Danke sagen. Heute öffnet ein Klick eine fertige E-Mail an lernapps.net, und wir geben das Danke an den weiter, der die App gebaut hat. Später soll ein Klick genügen, ganz ohne E-Mail." },
         ],
       },
       links: [
