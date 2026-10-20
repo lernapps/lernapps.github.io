@@ -3,6 +3,6 @@
 // Turning it on changes the privacy notice (src/privacy.njk), so set legal.updated in src/_data/legal.js in the same
 // commit. See "Usage counter" in README.md.
 export default {
-  endpoint: "",
+  endpoint: "https://lernapps.goatcounter.com/count",
   script: "/lernapps-count.js",
 };
