@@ -131,7 +131,7 @@ permalink: "{{ l.root }}features/index.html"
           {%- for u in P.unique %}
           <li id="{{ u.id }}" class="flex gap-4 rounded-2xl border border-slate-200 p-6 scroll-mt-16">
             <span class="text-3xl" aria-hidden="true">{{ u.icon }}</span>
-            <div><h3 class="font-bold text-slate-900 text-lg mb-2">{{ u.title }}</h3><p class="text-slate-600 leading-relaxed">{{ u.text }}</p></div>
+            <div><h3 class="font-bold text-slate-900 text-lg mb-2">{{ u.title }}</h3><p class="text-slate-600 leading-relaxed">{{ u.text }}{% if u.link %} <a href="{{ u.link.href | own }}" class="font-semibold text-blue-700 underline underline-offset-2 hover:text-blue-800 whitespace-nowrap">{{ u.link.label }} →</a>{% endif %}</p></div>
           </li>
           {%- endfor %}
         </ul>

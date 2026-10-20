@@ -104,6 +104,11 @@ permalink: "{{ l.root }}index.html"
           </div>
           {%- endfor %}
         </div>
+        {#- Privacy is a feature, not small print: teachers pass the privacy notice on to their school. #}
+        <div class="mt-6 rounded-2xl border border-blue-200 bg-blue-50 p-6 sm:p-8">
+          <h3 class="flex items-center gap-2 text-base font-semibold text-slate-900 mb-2"><span aria-hidden="true">🔒</span>{{ F.privacy.title }}</h3>
+          <p class="text-slate-700 leading-relaxed">{{ F.privacy.text }} <a href="{{ F.privacy.href | own }}" class="font-semibold text-blue-700 underline underline-offset-2 hover:text-blue-800 whitespace-nowrap">{{ F.privacy.link }} →</a></p>
+        </div>
         {#- The break: who does not build apps can stop here and go to the catalog. #}
         <p class="mt-10 text-slate-600 leading-relaxed">{{ F.next }} <a href="{{ F.nextHref | own }}" class="font-semibold text-blue-700 underline underline-offset-2 hover:text-blue-800 whitespace-nowrap">{{ F.nextLink }} →</a></p>
       </div>

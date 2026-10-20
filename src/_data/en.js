@@ -37,18 +37,24 @@ export default {
 
     forYou: {
       heading: "What you get",
+      privacy: {
+        title: "For us, privacy is a feature",
+        text: "No account, no cookies, no tracking. What someone types stays on their device. What lernapps.net stores and what it doesn't is set out in the privacy notice. You can pass it on to your head teacher or data protection officer.",
+        link: "To the privacy notice",
+        href: "/privacy/",
+      },
       next: "That is all you need to know. The rest of this page is for everyone who wants to build an app themselves.",
       nextLink: "To the apps",
       nextHref: "/apps/en/",
       items: [
         {
           icon: "📚", role: "If you teach", headline: "Covering a lesson in 7b?",
-          text: "You take over a class at short notice, maybe not even in your subject. Search by subject and grade, share a link or show the QR code. The class works on the topic in a meaningful way, and the app gives every child feedback.\n\nNobody needs an account, and no data about your students is created.",
+          text: "You take over a class at short notice, maybe not even in your subject. Search by subject and grade, share a link or show the QR code. The class works on the topic in a meaningful way, and the app gives every child feedback.\n\nNobody needs an account, and no data at all about your students is collected.",
           cta: "Apps for class", ctaHref: "/apps/en/",
         },
         {
           icon: "🏠", role: "If your child has a test tomorrow", headline: "Practise tonight.",
-          text: "Look for an app on the topic of the test. Your child can start right away: no subscription, no ads, no account. Nobody finds out who they are.",
+          text: "Look for an app on the topic of the test. Your child can start right away: no subscription, no ads, no account. Nobody knows who is using the app. Your child's privacy stays protected.",
           cta: "Apps to practise", ctaHref: "/apps/en/",
         },
       ],
@@ -190,7 +196,7 @@ export default {
       intro: "Most learning platforms need servers, accounts and a business model. lernapps.net is built differently. That is why it can stay free.",
       unique: [
         { id: "costs", icon: "🐙", title: "GitHub as a free backbone", text: "This is why it works without money: the apps and the catalog are static pages on GitHub Pages. An entry is a pull request, the check runs in GitHub Actions. There is no server of our own that costs money." },
-        { id: "data", icon: "🔒", title: "No server, no data", text: "Every app runs entirely in the browser. There is no database and no account. What is not collected cannot be lost or sold." },
+        { id: "data", icon: "🔒", title: "Privacy as a feature", text: "Every app runs entirely in the browser. There is no server with data, no database and no account. What is not collected cannot be lost or sold.", link: { label: "The privacy notice", href: "/privacy/" } },
         { id: "ai", icon: "🤖", title: "Readable for AI assistants", text: "Every part of lernapps.net has an llms.txt. So an assistant can find the right app, explain the platform or build an app itself. Without anyone having to run an API." },
         { id: "open", icon: "🧭", title: "Planned in the open", text: "We designed lernapps.net with the Platform Design Toolkit: who takes part, what everyone gets out of it, what we try first. Everything is public, including what we don't know yet." },
       ],
