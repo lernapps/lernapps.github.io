@@ -78,7 +78,7 @@ export default {
       points: [
         { title: "Nobody earns money from it.", text: "No subscription, no ads, no selling of data. Not later either. The apps need no server of their own, so running them costs almost nothing.", link: { label: "More about this", href: "/features/#costs" } },
         { title: "A place to share.", text: "Some build apps, others use them. Feedback and thanks reach the people who built them." },
-        { title: "Open, with clear principles.", text: "No account, nothing is collected. The rules, the plan and the source code of the platform are public." },
+        { title: "Open, with clear principles.", text: "No account, the apps collect nothing. The rules, the plan and the source code of the platform are public." },
       ],
       links: [
         { label: "All principles", href: "/features/#principles" },
@@ -215,7 +215,7 @@ export default {
           { icon: "🤝", title: "No company behind it", text: "Nobody earns money from lernapps.net. No subscription, no ads, no selling of data. Not later either." },
           { icon: "📂", title: "Open, not closed", text: "The rules, the plan and the source code are public. Anyone can read how decisions are made here." },
           { icon: "🏡", title: "Your app stays yours", text: "Every app stays with the person who built it. lernapps.net shows it but does not own it." },
-          { icon: "🔒", title: "Nothing is collected", text: "No account, no cookies, no tracking. What someone types stays on their device." },
+          { icon: "🔒", title: "The apps collect nothing", text: "No account, no cookies, no tracking. What someone types stays on their device." },
           { icon: "💬", title: "Honest about limits", text: "Every app says what it can do and what it can't. We say openly what we don't know yet." },
           { icon: "💙", title: "Thanks instead of money", text: "Whoever uses an app can say thanks. Today one click opens a ready-made email to lernapps.net, and we pass the thanks on to the person who built the app. Later one click will be enough, without any email." },
         ],

@@ -6,6 +6,12 @@
 // Path prefixes served by other repos on the origin; everything else belongs to the home site ("/").
 export const SITES = ["/apps/", "/docs/", "/tooling/", "/mathe-karte/"];
 
+// Usage counter (count.js): only on the platform's own sites, never in an app. COUNTER is the GoatCounter endpoint
+// ("https://<code>.goatcounter.com/count"); empty means off on every site. Turning it on changes the privacy notice
+// (src/privacy.njk), so set legal.updated in src/_data/legal.js in the same commit.
+export const COUNTER = "";
+export const COUNTED_SITES = ["/", "/apps/", "/docs/", "/tooling/"];
+
 // The languages of the frame, German first, and the sites that have a tree for every language but German.
 // A link to another site stays German if that site has no tree in the language of the page.
 export const LANGUAGES = ["de", "en"];

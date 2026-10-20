@@ -51,7 +51,7 @@ for (const file of files(a.out)) {
   const main = a.main ?? html.match(/<main[^>]*\bid="([^"]+)"/i)?.[1];
   const anchor = main ? "" : '\n<div id="main-content" tabindex="-1"></div>';
   html = html
-    .replace(/<\/head>/i, `${MARK}\n${preview ? '<meta name="robots" content="noindex">\n' : ""}${head({ site, prefix, path, lang, languages })}\n</head>`)
+    .replace(/<\/head>/i, `${MARK}\n${preview ? '<meta name="robots" content="noindex">\n' : ""}${head({ site, prefix, path, lang, languages, preview })}\n</head>`)
     .replace(/<body[^>]*>/i, (body) => `${body}\n${header({ site, prefix, path, lang, preview, languages, main: main ?? "main-content" })}${anchor}`)
     .replace(/<\/body>(?![\s\S]*<\/body>)/i, `${footer({ site, prefix, path, lang, source: a.source })}\n</body>`);
   writeFileSync(file, html);

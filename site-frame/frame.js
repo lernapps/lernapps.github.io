@@ -15,12 +15,15 @@
 //   without a language root (the platform design is English), gets the frame in its language: lang: "en".
 // languages: the languages the page exists in, German first (default: all of LANGUAGES). The language switch links
 //   to the same page in the others; a page that exists in one language shows no switch.
-import { SITES, LANGUAGES, TRANSLATED_SITES, languageRoot, languageName, nav, footer as foot, texts } from "./nav.js";
+import { SITES, COUNTER, COUNTED_SITES, LANGUAGES, TRANSLATED_SITES, languageRoot, languageName, nav, footer as foot, texts } from "./nav.js";
 
 const ORIGIN = "https://lernapps.net";
 
+/** The usage counter (count.js), published by the home site. */
+export const COUNT_SCRIPT = "/lernapps-count.js";
+
 /** Files of the home site that every site links root-relative, also from a preview (icons, the mark). */
-export const SHARED_ASSETS = ["/favicon.ico", "/favicon.svg", "/apple-touch-icon.png", "/brand/"];
+export const SHARED_ASSETS = ["/favicon.ico", "/favicon.svg", "/apple-touch-icon.png", "/brand/", COUNT_SCRIPT];
 
 const esc = (s) =>
   String(s).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
@@ -80,11 +83,24 @@ const otherLanguages = (path, lang, languages = LANGUAGES) =>
         .map((l) => ({ lang: l, path: pathIn(path, l) }))
     : [];
 
+/** Does this site count its visits? Only the platform's own sites (COUNTED_SITES), never an app, never a preview. */
+export const counts = ({ site = "/", preview = false, counter = COUNTER } = {}) =>
+  Boolean(counter) && !preview && COUNTED_SITES.includes(site);
+
 /**
  * For <head>: icons (served by the home site), the tokens and the site frame's stylesheet; with `path`, also
- * links to the page in its languages (hreflang), for search engines.
+ * links to the page in its languages (hreflang), for search engines, and on a counted site the usage counter (it
+ * counts `path`, so the 404 page counts as /404/, whatever address was missing).
  */
-export function head({ site = "/", prefix = site, path, lang = path && languageOf(path), languages } = {}) {
+export function head({
+  site = "/",
+  prefix = site,
+  path,
+  lang = path && languageOf(path),
+  languages,
+  preview = false,
+  counter = COUNTER,
+} = {}) {
   const others = path ? otherLanguages(path, lang, languages) : [];
   const alternates = others.length
     ? [{ lang, path }, ...others].map(
@@ -97,6 +113,9 @@ export function head({ site = "/", prefix = site, path, lang = path && languageO
     '<link rel="apple-touch-icon" href="/apple-touch-icon.png">',
     ...Object.values(STYLES).map((css) => `<link rel="stylesheet" href="${esc(prefix + css)}">`),
     ...alternates,
+    ...(path && counts({ site, preview, counter })
+      ? [`<script src="${COUNT_SCRIPT}" data-endpoint="${esc(counter)}" data-path="${esc(path)}" defer></script>`]
+      : []),
   ].join("\n");
 }
 

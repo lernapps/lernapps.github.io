@@ -25,7 +25,7 @@ export default function siteFrame(eleventyConfig, { site = "/", source } = {}) {
   const pathOf = (url = "/") => site + String(url).replace(/^\//, "");
   const languagesOf = (only) => (only ? [only] : undefined);
   eleventyConfig.addShortcode("laHead", (url, only) =>
-    head({ ...opts, path: url && pathOf(url), languages: languagesOf(only) }),
+    head({ ...opts, preview, path: url && pathOf(url), languages: languagesOf(only) }),
   );
   eleventyConfig.addShortcode("laHeader", (url, only) =>
     header({ ...opts, preview, path: pathOf(url), ...(only && { languages: [only] }) }),
