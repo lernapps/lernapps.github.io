@@ -22,8 +22,7 @@ a change to the navigation or the tokens with its next update pull request.
 | `frame.js` | `head()`, `header()`, `footer()`, `link()`, `languageOf()` and `pathIn()`: render the site frame as HTML strings |
 | `eleventy.js` | Eleventy plugin: shortcodes `laHead`, `laHeader`, `laFooter`, filter `own`, copies the CSS |
 | `inject.mjs` | CLI `lernapps-frame` for sites not built with Eleventy (docs): adds the site frame to built HTML |
-| `count.js` | The usage counter of the platform sites (see below); the home site serves it as `/lernapps-count.js` |
-| `check.mjs` | CLI `lernapps-check`: the deploy check of every site (no external resources, links, privacy notice and imprint linked, no usage counter in an app) |
+| `check.mjs` | CLI `lernapps-check`: the deploy check of every site (no external resources, links, privacy notice and imprint linked, the usage counter only on the platform sites) |
 
 ## Use it
 
@@ -75,23 +74,5 @@ own language (`/privacy/`, `/en/privacy/`).
   Icons and the mark (`SHARED_ASSETS`) are always taken from the home site.
 - The texts are plain (ISO 24495-1), like all texts for learners, teachers and parents: German is the source, English the translation. Both live side by side in `nav.js`.
 - A change here changes every site: check it in the previews of apps and docs after Renovate bumps them.
-
-## Usage counter
-
-Purpose: to see whether the apps are used at all, nothing more. `head()` adds `count.js` to the pages of the
-platform's own sites (`COUNTED_SITES` in `nav.js`: home, `/apps/`, `/docs/`, `/tooling/`), never to an app and
-never to a preview. It sends the canonical path of the page to GoatCounter (`COUNTER`), and the name of a link
-marked `data-la-count="<name>"` as an event: the catalog marks its "open app" links with `data-la-count="app/<slug>"`.
-Nothing else: no query, title, referrer or screen size, no cookies, no localStorage; not with Global Privacy Control
-or Do Not Track. Inside the apps nothing is counted, and `lernapps-check` fails a site outside `COUNTED_SITES` whose
-pages carry the counter.
-
-`COUNTER` is empty: off everywhere, and the privacy notice says it is planned. To turn it on, in one commit here:
-
-1. Make sure there is a data processing agreement (Art. 28 GDPR) with GoatCounter, and in its site settings turn
-   off what is not needed (individual pageviews stay off; screen sizes, languages).
-2. Set `COUNTER` to `"https://<code>.goatcounter.com/count"`.
-3. Set `legal.updated` in `src/_data/legal.js`: the privacy notice now shows the section on the counter
-   (`site.counter`). Check that the section still matches `count.js` and GoatCounter's privacy policy.
-
-The other sites count once Renovate bumps them to that commit.
+- The frame never carries the usage counter: apps use the frame too, and apps are never counted. The platform sites
+  add the counter themselves (see [Usage counter](../README.md#usage-counter)).

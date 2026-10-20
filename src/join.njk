@@ -24,6 +24,7 @@ permalink: "{{ l.root }}join/index.html"
   <meta name="robots" content="noindex">
   {%- endif %}
   {% laHead page.url %}
+  {%- include "counter.njk" %}
   <link rel="stylesheet" href="{{ '/uno.css' | own }}">
   <script src="{{ '/join.js' | own }}" defer></script>
 </head>

@@ -1,0 +1,5 @@
+{#- The usage counter (src/lernapps-count.njk) on the pages of the home site: only when it is on, never in a preview.
+    countPath: the path to count instead of the address (the 404 page counts as /404/, whatever was missing). -#}
+{%- if site.counter and not site.preview %}
+  <script src="{{ counter.script }}"{% if countPath %} data-path="{{ countPath }}"{% endif %} defer></script>
+{%- endif %}

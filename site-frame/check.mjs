@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 // Checks a built lernapps.net site before it is deployed; the same rules for every site on the origin:
 // - no external resources (scripts, styles, images, frames, fonts) in HTML or CSS: nothing is loaded
-//   from another server without a click. The one exception is the usage counter of the platform sites
-//   (COUNTED_SITES in nav.js); an app never has it
+//   from another server without a click
+// - the usage counter of the platform sites (/lernapps-count.js, GoatCounter) only on those sites
+//   (COUNTED_SITES), never in an app
 // - every link to a page of this site points to an existing file; in a pull request preview, no link
 //   leaves the preview by accident
 // - every page links the privacy notice and the imprint (required by law on every page)
@@ -14,8 +15,10 @@
 import { readFileSync, readdirSync, existsSync, statSync } from "node:fs";
 import { join, dirname, resolve } from "node:path";
 import { parseArgs } from "node:util";
-import { siteOf, link, languageOf, pathIn, SHARED_ASSETS, COUNT_SCRIPT } from "./frame.js";
-import { COUNTED_SITES } from "./nav.js";
+import { siteOf, link, languageOf, pathIn, SHARED_ASSETS } from "./frame.js";
+
+// The platform's own sites, which may count their visits; every other site on the origin is an app.
+const COUNTED_SITES = ["/", "/apps/", "/docs/", "/tooling/"];
 
 const { values: a } = parseArgs({
   options: {
@@ -69,7 +72,7 @@ for (const file of files(ROOT)) {
   for (const marker of a.forbid) if (text.includes(marker)) errors.push(`${rel}: contains "${marker}"`);
 
   // Apps are never counted: the counter belongs to the platform's own sites only.
-  if (!COUNTED_SITES.includes(site) && (raw.includes(COUNT_SCRIPT) || /goatcounter/i.test(raw))) {
+  if (!COUNTED_SITES.includes(site) && (raw.includes("/lernapps-count.js") || /goatcounter/i.test(raw))) {
     errors.push(`${rel}: usage counter outside the platform sites (apps are never counted)`);
   }
 

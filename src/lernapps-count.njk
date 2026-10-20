@@ -1,0 +1,58 @@
+---
+permalink: lernapps-count.js
+eleventyExcludeFromCollections: true
+---
+{#-
+  The usage counter of the platform sites, served as /lernapps-count.js. Not part of the shared site frame, so an
+  app never gets it: each platform site (home, /apps/, /docs/, /tooling/) adds it to its own pages itself, outside a
+  preview:
+
+    <script src="/lernapps-count.js" defer></script>
+
+  The endpoint comes from src/_data/counter.js; while it is empty, the script does nothing. Written for lernapps.net
+  instead of GoatCounter's count.js, so that it sends as little as possible and is easy to read.
+-#}
+// Usage counter of the platform pages of lernapps.net (home, catalog, docs, tooling), never of an app.
+// Purpose: to see whether the apps are used at all. Sends to GoatCounter:
+// - a visit: the path of the page (data-path of the script tag, else the address without query), nothing else
+//   (no query, title, referrer or screen size)
+// - a click on a link marked data-la-count="<name>" (e.g. "app/mathe-karte" on the catalog's "open app" links):
+//   the name as an event
+// It sets nothing in the browser (no cookies, no localStorage) and reads nothing from it. It does not count when
+// the browser asks not to be tracked (Global Privacy Control, Do Not Track), outside https (npm run dev) or in a
+// pull request preview, and it waits while a page is only prerendered.
+(function () {
+  var endpoint = {{ counter.endpoint | dump | safe }};
+  var script = document.currentScript;
+  var path = (script && script.dataset.path) || location.pathname;
+  if (!endpoint || !navigator.sendBeacon) return;
+  if (/\/pr-preview\//.test(location.pathname)) return; // a pull request preview
+  if (navigator.globalPrivacyControl || navigator.doNotTrack === "1" || navigator.webdriver) return;
+  if (location.protocol !== "https:") return; // npm run dev, a file
+
+  function send(name, event) {
+    var q = "?p=" + encodeURIComponent(name) + (event ? "&e=true" : "") + "&rnd=" + Math.random().toString(36).slice(2, 7);
+    navigator.sendBeacon(endpoint + q);
+  }
+
+  function visit() {
+    send(path, false);
+  }
+  if (document.visibilityState === "prerender") {
+    document.addEventListener("visibilitychange", function once() {
+      if (document.visibilityState !== "visible") return;
+      document.removeEventListener("visibilitychange", once);
+      visit();
+    });
+  } else {
+    visit();
+  }
+
+  // auxclick: a link opened with the middle button.
+  ["click", "auxclick"].forEach(function (type) {
+    document.addEventListener(type, function (e) {
+      var a = e.target instanceof Element && e.target.closest("[data-la-count]");
+      if (a) send(a.dataset.laCount, true);
+    });
+  });
+})();

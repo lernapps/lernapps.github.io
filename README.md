@@ -2,7 +2,7 @@
 
 Home page of the lernapps organisation (brand: lernapps.net), served at <https://lernapps.net/> (custom domain; <https://lernapps.github.io/> redirects there).
 
-The home page is static HTML without any script of its own (only the usage counter of the site frame, once it is on). Its story follows the [platform design](https://lernapps.net/docs/platform-design/) (agents: see the skill [`skills/pdt`](https://github.com/lernapps/docs/tree/main/skills/pdt) in lernapps/docs), solution first: the promise (learning apps with no strings attached, made by parents and teachers); four hand-picked apps from the catalog; what teachers and parents get; a solid foundation for makers; why another platform (it belongs to no company); how to join; and a short word from the founder. Three more pages, all in the common header, hold the details: **features** (`/features/`: what the apps can do for users; what developers get: foundations or their own stack, guidance for the AI assistant, how an app is listed, ownership and licence; and what makes the platform unique: GitHub as a free backbone, no server and no data, readable for AI assistants, planned in the open, with the principles), **join** (`/join/`: one block per persona with a prompt for their AI assistant) and **about** (`/about/`: the founder's long text and an honest answer for sceptics that links to the design). It links to the sites that live in other repos on the same origin: the app overview (`/apps/`), the docs (`/docs/`) and the tooling (`/tooling/`). Apart from the four examples it does **not** list apps itself; that is the job of the app overview in [lernapps/apps](https://github.com/lernapps/apps). See [ORGANIZATION.md](https://github.com/lernapps/.github/blob/main/ORGANIZATION.md) for how the repos fit together.
+The home page is static HTML without any script of its own (only the usage counter, once it is on). Its story follows the [platform design](https://lernapps.net/docs/platform-design/) (agents: see the skill [`skills/pdt`](https://github.com/lernapps/docs/tree/main/skills/pdt) in lernapps/docs), solution first: the promise (learning apps with no strings attached, made by parents and teachers); four hand-picked apps from the catalog; what teachers and parents get; a solid foundation for makers; why another platform (it belongs to no company); how to join; and a short word from the founder. Three more pages, all in the common header, hold the details: **features** (`/features/`: what the apps can do for users; what developers get: foundations or their own stack, guidance for the AI assistant, how an app is listed, ownership and licence; and what makes the platform unique: GitHub as a free backbone, no server and no data, readable for AI assistants, planned in the open, with the principles), **join** (`/join/`: one block per persona with a prompt for their AI assistant) and **about** (`/about/`: the founder's long text and an honest answer for sceptics that links to the design). It links to the sites that live in other repos on the same origin: the app overview (`/apps/`), the docs (`/docs/`) and the tooling (`/tooling/`). Apart from the four examples it does **not** list apps itself; that is the job of the app overview in [lernapps/apps](https://github.com/lernapps/apps). See [ORGANIZATION.md](https://github.com/lernapps/.github/blob/main/ORGANIZATION.md) for how the repos fit together.
 
 This repo also holds the **site frame shared by all sites** on lernapps.net: design tokens, header with the common navigation, footer, and the deploy check, in [`site-frame/`](site-frame/README.md). The sites use it as the npm package `@lernapps/site`, straight from git.
 
@@ -24,7 +24,7 @@ This repo also holds the **site frame shared by all sites** on lernapps.net: des
 | `src/CNAME` | The custom domain `lernapps.net`; the `gh-pages` branch must carry it |
 | `.githooks/`, `scripts/`, `test/` | The git hooks (set by `npm ci`, the `prepare` script), the pre-push hook's change scope (`scripts/pre-push.mjs`) and its tests; see Commands |
 
-Rules for the page (org-wide): no external requests (system fonts, no CDNs; the one exception is the usage counter of the platform sites, never in an app, see [site-frame/README.md](site-frame/README.md#usage-counter)), `referrer` meta, `lang` on `<html>` (`de`, `en` below `/en/`), skip link, WCAG 2.1 AA contrast, no horizontal scrolling at 360 px, all content readable without JavaScript.
+Rules for the page (org-wide): no external requests (system fonts, no CDNs; the one exception is the usage counter of the platform sites, never in an app, see [Usage counter](#usage-counter)), `referrer` meta, `lang` on `<html>` (`de`, `en` below `/en/`), skip link, WCAG 2.1 AA contrast, no horizontal scrolling at 360 px, all content readable without JavaScript.
 
 ## Commands
 
@@ -41,6 +41,36 @@ change scope of the pushed commits (the classifier of lernapps/tooling, at the c
 only the plan (`.vibe/**`), otherwise `npm run build && npm run check`. `npm test` tests the hook (CI's job `test`).
 
 Links to `/apps/`, `/docs/` and `/tooling/` only resolve on the deployed origin. Links to pages of this repo go through the filter `own` (from `site-frame/eleventy.js`), so they also work in a preview.
+
+## Usage counter
+
+Purpose: to see whether the apps are used at all, nothing more. The counter is **not** part of the shared site frame,
+because apps use the frame too and apps are never counted. This repo serves it as `/lernapps-count.js`
+(`src/lernapps-count.njk`, endpoint in `src/_data/counter.js`), and each platform site adds it to its own pages,
+outside a pull request preview:
+
+```html
+<script src="/lernapps-count.js" defer></script>
+```
+
+| Site | Where |
+|---|---|
+| home (this repo) | `src/_includes/counter.njk`, included after `laHead` in every page; the 404 page counts as `/404/` |
+| `/apps/`, `/docs/`, `/tooling/` | in their own repos, the same tag in their own layout (not through `@lernapps/site`) |
+
+It sends the path of the page to GoatCounter, and the name of a link marked `data-la-count="<name>"` as an event:
+the catalog marks its "open app" links with `data-la-count="app/<slug>"`. Nothing else: no query, title, referrer
+or screen size, no cookies, no localStorage; not with Global Privacy Control or Do Not Track, not in a preview.
+`lernapps-check` fails a site outside the platform sites whose pages carry the counter.
+
+While `endpoint` is empty, the script does nothing and the privacy notice says the counter is planned. To turn it on,
+in one commit here:
+
+1. Make sure there is a data processing agreement (Art. 28 GDPR) with GoatCounter, and in its site settings turn
+   off what is not needed (individual pageviews stay off; screen sizes, languages).
+2. Set `endpoint` in `src/_data/counter.js` to `"https://<code>.goatcounter.com/count"`.
+3. Set `legal.updated` in `src/_data/legal.js`: the privacy notice now shows the section on the counter
+   (`site.counter`). Check that the section still matches `src/lernapps-count.njk` and GoatCounter's privacy policy.
 
 ## Brand mark
 
