@@ -1,0 +1,85 @@
+---
+pagination:
+  data: languages
+  size: 1
+  alias: l
+permalink: "{{ l.root }}about/index.html"
+---
+{#-
+  Why lernapps.net exists: the founder's long text (the home page shows a short version and links here) and the
+  honest answer for sceptics, which links to the platform design. Texts: about in src/_data/de.js, en.js.
+-#}
+{%- set A = l.t.about -%}
+<!doctype html>
+<html lang="{{ l.code }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>{{ A.meta.title }}</title>
+  <meta name="description" content="{{ A.meta.description }}">
+  <link rel="canonical" href="https://lernapps.net/{{ l.root }}about/">
+  {%- if site.preview %}
+  <meta name="robots" content="noindex">
+  {%- endif %}
+  {% laHead page.url %}
+  <link rel="stylesheet" href="{{ '/uno.css' | own }}">
+</head>
+<body>
+  <div class="min-h-screen bg-slate-900 text-white" style="font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;">
+  {% laHeader page.url %}
+
+  <main id="main-content" tabindex="-1" class="outline-none">
+
+    {# ══════ FOUNDER ══════ #}
+    {%- set W = A.founder %}
+    <section class="bg-white py-16 sm:py-24">
+      <div class="max-w-3xl mx-auto px-6">
+        <figure class="m-0 border-l-4 border-blue-500 pl-6 sm:pl-8">
+          <h1 class="font-extrabold tracking-tight text-slate-900 mb-8" style="font-size: clamp(1.75rem, 4.5vw, 2.75rem); line-height: 1.15;">{{ W.heading }}</h1>
+          <div class="space-y-4">
+            {%- for p in W.text | paragraphs %}
+            <p class="text-slate-700 leading-relaxed" style="font-size: 1.0625rem;">{{ p }}</p>
+            {%- endfor %}
+          </div>
+          <figcaption class="mt-6"><span class="block font-semibold text-slate-900">{{ W.signature }}</span><span class="text-sm text-slate-500">{{ W.role }}</span></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    {# ══════ FOR SCEPTICS ══════ #}
+    {%- set S = A.sceptics %}
+    <section class="bg-slate-800 py-16 sm:py-20" aria-labelledby="sceptics-heading">
+      <div class="max-w-3xl mx-auto px-6">
+        <h2 id="sceptics-heading" class="font-extrabold tracking-tight text-white mb-6" style="font-size: clamp(1.75rem, 4.5vw, 2.5rem); line-height: 1.15;">{{ S.heading }}</h2>
+        <div class="space-y-4 mb-8">
+          {%- for p in S.text | paragraphs %}
+          <p class="text-slate-300 leading-relaxed" style="font-size: 1.0625rem;">{{ p }}</p>
+          {%- endfor %}
+        </div>
+        <ul class="flex flex-wrap gap-3 list-none p-0 m-0">
+          {%- for link in S.links %}
+          <li><a href="{{ link.href | own }}" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-slate-600 text-white text-sm font-semibold hover:border-blue-400 hover:text-blue-200 transition-colors">{{ link.label }} →</a></li>
+          {%- endfor %}
+        </ul>
+        <p class="mt-4 text-sm text-slate-400">{{ S.note }}</p>
+      </div>
+    </section>
+
+    {# ══════ CTA ══════ #}
+    <section class="py-16 sm:py-20 bg-blue-700 text-white" aria-labelledby="about-cta-heading">
+      <div class="max-w-2xl mx-auto px-6 text-center">
+        <h2 id="about-cta-heading" class="font-bold mb-4" style="font-size: clamp(1.5rem, 4vw, 2.25rem);">{{ A.cta.title }}</h2>
+        <p class="text-blue-200 leading-relaxed mb-8">{{ A.cta.description }}</p>
+        <div class="flex flex-wrap justify-center gap-3">
+          <a href="{{ A.cta.primaryHref | own }}" class="inline-flex items-center gap-2 px-6 py-3 bg-white text-blue-700 font-semibold rounded-xl hover:bg-blue-50 transition-colors text-sm">{{ A.cta.primary }} →</a>
+          <a href="{{ A.cta.secondaryHref | own }}" class="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl transition-colors text-sm border border-blue-500">{{ A.cta.secondary }}</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  {% laFooter page.url %}
+  </div>
+</body>
+</html>
