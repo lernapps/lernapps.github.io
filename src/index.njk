@@ -76,6 +76,7 @@ permalink: "{{ l.root }}index.html"
           <a href="{{ S.allHref | own }}" class="inline-flex items-center gap-2 font-semibold text-blue-700 hover:text-blue-800">{{ S.all }} →</a>
           <p class="text-sm text-slate-500">{{ S.early }}</p>
         </div>
+        <p class="mt-4 max-w-3xl text-sm text-slate-600 leading-relaxed">{{ S.honest }}</p>
       </div>
     </section>
 
@@ -99,16 +100,12 @@ permalink: "{{ l.root }}index.html"
               <p class="text-slate-600 leading-relaxed">{{ p }}</p>
               {%- endfor %}
             </div>
-            {%- if s.tutor %}
-            <div class="mt-5 rounded-xl border border-blue-200 bg-blue-50 p-4">
-              <p class="flex items-center gap-2 text-sm font-semibold text-slate-900 mb-1"><span aria-hidden="true">✨</span>{{ s.tutor.title }}</p>
-              <p class="text-sm text-slate-700 leading-relaxed">{{ s.tutor.text }}</p>
-            </div>
-            {%- endif %}
             <a href="{{ s.ctaHref | own }}" class="mt-6 inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors text-sm">{{ s.cta }} →</a>
           </div>
           {%- endfor %}
         </div>
+        {#- The break: who does not build apps can stop here and go to the catalog. #}
+        <p class="mt-10 text-slate-600 leading-relaxed">{{ F.next }} <a href="{{ F.nextHref | own }}" class="font-semibold text-blue-700 underline underline-offset-2 hover:text-blue-800 whitespace-nowrap">{{ F.nextLink }} →</a></p>
       </div>
     </section>
 
