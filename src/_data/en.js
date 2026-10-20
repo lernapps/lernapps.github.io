@@ -25,19 +25,6 @@ export default {
       intro: "From a thorough practice app to a game. Each one was made for a real class or a real child.",
       early: "We are just getting started. The catalog grows with every app someone lists.",
       lasting: "The apps live with their makers, not with us. If lernapps.net were gone, they would keep running.",
-      browse: {
-        grades: "By grade:",
-        gradeList: ["3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"],
-        subjects: "By subject:",
-        subjectList: [
-          { value: "Mathematik", label: "Maths" },
-          { value: "Deutsch", label: "German" },
-          { value: "Erdkunde", label: "Geography" },
-          { value: "Physik", label: "Physics" },
-          { value: "Chemie", label: "Chemistry" },
-          { value: "Informatik", label: "Computer science" },
-        ],
-      },
       honest: "Every app comes from a person. We help them build it, but that is no guarantee of quality. If you see a mistake in the content, report it on the app's page.",
       apps: [
         { icon: "🗺️", meta: "Maths · Grade 8", title: "Mathe-Karte", text: "Percentages, binomial formulas and probability: explained, with a picture and many exercises.", href: "/apps/en/mathe-karte/" },
@@ -79,7 +66,7 @@ export default {
       intro: "lernapps are not products of a publisher. Parents and teachers build them because their child or their class was missing something. lernapps.net gives them a foundation on which these become good apps.",
       makers: { title: "The makers bring", items: ["their idea", "their knowledge of the subject", "their experience from the classroom and the kitchen table"] },
       platform: { title: "The platform brings", items: ["foundations for a quiz, an explainer and an interactive app", "a method: based on the curriculum, exercises with feedback", "tools to build, check and list an app"] },
-      result: "So every app feels familiar. And every app brings its own idea.",
+      result: "That makes it quick and easy to turn your own ideas into apps.",
       link: "What the apps can do",
       linkHref: "/features/#users",
     },
