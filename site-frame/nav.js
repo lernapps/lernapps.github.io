@@ -30,14 +30,14 @@ export const nav = {
   },
   links: [
     { label: { de: "Apps finden", en: "Find apps" }, href: "/apps/" },
+    // Listing is a section of "App bauen" (/apps/build/#eintragen); /apps/enter/ stays, linked from there.
     { label: { de: "App bauen", en: "Build an app" }, href: "/apps/build/" },
-    { label: { de: "App eintragen", en: "List an app" }, href: "/apps/enter/" },
     { label: { de: "Tooling", en: "Tooling" }, href: "/tooling/" },
-    { label: { de: "So ist es gedacht", en: "How it is meant" }, href: "/docs/" },
-    {
-      label: { de: "Mitmachen", en: "Get involved" },
-      href: "https://github.com/lernapps/.github/blob/main/CONTRIBUTING.md",
-    },
+    // What lernapps is made of: for users, for developers, and what makes the platform unique. The docs (/docs/)
+    // are linked from there and from the footer.
+    { label: { de: "Features", en: "Features" }, href: "/features/" },
+    // One page per persona, with a prompt each for their AI assistant.
+    { label: { de: "Mitmachen", en: "Get involved" }, href: "/join/" },
   ],
 };
 
@@ -55,6 +55,7 @@ export const footer = {
   links: [
     { label: { de: "Datenschutz", en: "Privacy" }, href: "/privacy/" },
     { label: { de: "Impressum", en: "Imprint" }, href: "/imprint/" },
+    { label: { de: "So ist es gedacht", en: "How it is meant" }, href: "/docs/" },
     {
       label: { de: "Plattform-Design", en: "Platform design" },
       href: { de: "/docs/platform-design/", en: "/docs/platform-design/" },
