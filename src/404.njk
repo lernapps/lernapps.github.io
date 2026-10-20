@@ -12,6 +12,7 @@ permalink: /404.html
   <meta name="robots" content="noindex">
   <title>Seite nicht gefunden · Page not found · lernapps.net</title>
   {% laHead "/404/", "de" %}
+  {%- set countPath = "/404/" %}{% include "counter.njk" %}
   <link rel="stylesheet" href="{{ '/uno.css' | own }}">
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col" style="font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;">
