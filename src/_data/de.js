@@ -26,20 +26,6 @@ export default {
       intro: "Von der umfassenden Übungs-App bis zum Spiel. Jede ist für eine echte Klasse oder ein echtes Kind entstanden.",
       early: "Wir fangen gerade erst an. Der Katalog wächst mit jeder App, die jemand einträgt.",
       lasting: "Die Apps liegen bei ihren Machern, nicht bei uns. Gäbe es lernapps.net nicht mehr, liefen sie weiter.",
-      // Links into the filtered catalog (/apps/?klasse=…, ?fach=…); values as the catalog's filter has them.
-      browse: {
-        grades: "Nach Klasse:",
-        gradeList: ["3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"],
-        subjects: "Nach Fach:",
-        subjectList: [
-          { value: "Mathematik", label: "Mathematik" },
-          { value: "Deutsch", label: "Deutsch" },
-          { value: "Erdkunde", label: "Erdkunde" },
-          { value: "Physik", label: "Physik" },
-          { value: "Chemie", label: "Chemie" },
-          { value: "Informatik", label: "Informatik" },
-        ],
-      },
       honest: "Jede App kommt von einem Menschen. Wir helfen beim Bauen, aber eine Garantie für die Qualität ist das nicht. Siehst du einen Fehler im Inhalt, melde ihn auf der Seite der App.",
       apps: [
         { icon: "🗺️", meta: "Mathematik · Klasse 8", title: "Mathe-Karte", text: "Prozent, binomische Formeln und Wahrscheinlichkeit: erklärt, mit Bild und vielen Aufgaben.", href: "/apps/mathe-karte/" },
@@ -81,7 +67,7 @@ export default {
       intro: "lernapps sind keine Produkte eines Verlags. Eltern und Lehrkräfte bauen sie, weil ihrem Kind oder ihrer Klasse etwas gefehlt hat. lernapps.net gibt ihnen ein Fundament, auf dem daraus gute Apps werden.",
       makers: { title: "Die Macher bringen", items: ["ihre Idee", "ihr Wissen über das Fach", "ihre Erfahrung aus Klasse und Küchentisch"] },
       platform: { title: "Die Plattform bringt", items: ["Grundgerüste für Quiz, Erklär-App und interaktive App", "eine Methodik: am Lehrplan orientiert, Übungen mit Rückmeldung", "Werkzeuge zum Bauen, Prüfen und Eintragen"] },
-      result: "So fühlt sich jede App vertraut an. Und jede bringt ihre eigene Idee mit.",
+      result: "So wird es einfach und schnell, eigene Ideen umzusetzen.",
       link: "Was die Apps können",
       linkHref: "/features/#nutzer",
     },
