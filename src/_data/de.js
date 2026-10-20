@@ -79,7 +79,7 @@ export default {
       points: [
         { title: "Niemand verdient daran.", text: "Kein Abo, keine Werbung, kein Verkauf von Daten. Auch später nicht. Die Apps brauchen keinen eigenen Server, darum kostet der Betrieb fast nichts.", link: { label: "Mehr dazu", href: "/features/#kosten" } },
         { title: "Ein Ort für den Austausch.", text: "Die einen bauen Apps, die anderen setzen sie ein. Rückmeldung und Danke kommen bei denen an, die gebaut haben." },
-        { title: "Offen, nach festen Prinzipien.", text: "Kein Konto, nichts wird gesammelt. Die Regeln, der Plan und der Quellcode der Plattform sind öffentlich." },
+        { title: "Offen, nach festen Prinzipien.", text: "Kein Konto, die Apps sammeln nichts. Die Regeln, der Plan und der Quellcode der Plattform sind öffentlich." },
       ],
       links: [
         { label: "Alle Prinzipien", href: "/features/#prinzipien" },
@@ -216,7 +216,7 @@ export default {
           { icon: "🤝", title: "Keine Firma dahinter", text: "Niemand verdient an lernapps.net. Kein Abo, keine Werbung, kein Verkauf von Daten. Auch später nicht." },
           { icon: "📂", title: "Offen statt geschlossen", text: "Die Regeln, der Plan und der Quellcode sind öffentlich. Jeder kann nachlesen, wie hier entschieden wird." },
           { icon: "🏡", title: "Deine App bleibt deine", text: "Jede App liegt bei dem, der sie gebaut hat. lernapps.net zeigt sie, besitzt sie aber nicht." },
-          { icon: "🔒", title: "Nichts wird gesammelt", text: "Kein Konto, keine Cookies, kein Tracking. Was eingegeben wird, bleibt auf dem Gerät." },
+          { icon: "🔒", title: "Die Apps sammeln nichts", text: "Kein Konto, keine Cookies, kein Tracking. Was eingegeben wird, bleibt auf dem Gerät." },
           { icon: "💬", title: "Ehrlich über Grenzen", text: "Jede App sagt, was sie kann und was nicht. Wir sagen offen, was wir noch nicht wissen." },
           { icon: "💙", title: "Danke statt Geld", text: "Wer eine App nutzt, kann Danke sagen. Heute öffnet ein Klick eine fertige E-Mail an lernapps.net, und wir geben das Danke an den weiter, der die App gebaut hat. Später soll ein Klick genügen, ganz ohne E-Mail." },
         ],
