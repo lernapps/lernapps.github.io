@@ -13,7 +13,7 @@ export default {
     hero: {
       headline: "Learning apps with no strings attached.",
       subtitle: "Made by parents and teachers, with passion. Free in the browser and ready to go.",
-      badges: ["No account", "No ads", "No subscription", "Nothing leaves the device"],
+      badges: ["No account", "No ads", "No subscription", "What you type stays on the device", "Works on phones too"],
       primary: "Find an app",
       primaryHref: "/apps/en/",
       secondary: "Build an app yourself",
@@ -24,6 +24,20 @@ export default {
       heading: "A few apps from the catalog",
       intro: "From a thorough practice app to a game. Each one was made for a real class or a real child.",
       early: "We are just getting started. The catalog grows with every app someone lists.",
+      lasting: "The apps live with their makers, not with us. If lernapps.net were gone, they would keep running.",
+      browse: {
+        grades: "By grade:",
+        gradeList: ["3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"],
+        subjects: "By subject:",
+        subjectList: [
+          { value: "Mathematik", label: "Maths" },
+          { value: "Deutsch", label: "German" },
+          { value: "Erdkunde", label: "Geography" },
+          { value: "Physik", label: "Physics" },
+          { value: "Chemie", label: "Chemistry" },
+          { value: "Informatik", label: "Computer science" },
+        ],
+      },
       honest: "Every app comes from a person. We help them build it, but that is no guarantee of quality. If you see a mistake in the content, report it on the app's page.",
       apps: [
         { icon: "🗺️", meta: "Maths · Grade 8", title: "Mathe-Karte", text: "Percentages, binomial formulas and probability: explained, with a picture and many exercises.", href: "/apps/en/mathe-karte/" },
@@ -172,7 +186,13 @@ export default {
             "You submit it: as a pull request to lernapps/apps, or by form or email without GitHub. Anyone can submit an app.",
             "An automatic check opens the app the way learners do and compares it with the entry: do all topics open, are the details right?",
             "It is checked against the rules for every app. They are exclusion criteria: an app that collects data, needs an account or shows ads does not get into the catalog. An AI agent can also review the app against a checklist.",
+            "If the app keeps the rules, it is listed. For a finished app, all of this takes a few hours.",
           ],
+        },
+        {
+          id: "feedback",
+          title: "Feedback reaches you",
+          text: "Whoever uses your app can say thanks or tell you how it went, up to “mistake in the content”. Today this is an email to lernapps.net, and we pass it on to you.\n\nIf your source code is on GitHub, people can also open an issue in your repository straight from the app's page.",
         },
         {
           id: "ownership",
@@ -265,7 +285,7 @@ export default {
         headline: "Build the app that is still missing.",
         text: "You bring the idea and the content, your AI assistant builds it with you. lernapps.net gives you foundations, tools and checks. Your app stays yours. Whoever uses it can say thanks, and you hear about it.",
         cta: "Build an app", ctaHref: "/apps/en/build/",
-        secondary: "Already have an app? List it", secondaryHref: "/apps/en/build/#eintragen",
+        secondary: "Already have an app? List it in a few hours", secondaryHref: "/apps/en/build/#eintragen",
         ask: "I like building small learning apps with AI help. Read https://lernapps.net/llms.txt and the pages it links to. Explain to me in plain words what lernapps.net is, what the platform offers people like me and what I get back when someone uses my app. Tell me honestly whether it is worth it for me.",
       },
       {

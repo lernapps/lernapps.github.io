@@ -14,7 +14,7 @@ export default {
     hero: {
       headline: "Lern-Apps ohne Haken.",
       subtitle: "Gemacht von Eltern und Lehrkräften, mit Leidenschaft. Kostenlos im Browser und sofort startklar.",
-      badges: ["Kein Konto", "Keine Werbung", "Kein Abo", "Nichts verlässt das Gerät"],
+      badges: ["Kein Konto", "Keine Werbung", "Kein Abo", "Eingaben bleiben auf dem Gerät", "Auch auf dem Handy"],
       primary: "App finden",
       primaryHref: "/apps/",
       secondary: "Selbst eine App bauen",
@@ -25,6 +25,21 @@ export default {
       heading: "Ein paar Apps aus dem Katalog",
       intro: "Von der umfassenden Übungs-App bis zum Spiel. Jede ist für eine echte Klasse oder ein echtes Kind entstanden.",
       early: "Wir fangen gerade erst an. Der Katalog wächst mit jeder App, die jemand einträgt.",
+      lasting: "Die Apps liegen bei ihren Machern, nicht bei uns. Gäbe es lernapps.net nicht mehr, liefen sie weiter.",
+      // Links into the filtered catalog (/apps/?klasse=…, ?fach=…); values as the catalog's filter has them.
+      browse: {
+        grades: "Nach Klasse:",
+        gradeList: ["3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"],
+        subjects: "Nach Fach:",
+        subjectList: [
+          { value: "Mathematik", label: "Mathematik" },
+          { value: "Deutsch", label: "Deutsch" },
+          { value: "Erdkunde", label: "Erdkunde" },
+          { value: "Physik", label: "Physik" },
+          { value: "Chemie", label: "Chemie" },
+          { value: "Informatik", label: "Informatik" },
+        ],
+      },
       honest: "Jede App kommt von einem Menschen. Wir helfen beim Bauen, aber eine Garantie für die Qualität ist das nicht. Siehst du einen Fehler im Inhalt, melde ihn auf der Seite der App.",
       apps: [
         { icon: "🗺️", meta: "Mathematik · Klasse 8", title: "Mathe-Karte", text: "Prozent, binomische Formeln und Wahrscheinlichkeit: erklärt, mit Bild und vielen Aufgaben.", href: "/apps/mathe-karte/" },
@@ -173,7 +188,13 @@ export default {
             "Du reichst sie ein: als Pull Request an lernapps/apps, ohne GitHub auch per Formular oder E-Mail. Einreichen kann jeder.",
             "Eine automatische Prüfung öffnet die App wie Lernende und vergleicht sie mit dem Eintrag: Lassen sich alle Themen öffnen, stimmen die Angaben?",
             "Geprüft wird gegen die Regeln für jede App. Sie sind Ausschlusskriterien: Wer etwas sammelt, ein Konto verlangt oder Werbung zeigt, kommt nicht in den Katalog. Ein KI-Agent kann die App zusätzlich anhand einer Checkliste begutachten.",
+            "Erfüllt die App die Regeln, wird sie aufgenommen. Für eine fertige App dauert das alles zusammen wenige Stunden.",
           ],
+        },
+        {
+          id: "rueckmeldung",
+          title: "Rückmeldungen kommen bei dir an",
+          text: "Wer deine App nutzt, kann Danke sagen oder zurückmelden, wie es lief, bis hin zu „Fehler im Inhalt“. Heute ist das eine E-Mail an lernapps.net, und wir geben sie an dich weiter.\n\nLiegt dein Quellcode auf GitHub, kann man dir außerdem direkt von der Seite der App ein Issue in deinem Repository anlegen.",
         },
         {
           id: "eigentum",
@@ -266,7 +287,7 @@ export default {
         headline: "Bau die App, die noch fehlt.",
         text: "Du bringst die Idee und den Inhalt, dein KI-Assistent baut mit dir. lernapps.net gibt dir Grundgerüste, Werkzeuge und Prüfungen. Deine App bleibt deine. Wer sie nutzt, kann Danke sagen, und du erfährst davon.",
         cta: "Eine App bauen", ctaHref: "/apps/build/",
-        secondary: "Du hast schon eine App? Trag sie ein", secondaryHref: "/apps/build/#eintragen",
+        secondary: "Du hast schon eine App? Trag sie ein, in wenigen Stunden", secondaryHref: "/apps/build/#eintragen",
         ask: "Ich baue gern kleine Lern-Apps mit KI-Hilfe. Lies https://lernapps.net/llms.txt und die dort verlinkten Seiten. Erkläre mir in einfachen Worten, was lernapps.net ist, was die Plattform Menschen wie mir bietet und was ich zurückbekomme, wenn jemand meine App nutzt. Sag mir ehrlich, ob sich das für mich lohnt.",
       },
       {
