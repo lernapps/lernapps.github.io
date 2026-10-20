@@ -58,16 +58,19 @@ outside a pull request preview:
 | home (this repo) | `src/_includes/counter.njk`, included after `laHead` in every page; the 404 page counts as `/404/` |
 | `/apps/`, `/docs/`, `/tooling/` | in their own repos, the same tag in their own layout (not through `@lernapps/site`) |
 
-It sends the path of the page to GoatCounter, and the name of a link marked `data-la-count="<name>"` as an event:
-the catalog marks its "open app" links with `data-la-count="app/<slug>"`. Nothing else: no query, title, referrer
-or screen size, no cookies, no localStorage; not with Global Privacy Control or Do Not Track, not in a preview.
+It sends the path of the page to GoatCounter, with the origin of the website the visitor came from (only another
+website's, no path or query: a link from a school platform tells nothing about the course or the pupil), and the
+name of a link marked `data-la-count="<name>"` as an event: the catalog marks its "open app" links with
+`data-la-count="app/<slug>"`. Nothing else: no query, title or screen size, no cookies, no localStorage; not with
+Global Privacy Control or Do Not Track, not in a preview. Browser, system, language and country GoatCounter derives
+itself from the request, and stores them only as totals.
 `lernapps-check` fails a site outside the platform sites whose pages carry the counter.
 
 While `endpoint` is empty, the script does nothing and the privacy notice says the counter is planned. To turn it on,
 in one commit here:
 
 1. Make sure there is a data processing agreement (Art. 28 GDPR) with GoatCounter, and in its site settings turn
-   off what is not needed (individual pageviews stay off; screen sizes, languages).
+   off what is not needed (individual pageviews stay off; screen sizes are never sent).
 2. Set `endpoint` in `src/_data/counter.js` to `"https://<code>.goatcounter.com/count"`.
 3. Set `legal.updated` in `src/_data/legal.js`: the privacy notice now shows the section on the counter
    (`site.counter`). Check that the section still matches `src/lernapps-count.njk` and GoatCounter's privacy policy.
