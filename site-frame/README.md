@@ -22,7 +22,7 @@ a change to the navigation or the tokens with its next update pull request.
 | `frame.js` | `head()`, `header()`, `footer()`, `link()`, `languageOf()` and `pathIn()`: render the site frame as HTML strings |
 | `eleventy.js` | Eleventy plugin: shortcodes `laHead`, `laHeader`, `laFooter`, filter `own`, copies the CSS |
 | `inject.mjs` | CLI `lernapps-frame` for sites not built with Eleventy (docs): adds the site frame to built HTML |
-| `check.mjs` | CLI `lernapps-check`: the deploy check of every site (no external resources, links, privacy notice and imprint linked) |
+| `check.mjs` | CLI `lernapps-check`: the deploy check of every site (no external resources, links, privacy notice and imprint linked, the usage counter only on the platform sites) |
 
 ## Use it
 
@@ -74,3 +74,5 @@ own language (`/privacy/`, `/en/privacy/`).
   Icons and the mark (`SHARED_ASSETS`) are always taken from the home site.
 - The texts are plain (ISO 24495-1), like all texts for learners, teachers and parents: German is the source, English the translation. Both live side by side in `nav.js`.
 - A change here changes every site: check it in the previews of apps and docs after Renovate bumps them.
+- The frame never carries the usage counter: apps use the frame too, and apps are never counted. The platform sites
+  add the counter themselves (see [Usage counter](../README.md#usage-counter)).

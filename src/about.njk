@@ -23,6 +23,7 @@ permalink: "{{ l.root }}about/index.html"
   <meta name="robots" content="noindex">
   {%- endif %}
   {% laHead page.url %}
+  {%- include "counter.njk" %}
   <link rel="stylesheet" href="{{ '/uno.css' | own }}">
 </head>
 <body>
