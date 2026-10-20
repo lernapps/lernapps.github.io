@@ -38,18 +38,24 @@ export default {
 
     forYou: {
       heading: "Was du davon hast",
+      privacy: {
+        title: "Datenschutz ist bei uns ein Feature",
+        text: "Kein Konto, keine Cookies, kein Tracking. Was eingegeben wird, bleibt auf dem Gerät. Was lernapps.net genau speichert und was nicht, steht in der Datenschutzerklärung. Du kannst sie an deine Schulleitung oder die Datenschutzbeauftragten weitergeben.",
+        link: "Zur Datenschutzerklärung",
+        href: "/privacy/",
+      },
       next: "Mehr musst du nicht wissen. Der Rest der Seite ist für alle, die selbst eine App bauen wollen.",
       nextLink: "Zu den Apps",
       nextHref: "/apps/",
       items: [
         {
           icon: "📚", role: "Wenn du unterrichtest", headline: "Vertretungsstunde in der 7b?",
-          text: "Du übernimmst kurzfristig eine Klasse, vielleicht nicht einmal in deinem Fach. Such nach Fach und Klasse, teile einen Link oder zeig den QR-Code. Die Klasse arbeitet sinnvoll am Thema, und die App gibt jedem Kind Rückmeldung.\n\nNiemand braucht ein Konto, und es entstehen keine Daten deiner Schülerinnen und Schüler.",
+          text: "Du übernimmst kurzfristig eine Klasse, vielleicht nicht einmal in deinem Fach. Such nach Fach und Klasse, teile einen Link oder zeig den QR-Code. Die Klasse arbeitet sinnvoll am Thema, und die App gibt jedem Kind Rückmeldung.\n\nNiemand braucht ein Konto, und es werden keinerlei Daten deiner Schülerinnen und Schüler gesammelt.",
           cta: "Apps für den Unterricht", ctaHref: "/apps/",
         },
         {
           icon: "🏠", role: "Wenn dein Kind morgen eine Arbeit schreibt", headline: "Heute Abend noch üben.",
-          text: "Such eine App zum Thema der Arbeit. Dein Kind kann sofort anfangen: ohne Abo, ohne Werbung, ohne Konto. Niemand erfährt, wer es ist.",
+          text: "Such eine App zum Thema der Arbeit. Dein Kind kann sofort anfangen: ohne Abo, ohne Werbung, ohne Konto. Niemand weiß, wer die App gerade nutzt. Die Privatsphäre deines Kindes bleibt geschützt.",
           cta: "Apps zum Üben", ctaHref: "/apps/",
         },
       ],
@@ -191,7 +197,7 @@ export default {
       intro: "Die meisten Lernplattformen brauchen Server, Konten und ein Geschäftsmodell. lernapps.net ist anders gebaut. Darum kann es kostenlos bleiben.",
       unique: [
         { id: "kosten", icon: "🐙", title: "GitHub als kostenloses Rückgrat", text: "Darum funktioniert es ohne Geld: Apps und Katalog sind statische Seiten auf GitHub Pages. Ein Eintrag ist ein Pull Request, die Prüfung läuft in GitHub Actions. Es gibt keinen eigenen Server, der Geld kostet." },
-        { id: "daten", icon: "🔒", title: "Kein Server, keine Daten", text: "Jede App läuft ganz im Browser. Es gibt keine Datenbank und keine Konten. Was nicht gesammelt wird, kann auch nicht verloren gehen oder verkauft werden." },
+        { id: "daten", icon: "🔒", title: "Datenschutz als Feature", text: "Jede App läuft ganz im Browser. Es gibt keinen Server mit Daten, keine Datenbank und keine Konten. Was nicht gesammelt wird, kann auch nicht verloren gehen oder verkauft werden.", link: { label: "Die Datenschutzerklärung", href: "/privacy/" } },
         { id: "ki", icon: "🤖", title: "Lesbar für KI-Assistenten", text: "Jeder Bereich von lernapps.net hat eine llms.txt. So findet ein Assistent die passende App, erklärt die Plattform oder baut selbst eine App. Ohne dass jemand eine Schnittstelle betreiben muss." },
         { id: "offen", icon: "🧭", title: "Offen geplant", text: "Wir haben lernapps.net mit dem Platform Design Toolkit entworfen: wer beteiligt ist, was alle davon haben, was wir als Erstes ausprobieren. Alles ist öffentlich, auch was wir noch nicht wissen." },
       ],
