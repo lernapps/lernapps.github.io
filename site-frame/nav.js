@@ -33,9 +33,10 @@ export const nav = {
     // Listing is a section of "App bauen" (/apps/build/#eintragen); /apps/enter/ stays, linked from there.
     { label: { de: "App bauen", en: "Build an app" }, href: "/apps/build/" },
     { label: { de: "Tooling", en: "Tooling" }, href: "/tooling/" },
-    // What lernapps is made of: for users, for developers, and what makes the platform unique. The docs (/docs/)
-    // are linked from there and from the footer.
+    // What lernapps is made of: for users, for developers, and what makes the platform unique.
     { label: { de: "Features", en: "Features" }, href: "/features/" },
+    // The concepts behind it (/docs/): vision, organization, platform design.
+    { label: { de: "Darum!", en: "That's why" }, href: "/docs/" },
     // One page per persona, with a prompt each for their AI assistant.
     { label: { de: "Mitmachen", en: "Get involved" }, href: "/join/" },
   ],
@@ -55,7 +56,6 @@ export const footer = {
   links: [
     { label: { de: "Datenschutz", en: "Privacy" }, href: "/privacy/" },
     { label: { de: "Impressum", en: "Imprint" }, href: "/imprint/" },
-    { label: { de: "So ist es gedacht", en: "How it is meant" }, href: "/docs/" },
     {
       label: { de: "Plattform-Design", en: "Platform design" },
       href: { de: "/docs/platform-design/", en: "/docs/platform-design/" },
