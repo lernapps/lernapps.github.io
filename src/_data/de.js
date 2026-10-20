@@ -180,7 +180,7 @@ export default {
         {
           id: "eigentum",
           title: "Eigentum und Lizenz",
-          text: "Deine App liegt in deinem Repository, unter deiner Adresse und deiner Lizenz. Der Katalog verlinkt sie nur. Inhalte anderer, etwa Texte oder Bilder, nutzt du nur mit passender Lizenz und nennst Quelle und Lizenz.\n\nDie Plattform selbst und das Tooling stehen unter der MIT-Lizenz.",
+          text: "Deine App liegt in deinem Repository, unter deiner Adresse und deiner Lizenz. Der Katalog verlinkt sie nur. Wir empfehlen offene Lizenzen: MIT oder Apache 2.0 für den Code, CC BY 4.0 für die Inhalte. So können andere deine App weiterentwickeln, und dein Name bleibt dabei.\n\nInhalte anderer, etwa Texte oder Bilder, nutzt du nur mit passender Lizenz und nennst Quelle und Lizenz. Die Plattform selbst und das Tooling stehen unter der MIT-Lizenz.",
         },
       ],
       links: [

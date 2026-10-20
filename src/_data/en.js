@@ -179,7 +179,7 @@ export default {
         {
           id: "ownership",
           title: "Ownership and licence",
-          text: "Your app lives in your repository, at your address and under your licence. The catalog only links to it. You use content by others, such as texts or pictures, only with a suitable licence and name the source and licence.\n\nThe platform itself and the tooling are under the MIT licence.",
+          text: "Your app lives in your repository, at your address and under your licence. The catalog only links to it. We recommend open licences: MIT or Apache 2.0 for the code, CC BY 4.0 for the content. That way others can build on your app, and your name stays with it.\n\nYou use content by others, such as texts or pictures, only with a suitable licence and name the source and licence. The platform itself and the tooling are under the MIT licence.",
         },
       ],
       links: [
