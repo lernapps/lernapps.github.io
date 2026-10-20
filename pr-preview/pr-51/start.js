@@ -7,10 +7,29 @@
 // - the problem tabs auto-advance every 5 s with a progress bar, like the original. Auto-advance stops
 //   for good ("locked") on any click or focus in a tablist, as soon as the hero scrolls out of view,
 //   and never starts with prefers-reduced-motion (WCAG 2.2.2).
-// Markup hooks: data-tabs, data-persona, data-panel, data-role-heading, data-progress(-spacer); the tab
+// Markup hooks: data-ask(-text, -copy) for the prompt boxes, data-tabs, data-persona, data-panel, data-role-heading, data-progress(-spacer); the tab
 // classes come from data-active/data-inactive on the tablist, so UnoCSS finds them in the HTML.
 (function () {
   "use strict";
+
+  // Copy button of the "ask your AI assistant" prompts (hidden in the markup, so no dead button without JS).
+  Array.prototype.forEach.call(document.querySelectorAll("[data-ask]"), function (box) {
+    var button = box.querySelector("[data-ask-copy]");
+    var text = box.querySelector("[data-ask-text]");
+    if (!button || !text || !navigator.clipboard) return;
+    var label = button.textContent;
+    var reset = null;
+    button.hidden = false;
+    button.addEventListener("click", function () {
+      navigator.clipboard.writeText(text.textContent).then(function () {
+        button.textContent = button.getAttribute("data-copied");
+        clearTimeout(reset);
+        reset = setTimeout(function () {
+          button.textContent = label;
+        }, 2000);
+      });
+    });
+  });
 
   var ADVANCE_MS = 5000;
 
