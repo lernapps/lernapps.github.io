@@ -12,7 +12,9 @@
 //   root of a site, English below its language root (site + "en/" + …): that is how the frame knows the language
 //   of a page, and where the same page is in the other languages.
 // lang: the language of the frame (default: from path). A text that exists in one language only, at an address
-//   without a language root (the platform design is English), gets the frame in its language: lang: "en".
+//   without a language root (the tooling and the platform design are English), keeps the frame of its address
+//   (German): its navigation must not take the reader into another language's tree with no switch back. Header,
+//   footer and skip link carry lang, so they are read right inside a page of another language.
 // languages: the languages the page exists in, German first (default: all of LANGUAGES). The language switch links
 //   to the same page in the others; a page that exists in one language shows no switch.
 import { SITES, LANGUAGES, TRANSLATED_SITES, languageRoot, languageName, nav, footer as foot, texts } from "./nav.js";
@@ -124,11 +126,11 @@ export function header({
     );
   }
   const banner = preview
-    ? `<p class="la-preview">${esc(t.preview)} <a href="${esc(ORIGIN + path)}">lernapps.net${esc(path)}</a></p>`
+    ? `<p class="la-preview" lang="${lang}">${esc(t.preview)} <a href="${esc(ORIGIN + path)}">lernapps.net${esc(path)}</a></p>`
     : "";
   const home = pathIn("/", lang);
-  return `<a class="la-skip" href="#${esc(main)}">${esc(t.skipLink)}</a>
-${banner}<header class="la-header">
+  return `<a class="la-skip" href="#${esc(main)}" lang="${lang}">${esc(t.skipLink)}</a>
+${banner}<header class="la-header" lang="${lang}">
   <div class="la-header__inner">
     <a class="la-brand" href="${esc(link(home, { site, prefix }))}" aria-label="${esc(nav[lang].homeLabel)}"${path === home ? ' aria-current="page"' : ""}><img src="/brand/mark-plain.svg" alt=""><span>lernapps<span class="la-brand__tld">.net</span></span></a>
     <nav class="la-nav" aria-label="${esc(nav[lang].ariaLabel)}"><ul>${items.join("")}</ul></nav>
@@ -148,7 +150,7 @@ export function footer({ site = "/", prefix = site, source, path = site, lang = 
   ]
     .map((l) => `<li><a href="${esc(link(l.href, { site, prefix }))}">${esc(l.text)}</a></li>`)
     .join("");
-  return `<footer class="la-footer">
+  return `<footer class="la-footer" lang="${lang}">
   <div class="la-footer__inner">
     <p>${esc(f.free)}</p>
     <nav aria-label="${esc(f.ariaLabel)}"><ul>${links}</ul></nav>

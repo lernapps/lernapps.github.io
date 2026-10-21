@@ -44,8 +44,10 @@ for (const file of files(a.out)) {
   if (html.includes(MARK) || !/<body[^>]*>/i.test(html)) continue;
   const rel = relative(a.out, dirname(file)).split("\\").join("/");
   const path = site + (rel ? rel + "/" : "");
-  // The frame speaks the language of the page: its <html lang>, else the language its address says.
-  const lang = html.match(/<html[^>]*\slang="([a-z]{2})/i)?.[1] ?? languageOf(path);
+  // The frame speaks the language of the address, not of the text: a text that exists in one language only, at an
+  // address without a language root (the tooling and the platform design are English), keeps the German frame, so
+  // that its navigation does not take the reader into the English tree with no way back.
+  const lang = languageOf(path);
   const languages = LANGUAGES.filter((l) => l === lang || pageExists(pathIn(path, l)));
   // The skip link's target: --main, else the page's <main id>, else an anchor right after the header.
   const main = a.main ?? html.match(/<main[^>]*\bid="([^"]+)"/i)?.[1];

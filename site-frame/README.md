@@ -61,9 +61,11 @@ the header ends with a link to the page in the other language, and `<head>` gets
 own language (`/privacy/`, `/en/privacy/`).
 
 - A page that exists in one language only passes it: `{% laHeader page.url, "de" %}` (and in `laHead`); it gets no
-  language switch. A text that exists in one language only at an address without a language root (the platform
-  design is English) gets the frame in its language from its `<html lang>`: `lernapps-frame` does this by itself and
-  shows the switch only where the same page exists in the other language.
+  language switch. A text that exists in one language only at an address without a language root (the tooling and
+  the platform design are English) keeps the frame of its address, German, with `lang="de"` on header and footer:
+  an English frame there would lead every navigation link into the English tree, and with no German page to switch
+  to, the reader would have no way back. `lernapps-frame` does this by itself and shows the switch only where the
+  same page exists in the other language.
 - Adding a language: add it to `LANGUAGES` and to the texts in `nav.js`, then give every site a tree for it.
 - Sites that are not translated yet (`/mathe-karte/`) are not in `TRANSLATED_SITES`: links to them stay as they are.
 
