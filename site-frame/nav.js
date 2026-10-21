@@ -19,6 +19,10 @@ export const languageRoot = (lang) => (lang === "de" ? "" : `${lang}/`);
 /** How a language is named, in itself. */
 export const languageName = { de: "Deutsch", en: "English" };
 
+
+/** Where the language the reader chose by the switch is kept, if it is not their browser's (frame.js). */
+export const LANGUAGE_KEY = "lernapps-lang";
+
 // Link texts by language. A link goes to the same page in the language of the page the reader is on, unless
 //   href is { de, en }: a different address per language.
 export const nav = {
@@ -71,10 +75,12 @@ export const texts = {
     skipLink: "Zum Inhalt springen",
     preview: "Vorschau einer Änderung. Die echte Seite:",
     languageSwitch: "Sprache",
+    fallback: "Diese Seite gibt es nicht auf Deutsch.",
   },
   en: {
     skipLink: "Skip to content",
     preview: "Preview of a change. The real page:",
     languageSwitch: "Language",
+    fallback: "This page is not available in English.",
   },
 };
