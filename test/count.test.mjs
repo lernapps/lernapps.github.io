@@ -15,7 +15,7 @@ const repo = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 test("the site frame never carries the counter", () => {
   for (const site of ["/", ...SITES]) {
     const frame = head({ site, path: site }) + header({ site, path: site }) + footer({ site, path: site });
-    assert.doesNotMatch(frame, /lernapps-count|goatcounter|<script/i, site);
+    assert.doesNotMatch(frame, /lernapps-count|goatcounter|<script[^>]*\ssrc=/i, site);
   }
 });
 

@@ -121,13 +121,14 @@ for (const file of files(a.out)) {
   const path = site + (rel ? rel + "/" : "");
   // The frame speaks the language of the tree the page is in, whatever the language of its text.
   const lang = languageOf(path);
+  const textLang = html.match(/<html[^>]*\slang="([a-z]{2})/i)?.[1]?.toLowerCase() ?? lang;
   const languages = LANGUAGES.filter((l) => l === lang || pageExists(pathIn(path, l)));
   // The skip link's target: --main, else the page's <main id>, else an anchor right after the header.
   const main = a.main ?? html.match(/<main[^>]*\bid="([^"]+)"/i)?.[1];
   const anchor = main ? "" : '\n<div id="main-content" tabindex="-1"></div>';
   html = html
     .replace(/<\/head>/i, `${MARK}\n${preview ? '<meta name="robots" content="noindex">\n' : ""}${head({ site, prefix, path, lang, languages })}\n</head>`)
-    .replace(/<body[^>]*>/i, (body) => `${body}\n${header({ site, prefix, path, lang, preview, languages, main: main ?? "main-content" })}${anchor}`)
+    .replace(/<body[^>]*>/i, (body) => `${body}\n${header({ site, prefix, path, lang, preview, languages, textLang, main: main ?? "main-content" })}${anchor}`)
     .replace(/<\/body>(?![\s\S]*<\/body>)/i, `${footer({ site, prefix, path, lang, source: a.source })}\n</body>`);
   writeFileSync(file, html);
   n++;
