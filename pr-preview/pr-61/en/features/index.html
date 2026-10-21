@@ -15,15 +15,32 @@
 <link rel="stylesheet" href="/pr-preview/pr-61/lernapps-frame.css">
 <link rel="alternate" hreflang="en" href="/pr-preview/pr-61/en/features/">
 <link rel="alternate" hreflang="de" href="/pr-preview/pr-61/features/">
+<script>(() => {
+  const key = "lernapps-lang", here = "en", pages = {"de":"/pr-preview/pr-61/features/"};
+  const known = ["de","en"];
+  const browser = (navigator.languages || [navigator.language]).map((l) => String(l).slice(0, 2).toLowerCase()).find((l) => known.includes(l));
+  let chosen = null;
+  try { chosen = localStorage.getItem(key); } catch {}
+  const wanted = known.includes(chosen) ? chosen : browser;
+  if (wanted && wanted !== here && pages[wanted] && !/bot|crawl|spider|slurp/i.test(navigator.userAgent)) {
+    location.replace(pages[wanted] + location.search + location.hash);
+    return;
+  }
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest && e.target.closest("a[data-la-lang]");
+    if (!a) return;
+    try { a.dataset.laLang === browser ? localStorage.removeItem(key) : localStorage.setItem(key, a.dataset.laLang); } catch {}
+  });
+})();</script>
   <link rel="stylesheet" href="/pr-preview/pr-61/uno.css">
 </head>
 <body>
   <div class="min-h-screen bg-slate-900 text-white" style="font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;">
-  <a class="la-skip" href="#main-content">Skip to content</a>
-<p class="la-preview">Preview of a change. The real page: <a href="https://lernapps.net/en/features/">lernapps.net/en/features/</a></p><header class="la-header">
+  <a class="la-skip" href="#main-content" lang="en">Skip to content</a>
+<p class="la-preview" lang="en">Preview of a change. The real page: <a href="https://lernapps.net/en/features/">lernapps.net/en/features/</a></p><header class="la-header" lang="en">
   <div class="la-header__inner">
     <a class="la-brand" href="/pr-preview/pr-61/en/" aria-label="lernapps.net – home page"><img src="/brand/mark-plain.svg" alt=""><span>lernapps<span class="la-brand__tld">.net</span></span></a>
-    <nav class="la-nav" aria-label="Main navigation"><ul><li><a href="/apps/en/">Find apps</a></li><li><a href="/apps/en/build/">Build an app</a></li><li><a href="/tooling/">Tooling</a></li><li><a href="/pr-preview/pr-61/en/features/" aria-current="page">Features</a></li><li><a href="/docs/en/">That's why</a></li><li><a href="/pr-preview/pr-61/en/join/">Get involved</a></li><li class="la-lang"><a href="/pr-preview/pr-61/features/" hreflang="de" lang="de" aria-label="Sprache: Deutsch">Deutsch</a></li></ul></nav>
+    <nav class="la-nav" aria-label="Main navigation"><ul><li><a href="/apps/en/">Find apps</a></li><li><a href="/apps/en/build/">Build an app</a></li><li><a href="/tooling/en/">Tooling</a></li><li><a href="/pr-preview/pr-61/en/features/" aria-current="page">Features</a></li><li><a href="/docs/en/">That's why</a></li><li><a href="/pr-preview/pr-61/en/join/">Get involved</a></li><li class="la-lang"><a href="/pr-preview/pr-61/features/" hreflang="de" lang="de" data-la-lang="de" aria-label="Sprache: Deutsch">Deutsch</a></li></ul></nav>
   </div>
 </header>
 
@@ -159,9 +176,9 @@
           </div>
         </div>
         <ul class="flex flex-wrap gap-3 list-none p-0 m-0 mt-10">
-          <li><a href="/tooling/rules/" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-slate-600 text-white text-sm font-semibold hover:border-blue-400 hover:text-blue-200 transition-colors">The rules for every app →</a></li>
-          <li><a href="/tooling/" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-slate-600 text-white text-sm font-semibold hover:border-blue-400 hover:text-blue-200 transition-colors">The tooling →</a></li>
-          <li><a href="/tooling/prompt-engineering/" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-slate-600 text-white text-sm font-semibold hover:border-blue-400 hover:text-blue-200 transition-colors">How we test the guidance →</a></li>
+          <li><a href="/tooling/en/rules/" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-slate-600 text-white text-sm font-semibold hover:border-blue-400 hover:text-blue-200 transition-colors">The rules for every app →</a></li>
+          <li><a href="/tooling/en/" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-slate-600 text-white text-sm font-semibold hover:border-blue-400 hover:text-blue-200 transition-colors">The tooling →</a></li>
+          <li><a href="/tooling/en/prompt-engineering/" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-slate-600 text-white text-sm font-semibold hover:border-blue-400 hover:text-blue-200 transition-colors">How we test the guidance →</a></li>
         </ul>
         <p class="mt-4 text-sm text-slate-400">The technical documents are in English.</p>
         <a href="/apps/en/build/" class="mt-10 inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl transition-colors">Build an app →</a>
@@ -231,17 +248,17 @@
 
         <ul class="flex flex-wrap gap-3 list-none p-0 m-0 mt-10">
           <li><a href="/docs/en/" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-slate-300 text-slate-800 text-sm font-semibold hover:border-blue-400 hover:text-blue-700 transition-colors">How it is meant →</a></li>
-          <li><a href="/docs/platform-design/" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-slate-300 text-slate-800 text-sm font-semibold hover:border-blue-400 hover:text-blue-700 transition-colors">The platform design →</a></li>
+          <li><a href="/docs/en/platform-design/" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-slate-300 text-slate-800 text-sm font-semibold hover:border-blue-400 hover:text-blue-700 transition-colors">The platform design →</a></li>
           <li><a href="https://github.com/lernapps" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-slate-300 text-slate-800 text-sm font-semibold hover:border-blue-400 hover:text-blue-700 transition-colors">The source code →</a></li>
         </ul>
       </div>
     </section>
   </main>
 
-  <footer class="la-footer">
+  <footer class="la-footer" lang="en">
   <div class="la-footer__inner">
     <p>lernapps.net is free and has no ads. It lives on your thanks.</p>
-    <nav aria-label="Footer"><ul><li><a href="/pr-preview/pr-61/en/privacy/">Privacy</a></li><li><a href="/pr-preview/pr-61/en/imprint/">Imprint</a></li><li><a href="/docs/platform-design/">Platform design</a></li><li><a href="https://github.com/lernapps/lernapps.github.io">Source code</a></li></ul></nav>
+    <nav aria-label="Footer"><ul><li><a href="/pr-preview/pr-61/en/privacy/">Privacy</a></li><li><a href="/pr-preview/pr-61/en/imprint/">Imprint</a></li><li><a href="/docs/en/platform-design/">Platform design</a></li><li><a href="https://github.com/lernapps/lernapps.github.io">Source code</a></li></ul></nav>
   </div>
 </footer>
   </div>
