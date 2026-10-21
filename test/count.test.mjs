@@ -8,14 +8,17 @@ import { fileURLToPath } from "node:url";
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { head, header, footer } from "../site-frame/frame.js";
-import { SITES } from "../site-frame/nav.js";
+import { SITES, LANGUAGE_KEY } from "../site-frame/nav.js";
 
 const repo = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
 test("the site frame never carries the counter", () => {
   for (const site of ["/", ...SITES]) {
     const frame = head({ site, path: site }) + header({ site, path: site }) + footer({ site, path: site });
-    assert.doesNotMatch(frame, /lernapps-count|goatcounter|<script/i, site);
+    // The one script the frame may carry is the language switch's (frame.js, languageScript).
+    const scripts = frame.match(/<script\b[\s\S]*?<\/script>/gi) ?? [];
+    for (const script of scripts) assert.ok(script.startsWith("<script>") && script.includes(LANGUAGE_KEY), script);
+    assert.doesNotMatch(frame, /lernapps-count|goatcounter/i, site);
   }
 });
 

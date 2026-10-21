@@ -60,10 +60,20 @@ the header ends with a link to the page in the other language, and `<head>` gets
 (`lernapps-check`) requires `<html lang="en">` in the English tree and the privacy notice and imprint in the page's
 own language (`/privacy/`, `/en/privacy/`).
 
-- A page that exists in one language only passes it: `{% laHeader page.url, "de" %}` (and in `laHead`); it gets no
-  language switch. A text that exists in one language only at an address without a language root (the platform
-  design is English) gets the frame in its language from its `<html lang>`: `lernapps-frame` does this by itself and
-  shows the switch only where the same page exists in the other language.
+- The frame always speaks the language the reader chose, the text falls back to the language it exists in. A text
+  that exists in one language only (the tooling and the platform design are English) is served in every tree:
+  `lernapps-frame` copies its page, with the files of its folder, into the trees it is missing from, and every copy
+  gets the frame of its tree and a language switch; links to pages in a copy go to the same page in its language.
+  `/tooling/` and `/tooling/en/` show the same English text, one with the German, one with the English frame.
+  Where the text is in another language than the frame, a line above the content says so ("Diese Seite gibt es
+  nicht auf Deutsch."; `header({ textLang })`, from the page's `<html lang>`).
+- The language chosen is the browser's, until the reader picks another with the switch. On every page with a
+  language switch, a small inline script in `<head>` goes to the same page in that language (not for crawlers, so
+  search engines find every language at its address). A choice by the switch is kept in `localStorage`
+  (`lernapps-lang`) only if it differs from the browser's language; choosing the browser's language removes it.
+  The privacy notice says so.
+  An Eleventy page that exists in one language only passes it: `{% laHeader page.url, "de" %}` (and in `laHead`);
+  it gets no language switch (only the 404 page does this).
 - Adding a language: add it to `LANGUAGES` and to the texts in `nav.js`, then give every site a tree for it.
 - Sites that are not translated yet (`/mathe-karte/`) are not in `TRANSLATED_SITES`: links to them stay as they are.
 

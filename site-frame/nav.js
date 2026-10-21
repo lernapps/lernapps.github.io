@@ -7,9 +7,11 @@
 export const SITES = ["/apps/", "/docs/", "/tooling/", "/mathe-karte/"];
 
 // The languages of the frame, German first, and the sites that have a tree for every language but German.
-// A link to another site stays German if that site has no tree in the language of the page.
+// A link to another site stays German if that site has no tree in the language of the page. A page of such a site
+// whose text exists in one language only is in every tree all the same, with the frame of that tree (lernapps-frame
+// copies it there): the tooling is English, and /tooling/ and /tooling/en/ both serve it.
 export const LANGUAGES = ["de", "en"];
-export const TRANSLATED_SITES = ["/", "/apps/", "/docs/"];
+export const TRANSLATED_SITES = ["/", "/apps/", "/docs/", "/tooling/"];
 
 /** The root of a language's tree below a site: "" for German, "en/" for English. */
 export const languageRoot = (lang) => (lang === "de" ? "" : `${lang}/`);
@@ -17,8 +19,12 @@ export const languageRoot = (lang) => (lang === "de" ? "" : `${lang}/`);
 /** How a language is named, in itself. */
 export const languageName = { de: "Deutsch", en: "English" };
 
+
+/** Where the language the reader chose by the switch is kept, if it is not their browser's (frame.js). */
+export const LANGUAGE_KEY = "lernapps-lang";
+
 // Link texts by language. A link goes to the same page in the language of the page the reader is on, unless
-//   href is { de, en }: a different address per language (the platform design is English only, so both point to it).
+//   href is { de, en }: a different address per language.
 export const nav = {
   de: {
     ariaLabel: "Hauptnavigation",
@@ -58,7 +64,7 @@ export const footer = {
     { label: { de: "Impressum", en: "Imprint" }, href: "/imprint/" },
     {
       label: { de: "Plattform-Design", en: "Platform design" },
-      href: { de: "/docs/platform-design/", en: "/docs/platform-design/" },
+      href: "/docs/platform-design/",
     },
     // The source link of the site is added by footer({ source }).
   ],
@@ -69,10 +75,12 @@ export const texts = {
     skipLink: "Zum Inhalt springen",
     preview: "Vorschau einer Änderung. Die echte Seite:",
     languageSwitch: "Sprache",
+    fallback: "Diese Seite gibt es nicht auf Deutsch.",
   },
   en: {
     skipLink: "Skip to content",
     preview: "Preview of a change. The real page:",
     languageSwitch: "Language",
+    fallback: "This page is not available in English.",
   },
 };

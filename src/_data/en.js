@@ -1,7 +1,8 @@
 // All texts of the site's pages (English), the translation of de.js: same structure, same order. Templates contain
 // no copy of their own. German is the source; keep both files in step.
 // Language: plain English, short sentences, active voice, no jargon, "you". Links point to the English tree of a
-// site (/apps/en/); the platform design, the vision and the tooling are English only and keep their addresses.
+// site (/apps/en/, /tooling/en/, /docs/en/platform-design/): the frame stays English there, also where the text
+// exists in English only.
 export default {
   meta: {
     title: "lernapps.net — learning apps with no strings attached",
@@ -188,9 +189,9 @@ export default {
         },
       ],
       links: [
-        { label: "The rules for every app", href: "/tooling/rules/" },
-        { label: "The tooling", href: "/tooling/" },
-        { label: "How we test the guidance", href: "/tooling/prompt-engineering/" },
+        { label: "The rules for every app", href: "/tooling/en/rules/" },
+        { label: "The tooling", href: "/tooling/en/" },
+        { label: "How we test the guidance", href: "/tooling/en/prompt-engineering/" },
       ],
       note: "The technical documents are in English.",
       cta: "Build an app",
@@ -222,7 +223,7 @@ export default {
       },
       links: [
         { label: "How it is meant", href: "/docs/en/" },
-        { label: "The platform design", href: "/docs/platform-design/" },
+        { label: "The platform design", href: "/docs/en/platform-design/" },
         { label: "The source code", href: "https://github.com/lernapps" },
       ],
     },
@@ -303,9 +304,9 @@ export default {
       heading: "“This won't work anyway.”",
       text: "Maybe. We don't know yet. That is why we start small: with a few apps and a few people who build and use them. We wrote down beforehand how we will notice whether it works. And how we will notice that it doesn't.\n\nWe planned lernapps.net with the Platform Design Toolkit, a method for designing platforms. It states who takes part, what everyone gets out of it and what we try first. Everything is public.",
       links: [
-        { label: "What we try first", href: "/docs/platform-design/#2-design/d8-mvp.pdt42.md" },
-        { label: "The whole platform design", href: "/docs/platform-design/" },
-        { label: "The vision", href: "/docs/vision/" },
+        { label: "What we try first", href: "/docs/en/platform-design/#2-design/d8-mvp.pdt42.md" },
+        { label: "The whole platform design", href: "/docs/en/platform-design/" },
+        { label: "The vision", href: "/docs/en/vision/" },
       ],
       note: "The documents are in English.",
     },
