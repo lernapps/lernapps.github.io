@@ -1,0 +1,128 @@
+# Electricity
+
+> How does an electric circuit work? Why does copper conduct electricity and rubber does not? What is the difference between series and parallel circuits? And how are current, voltage and resistance related? Here you work out the basics of electricity step by step and practise on every page. In the exercises you build circuits yourself. For grades 5 to 8: first the circuit, then the quantities with Ohm's law. It is about direct current, as batteries supply it; alternating current comes later.
+
+Deutsch: ../llms.txt
+
+## The electric circuit
+
+- [The simple circuit](stromkreis/einfacher-stromkreis/): A battery, a lamp and wires form a circuit. It must be closed for the lamp to light up.
+  - [The idea](stromkreis/einfacher-stromkreis/#idee)
+  - [What to remember](stromkreis/einfacher-stromkreis/#merke)
+  - [Example](stromkreis/einfacher-stromkreis/#beispiel)
+  - [Practice](stromkreis/einfacher-stromkreis/#uebung)
+- [Conductors and insulators](stromkreis/leiter-nichtleiter/): Metals conduct electricity; rubber, glass and plastic do not. That is how you can tell what cables are made of.
+  - [The idea](stromkreis/leiter-nichtleiter/#idee)
+  - [What to remember](stromkreis/leiter-nichtleiter/#merke)
+  - [Example](stromkreis/leiter-nichtleiter/#beispiel)
+  - [Practice](stromkreis/leiter-nichtleiter/#uebung)
+
+## Circuits
+
+- [Switches and circuit symbols](schaltungen/schalter-schaltzeichen/): A switch opens and closes the circuit. In a circuit diagram you draw parts as circuit symbols.
+  - [The idea](schaltungen/schalter-schaltzeichen/#idee)
+  - [What to remember](schaltungen/schalter-schaltzeichen/#merke)
+  - [Example](schaltungen/schalter-schaltzeichen/#beispiel)
+  - [Practice](schaltungen/schalter-schaltzeichen/#uebung)
+- [Series circuit](schaltungen/reihenschaltung/): In a series circuit the lamps are connected one after the other. If one fails, all go out.
+  - [The idea](schaltungen/reihenschaltung/#idee)
+  - [What to remember](schaltungen/reihenschaltung/#merke)
+  - [Example](schaltungen/reihenschaltung/#beispiel)
+  - [Practice](schaltungen/reihenschaltung/#uebung)
+- [Parallel circuit](schaltungen/parallelschaltung/): In a parallel circuit every lamp has its own path. If one fails, the others keep shining.
+  - [The idea](schaltungen/parallelschaltung/#idee)
+  - [What to remember](schaltungen/parallelschaltung/#merke)
+  - [Example](schaltungen/parallelschaltung/#beispiel)
+  - [Practice](schaltungen/parallelschaltung/#uebung)
+
+## Electricity in everyday life
+
+- [Effects of electric current](alltag/wirkungen/): Current can produce heat, light and magnetism. Many devices work this way.
+  - [The idea](alltag/wirkungen/#idee)
+  - [What to remember](alltag/wirkungen/#merke)
+  - [Example](alltag/wirkungen/#beispiel)
+  - [Practice](alltag/wirkungen/#uebung)
+- [Staying safe with electricity](alltag/sicherheit/): Sockets, batteries and thunderstorms. You learn what is dangerous and what is not.
+  - [The idea](alltag/sicherheit/#idee)
+  - [What to remember](alltag/sicherheit/#merke)
+  - [Example](alltag/sicherheit/#beispiel)
+  - [Practice](alltag/sicherheit/#uebung)
+
+## Quantities in the circuit
+
+- [Current](groessen/stromstaerke/): The current tells you how much electric current flows. You measure it with an ammeter, in amperes (A) and milliamperes (mA).
+  - [The idea](groessen/stromstaerke/#idee)
+  - [What to remember](groessen/stromstaerke/#merke)
+  - [Example](groessen/stromstaerke/#beispiel)
+  - [Practice](groessen/stromstaerke/#uebung)
+- [Voltage](groessen/spannung/): The voltage drives the current. You measure it with a voltmeter, in volts (V), in parallel with the part.
+  - [The idea](groessen/spannung/#idee)
+  - [What to remember](groessen/spannung/#merke)
+  - [Example](groessen/spannung/#beispiel)
+  - [Practice](groessen/spannung/#uebung)
+- [Resistance](groessen/widerstand/): The resistance tells how strongly a part hinders the current. It is measured in ohms (Ω) and depends on the material, length and thickness.
+  - [The idea](groessen/widerstand/#idee)
+  - [What to remember](groessen/widerstand/#merke)
+  - [Example](groessen/widerstand/#beispiel)
+  - [Practice](groessen/widerstand/#uebung)
+- [Ohm's law](groessen/ohmsches-gesetz/): Voltage, current and resistance are linked: R = U / I. With it you calculate a missing quantity.
+  - [The idea](groessen/ohmsches-gesetz/#idee)
+  - [What to remember](groessen/ohmsches-gesetz/#merke)
+  - [Example](groessen/ohmsches-gesetz/#beispiel)
+  - [Practice](groessen/ohmsches-gesetz/#uebung)
+
+## Circuits with meters
+
+- [Series circuit with meters](schaltungen-messen/reihenschaltung/): In a series circuit the current is the same everywhere, and the voltages of the resistors add up.
+  - [The idea](schaltungen-messen/reihenschaltung/#idee)
+  - [What to remember](schaltungen-messen/reihenschaltung/#merke)
+  - [Example](schaltungen-messen/reihenschaltung/#beispiel)
+  - [Practice](schaltungen-messen/reihenschaltung/#uebung)
+- [Parallel circuit with meters](schaltungen-messen/parallelschaltung/): In a parallel circuit every branch has the same voltage, and the branch currents add up to the total current.
+  - [The idea](schaltungen-messen/parallelschaltung/#idee)
+  - [What to remember](schaltungen-messen/parallelschaltung/#merke)
+  - [Example](schaltungen-messen/parallelschaltung/#beispiel)
+  - [Practice](schaltungen-messen/parallelschaltung/#uebung)
+
+## Glossary
+
+- [Glossary](glossar/)
+
+## Notes for an AI tutor
+
+- The app is the worksheet, the chat is the conversation about it. Tasks are solved in the app: it checks the results, you explain.
+- Always link a concrete task, never just the start page. Every exercise has an anchor (`#<id>`); open a task by its number with `<page>?<id>=<number>#<id>`. The links are in each page's tutor file.
+- Add `von=tutor` to every link you send, before the `#`: `<page>?<id>=7&von=tutor#<id>`. The page then shows a button “Back to the tutor”.
+- Every task with random numbers has a number: “Task no. 7”. Ask for the number on the screen and look the task up in the page's tutor file. It lists all numbers of each exercise, from 1 to at most 67, each with task and solution; each number is a different task, and the same number shows the same task in the app.
+- A page's address holds the task number of each exercise: `<page>?<id1>=3&<id2>=12`. Whoever shares the page's link shares exactly these tasks. To learn which tasks the learner has in front of them, ask for the address from their browser and read the numbers from it.
+- Never reveal a solution before the learner has committed to an answer. The tutor files contain the solutions: use them to spot mistakes and give targeted hints, not to give answers away.
+- Each exercise lists typical mistakes with the app's message. Name the idea behind a mistake, not just “wrong”.
+- The app collects nothing, sends nothing and reports nothing back to you. You know results only when the learner tells you: after each linked task, ask what came out.
+- One small step per answer. Check understanding with a task, not with “Got it?”.
+
+### Rules of this app
+
+- Explain current, voltage and resistance with the water picture (pump, pipe) and say that every picture has limits. Electrons and atoms do not appear in this app.
+- The app is about direct current, as batteries supply it. Alternating current comes later. Talk about the socket only as a warning: never experiment with it.
+- Calculations on paper, the result in the app. Watch the units: amperes (not milliamperes), volts, ohms.
+- For building tasks and measuring exercises, any build that does what the task says counts, not only the model solution. Let the learners give reasons instead of guessing.
+
+### A ready prompt for an AI tutor (role, approach, checklist of the pages)
+
+- [tutor.md](tutor.md)
+
+### The pages' tutor files (structure, exercises, tasks by number with solutions)
+
+- [The simple circuit](stromkreis/einfacher-stromkreis/tutor.md)
+- [Conductors and insulators](stromkreis/leiter-nichtleiter/tutor.md)
+- [Switches and circuit symbols](schaltungen/schalter-schaltzeichen/tutor.md)
+- [Series circuit](schaltungen/reihenschaltung/tutor.md)
+- [Parallel circuit](schaltungen/parallelschaltung/tutor.md)
+- [Effects of electric current](alltag/wirkungen/tutor.md)
+- [Staying safe with electricity](alltag/sicherheit/tutor.md)
+- [Current](groessen/stromstaerke/tutor.md)
+- [Voltage](groessen/spannung/tutor.md)
+- [Resistance](groessen/widerstand/tutor.md)
+- [Ohm's law](groessen/ohmsches-gesetz/tutor.md)
+- [Series circuit with meters](schaltungen-messen/reihenschaltung/tutor.md)
+- [Parallel circuit with meters](schaltungen-messen/parallelschaltung/tutor.md)

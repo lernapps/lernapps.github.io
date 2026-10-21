@@ -1,0 +1,1 @@
+.dots[data-v-98920dd4]{animation:flow-98920dd4 var(--seconds) linear infinite}@keyframes flow-98920dd4{to{stroke-dashoffset:calc(var(--period) * -1)}}@media (prefers-reduced-motion:reduce){.dots[data-v-98920dd4]{animation:none}}

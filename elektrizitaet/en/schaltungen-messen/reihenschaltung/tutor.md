@@ -1,0 +1,279 @@
+# Series circuit with meters – tutor file
+
+> In a series circuit the current is the same everywhere, and the voltages of the resistors add up.
+
+App: Electricity. Page: [Series circuit with meters](./)
+
+This file is for an AI tutor. It contains the solutions: use them to guide and to spot mistakes, not to give answers away. The rules are in llms.txt. If you cannot fetch a file of the app, ask the learner to paste or attach the page's text or this file.
+
+## Sections
+
+- [The idea](./#idee)
+- [What to remember](./#merke)
+- [Example](./#beispiel)
+- [Practice](./#uebung)
+
+## Exercises
+
+### schaltung-vorhersage (interactive exercise SchaltungVorhersage)
+
+- Link: [./#schaltung-vorhersage](./#schaltung-vorhersage), in the section „Practice“
+- What to do: You predict what a meter shows in a series or parallel circuit with two resistors, and then switch on.
+- Answer format: A number: the current in A or the voltage in V, depending on the task (with comma or point); then “Check”.
+- What counts as right: The number matches the reading to three places (amperes) or two places (volts). The way to the number is free.
+- Typical mistakes and the app's message:
+  - Series circuit: used only one resistor (voltage : R1) instead of adding R1 and R2; or added branch currents as in a parallel circuit.
+  - Partial voltage: took the whole voltage or split it equally although the resistors differ.
+  - Parallel circuit: calculated as a series circuit (voltage : (R1 + R2)) or looked at one branch only.
+- Tasks by number, 1 to 67: each a different one (the app shows “Task no. …”):
+  - [Task no. 1](./?schaltung-vorhersage=1#schaltung-vorhersage): Two resistors of 10 Ω and 30 Ω are connected in series on 9 V. What does the voltmeter show across the second resistor (30 Ω)? The circuit is switched off. Predict the number, then switch on: the voltmeter is across the second resistor. → Solution: The current is 9 V : (10 + 30) Ω; across the second resistor there are 30 Ω · current = 6.75 V.
+  - [Task no. 2](./?schaltung-vorhersage=2#schaltung-vorhersage): Two resistors of 20 Ω and 20 Ω are connected in series on 12 V. What does the ammeter show? The circuit is switched off. Predict the number, then switch on: the ammeter sits in the circuit. → Solution: The total resistance is 20 Ω + 20 Ω; the current is 12 V : (20 + 20) Ω = 0.3 A, everywhere in the circuit.
+  - [Task no. 3](./?schaltung-vorhersage=3#schaltung-vorhersage): Two resistors of 10 Ω and 30 Ω are connected in series on 12 V. What does the voltmeter show across the second resistor (30 Ω)? The circuit is switched off. Predict the number, then switch on: the voltmeter is across the second resistor. → Solution: The current is 12 V : (10 + 30) Ω; across the second resistor there are 30 Ω · current = 9 V.
+  - [Task no. 4](./?schaltung-vorhersage=4#schaltung-vorhersage): Two resistors of 10 Ω and 50 Ω are connected in series on 9 V. What does the ammeter show? The circuit is switched off. Predict the number, then switch on: the ammeter sits in the circuit. → Solution: The total resistance is 10 Ω + 50 Ω; the current is 9 V : (10 + 50) Ω = 0.15 A, everywhere in the circuit.
+  - [Task no. 5](./?schaltung-vorhersage=5#schaltung-vorhersage): Two resistors of 30 Ω and 30 Ω are connected in series on 12 V. What does the voltmeter show across the second resistor (30 Ω)? The circuit is switched off. Predict the number, then switch on: the voltmeter is across the second resistor. → Solution: The current is 12 V : (30 + 30) Ω; across the second resistor there are 30 Ω · current = 6 V.
+  - [Task no. 6](./?schaltung-vorhersage=6#schaltung-vorhersage): Two resistors of 30 Ω and 30 Ω are connected in series on 12 V. What does the ammeter show? The circuit is switched off. Predict the number, then switch on: the ammeter sits in the circuit. → Solution: The total resistance is 30 Ω + 30 Ω; the current is 12 V : (30 + 30) Ω = 0.2 A, everywhere in the circuit.
+  - [Task no. 7](./?schaltung-vorhersage=7#schaltung-vorhersage): Two resistors of 50 Ω and 50 Ω are connected in series on 12 V. What does the voltmeter show across the second resistor (50 Ω)? The circuit is switched off. Predict the number, then switch on: the voltmeter is across the second resistor. → Solution: The current is 12 V : (50 + 50) Ω; across the second resistor there are 50 Ω · current = 6 V.
+  - [Task no. 8](./?schaltung-vorhersage=8#schaltung-vorhersage): Two resistors of 100 Ω and 50 Ω are connected in series on 9 V. What does the ammeter show? The circuit is switched off. Predict the number, then switch on: the ammeter sits in the circuit. → Solution: The total resistance is 100 Ω + 50 Ω; the current is 9 V : (100 + 50) Ω = 0.06 A, everywhere in the circuit.
+  - [Task no. 9](./?schaltung-vorhersage=9#schaltung-vorhersage): Two resistors of 30 Ω and 50 Ω are connected in series on 6 V. What does the voltmeter show across the second resistor (50 Ω)? The circuit is switched off. Predict the number, then switch on: the voltmeter is across the second resistor. → Solution: The current is 6 V : (30 + 50) Ω; across the second resistor there are 50 Ω · current = 3.75 V.
+  - [Task no. 10](./?schaltung-vorhersage=10#schaltung-vorhersage): Two resistors of 10 Ω and 30 Ω are connected in series on 6 V. What does the ammeter show? The circuit is switched off. Predict the number, then switch on: the ammeter sits in the circuit. → Solution: The total resistance is 10 Ω + 30 Ω; the current is 6 V : (10 + 30) Ω = 0.15 A, everywhere in the circuit.
+  - [Task no. 11](./?schaltung-vorhersage=11#schaltung-vorhersage): Two resistors of 20 Ω and 10 Ω are connected in series on 9 V. What does the voltmeter show across the second resistor (10 Ω)? The circuit is switched off. Predict the number, then switch on: the voltmeter is across the second resistor. → Solution: The current is 9 V : (20 + 10) Ω; across the second resistor there are 10 Ω · current = 3 V.
+  - [Task no. 12](./?schaltung-vorhersage=12#schaltung-vorhersage): Two resistors of 30 Ω and 30 Ω are connected in series on 9 V. What does the ammeter show? The circuit is switched off. Predict the number, then switch on: the ammeter sits in the circuit. → Solution: The total resistance is 30 Ω + 30 Ω; the current is 9 V : (30 + 30) Ω = 0.15 A, everywhere in the circuit.
+  - [Task no. 13](./?schaltung-vorhersage=13#schaltung-vorhersage): Two resistors of 30 Ω and 30 Ω are connected in series on 6 V. What does the voltmeter show across the second resistor (30 Ω)? The circuit is switched off. Predict the number, then switch on: the voltmeter is across the second resistor. → Solution: The current is 6 V : (30 + 30) Ω; across the second resistor there are 30 Ω · current = 3 V.
+  - [Task no. 14](./?schaltung-vorhersage=14#schaltung-vorhersage): Two resistors of 20 Ω and 10 Ω are connected in series on 12 V. What does the ammeter show? The circuit is switched off. Predict the number, then switch on: the ammeter sits in the circuit. → Solution: The total resistance is 20 Ω + 10 Ω; the current is 12 V : (20 + 10) Ω = 0.4 A, everywhere in the circuit.
+  - [Task no. 15](./?schaltung-vorhersage=15#schaltung-vorhersage): Two resistors of 20 Ω and 30 Ω are connected in series on 6 V. What does the voltmeter show across the second resistor (30 Ω)? The circuit is switched off. Predict the number, then switch on: the voltmeter is across the second resistor. → Solution: The current is 6 V : (20 + 30) Ω; across the second resistor there are 30 Ω · current = 3.6 V.
+  - [Task no. 16](./?schaltung-vorhersage=16#schaltung-vorhersage): Two resistors of 20 Ω and 30 Ω are connected in series on 12 V. What does the ammeter show? The circuit is switched off. Predict the number, then switch on: the ammeter sits in the circuit. → Solution: The total resistance is 20 Ω + 30 Ω; the current is 12 V : (20 + 30) Ω = 0.24 A, everywhere in the circuit.
+  - [Task no. 17](./?schaltung-vorhersage=17#schaltung-vorhersage): Two resistors of 30 Ω and 20 Ω are connected in series on 9 V. What does the voltmeter show across the second resistor (20 Ω)? The circuit is switched off. Predict the number, then switch on: the voltmeter is across the second resistor. → Solution: The current is 9 V : (30 + 20) Ω; across the second resistor there are 20 Ω · current = 3.6 V.
+  - [Task no. 18](./?schaltung-vorhersage=18#schaltung-vorhersage): Two resistors of 20 Ω and 20 Ω are connected in series on 9 V. What does the ammeter show? The circuit is switched off. Predict the number, then switch on: the ammeter sits in the circuit. → Solution: The total resistance is 20 Ω + 20 Ω; the current is 9 V : (20 + 20) Ω = 0.225 A, everywhere in the circuit.
+  - [Task no. 19](./?schaltung-vorhersage=19#schaltung-vorhersage): Two resistors of 10 Ω and 50 Ω are connected in series on 6 V. What does the voltmeter show across the second resistor (50 Ω)? The circuit is switched off. Predict the number, then switch on: the voltmeter is across the second resistor. → Solution: The current is 6 V : (10 + 50) Ω; across the second resistor there are 50 Ω · current = 5 V.
+  - [Task no. 20](./?schaltung-vorhersage=20#schaltung-vorhersage): Two resistors of 100 Ω and 20 Ω are connected in series on 6 V. What does the ammeter show? The circuit is switched off. Predict the number, then switch on: the ammeter sits in the circuit. → Solution: The total resistance is 100 Ω + 20 Ω; the current is 6 V : (100 + 20) Ω = 0.05 A, everywhere in the circuit.
+  - [Task no. 21](./?schaltung-vorhersage=21#schaltung-vorhersage): Two resistors of 20 Ω and 10 Ω are connected in series on 12 V. What does the voltmeter show across the second resistor (10 Ω)? The circuit is switched off. Predict the number, then switch on: the voltmeter is across the second resistor. → Solution: The current is 12 V : (20 + 10) Ω; across the second resistor there are 10 Ω · current = 4 V.
+  - [Task no. 22](./?schaltung-vorhersage=22#schaltung-vorhersage): Two resistors of 50 Ω and 100 Ω are connected in series on 12 V. What does the ammeter show? The circuit is switched off. Predict the number, then switch on: the ammeter sits in the circuit. → Solution: The total resistance is 50 Ω + 100 Ω; the current is 12 V : (50 + 100) Ω = 0.08 A, everywhere in the circuit.
+  - [Task no. 23](./?schaltung-vorhersage=23#schaltung-vorhersage): Two resistors of 10 Ω and 10 Ω are connected in series on 9 V. What does the voltmeter show across the second resistor (10 Ω)? The circuit is switched off. Predict the number, then switch on: the voltmeter is across the second resistor. → Solution: The current is 9 V : (10 + 10) Ω; across the second resistor there are 10 Ω · current = 4.5 V.
+  - [Task no. 24](./?schaltung-vorhersage=24#schaltung-vorhersage): Two resistors of 50 Ω and 50 Ω are connected in series on 9 V. What does the ammeter show? The circuit is switched off. Predict the number, then switch on: the ammeter sits in the circuit. → Solution: The total resistance is 50 Ω + 50 Ω; the current is 9 V : (50 + 50) Ω = 0.09 A, everywhere in the circuit.
+  - [Task no. 25](./?schaltung-vorhersage=25#schaltung-vorhersage): Two resistors of 10 Ω and 20 Ω are connected in series on 6 V. What does the voltmeter show across the second resistor (20 Ω)? The circuit is switched off. Predict the number, then switch on: the voltmeter is across the second resistor. → Solution: The current is 6 V : (10 + 20) Ω; across the second resistor there are 20 Ω · current = 4 V.
+  - [Task no. 26](./?schaltung-vorhersage=26#schaltung-vorhersage): Two resistors of 100 Ω and 50 Ω are connected in series on 12 V. What does the voltmeter show across the second resistor (50 Ω)? The circuit is switched off. Predict the number, then switch on: the voltmeter is across the second resistor. → Solution: The current is 12 V : (100 + 50) Ω; across the second resistor there are 50 Ω · current = 4 V.
+  - [Task no. 27](./?schaltung-vorhersage=27#schaltung-vorhersage): Two resistors of 50 Ω and 50 Ω are connected in series on 9 V. What does the voltmeter show across the second resistor (50 Ω)? The circuit is switched off. Predict the number, then switch on: the voltmeter is across the second resistor. → Solution: The current is 9 V : (50 + 50) Ω; across the second resistor there are 50 Ω · current = 4.5 V.
+  - [Task no. 28](./?schaltung-vorhersage=28#schaltung-vorhersage): Two resistors of 100 Ω and 20 Ω are connected in series on 12 V. What does the ammeter show? The circuit is switched off. Predict the number, then switch on: the ammeter sits in the circuit. → Solution: The total resistance is 100 Ω + 20 Ω; the current is 12 V : (100 + 20) Ω = 0.1 A, everywhere in the circuit.
+  - [Task no. 29](./?schaltung-vorhersage=29#schaltung-vorhersage): Two resistors of 50 Ω and 30 Ω are connected in series on 6 V. What does the voltmeter show across the second resistor (30 Ω)? The circuit is switched off. Predict the number, then switch on: the voltmeter is across the second resistor. → Solution: The current is 6 V : (50 + 30) Ω; across the second resistor there are 30 Ω · current = 2.25 V.
+  - [Task no. 30](./?schaltung-vorhersage=30#schaltung-vorhersage): Two resistors of 10 Ω and 10 Ω are connected in series on 9 V. What does the ammeter show? The circuit is switched off. Predict the number, then switch on: the ammeter sits in the circuit. → Solution: The total resistance is 10 Ω + 10 Ω; the current is 9 V : (10 + 10) Ω = 0.45 A, everywhere in the circuit.
+  - [Task no. 31](./?schaltung-vorhersage=31#schaltung-vorhersage): Two resistors of 30 Ω and 50 Ω are connected in series on 12 V. What does the voltmeter show across the second resistor (50 Ω)? The circuit is switched off. Predict the number, then switch on: the voltmeter is across the second resistor. → Solution: The current is 12 V : (30 + 50) Ω; across the second resistor there are 50 Ω · current = 7.5 V.
+  - [Task no. 32](./?schaltung-vorhersage=32#schaltung-vorhersage): Two resistors of 10 Ω and 30 Ω are connected in series on 12 V. What does the ammeter show? The circuit is switched off. Predict the number, then switch on: the ammeter sits in the circuit. → Solution: The total resistance is 10 Ω + 30 Ω; the current is 12 V : (10 + 30) Ω = 0.3 A, everywhere in the circuit.
+  - [Task no. 33](./?schaltung-vorhersage=33#schaltung-vorhersage): Two resistors of 20 Ω and 30 Ω are connected in series on 12 V. What does the voltmeter show across the second resistor (30 Ω)? The circuit is switched off. Predict the number, then switch on: the voltmeter is across the second resistor. → Solution: The current is 12 V : (20 + 30) Ω; across the second resistor there are 30 Ω · current = 7.2 V.
+  - [Task no. 34](./?schaltung-vorhersage=34#schaltung-vorhersage): Two resistors of 10 Ω and 10 Ω are connected in series on 12 V. What does the ammeter show? The circuit is switched off. Predict the number, then switch on: the ammeter sits in the circuit. → Solution: The total resistance is 10 Ω + 10 Ω; the current is 12 V : (10 + 10) Ω = 0.6 A, everywhere in the circuit.
+  - [Task no. 35](./?schaltung-vorhersage=35#schaltung-vorhersage): Two resistors of 100 Ω and 50 Ω are connected in series on 6 V. What does the voltmeter show across the second resistor (50 Ω)? The circuit is switched off. Predict the number, then switch on: the voltmeter is across the second resistor. → Solution: The current is 6 V : (100 + 50) Ω; across the second resistor there are 50 Ω · current = 2 V.
+  - [Task no. 36](./?schaltung-vorhersage=36#schaltung-vorhersage): Two resistors of 30 Ω and 20 Ω are connected in series on 12 V. What does the ammeter show? The circuit is switched off. Predict the number, then switch on: the ammeter sits in the circuit. → Solution: The total resistance is 30 Ω + 20 Ω; the current is 12 V : (30 + 20) Ω = 0.24 A, everywhere in the circuit.
+  - [Task no. 37](./?schaltung-vorhersage=37#schaltung-vorhersage): Two resistors of 10 Ω and 20 Ω are connected in series on 9 V. What does the ammeter show? The circuit is switched off. Predict the number, then switch on: the ammeter sits in the circuit. → Solution: The total resistance is 10 Ω + 20 Ω; the current is 9 V : (10 + 20) Ω = 0.3 A, everywhere in the circuit.
+  - [Task no. 38](./?schaltung-vorhersage=38#schaltung-vorhersage): Two resistors of 10 Ω and 30 Ω are connected in series on 6 V. What does the voltmeter show across the second resistor (30 Ω)? The circuit is switched off. Predict the number, then switch on: the voltmeter is across the second resistor. → Solution: The current is 6 V : (10 + 30) Ω; across the second resistor there are 30 Ω · current = 4.5 V.
+  - [Task no. 39](./?schaltung-vorhersage=39#schaltung-vorhersage): Two resistors of 50 Ω and 100 Ω are connected in series on 9 V. What does the ammeter show? The circuit is switched off. Predict the number, then switch on: the ammeter sits in the circuit. → Solution: The total resistance is 50 Ω + 100 Ω; the current is 9 V : (50 + 100) Ω = 0.06 A, everywhere in the circuit.
+  - [Task no. 40](./?schaltung-vorhersage=40#schaltung-vorhersage): Two resistors of 100 Ω and 50 Ω are connected in series on 9 V. What does the voltmeter show across the second resistor (50 Ω)? The circuit is switched off. Predict the number, then switch on: the voltmeter is across the second resistor. → Solution: The current is 9 V : (100 + 50) Ω; across the second resistor there are 50 Ω · current = 3 V.
+  - [Task no. 41](./?schaltung-vorhersage=41#schaltung-vorhersage): Two resistors of 30 Ω and 50 Ω are connected in series on 6 V. What does the ammeter show? The circuit is switched off. Predict the number, then switch on: the ammeter sits in the circuit. → Solution: The total resistance is 30 Ω + 50 Ω; the current is 6 V : (30 + 50) Ω = 0.075 A, everywhere in the circuit.
+  - [Task no. 42](./?schaltung-vorhersage=42#schaltung-vorhersage): Two resistors of 10 Ω and 20 Ω are connected in series on 6 V. What does the ammeter show? The circuit is switched off. Predict the number, then switch on: the ammeter sits in the circuit. → Solution: The total resistance is 10 Ω + 20 Ω; the current is 6 V : (10 + 20) Ω = 0.2 A, everywhere in the circuit.
+  - [Task no. 43](./?schaltung-vorhersage=43#schaltung-vorhersage): Two resistors of 50 Ω and 100 Ω are connected in series on 9 V. What does the voltmeter show across the second resistor (100 Ω)? The circuit is switched off. Predict the number, then switch on: the voltmeter is across the second resistor. → Solution: The current is 9 V : (50 + 100) Ω; across the second resistor there are 100 Ω · current = 6 V.
+  - [Task no. 44](./?schaltung-vorhersage=44#schaltung-vorhersage): Two resistors of 30 Ω and 50 Ω are connected in series on 12 V. What does the ammeter show? The circuit is switched off. Predict the number, then switch on: the ammeter sits in the circuit. → Solution: The total resistance is 30 Ω + 50 Ω; the current is 12 V : (30 + 50) Ω = 0.15 A, everywhere in the circuit.
+  - [Task no. 45](./?schaltung-vorhersage=45#schaltung-vorhersage): Two resistors of 20 Ω and 20 Ω are connected in series on 12 V. What does the voltmeter show across the second resistor (20 Ω)? The circuit is switched off. Predict the number, then switch on: the voltmeter is across the second resistor. → Solution: The current is 12 V : (20 + 20) Ω; across the second resistor there are 20 Ω · current = 6 V.
+  - [Task no. 46](./?schaltung-vorhersage=46#schaltung-vorhersage): Two resistors of 20 Ω and 10 Ω are connected in series on 9 V. What does the ammeter show? The circuit is switched off. Predict the number, then switch on: the ammeter sits in the circuit. → Solution: The total resistance is 20 Ω + 10 Ω; the current is 9 V : (20 + 10) Ω = 0.3 A, everywhere in the circuit.
+  - [Task no. 47](./?schaltung-vorhersage=47#schaltung-vorhersage): Two resistors of 10 Ω and 50 Ω are connected in series on 12 V. What does the voltmeter show across the second resistor (50 Ω)? The circuit is switched off. Predict the number, then switch on: the voltmeter is across the second resistor. → Solution: The current is 12 V : (10 + 50) Ω; across the second resistor there are 50 Ω · current = 10 V.
+  - [Task no. 48](./?schaltung-vorhersage=48#schaltung-vorhersage): Two resistors of 100 Ω and 100 Ω are connected in series on 12 V. What does the voltmeter show across the second resistor (100 Ω)? The circuit is switched off. Predict the number, then switch on: the voltmeter is across the second resistor. → Solution: The current is 12 V : (100 + 100) Ω; across the second resistor there are 100 Ω · current = 6 V.
+  - [Task no. 49](./?schaltung-vorhersage=49#schaltung-vorhersage): Two resistors of 50 Ω and 100 Ω are connected in series on 6 V. What does the ammeter show? The circuit is switched off. Predict the number, then switch on: the ammeter sits in the circuit. → Solution: The total resistance is 50 Ω + 100 Ω; the current is 6 V : (50 + 100) Ω = 0.04 A, everywhere in the circuit.
+  - [Task no. 50](./?schaltung-vorhersage=50#schaltung-vorhersage): Two resistors of 10 Ω and 50 Ω are connected in series on 9 V. What does the voltmeter show across the second resistor (50 Ω)? The circuit is switched off. Predict the number, then switch on: the voltmeter is across the second resistor. → Solution: The current is 9 V : (10 + 50) Ω; across the second resistor there are 50 Ω · current = 7.5 V.
+  - [Task no. 51](./?schaltung-vorhersage=51#schaltung-vorhersage): Two resistors of 50 Ω and 50 Ω are connected in series on 12 V. What does the ammeter show? The circuit is switched off. Predict the number, then switch on: the ammeter sits in the circuit. → Solution: The total resistance is 50 Ω + 50 Ω; the current is 12 V : (50 + 50) Ω = 0.12 A, everywhere in the circuit.
+  - [Task no. 52](./?schaltung-vorhersage=52#schaltung-vorhersage): Two resistors of 30 Ω and 20 Ω are connected in series on 9 V. What does the ammeter show? The circuit is switched off. Predict the number, then switch on: the ammeter sits in the circuit. → Solution: The total resistance is 30 Ω + 20 Ω; the current is 9 V : (30 + 20) Ω = 0.18 A, everywhere in the circuit.
+  - [Task no. 53](./?schaltung-vorhersage=53#schaltung-vorhersage): Two resistors of 50 Ω and 10 Ω are connected in series on 9 V. What does the ammeter show? The circuit is switched off. Predict the number, then switch on: the ammeter sits in the circuit. → Solution: The total resistance is 50 Ω + 10 Ω; the current is 9 V : (50 + 10) Ω = 0.15 A, everywhere in the circuit.
+  - [Task no. 54](./?schaltung-vorhersage=54#schaltung-vorhersage): Two resistors of 100 Ω and 50 Ω are connected in series on 6 V. What does the ammeter show? The circuit is switched off. Predict the number, then switch on: the ammeter sits in the circuit. → Solution: The total resistance is 100 Ω + 50 Ω; the current is 6 V : (100 + 50) Ω = 0.04 A, everywhere in the circuit.
+  - [Task no. 55](./?schaltung-vorhersage=55#schaltung-vorhersage): Two resistors of 10 Ω and 10 Ω are connected in series on 12 V. What does the voltmeter show across the second resistor (10 Ω)? The circuit is switched off. Predict the number, then switch on: the voltmeter is across the second resistor. → Solution: The current is 12 V : (10 + 10) Ω; across the second resistor there are 10 Ω · current = 6 V.
+  - [Task no. 56](./?schaltung-vorhersage=56#schaltung-vorhersage): Two resistors of 20 Ω and 20 Ω are connected in series on 6 V. What does the ammeter show? The circuit is switched off. Predict the number, then switch on: the ammeter sits in the circuit. → Solution: The total resistance is 20 Ω + 20 Ω; the current is 6 V : (20 + 20) Ω = 0.15 A, everywhere in the circuit.
+  - [Task no. 57](./?schaltung-vorhersage=57#schaltung-vorhersage): Two resistors of 20 Ω and 100 Ω are connected in series on 12 V. What does the voltmeter show across the second resistor (100 Ω)? The circuit is switched off. Predict the number, then switch on: the voltmeter is across the second resistor. → Solution: The current is 12 V : (20 + 100) Ω; across the second resistor there are 100 Ω · current = 10 V.
+  - [Task no. 58](./?schaltung-vorhersage=58#schaltung-vorhersage): Two resistors of 20 Ω and 100 Ω are connected in series on 9 V. What does the voltmeter show across the second resistor (100 Ω)? The circuit is switched off. Predict the number, then switch on: the voltmeter is across the second resistor. → Solution: The current is 9 V : (20 + 100) Ω; across the second resistor there are 100 Ω · current = 7.5 V.
+  - [Task no. 59](./?schaltung-vorhersage=59#schaltung-vorhersage): Two resistors of 20 Ω and 30 Ω are connected in series on 6 V. What does the ammeter show? The circuit is switched off. Predict the number, then switch on: the ammeter sits in the circuit. → Solution: The total resistance is 20 Ω + 30 Ω; the current is 6 V : (20 + 30) Ω = 0.12 A, everywhere in the circuit.
+  - [Task no. 60](./?schaltung-vorhersage=60#schaltung-vorhersage): Two resistors of 100 Ω and 50 Ω are connected in series on 12 V. What does the ammeter show? The circuit is switched off. Predict the number, then switch on: the ammeter sits in the circuit. → Solution: The total resistance is 100 Ω + 50 Ω; the current is 12 V : (100 + 50) Ω = 0.08 A, everywhere in the circuit.
+  - [Task no. 61](./?schaltung-vorhersage=61#schaltung-vorhersage): Two resistors of 20 Ω and 100 Ω are connected in series on 6 V. What does the voltmeter show across the second resistor (100 Ω)? The circuit is switched off. Predict the number, then switch on: the voltmeter is across the second resistor. → Solution: The current is 6 V : (20 + 100) Ω; across the second resistor there are 100 Ω · current = 5 V.
+  - [Task no. 62](./?schaltung-vorhersage=62#schaltung-vorhersage): Two resistors of 50 Ω and 10 Ω are connected in series on 6 V. What does the ammeter show? The circuit is switched off. Predict the number, then switch on: the ammeter sits in the circuit. → Solution: The total resistance is 50 Ω + 10 Ω; the current is 6 V : (50 + 10) Ω = 0.1 A, everywhere in the circuit.
+  - [Task no. 63](./?schaltung-vorhersage=63#schaltung-vorhersage): Two resistors of 100 Ω and 20 Ω are connected in series on 9 V. What does the voltmeter show across the second resistor (20 Ω)? The circuit is switched off. Predict the number, then switch on: the voltmeter is across the second resistor. → Solution: The current is 9 V : (100 + 20) Ω; across the second resistor there are 20 Ω · current = 1.5 V.
+  - [Task no. 64](./?schaltung-vorhersage=64#schaltung-vorhersage): Two resistors of 10 Ω and 50 Ω are connected in series on 6 V. What does the ammeter show? The circuit is switched off. Predict the number, then switch on: the ammeter sits in the circuit. → Solution: The total resistance is 10 Ω + 50 Ω; the current is 6 V : (10 + 50) Ω = 0.1 A, everywhere in the circuit.
+  - [Task no. 65](./?schaltung-vorhersage=65#schaltung-vorhersage): Two resistors of 50 Ω and 30 Ω are connected in series on 12 V. What does the voltmeter show across the second resistor (30 Ω)? The circuit is switched off. Predict the number, then switch on: the voltmeter is across the second resistor. → Solution: The current is 12 V : (50 + 30) Ω; across the second resistor there are 30 Ω · current = 4.5 V.
+  - [Task no. 66](./?schaltung-vorhersage=66#schaltung-vorhersage): Two resistors of 100 Ω and 100 Ω are connected in series on 6 V. What does the voltmeter show across the second resistor (100 Ω)? The circuit is switched off. Predict the number, then switch on: the voltmeter is across the second resistor. → Solution: The current is 6 V : (100 + 100) Ω; across the second resistor there are 100 Ω · current = 3 V.
+  - [Task no. 67](./?schaltung-vorhersage=67#schaltung-vorhersage): Two resistors of 50 Ω and 100 Ω are connected in series on 6 V. What does the voltmeter show across the second resistor (100 Ω)? The circuit is switched off. Predict the number, then switch on: the voltmeter is across the second resistor. → Solution: The current is 6 V : (50 + 100) Ω; across the second resistor there are 100 Ω · current = 4 V.
+
+### rr-strom (generated, number)
+
+- Link: [./#rr-strom](./#rr-strom), in the section „Practice“
+- Answer format: type a number (A)
+- Hint the app shows (template: {{…}} are the task's values): First calculate the total resistance $R_1 + R_2$.
+- Steps of the solution (template: {{…}} are the task's values):
+  - $R = R_1 + R_2 = {{R1}}\text{ Ω} + {{R2}}\text{ Ω}$
+  - $I = \frac{U}{R} = \frac{{{U}}\text{ V}}{{{R1}} + {{R2}}\text{ Ω}} = {{answer}}\text{ A}$
+- Tasks by number, 1 to 40: each a different one (the app shows “Task no. …”):
+  - [Task no. 1](./?rr-strom=1#rr-strom): Two resistors of 10 Ω and 10 Ω are connected in series on 9 V. What is the current in amperes? → Solution: 0.45 A
+    - ✗ 0.9: You only used the first resistor. In a series circuit both resistors belong together: $R = R_1 + R_2$.
+    - ✗ 1.8: That is how you calculate a parallel circuit. In a series circuit there is only one current, and it flows through both resistors.
+  - [Task no. 2](./?rr-strom=2#rr-strom): Two resistors of 50 Ω and 50 Ω are connected in series on 6 V. What is the current in amperes? → Solution: 0.06 A
+    - ✗ 0.12: You only used the first resistor. In a series circuit both resistors belong together: $R = R_1 + R_2$.
+    - ✗ 0.24: That is how you calculate a parallel circuit. In a series circuit there is only one current, and it flows through both resistors.
+  - [Task no. 3](./?rr-strom=3#rr-strom): Two resistors of 20 Ω and 10 Ω are connected in series on 9 V. What is the current in amperes? → Solution: 0.3 A
+    - ✗ 0.45: You only used the first resistor. In a series circuit both resistors belong together: $R = R_1 + R_2$.
+    - ✗ 1.35: That is how you calculate a parallel circuit. In a series circuit there is only one current, and it flows through both resistors.
+  - [Task no. 4](./?rr-strom=4#rr-strom): Two resistors of 30 Ω and 50 Ω are connected in series on 12 V. What is the current in amperes? → Solution: 0.15 A
+    - ✗ 0.4: You only used the first resistor. In a series circuit both resistors belong together: $R = R_1 + R_2$.
+    - ✗ 0.64: That is how you calculate a parallel circuit. In a series circuit there is only one current, and it flows through both resistors.
+  - [Task no. 5](./?rr-strom=5#rr-strom): Two resistors of 10 Ω and 10 Ω are connected in series on 6 V. What is the current in amperes? → Solution: 0.3 A
+    - ✗ 0.6: You only used the first resistor. In a series circuit both resistors belong together: $R = R_1 + R_2$.
+    - ✗ 1.2: That is how you calculate a parallel circuit. In a series circuit there is only one current, and it flows through both resistors.
+  - [Task no. 6](./?rr-strom=6#rr-strom): Two resistors of 10 Ω and 10 Ω are connected in series on 12 V. What is the current in amperes? → Solution: 0.6 A
+    - ✗ 1.2: You only used the first resistor. In a series circuit both resistors belong together: $R = R_1 + R_2$.
+    - ✗ 2.4: That is how you calculate a parallel circuit. In a series circuit there is only one current, and it flows through both resistors.
+  - [Task no. 7](./?rr-strom=7#rr-strom): Two resistors of 50 Ω and 30 Ω are connected in series on 6 V. What is the current in amperes? → Solution: 0.075 A
+    - ✗ 0.12: You only used the first resistor. In a series circuit both resistors belong together: $R = R_1 + R_2$.
+    - ✗ 0.32: That is how you calculate a parallel circuit. In a series circuit there is only one current, and it flows through both resistors.
+  - [Task no. 8](./?rr-strom=8#rr-strom): Two resistors of 10 Ω and 30 Ω are connected in series on 6 V. What is the current in amperes? → Solution: 0.15 A
+    - ✗ 0.6: You only used the first resistor. In a series circuit both resistors belong together: $R = R_1 + R_2$.
+    - ✗ 0.8: That is how you calculate a parallel circuit. In a series circuit there is only one current, and it flows through both resistors.
+  - [Task no. 9](./?rr-strom=9#rr-strom): Two resistors of 20 Ω and 10 Ω are connected in series on 6 V. What is the current in amperes? → Solution: 0.2 A
+    - ✗ 0.3: You only used the first resistor. In a series circuit both resistors belong together: $R = R_1 + R_2$.
+    - ✗ 0.9: That is how you calculate a parallel circuit. In a series circuit there is only one current, and it flows through both resistors.
+  - [Task no. 10](./?rr-strom=10#rr-strom): Two resistors of 10 Ω and 20 Ω are connected in series on 9 V. What is the current in amperes? → Solution: 0.3 A
+    - ✗ 0.9: You only used the first resistor. In a series circuit both resistors belong together: $R = R_1 + R_2$.
+    - ✗ 1.35: That is how you calculate a parallel circuit. In a series circuit there is only one current, and it flows through both resistors.
+  - [Task no. 11](./?rr-strom=11#rr-strom): Two resistors of 50 Ω and 50 Ω are connected in series on 12 V. What is the current in amperes? → Solution: 0.12 A
+    - ✗ 0.24: You only used the first resistor. In a series circuit both resistors belong together: $R = R_1 + R_2$.
+    - ✗ 0.48: That is how you calculate a parallel circuit. In a series circuit there is only one current, and it flows through both resistors.
+  - [Task no. 12](./?rr-strom=12#rr-strom): Two resistors of 30 Ω and 10 Ω are connected in series on 12 V. What is the current in amperes? → Solution: 0.3 A
+    - ✗ 0.4: You only used the first resistor. In a series circuit both resistors belong together: $R = R_1 + R_2$.
+    - ✗ 1.6: That is how you calculate a parallel circuit. In a series circuit there is only one current, and it flows through both resistors.
+  - [Task no. 13](./?rr-strom=13#rr-strom): Two resistors of 20 Ω and 30 Ω are connected in series on 9 V. What is the current in amperes? → Solution: 0.18 A
+    - ✗ 0.45: You only used the first resistor. In a series circuit both resistors belong together: $R = R_1 + R_2$.
+    - ✗ 0.75: That is how you calculate a parallel circuit. In a series circuit there is only one current, and it flows through both resistors.
+  - [Task no. 14](./?rr-strom=14#rr-strom): Two resistors of 30 Ω and 10 Ω are connected in series on 6 V. What is the current in amperes? → Solution: 0.15 A
+    - ✗ 0.2: You only used the first resistor. In a series circuit both resistors belong together: $R = R_1 + R_2$.
+    - ✗ 0.8: That is how you calculate a parallel circuit. In a series circuit there is only one current, and it flows through both resistors.
+  - [Task no. 15](./?rr-strom=15#rr-strom): Two resistors of 20 Ω and 30 Ω are connected in series on 12 V. What is the current in amperes? → Solution: 0.24 A
+    - ✗ 0.6: You only used the first resistor. In a series circuit both resistors belong together: $R = R_1 + R_2$.
+    - ✗ 1: That is how you calculate a parallel circuit. In a series circuit there is only one current, and it flows through both resistors.
+  - [Task no. 16](./?rr-strom=16#rr-strom): Two resistors of 30 Ω and 30 Ω are connected in series on 9 V. What is the current in amperes? → Solution: 0.15 A
+    - ✗ 0.3: You only used the first resistor. In a series circuit both resistors belong together: $R = R_1 + R_2$.
+    - ✗ 0.6: That is how you calculate a parallel circuit. In a series circuit there is only one current, and it flows through both resistors.
+  - [Task no. 17](./?rr-strom=17#rr-strom): Two resistors of 30 Ω and 30 Ω are connected in series on 6 V. What is the current in amperes? → Solution: 0.1 A
+    - ✗ 0.2: You only used the first resistor. In a series circuit both resistors belong together: $R = R_1 + R_2$.
+    - ✗ 0.4: That is how you calculate a parallel circuit. In a series circuit there is only one current, and it flows through both resistors.
+  - [Task no. 18](./?rr-strom=18#rr-strom): Two resistors of 50 Ω and 10 Ω are connected in series on 12 V. What is the current in amperes? → Solution: 0.2 A
+    - ✗ 0.24: You only used the first resistor. In a series circuit both resistors belong together: $R = R_1 + R_2$.
+    - ✗ 1.44: That is how you calculate a parallel circuit. In a series circuit there is only one current, and it flows through both resistors.
+  - [Task no. 19](./?rr-strom=19#rr-strom): Two resistors of 30 Ω and 20 Ω are connected in series on 9 V. What is the current in amperes? → Solution: 0.18 A
+    - ✗ 0.3: You only used the first resistor. In a series circuit both resistors belong together: $R = R_1 + R_2$.
+    - ✗ 0.75: That is how you calculate a parallel circuit. In a series circuit there is only one current, and it flows through both resistors.
+  - [Task no. 20](./?rr-strom=20#rr-strom): Two resistors of 30 Ω and 10 Ω are connected in series on 9 V. What is the current in amperes? → Solution: 0.225 A
+    - ✗ 0.3: You only used the first resistor. In a series circuit both resistors belong together: $R = R_1 + R_2$.
+    - ✗ 1.2: That is how you calculate a parallel circuit. In a series circuit there is only one current, and it flows through both resistors.
+  - [Task no. 21](./?rr-strom=21#rr-strom): Two resistors of 50 Ω and 10 Ω are connected in series on 9 V. What is the current in amperes? → Solution: 0.15 A
+    - ✗ 0.18: You only used the first resistor. In a series circuit both resistors belong together: $R = R_1 + R_2$.
+    - ✗ 1.08: That is how you calculate a parallel circuit. In a series circuit there is only one current, and it flows through both resistors.
+  - [Task no. 22](./?rr-strom=22#rr-strom): Two resistors of 30 Ω and 20 Ω are connected in series on 12 V. What is the current in amperes? → Solution: 0.24 A
+    - ✗ 0.4: You only used the first resistor. In a series circuit both resistors belong together: $R = R_1 + R_2$.
+    - ✗ 1: That is how you calculate a parallel circuit. In a series circuit there is only one current, and it flows through both resistors.
+  - [Task no. 23](./?rr-strom=23#rr-strom): Two resistors of 30 Ω and 20 Ω are connected in series on 6 V. What is the current in amperes? → Solution: 0.12 A
+    - ✗ 0.2: You only used the first resistor. In a series circuit both resistors belong together: $R = R_1 + R_2$.
+    - ✗ 0.5: That is how you calculate a parallel circuit. In a series circuit there is only one current, and it flows through both resistors.
+  - [Task no. 24](./?rr-strom=24#rr-strom): Two resistors of 10 Ω and 30 Ω are connected in series on 9 V. What is the current in amperes? → Solution: 0.225 A
+    - ✗ 0.9: You only used the first resistor. In a series circuit both resistors belong together: $R = R_1 + R_2$.
+    - ✗ 1.2: That is how you calculate a parallel circuit. In a series circuit there is only one current, and it flows through both resistors.
+  - [Task no. 25](./?rr-strom=25#rr-strom): Two resistors of 30 Ω and 30 Ω are connected in series on 12 V. What is the current in amperes? → Solution: 0.2 A
+    - ✗ 0.4: You only used the first resistor. In a series circuit both resistors belong together: $R = R_1 + R_2$.
+    - ✗ 0.8: That is how you calculate a parallel circuit. In a series circuit there is only one current, and it flows through both resistors.
+  - [Task no. 26](./?rr-strom=26#rr-strom): Two resistors of 30 Ω and 50 Ω are connected in series on 6 V. What is the current in amperes? → Solution: 0.075 A
+    - ✗ 0.2: You only used the first resistor. In a series circuit both resistors belong together: $R = R_1 + R_2$.
+    - ✗ 0.32: That is how you calculate a parallel circuit. In a series circuit there is only one current, and it flows through both resistors.
+  - [Task no. 27](./?rr-strom=27#rr-strom): Two resistors of 10 Ω and 50 Ω are connected in series on 12 V. What is the current in amperes? → Solution: 0.2 A
+    - ✗ 1.2: You only used the first resistor. In a series circuit both resistors belong together: $R = R_1 + R_2$.
+    - ✗ 1.44: That is how you calculate a parallel circuit. In a series circuit there is only one current, and it flows through both resistors.
+  - [Task no. 28](./?rr-strom=28#rr-strom): Two resistors of 20 Ω and 10 Ω are connected in series on 12 V. What is the current in amperes? → Solution: 0.4 A
+    - ✗ 0.6: You only used the first resistor. In a series circuit both resistors belong together: $R = R_1 + R_2$.
+    - ✗ 1.8: That is how you calculate a parallel circuit. In a series circuit there is only one current, and it flows through both resistors.
+  - [Task no. 29](./?rr-strom=29#rr-strom): Two resistors of 10 Ω and 20 Ω are connected in series on 12 V. What is the current in amperes? → Solution: 0.4 A
+    - ✗ 1.2: You only used the first resistor. In a series circuit both resistors belong together: $R = R_1 + R_2$.
+    - ✗ 1.8: That is how you calculate a parallel circuit. In a series circuit there is only one current, and it flows through both resistors.
+  - [Task no. 30](./?rr-strom=30#rr-strom): Two resistors of 20 Ω and 20 Ω are connected in series on 6 V. What is the current in amperes? → Solution: 0.15 A
+    - ✗ 0.3: You only used the first resistor. In a series circuit both resistors belong together: $R = R_1 + R_2$.
+    - ✗ 0.6: That is how you calculate a parallel circuit. In a series circuit there is only one current, and it flows through both resistors.
+  - [Task no. 31](./?rr-strom=31#rr-strom): Two resistors of 50 Ω and 30 Ω are connected in series on 12 V. What is the current in amperes? → Solution: 0.15 A
+    - ✗ 0.24: You only used the first resistor. In a series circuit both resistors belong together: $R = R_1 + R_2$.
+    - ✗ 0.64: That is how you calculate a parallel circuit. In a series circuit there is only one current, and it flows through both resistors.
+  - [Task no. 32](./?rr-strom=32#rr-strom): Two resistors of 10 Ω and 50 Ω are connected in series on 6 V. What is the current in amperes? → Solution: 0.1 A
+    - ✗ 0.6: You only used the first resistor. In a series circuit both resistors belong together: $R = R_1 + R_2$.
+    - ✗ 0.72: That is how you calculate a parallel circuit. In a series circuit there is only one current, and it flows through both resistors.
+  - [Task no. 33](./?rr-strom=33#rr-strom): Two resistors of 10 Ω and 30 Ω are connected in series on 12 V. What is the current in amperes? → Solution: 0.3 A
+    - ✗ 1.2: You only used the first resistor. In a series circuit both resistors belong together: $R = R_1 + R_2$.
+    - ✗ 1.6: That is how you calculate a parallel circuit. In a series circuit there is only one current, and it flows through both resistors.
+  - [Task no. 34](./?rr-strom=34#rr-strom): Two resistors of 10 Ω and 20 Ω are connected in series on 6 V. What is the current in amperes? → Solution: 0.2 A
+    - ✗ 0.6: You only used the first resistor. In a series circuit both resistors belong together: $R = R_1 + R_2$.
+    - ✗ 0.9: That is how you calculate a parallel circuit. In a series circuit there is only one current, and it flows through both resistors.
+  - [Task no. 35](./?rr-strom=35#rr-strom): Two resistors of 50 Ω and 50 Ω are connected in series on 9 V. What is the current in amperes? → Solution: 0.09 A
+    - ✗ 0.18: You only used the first resistor. In a series circuit both resistors belong together: $R = R_1 + R_2$.
+    - ✗ 0.36: That is how you calculate a parallel circuit. In a series circuit there is only one current, and it flows through both resistors.
+  - [Task no. 36](./?rr-strom=36#rr-strom): Two resistors of 50 Ω and 10 Ω are connected in series on 6 V. What is the current in amperes? → Solution: 0.1 A
+    - ✗ 0.12: You only used the first resistor. In a series circuit both resistors belong together: $R = R_1 + R_2$.
+    - ✗ 0.72: That is how you calculate a parallel circuit. In a series circuit there is only one current, and it flows through both resistors.
+  - [Task no. 37](./?rr-strom=37#rr-strom): Two resistors of 10 Ω and 50 Ω are connected in series on 9 V. What is the current in amperes? → Solution: 0.15 A
+    - ✗ 0.9: You only used the first resistor. In a series circuit both resistors belong together: $R = R_1 + R_2$.
+    - ✗ 1.08: That is how you calculate a parallel circuit. In a series circuit there is only one current, and it flows through both resistors.
+  - [Task no. 38](./?rr-strom=38#rr-strom): Two resistors of 20 Ω and 30 Ω are connected in series on 6 V. What is the current in amperes? → Solution: 0.12 A
+    - ✗ 0.3: You only used the first resistor. In a series circuit both resistors belong together: $R = R_1 + R_2$.
+    - ✗ 0.5: That is how you calculate a parallel circuit. In a series circuit there is only one current, and it flows through both resistors.
+  - [Task no. 39](./?rr-strom=39#rr-strom): Two resistors of 20 Ω and 20 Ω are connected in series on 12 V. What is the current in amperes? → Solution: 0.3 A
+    - ✗ 0.6: You only used the first resistor. In a series circuit both resistors belong together: $R = R_1 + R_2$.
+    - ✗ 1.2: That is how you calculate a parallel circuit. In a series circuit there is only one current, and it flows through both resistors.
+  - [Task no. 40](./?rr-strom=40#rr-strom): Two resistors of 20 Ω and 20 Ω are connected in series on 9 V. What is the current in amperes? → Solution: 0.225 A
+    - ✗ 0.45: You only used the first resistor. In a series circuit both resistors belong together: $R = R_1 + R_2$.
+    - ✗ 0.9: That is how you calculate a parallel circuit. In a series circuit there is only one current, and it flows through both resistors.
+
+### rr-teilspannung (generated, number)
+
+- Link: [./#rr-teilspannung](./#rr-teilspannung), in the section „Practice“
+- Answer format: type a number (V)
+- Hint the app shows (template: {{…}} are the task's values): $U = U_1 + U_2$, so $U_2 = U - U_1$.
+- Steps of the solution (template: {{…}} are the task's values):
+  - $U_2 = U - U_1 = {{U}}\text{ V} - {{U1}}\text{ V} = {{answer}}\text{ V}$
+- Tasks by number, 1 to 11: each a different one (the app shows “Task no. …”):
+  - [Task no. 1](./?rr-teilspannung=1#rr-teilspannung): Two resistors are connected in series on 6 V. The voltmeter at the first resistor shows 2 V. What is the voltage across the second resistor in volts? → Solution: 4 V
+    - ✗ 2: That is the voltage across the first resistor. The voltages in a series circuit differ and add up to the total voltage.
+    - ✗ 8: You added. The total voltage is the sum of the partial voltages, so you subtract the known partial voltage.
+  - [Task no. 2](./?rr-teilspannung=2#rr-teilspannung): Two resistors are connected in series on 9 V. The voltmeter at the first resistor shows 4 V. What is the voltage across the second resistor in volts? → Solution: 5 V
+    - ✗ 4: That is the voltage across the first resistor. The voltages in a series circuit differ and add up to the total voltage.
+    - ✗ 13: You added. The total voltage is the sum of the partial voltages, so you subtract the known partial voltage.
+  - [Task no. 3](./?rr-teilspannung=3#rr-teilspannung): Two resistors are connected in series on 9 V. The voltmeter at the first resistor shows 1 V. What is the voltage across the second resistor in volts? → Solution: 8 V
+    - ✗ 1: That is the voltage across the first resistor. The voltages in a series circuit differ and add up to the total voltage.
+    - ✗ 10: You added. The total voltage is the sum of the partial voltages, so you subtract the known partial voltage.
+  - [Task no. 4](./?rr-teilspannung=4#rr-teilspannung): Two resistors are connected in series on 12 V. The voltmeter at the first resistor shows 4 V. What is the voltage across the second resistor in volts? → Solution: 8 V
+    - ✗ 4: That is the voltage across the first resistor. The voltages in a series circuit differ and add up to the total voltage.
+    - ✗ 16: You added. The total voltage is the sum of the partial voltages, so you subtract the known partial voltage.
+  - [Task no. 5](./?rr-teilspannung=5#rr-teilspannung): Two resistors are connected in series on 12 V. The voltmeter at the first resistor shows 2 V. What is the voltage across the second resistor in volts? → Solution: 10 V
+    - ✗ 2: That is the voltage across the first resistor. The voltages in a series circuit differ and add up to the total voltage.
+    - ✗ 14: You added. The total voltage is the sum of the partial voltages, so you subtract the known partial voltage.
+  - [Task no. 6](./?rr-teilspannung=6#rr-teilspannung): Two resistors are connected in series on 6 V. The voltmeter at the first resistor shows 4 V. What is the voltage across the second resistor in volts? → Solution: 2 V
+    - ✗ 4: That is the voltage across the first resistor. The voltages in a series circuit differ and add up to the total voltage.
+    - ✗ 10: You added. The total voltage is the sum of the partial voltages, so you subtract the known partial voltage.
+  - [Task no. 7](./?rr-teilspannung=7#rr-teilspannung): Two resistors are connected in series on 9 V. The voltmeter at the first resistor shows 2 V. What is the voltage across the second resistor in volts? → Solution: 7 V
+    - ✗ 2: That is the voltage across the first resistor. The voltages in a series circuit differ and add up to the total voltage.
+    - ✗ 11: You added. The total voltage is the sum of the partial voltages, so you subtract the known partial voltage.
+  - [Task no. 8](./?rr-teilspannung=8#rr-teilspannung): Two resistors are connected in series on 6 V. The voltmeter at the first resistor shows 1 V. What is the voltage across the second resistor in volts? → Solution: 5 V
+    - ✗ 1: That is the voltage across the first resistor. The voltages in a series circuit differ and add up to the total voltage.
+    - ✗ 7: You added. The total voltage is the sum of the partial voltages, so you subtract the known partial voltage.
+  - [Task no. 9](./?rr-teilspannung=9#rr-teilspannung): Two resistors are connected in series on 12 V. The voltmeter at the first resistor shows 1 V. What is the voltage across the second resistor in volts? → Solution: 11 V
+    - ✗ 1: That is the voltage across the first resistor. The voltages in a series circuit differ and add up to the total voltage.
+    - ✗ 13: You added. The total voltage is the sum of the partial voltages, so you subtract the known partial voltage.
+  - [Task no. 10](./?rr-teilspannung=10#rr-teilspannung): Two resistors are connected in series on 12 V. The voltmeter at the first resistor shows 3 V. What is the voltage across the second resistor in volts? → Solution: 9 V
+    - ✗ 3: That is the voltage across the first resistor. The voltages in a series circuit differ and add up to the total voltage.
+    - ✗ 15: You added. The total voltage is the sum of the partial voltages, so you subtract the known partial voltage.
+  - [Task no. 11](./?rr-teilspannung=11#rr-teilspannung): Two resistors are connected in series on 9 V. The voltmeter at the first resistor shows 3 V. What is the voltage across the second resistor in volts? → Solution: 6 V
+    - ✗ 3: That is the voltage across the first resistor. The voltages in a series circuit differ and add up to the total voltage.
+    - ✗ 12: You added. The total voltage is the sum of the partial voltages, so you subtract the known partial voltage.
+
+### rr-ampere (single-choice)
+
+- Link: [./#rr-ampere](./#rr-ampere), in the section „Practice“
+- Task: In a series circuit the ammeter before the first resistor shows 0.2 A. What does an ammeter after the second resistor show?
+- Answer format: choose one answer
+- Choices (✓ right, ✗ wrong, with the app's message):
+  - ✓ 0.2 A – In a series circuit there is only one current, and it is the same everywhere.
+  - ✗ less than 0.2 A – The current is not used up in the resistors. As much comes out as flows in.
+  - ✗ 0.4 A – The current does not double. Behind the second resistor no more flows than before.
+- Solution: 0.2 A
+- Explanation: In a series circuit the current is the same at every place.
