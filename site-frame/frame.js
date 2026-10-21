@@ -17,7 +17,7 @@
 // languages: the languages the page exists in, German first (default: all of LANGUAGES). The language switch links
 //   to the same page in the others; a page that exists in one language shows no switch.
 // textLang: the language of the text (default: lang). If it differs, a line above the content says that the page
-//   is not available in the language of the frame and is shown in the one of its text.
+//   is not available in the language of the frame.
 //
 // The language a reader sees is the language of their browser, until they choose another with the switch: on a
 // page with a language switch, a small script in <head> goes to the same page in that language. Only a choice that
@@ -29,7 +29,6 @@ import {
   LANGUAGE_KEY,
   languageRoot,
   languageName,
-  inLanguage,
   nav,
   footer as foot,
   texts,
@@ -172,8 +171,8 @@ export function header({
     ? `<p class="la-preview" lang="${lang}">${esc(t.preview)} <a href="${esc(ORIGIN + path)}">lernapps.net${esc(path)}</a></p>`
     : "";
   const fallback =
-    textLang !== lang && inLanguage[lang][textLang]
-      ? `\n<p class="la-fallback" lang="${lang}">${esc(t.fallback(inLanguage[lang][lang], inLanguage[lang][textLang]))}</p>`
+    textLang !== lang
+      ? `\n<p class="la-fallback" lang="${lang}">${esc(t.fallback)}</p>`
       : "";
   const home = pathIn("/", lang);
   return `<a class="la-skip" href="#${esc(main)}" lang="${lang}">${esc(t.skipLink)}</a>

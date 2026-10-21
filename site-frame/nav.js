@@ -19,11 +19,6 @@ export const languageRoot = (lang) => (lang === "de" ? "" : `${lang}/`);
 /** How a language is named, in itself. */
 export const languageName = { de: "Deutsch", en: "English" };
 
-/** "in a language", said in each language: inLanguage[frame][text]. */
-export const inLanguage = {
-  de: { de: "auf Deutsch", en: "auf Englisch" },
-  en: { de: "in German", en: "in English" },
-};
 
 /** Where the language the reader chose by the switch is kept, if it is not their browser's (frame.js). */
 export const LANGUAGE_KEY = "lernapps-lang";
@@ -80,12 +75,12 @@ export const texts = {
     skipLink: "Zum Inhalt springen",
     preview: "Vorschau einer Änderung. Die echte Seite:",
     languageSwitch: "Sprache",
-    fallback: (missing, shown) => `Diese Seite gibt es nicht ${missing}. Du siehst sie ${shown}.`,
+    fallback: "Diese Seite gibt es nicht auf Deutsch.",
   },
   en: {
     skipLink: "Skip to content",
     preview: "Preview of a change. The real page:",
     languageSwitch: "Language",
-    fallback: (missing, shown) => `This page is not available ${missing}. You see it ${shown}.`,
+    fallback: "This page is not available in English.",
   },
 };

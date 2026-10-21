@@ -51,9 +51,9 @@ test("a page without a language switch has no language script", () => {
 
 test("a page whose text is in another language says so above the content, in the frame's language", () => {
   const de = header({ site: "/tooling/", path: "/tooling/", textLang: "en" });
-  assert.match(de, /<p class="la-fallback" lang="de">Diese Seite gibt es nicht auf Deutsch\. Du siehst sie auf Englisch\.<\/p>/);
+  assert.match(de, /<p class="la-fallback" lang="de">Diese Seite gibt es nicht auf Deutsch\.<\/p>/);
   const en = header({ site: "/docs/", path: "/docs/en/", textLang: "de" });
-  assert.match(en, /This page is not available in English\. You see it in German\./);
+  assert.match(en, />This page is not available in English\.<\/p>/);
   assert.doesNotMatch(header({ site: "/docs/", path: "/docs/en/", textLang: "en" }), /la-fallback/);
   assert.match(header({ site: "/", path: "/features/" }), /data-la-lang="en"/);
 });
