@@ -11,11 +11,28 @@
 // path: the canonical path of the page (site + page URL), to mark the current navigation entry. German is at the
 //   root of a site, English below its language root (site + "en/" + …): that is how the frame knows the language
 //   of a page, and where the same page is in the other languages.
-// lang: the language of the frame (default: from path). A text that exists in one language only, at an address
-//   without a language root (the platform design is English), gets the frame in its language: lang: "en".
+// lang: the language of the frame (default: from path). The frame always speaks the language of the tree, also
+//   around a text in another language (the tooling and the platform design are English in the German tree too).
+//   Header, footer, skip link and banner carry lang, so they are read right inside a page of another language.
 // languages: the languages the page exists in, German first (default: all of LANGUAGES). The language switch links
 //   to the same page in the others; a page that exists in one language shows no switch.
-import { SITES, LANGUAGES, TRANSLATED_SITES, languageRoot, languageName, nav, footer as foot, texts } from "./nav.js";
+// textLang: the language of the text (default: lang). If it differs, a line above the content says that the page
+//   is not available in the language of the frame.
+//
+// The language a reader sees is the language of their browser, until they choose another with the switch: on a
+// page with a language switch, a small script in <head> goes to the same page in that language. Only a choice that
+// differs from the browser is kept (localStorage, LANGUAGE_KEY); choosing the browser's language again removes it.
+import {
+  SITES,
+  LANGUAGES,
+  TRANSLATED_SITES,
+  LANGUAGE_KEY,
+  languageRoot,
+  languageName,
+  nav,
+  footer as foot,
+  texts,
+} from "./nav.js";
 
 const ORIGIN = "https://lernapps.net";
 
@@ -81,8 +98,31 @@ const otherLanguages = (path, lang, languages = LANGUAGES) =>
     : [];
 
 /**
+ * The script of the language choice: on a page in `lang` with the same page at `alternates` ({ lang: href }), go to
+ * the language the reader chose, else to their browser's; remember a choice by the switch only if it differs from
+ * the browser. Nothing happens for crawlers, so that search engines see every language at its address.
+ */
+const languageScript = (lang, alternates) => `<script>(() => {
+  const key = ${JSON.stringify(LANGUAGE_KEY)}, here = ${JSON.stringify(lang)}, pages = ${JSON.stringify(alternates)};
+  const known = ${JSON.stringify(LANGUAGES)};
+  const browser = (navigator.languages || [navigator.language]).map((l) => String(l).slice(0, 2).toLowerCase()).find((l) => known.includes(l));
+  let chosen = null;
+  try { chosen = localStorage.getItem(key); } catch {}
+  const wanted = known.includes(chosen) ? chosen : browser;
+  if (wanted && wanted !== here && pages[wanted] && !/bot|crawl|spider|slurp/i.test(navigator.userAgent)) {
+    location.replace(pages[wanted] + location.search + location.hash);
+    return;
+  }
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest && e.target.closest("a[data-la-lang]");
+    if (!a) return;
+    try { a.dataset.laLang === browser ? localStorage.removeItem(key) : localStorage.setItem(key, a.dataset.laLang); } catch {}
+  });
+})();</script>`;
+
+/**
  * For <head>: icons (served by the home site), the tokens and the site frame's stylesheet; with `path`, also
- * links to the page in its languages (hreflang), for search engines.
+ * links to the page in its languages (hreflang), for search engines, and the script of the language choice.
  */
 export function head({ site = "/", prefix = site, path, lang = path && languageOf(path), languages } = {}) {
   const others = path ? otherLanguages(path, lang, languages) : [];
@@ -97,6 +137,9 @@ export function head({ site = "/", prefix = site, path, lang = path && languageO
     '<link rel="apple-touch-icon" href="/apple-touch-icon.png">',
     ...Object.values(STYLES).map((css) => `<link rel="stylesheet" href="${esc(prefix + css)}">`),
     ...alternates,
+    ...(others.length
+      ? [languageScript(lang, Object.fromEntries(others.map((o) => [o.lang, link(o.path, { site, prefix })])))]
+      : []),
   ].join("\n");
 }
 
@@ -109,6 +152,7 @@ export function header({
   main = "main-content",
   lang = languageOf(path),
   languages,
+  textLang = lang,
 } = {}) {
   const t = texts[lang];
   const current = currentHref(path);
@@ -120,20 +164,24 @@ export function header({
   });
   for (const o of otherLanguages(path, lang, languages)) {
     items.push(
-      `<li class="la-lang"><a href="${esc(link(o.path, { site, prefix }))}" hreflang="${o.lang}" lang="${o.lang}" aria-label="${esc(texts[o.lang].languageSwitch)}: ${esc(languageName[o.lang])}">${esc(languageName[o.lang])}</a></li>`,
+      `<li class="la-lang"><a href="${esc(link(o.path, { site, prefix }))}" hreflang="${o.lang}" lang="${o.lang}" data-la-lang="${o.lang}" aria-label="${esc(texts[o.lang].languageSwitch)}: ${esc(languageName[o.lang])}">${esc(languageName[o.lang])}</a></li>`,
     );
   }
   const banner = preview
-    ? `<p class="la-preview">${esc(t.preview)} <a href="${esc(ORIGIN + path)}">lernapps.net${esc(path)}</a></p>`
+    ? `<p class="la-preview" lang="${lang}">${esc(t.preview)} <a href="${esc(ORIGIN + path)}">lernapps.net${esc(path)}</a></p>`
     : "";
+  const fallback =
+    textLang !== lang
+      ? `\n<p class="la-fallback" lang="${lang}">${esc(t.fallback)}</p>`
+      : "";
   const home = pathIn("/", lang);
-  return `<a class="la-skip" href="#${esc(main)}">${esc(t.skipLink)}</a>
-${banner}<header class="la-header">
+  return `<a class="la-skip" href="#${esc(main)}" lang="${lang}">${esc(t.skipLink)}</a>
+${banner}<header class="la-header" lang="${lang}">
   <div class="la-header__inner">
     <a class="la-brand" href="${esc(link(home, { site, prefix }))}" aria-label="${esc(nav[lang].homeLabel)}"${path === home ? ' aria-current="page"' : ""}><img src="/brand/mark-plain.svg" alt=""><span>lernapps<span class="la-brand__tld">.net</span></span></a>
     <nav class="la-nav" aria-label="${esc(nav[lang].ariaLabel)}"><ul>${items.join("")}</ul></nav>
   </div>
-</header>`;
+</header>${fallback}`;
 }
 
 /** Footer: the free-and-thanks line, privacy notice, imprint, platform design and this site's source. */
@@ -148,7 +196,7 @@ export function footer({ site = "/", prefix = site, source, path = site, lang = 
   ]
     .map((l) => `<li><a href="${esc(link(l.href, { site, prefix }))}">${esc(l.text)}</a></li>`)
     .join("");
-  return `<footer class="la-footer">
+  return `<footer class="la-footer" lang="${lang}">
   <div class="la-footer__inner">
     <p>${esc(f.free)}</p>
     <nav aria-label="${esc(f.ariaLabel)}"><ul>${links}</ul></nav>

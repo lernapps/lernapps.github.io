@@ -88,8 +88,10 @@ for (const file of files(ROOT)) {
     if (!text.includes(`href="${href.de}"`) && !text.includes(`href="${href.en}"`)) errors.push(`${rel}: no link to ${href[lang]}`);
   }
 
-  // A page of the English tree says so: <html lang="en">, so that screen readers and translators know.
-  if (lang !== "de" && rel.endsWith(".html") && !new RegExp(`<html[^>]*\\slang="${lang}"`, "i").test(text)) {
+  // A page of the English tree says so, so that screen readers and translators know: <html lang="en">, or, around a
+  // text that exists in another language only, its frame (<header lang="en">).
+  const says = (tag) => new RegExp(`<${tag}[^>]*\\slang="${lang}"`, "i").test(text);
+  if (lang !== "de" && rel.endsWith(".html") && !says("html") && !says('header class="la-header"')) {
     errors.push(`${rel}: below the ${lang} tree but not <html lang="${lang}">`);
   }
 
