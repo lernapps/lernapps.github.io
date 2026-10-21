@@ -113,10 +113,29 @@ if (TRANSLATED_SITES.includes(site)) {
   }
 }
 
+/**
+ * Where </head>, <body> and the last </body> of a page are, outside its scripts: a bundled app (the diff pages)
+ * can carry these tags as text inside a <script>, and the frame must not land there.
+ */
+function landmarks(html) {
+  const found = {};
+  for (const m of html.matchAll(/<script\b[^>]*>[\s\S]*?<\/script\s*>|<\/head\s*>|<body\b[^>]*>|<\/body\s*>/gi)) {
+    const tag = m[0].slice(0, 7).toLowerCase();
+    if (tag.startsWith("</head")) found.head ??= m;
+    else if (tag.startsWith("<body")) found.body ??= m;
+    else if (tag.startsWith("</body")) found.end = m;
+  }
+  return found;
+}
+
+/** The page with `text` put in at the index of a match: before it (at: 0) or after it (at: its length). */
+const insertAt = (html, m, at, text) => html.slice(0, m.index + at) + text + html.slice(m.index + at);
+
 let n = 0;
 for (const file of files(a.out)) {
   let html = readFileSync(file, "utf8");
-  if (html.includes(MARK) || !/<body[^>]*>/i.test(html)) continue;
+  const at = landmarks(html);
+  if (html.includes(MARK) || !at.head || !at.body || !at.end) continue;
   const rel = relative(a.out, dirname(file)).split("\\").join("/");
   const path = site + (rel ? rel + "/" : "");
   // The frame speaks the language of the tree the page is in, whatever the language of its text.
@@ -126,10 +145,10 @@ for (const file of files(a.out)) {
   // The skip link's target: --main, else the page's <main id>, else an anchor right after the header.
   const main = a.main ?? html.match(/<main[^>]*\bid="([^"]+)"/i)?.[1];
   const anchor = main ? "" : '\n<div id="main-content" tabindex="-1"></div>';
-  html = html
-    .replace(/<\/head>/i, `${MARK}\n${preview ? '<meta name="robots" content="noindex">\n' : ""}${head({ site, prefix, path, lang, languages })}\n</head>`)
-    .replace(/<body[^>]*>/i, (body) => `${body}\n${header({ site, prefix, path, lang, preview, languages, textLang, main: main ?? "main-content" })}${anchor}`)
-    .replace(/<\/body>(?![\s\S]*<\/body>)/i, `${footer({ site, prefix, path, lang, source: a.source })}\n</body>`);
+  // From the end, so that the earlier indexes stay valid.
+  html = insertAt(html, at.end, 0, `${footer({ site, prefix, path, lang, source: a.source })}\n`);
+  html = insertAt(html, at.body, at.body[0].length, `\n${header({ site, prefix, path, lang, preview, languages, textLang, main: main ?? "main-content" })}${anchor}`);
+  html = insertAt(html, at.head, 0, `${MARK}\n${preview ? '<meta name="robots" content="noindex">\n' : ""}${head({ site, prefix, path, lang, languages })}\n`);
   writeFileSync(file, html);
   n++;
 }
