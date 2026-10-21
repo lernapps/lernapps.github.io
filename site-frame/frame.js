@@ -11,10 +11,9 @@
 // path: the canonical path of the page (site + page URL), to mark the current navigation entry. German is at the
 //   root of a site, English below its language root (site + "en/" + …): that is how the frame knows the language
 //   of a page, and where the same page is in the other languages.
-// lang: the language of the frame (default: from path). A text that exists in one language only, at an address
-//   without a language root (the tooling and the platform design are English), keeps the frame of its address
-//   (German): its navigation must not take the reader into another language's tree with no switch back. Header,
-//   footer and skip link carry lang, so they are read right inside a page of another language.
+// lang: the language of the frame (default: from path). The frame always speaks the language of the tree, also
+//   around a text in another language (the tooling and the platform design are English in the German tree too).
+//   Header, footer, skip link and banner carry lang, so they are read right inside a page of another language.
 // languages: the languages the page exists in, German first (default: all of LANGUAGES). The language switch links
 //   to the same page in the others; a page that exists in one language shows no switch.
 import { SITES, LANGUAGES, TRANSLATED_SITES, languageRoot, languageName, nav, footer as foot, texts } from "./nav.js";
