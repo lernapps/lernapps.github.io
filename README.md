@@ -18,7 +18,7 @@ This repo also holds the **site frame shared by all sites** on lernapps.net: des
 | `src/404.njk` | The "not found" page of the whole origin, with the shared site frame; German and English in one page |
 | `src/privacy.njk`, `imprint.njk` | Privacy notice and imprint, both languages in each page, the reader's own first: `/privacy/`, `/en/privacy/` |
 | `src/llms.txt` | For AI assistants: what lernapps.net is and why, the paths (find, build, list an app), the quick path to build one, the links to the llms.txt of docs, tooling and apps, and the app list. Copied unchanged |
-| `site-frame/` | The site frame shared by all sites (tokens, header, footer, Eleventy plugin, `lernapps-check`); see [site-frame/README.md](site-frame/README.md) |
+| `site-frame/` | The site frame shared by all sites (tokens, header, footer, Eleventy plugin, `site-check`); see [site-frame/README.md](site-frame/README.md) |
 | `.github/workflows/pages.yml` | Job `site` (required status check): `npm ci`, build, check of the built site; on `main` the `deploy` job publishes `_site/` to the root of the `gh-pages` branch, which Pages serves. The steps are the shared site actions of [lernapps/tooling](https://github.com/lernapps/tooling), the same for every site |
 | `.github/workflows/pr-preview.yml` | A preview per pull request at `https://lernapps.net/pr-preview/pr-<number>/`, linked in a comment, removed on close (shared action `site-preview`). Built with `SITE_PATH_PREFIX` (own links get the prefix via the filter `own`) and `SITE_PREVIEW` (banner, `noindex`) |
 | `src/CNAME` | The custom domain `lernapps.net`; the `gh-pages` branch must carry it |
@@ -31,7 +31,7 @@ Rules for the page (org-wide): no external requests (system fonts, no CDNs; the 
 ```sh
 npm ci                      # install the exact pinned versions
 npm run build               # Eleventy → _site/, then UnoCSS scans _site/**/*.html → _site/uno.css
-npm run check               # lernapps-check on _site/ (run after the build, before pushing)
+npm run check               # site-check on _site/ (run after the build, before pushing)
 npm run dev                 # build, then serve http://localhost:8080/ with live reload (HTML and CSS)
 ```
 
@@ -64,7 +64,7 @@ name of a link marked `data-la-count="<name>"` as an event: the catalog marks it
 `data-la-count="app/<slug>"`. Nothing else: no query, title or screen size, no cookies, no localStorage; not with
 Global Privacy Control or Do Not Track, not in a preview. Browser, system, language and country GoatCounter derives
 itself from the request, and stores them only as totals.
-`lernapps-check` fails a site outside the platform sites whose pages carry the counter.
+`site-check` fails a site outside the platform sites whose pages carry the counter.
 
 While `endpoint` is empty, the script does nothing and the privacy notice says the counter is planned. To turn it on,
 in one commit here:

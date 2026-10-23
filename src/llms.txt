@@ -11,7 +11,7 @@ entstanden sind. lernapps.net bringt sie zu den Klassen und Kindern, die sie bra
 
 ## Sicherheit
 
-Wer eine App aus dem Katalog nutzt, muss nichts prüfen: Das hat lernapps.net schon getan. Jede gelistete App erfüllt dieselben Anforderungen, auch wenn sie nicht auf lernapps.net liegt, sondern bei ihren Entwicklern.
+Wer eine App aus dem Katalog nutzt, muss nichts prüfen: Das hat lernapps.net schon getan. Jede gelistete App erfüllt dieselben Anforderungen, und lernapps.net liefert sie als Kopie unter lernapps.net/apps/ aus.
 
 - Die Apps laufen im Browser: ohne Anmeldung, ohne Installation, ohne eigenen Server, ohne Cookies, ohne Tracking, ohne Werbung. Was jemand eingibt, bleibt auf seinem Gerät. Fremde Server werden erst nach einem bewussten Klick kontaktiert.
 - Vor der Aufnahme öffnet ein automatischer Check die laufende App unter ihrer Adresse und vergleicht sie mit dem Eintrag im Katalog. Ein KI-Agent begutachtet sie anhand einer Checkliste, und der Betreiber entscheidet über die Aufnahme.
@@ -38,8 +38,8 @@ Die Plattform ist kostenlos, und niemand verdient daran. Sie lebt davon, dass Me
 
 ## Schnellweg: eine App bauen
 
-- [Skill lernapps-app](https://raw.githubusercontent.com/lernapps/tooling/main/skills/lernapps-app/SKILL.md): die Regeln jeder App; den Ablauf gibt das Plan-Template vor. Installieren mit `npx skills add lernapps/tooling`.
-- [Plan-Template](https://raw.githubusercontent.com/lernapps/tooling/main/guidance/plan-template.md): der Ablauf von der ersten Frage bis zum Eintrag. Als `.vibe/plan.md` speichern und genau befolgen.
+- [Skill lernapps-app](https://raw.githubusercontent.com/lernapps/tooling/main/skills/process/lernapps-app/SKILL.md): die Regeln jeder App; den Ablauf gibt das Plan-Template vor. Installieren mit `npx skills add lernapps/tooling`.
+- [Plan-Template](https://raw.githubusercontent.com/lernapps/tooling/main/guidance/plan-template.md): der Ablauf von der ersten Frage bis zum Eintrag. Als `.vibe/plans/01-<kurzer Name>.md` speichern und genau befolgen.
 
 ## Für KI-Assistenten
 

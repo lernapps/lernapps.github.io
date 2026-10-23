@@ -174,7 +174,7 @@ export default {
             "You submit it: as a pull request to lernapps/apps, or by form or email without GitHub. Anyone can submit an app.",
             "An automatic check opens the app the way learners do and compares it with the entry: do all topics open, are the details right?",
             "It is checked against the rules for every app. They are exclusion criteria: an app that collects data, needs an account or shows ads does not get into the catalog. An AI agent can also review the app against a checklist.",
-            "If the app keeps the rules, it is listed. For a finished app, all of this takes a few hours.",
+            "If the app keeps the rules, it is listed, and lernapps.net serves a copy of it. For a finished app, all of this takes a few hours.",
           ],
         },
         {
