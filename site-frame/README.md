@@ -22,7 +22,7 @@ a change to the navigation or the tokens with its next update pull request.
 | `frame.js` | `head()`, `header()`, `footer()`, `link()`, `languageOf()` and `pathIn()`: render the site frame as HTML strings |
 | `eleventy.js` | Eleventy plugin: shortcodes `laHead`, `laHeader`, `laFooter`, filter `own`, copies the CSS |
 | `inject.mjs` | CLI `lernapps-frame` for sites not built with Eleventy (docs): adds the site frame to built HTML |
-| `check.mjs` | CLI `lernapps-check`: the deploy check of every site (no external resources, links, privacy notice and imprint linked, the usage counter only on the platform sites) |
+| `check.mjs` | CLI `site-check`: the deploy check of every site (no external resources, links, privacy notice and imprint linked, the usage counter only on the platform sites) |
 
 ## Use it
 
@@ -45,7 +45,8 @@ eleventyConfig.addPlugin(siteFrame, { site: "/apps/", source: "https://github.co
 
 Built HTML (docs): `lernapps-frame --site /docs/ --source https://github.com/lernapps/docs --out _site`.
 
-Check before deploy: `lernapps-check --site /apps/` (`--out _site` is the default).
+Check before deploy: `site-check --site /apps/` (`--out _site` is the default). The old name `lernapps-check` still works until
+every repository uses `site-check`.
 
 Both read `SITE_PATH_PREFIX` (where a pull request preview is served, e.g. `/apps/pr-preview/pr-12/`) and
 `SITE_PREVIEW` (show the preview banner), which the shared workflows in lernapps/tooling set.
@@ -57,7 +58,7 @@ German is at the root of every site, English below `en/` of it: `/`, `/en/`; `/a
 the frame reads the language of a page from its address: below the language root it is English. So the header, the
 footer and the skip link speak the language of the page, the navigation leads to the same pages in that language,
 the header ends with a link to the page in the other language, and `<head>` gets `hreflang` alternates. The check
-(`lernapps-check`) requires `<html lang="en">` in the English tree and the privacy notice and imprint in the page's
+(`site-check`) requires `<html lang="en">` in the English tree and the privacy notice and imprint in the page's
 own language (`/privacy/`, `/en/privacy/`).
 
 - The frame always speaks the language the reader chose, the text falls back to the language it exists in. A text

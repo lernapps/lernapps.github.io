@@ -9,7 +9,7 @@
 // - every page links the privacy notice and the imprint (required by law on every page)
 // - none of the --forbid markers is left in a page (e.g. a placeholder for missing contact data)
 //
-//   lernapps-check --site /apps/ [--out _site] [--forbid TODO-EMAIL]
+//   site-check --site /apps/ [--out _site] [--forbid TODO-EMAIL]
 //
 // The build's prefix comes from SITE_PATH_PREFIX, as in the build. No dependencies.
 import { readFileSync, readdirSync, existsSync, statSync } from "node:fs";
@@ -28,7 +28,7 @@ const { values: a } = parseArgs({
   },
 });
 if (!a.site) {
-  console.error("usage: lernapps-check --site /apps/ [--out _site] [--forbid <text>]");
+  console.error("usage: site-check --site /apps/ [--out _site] [--forbid <text>]");
   process.exit(2);
 }
 const site = a.site;
@@ -117,4 +117,4 @@ if (errors.length) {
   console.error(errors.join("\n"));
   process.exit(1);
 }
-console.log(`lernapps-check: ${ROOT} ok (no external resources, links resolve, privacy notice and imprint linked)`);
+console.log(`site-check: ${ROOT} ok (no external resources, links resolve, privacy notice and imprint linked)`);

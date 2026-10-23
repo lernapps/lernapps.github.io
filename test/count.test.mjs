@@ -1,5 +1,5 @@
 // The usage counter of the platform sites (src/lernapps-count.njk): not part of the shared site frame, so an app
-// never gets it, and lernapps-check fails an app that carries it.
+// never gets it, and site-check fails an app that carries it.
 import { spawnSync } from "node:child_process";
 import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -22,7 +22,7 @@ test("the site frame never carries the counter", () => {
   }
 });
 
-test("lernapps-check fails an app that carries the counter, and lets a platform site have it", () => {
+test("site-check fails an app that carries the counter, and lets a platform site have it", () => {
   const out = mkdtempSync(join(tmpdir(), "count-check-"));
   try {
     writeFileSync(

@@ -12,6 +12,7 @@
   },
   "bin": {
     "lernapps-frame": "site-frame/inject.mjs",
+    "site-check": "site-frame/check.mjs",
     "lernapps-check": "site-frame/check.mjs"
   },
   "files": [
