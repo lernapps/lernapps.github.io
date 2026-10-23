@@ -174,7 +174,7 @@ export default {
             "Du reichst sie ein: als Pull Request an lernapps/apps, ohne GitHub auch per Formular oder E-Mail. Einreichen kann jeder.",
             "Eine automatische Prüfung öffnet die App wie Lernende und vergleicht sie mit dem Eintrag: Lassen sich alle Themen öffnen, stimmen die Angaben?",
             "Geprüft wird gegen die Regeln für jede App. Sie sind Ausschlusskriterien: Wer etwas sammelt, ein Konto verlangt oder Werbung zeigt, kommt nicht in den Katalog. Ein KI-Agent kann die App zusätzlich anhand einer Checkliste begutachten.",
-            "Erfüllt die App die Regeln, wird sie aufgenommen. Für eine fertige App dauert das alles zusammen wenige Stunden.",
+            "Erfüllt die App die Regeln, wird sie aufgenommen, und lernapps.net liefert eine Kopie von ihr aus. Für eine fertige App dauert das alles zusammen wenige Stunden.",
           ],
         },
         {
