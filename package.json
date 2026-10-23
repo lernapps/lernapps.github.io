@@ -26,7 +26,7 @@
     "prepare": "git rev-parse --git-dir >/dev/null 2>&1 && git config core.hooksPath .githooks || true"
   },
   "devDependencies": {
-    "@11ty/eleventy": "3.1.6",
+    "@11ty/eleventy": "3.1.7",
     "@unocss/cli": "66.11.0",
     "@unocss/preset-typography": "66.11.0",
     "@unocss/preset-wind4": "66.11.0"
