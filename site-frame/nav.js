@@ -41,8 +41,8 @@ export const nav = {
     { label: { de: "Tooling", en: "Tooling" }, href: "/tooling/" },
     // What lernapps is made of: for users, for developers, and what makes the platform unique.
     { label: { de: "Features", en: "Features" }, href: "/features/" },
-    // The concepts behind it (/docs/): vision, organization, platform design.
-    { label: { de: "Darum!", en: "That's why" }, href: "/docs/" },
+    // The platform as a whole (/docs/): its vision, how it works, and its models.
+    { label: { de: "Plattform", en: "Platform" }, href: "/docs/" },
     // One page per persona, with a prompt each for their AI assistant.
     { label: { de: "Mitmachen", en: "Get involved" }, href: "/join/" },
   ],
