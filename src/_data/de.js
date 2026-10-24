@@ -55,8 +55,8 @@ export default {
           cta: "Apps für den Unterricht", ctaHref: "/apps/",
         },
         {
-          icon: "🏠", role: "Wenn dein Kind morgen eine Arbeit schreibt", headline: "Heute Abend noch üben.",
-          text: "Such eine App zum Thema der Arbeit. Dein Kind kann sofort anfangen: ohne Abo, ohne Werbung, ohne Konto. Niemand weiß, wer die App gerade nutzt. Die Privatsphäre deines Kindes bleibt geschützt.",
+          icon: "🏠", role: "Wenn dein Kind Hilfe braucht", headline: "Üben, wo du nicht helfen kannst.",
+          text: "Dein Kind hängt in einem Thema, und dir fehlt die Zeit oder das Fachwissen? Such eine App genau zu diesem Thema. Dein Kind kann sofort anfangen und so oft wiederkommen, wie es braucht: ohne Abo, ohne Werbung, ohne Konto. Niemand weiß, wer die App gerade nutzt. Die Privatsphäre deines Kindes bleibt geschützt.",
           cta: "Apps zum Üben", ctaHref: "/apps/",
         },
       ],
@@ -257,7 +257,7 @@ export default {
       {
         id: "eltern", icon: "🏠", role: "Wenn du ein Kind beim Lernen begleitest",
         headline: "Übt zusammen und sagt Danke.",
-        text: "Such eine App zum Thema der nächsten Arbeit. Hat sie geholfen? Ein Danke zeigt dem, der sie gebaut hat, dass sich seine Arbeit lohnt. Und teil den Link mit anderen Eltern, etwa in der Klassengruppe.",
+        text: "Such eine App zu dem Thema, bei dem dein Kind Hilfe braucht. Hat sie geholfen? Ein Danke zeigt dem, der sie gebaut hat, dass sich seine Arbeit lohnt. Und teil den Link mit anderen Eltern, etwa in der Klassengruppe.",
         cta: "Apps finden", ctaHref: "/apps/",
         ask: "Ich bin Elternteil und suche sichere Lern-Apps für mein Kind. Lies https://lernapps.net/llms.txt und die dort verlinkten Seiten. Erkläre mir in einfachen Worten, was lernapps.net ist, was die Plattform mir als Elternteil bietet und wie sie für Sicherheit sorgt. Wirf auch einen Blick in den Katalog: https://lernapps.net/apps/. Sei ehrlich über die Grenzen.",
       },

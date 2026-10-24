@@ -55,8 +55,8 @@ export default {
           cta: "Apps for class", ctaHref: "/apps/en/",
         },
         {
-          icon: "🏠", role: "If your child has a test tomorrow", headline: "Practise tonight.",
-          text: "Look for an app on the topic of the test. Your child can start right away: no subscription, no ads, no account. Nobody knows who is using the app. Your child's privacy stays protected.",
+          icon: "🏠", role: "If your child needs help", headline: "Practise where you cannot help.",
+          text: "Your child is stuck on a topic, and you lack the time or the subject knowledge? Look for an app on exactly that topic. Your child can start right away and come back as often as needed: no subscription, no ads, no account. Nobody knows who is using the app. Your child's privacy stays protected.",
           cta: "Apps to practise", ctaHref: "/apps/en/",
         },
       ],
@@ -257,7 +257,7 @@ export default {
       {
         id: "parents", icon: "🏠", role: "If you help a child learn",
         headline: "Practise together and say thanks.",
-        text: "Look for an app on the topic of the next test. Did it help? A thank-you shows the person who built it that their work is worth it. And share the link with other parents, for example in the class group.",
+        text: "Look for an app on the topic your child needs help with. Did it help? A thank-you shows the person who built it that their work is worth it. And share the link with other parents, for example in the class group.",
         cta: "Find apps", ctaHref: "/apps/en/",
         ask: "I am a parent and I am looking for safe learning apps for my child. Read https://lernapps.net/llms.txt and the pages it links to. Explain to me in plain words what lernapps.net is, what the platform offers me as a parent and how it keeps things safe. Also have a look at the catalogue: https://lernapps.net/apps/en/. Be honest about the limits.",
       },
