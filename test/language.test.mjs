@@ -57,3 +57,8 @@ test("a page whose text is in another language says so above the content, in the
   assert.doesNotMatch(header({ site: "/docs/", path: "/docs/en/", textLang: "en" }), /la-fallback/);
   assert.match(header({ site: "/", path: "/features/" }), /data-la-lang="en"/);
 });
+
+test("the practice site has a tree for every language: the switch stays on the site", () => {
+  assert.match(header({ site: "/practice/", path: "/practice/" }), /<a href="\/practice\/en\/"[^>]*data-la-lang="en"/);
+  assert.match(header({ site: "/practice/", path: "/practice/en/" }), /<a href="\/practice\/"[^>]*data-la-lang="de"/);
+});
