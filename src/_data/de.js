@@ -19,6 +19,18 @@ export default {
       primaryHref: "/apps/",
       secondary: "Selbst eine App bauen",
       secondaryHref: "#mitmachen",
+      // Ein kleiner Spaß am Rand: Das Video lädt erst nach dem Klick. Ohne JavaScript bleibt der Knopf weg.
+      cat: {
+        open: "Lernen ist langweilig, zeig mir Katzenvideos",
+        label: "Video: Kater Minka und das Mathebuch",
+        caption: "Videobeschreibung: Im Kinderzimmer sitzt ein Kater zwischen Spielzeug. Er öffnet mit der Pfote ein Mathebuch, schaut auf die Formeln und dann mit leerem Blick in die Kamera. Er zuckt mit den Schultern, klappt das Buch zu und geht zurück auf seinen Platz. Im Video ist nur Umgebungsgeräusch zu hören, es wird nicht gesprochen.",
+        fallback: "Video ansehen (MP4)",
+        endTitle: "Fühlst du dich wie Minka?",
+        endText: "Lernen muss nicht so sein. Hier findest du Apps, die wirklich etwas vermitteln.",
+        primary: "App finden",
+        primaryHref: "/apps/",
+        again: "Noch einmal ansehen",
+      },
     },
 
     showcase: {
