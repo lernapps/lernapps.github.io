@@ -1,27 +1,18 @@
 {#-
-  The cat video with its end card, shared by all placements (src/_data/cat.js). Nothing loads before the click
-  (preload none). With cat.js the native controls give way to a play button on the poster (when `catOverlay` is set);
-  without it the video has its native controls. At the end cat.js swaps the player for the end card.
+  The cat video with its end card, inside the dialog of the home page. It loads nothing before the click (preload
+  none; cat.js sets the poster when the dialog opens). The scene is described for assistive technology only (aria-describedby); without
+  JavaScript the dialog never opens, see the <noscript> in index.njk. At the end cat.js swaps the player for the end card.
   Texts: landing.hero.cat in src/_data/de.js, en.js.
 -#}
 {%- set C = l.t.landing.hero.cat %}
-<div data-cat-player class="text-left">
-  <figure class="m-0">
-    <div class="relative">
-      <video data-cat-video controls playsinline preload="none" poster="{{ '/media/katze-poster.jpg' | own }}" aria-label="{{ C.label }}" aria-describedby="cat-description" class="block w-full rounded-2xl border border-slate-700 bg-slate-950" style="aspect-ratio: 960 / 528;">
-        <source src="{{ '/media/katze.mp4' | own }}" type="video/mp4">
-        <a href="{{ '/media/katze.mp4' | own }}" class="text-blue-300 underline">{{ C.fallback }}</a>
-      </video>
-      {%- if catOverlay %}
-      <button type="button" hidden data-cat-play aria-label="{{ C.play }}" class="group absolute inset-0 flex items-center justify-center rounded-2xl border-0 bg-slate-950/30 hover:bg-slate-950/10 transition-colors cursor-pointer">
-        <span class="flex h-20 w-20 items-center justify-center rounded-full bg-blue-600 text-white text-3xl shadow-xl ring-4 ring-white/30 group-hover:bg-blue-500 transition-colors" aria-hidden="true">▶</span>
-      </button>
-      {%- endif %}
-    </div>
-    <figcaption id="cat-description" class="mt-3 text-sm text-slate-400 leading-relaxed">{{ C.caption }}</figcaption>
-  </figure>
+<div data-cat-player>
+  <video data-cat-video controls playsinline preload="none" data-poster="{{ '/media/katze-poster.jpg' | own }}" aria-label="{{ C.label }}" aria-describedby="cat-description" class="block w-full rounded-2xl border border-slate-700 bg-slate-950" style="aspect-ratio: 960 / 528;">
+    <source src="{{ '/media/katze.mp4' | own }}" type="video/mp4">
+    <a href="{{ '/media/katze.mp4' | own }}" class="text-blue-300 underline">{{ C.fallback }}</a>
+  </video>
+  <p id="cat-description" class="sr-only">{{ C.description }}</p>
 </div>
-<div hidden data-cat-end tabindex="-1" class="rounded-2xl border border-blue-500 bg-slate-800 p-6 sm:p-8 outline-none text-left">
+<div hidden data-cat-end tabindex="-1" class="rounded-2xl border border-blue-500 bg-slate-800 p-6 sm:p-8 outline-none">
   <p class="text-4xl mb-3" aria-hidden="true">🐱</p>
   <h2 class="font-extrabold tracking-tight text-white mb-3" style="font-size: clamp(1.5rem, 4vw, 2.25rem); line-height: 1.15;">{{ C.endTitle }}</h2>
   <p class="text-slate-300 leading-relaxed mb-6" style="font-size: 1.125rem;">{{ C.endText }}</p>
