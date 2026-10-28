@@ -49,10 +49,10 @@
     
     <section class="relative overflow-hidden">
       <div class="absolute inset-0 pointer-events-none" style="background-image: linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px); background-size: 48px 48px;" aria-hidden="true"></div>
-      <div class="relative max-w-4xl mx-auto px-6 py-24 sm:py-32 w-full">
-        <h1 class="font-extrabold leading-none tracking-tight text-white mb-6" style="font-size: clamp(2.25rem, 8vw, 4.5rem);">Lern-Apps ohne Haken.</h1>
-        <p class="text-slate-300 mb-8 max-w-2xl" style="font-size: clamp(1.125rem, 2.2vw, 1.375rem); line-height: 1.5;">Gemacht von Eltern und Lehrkräften, mit Leidenschaft. Kostenlos im Browser und sofort startklar.</p>
-        <ul class="flex flex-wrap gap-2 list-none p-0 m-0 mb-10">
+      <div class="relative max-w-4xl mx-auto px-6 py-6 sm:py-32 w-full flex flex-col">
+        <h1 class="font-extrabold leading-none tracking-tight text-white mb-4 sm:mb-6" style="font-size: clamp(2.25rem, 8vw, 4.5rem);">Lern-Apps ohne Haken.</h1>
+        <p class="text-slate-300 mb-6 sm:mb-8 max-w-2xl" style="font-size: clamp(1.125rem, 2.2vw, 1.375rem); line-height: 1.5;">Gemacht von Eltern und Lehrkräften, mit Leidenschaft. Kostenlos im Browser und sofort startklar.</p>
+        <ul class="order-last sm:order-none flex flex-wrap gap-2 list-none p-0 m-0 mt-8 sm:mt-0 sm:mb-10">
           <li class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-slate-800 text-slate-200 border border-slate-700"><span class="text-blue-400" aria-hidden="true">✓</span>Kein Konto</li>
           <li class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-slate-800 text-slate-200 border border-slate-700"><span class="text-blue-400" aria-hidden="true">✓</span>Keine Werbung</li>
           <li class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-slate-800 text-slate-200 border border-slate-700"><span class="text-blue-400" aria-hidden="true">✓</span>Kein Abo</li>
@@ -62,9 +62,37 @@
         <div class="flex flex-wrap gap-3">
           <a href="/apps/" class="inline-flex items-center gap-2 px-7 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors">App finden →</a>
           <a href="#mitmachen" class="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl border border-slate-600 text-white font-semibold hover:border-blue-400 hover:text-blue-200 transition-colors">Selbst eine App bauen</a>
+          <button type="button" hidden data-cat-open class="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl border border-dashed border-slate-500 text-slate-200 font-semibold hover:border-blue-400 hover:text-blue-200 transition-colors cursor-pointer bg-transparent"><span aria-hidden="true">🐱</span> Lernen ist langweilig, zeig mir Katzenvideos</button>
         </div>
+        <noscript>
+          <a href="/media/katze.mp4" class="mt-6 inline-block max-w-xs rounded-xl border border-dashed border-slate-500 p-2 text-sm text-slate-200 hover:border-blue-400">
+            <img src="/media/katze-poster.jpg" alt="Videobeschreibung: Im Kinderzimmer sitzt ein Kater zwischen Spielzeug. Er öffnet mit der Pfote ein Mathebuch, schaut auf die Formeln und dann mit leerem Blick in die Kamera. Er zuckt mit den Schultern, klappt das Buch zu und geht zurück auf seinen Platz. Im Video ist nur Umgebungsgeräusch zu hören, es wird nicht gesprochen." width="960" height="528" class="block w-full rounded-lg mb-2">
+            🐱 Lernen ist langweilig, zeig mir Katzenvideos
+          </a>
+        </noscript>
       </div>
     </section>
+
+    <dialog data-cat aria-label="Video: Kater Minka und das Mathebuch" class="m-auto w-[calc(100%-2rem)] max-w-3xl rounded-3xl border border-slate-700 bg-slate-900 p-4 sm:p-6 text-white backdrop:bg-slate-950/85">
+      <div class="flex justify-end mb-3"><button type="button" data-cat-close class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-600 text-slate-200 text-sm font-semibold hover:border-blue-400 hover:text-blue-200 cursor-pointer bg-transparent">Schließen <span aria-hidden="true">✕</span></button></div>
+<div data-cat-player>
+  <video data-cat-video controls playsinline preload="none" data-poster="/media/katze-poster.jpg" aria-label="Video: Kater Minka und das Mathebuch" aria-describedby="cat-description" class="block w-full rounded-2xl border border-slate-700 bg-slate-950" style="aspect-ratio: 960 / 528;">
+    <source src="/media/katze.mp4" type="video/mp4">
+    <a href="/media/katze.mp4" class="text-blue-300 underline">Video ansehen (MP4)</a>
+  </video>
+  <p id="cat-description" class="sr-only">Videobeschreibung: Im Kinderzimmer sitzt ein Kater zwischen Spielzeug. Er öffnet mit der Pfote ein Mathebuch, schaut auf die Formeln und dann mit leerem Blick in die Kamera. Er zuckt mit den Schultern, klappt das Buch zu und geht zurück auf seinen Platz. Im Video ist nur Umgebungsgeräusch zu hören, es wird nicht gesprochen.</p>
+</div>
+<div hidden data-cat-end tabindex="-1" class="rounded-2xl border border-blue-500 bg-slate-800 p-6 sm:p-8 outline-none">
+  <p class="text-4xl mb-3" aria-hidden="true">🐱</p>
+  <h2 class="font-extrabold tracking-tight text-white mb-3" style="font-size: clamp(1.5rem, 4vw, 2.25rem); line-height: 1.15;">Fühlst du dich wie Minka?</h2>
+  <p class="text-slate-300 leading-relaxed mb-6" style="font-size: 1.125rem;">Lernen muss nicht so sein. Hier findest du Apps, die wirklich etwas vermitteln.</p>
+  <div class="flex flex-wrap gap-3">
+    <a href="/apps/" class="inline-flex items-center gap-2 px-7 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors">App finden →</a>
+    <button type="button" data-cat-again class="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl border border-slate-600 text-slate-200 font-semibold hover:border-blue-400 hover:text-blue-200 transition-colors cursor-pointer bg-transparent">Noch einmal ansehen</button>
+  </div>
+</div>
+
+    </dialog>
 
     
     <section id="beispiele" class="bg-white py-16 sm:py-20" aria-labelledby="showcase-heading">
@@ -277,5 +305,6 @@
   </div>
 </footer>
   </div>
+  <script src="/cat.js" defer></script>
 </body>
 </html>
