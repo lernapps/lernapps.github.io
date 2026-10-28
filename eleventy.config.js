@@ -11,6 +11,8 @@ export default function (eleventyConfig) {
     "src/.nojekyll",
     "src/llms.txt",
     "src/join.js", // copy buttons of the prompts on /join/
+    "src/cat.js", // the cat video in the hero of the home page
+    "src/media", // video and poster of the cat
     "src/favicon.svg",
     "src/favicon.ico",
     "src/apple-touch-icon.png",
