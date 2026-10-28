@@ -39,6 +39,7 @@ export default {
 
     forYou: {
       heading: "What you get",
+      intro: "Two ways for your child. Learning takes time: that is what the catalogue is for. Before a test, what counts is the material from the exercise book: for that, your AI assistant makes an app to practise, made to measure.",
       privacy: {
         title: "For us, privacy is a feature",
         text: "No account, no cookies, no tracking. What someone types stays on their device. What lernapps.net stores and what it doesn't is set out in the privacy notice. You can pass it on to your head teacher or data protection officer.",
@@ -55,9 +56,14 @@ export default {
           cta: "Apps for class", ctaHref: "/apps/en/",
         },
         {
-          icon: "🏠", role: "If your child needs help", headline: "Practise where you cannot help.",
-          text: "Your child is stuck on a topic, and you lack the time or the subject knowledge? Look for an app on exactly that topic. Your child can start right away and come back as often as needed: no subscription, no ads, no account. Nobody knows who is using the app. Your child's privacy stays protected.",
-          cta: "Apps to practise", ctaHref: "/apps/en/",
+          icon: "🧭", role: "If your child wants to learn a topic", headline: "Learn, at their own pace.",
+          text: "Your child is stuck on a topic, and you lack the time or the subject knowledge? In the catalogue it finds apps that explain a topic step by step, with exercises and feedback. Built by parents and teachers, there to stay.\n\nYour child can come back as often as needed: no subscription, no ads, no account.",
+          cta: "Apps to learn", ctaHref: "/apps/en/",
+        },
+        {
+          icon: "📝", role: "If a test is coming up", headline: "Practise, exactly for the next test.",
+          text: "The test is next week, and the catalogue has nothing on exactly this material? Give your AI assistant photos of the worksheets. In a few minutes they become an app that explains and checks exactly this material.\n\nYou need no subject knowledge: you say what for, and look at the result. The app is online for two weeks, and your child needs no account.",
+          cta: "To practise", ctaHref: "/practice/en/",
         },
       ],
     },

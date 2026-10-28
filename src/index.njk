@@ -86,8 +86,9 @@ permalink: "{{ l.root }}index.html"
     {%- set F = L.forYou %}
     <section id="fuer-dich" class="bg-slate-50 py-16 sm:py-20" aria-labelledby="foryou-heading">
       <div class="max-w-5xl mx-auto px-6">
-        <h2 id="foryou-heading" class="font-extrabold tracking-tight text-slate-900 mb-10" style="font-size: clamp(1.75rem, 4.5vw, 2.5rem); line-height: 1.15;">{{ F.heading }}</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <h2 id="foryou-heading" class="font-extrabold tracking-tight text-slate-900 mb-3" style="font-size: clamp(1.75rem, 4.5vw, 2.5rem); line-height: 1.15;">{{ F.heading }}</h2>
+        <p class="text-slate-600 leading-relaxed max-w-2xl mb-10" style="font-size: 1.0625rem;">{{ F.intro }}</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {%- for s in F.items %}
           <div class="bg-white rounded-2xl border border-slate-200 p-8">
             <div class="flex items-center gap-4 mb-5">

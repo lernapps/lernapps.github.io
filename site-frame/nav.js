@@ -35,7 +35,10 @@ export const nav = {
     homeLabel: "lernapps.net – home page",
   },
   links: [
-    { label: { de: "Apps finden", en: "Find apps" }, href: "/apps/" },
+    // Two ways for learners: learn a topic with an app of the catalog, or practise for an occasion with an app made
+    // to measure (lernapps practice).
+    { label: { de: "Lernen", en: "Learn" }, href: "/apps/" },
+    { label: { de: "Üben", en: "Practise" }, href: "/practice/" },
     // Listing is a section of "App bauen" (/apps/build/#eintragen); /apps/enter/ stays, linked from there.
     { label: { de: "App bauen", en: "Build an app" }, href: "/apps/build/" },
     { label: { de: "Tooling", en: "Tooling" }, href: "/tooling/" },

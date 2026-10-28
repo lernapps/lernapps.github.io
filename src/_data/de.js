@@ -39,6 +39,7 @@ export default {
 
     forYou: {
       heading: "Was du davon hast",
+      intro: "Zwei Wege für dein Kind. Lernen braucht Zeit: Dafür gibt es den Katalog. Vor einer Arbeit zählt der Stoff aus dem Heft: Dafür macht dein KI-Assistent eine App zum Üben nach Maß.",
       privacy: {
         title: "Datenschutz ist bei uns ein Feature",
         text: "Kein Konto, keine Cookies, kein Tracking. Was eingegeben wird, bleibt auf dem Gerät. Was lernapps.net genau speichert und was nicht, steht in der Datenschutzerklärung. Du kannst sie an deine Schulleitung oder die Datenschutzbeauftragten weitergeben.",
@@ -50,14 +51,19 @@ export default {
       nextHref: "/apps/",
       items: [
         {
-          icon: "📚", role: "Wenn du unterrichtest", headline: "Vertretungsstunde in der 7b?",
+          icon: "📚", role: "Wenn du unterrichtest", headline: "Vertretungs\u00ADstunde in der 7b?",
           text: "Du übernimmst kurzfristig eine Klasse, vielleicht nicht einmal in deinem Fach. Such nach Fach und Klasse, teile einen Link oder zeig den QR-Code. Die Klasse arbeitet sinnvoll am Thema, und die App gibt jedem Kind Rückmeldung.\n\nNiemand braucht ein Konto, und es werden keinerlei Daten deiner Schülerinnen und Schüler gesammelt.",
           cta: "Apps für den Unterricht", ctaHref: "/apps/",
         },
         {
-          icon: "🏠", role: "Wenn dein Kind Hilfe braucht", headline: "Üben, wo du nicht helfen kannst.",
-          text: "Dein Kind hängt in einem Thema, und dir fehlt die Zeit oder das Fachwissen? Such eine App genau zu diesem Thema. Dein Kind kann sofort anfangen und so oft wiederkommen, wie es braucht: ohne Abo, ohne Werbung, ohne Konto. Niemand weiß, wer die App gerade nutzt. Die Privatsphäre deines Kindes bleibt geschützt.",
-          cta: "Apps zum Üben", ctaHref: "/apps/",
+          icon: "🧭", role: "Wenn dein Kind ein Thema lernen will", headline: "Lernen, im eigenen Tempo.",
+          text: "Dein Kind hängt in einem Thema, und dir fehlt die Zeit oder das Fachwissen? Im Katalog findet es Apps, die ein Thema Schritt für Schritt erklären, mit Übungen und Rückmeldung. Gebaut von Eltern und Lehrkräften, dauerhaft erreichbar.\n\nDein Kind kann so oft wiederkommen, wie es braucht: ohne Abo, ohne Werbung, ohne Konto.",
+          cta: "Apps zum Lernen", ctaHref: "/apps/",
+        },
+        {
+          icon: "📝", role: "Wenn eine Arbeit ansteht", headline: "Üben, genau für die nächste Arbeit.",
+          text: "Nächste Woche ist die Arbeit, und im Katalog gibt es nichts zu genau diesem Stoff? Gib deinem KI-Assistenten Fotos der Arbeitsblätter. In wenigen Minuten wird daraus eine App, die genau diesen Stoff erklärt und abfragt.\n\nDu brauchst kein Fachwissen: Du sagst, wofür, und schaust dir das Ergebnis an. Die App ist zwei Wochen erreichbar, dein Kind braucht kein Konto.",
+          cta: "Zum Üben", ctaHref: "/practice/",
         },
       ],
     },
