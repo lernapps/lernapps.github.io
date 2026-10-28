@@ -38,43 +38,64 @@ permalink: "{{ l.root }}index.html"
   <main id="main-content" tabindex="-1" class="outline-none">
 
     {# ══════ 1 HERO — the promise ══════ #}
+    {#- The cat video (draft, four placements, see src/_data/cat.js): a button under the hero, a dialog, an own section, or beside the headline. #}
     {%- set H = L.hero %}
+    {%- set V = cat.variant %}
     <section class="relative overflow-hidden">
       <div class="absolute inset-0 pointer-events-none" style="background-image: linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px); background-size: 48px 48px;" aria-hidden="true"></div>
-      <div class="relative max-w-4xl mx-auto px-6 py-24 sm:py-32 w-full">
-        <h1 class="font-extrabold leading-none tracking-tight text-white mb-6" style="font-size: clamp(2.25rem, 8vw, 4.5rem);">{{ H.headline }}</h1>
-        <p class="text-slate-300 mb-8 max-w-2xl" style="font-size: clamp(1.125rem, 2.2vw, 1.375rem); line-height: 1.5;">{{ H.subtitle }}</p>
-        <ul class="flex flex-wrap gap-2 list-none p-0 m-0 mb-10">
-          {%- for b in H.badges %}
-          <li class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-slate-800 text-slate-200 border border-slate-700"><span class="text-blue-400" aria-hidden="true">✓</span>{{ b }}</li>
-          {%- endfor %}
-        </ul>
-        <div class="flex flex-wrap gap-3">
-          <a href="{{ H.primaryHref | own }}" class="inline-flex items-center gap-2 px-7 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors">{{ H.primary }} →</a>
-          <a href="{{ H.secondaryHref }}" class="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl border border-slate-600 text-white font-semibold hover:border-blue-400 hover:text-blue-200 transition-colors">{{ H.secondary }}</a>
-          <button type="button" hidden data-cat-open aria-controls="cat" aria-expanded="false" class="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl border border-slate-600 text-slate-200 font-semibold hover:border-blue-400 hover:text-blue-200 transition-colors cursor-pointer bg-transparent">🐱 {{ H.cat.open }}</button>
-        </div>
-        {#- Cat video: shown by cat.js after a click, plays once, then points to the catalog. Nothing loads before the click. #}
-        {%- set C = H.cat %}
-        <div id="cat" hidden data-cat class="mt-10 max-w-3xl">
-          <figure data-cat-player class="m-0">
-            <video data-cat-video controls playsinline preload="none" poster="{{ '/media/katze-poster.jpg' | own }}" aria-label="{{ C.label }}" aria-describedby="cat-description" class="block w-full rounded-2xl border border-slate-700 bg-slate-950" style="aspect-ratio: 960 / 528;">
-              <source src="{{ '/media/katze.mp4' | own }}" type="video/mp4">
-              <a href="{{ '/media/katze.mp4' | own }}" class="text-blue-300 underline">{{ C.fallback }}</a>
-            </video>
-            <figcaption id="cat-description" class="mt-3 text-sm text-slate-400 leading-relaxed">{{ C.caption }}</figcaption>
-          </figure>
-          <div hidden data-cat-end tabindex="-1" class="rounded-2xl border border-blue-500 bg-slate-800 p-6 sm:p-10 outline-none">
-            <h2 class="font-extrabold tracking-tight text-white mb-3" style="font-size: clamp(1.5rem, 4.5vw, 2.25rem); line-height: 1.15;">{{ C.endTitle }}</h2>
-            <p class="text-slate-300 leading-relaxed mb-6" style="font-size: 1.125rem;">{{ C.endText }}</p>
-            <div class="flex flex-wrap gap-3">
-              <a href="{{ C.primaryHref | own }}" class="inline-flex items-center gap-2 px-7 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors">{{ C.primary }} →</a>
-              <button type="button" data-cat-again class="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl border border-slate-600 text-slate-200 font-semibold hover:border-blue-400 hover:text-blue-200 transition-colors cursor-pointer bg-transparent">{{ C.again }}</button>
-            </div>
+      <div class="relative {{ 'max-w-6xl lg:grid lg:grid-cols-2 lg:gap-14 lg:items-center' if V == 'd' else 'max-w-4xl' }} mx-auto px-6 py-24 sm:py-32 w-full">
+        <div>
+          <h1 class="font-extrabold leading-none tracking-tight text-white mb-6" style="font-size: clamp(2.25rem, 8vw, 4.5rem);">{{ H.headline }}</h1>
+          <p class="text-slate-300 mb-8 max-w-2xl" style="font-size: clamp(1.125rem, 2.2vw, 1.375rem); line-height: 1.5;">{{ H.subtitle }}</p>
+          <ul class="flex flex-wrap gap-2 list-none p-0 m-0 mb-10">
+            {%- for b in H.badges %}
+            <li class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-slate-800 text-slate-200 border border-slate-700"><span class="text-blue-400" aria-hidden="true">✓</span>{{ b }}</li>
+            {%- endfor %}
+          </ul>
+          <div class="flex flex-wrap gap-3">
+            <a href="{{ H.primaryHref | own }}" class="inline-flex items-center gap-2 px-7 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors">{{ H.primary }} →</a>
+            <a href="{{ H.secondaryHref }}" class="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl border border-slate-600 text-white font-semibold hover:border-blue-400 hover:text-blue-200 transition-colors">{{ H.secondary }}</a>
+            {%- if V == 'a' or V == 'b' %}
+            <button type="button" hidden data-cat-open class="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl border border-dashed border-slate-500 text-slate-200 font-semibold hover:border-blue-400 hover:text-blue-200 transition-colors cursor-pointer bg-transparent"><span aria-hidden="true">🐱</span> {{ H.cat.open }}</button>
+            {%- endif %}
           </div>
+          {%- if V == 'a' %}
+          <div hidden data-cat class="mt-10 max-w-3xl">
+            {%- include "cat-player.njk" %}
+          </div>
+          {%- endif %}
+        </div>
+        {%- if V == 'd' %}
+        {%- set catOverlay = true %}
+        <div data-cat class="mt-12 lg:mt-0">
+          <p class="text-sm font-semibold text-blue-300 uppercase tracking-wider mb-3">{{ H.cat.teaserTitle }}</p>
+          {%- include "cat-player.njk" %}
+        </div>
+        {%- endif %}
+      </div>
+    </section>
+
+    {%- if V == 'b' %}
+    <dialog data-cat aria-label="{{ H.cat.label }}" class="m-auto w-[calc(100%-2rem)] max-w-3xl rounded-3xl border border-slate-700 bg-slate-900 p-4 sm:p-6 text-white backdrop:bg-slate-950/85">
+      <div class="flex justify-end mb-3"><button type="button" data-cat-close class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-600 text-slate-200 text-sm font-semibold hover:border-blue-400 hover:text-blue-200 cursor-pointer bg-transparent">{{ H.cat.close }} <span aria-hidden="true">✕</span></button></div>
+      {%- include "cat-player.njk" %}
+    </dialog>
+    {%- endif %}
+
+    {%- if V == 'c' %}
+    {%- set catOverlay = true %}
+    <section class="bg-slate-800 border-t border-slate-700 py-16 sm:py-20" aria-labelledby="cat-heading">
+      <div data-cat class="max-w-5xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12 items-center">
+        <div class="lg:col-span-2">
+          <h2 id="cat-heading" class="font-extrabold tracking-tight text-white mb-4" style="font-size: clamp(1.75rem, 4.5vw, 2.5rem); line-height: 1.15;">{{ H.cat.teaserTitle }}</h2>
+          <p class="text-slate-300 leading-relaxed" style="font-size: 1.125rem;">{{ H.cat.teaserText }}</p>
+        </div>
+        <div class="lg:col-span-3">
+          {%- include "cat-player.njk" %}
         </div>
       </div>
     </section>
+    {%- endif %}
 
     {# ══════ 2 SHOWCASE — real apps, real makers ══════ #}
     {%- set S = L.showcase %}
