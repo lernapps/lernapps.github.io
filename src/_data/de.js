@@ -23,7 +23,7 @@ export default {
       cat: {
         open: "Lieber Katzenvideos",
         label: "Video: Kater Minka und das Mathebuch",
-        description: "Videobeschreibung: Im Kinderzimmer sitzt ein Kater zwischen Spielzeug. Er öffnet mit der Pfote ein Mathebuch, schaut auf die Formeln und dann mit leerem Blick in die Kamera. Er zuckt mit den Schultern, klappt das Buch zu und geht zurück auf seinen Platz. Im Video ist nur Umgebungsgeräusch zu hören, es wird nicht gesprochen.",
+        description: "Videobeschreibung: Das Video ist mit KI erzeugt. Im Kinderzimmer sitzt ein Kater zwischen Spielzeug. Er öffnet mit der Pfote ein Mathebuch, schaut auf die Formeln und dann mit leerem Blick in die Kamera. Er zuckt mit den Schultern, klappt das Buch zu und geht zurück auf seinen Platz. Im Video ist nur Umgebungsgeräusch zu hören, es wird nicht gesprochen.",
         fallback: "Video ansehen (MP4)",
         endTitle: "Fühlst du dich wie Minka?",
         endText: "Lernen muss nicht so sein. Hier findest du Apps, die wirklich etwas vermitteln.",
