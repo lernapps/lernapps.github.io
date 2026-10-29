@@ -16,7 +16,6 @@ const dark = `
   :is(.bg-white, .bg-slate-50) .border-blue-200 { border-color: #1e3a8a; }
   :is(.bg-white, .bg-slate-50) .border-slate-200 { border-color: #2a3a52; }
   :is(.bg-white, .bg-slate-50) .border-slate-300 { border-color: #3b4a61; }
-  :is(.bg-white, .bg-slate-50) .border-slate-400 { border-color: #64748b; }
   :is(.bg-white, .bg-slate-50) .text-slate-900 { color: #f1f5f9; }
   :is(.bg-white, .bg-slate-50) .text-slate-800 { color: #e2e8f0; }
   :is(.bg-white, .bg-slate-50) .text-slate-700 { color: #cbd5e1; }

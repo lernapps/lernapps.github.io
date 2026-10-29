@@ -134,6 +134,7 @@ Ergebnis Code (2026-10-29): Seite von 6492 auf 3960 px Höhe (Desktop). Geprüft
 - [x] Kontrastscan (Playwright, alle 15 Seiten, hell und dunkel, 1440 px): 0 Fehler (WCAG 2.1 AA: 4,5:1, großer Text 3:1). Ein erster Lauf fand 12 Fehler auf 404, Datenschutz und Impressum, weil die Fläche nur an `section` und `div` hing; jetzt an jedem Element außer Link und Knopf.
 - [x] Test: die dunklen Bilder liegen im Build; Struktur de/en gleich (jetzt auch `<source>`).
 - [x] Marker natürlicher (Nutzer): Strich mit schrägen, weichen Enden, ungleichen Ecken, zweitem Strich und feinem Korn (SVG als Data-URI, keine Anfrage), 82 % der Zeilenhöhe; im Dunkelmodus ein weicheres Gelb (`#facc15`). Das Browser-Gelb von `<mark>` wird mit `background-color: transparent` abgestellt. Kontrastscan weiter 0 Fehler; ohne Bewegung fertig, mit Bewegung startet er bei 0.
+- [x] Rahmen der Bedienelemente auf mindestens 3:1 (WCAG 1.4.11): Vorschauen hell `#7c8ba1` (3,5:1 auf Weiß), dunkel `#5d6d87` (3,6:1 auf `#0b1220`); die umrandeten Knöpfe („Mehr im App-Katalog“, „Eine App bauen“) von `border-slate-400` auf `border-slate-500` (4,8:1 hell, 3,9:1 dunkel). Die ersten Vorschlagswerte (`#94a3b8`, `#475569`) erreichten nur 2,5:1; die Werte stehen jetzt gerechnet im Plan.
 - Folgeaufgabe: Dunkelmodus für `site-frame/tokens.css` und `frame.css`, zusammen mit der Navigation, damit Doku und Apps nachziehen.
 
 ## Commit

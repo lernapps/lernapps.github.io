@@ -174,7 +174,7 @@
   gap: 12px;
   min-width: 210px;
   padding: 8px;
-  border: 2px solid #e2e8f0;
+  border: 2px solid #7c8ba1; /* 3:1 on white: the thumbnails are controls */
   border-radius: 14px;
   background: #fff;
   cursor: pointer;
@@ -242,7 +242,7 @@
   .gal-phone { border-color: #334155; background: #0b1220; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6); }
   .gal-cap { color: #b8c4d6; }
   .gal-eg { color: #a3b1c6; }
-  .gal-thumbs label { border-color: #2a3a52; background: #111a2e; }
+  .gal-thumbs label { border-color: #5d6d87; background: #111a2e; }
   .gal-thumbs label:hover { border-color: #3b82f6; }
   .gal-thumbs img { border-color: #2a3a52; }
   .gal-thumbs span { color: #f1f5f9; }

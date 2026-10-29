@@ -105,7 +105,7 @@ permalink: "{{ l.root }}index.html"
               <label for="gal-{{ loop.index0 }}"><picture>{% if a.dark %}<source media="(prefers-color-scheme: dark)" srcset="{{ ('/media/apps/' + a.id + '-desktop-dark.webp') | own }}">{% endif %}<img src="{{ ('/media/apps/' + a.id + '-desktop.webp') | own }}" alt="" width="1280" height="800"></picture><span>{{ a.title }}<small>{{ a.field }}</small></span></label>
               {%- endfor %}
             </div>
-            <a href="{{ G.moreHref | own }}" class="mt-5 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-slate-400 text-slate-900 font-semibold hover:border-blue-500 hover:text-blue-700 transition-colors">{{ G.more }} →</a>
+            <a href="{{ G.moreHref | own }}" class="mt-5 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-slate-500 text-slate-900 font-semibold hover:border-blue-500 hover:text-blue-700 transition-colors">{{ G.more }} →</a>
           </div>
         </div>
       </div>
@@ -152,7 +152,7 @@ permalink: "{{ l.root }}index.html"
         </dl>
         <p class="text-slate-700 leading-relaxed mb-6">{{ M.note }}</p>
         <div class="flex flex-wrap items-center gap-x-6 gap-y-3">
-          <a href="{{ M.ctaHref | own }}" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-slate-400 text-slate-900 font-semibold hover:border-blue-500 hover:text-blue-700 transition-colors">{{ M.cta }} →</a>
+          <a href="{{ M.ctaHref | own }}" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-slate-500 text-slate-900 font-semibold hover:border-blue-500 hover:text-blue-700 transition-colors">{{ M.cta }} →</a>
           <a href="{{ M.linkHref | own }}" class="font-semibold text-blue-700 underline underline-offset-2 hover:text-blue-800">{{ M.link }} →</a>
         </div>
       </div>
