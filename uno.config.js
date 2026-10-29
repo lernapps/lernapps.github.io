@@ -12,6 +12,7 @@ const dark = `
   .bg-white:not(a, button) { background-color: #0b1220; }
   .bg-slate-50:not(a, button) { background-color: #111a2e; }
   .bg-slate-50 .bg-white:not(a, button) { background-color: #17233b; }
+  :is(.bg-white, .bg-slate-50) img.avatar { filter: brightness(0.78) contrast(1.08); } /* a photo is dimmed, not inverted */
   :is(.bg-white, .bg-slate-50) .bg-blue-50 { background-color: #172554; }
   :is(.bg-white, .bg-slate-50) .border-blue-200 { border-color: #1e3a8a; }
   :is(.bg-white, .bg-slate-50) .border-slate-200 { border-color: #2a3a52; }
