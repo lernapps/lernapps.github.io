@@ -91,8 +91,8 @@ permalink: "{{ l.root }}index.html"
             {%- for a in G.apps %}
             <div class="gal-panel">
               <div class="gal-frame">
-                <div class="gal-win"><div class="gal-bar" aria-hidden="true"><i></i><i></i><i></i></div><img src="{{ ('/media/apps/' + a.id + '-desktop.webp') | own }}" alt="{{ a.altDesktop }}" width="1280" height="800" loading="lazy"></div>
-                <div class="gal-phone"><img src="{{ ('/media/apps/' + a.id + '-phone.webp') | own }}" alt="{{ a.altPhone }}" width="780" height="1560" loading="lazy"></div>
+                <div class="gal-win"><div class="gal-bar" aria-hidden="true"><i></i><i></i><i></i></div><picture>{% if a.dark %}<source media="(prefers-color-scheme: dark)" srcset="{{ ('/media/apps/' + a.id + '-desktop-dark.webp') | own }}">{% endif %}<img src="{{ ('/media/apps/' + a.id + '-desktop.webp') | own }}" alt="{{ a.altDesktop }}" width="1280" height="800" loading="lazy"></picture></div>
+                <div class="gal-phone"><picture>{% if a.dark %}<source media="(prefers-color-scheme: dark)" srcset="{{ ('/media/apps/' + a.id + '-phone-dark.webp') | own }}">{% endif %}<img src="{{ ('/media/apps/' + a.id + '-phone.webp') | own }}" alt="{{ a.altPhone }}" width="780" height="1560" loading="lazy"></picture></div>
               </div>
               <p class="gal-cap"><a href="{{ a.href | own }}" class="font-bold text-slate-900 underline underline-offset-2 hover:text-blue-700">{{ a.title }}</a> · {{ a.line }}</p>
             </div>
@@ -102,7 +102,7 @@ permalink: "{{ l.root }}index.html"
             <p class="gal-eg">{{ G.label }}</p>
             <div class="gal-thumbs">
               {%- for a in G.apps %}
-              <label for="gal-{{ loop.index0 }}"><img src="{{ ('/media/apps/' + a.id + '-desktop.webp') | own }}" alt="" width="1280" height="800"><span>{{ a.title }}<small>{{ a.field }}</small></span></label>
+              <label for="gal-{{ loop.index0 }}"><picture>{% if a.dark %}<source media="(prefers-color-scheme: dark)" srcset="{{ ('/media/apps/' + a.id + '-desktop-dark.webp') | own }}">{% endif %}<img src="{{ ('/media/apps/' + a.id + '-desktop.webp') | own }}" alt="" width="1280" height="800"></picture><span>{{ a.title }}<small>{{ a.field }}</small></span></label>
               {%- endfor %}
             </div>
             <a href="{{ G.moreHref | own }}" class="mt-5 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-slate-400 text-slate-900 font-semibold hover:border-blue-500 hover:text-blue-700 transition-colors">{{ G.more }} →</a>

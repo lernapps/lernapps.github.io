@@ -21,6 +21,13 @@ Basis: Branch `claude/test-workflows-ki-abschnitt-2` (PR #88), weil die Startsei
 - Verspielt, aber nicht lächerlich: Textmarker auf besonders wichtigen Begriffen (Nutzer). Er erscheint beim Hineinscrollen, aber nur, wenn Bewegung erlaubt ist. Umsetzung ohne JavaScript: Der Marker ist standardmäßig fertig sichtbar. Nur unter `@media (prefers-reduced-motion: no-preference)` und `@supports (animation-timeline: view())` läuft er als scrollgesteuerte Animation (`background-size` von 0 auf 100 %, `animation-range: entry 10% cover 30%`). Browser ohne die Funktion und Nutzer mit „Bewegung reduzieren“ sehen den Marker also sofort und vollständig. Der Marker nutzt eine helle Farbe, die Textkontrast bleibt nach WCAG 2.1 AA (dunkler Text auf Gelb). Pro Abschnitt höchstens ein Begriff.
 - Rotstift-Haken im Hero und Heftkaro hinter der Galerie: bestätigt (Nutzer, 2026-10-29). Bewegte Effekte wie das Hineingleiten des Handys oder die Aufgabe im Hero: nicht aufgenommen.
 
+- Dunkelmodus jetzt, in diesem PR (Nutzer, 2026-10-29): Die Apps der Screenshots (außer Kniffel, das schon dunkelgrün ist) haben einen Dunkelmodus aus den Vorlagen (Erklär-App, Quiz). Umsetzung nur für die Seiten dieses Repositories, ohne Schalter und ohne JavaScript, per `prefers-color-scheme: dark`:
+  - Die hellen Abschnitte bekommen dunkle Werte über eine Überschreibung der verwendeten Tailwind-Klassen (`bg-white`, `bg-slate-50`, `text-slate-*`, `border-slate-*`, `text-blue-*`, …), ausgeliefert als Preflight in `uno.config.js`, damit alle Seiten sie erhalten. Dunkle Abschnitte (Hero, Regeln, Schluss) bleiben, wie sie sind.
+  - `color-scheme: light dark` auf `:root`.
+  - Galerie: `home.css` bekommt dunkle Werte (Bühne, Vorschauen), die Screenshots wechseln über `<picture>` mit `prefers-color-scheme: dark` zu dunklen Aufnahmen (Mathe-Karte, Textcheck, Naturwunder-Quiz); Kniffel bleibt.
+  - Nicht angefasst: `site-frame/tokens.css` und `frame.css`. Sie gelten für alle Sites (Doku, Apps) und bekommen einen Dunkelmodus erst zusammen mit der Navigation. Header und Footer sind schon dunkel.
+  - Prüfen: Playwright mit `colorScheme: 'dark'`, Kontrast aller Text-Flächen-Paare auf allen Seiten dieses Repositories (de und en, 1440 und 360 px).
+
 ## Notes
 Befund Explore (Desktop 1440 px, 9 Abschnitte, Seite ca. 6500 px hoch):
 
@@ -120,6 +127,13 @@ Gestrichen insgesamt: Fußnoten („früh“, „lasting“, „honest“), Roll
 
 
 Ergebnis Code (2026-10-29): Seite von 6492 auf 3960 px Höhe (Desktop). Geprüft mit Playwright in de und en, bei 1440 und 360 px, mit und ohne JavaScript: kein waagerechter Überlauf, keine kaputten Bilder, keine Konsolenfehler; Pfeiltasten wechseln die App (Fokus sichtbar); `prefers-reduced-motion: reduce` zeigt den Marker sofort vollständig, `no-preference` startet ihn bei 0 % und lässt ihn einlaufen. `npm run build`, `npm run check` und `npm test` (21 Tests, davon 11 neu in `test/home.test.mjs`) grün. Die Anker `#mitmachen`/`#get-involved` bleiben erhalten; die übrigen Anker der Startseite werden von keiner anderen Seite verlinkt.
+
+### Dunkelmodus (2026-10-29)
+- [x] Sechs dunkle Screenshots (Mathe-Karte, Textcheck, Naturwunder-Quiz; Desktop und Handy, 332 KB) nach `src/media/apps/*-dark.webp`, `<picture>` mit `prefers-color-scheme: dark`; Kniffel bleibt.
+- [x] Überschreibung der hellen Abschnitte als Preflight in `uno.config.js`, nur für Nachfahren von `.bg-white` und `.bg-slate-50`; `color-scheme: light dark`; dunkle Galerie in `home.css`.
+- [x] Kontrastscan (Playwright, alle 15 Seiten, hell und dunkel, 1440 px): 0 Fehler (WCAG 2.1 AA: 4,5:1, großer Text 3:1). Ein erster Lauf fand 12 Fehler auf 404, Datenschutz und Impressum, weil die Fläche nur an `section` und `div` hing; jetzt an jedem Element außer Link und Knopf.
+- [x] Test: die dunklen Bilder liegen im Build; Struktur de/en gleich (jetzt auch `<source>`).
+- Folgeaufgabe: Dunkelmodus für `site-frame/tokens.css` und `frame.css`, zusammen mit der Navigation, damit Doku und Apps nachziehen.
 
 ## Commit
 ### Tasks

@@ -34,6 +34,12 @@ for (const lang of Object.keys(pages)) {
     }
   });
 
+  test(`home (${lang}): the dark screenshots exist`, { skip }, () => {
+    const sources = [...html(lang).matchAll(/<source [^>]*srcset="([^"]+)"/g)].map((m) => m[1]);
+    assert.ok(sources.length > 0);
+    for (const src of sources) assert.ok(existsSync(`_site${src}`), `${src} is missing`);
+  });
+
   test(`home (${lang}): nothing is loaded from another address`, { skip }, () => {
     const s = html(lang);
     assert.equal(count(s, /\s(?:src|srcset|poster)="https?:/g), 0);
@@ -53,7 +59,7 @@ for (const lang of Object.keys(pages)) {
 test("home: both languages have the same structure", { skip }, () => {
   const de = html("de");
   const en = html("en");
-  for (const re of [/<section /g, /<h2 /g, /<img /g, /<li[ >]/g, /<a /g, /class="mark"/g, /class="tick"/g]) {
+  for (const re of [/<section /g, /<h2 /g, /<img /g, /<source /g, /<li[ >]/g, /<a /g, /class="mark"/g, /class="tick"/g]) {
     assert.equal(count(de, re), count(en, re), String(re));
   }
 });

@@ -41,10 +41,10 @@ export default {
       more: "Mehr im App-Katalog",
       moreHref: "/apps/",
       apps: [
-        { id: "mathe-karte", title: "Mathe-Karte", field: "Mathematik", line: "Mathe Schritt für Schritt erklärt, mit Bild und Aufgaben.", href: "/apps/mathe-karte/", altDesktop: "Mathe-Karte am Computer: Aufgabe zum Prozentsatz mit Rechnung und Balkenbild", altPhone: "Mathe-Karte am Handy: Rechnung und Balkenbild" },
+        { id: "mathe-karte", dark: true, title: "Mathe-Karte", field: "Mathematik", line: "Mathe Schritt für Schritt erklärt, mit Bild und Aufgaben.", href: "/apps/mathe-karte/", altDesktop: "Mathe-Karte am Computer: Aufgabe zum Prozentsatz mit Rechnung und Balkenbild", altPhone: "Mathe-Karte am Handy: Rechnung und Balkenbild" },
         { id: "kniffel-trainer", title: "Kniffel-Trainer", field: "Mathematik", line: "Wahrscheinlichkeit spielerisch verstehen beim Kniffeln.", href: "/apps/kniffel-trainer/", altDesktop: "Kniffel-Trainer am Computer: Würfel und Kniffelblock im Erklärmodus", altPhone: "Kniffel-Trainer am Handy: Würfel und Kniffelblock" },
-        { id: "textcheck", title: "Textcheck", field: "Deutsch", line: "Aufmerksam lesen: Fehler im Text finden.", href: "/apps/textcheck/", altDesktop: "Textcheck am Computer: Text über Pyramiden mit einem markierten Wort", altPhone: "Textcheck am Handy: Text über Pyramiden mit einem markierten Wort" },
-        { id: "naturwunder-quiz", title: "Naturwunder-Quiz", field: "Erdkunde", line: "Erdkunde-Quiz mit einer Erklärung zu jeder Antwort.", href: "/apps/naturwunder-quiz/", altDesktop: "Naturwunder-Quiz am Computer: Frage zur Höhe des Mount Everest mit Foto", altPhone: "Naturwunder-Quiz am Handy: Frage zur Höhe des Mount Everest mit Foto" },
+        { id: "textcheck", dark: true, title: "Textcheck", field: "Deutsch", line: "Aufmerksam lesen: Fehler im Text finden.", href: "/apps/textcheck/", altDesktop: "Textcheck am Computer: Text über Pyramiden mit einem markierten Wort", altPhone: "Textcheck am Handy: Text über Pyramiden mit einem markierten Wort" },
+        { id: "naturwunder-quiz", dark: true, title: "Naturwunder-Quiz", field: "Erdkunde", line: "Erdkunde-Quiz mit einer Erklärung zu jeder Antwort.", href: "/apps/naturwunder-quiz/", altDesktop: "Naturwunder-Quiz am Computer: Frage zur Höhe des Mount Everest mit Foto", altPhone: "Naturwunder-Quiz am Handy: Frage zur Höhe des Mount Everest mit Foto" },
       ],
     },
 

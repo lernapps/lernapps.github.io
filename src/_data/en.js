@@ -41,10 +41,10 @@ export default {
       more: "More in the app catalog",
       moreHref: "/apps/en/",
       apps: [
-        { id: "mathe-karte", title: "Mathe-Karte", field: "Maths", line: "Maths explained step by step, with pictures and exercises.", href: "/apps/en/mathe-karte/", altDesktop: "Mathe-Karte on a computer: a percentage exercise with the calculation and a bar picture", altPhone: "Mathe-Karte on a phone: the calculation and a bar picture" },
+        { id: "mathe-karte", dark: true, title: "Mathe-Karte", field: "Maths", line: "Maths explained step by step, with pictures and exercises.", href: "/apps/en/mathe-karte/", altDesktop: "Mathe-Karte on a computer: a percentage exercise with the calculation and a bar picture", altPhone: "Mathe-Karte on a phone: the calculation and a bar picture" },
         { id: "kniffel-trainer", title: "Kniffel-Trainer", field: "Maths", line: "Understand probability by playing Yahtzee.", href: "/apps/en/kniffel-trainer/", altDesktop: "Yahtzee Trainer on a computer: dice and score sheet in explain mode", altPhone: "Yahtzee Trainer on a phone: dice and score sheet" },
-        { id: "textcheck", title: "Textcheck", field: "German", line: "Read carefully: find the mistakes in a text.", href: "/apps/en/textcheck/", altDesktop: "Textcheck on a computer: a text about pyramids with one word marked", altPhone: "Textcheck on a phone: a text about pyramids with one word marked" },
-        { id: "naturwunder-quiz", title: "Naturwunder-Quiz", field: "Geography", line: "A geography quiz with an explanation for every answer.", href: "/apps/en/naturwunder-quiz/", altDesktop: "Naturwunder-Quiz on a computer: a question about the height of Mount Everest with a photo", altPhone: "Naturwunder-Quiz on a phone: a question about the height of Mount Everest with a photo" },
+        { id: "textcheck", dark: true, title: "Textcheck", field: "German", line: "Read carefully: find the mistakes in a text.", href: "/apps/en/textcheck/", altDesktop: "Textcheck on a computer: a text about pyramids with one word marked", altPhone: "Textcheck on a phone: a text about pyramids with one word marked" },
+        { id: "naturwunder-quiz", dark: true, title: "Naturwunder-Quiz", field: "Geography", line: "A geography quiz with an explanation for every answer.", href: "/apps/en/naturwunder-quiz/", altDesktop: "Naturwunder-Quiz on a computer: a question about the height of Mount Everest with a photo", altPhone: "Naturwunder-Quiz on a phone: a question about the height of Mount Everest with a photo" },
       ],
     },
 
