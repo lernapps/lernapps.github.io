@@ -17,11 +17,11 @@ export default {
       badges: ["No account", "No ads", "No subscription", "What you type stays on the device", "Works on phones too"],
       primary: "Find an app",
       primaryHref: "/apps/en/",
-      secondary: "Build an app yourself",
+      secondary: "Build one",
       secondaryHref: "#get-involved",
       // A small joke on the side: the video loads only after the click. Without JavaScript the button stays hidden.
       cat: {
-        open: "Learning is boring, show me cat videos",
+        open: "Cat videos instead",
         label: "Video: Minka the cat and the maths book",
         description: "Video description: In a child's bedroom a cat sits among toys. It opens a maths book with its paw, looks at the equations, then looks into the camera with a blank face. It shrugs, closes the book and walks back to its place. The video has ambient sound only, nobody speaks.",
         fallback: "Watch the video (MP4)",
@@ -30,7 +30,6 @@ export default {
         primary: "Find an app",
         primaryHref: "/apps/en/",
         close: "Close",
-        again: "Watch again",
       },
     },
 

@@ -17,11 +17,11 @@ export default {
       badges: ["Kein Konto", "Keine Werbung", "Kein Abo", "Eingaben bleiben auf dem Gerät", "Auch auf dem Handy"],
       primary: "App finden",
       primaryHref: "/apps/",
-      secondary: "Selbst eine App bauen",
+      secondary: "Selbst bauen",
       secondaryHref: "#mitmachen",
       // Ein kleiner Spaß am Rand: Das Video lädt erst nach dem Klick. Ohne JavaScript bleibt der Knopf weg.
       cat: {
-        open: "Lernen ist langweilig, zeig mir Katzenvideos",
+        open: "Lieber Katzenvideos",
         label: "Video: Kater Minka und das Mathebuch",
         description: "Videobeschreibung: Im Kinderzimmer sitzt ein Kater zwischen Spielzeug. Er öffnet mit der Pfote ein Mathebuch, schaut auf die Formeln und dann mit leerem Blick in die Kamera. Er zuckt mit den Schultern, klappt das Buch zu und geht zurück auf seinen Platz. Im Video ist nur Umgebungsgeräusch zu hören, es wird nicht gesprochen.",
         fallback: "Video ansehen (MP4)",
@@ -30,7 +30,6 @@ export default {
         primary: "App finden",
         primaryHref: "/apps/",
         close: "Schließen",
-        again: "Noch einmal ansehen",
       },
     },
 
