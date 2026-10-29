@@ -97,6 +97,14 @@
   border-radius: 50%;
   background: #cbd5e1;
 }
+.gal-win picture,
+.gal-phone picture {
+  display: block;
+}
+.gal-thumbs picture {
+  display: block;
+  flex: none;
+}
 .gal-win img,
 .gal-phone img {
   display: block;
@@ -208,4 +216,40 @@
 .gal > input:nth-of-type(6):focus-visible ~ .gal-side label:nth-child(6) {
   outline: 3px solid #1d4ed8;
   outline-offset: 2px;
+}
+
+/* ── Dark mode: follows the system. The screenshots switch to dark shots where the app has a dark mode. ── */
+@media (prefers-color-scheme: dark) {
+  .gal-frame {
+    background-color: #0f172a;
+    background-image: linear-gradient(#1e293b 1px, transparent 1px), linear-gradient(90deg, #1e293b 1px, transparent 1px);
+  }
+  .gal-win { background: #0b1220; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); }
+  .gal-bar { background: #1e293b; }
+  .gal-bar i { background: #334155; }
+  .gal-phone { border-color: #334155; background: #0b1220; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6); }
+  .gal-cap { color: #b8c4d6; }
+  .gal-eg { color: #a3b1c6; }
+  .gal-thumbs label { border-color: #2a3a52; background: #111a2e; }
+  .gal-thumbs label:hover { border-color: #3b82f6; }
+  .gal-thumbs img { border-color: #2a3a52; }
+  .gal-thumbs span { color: #f1f5f9; }
+  .gal-thumbs small { color: #a3b1c6; }
+  .gal > input:nth-of-type(1):checked ~ .gal-side label:nth-child(1),
+  .gal > input:nth-of-type(2):checked ~ .gal-side label:nth-child(2),
+  .gal > input:nth-of-type(3):checked ~ .gal-side label:nth-child(3),
+  .gal > input:nth-of-type(4):checked ~ .gal-side label:nth-child(4),
+  .gal > input:nth-of-type(5):checked ~ .gal-side label:nth-child(5),
+  .gal > input:nth-of-type(6):checked ~ .gal-side label:nth-child(6) {
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 3px #1e3a8a;
+  }
+  .gal > input:nth-of-type(1):focus-visible ~ .gal-side label:nth-child(1),
+  .gal > input:nth-of-type(2):focus-visible ~ .gal-side label:nth-child(2),
+  .gal > input:nth-of-type(3):focus-visible ~ .gal-side label:nth-child(3),
+  .gal > input:nth-of-type(4):focus-visible ~ .gal-side label:nth-child(4),
+  .gal > input:nth-of-type(5):focus-visible ~ .gal-side label:nth-child(5),
+  .gal > input:nth-of-type(6):focus-visible ~ .gal-side label:nth-child(6) {
+    outline-color: #93c5fd;
+  }
 }
