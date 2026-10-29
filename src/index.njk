@@ -46,16 +46,16 @@ permalink: "{{ l.root }}index.html"
       <div class="relative max-w-4xl mx-auto px-6 py-6 sm:py-32 w-full flex flex-col">
         <h1 class="font-extrabold leading-none tracking-tight text-white mb-4 sm:mb-6" style="font-size: clamp(2.25rem, 8vw, 4.5rem);">{{ H.headline }}</h1>
         <p class="text-slate-300 mb-6 sm:mb-8 max-w-2xl" style="font-size: clamp(1.125rem, 2.2vw, 1.375rem); line-height: 1.5;">{{ H.subtitle }}</p>
-        {#- On a phone the buttons come first, so that the cat button is in view; the badges follow. #}
+        {#- On a phone the buttons take two rows (two buttons, then the cat button) and come first, so that the cat button is in view; the badges follow. #}
         <ul class="order-last sm:order-none flex flex-wrap gap-2 list-none p-0 m-0 mt-8 sm:mt-0 sm:mb-10">
           {%- for b in H.badges %}
           <li class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-slate-800 text-slate-200 border border-slate-700"><span class="text-blue-400" aria-hidden="true">✓</span>{{ b }}</li>
           {%- endfor %}
         </ul>
         <div class="flex flex-wrap gap-3">
-          <a href="{{ H.primaryHref | own }}" class="inline-flex items-center gap-2 px-7 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors">{{ H.primary }} →</a>
-          <a href="{{ H.secondaryHref }}" class="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl border border-slate-600 text-white font-semibold hover:border-blue-400 hover:text-blue-200 transition-colors">{{ H.secondary }}</a>
-          <button type="button" hidden data-cat-open class="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl border border-dashed border-slate-500 text-slate-200 font-semibold hover:border-blue-400 hover:text-blue-200 transition-colors cursor-pointer bg-transparent"><span aria-hidden="true">🐱</span> {{ H.cat.open }}</button>
+          <a href="{{ H.primaryHref | own }}" class="inline-flex items-center gap-2 px-5 sm:px-7 py-3 sm:py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors">{{ H.primary }} →</a>
+          <a href="{{ H.secondaryHref }}" class="inline-flex items-center gap-2 px-5 sm:px-7 py-3 sm:py-3.5 rounded-xl border border-slate-600 text-white font-semibold hover:border-blue-400 hover:text-blue-200 transition-colors">{{ H.secondary }}</a>
+          <button type="button" hidden data-cat-open class="basis-full sm:basis-auto justify-center inline-flex items-center gap-2 px-5 sm:px-7 py-3 sm:py-3.5 rounded-xl border border-dashed border-slate-500 text-slate-200 font-semibold hover:border-blue-400 hover:text-blue-200 transition-colors cursor-pointer bg-transparent"><span aria-hidden="true">🐱</span> {{ H.cat.open }}</button>
         </div>
         <noscript>
           <a href="{{ '/media/katze.mp4' | own }}" class="mt-6 inline-block max-w-xs rounded-xl border border-dashed border-slate-500 p-2 text-sm text-slate-200 hover:border-blue-400">

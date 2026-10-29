@@ -4,7 +4,8 @@
   JavaScript the dialog never opens, see the <noscript> in index.njk. At the end cat.js swaps the player for the end card.
   Texts: landing.hero.cat in src/_data/de.js, en.js.
 -#}
-{%- set C = l.t.landing.hero.cat %}
+{%- set H = l.t.landing.hero %}
+{%- set C = H.cat %}
 <div data-cat-player>
   <video data-cat-video controls playsinline preload="none" data-poster="{{ '/media/katze-poster.jpg' | own }}" aria-label="{{ C.label }}" aria-describedby="cat-description" class="block w-full rounded-2xl border border-slate-700 bg-slate-950" style="aspect-ratio: 960 / 528;">
     <source src="{{ '/media/katze.mp4' | own }}" type="video/mp4">
@@ -18,6 +19,6 @@
   <p class="text-slate-300 leading-relaxed mb-6" style="font-size: 1.125rem;">{{ C.endText }}</p>
   <div class="flex flex-wrap gap-3">
     <a href="{{ C.primaryHref | own }}" class="inline-flex items-center gap-2 px-7 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors">{{ C.primary }} →</a>
-    <button type="button" data-cat-again class="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl border border-slate-600 text-slate-200 font-semibold hover:border-blue-400 hover:text-blue-200 transition-colors cursor-pointer bg-transparent">{{ C.again }}</button>
+    <a href="{{ H.secondaryHref }}" data-cat-leave class="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl border border-slate-600 text-slate-200 font-semibold hover:border-blue-400 hover:text-blue-200 transition-colors">{{ H.secondary }}</a>
   </div>
 </div>
