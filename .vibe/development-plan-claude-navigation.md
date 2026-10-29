@@ -67,13 +67,15 @@ Commit 1: Handy-Menü
 - [x] `test/nav.test.mjs`: alle Links in beiden Ausgaben, Gruppen decken alle Links ab, beide Sprachen, `aria-current`, Sprachwahl, zwei `<nav>`
 - [x] `site-frame/README.md` ergänzen; Prüfen: Build, Check, Tests, Playwright (360 px zu und auf, Tastatur, de und en, Desktop unverändert bei 1280 px, kein Überlauf)
 Commit 2: Dunkelmodus des Rahmens
-- [ ] `site-frame/tokens.css`: dunkle Tokens; `site-frame/frame.css`: `.la-skip` feste Farben
-- [ ] Test: dunkle Tokens überschreiben nur vorhandene Tokens, Kontrast der Paare ≥ 4,5:1
-- [ ] README: Hinweis für die anderen Sites; Prüfen: Kontrast und Ansicht in Dunkel
-- [ ] Mitnehmen, falls klein: `/privacy/` läuft bei 360 px waagerecht über
+- [x] `site-frame/tokens.css`: dunkle Tokens, als Opt-in (`data-la-theme="auto"` auf `<html>`); `site-frame/frame.css`: `.la-skip` feste Farben
+- [x] Test: dunkle Tokens überschreiben nur vorhandene Tokens, Kontrast der Paare ≥ 4,5:1
+- [x] README: Hinweis für die anderen Sites; Prüfen: Kontrast und Ansicht in Dunkel
+- [x] Mitnehmen: `/privacy/` läuft bei 360 px waagerecht über (Überschrift 401 px breit): `hyphens-auto break-words` an den beiden H1; alle 15 Seiten ohne Überlauf
 
 ### Completed
 - Commit 1 (Handy-Menü) umgesetzt. Abweichung vom Plan: Die Gruppen heißen „Für Lernende“, „Für Macher“, „Verstehen und mitmachen“ (en: For learners, For makers, Understand and join in), weil der erste Link der Gruppe „Lernen“ heißt und eine Gruppe nicht wie einer ihrer Links heißen soll. `nav.links` bleibt die flache Liste in der alten Reihenfolge, die Gruppen verweisen per `hrefs` darauf, damit der Desktop unverändert bleibt. Geprüft: Desktop-Kopf pixelgleich zur Live-Seite (1280 px), Handy zu und auf (de, en), Tastatur (Tab, Enter), 31 Tests, `npm run check`, alle 15 Seiten bei 360 px ohne Überlauf, außer `/privacy/` (schon vorher).
+
+- Entscheidung Dunkel-Tokens (2026-10-29): Als Opt-in statt automatisch. Probelauf mit den live ausgelieferten Sites (Doku, Tooling, Übungen, Katalog) und den neuen Tokens: Auf `/practice/` wäre der Text hell auf festem weißem Hintergrund (unlesbar), weil die Site das Text-Token nutzt, den Hintergrund aber selbst setzt. Darum gelten die Dunkel-Tokens nur mit `data-la-theme="auto"` auf `<html>`. Ohne das sind Doku, Tooling, Übungen und Katalog pixelgleich zur Live-Version. Header und Footer sind in beiden Modi dunkel, der Rahmen braucht sonst nichts; nötig war nur der feste Farbwert des Skip-Links.
 
 ## Commit
 ### Tasks

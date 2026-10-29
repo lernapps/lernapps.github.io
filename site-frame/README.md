@@ -96,3 +96,13 @@ needs no script. A closed `<details>` hides its content on every screen and cann
 `header()` writes two navigations with the same links, the row (`la-nav--bar`) and the menu (`la-menu`), and
 `frame.css` shows one of them (`display: none` on the other, so that assistive technology reads only one). A new link
 goes into `links` and into exactly one group; `test/nav.test.mjs` checks both.
+
+## Dark mode of the tokens (opt-in)
+
+`tokens.css` has dark values for the tokens of the page itself (`--la-text`, `--la-muted`, `--la-link`,
+`--la-surface`, `--la-border`). They apply only to a site that sets `data-la-theme="auto"` on `<html>`, and then only
+when the system asks for a dark mode (`prefers-color-scheme`). They are opt-in because a site that uses the text token
+but paints its own background would get light text on white: /practice/ does. A site that opts in also sets
+`color-scheme: light dark` for itself and checks every colour of its own next to the tokens. The header, the footer and
+the dark sections are dark in both modes. The pages of the home site do not use the tokens for their page colours; they
+follow the dark mode with their own rules (`uno.config.js`, `src/home.css`).
