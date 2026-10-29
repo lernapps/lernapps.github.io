@@ -33,8 +33,10 @@
 })();</script>
   <script src="/lernapps-count.js" defer></script>
   <link rel="stylesheet" href="/uno.css">
+  <link rel="stylesheet" href="/home.css">
 </head>
 <body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><filter id="rough" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.08" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="1.2" xChannelSelector="R" yChannelSelector="G"/></filter></defs></svg>
   <div class="min-h-screen bg-slate-900 text-white" style="font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;">
   <a class="la-skip" href="#main-content" lang="de">Zum Inhalt springen</a>
 <header class="la-header" lang="de">
@@ -50,26 +52,22 @@
     <section class="relative overflow-hidden">
       <div class="absolute inset-0 pointer-events-none" style="background-image: linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px); background-size: 48px 48px;" aria-hidden="true"></div>
       <div class="relative max-w-4xl mx-auto px-6 py-6 sm:py-32 w-full flex flex-col">
-        <h1 class="font-extrabold leading-none tracking-tight text-white mb-4 sm:mb-6" style="font-size: clamp(2.25rem, 8vw, 4.5rem);">Lern-Apps ohne Haken.</h1>
-        <p class="text-slate-300 mb-6 sm:mb-8 max-w-2xl" style="font-size: clamp(1.125rem, 2.2vw, 1.375rem); line-height: 1.5;">Gemacht von Eltern und Lehrkräften, mit Leidenschaft. Kostenlos im Browser und sofort startklar.</p>
-        <ul class="order-last sm:order-none flex flex-wrap gap-2 list-none p-0 m-0 mt-8 sm:mt-0 sm:mb-10">
-          <li class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-slate-800 text-slate-200 border border-slate-700"><span class="text-blue-400" aria-hidden="true">✓</span>Kein Konto</li>
-          <li class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-slate-800 text-slate-200 border border-slate-700"><span class="text-blue-400" aria-hidden="true">✓</span>Keine Werbung</li>
-          <li class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-slate-800 text-slate-200 border border-slate-700"><span class="text-blue-400" aria-hidden="true">✓</span>Kein Abo</li>
-          <li class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-slate-800 text-slate-200 border border-slate-700"><span class="text-blue-400" aria-hidden="true">✓</span>Eingaben bleiben auf dem Gerät</li>
-          <li class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-slate-800 text-slate-200 border border-slate-700"><span class="text-blue-400" aria-hidden="true">✓</span>Auch auf dem Handy</li>
+        <h1 class="font-extrabold leading-none tracking-tight text-white mb-4 sm:mb-6" style="font-size: clamp(2.25rem, 8vw, 4.5rem);">Lern-Apps <mark class="mark">ohne Haken</mark>.</h1>
+        <p class="text-slate-300 mb-6 sm:mb-8 max-w-2xl" style="font-size: clamp(1.125rem, 2.2vw, 1.375rem); line-height: 1.5;">Kostenlos im Browser, sofort startklar.</p>
+        <ul class="order-last sm:order-none flex flex-wrap gap-x-6 gap-y-2 list-none p-0 m-0 mt-8 sm:mt-0 sm:mb-10 text-sm text-slate-300">
+          <li class="flex items-center gap-2"><svg class="tick" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 13 C5 14.5 7 17.5 8.5 21 C11 12 16 6 22 3"/></svg>Kein Konto</li>
+          <li class="flex items-center gap-2"><svg class="tick" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 13 C5 14.5 7 17.5 8.5 21 C11 12 16 6 22 3"/></svg>Keine Werbung</li>
+          <li class="flex items-center gap-2"><svg class="tick" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 13 C5 14.5 7 17.5 8.5 21 C11 12 16 6 22 3"/></svg>Kein Abo</li>
+          <li class="flex items-center gap-2"><svg class="tick" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 13 C5 14.5 7 17.5 8.5 21 C11 12 16 6 22 3"/></svg>Eingaben bleiben auf dem Gerät</li>
+          <li class="flex items-center gap-2"><svg class="tick" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 13 C5 14.5 7 17.5 8.5 21 C11 12 16 6 22 3"/></svg>Auch auf dem Handy</li><li class="basis-full">
+            <button type="button" hidden data-cat-open class="inline-flex items-center gap-2 p-0 bg-transparent border-0 cursor-pointer text-sm text-slate-300 underline underline-offset-2 hover:text-white"><svg class="icon size-[18px] text-red-400 shrink-0" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g filter="url(#rough)"><path d="M12 5c.67 0 1.35.09 2 .26 1.78-2 5.03-2.84 6.42-2.26 1.4.58-.42 7-.42 7 .57 1.07 1 2.24 1 3.44C21 17.9 16.97 21 12 21s-9-3-9-7.56c0-1.25.5-2.4 1-3.44 0 0-1.89-6.42-.5-7 1.39-.58 4.72.23 6.5 2.23A9.04 9.04 0 0 1 12 5Z"/> <path d="M8 14v.5"/> <path d="M16 14v.5"/> <path d="M11.25 16.25h1.5L12 17l-.75-.75Z"/></g></svg>Lieber Katzenvideos</button>
+            <noscript><a href="/media/katze.mp4" class="inline-flex items-center gap-2 text-sm text-slate-300 underline underline-offset-2 hover:text-white"><svg class="icon size-[18px] text-red-400 shrink-0" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g filter="url(#rough)"><path d="M12 5c.67 0 1.35.09 2 .26 1.78-2 5.03-2.84 6.42-2.26 1.4.58-.42 7-.42 7 .57 1.07 1 2.24 1 3.44C21 17.9 16.97 21 12 21s-9-3-9-7.56c0-1.25.5-2.4 1-3.44 0 0-1.89-6.42-.5-7 1.39-.58 4.72.23 6.5 2.23A9.04 9.04 0 0 1 12 5Z"/> <path d="M8 14v.5"/> <path d="M16 14v.5"/> <path d="M11.25 16.25h1.5L12 17l-.75-.75Z"/></g></svg>Lieber Katzenvideos<span class="sr-only"> (Video ansehen (MP4)). Videobeschreibung: Das Video ist mit KI erzeugt. Im Kinderzimmer sitzt ein Kater zwischen Spielzeug. Er öffnet mit der Pfote ein Mathebuch, schaut auf die Formeln und dann mit leerem Blick in die Kamera. Er zuckt mit den Schultern, klappt das Buch zu und geht zurück auf seinen Platz. Im Video ist nur Umgebungsgeräusch zu hören, es wird nicht gesprochen.</span></a></noscript>
+          </li>
         </ul>
         <div class="flex flex-wrap gap-3">
           <a href="/apps/" class="inline-flex items-center gap-2 px-5 sm:px-7 py-3 sm:py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors">App finden →</a>
           <a href="#mitmachen" class="inline-flex items-center gap-2 px-5 sm:px-7 py-3 sm:py-3.5 rounded-xl border border-slate-600 text-white font-semibold hover:border-blue-400 hover:text-blue-200 transition-colors">Selbst bauen</a>
-          <button type="button" hidden data-cat-open class="basis-full sm:basis-auto justify-center inline-flex items-center gap-2 px-5 sm:px-7 py-3 sm:py-3.5 rounded-xl border border-dashed border-slate-500 text-slate-200 font-semibold hover:border-blue-400 hover:text-blue-200 transition-colors cursor-pointer bg-transparent"><span aria-hidden="true">🐱</span> Lieber Katzenvideos</button>
         </div>
-        <noscript>
-          <a href="/media/katze.mp4" class="mt-6 inline-block max-w-xs rounded-xl border border-dashed border-slate-500 p-2 text-sm text-slate-200 hover:border-blue-400">
-            <img src="/media/katze-poster.jpg" alt="Videobeschreibung: Das Video ist mit KI erzeugt. Im Kinderzimmer sitzt ein Kater zwischen Spielzeug. Er öffnet mit der Pfote ein Mathebuch, schaut auf die Formeln und dann mit leerem Blick in die Kamera. Er zuckt mit den Schultern, klappt das Buch zu und geht zurück auf seinen Platz. Im Video ist nur Umgebungsgeräusch zu hören, es wird nicht gesprochen." width="960" height="528" class="block w-full rounded-lg mb-2">
-            🐱 Lieber Katzenvideos
-          </a>
-        </noscript>
       </div>
     </section>
 
@@ -83,7 +81,7 @@
   <p id="cat-description" class="sr-only">Videobeschreibung: Das Video ist mit KI erzeugt. Im Kinderzimmer sitzt ein Kater zwischen Spielzeug. Er öffnet mit der Pfote ein Mathebuch, schaut auf die Formeln und dann mit leerem Blick in die Kamera. Er zuckt mit den Schultern, klappt das Buch zu und geht zurück auf seinen Platz. Im Video ist nur Umgebungsgeräusch zu hören, es wird nicht gesprochen.</p>
 </div>
 <div hidden data-cat-end tabindex="-1" class="rounded-2xl border border-blue-500 bg-slate-800 p-6 sm:p-8 outline-none">
-  <p class="text-4xl mb-3" aria-hidden="true">🐱</p>
+  <p class="mb-3 text-blue-400"><svg class="icon size-10" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g filter="url(#rough)"><path d="M12 5c.67 0 1.35.09 2 .26 1.78-2 5.03-2.84 6.42-2.26 1.4.58-.42 7-.42 7 .57 1.07 1 2.24 1 3.44C21 17.9 16.97 21 12 21s-9-3-9-7.56c0-1.25.5-2.4 1-3.44 0 0-1.89-6.42-.5-7 1.39-.58 4.72.23 6.5 2.23A9.04 9.04 0 0 1 12 5Z"/> <path d="M8 14v.5"/> <path d="M16 14v.5"/> <path d="M11.25 16.25h1.5L12 17l-.75-.75Z"/></g></svg></p>
   <h2 class="font-extrabold tracking-tight text-white mb-3" style="font-size: clamp(1.5rem, 4vw, 2.25rem); line-height: 1.15;">Fühlst du dich wie Minka?</h2>
   <p class="text-slate-300 leading-relaxed mb-6" style="font-size: 1.125rem;">Lernen muss nicht so sein. Hier findest du Apps, die wirklich etwas vermitteln.</p>
   <div class="flex flex-wrap gap-3">
@@ -95,223 +93,147 @@
     </dialog>
 
     
-    <section id="beispiele" class="bg-white py-16 sm:py-20" aria-labelledby="showcase-heading">
+    <section id="beispiele" class="bg-white py-16 sm:py-20 scroll-mt-16" aria-labelledby="gallery-heading">
       <div class="max-w-5xl mx-auto px-6">
-        <h2 id="showcase-heading" class="font-extrabold tracking-tight text-slate-900 mb-3" style="font-size: clamp(1.75rem, 4.5vw, 2.5rem); line-height: 1.15;">Ein paar Apps aus dem Katalog</h2>
-        <p class="text-slate-600 leading-relaxed max-w-2xl mb-10" style="font-size: 1.0625rem;">Von der umfassenden Übungs-App bis zum Spiel. Jede ist für eine echte Klasse oder ein echtes Kind entstanden.</p>
-        <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 list-none p-0 m-0">
-          <li>
-            <a href="/apps/mathe-karte/" class="flex flex-col h-full bg-slate-50 rounded-2xl border border-slate-200 p-6 hover:border-blue-300 transition-colors">
-              <span class="text-3xl mb-4" aria-hidden="true">🗺️</span>
-              <span class="text-xs font-semibold text-blue-600 uppercase tracking-wider mb-1">Mathematik · Klasse 8</span>
-              <span class="font-bold text-slate-900 text-lg mb-2">Mathe-Karte</span>
-              <span class="text-sm text-slate-600 leading-relaxed">Prozent, binomische Formeln und Wahrscheinlichkeit: erklärt, mit Bild und vielen Aufgaben.</span>
-            </a>
-          </li>
-          <li>
-            <a href="/apps/kniffel-trainer/" class="flex flex-col h-full bg-slate-50 rounded-2xl border border-slate-200 p-6 hover:border-blue-300 transition-colors">
-              <span class="text-3xl mb-4" aria-hidden="true">🎲</span>
-              <span class="text-xs font-semibold text-blue-600 uppercase tracking-wider mb-1">Mathematik · Klasse 7 und 8</span>
-              <span class="font-bold text-slate-900 text-lg mb-2">Kniffel-Trainer</span>
-              <span class="text-sm text-slate-600 leading-relaxed">Kniffel spielen und dabei Chancen als Bruch und Prozent verstehen.</span>
-            </a>
-          </li>
-          <li>
-            <a href="/apps/textcheck/" class="flex flex-col h-full bg-slate-50 rounded-2xl border border-slate-200 p-6 hover:border-blue-300 transition-colors">
-              <span class="text-3xl mb-4" aria-hidden="true">🔍</span>
-              <span class="text-xs font-semibold text-blue-600 uppercase tracking-wider mb-1">Deutsch · Klasse 3 bis 13</span>
-              <span class="font-bold text-slate-900 text-lg mb-2">Textcheck</span>
-              <span class="text-sm text-slate-600 leading-relaxed">Fehler in Texten finden, bis hin zu Meinungen, die wie Tatsachen klingen.</span>
-            </a>
-          </li>
-          <li>
-            <a href="/apps/naturwunder-quiz/" class="flex flex-col h-full bg-slate-50 rounded-2xl border border-slate-200 p-6 hover:border-blue-300 transition-colors">
-              <span class="text-3xl mb-4" aria-hidden="true">🌋</span>
-              <span class="text-xs font-semibold text-blue-600 uppercase tracking-wider mb-1">Erdkunde · Klasse 5 bis 10</span>
-              <span class="font-bold text-slate-900 text-lg mb-2">Naturwunder-Quiz</span>
-              <span class="text-sm text-slate-600 leading-relaxed">Vulkane, Wasserfälle, Wüsten: zu jeder Antwort eine Erklärung und Wikipedia zum Weiterlesen.</span>
-            </a>
-          </li>
-        </ul>
-        <div class="mt-8 flex flex-wrap items-baseline gap-x-6 gap-y-2">
-          <a href="/apps/" class="inline-flex items-center gap-2 font-semibold text-blue-700 hover:text-blue-800">Alle Apps ansehen →</a>
-          <p class="text-sm text-slate-500">Wir fangen gerade erst an. Der Katalog wächst mit jeder App, die jemand einträgt.</p>
+        <h2 id="gallery-heading" class="font-extrabold tracking-tight text-slate-900 mb-8" style="font-size: clamp(1.75rem, 4.5vw, 2.5rem); line-height: 1.15;">Aus dem Katalog</h2>
+        <div class="gal" role="group" aria-label="Aus dem Katalog">
+          <input type="radio" name="gallery" id="gal-0" aria-label="Mathe-Karte" checked>
+          <input type="radio" name="gallery" id="gal-1" aria-label="Kniffel-Trainer">
+          <input type="radio" name="gallery" id="gal-2" aria-label="Textcheck">
+          <input type="radio" name="gallery" id="gal-3" aria-label="Naturwunder-Quiz">
+          <div class="gal-stage">
+            <div class="gal-panel">
+              <a class="gal-link" href="/apps/mathe-karte/" tabindex="-1" aria-hidden="true">
+              <div class="gal-frame">
+                <div class="gal-win"><div class="gal-bar" aria-hidden="true"><i></i><i></i><i></i></div><picture><source media="(prefers-color-scheme: dark)" srcset="/media/apps/mathe-karte-desktop-dark.webp"><img src="/media/apps/mathe-karte-desktop.webp" alt="Mathe-Karte am Computer: Aufgabe zum Prozentsatz mit Rechnung und Balkenbild" width="1280" height="800" loading="lazy"></picture></div>
+                <div class="gal-phone"><picture><source media="(prefers-color-scheme: dark)" srcset="/media/apps/mathe-karte-phone-dark.webp"><img src="/media/apps/mathe-karte-phone.webp" alt="Mathe-Karte am Handy: Rechnung und Balkenbild" width="780" height="1560" loading="lazy"></picture></div>
+              </div>
+              </a>
+              <p class="gal-cap"><a href="/apps/mathe-karte/" class="font-bold text-slate-900 underline underline-offset-2 hover:text-blue-700">Mathe-Karte</a> · Mathe Schritt für Schritt erklärt, mit Bild und Aufgaben.</p>
+            </div>
+            <div class="gal-panel">
+              <a class="gal-link" href="/apps/kniffel-trainer/" tabindex="-1" aria-hidden="true">
+              <div class="gal-frame">
+                <div class="gal-win"><div class="gal-bar" aria-hidden="true"><i></i><i></i><i></i></div><picture><img src="/media/apps/kniffel-trainer-desktop.webp" alt="Kniffel-Trainer am Computer: Würfel und Kniffelblock im Erklärmodus" width="1280" height="800" loading="lazy"></picture></div>
+                <div class="gal-phone"><picture><img src="/media/apps/kniffel-trainer-phone.webp" alt="Kniffel-Trainer am Handy: Würfel und Kniffelblock" width="780" height="1560" loading="lazy"></picture></div>
+              </div>
+              </a>
+              <p class="gal-cap"><a href="/apps/kniffel-trainer/" class="font-bold text-slate-900 underline underline-offset-2 hover:text-blue-700">Kniffel-Trainer</a> · Wahrscheinlichkeit spielerisch verstehen beim Kniffeln.</p>
+            </div>
+            <div class="gal-panel">
+              <a class="gal-link" href="/apps/textcheck/" tabindex="-1" aria-hidden="true">
+              <div class="gal-frame">
+                <div class="gal-win"><div class="gal-bar" aria-hidden="true"><i></i><i></i><i></i></div><picture><source media="(prefers-color-scheme: dark)" srcset="/media/apps/textcheck-desktop-dark.webp"><img src="/media/apps/textcheck-desktop.webp" alt="Textcheck am Computer: Text über Pyramiden mit einem markierten Wort" width="1280" height="800" loading="lazy"></picture></div>
+                <div class="gal-phone"><picture><source media="(prefers-color-scheme: dark)" srcset="/media/apps/textcheck-phone-dark.webp"><img src="/media/apps/textcheck-phone.webp" alt="Textcheck am Handy: Text über Pyramiden mit einem markierten Wort" width="780" height="1560" loading="lazy"></picture></div>
+              </div>
+              </a>
+              <p class="gal-cap"><a href="/apps/textcheck/" class="font-bold text-slate-900 underline underline-offset-2 hover:text-blue-700">Textcheck</a> · Aufmerksam lesen: Fehler im Text finden.</p>
+            </div>
+            <div class="gal-panel">
+              <a class="gal-link" href="/apps/naturwunder-quiz/" tabindex="-1" aria-hidden="true">
+              <div class="gal-frame">
+                <div class="gal-win"><div class="gal-bar" aria-hidden="true"><i></i><i></i><i></i></div><picture><source media="(prefers-color-scheme: dark)" srcset="/media/apps/naturwunder-quiz-desktop-dark.webp"><img src="/media/apps/naturwunder-quiz-desktop.webp" alt="Naturwunder-Quiz am Computer: Frage zur Höhe des Mount Everest mit Foto" width="1280" height="800" loading="lazy"></picture></div>
+                <div class="gal-phone"><picture><source media="(prefers-color-scheme: dark)" srcset="/media/apps/naturwunder-quiz-phone-dark.webp"><img src="/media/apps/naturwunder-quiz-phone.webp" alt="Naturwunder-Quiz am Handy: Frage zur Höhe des Mount Everest mit Foto" width="780" height="1560" loading="lazy"></picture></div>
+              </div>
+              </a>
+              <p class="gal-cap"><a href="/apps/naturwunder-quiz/" class="font-bold text-slate-900 underline underline-offset-2 hover:text-blue-700">Naturwunder-Quiz</a> · Erdkunde-Quiz mit einer Erklärung zu jeder Antwort.</p>
+            </div>
+          </div>
+          <div class="gal-side">
+            <p class="gal-eg">Beispiele</p>
+            <div class="gal-thumbs">
+              <label for="gal-0"><picture><source media="(prefers-color-scheme: dark)" srcset="/media/apps/mathe-karte-desktop-dark.webp"><img src="/media/apps/mathe-karte-desktop.webp" alt="" width="1280" height="800"></picture><span>Mathe-Karte<small>Mathematik</small></span></label>
+              <label for="gal-1"><picture><img src="/media/apps/kniffel-trainer-desktop.webp" alt="" width="1280" height="800"></picture><span>Kniffel-Trainer<small>Mathematik</small></span></label>
+              <label for="gal-2"><picture><source media="(prefers-color-scheme: dark)" srcset="/media/apps/textcheck-desktop-dark.webp"><img src="/media/apps/textcheck-desktop.webp" alt="" width="1280" height="800"></picture><span>Textcheck<small>Deutsch</small></span></label>
+              <label for="gal-3"><picture><source media="(prefers-color-scheme: dark)" srcset="/media/apps/naturwunder-quiz-desktop-dark.webp"><img src="/media/apps/naturwunder-quiz-desktop.webp" alt="" width="1280" height="800"></picture><span>Naturwunder-Quiz<small>Erdkunde</small></span></label>
+            </div>
+            <a href="/apps/" class="mt-5 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-slate-500 text-slate-900 font-semibold hover:border-blue-500 hover:text-blue-700 transition-colors">Mehr im App-Katalog →</a>
+          </div>
         </div>
-        <p class="mt-6 max-w-3xl text-sm text-slate-600 leading-relaxed">Die Apps liegen bei ihren Machern, nicht bei uns. Gäbe es lernapps.net nicht mehr, liefen sie weiter. Jede App kommt von einem Menschen. Wir helfen beim Bauen, aber eine Garantie für die Qualität ist das nicht. Siehst du einen Fehler im Inhalt, melde ihn auf der Seite der App.</p>
       </div>
     </section>
 
     
-    <section id="fuer-dich" class="bg-slate-50 py-16 sm:py-20" aria-labelledby="foryou-heading">
+    <section id="fuer-dich" class="bg-slate-50 py-16 sm:py-20 scroll-mt-16" aria-labelledby="foryou-heading">
       <div class="max-w-5xl mx-auto px-6">
-        <h2 id="foryou-heading" class="font-extrabold tracking-tight text-slate-900 mb-3" style="font-size: clamp(1.75rem, 4.5vw, 2.5rem); line-height: 1.15;">Was du davon hast</h2>
-        <p class="text-slate-600 leading-relaxed max-w-2xl mb-10" style="font-size: 1.0625rem;">Zwei Wege für dein Kind. Lernen braucht Zeit: Dafür gibt es den Katalog. Vor einer Arbeit zählt der Stoff aus dem Heft: Dafür macht dein KI-Assistent eine App zum Üben nach Maß.</p>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div class="bg-white rounded-2xl border border-slate-200 p-8">
-            <div class="flex items-center gap-4 mb-5">
-              <span class="text-4xl" aria-hidden="true">📚</span>
-              <div>
-                <p class="text-xs font-semibold text-blue-600 uppercase tracking-wider mb-1">Wenn du unterrichtest</p>
-                <h3 class="font-bold text-slate-900 leading-snug" style="font-size: clamp(1.125rem, 2.5vw, 1.5rem);">Vertretungs­stunde in der 7b?</h3>
-              </div>
-            </div>
-            <div class="space-y-3">
-              <p class="text-slate-600 leading-relaxed">Du übernimmst kurzfristig eine Klasse, vielleicht nicht einmal in deinem Fach. Such nach Fach und Klasse, teile einen Link oder zeig den QR-Code. Die Klasse arbeitet sinnvoll am Thema, und die App gibt jedem Kind Rückmeldung.</p>
-              <p class="text-slate-600 leading-relaxed">Niemand braucht ein Konto, und es werden keinerlei Daten deiner Schülerinnen und Schüler gesammelt.</p>
-            </div>
-            <a href="/apps/" class="mt-6 inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors text-sm">Apps für den Unterricht →</a>
-          </div>
-          <div class="bg-white rounded-2xl border border-slate-200 p-8">
-            <div class="flex items-center gap-4 mb-5">
-              <span class="text-4xl" aria-hidden="true">🧭</span>
-              <div>
-                <p class="text-xs font-semibold text-blue-600 uppercase tracking-wider mb-1">Wenn dein Kind ein Thema lernen will</p>
-                <h3 class="font-bold text-slate-900 leading-snug" style="font-size: clamp(1.125rem, 2.5vw, 1.5rem);">Lernen, im eigenen Tempo.</h3>
-              </div>
-            </div>
-            <div class="space-y-3">
-              <p class="text-slate-600 leading-relaxed">Dein Kind hängt in einem Thema, und dir fehlt die Zeit oder das Fachwissen? Im Katalog findet es Apps, die ein Thema Schritt für Schritt erklären, mit Übungen und Rückmeldung. Gebaut von Eltern und Lehrkräften, dauerhaft erreichbar.</p>
-              <p class="text-slate-600 leading-relaxed">Dein Kind kann so oft wiederkommen, wie es braucht: ohne Abo, ohne Werbung, ohne Konto.</p>
-            </div>
-            <a href="/apps/" class="mt-6 inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors text-sm">Apps zum Lernen →</a>
-          </div>
-          <div class="bg-white rounded-2xl border border-slate-200 p-8">
-            <div class="flex items-center gap-4 mb-5">
-              <span class="text-4xl" aria-hidden="true">📝</span>
-              <div>
-                <p class="text-xs font-semibold text-blue-600 uppercase tracking-wider mb-1">Wenn eine Arbeit ansteht</p>
-                <h3 class="font-bold text-slate-900 leading-snug" style="font-size: clamp(1.125rem, 2.5vw, 1.5rem);">Üben, genau für die nächste Arbeit.</h3>
-              </div>
-            </div>
-            <div class="space-y-3">
-              <p class="text-slate-600 leading-relaxed">Nächste Woche ist die Arbeit, und im Katalog gibt es nichts zu genau diesem Stoff? Gib deinem KI-Assistenten Fotos der Arbeitsblätter. In wenigen Minuten wird daraus eine App, die genau diesen Stoff erklärt und abfragt.</p>
-              <p class="text-slate-600 leading-relaxed">Du brauchst kein Fachwissen: Du sagst, wofür, und schaust dir das Ergebnis an. Die App ist zwei Wochen erreichbar, dein Kind braucht kein Konto.</p>
-            </div>
-            <a href="/practice/" class="mt-6 inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors text-sm">Zum Üben →</a>
-          </div>
-        </div>
-        <div class="mt-6 rounded-2xl border border-blue-200 bg-blue-50 p-6 sm:p-8">
-          <h3 class="flex items-center gap-2 text-base font-semibold text-slate-900 mb-2"><span aria-hidden="true">🔒</span>Datenschutz ist bei uns ein Feature</h3>
-          <p class="text-slate-700 leading-relaxed">Kein Konto, keine Cookies, kein Tracking. Was eingegeben wird, bleibt auf dem Gerät. Was lernapps.net genau speichert und was nicht, steht in der Datenschutzerklärung. Du kannst sie an deine Schulleitung oder die Datenschutzbeauftragten weitergeben. <a href="/privacy/" class="font-semibold text-blue-700 underline underline-offset-2 hover:text-blue-800 whitespace-nowrap">Zur Datenschutzerklärung →</a></p>
-        </div>
-        <p class="mt-10 text-slate-600 leading-relaxed">Mehr musst du nicht wissen. Der Rest der Seite ist für alle, die selbst eine App bauen wollen. <a href="/apps/" class="font-semibold text-blue-700 underline underline-offset-2 hover:text-blue-800 whitespace-nowrap">Zu den Apps →</a></p>
+        <h2 id="foryou-heading" class="font-extrabold tracking-tight text-slate-900 mb-8" style="font-size: clamp(1.75rem, 4.5vw, 2.5rem); line-height: 1.15;">Was du davon hast</h2>
+        <ul class="grid grid-cols-1 md:grid-cols-3 gap-x-10 gap-y-8 list-none p-0 m-0">
+          <li class="border-t-2 border-slate-300 pt-5">
+            <h3 class="font-bold text-slate-900 text-lg leading-snug mb-2">Vertretungsstunde in der 7b?</h3>
+            <p class="text-slate-600 leading-relaxed mb-3">Fach und Klasse wählen, Link teilen oder QR-Code zeigen. Jedes Kind bekommt Rückmeldung, niemand braucht ein Konto.</p>
+            <a href="/apps/" class="font-semibold text-blue-700 underline underline-offset-2 hover:text-blue-800">Apps für den Unterricht →</a>
+          </li>
+          <li class="border-t-2 border-slate-300 pt-5">
+            <h3 class="font-bold text-slate-900 text-lg leading-snug mb-2">Dein Kind hängt in einem Thema?</h3>
+            <p class="text-slate-600 leading-relaxed mb-3">Apps erklären Schritt für Schritt, mit Übungen und Rückmeldung. Kostenlos und jederzeit wieder.</p>
+            <a href="/apps/" class="font-semibold text-blue-700 underline underline-offset-2 hover:text-blue-800">Apps zum Lernen →</a>
+          </li>
+          <li class="border-t-2 border-slate-300 pt-5">
+            <h3 class="font-bold text-slate-900 text-lg leading-snug mb-2">Nächste Woche ist die Arbeit?</h3>
+            <p class="text-slate-600 leading-relaxed mb-3">Dein KI-Assistent macht aus den Arbeitsblättern eine Übungs-App. In Minuten, ohne Fachwissen.</p>
+            <a href="/practice/" class="font-semibold text-blue-700 underline underline-offset-2 hover:text-blue-800">Zum Üben →</a>
+          </li>
+        </ul>
+        <p class="mt-10 text-sm text-slate-600">Kein Konto, keine Cookies, kein Tracking. <a href="/privacy/" class="font-semibold text-blue-700 underline underline-offset-2 hover:text-blue-800 whitespace-nowrap">Datenschutzerklärung →</a></p>
       </div>
     </section>
 
     
     <section id="ki" class="bg-white py-16 sm:py-20 scroll-mt-16" aria-labelledby="ki-heading">
       <div class="max-w-5xl mx-auto px-6">
-        <h2 id="ki-heading" class="font-extrabold tracking-tight text-slate-900 mb-3" style="font-size: clamp(1.75rem, 4.5vw, 2.5rem); line-height: 1.15;">KI ist überall. Auch hier. Und trotzdem geht alles ohne.</h2>
-        <p class="text-slate-600 leading-relaxed max-w-2xl mb-10" style="font-size: 1.0625rem;">Wir haben die Plattform mit KI und für KI gebaut, vor allem aber für Menschen.</p>
-        <div class="bg-slate-50 rounded-2xl border border-slate-200 p-8 max-w-3xl">
-          <div class="flex items-center gap-4 mb-5">
-            <span class="text-4xl" aria-hidden="true">🧑‍🏫</span>
-            <div>
-              <p class="text-xs font-semibold text-blue-600 uppercase tracking-wider mb-1">Zum Lernen</p>
-              <h3 class="font-bold text-slate-900 leading-snug" style="font-size: clamp(1.125rem, 2.5vw, 1.5rem);">Dein eigener Tutor.</h3>
-            </div>
-          </div>
-          <div class="space-y-3">
-            <p class="text-slate-600 leading-relaxed">Die Lerninhalte der Apps sind für KI-Assistenten lesbar. Dein eigener Assistent kann dich begleiten, führen und unterstützen: geduldig, persönlich und immer da.</p>
-            <p class="text-slate-600 leading-relaxed">lernapps.net erfährt davon nichts.</p>
-          </div>
-          <a href="/tutor/" class="mt-6 inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors text-sm">So funktioniert der Tutor →</a>
+        <h2 id="ki-heading" class="font-extrabold tracking-tight text-slate-900 mb-4" style="font-size: clamp(1.75rem, 4.5vw, 2.5rem); line-height: 1.15;">Dein eigener <mark class="mark">Tutor</mark>.</h2>
+        <p class="text-slate-600 leading-relaxed max-w-2xl mb-4" style="font-size: 1.0625rem;">Jede Erklär-App gibt deinem KI-Assistenten die Aufgabe. Er begleitet dich geduldig, und lernapps.net erfährt nichts davon.</p>
+        <a href="/tutor/" class="font-semibold text-blue-700 underline underline-offset-2 hover:text-blue-800">So funktioniert der Tutor →</a>
+      </div>
+    </section>
+
+    
+    <section id="mitmachen" class="bg-slate-50 py-16 sm:py-20 scroll-mt-16" aria-labelledby="maker-heading">
+      <div class="max-w-5xl mx-auto px-6">
+        <h2 id="maker-heading" class="font-extrabold tracking-tight text-slate-900 mb-8" style="font-size: clamp(1.75rem, 4.5vw, 2.5rem); line-height: 1.15;">Du bringst die <mark class="mark">Idee</mark>. Wir bringen das Fundament.</h2>
+        <dl class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6 m-0 mb-6 max-w-3xl">
+          <div class="border-t-2 border-slate-300 pt-5"><dt class="font-bold text-slate-900 text-lg mb-1">Du</dt><dd class="m-0 text-slate-600 leading-relaxed">Idee, Fachwissen, Erfahrung aus Klasse und Küchentisch.</dd></div>
+          <div class="border-t-2 border-slate-300 pt-5"><dt class="font-bold text-slate-900 text-lg mb-1">Wir</dt><dd class="m-0 text-slate-600 leading-relaxed">Grundgerüste, Methodik, Werkzeuge zum Bauen, Prüfen und Eintragen.</dd></div>
+        </dl>
+        <p class="text-slate-700 leading-relaxed mb-6">Dein KI-Assistent hilft beim Bauen, und die App bleibt deine.</p>
+        <div class="flex flex-wrap items-center gap-x-6 gap-y-3">
+          <a href="/apps/build/" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-slate-500 text-slate-900 font-semibold hover:border-blue-500 hover:text-blue-700 transition-colors">Eine App bauen →</a>
+          <a href="/features/#nutzer" class="font-semibold text-blue-700 underline underline-offset-2 hover:text-blue-800">Was die Apps können →</a>
         </div>
       </div>
     </section>
 
     
-    <section class="bg-slate-800 py-16 sm:py-20" aria-labelledby="different-heading">
-      <div class="max-w-4xl mx-auto px-6">
-        <h2 id="different-heading" class="font-extrabold tracking-tight text-white mb-6" style="font-size: clamp(1.75rem, 4.5vw, 3rem); line-height: 1.15;">Ein solides Fundament für Macher.</h2>
-        <p class="text-slate-300 leading-relaxed max-w-3xl mb-10" style="font-size: 1.0625rem;">lernapps sind keine Produkte eines Verlags. Eltern und Lehrkräfte bauen sie, weil ihrem Kind oder ihrer Klasse etwas gefehlt hat. lernapps.net gibt ihnen ein Fundament, auf dem daraus gute Apps werden.</p>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
-          <div class="rounded-2xl border border-slate-700 bg-slate-900 p-6">
-            <h3 class="text-base font-semibold text-blue-300 mb-4">Die Macher bringen</h3>
-            <ul class="space-y-3 list-none p-0 m-0">
-              <li class="flex gap-3 text-slate-200 leading-relaxed"><span class="text-blue-400" aria-hidden="true">●</span><span>ihre Idee</span></li>
-              <li class="flex gap-3 text-slate-200 leading-relaxed"><span class="text-blue-400" aria-hidden="true">●</span><span>ihr Wissen über das Fach</span></li>
-              <li class="flex gap-3 text-slate-200 leading-relaxed"><span class="text-blue-400" aria-hidden="true">●</span><span>ihre Erfahrung aus Klasse und Küchentisch</span></li>
-            </ul>
-          </div>
-          <div class="rounded-2xl border border-slate-700 bg-slate-900 p-6">
-            <h3 class="text-base font-semibold text-blue-300 mb-4">Die Plattform bringt</h3>
-            <ul class="space-y-3 list-none p-0 m-0">
-              <li class="flex gap-3 text-slate-200 leading-relaxed"><span class="text-blue-400" aria-hidden="true">●</span><span>Grundgerüste für Quiz, Erklär-App und interaktive App</span></li>
-              <li class="flex gap-3 text-slate-200 leading-relaxed"><span class="text-blue-400" aria-hidden="true">●</span><span>eine Methodik: am Lehrplan orientiert, Übungen mit Rückmeldung</span></li>
-              <li class="flex gap-3 text-slate-200 leading-relaxed"><span class="text-blue-400" aria-hidden="true">●</span><span>Werkzeuge zum Bauen, Prüfen und Eintragen</span></li>
-            </ul>
-          </div>
-        </div>
-        <p class="text-white font-semibold mb-6" style="font-size: 1.125rem;">So wird es einfach und schnell, eigene Ideen umzusetzen.</p>
-        <a href="/features/#nutzer" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-slate-600 text-white text-sm font-semibold hover:border-blue-400 hover:text-blue-200 transition-colors">Was die Apps können →</a>
+    <section id="plattform" class="bg-white py-16 sm:py-20 scroll-mt-16" aria-labelledby="platform-heading">
+      <div class="max-w-5xl mx-auto px-6">
+        <h2 id="platform-heading" class="font-extrabold tracking-tight text-slate-900 mb-8" style="font-size: clamp(1.75rem, 4.5vw, 2.5rem); line-height: 1.15;">Noch eine Plattform? Diese gehört <mark class="mark">keiner Firma</mark>.</h2>
+        <ul class="grid grid-cols-1 md:grid-cols-3 gap-x-10 gap-y-6 list-none p-0 m-0 mb-8">
+          <li class="border-t-2 border-slate-300 pt-5"><h3 class="font-bold text-slate-900 text-lg mb-1">Niemand verdient daran</h3><p class="text-slate-600 leading-relaxed">Kein Abo, keine Werbung, kein Datenverkauf.</p></li>
+          <li class="border-t-2 border-slate-300 pt-5"><h3 class="font-bold text-slate-900 text-lg mb-1">Ein Ort zum Austausch</h3><p class="text-slate-600 leading-relaxed">Rückmeldung und Danke kommen bei den Machern an.</p></li>
+          <li class="border-t-2 border-slate-300 pt-5"><h3 class="font-bold text-slate-900 text-lg mb-1">Offen</h3><p class="text-slate-600 leading-relaxed">Regeln, Plan und Quellcode sind öffentlich.</p></li>
+        </ul>
+        <a href="/features/#prinzipien" class="font-semibold text-blue-700 underline underline-offset-2 hover:text-blue-800">Alle Prinzipien →</a>
       </div>
     </section>
 
     
-    <section id="plattform" class="bg-white py-16 sm:py-24" aria-labelledby="platform-heading">
-      <div class="max-w-5xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
-        <div>
-          <p class="text-slate-500 mb-5" style="font-size: clamp(1.125rem, 2.5vw, 1.5rem); line-height: 1.35;"><span class="text-blue-500" aria-hidden="true">„</span>Noch eine Plattform? Davon gibt es doch genug.<span class="text-blue-500" aria-hidden="true">“</span></p>
-          <h2 id="platform-heading" class="font-extrabold tracking-tight text-slate-900 mb-6" style="font-size: clamp(1.75rem, 4.5vw, 2.75rem); line-height: 1.12;">Stimmt. Aber diese gehört keiner Firma.</h2>
-          <p class="text-slate-700 leading-relaxed" style="font-size: 1.0625rem;">lernapps.net ist kein Produkt eines Anbieters und keiner Agentur. Es ist ein gemeinsamer Ort: Eltern und Lehrkräfte bauen hier Apps, teilen sie und setzen sie ein. Dabei gelten für alle dieselben Prinzipien.</p>
-        </div>
-        <div class="lg:pt-2">
-          <ol class="space-y-7 list-none p-0 m-0">
-            <li class="flex gap-4">
-              <span class="mt-0.5 shrink-0 w-9 h-9 rounded-full bg-blue-600 text-white flex items-center justify-center text-sm font-bold" aria-hidden="true">1</span>
-              <div><h3 class="font-semibold text-slate-900 mb-1">Niemand verdient daran.</h3><p class="text-slate-600 leading-relaxed">Kein Abo, keine Werbung, kein Verkauf von Daten. Auch später nicht. Die Apps brauchen keinen eigenen Server, darum kostet der Betrieb fast nichts. <a href="/features/#kosten" class="font-semibold text-blue-700 underline underline-offset-2 hover:text-blue-800 whitespace-nowrap">Mehr dazu →</a></p></div>
-            </li>
-            <li class="flex gap-4">
-              <span class="mt-0.5 shrink-0 w-9 h-9 rounded-full bg-blue-600 text-white flex items-center justify-center text-sm font-bold" aria-hidden="true">2</span>
-              <div><h3 class="font-semibold text-slate-900 mb-1">Ein Ort für den Austausch.</h3><p class="text-slate-600 leading-relaxed">Die einen bauen Apps, die anderen setzen sie ein. Rückmeldung und Danke kommen bei denen an, die gebaut haben.</p></div>
-            </li>
-            <li class="flex gap-4">
-              <span class="mt-0.5 shrink-0 w-9 h-9 rounded-full bg-blue-600 text-white flex items-center justify-center text-sm font-bold" aria-hidden="true">3</span>
-              <div><h3 class="font-semibold text-slate-900 mb-1">Offen, nach festen Prinzipien.</h3><p class="text-slate-600 leading-relaxed">Kein Konto, die Apps sammeln nichts. Die Regeln, der Plan und der Quellcode der Plattform sind öffentlich.</p></div>
-            </li>
-          </ol>
-          <ul class="flex flex-wrap gap-3 list-none p-0 m-0 mt-9">
-            <li><a href="/features/#prinzipien" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-slate-300 text-slate-800 text-sm font-semibold hover:border-blue-400 hover:text-blue-700 transition-colors">Alle Prinzipien →</a></li>
-            <li><a href="/features/#plattform" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-slate-300 text-slate-800 text-sm font-semibold hover:border-blue-400 hover:text-blue-700 transition-colors">Wie die Plattform funktioniert →</a></li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    
-    <section id="mitmachen" class="bg-slate-50 py-16 sm:py-20 scroll-mt-16" aria-labelledby="join-heading">
-      <div class="max-w-3xl mx-auto px-6">
-        <p class="text-4xl mb-4" aria-hidden="true">🔧</p>
-        <h2 id="join-heading" class="font-extrabold tracking-tight text-slate-900 mb-6" style="font-size: clamp(1.75rem, 4.5vw, 2.5rem); line-height: 1.15;">Du willst nicht warten, bis sich etwas ändert?</h2>
-        <div class="space-y-4 mb-8">
-          <p class="text-slate-700 leading-relaxed" style="font-size: 1.0625rem;">Bau die App, die deiner Klasse oder deinem Kind fehlt. Du bringst die Idee und den Inhalt. Wir geben dir den Rahmen, die Methodik und die Werkzeuge. Dein KI-Assistent hilft dir beim Bauen. Und deine App bleibt deine.</p>
-          <p class="text-slate-700 leading-relaxed" style="font-size: 1.0625rem;">Wer deine App nutzt, kann Danke sagen. Du erfährst davon und siehst, wo deine Arbeit ankommt.</p>
-        </div>
-        <a href="/apps/build/" class="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors text-sm">Eine App bauen →</a>
-      </div>
-    </section>
-
-    
-    <section class="bg-white py-16 sm:py-20" aria-labelledby="founder-heading">
+    <section class="bg-slate-50 py-16 sm:py-20" aria-label="Oliver Jägle">
       <div class="max-w-3xl mx-auto px-6">
         <figure class="m-0 border-l-4 border-blue-500 pl-6 sm:pl-8">
-          <h2 id="founder-heading" class="font-extrabold tracking-tight text-slate-900 mb-6" style="font-size: clamp(1.5rem, 3.5vw, 2.125rem); line-height: 1.2;">Seit Jahren reden alle vom Digitalisierungs­problem der Schulen. Ich glaube, wir haben ein anderes.</h2>
-          <div class="space-y-4">
-            <p class="text-slate-700 leading-relaxed" style="font-size: 1.0625rem;">Es fehlt nicht an Tablets und WLAN. Es fehlt an einem Ökosystem, das gute Ideen dorthin bringt, wo sie gebraucht werden. Eltern und Lehrkräfte bauen längst Lern-Apps für ihr Kind oder ihre Klasse. Aber die Apps bleiben, wo sie entstanden sind.</p>
-            <p class="text-slate-700 leading-relaxed" style="font-size: 1.0625rem;">Ich will nicht weiter klagen, sondern etwas tun. Und ich will, dass alle, denen gute Bildung am Herzen liegt, auch etwas tun können. Darum gründe ich lernapps.net.</p>
-          </div>
-          <figcaption class="mt-6"><span class="block font-semibold text-slate-900">Oliver Jägle</span><span class="text-sm text-slate-500">Gründer von lernapps.net</span></figcaption>
+          <blockquote class="m-0"><p class="text-slate-800 leading-relaxed" style="font-size: clamp(1.25rem, 2.5vw, 1.625rem); line-height: 1.4;">Es fehlt nicht an Tablets und WLAN. Es fehlt ein Ökosystem, das gute Ideen dorthin bringt, wo sie gebraucht werden.</p></blockquote>
+          <figcaption class="mt-5 flex items-center gap-4">
+            <img src="/media/oliver-jaegle.webp" alt="" width="192" height="192" loading="lazy" class="avatar w-14 h-14 rounded-full object-cover shrink-0 border-2 border-slate-300">
+            <span><span class="block font-semibold text-slate-900">Oliver Jägle</span><span class="text-sm text-slate-500">Gründer von lernapps.net</span></span>
+          </figcaption>
         </figure>
-        <a href="/about/" class="mt-8 inline-flex items-center gap-2 font-semibold text-blue-700 hover:text-blue-800">Mehr über uns und die Idee →</a>
+        <a href="/about/" class="mt-6 inline-block font-semibold text-blue-700 underline underline-offset-2 hover:text-blue-800">Mehr über uns →</a>
       </div>
     </section>
 
     
     <section class="py-16 sm:py-20 bg-blue-700 text-white" aria-labelledby="final-cta-heading">
       <div class="max-w-2xl mx-auto px-6 text-center">
-        <h2 id="final-cta-heading" class="font-bold mb-4" style="font-size: clamp(1.5rem, 4vw, 2.25rem);">Lebt von Leidenschaft. Und von deinem Danke.</h2>
-        <p class="text-blue-200 leading-relaxed mb-8">Finde eine App für morgen. Oder bau die, die noch fehlt.</p>
+        <h2 id="final-cta-heading" class="font-bold mb-8" style="font-size: clamp(1.5rem, 4vw, 2.25rem);">Finde eine App für morgen. Oder bau die, die fehlt.</h2>
         <div class="flex flex-wrap justify-center gap-3">
           <a href="/apps/" class="inline-flex items-center gap-2 px-6 py-3 bg-white text-blue-700 font-semibold rounded-xl hover:bg-blue-50 transition-colors text-sm">App finden →</a>
           <a href="/apps/build/" class="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl transition-colors text-sm border border-blue-500">Eine App bauen</a>
