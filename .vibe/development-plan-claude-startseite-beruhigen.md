@@ -133,6 +133,7 @@ Ergebnis Code (2026-10-29): Seite von 6492 auf 3960 px Höhe (Desktop). Geprüft
 - [x] Überschreibung der hellen Abschnitte als Preflight in `uno.config.js`, nur für Nachfahren von `.bg-white` und `.bg-slate-50`; `color-scheme: light dark`; dunkle Galerie in `home.css`.
 - [x] Kontrastscan (Playwright, alle 15 Seiten, hell und dunkel, 1440 px): 0 Fehler (WCAG 2.1 AA: 4,5:1, großer Text 3:1). Ein erster Lauf fand 12 Fehler auf 404, Datenschutz und Impressum, weil die Fläche nur an `section` und `div` hing; jetzt an jedem Element außer Link und Knopf.
 - [x] Test: die dunklen Bilder liegen im Build; Struktur de/en gleich (jetzt auch `<source>`).
+- [x] Marker natürlicher (Nutzer): Strich mit schrägen, weichen Enden, ungleichen Ecken, zweitem Strich und feinem Korn (SVG als Data-URI, keine Anfrage), 82 % der Zeilenhöhe; im Dunkelmodus ein weicheres Gelb (`#facc15`). Das Browser-Gelb von `<mark>` wird mit `background-color: transparent` abgestellt. Kontrastscan weiter 0 Fehler; ohne Bewegung fertig, mit Bewegung startet er bei 0.
 - Folgeaufgabe: Dunkelmodus für `site-frame/tokens.css` und `frame.css`, zusammen mit der Navigation, damit Doku und Apps nachziehen.
 
 ## Commit
