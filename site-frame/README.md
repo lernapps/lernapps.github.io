@@ -18,7 +18,7 @@ a change to the navigation or the tokens with its next update pull request.
 |---|---|
 | `tokens.css` | Design tokens as CSS custom properties (`--la-*`): brand colours, text, links, font, widths |
 | `frame.css` | Header, footer, skip link and preview banner, plain CSS on the tokens (class prefix `la-`) |
-| `nav.js` | The navigation and footer links of all sites in every language (`LANGUAGES`), and which path belongs to which repo (`SITES`, `TRANSLATED_SITES`) |
+| `nav.js` | The navigation and footer links of all sites in every language (`LANGUAGES`), the groups of the navigation links for the menu on a phone, and which path belongs to which repo (`SITES`, `TRANSLATED_SITES`) |
 | `frame.js` | `head()`, `header()`, `footer()`, `link()`, `languageOf()` and `pathIn()`: render the site frame as HTML strings |
 | `eleventy.js` | Eleventy plugin: shortcodes `laHead`, `laHeader`, `laFooter`, filter `own`, copies the CSS |
 | `inject.mjs` | CLI `lernapps-frame` for sites not built with Eleventy (docs): adds the site frame to built HTML |
@@ -87,3 +87,12 @@ own language (`/privacy/`, `/en/privacy/`).
 - A change here changes every site: check it in the previews of apps and docs after Renovate bumps them.
 - The frame never carries the usage counter: apps use the frame too, and apps are never counted. The platform sites
   add the counter themselves (see [Usage counter](../README.md#usage-counter)).
+
+## The header on a phone
+
+On a wide screen the header shows the links in one row. Up to 40 rem it shows a "Menu" button instead, which opens the
+links in groups (`nav.groups` in `nav.js`: for learners, for makers, understand and join in). It is a `<details>`, so it
+needs no script. A closed `<details>` hides its content on every screen and cannot be closed on a phone only, so
+`header()` writes two navigations with the same links, the row (`la-nav--bar`) and the menu (`la-menu`), and
+`frame.css` shows one of them (`display: none` on the other, so that assistive technology reads only one). A new link
+goes into `links` and into exactly one group; `test/nav.test.mjs` checks both.
