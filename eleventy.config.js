@@ -12,6 +12,7 @@ export default function (eleventyConfig) {
     "src/llms.txt",
     "src/join.js", // copy buttons of the prompts on /join/
     "src/cat.js", // the cat video in the hero of the home page
+    "src/home.css", // gallery, highlighter and red ticks of the home page
     "src/media", // video and poster of the cat
     "src/favicon.svg",
     "src/favicon.ico",
@@ -26,6 +27,15 @@ export default function (eleventyConfig) {
 
   // Texts in src/_data/de.js separate paragraphs with a blank line, as in the original.
   eleventyConfig.addFilter("paragraphs", (text) => String(text).split("\n\n"));
+
+  // A word in [[double brackets]] gets the highlighter (home.css). The text is escaped first; use with "safe".
+  eleventyConfig.addFilter("marked", (text) =>
+    String(text)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/\[\[(.+?)\]\]/g, '<mark class="mark">$1</mark>'),
+  );
 
   return {
     dir: { input: "src", output: "_site" },

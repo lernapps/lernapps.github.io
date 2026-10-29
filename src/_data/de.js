@@ -12,8 +12,8 @@ export default {
 
   landing: {
     hero: {
-      headline: "Lern-Apps ohne Haken.",
-      subtitle: "Gemacht von Eltern und Lehrkräften, mit Leidenschaft. Kostenlos im Browser und sofort startklar.",
+      headline: "Lern-Apps [[ohne Haken]].",
+      subtitle: "Kostenlos im Browser, sofort startklar.",
       badges: ["Kein Konto", "Keine Werbung", "Kein Abo", "Eingaben bleiben auf dem Gerät", "Auch auf dem Handy"],
       primary: "App finden",
       primaryHref: "/apps/",
@@ -33,114 +33,76 @@ export default {
       },
     },
 
-    showcase: {
-      heading: "Ein paar Apps aus dem Katalog",
-      intro: "Von der umfassenden Übungs-App bis zum Spiel. Jede ist für eine echte Klasse oder ein echtes Kind entstanden.",
-      early: "Wir fangen gerade erst an. Der Katalog wächst mit jeder App, die jemand einträgt.",
-      lasting: "Die Apps liegen bei ihren Machern, nicht bei uns. Gäbe es lernapps.net nicht mehr, liefen sie weiter.",
-      honest: "Jede App kommt von einem Menschen. Wir helfen beim Bauen, aber eine Garantie für die Qualität ist das nicht. Siehst du einen Fehler im Inhalt, melde ihn auf der Seite der App.",
+    // Galerie: eine App groß, die anderen als Vorrat daneben. Nur Beispiele, der Katalog hat mehr.
+    gallery: {
+      id: "beispiele",
+      heading: "Aus dem Katalog",
+      label: "Beispiele",
+      more: "Mehr im App-Katalog",
+      moreHref: "/apps/",
       apps: [
-        { icon: "🗺️", meta: "Mathematik · Klasse 8", title: "Mathe-Karte", text: "Prozent, binomische Formeln und Wahrscheinlichkeit: erklärt, mit Bild und vielen Aufgaben.", href: "/apps/mathe-karte/" },
-        { icon: "🎲", meta: "Mathematik · Klasse 7 und 8", title: "Kniffel-Trainer", text: "Kniffel spielen und dabei Chancen als Bruch und Prozent verstehen.", href: "/apps/kniffel-trainer/" },
-        { icon: "🔍", meta: "Deutsch · Klasse 3 bis 13", title: "Textcheck", text: "Fehler in Texten finden, bis hin zu Meinungen, die wie Tatsachen klingen.", href: "/apps/textcheck/" },
-        { icon: "🌋", meta: "Erdkunde · Klasse 5 bis 10", title: "Naturwunder-Quiz", text: "Vulkane, Wasserfälle, Wüsten: zu jeder Antwort eine Erklärung und Wikipedia zum Weiterlesen.", href: "/apps/naturwunder-quiz/" },
+        { id: "mathe-karte", title: "Mathe-Karte", field: "Mathematik", line: "Mathe Schritt für Schritt erklärt, mit Bild und Aufgaben.", href: "/apps/mathe-karte/", altDesktop: "Mathe-Karte am Computer: Aufgabe zum Prozentsatz mit Rechnung und Balkenbild", altPhone: "Mathe-Karte am Handy: Rechnung und Balkenbild" },
+        { id: "kniffel-trainer", title: "Kniffel-Trainer", field: "Mathematik", line: "Wahrscheinlichkeit spielerisch verstehen beim Kniffeln.", href: "/apps/kniffel-trainer/", altDesktop: "Kniffel-Trainer am Computer: Würfel und Kniffelblock im Erklärmodus", altPhone: "Kniffel-Trainer am Handy: Würfel und Kniffelblock" },
+        { id: "textcheck", title: "Textcheck", field: "Deutsch", line: "Aufmerksam lesen: Fehler im Text finden.", href: "/apps/textcheck/", altDesktop: "Textcheck am Computer: Text über Pyramiden mit einem markierten Wort", altPhone: "Textcheck am Handy: Text über Pyramiden mit einem markierten Wort" },
+        { id: "naturwunder-quiz", title: "Naturwunder-Quiz", field: "Erdkunde", line: "Erdkunde-Quiz mit einer Erklärung zu jeder Antwort.", href: "/apps/naturwunder-quiz/", altDesktop: "Naturwunder-Quiz am Computer: Frage zur Höhe des Mount Everest mit Foto", altPhone: "Naturwunder-Quiz am Handy: Frage zur Höhe des Mount Everest mit Foto" },
       ],
-      all: "Alle Apps ansehen",
-      allHref: "/apps/",
     },
 
     forYou: {
+      id: "fuer-dich",
       heading: "Was du davon hast",
-      intro: "Zwei Wege für dein Kind. Lernen braucht Zeit: Dafür gibt es den Katalog. Vor einer Arbeit zählt der Stoff aus dem Heft: Dafür macht dein KI-Assistent eine App zum Üben nach Maß.",
-      privacy: {
-        title: "Datenschutz ist bei uns ein Feature",
-        text: "Kein Konto, keine Cookies, kein Tracking. Was eingegeben wird, bleibt auf dem Gerät. Was lernapps.net genau speichert und was nicht, steht in der Datenschutzerklärung. Du kannst sie an deine Schulleitung oder die Datenschutzbeauftragten weitergeben.",
-        link: "Zur Datenschutzerklärung",
-        href: "/privacy/",
-      },
-      next: "Mehr musst du nicht wissen. Der Rest der Seite ist für alle, die selbst eine App bauen wollen.",
-      nextLink: "Zu den Apps",
-      nextHref: "/apps/",
+      privacy: { text: "Kein Konto, keine Cookies, kein Tracking.", link: "Datenschutzerklärung", href: "/privacy/" },
       items: [
-        {
-          icon: "📚", role: "Wenn du unterrichtest", headline: "Vertretungs\u00ADstunde in der 7b?",
-          text: "Du übernimmst kurzfristig eine Klasse, vielleicht nicht einmal in deinem Fach. Such nach Fach und Klasse, teile einen Link oder zeig den QR-Code. Die Klasse arbeitet sinnvoll am Thema, und die App gibt jedem Kind Rückmeldung.\n\nNiemand braucht ein Konto, und es werden keinerlei Daten deiner Schülerinnen und Schüler gesammelt.",
-          cta: "Apps für den Unterricht", ctaHref: "/apps/",
-        },
-        {
-          icon: "🧭", role: "Wenn dein Kind ein Thema lernen will", headline: "Lernen, im eigenen Tempo.",
-          text: "Dein Kind hängt in einem Thema, und dir fehlt die Zeit oder das Fachwissen? Im Katalog findet es Apps, die ein Thema Schritt für Schritt erklären, mit Übungen und Rückmeldung. Gebaut von Eltern und Lehrkräften, dauerhaft erreichbar.\n\nDein Kind kann so oft wiederkommen, wie es braucht: ohne Abo, ohne Werbung, ohne Konto.",
-          cta: "Apps zum Lernen", ctaHref: "/apps/",
-        },
-        {
-          icon: "📝", role: "Wenn eine Arbeit ansteht", headline: "Üben, genau für die nächste Arbeit.",
-          text: "Nächste Woche ist die Arbeit, und im Katalog gibt es nichts zu genau diesem Stoff? Gib deinem KI-Assistenten Fotos der Arbeitsblätter. In wenigen Minuten wird daraus eine App, die genau diesen Stoff erklärt und abfragt.\n\nDu brauchst kein Fachwissen: Du sagst, wofür, und schaust dir das Ergebnis an. Die App ist zwei Wochen erreichbar, dein Kind braucht kein Konto.",
-          cta: "Zum Üben", ctaHref: "/practice/",
-        },
+        { headline: "Vertretungsstunde in der 7b?", text: "Fach und Klasse wählen, Link teilen oder QR-Code zeigen. Jedes Kind bekommt Rückmeldung, niemand braucht ein Konto.", cta: "Apps für den Unterricht", ctaHref: "/apps/" },
+        { headline: "Dein Kind hängt in einem Thema?", text: "Apps erklären Schritt für Schritt, mit Übungen und Rückmeldung. Kostenlos und jederzeit wieder.", cta: "Apps zum Lernen", ctaHref: "/apps/" },
+        { headline: "Nächste Woche ist die Arbeit?", text: "Dein KI-Assistent macht aus den Arbeitsblättern eine Übungs-App. In Minuten, ohne Fachwissen.", cta: "Zum Üben", ctaHref: "/practice/" },
       ],
     },
 
-    // KI: ein kurzer Abschnitt, nur der Tutor als Karte. Das Bauen mit KI steht weiter unten ("Fundament für Macher") und im Tooling.
-    // Die Details zum Tutor stehen auf /tutor/ (tutor).
+    // KI: nur der Tutor, in einem Satz. Die Details stehen auf /tutor/ (tutor).
     ki: {
       id: "ki",
-      heading: "KI ist überall. Auch hier. Und trotzdem geht alles ohne.",
-      lead: "Wir haben die Plattform mit KI und für KI gebaut, vor allem aber für Menschen.",
-      learn: {
-        icon: "🧑‍🏫",
-        role: "Zum Lernen",
-        headline: "Dein eigener Tutor.",
-        text: "Die Lerninhalte der Apps sind für KI-Assistenten lesbar. Dein eigener Assistent kann dich begleiten, führen und unterstützen: geduldig, persönlich und immer da.\n\nlernapps.net erfährt davon nichts.",
-        cta: "So funktioniert der Tutor",
-        ctaHref: "/tutor/",
-      },
+      heading: "Dein eigener [[Tutor]].",
+      text: "Jede Erklär-App gibt deinem KI-Assistenten die Aufgabe. Er begleitet dich geduldig, und lernapps.net erfährt nichts davon.",
+      cta: "So funktioniert der Tutor",
+      ctaHref: "/tutor/",
     },
 
-    different: {
-      heading: "Ein solides Fundament für Macher.",
-      intro: "lernapps sind keine Produkte eines Verlags. Eltern und Lehrkräfte bauen sie, weil ihrem Kind oder ihrer Klasse etwas gefehlt hat. lernapps.net gibt ihnen ein Fundament, auf dem daraus gute Apps werden.",
-      makers: { title: "Die Macher bringen", items: ["ihre Idee", "ihr Wissen über das Fach", "ihre Erfahrung aus Klasse und Küchentisch"] },
-      platform: { title: "Die Plattform bringt", items: ["Grundgerüste für Quiz, Erklär-App und interaktive App", "eine Methodik: am Lehrplan orientiert, Übungen mit Rückmeldung", "Werkzeuge zum Bauen, Prüfen und Eintragen"] },
-      result: "So wird es einfach und schnell, eigene Ideen umzusetzen.",
+    // Für Macher: Mitmachen und Fundament in einem Abschnitt. Die id "mitmachen" steht im Hero-Knopf "Selbst bauen".
+    maker: {
+      id: "mitmachen",
+      heading: "Du bringst die [[Idee]]. Wir bringen das Fundament.",
+      you: { title: "Du", text: "Idee, Fachwissen, Erfahrung aus Klasse und Küchentisch." },
+      we: { title: "Wir", text: "Grundgerüste, Methodik, Werkzeuge zum Bauen, Prüfen und Eintragen." },
+      note: "Dein KI-Assistent hilft beim Bauen, und die App bleibt deine.",
+      cta: "Eine App bauen",
+      ctaHref: "/apps/build/",
       link: "Was die Apps können",
       linkHref: "/features/#nutzer",
     },
 
     platform: {
-      objection: "Noch eine Plattform? Davon gibt es doch genug.",
-      heading: "Stimmt. Aber diese gehört keiner Firma.",
-      intro: "lernapps.net ist kein Produkt eines Anbieters und keiner Agentur. Es ist ein gemeinsamer Ort: Eltern und Lehrkräfte bauen hier Apps, teilen sie und setzen sie ein. Dabei gelten für alle dieselben Prinzipien.",
+      id: "plattform",
+      heading: "Noch eine Plattform? Diese gehört [[keiner Firma]].",
       points: [
-        { title: "Niemand verdient daran.", text: "Kein Abo, keine Werbung, kein Verkauf von Daten. Auch später nicht. Die Apps brauchen keinen eigenen Server, darum kostet der Betrieb fast nichts.", link: { label: "Mehr dazu", href: "/features/#kosten" } },
-        { title: "Ein Ort für den Austausch.", text: "Die einen bauen Apps, die anderen setzen sie ein. Rückmeldung und Danke kommen bei denen an, die gebaut haben." },
-        { title: "Offen, nach festen Prinzipien.", text: "Kein Konto, die Apps sammeln nichts. Die Regeln, der Plan und der Quellcode der Plattform sind öffentlich." },
+        { title: "Niemand verdient daran", text: "Kein Abo, keine Werbung, kein Datenverkauf." },
+        { title: "Ein Ort zum Austausch", text: "Rückmeldung und Danke kommen bei den Machern an." },
+        { title: "Offen", text: "Regeln, Plan und Quellcode sind öffentlich." },
       ],
-      links: [
-        { label: "Alle Prinzipien", href: "/features/#prinzipien" },
-        { label: "Wie die Plattform funktioniert", href: "/features/#plattform" },
-      ],
-    },
-
-    join: {
-      id: "mitmachen",
-      heading: "Du willst nicht warten, bis sich etwas ändert?",
-      text: "Bau die App, die deiner Klasse oder deinem Kind fehlt. Du bringst die Idee und den Inhalt. Wir geben dir den Rahmen, die Methodik und die Werkzeuge. Dein KI-Assistent hilft dir beim Bauen. Und deine App bleibt deine.\n\nWer deine App nutzt, kann Danke sagen. Du erfährst davon und siehst, wo deine Arbeit ankommt.",
-      cta: "Eine App bauen",
-      ctaHref: "/apps/build/",
+      link: "Alle Prinzipien",
+      linkHref: "/features/#prinzipien",
     },
 
     founder: {
-      heading: "Seit Jahren reden alle vom Digitalisierungs\u00ADproblem der Schulen. Ich glaube, wir haben ein anderes.",
-      text: "Es fehlt nicht an Tablets und WLAN. Es fehlt an einem Ökosystem, das gute Ideen dorthin bringt, wo sie gebraucht werden. Eltern und Lehrkräfte bauen längst Lern-Apps für ihr Kind oder ihre Klasse. Aber die Apps bleiben, wo sie entstanden sind.\n\nIch will nicht weiter klagen, sondern etwas tun. Und ich will, dass alle, denen gute Bildung am Herzen liegt, auch etwas tun können. Darum gründe ich lernapps.net.",
+      quote: "Es fehlt nicht an Tablets und WLAN. Es fehlt ein Ökosystem, das gute Ideen dorthin bringt, wo sie gebraucht werden.",
       signature: "Oliver Jägle",
       role: "Gründer von lernapps.net",
-      link: "Mehr über uns und die Idee",
+      link: "Mehr über uns",
       linkHref: "/about/",
     },
 
     cta: {
-      title: "Lebt von Leidenschaft. Und von deinem Danke.",
-      description: "Finde eine App für morgen. Oder bau die, die noch fehlt.",
+      title: "Finde eine App für morgen. Oder bau die, die fehlt.",
       primary: "App finden",
       primaryHref: "/apps/",
       secondary: "Eine App bauen",
