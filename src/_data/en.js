@@ -90,6 +90,20 @@ export default {
       linkHref: "/features/#users",
     },
 
+    ai: {
+      id: "ai",
+      heading: "AI helps you build. The apps don't need it.",
+      intro: "An AI assistant can do a lot, but it does not replace a teacher. On lernapps.net it has three clear jobs. You decide whether and when to use it.",
+      items: [
+        { icon: "🛠️", title: "Your assistant builds with you", text: "You bring the idea and the content. Your assistant follows our guidance, builds the app and checks it. You decide along with it at fixed points." },
+        { icon: "🎓", title: "A tutor, if you like", text: "Some apps give your assistant the task, the solution and the typical mistakes. It then explains at your pace. This is optional." },
+        { icon: "🤖", title: "Readable for assistants", text: "Every part of lernapps.net has an llms.txt. So your assistant can find the right app or explain the platform to you." },
+      ],
+      note: { title: "It works without AI too", text: "Every app works entirely without AI. It sends nothing to an AI service itself." },
+      link: "More about AI on lernapps.net",
+      linkHref: "/features/#ai",
+    },
+
     platform: {
       objection: "Another platform? There are plenty already.",
       heading: "True. But this one belongs to no company.",

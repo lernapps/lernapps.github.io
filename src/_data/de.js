@@ -1,6 +1,6 @@
 // All texts of the site's pages (German); en.js is the English translation, with the same structure. Templates contain no copy of their own.
-// The home page tells one story: the promise, real apps, what adults get, a solid foundation for makers, why another
-// platform (it belongs to no company), how to join, and why the founder does this. Details live on two pages:
+// The home page tells one story: the promise, real apps, what adults get, a solid foundation for makers, the role of AI
+// (it helps to build; the apps work without it), why another platform (it belongs to no company), how to join, and why the founder does this. Details live on two pages:
 // features (principles, what the apps can do, and technical transparency for developers) and about (the long story).
 // Language: plain German (ISO 24495-1): short sentences, active voice, no jargon, "du".
 export default {
@@ -88,6 +88,20 @@ export default {
       result: "So wird es einfach und schnell, eigene Ideen umzusetzen.",
       link: "Was die Apps können",
       linkHref: "/features/#nutzer",
+    },
+
+    ai: {
+      id: "ki",
+      heading: "KI hilft beim Bauen. Die Apps brauchen sie nicht.",
+      intro: "Ein KI-Assistent kann viel, aber er ersetzt keine Lehrkraft. Bei lernapps.net hat er drei klare Aufgaben. Du entscheidest, ob und wann du ihn einsetzt.",
+      items: [
+        { icon: "🛠️", title: "Dein Assistent baut mit", text: "Du bringst die Idee und den Inhalt. Dein Assistent folgt unseren Anleitungen, baut die App und prüft sie. An festen Punkten entscheidest du mit." },
+        { icon: "🎓", title: "Ein Tutor, wenn du willst", text: "Manche Apps geben deinem Assistenten die Aufgabe, die Lösung und die typischen Fehler. Er erklärt dann in deinem Tempo. Das ist freiwillig." },
+        { icon: "🤖", title: "Lesbar für Assistenten", text: "Jeder Bereich von lernapps.net hat eine llms.txt. So findet dein Assistent die passende App oder erklärt dir die Plattform." },
+      ],
+      note: { title: "Ohne KI geht es auch", text: "Jede App funktioniert ganz ohne KI. Sie sendet selbst nichts an einen KI-Dienst." },
+      link: "Mehr zu KI auf lernapps.net",
+      linkHref: "/features/#ki",
     },
 
     platform: {
