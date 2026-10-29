@@ -12,8 +12,8 @@ export default {
 
   landing: {
     hero: {
-      headline: "Learning apps with no strings attached.",
-      subtitle: "Made by parents and teachers, with passion. Free in the browser and ready to go.",
+      headline: "Learning apps with [[no strings]] attached.",
+      subtitle: "Free in the browser, ready to go.",
       badges: ["No account", "No ads", "No subscription", "What you type stays on the device", "Works on phones too"],
       primary: "Find an app",
       primaryHref: "/apps/en/",
@@ -33,114 +33,76 @@ export default {
       },
     },
 
-    showcase: {
-      heading: "A few apps from the catalog",
-      intro: "From a thorough practice app to a game. Each one was made for a real class or a real child.",
-      early: "We are just getting started. The catalog grows with every app someone lists.",
-      lasting: "The apps live with their makers, not with us. If lernapps.net were gone, they would keep running.",
-      honest: "Every app comes from a person. We help them build it, but that is no guarantee of quality. If you see a mistake in the content, report it on the app's page.",
+    // Gallery: one app large, the others beside it. Examples only, the catalog has more.
+    gallery: {
+      id: "examples",
+      heading: "From the catalog",
+      label: "Examples",
+      more: "More in the app catalog",
+      moreHref: "/apps/en/",
       apps: [
-        { icon: "🗺️", meta: "Maths · Grade 8", title: "Mathe-Karte", text: "Percentages, binomial formulas and probability: explained, with a picture and many exercises.", href: "/apps/en/mathe-karte/" },
-        { icon: "🎲", meta: "Maths · Grades 7 and 8", title: "Kniffel-Trainer", text: "Play Yahtzee and learn to see chances as fractions and percentages.", href: "/apps/en/kniffel-trainer/" },
-        { icon: "🔍", meta: "German · Grades 3 to 13", title: "Textcheck", text: "Find the mistakes in a text, right up to opinions that sound like facts.", href: "/apps/en/textcheck/" },
-        { icon: "🌋", meta: "Geography · Grades 5 to 10", title: "Naturwunder-Quiz", text: "Volcanoes, waterfalls, deserts: an explanation for every answer and Wikipedia to read on.", href: "/apps/en/naturwunder-quiz/" },
+        { id: "mathe-karte", dark: true, title: "Mathe-Karte", field: "Maths", line: "Maths explained step by step, with pictures and exercises.", href: "/apps/en/mathe-karte/", altDesktop: "Mathe-Karte on a computer: a percentage exercise with the calculation and a bar picture", altPhone: "Mathe-Karte on a phone: the calculation and a bar picture" },
+        { id: "kniffel-trainer", title: "Kniffel-Trainer", field: "Maths", line: "Understand probability by playing Yahtzee.", href: "/apps/en/kniffel-trainer/", altDesktop: "Yahtzee Trainer on a computer: dice and score sheet in explain mode", altPhone: "Yahtzee Trainer on a phone: dice and score sheet" },
+        { id: "textcheck", dark: true, title: "Textcheck", field: "German", line: "Read carefully: find the mistakes in a text.", href: "/apps/en/textcheck/", altDesktop: "Textcheck on a computer: a text about pyramids with one word marked", altPhone: "Textcheck on a phone: a text about pyramids with one word marked" },
+        { id: "naturwunder-quiz", dark: true, title: "Naturwunder-Quiz", field: "Geography", line: "A geography quiz with an explanation for every answer.", href: "/apps/en/naturwunder-quiz/", altDesktop: "Naturwunder-Quiz on a computer: a question about the height of Mount Everest with a photo", altPhone: "Naturwunder-Quiz on a phone: a question about the height of Mount Everest with a photo" },
       ],
-      all: "See all apps",
-      allHref: "/apps/en/",
     },
 
     forYou: {
+      id: "for-you",
       heading: "What you get",
-      intro: "Two ways for your child. Learning takes time: that is what the catalogue is for. Before a test, what counts is the material from the exercise book: for that, your AI assistant makes an app to practise, made to measure.",
-      privacy: {
-        title: "For us, privacy is a feature",
-        text: "No account, no cookies, no tracking. What someone types stays on their device. What lernapps.net stores and what it doesn't is set out in the privacy notice. You can pass it on to your head teacher or data protection officer.",
-        link: "To the privacy notice",
-        href: "/privacy/",
-      },
-      next: "That is all you need to know. The rest of this page is for everyone who wants to build an app themselves.",
-      nextLink: "To the apps",
-      nextHref: "/apps/en/",
+      privacy: { text: "No account, no cookies, no tracking.", link: "Privacy notice", href: "/privacy/" },
       items: [
-        {
-          icon: "📚", role: "If you teach", headline: "Covering a lesson in 7b?",
-          text: "You take over a class at short notice, maybe not even in your subject. Search by subject and grade, share a link or show the QR code. The class works on the topic in a meaningful way, and the app gives every child feedback.\n\nNobody needs an account, and no data at all about your students is collected.",
-          cta: "Apps for class", ctaHref: "/apps/en/",
-        },
-        {
-          icon: "🧭", role: "If your child wants to learn a topic", headline: "Learn, at their own pace.",
-          text: "Your child is stuck on a topic, and you lack the time or the subject knowledge? In the catalogue it finds apps that explain a topic step by step, with exercises and feedback. Built by parents and teachers, there to stay.\n\nYour child can come back as often as needed: no subscription, no ads, no account.",
-          cta: "Apps to learn", ctaHref: "/apps/en/",
-        },
-        {
-          icon: "📝", role: "If a test is coming up", headline: "Practise, exactly for the next test.",
-          text: "The test is next week, and the catalogue has nothing on exactly this material? Give your AI assistant photos of the worksheets. In a few minutes they become an app that explains and checks exactly this material.\n\nYou need no subject knowledge: you say what for, and look at the result. The app is online for two weeks, and your child needs no account.",
-          cta: "To practise", ctaHref: "/practice/en/",
-        },
+        { headline: "Covering a lesson in 7b?", text: "Pick subject and grade, share a link or show the QR code. Every child gets feedback, nobody needs an account.", cta: "Apps for class", ctaHref: "/apps/en/" },
+        { headline: "Is your child stuck on a topic?", text: "Apps explain it step by step, with exercises and feedback. Free, and always there to come back to.", cta: "Apps to learn", ctaHref: "/apps/en/" },
+        { headline: "Test next week?", text: "Your AI assistant turns the worksheets into a practice app. In minutes, no subject knowledge needed.", cta: "To practise", ctaHref: "/practice/en/" },
       ],
     },
 
-    // AI: a short section, just the tutor as a card. Building with AI is further down ("A solid foundation for makers") and in the tooling.
-    // The details of the tutor are on /tutor/ (tutor).
+    // AI: just the tutor, in one sentence. The details are on /tutor/ (tutor).
     ki: {
       id: "ai",
-      heading: "AI is everywhere. Here too. And yet everything works without it.",
-      lead: "We built the platform with AI and for AI. Above all, though, for people.",
-      learn: {
-        icon: "🧑‍🏫",
-        role: "For learning",
-        headline: "Your own tutor.",
-        text: "The learning content of the apps can be read by AI assistants. Your own assistant can accompany, guide and support you: patient, personal and always there.\n\nlernapps.net learns nothing about it.",
-        cta: "How the tutor works",
-        ctaHref: "/tutor/",
-      },
+      heading: "Your own [[tutor]].",
+      text: "Every explainer app gives your AI assistant the task. It accompanies you patiently, and lernapps.net learns nothing about it.",
+      cta: "How the tutor works",
+      ctaHref: "/tutor/",
     },
 
-    different: {
-      heading: "A solid foundation for makers.",
-      intro: "lernapps are not products of a publisher. Parents and teachers build them because their child or their class was missing something. lernapps.net gives them a foundation on which these become good apps.",
-      makers: { title: "The makers bring", items: ["their idea", "their knowledge of the subject", "their experience from the classroom and the kitchen table"] },
-      platform: { title: "The platform brings", items: ["foundations for a quiz, an explainer and an interactive app", "a method: based on the curriculum, exercises with feedback", "tools to build, check and list an app"] },
-      result: "That makes it quick and easy to turn your own ideas into apps.",
+    // For makers: joining and the foundation in one section. The id "get-involved" is the target of the hero button "Build one".
+    maker: {
+      id: "get-involved",
+      heading: "You bring the [[idea]]. We bring the foundation.",
+      you: { title: "You", text: "An idea, subject knowledge, experience from the classroom and the kitchen table." },
+      we: { title: "We", text: "Foundations, a method, and tools to build, check and list an app." },
+      note: "Your AI assistant helps you build, and the app stays yours.",
+      cta: "Build an app",
+      ctaHref: "/apps/en/build/",
       link: "What the apps can do",
       linkHref: "/features/#users",
     },
 
     platform: {
-      objection: "Another platform? There are plenty already.",
-      heading: "True. But this one belongs to no company.",
-      intro: "lernapps.net is not the product of a vendor or an agency. It is a shared place: parents and teachers build apps here, share them and use them. The same principles apply to everyone.",
+      id: "platform",
+      heading: "Another platform? This one belongs to [[no company]].",
       points: [
-        { title: "Nobody earns money from it.", text: "No subscription, no ads, no selling of data. Not later either. The apps need no server of their own, so running them costs almost nothing.", link: { label: "More about this", href: "/features/#costs" } },
-        { title: "A place to share.", text: "Some build apps, others use them. Feedback and thanks reach the people who built them." },
-        { title: "Open, with clear principles.", text: "No account, the apps collect nothing. The rules, the plan and the source code of the platform are public." },
+        { title: "Nobody earns money from it", text: "No subscription, no ads, no selling of data." },
+        { title: "A place to share", text: "Feedback and thanks reach the people who built the apps." },
+        { title: "Open", text: "The rules, the plan and the source code are public." },
       ],
-      links: [
-        { label: "All principles", href: "/features/#principles" },
-        { label: "How the platform works", href: "/features/#platform" },
-      ],
-    },
-
-    join: {
-      id: "get-involved",
-      heading: "Don't want to wait for things to change?",
-      text: "Build the app your class or your child is missing. You bring the idea and the content. We give you the foundation, the method and the tools. Your AI assistant helps you build it. And your app stays yours.\n\nWhoever uses your app can say thanks. You hear about it and see where your work arrives.",
-      cta: "Build an app",
-      ctaHref: "/apps/en/build/",
+      link: "All principles",
+      linkHref: "/features/#principles",
     },
 
     founder: {
-      heading: "For years, everyone has talked about the digitalisation problem of schools. I believe we have a different one.",
-      text: "There is no lack of tablets and Wi-Fi. What is missing is an ecosystem that brings good ideas to where they are needed. Parents and teachers have long been building learning apps for their child or their class. But the apps stay where they were made.\n\nI don't want to keep complaining. I want to do something. And I want everyone who cares about good education to be able to do something too. That is why I am founding lernapps.net.",
+      quote: "There is no lack of tablets and Wi-Fi. What is missing is an ecosystem that brings good ideas to where they are needed.",
       signature: "Oliver Jägle",
       role: "Founder of lernapps.net",
-      link: "More about us and the idea",
+      link: "More about us",
       linkHref: "/about/",
     },
 
     cta: {
-      title: "Lives on passion. And on your thanks.",
-      description: "Find an app for tomorrow. Or build the one that is still missing.",
+      title: "Find an app for tomorrow. Or build the one that is missing.",
       primary: "Find an app",
       primaryHref: "/apps/en/",
       secondary: "Build an app",
@@ -169,9 +131,9 @@ export default {
       heading: "What the apps can do",
       intro: "Every app is built on one of three foundations. That is why they work in a similar way everywhere, and every one is made with the same care.",
       archetypes: [
-        { icon: "❓", title: "Quiz", text: "Questions with answers to choose from. After every answer it says why it is right or wrong, and where to read on." },
-        { icon: "📖", title: "Explainer", text: "Chapters of pages that explain. Every page has exercises. The pages can be read without JavaScript too.", extra: "If you like, add an AI tutor: the app gives your own AI assistant the task, the solution and the typical mistakes. This is optional. The app works entirely without AI and sends nothing itself." },
-        { icon: "🎮", title: "Interactive app", text: "Learning by doing: a game, a training, an experiment. What the learners do is the content." },
+        { icon: "circle-help", title: "Quiz", text: "Questions with answers to choose from. After every answer it says why it is right or wrong, and where to read on." },
+        { icon: "book-open", title: "Explainer", text: "Chapters of pages that explain. Every page has exercises. The pages can be read without JavaScript too.", extra: "If you like, add an AI tutor: the app gives your own AI assistant the task, the solution and the typical mistakes. This is optional. The app works entirely without AI and sends nothing itself." },
+        { icon: "gamepad-2", title: "Interactive app", text: "Learning by doing: a game, a training, an experiment. What the learners do is the content." },
       ],
       items: [
         { title: "Based on the curriculum", text: "The content comes from the state curriculum and the teacher's material. Every app says what you can do afterwards." },
@@ -237,22 +199,22 @@ export default {
       heading: "No server. No company. No data collection.",
       intro: "Most learning platforms need servers, accounts and a business model. lernapps.net is built differently. That is why it can stay free.",
       unique: [
-        { id: "costs", icon: "🐙", title: "GitHub as a free backbone", text: "This is why it works without money: the apps and the catalog are static pages on GitHub Pages. An entry is a pull request, the check runs in GitHub Actions. There is no server of our own that costs money." },
-        { id: "data", icon: "🔒", title: "Privacy as a feature", text: "Every app runs entirely in the browser. There is no server with data, no database and no account. What is not collected cannot be lost or sold.", link: { label: "The privacy notice", href: "/privacy/" } },
-        { id: "ai", icon: "🤖", title: "Readable for AI assistants", text: "Every part of lernapps.net has an llms.txt. So an assistant can find the right app, explain the platform or build an app itself. Without anyone having to run an API." },
-        { id: "open", icon: "🧭", title: "Planned in the open", text: "We designed lernapps.net with the Platform Design Toolkit: who takes part, what everyone gets out of it, what we try first. Everything is public, including what we don't know yet." },
+        { id: "costs", icon: "git-branch", title: "GitHub as a free backbone", text: "This is why it works without money: the apps and the catalog are static pages on GitHub Pages. An entry is a pull request, the check runs in GitHub Actions. There is no server of our own that costs money." },
+        { id: "data", icon: "lock", title: "Privacy as a feature", text: "Every app runs entirely in the browser. There is no server with data, no database and no account. What is not collected cannot be lost or sold.", link: { label: "The privacy notice", href: "/privacy/" } },
+        { id: "ai", icon: "bot", title: "Readable for AI assistants", text: "Every part of lernapps.net has an llms.txt. So an assistant can find the right app, explain the platform or build an app itself. Without anyone having to run an API." },
+        { id: "open", icon: "compass", title: "Planned in the open", text: "We designed lernapps.net with the Platform Design Toolkit: who takes part, what everyone gets out of it, what we try first. Everything is public, including what we don't know yet." },
       ],
       principles: {
         id: "principles",
         heading: "The principles",
         intro: "They apply to everyone alike: to those who build apps and to those who use them.",
         items: [
-          { icon: "🤝", title: "No company behind it", text: "Nobody earns money from lernapps.net. No subscription, no ads, no selling of data. Not later either." },
-          { icon: "📂", title: "Open, not closed", text: "The rules, the plan and the source code are public. Anyone can read how decisions are made here." },
-          { icon: "🏡", title: "Your app stays yours", text: "Every app stays with the person who built it. lernapps.net shows it but does not own it." },
-          { icon: "🔒", title: "The apps collect nothing", text: "No account, no cookies, no tracking. What someone types stays on their device." },
-          { icon: "💬", title: "Honest about limits", text: "Every app says what it can do and what it can't. We say openly what we don't know yet." },
-          { icon: "💙", title: "Thanks instead of money", text: "Whoever uses an app can say thanks. Today one click opens a ready-made email to lernapps.net, and we pass the thanks on to the person who built the app. Later one click will be enough, without any email." },
+          { icon: "handshake", title: "No company behind it", text: "Nobody earns money from lernapps.net. No subscription, no ads, no selling of data. Not later either." },
+          { icon: "folder-open", title: "Open, not closed", text: "The rules, the plan and the source code are public. Anyone can read how decisions are made here." },
+          { icon: "house", title: "Your app stays yours", text: "Every app stays with the person who built it. lernapps.net shows it but does not own it." },
+          { icon: "lock", title: "The apps collect nothing", text: "No account, no cookies, no tracking. What someone types stays on their device." },
+          { icon: "message-circle", title: "Honest about limits", text: "Every app says what it can do and what it can't. We say openly what we don't know yet." },
+          { icon: "heart", title: "Thanks instead of money", text: "Whoever uses an app can say thanks. Today one click opens a ready-made email to lernapps.net, and we pass the thanks on to the person who built the app. Later one click will be enough, without any email." },
         ],
       },
       links: [
@@ -320,12 +282,12 @@ export default {
       heading: "How the tutor works",
       intro: "Your assistant gets these rules from the app. You can read them first.",
       items: [
-        { icon: "❓", title: "It asks instead of solving", text: "The tutor names the idea behind the mistake and asks a guiding question. It does not give the answer." },
-        { icon: "🖼️", title: "It starts with the picture", text: "It explains with the picture on the page and asks first: what do you see?" },
-        { icon: "✏️", title: "Calculating happens on paper", text: "You type the result into the app. In the chat there are estimating and why questions." },
-        { icon: "✅", title: "Done is what you can explain", text: "A page counts as done when three exercises were right and you can explain one of them. Then it asks for an exercise by hand: a photo of the sheet only, without a name. It checks every step and names the first wrong one instead of correcting it." },
-        { icon: "🎬", title: "The video comes last", text: "Exercises come first. It recommends the video when you cannot repeat the explanation after two tries." },
-        { icon: "🧭", title: "After assessing, it keeps it short", text: "It answers with three sentences at most, one question and a link to the next page." },
+        { icon: "circle-help", title: "It asks instead of solving", text: "The tutor names the idea behind the mistake and asks a guiding question. It does not give the answer." },
+        { icon: "image", title: "It starts with the picture", text: "It explains with the picture on the page and asks first: what do you see?" },
+        { icon: "pencil", title: "Calculating happens on paper", text: "You type the result into the app. In the chat there are estimating and why questions." },
+        { icon: "circle-check", title: "Done is what you can explain", text: "A page counts as done when three exercises were right and you can explain one of them. Then it asks for an exercise by hand: a photo of the sheet only, without a name. It checks every step and names the first wrong one instead of correcting it." },
+        { icon: "clapperboard", title: "The video comes last", text: "Exercises come first. It recommends the video when you cannot repeat the explanation after two tries." },
+        { icon: "compass", title: "After assessing, it keeps it short", text: "It answers with three sentences at most, one question and a link to the next page." },
       ],
     },
     transparency: {
@@ -387,28 +349,28 @@ export default {
     },
     personas: [
       {
-        id: "teachers", icon: "📚", role: "If you teach",
+        id: "teachers", icon: "library", role: "If you teach",
         headline: "Use apps and tell us how it went.",
         text: "Use an app in class or when you cover a lesson. Afterwards you can say thanks with one click or give short feedback on whether it fitted. Tell your colleagues about it. And if an app is missing: tell us, or build it yourself.",
         cta: "Find apps", ctaHref: "/apps/en/",
         ask: "I teach and I am looking for digital learning material. Read https://lernapps.net/llms.txt and the pages it links to. Explain to me in plain words what lernapps.net is, what the platform offers me as a teacher and how it keeps things safe. Also have a look at the catalogue: https://lernapps.net/apps/en/. Be honest about the limits.",
       },
       {
-        id: "parents", icon: "🏠", role: "If you help a child learn",
+        id: "parents", icon: "house", role: "If you help a child learn",
         headline: "Practise together and say thanks.",
         text: "Look for an app on the topic your child needs help with. Did it help? A thank-you shows the person who built it that their work is worth it. And share the link with other parents, for example in the class group.",
         cta: "Find apps", ctaHref: "/apps/en/",
         ask: "I am a parent and I am looking for safe learning apps for my child. Read https://lernapps.net/llms.txt and the pages it links to. Explain to me in plain words what lernapps.net is, what the platform offers me as a parent and how it keeps things safe. Also have a look at the catalogue: https://lernapps.net/apps/en/. Be honest about the limits.",
       },
       {
-        id: "learners", icon: "🎒", role: "If you are learning yourself",
+        id: "learners", icon: "backpack", role: "If you are learning yourself",
         headline: "Try things out instead of just watching.",
         text: "Find an app on your topic. You don't need an account, and nobody knows who you are. Is there none yet? Maybe you build one yourself, with your AI assistant.",
         cta: "Find apps", ctaHref: "/apps/en/",
         ask: "I am learning something right now and I am looking for something to try out. Read https://lernapps.net/llms.txt and the pages it links to. Explain to me briefly what lernapps.net is, what it does for my learning and how it keeps things safe. Also have a look at the catalogue (https://lernapps.net/apps/en/): is there already something on my topic? If not: think with me about whether we can build a small app for it together.",
       },
       {
-        id: "makers", icon: "🔧", role: "If you want to build an app",
+        id: "makers", icon: "wrench", role: "If you want to build an app",
         headline: "Build the app that is still missing.",
         text: "You bring the idea and the content, your AI assistant builds it with you. lernapps.net gives you foundations, tools and checks. Your app stays yours. Whoever uses it can say thanks, and you hear about it.",
         cta: "Build an app", ctaHref: "/apps/en/build/",
@@ -416,7 +378,7 @@ export default {
         ask: "I like building small learning apps with AI help. Read https://lernapps.net/llms.txt and the pages it links to. Explain to me in plain words what lernapps.net is, what the platform offers people like me and what I get back when someone uses my app. Tell me honestly whether it is worth it for me.",
       },
       {
-        id: "platform", icon: "🧩", role: "If you want to work on the platform",
+        id: "platform", icon: "puzzle", role: "If you want to work on the platform",
         headline: "Make lernapps.net better.",
         text: "The platform is open: docs, tooling, catalog and this site are on GitHub. You can report bugs, improve texts, help build the tooling or think along about where it goes next.",
         cta: "How to contribute", ctaHref: "https://github.com/lernapps/.github/blob/main/CONTRIBUTING.md",
