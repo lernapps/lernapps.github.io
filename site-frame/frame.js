@@ -156,17 +156,27 @@ export function header({
 } = {}) {
   const t = texts[lang];
   const current = currentHref(path);
-  const items = nav.links.map((l) => {
+  const entry = (l) => {
     const href = entryHref(l, lang);
     const external = /^https?:/.test(href) ? ' rel="noopener"' : "";
     const cur = pick(l.href, "de") === current ? ' aria-current="page"' : "";
-    return `<li><a href="${esc(link(href, { site, prefix }))}"${cur}${external}>${esc(pick(l.label, lang))}</a></li>`;
-  });
-  for (const o of otherLanguages(path, lang, languages)) {
-    items.push(
+    return `<a href="${esc(link(href, { site, prefix }))}"${cur}${external}>${esc(pick(l.label, lang))}</a>`;
+  };
+  const switchItems = otherLanguages(path, lang, languages).map(
+    (o) =>
       `<li class="la-lang"><a href="${esc(link(o.path, { site, prefix }))}" hreflang="${o.lang}" lang="${o.lang}" data-la-lang="${o.lang}" aria-label="${esc(texts[o.lang].languageSwitch)}: ${esc(languageName[o.lang])}">${esc(languageName[o.lang])}</a></li>`,
-    );
-  }
+  );
+  // Two navigations with the same links, one of them hidden by CSS (display: none, so that assistive technology
+  // sees only one): the row of links for a wide screen, and the menu for a phone. A closed <details> hides its
+  // content on every screen, and without a script it cannot be closed on a phone only.
+  const bar = [...nav.links.map((l) => `<li>${entry(l)}</li>`), ...switchItems];
+  const groups = nav.groups
+    .map(
+      (g, i) =>
+        `<div class="la-menu__group"><p class="la-menu__title" id="la-menu-${i}">${esc(pick(g.label, lang))}</p><ul aria-labelledby="la-menu-${i}">${g.links.map((l) => `<li>${entry(l)}</li>`).join("")}</ul></div>`,
+    )
+    .join("");
+  const menuLang = switchItems.length ? `<ul class="la-menu__lang">${switchItems.join("")}</ul>` : "";
   const banner = preview
     ? `<p class="la-preview" lang="${lang}">${esc(t.preview)} <a href="${esc(ORIGIN + path)}">lernapps.net${esc(path)}</a></p>`
     : "";
@@ -179,7 +189,8 @@ export function header({
 ${banner}<header class="la-header" lang="${lang}">
   <div class="la-header__inner">
     <a class="la-brand" href="${esc(link(home, { site, prefix }))}" aria-label="${esc(nav[lang].homeLabel)}"${path === home ? ' aria-current="page"' : ""}><img src="/brand/mark-plain.svg" alt=""><span>lernapps<span class="la-brand__tld">.net</span></span></a>
-    <nav class="la-nav" aria-label="${esc(nav[lang].ariaLabel)}"><ul>${items.join("")}</ul></nav>
+    <nav class="la-nav la-nav--bar" aria-label="${esc(nav[lang].ariaLabel)}"><ul>${bar.join("")}</ul></nav>
+    <details class="la-menu"><summary>${esc(t.menu)}</summary><nav class="la-nav la-nav--menu" aria-label="${esc(nav[lang].ariaLabel)}">${groups}${menuLang}</nav></details>
   </div>
 </header>${fallback}`;
 }
