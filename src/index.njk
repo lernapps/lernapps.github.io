@@ -37,14 +37,15 @@ permalink: "{{ l.root }}index.html"
   <link rel="stylesheet" href="{{ '/home.css' | own }}">
 </head>
 <body>
+  {% iconDefs %}
   <div class="min-h-screen bg-slate-900 text-white" style="font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;">
   {% laHeader page.url %}
 
   <main id="main-content" tabindex="-1" class="outline-none">
 
     {# ══════ 1 HERO — the promise ══════ #}
-    {#- The cat video: a button opens it in a dialog (cat.js). Nothing of it loads before the click. Without JavaScript the
-        poster links to the video file; its alt text describes the scene. #}
+    {#- The cat video: a quiet line under the features opens it in a dialog (cat.js). Nothing of it loads before the click.
+        Without JavaScript the line links to the video file; its hidden text describes the scene. #}
     {%- set H = L.hero %}
     <section class="relative overflow-hidden">
       <div class="absolute inset-0 pointer-events-none" style="background-image: linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px); background-size: 48px 48px;" aria-hidden="true"></div>
@@ -56,18 +57,17 @@ permalink: "{{ l.root }}index.html"
           {%- for b in H.badges %}
           <li class="flex items-center gap-2"><svg class="tick" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M3 13 C5 14.5 7 17.5 8.5 21 C11 12 16 6 22 3"/></svg>{{ b }}</li>
           {%- endfor %}
+          {#- The cat video, as quietly as the features: a button that opens the dialog (cat.js shows it); without
+              JavaScript a link to the video file. Nothing of it loads before the click. -#}
+          <li class="basis-full">
+            <button type="button" hidden data-cat-open class="inline-flex items-center gap-2 p-0 bg-transparent border-0 cursor-pointer text-sm text-slate-300 underline underline-offset-2 hover:text-white">{% icon "cat", "size-[18px] text-red-400 shrink-0" %}{{ H.cat.open }}</button>
+            <noscript><a href="{{ '/media/katze.mp4' | own }}" class="inline-flex items-center gap-2 text-sm text-slate-300 underline underline-offset-2 hover:text-white">{% icon "cat", "size-[18px] text-red-400 shrink-0" %}{{ H.cat.open }}<span class="sr-only"> ({{ H.cat.fallback }}). {{ H.cat.description }}</span></a></noscript>
+          </li>
         </ul>
         <div class="flex flex-wrap gap-3">
           <a href="{{ H.primaryHref | own }}" class="inline-flex items-center gap-2 px-5 sm:px-7 py-3 sm:py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors">{{ H.primary }} →</a>
           <a href="{{ H.secondaryHref }}" class="inline-flex items-center gap-2 px-5 sm:px-7 py-3 sm:py-3.5 rounded-xl border border-slate-600 text-white font-semibold hover:border-blue-400 hover:text-blue-200 transition-colors">{{ H.secondary }}</a>
-          <button type="button" hidden data-cat-open class="basis-full sm:basis-auto justify-center inline-flex items-center gap-2 px-5 sm:px-7 py-3 sm:py-3.5 rounded-xl border border-dashed border-slate-500 text-slate-200 font-semibold hover:border-blue-400 hover:text-blue-200 transition-colors cursor-pointer bg-transparent"><span aria-hidden="true">🐱</span> {{ H.cat.open }}</button>
         </div>
-        <noscript>
-          <a href="{{ '/media/katze.mp4' | own }}" class="mt-6 inline-block max-w-xs rounded-xl border border-dashed border-slate-500 p-2 text-sm text-slate-200 hover:border-blue-400">
-            <img src="{{ '/media/katze-poster.jpg' | own }}" alt="{{ H.cat.description }}" width="960" height="528" class="block w-full rounded-lg mb-2">
-            🐱 {{ H.cat.open }}
-          </a>
-        </noscript>
       </div>
     </section>
 

@@ -3,7 +3,7 @@
 // the tests are skipped.
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 
 const pages = { de: "_site/index.html", en: "_site/en/index.html" };
 const built = Object.values(pages).every((p) => existsSync(p));
@@ -61,5 +61,23 @@ test("home: both languages have the same structure", { skip }, () => {
   const en = html("en");
   for (const re of [/<section /g, /<h2 /g, /<img /g, /<source /g, /<li[ >]/g, /<a /g, /class="mark"/g, /class="tick"/g]) {
     assert.equal(count(de, re), count(en, re), String(re));
+  }
+});
+
+// Icons instead of emoji: no pictograph is left in the text of any page, and a page with icons defines the filter
+// "rough" that the icons use.
+const allPages = () => (built ? readdirSync("_site", { recursive: true }).filter((f) => f.endsWith(".html")) : []);
+
+test("pages: no emoji in the built HTML", { skip }, () => {
+  for (const f of allPages()) {
+    const found = readFileSync(`_site/${f}`, "utf8").match(/\p{Extended_Pictographic}/gu);
+    assert.equal(found, null, `${f} has ${found}`);
+  }
+});
+
+test("pages: a page with icons defines the filter they use", { skip }, () => {
+  for (const f of allPages()) {
+    const s = readFileSync(`_site/${f}`, "utf8");
+    if (s.includes('<svg class="icon')) assert.ok(s.includes('<filter id="rough"'), `${f} has icons but no filter`);
   }
 });

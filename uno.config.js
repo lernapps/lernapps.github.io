@@ -7,6 +7,7 @@ import presetTypography from "@unocss/preset-typography";
 // "dark:" twin on every class. Only descendants of a light section (bg-white or bg-slate-50) are changed; the dark
 // and blue sections (hero, rules, final call to action) and the links and buttons in them stay as they are.
 const dark = `
+svg.icon { flex: none; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
 :root { color-scheme: light dark; }
 @media (prefers-color-scheme: dark) {
   .bg-white:not(a, button) { background-color: #0b1220; }
