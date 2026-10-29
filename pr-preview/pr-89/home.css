@@ -1,22 +1,31 @@
 /* Styles of the home page that UnoCSS cannot generate from class names: the gallery (switched by radio inputs, no
    JavaScript), the highlighter on key words and the red ticks of the hero. Loaded after uno.css. */
 
-/* ── Highlighter: dark text on yellow. Finished by default; it grows while it scrolls into view only where the
-   browser can drive an animation by scrolling and the reader allows motion. ── */
+/* ── Highlighter: dark text on a felt-pen stroke. Soft slanted ends, uneven corners, a second pass across the stroke and
+   a fine grain (a small SVG as a data URI, so no request). Finished by default; it grows while it scrolls into view
+   only where the browser can drive an animation by scrolling and the reader allows motion. ── */
 .mark {
-  background-image: linear-gradient(#fde047, #fde047);
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
+  --mark: #fde047;
+  --pass: rgba(234, 179, 8, 0.32);
+  background-color: transparent; /* the browser paints <mark> yellow itself */
   color: #0f172a;
-  padding: 0 0.15em;
-  border-radius: 0.15em;
+  padding: 0 0.22em;
+  margin: 0 -0.04em;
+  border-radius: 0.35em 0.15em 0.4em 0.2em / 0.5em 0.2em 0.45em 0.25em;
+  background-repeat: repeat-x, no-repeat, no-repeat;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='80'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .32 0 0 0 0 0 0 0 0 1.1 -.5'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    linear-gradient(177deg, transparent 34%, var(--pass) 36% 44%, transparent 46%),
+    linear-gradient(101deg, transparent 0, var(--mark) 1.6%, var(--mark) 97.5%, transparent 100%);
+  background-size: 160px 82%, 100% 100%, 100% 82%;
+  background-position: 0 88%, 0 0, 0 88%;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
 }
 @media (prefers-reduced-motion: no-preference) {
   @supports (animation-timeline: view()) {
     .mark {
-      background-size: 0% 100%;
+      background-size: 0 82%, 0% 100%, 0% 82%;
       animation: mark-in linear both;
       animation-timeline: view();
       animation-range: entry 15% cover 30%;
@@ -25,8 +34,11 @@
 }
 @keyframes mark-in {
   to {
-    background-size: 100% 100%;
+    background-size: 160px 82%, 100% 100%, 100% 82%;
   }
+}
+@media (prefers-color-scheme: dark) {
+  .mark { --mark: #facc15; }
 }
 
 /* ── Red ticks like a teacher's pen, before the features in the hero ── */
