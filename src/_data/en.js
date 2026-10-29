@@ -80,6 +80,22 @@ export default {
       ],
     },
 
+    // AI: a short section, just the tutor as a card. Building with AI is further down ("A solid foundation for makers") and in the tooling.
+    // The details of the tutor are on /tutor/ (tutor).
+    ki: {
+      id: "ai",
+      heading: "AI is everywhere. Here too. And yet everything works without it.",
+      lead: "We built the platform with AI and for AI. Above all, though, for people.",
+      learn: {
+        icon: "🧑‍🏫",
+        role: "For learning",
+        headline: "Your own tutor.",
+        text: "The learning content of the apps can be read by AI assistants. Your own assistant can accompany, guide and support you: patient, personal and always there.\n\nlernapps.net learns nothing about it.",
+        cta: "How the tutor works",
+        ctaHref: "/tutor/",
+      },
+    },
+
     different: {
       heading: "A solid foundation for makers.",
       intro: "lernapps are not products of a publisher. Parents and teachers build them because their child or their class was missing something. lernapps.net gives them a foundation on which these become good apps.",
@@ -244,6 +260,111 @@ export default {
         { label: "The platform design", href: "/docs/en/platform-design/" },
         { label: "The source code", href: "https://github.com/lernapps" },
       ],
+    },
+  },
+
+
+  // ── TUTOR: the learning companion of the explainer apps, parallel to the tooling (AI for building) ─
+  // Describes a feature of the explainer, not a service of the platform: there is no AI on lernapps.net, no server and no chatbot.
+  // The learning content is readable and referable; the learner's assistant uses it, lernapps.net learns nothing about it.
+  tutor: {
+    meta: {
+      title: "Tutor — lernapps.net",
+      description: "Your own AI assistant as a tutor: the learning content of the apps can be read by it. It accompanies, guides and supports you. lernapps.net learns nothing about it.",
+    },
+    hero: {
+      headline: "Your tutor, not ours.",
+      subtitle: "The learning content can be read by your own AI assistant. It accompanies, guides and supports you. lernapps.net learns nothing about it.",
+      jump: [
+        { label: "Your tutor", href: "#tutor" },
+        { label: "How it works", href: "#how" },
+        { label: "Rules", href: "#rules" },
+        { label: "Privacy", href: "#privacy" },
+        { label: "Limits", href: "#limits" },
+      ],
+    },
+    about: {
+      id: "tutor",
+      heading: "A personal tutor who can help you on your journey",
+      text: "Every page and every exercise of an explainer app has an address and exists as readable text. Your AI assistant can open it, read it and refer to it. So it knows what is explained, which exercise you solved and what you typed.\n\nThat lets it accompany, guide and support you: patient, personal and always there. This happens in your assistant, with your provider. lernapps.net learns nothing about it.",
+      cta: "Try the self-assessment",
+      ctaHref: "/mathe-karte/einschaetzung/",
+    },
+    dialog: {
+      label: "Example: a conversation with a tutor",
+      you: "You",
+      assistant: "Assistant",
+      lines: [
+        { mine: true, parts: ["I practised on ", { label: "Laplace formula", href: "/mathe-karte/zufall/laplace/" }, ":\n- laplace-zaehlen, no. 54: right on the first try.\n- laplace-urne, no. 56: not solved yet (1 try, input 0.16). The app says: “Read the text above the exercise again.”\nSession: 1 of 2 right."] },
+        { parts: ["I'll look at exercise 56 directly, to help you precisely."] },
+        { step: "Page opened", link: { label: "Laplace formula", href: "/mathe-karte/zufall/laplace/" } },
+        { parts: ["Great that number 54 worked on the first try! On number 56: your 0.16 is very close – you probably cut off the decimals instead of rounding to two places. Work it out again: how many balls are in the urn in total, and how many of them are blue? Then divide the blue ones by all of them, round properly to two decimals, and type the result into the app."] },
+        { mine: true, parts: ["ah, 0.17 – I rounded wrong"] },
+      ],
+      link: { label: "The whole conversation (in German)", href: "https://chat.mistral.ai/work/8d08a4d7-65ce-4a23-80b4-5ed9a581988d" },
+    },
+    process: {
+      id: "how",
+      heading: "How it works",
+      intro: "This is how it runs in Mathe-Karte, an explainer app.",
+      steps: [
+        { title: "Assess yourself", text: "You do the self-assessment of an app. At the end it shows for each page: “You probably know this”, “Have another look” or “Read it closely”. The result stays on your device." },
+        { title: "Choose an assistant", text: "You choose your assistant: Claude, ChatGPT, Mistral Vibe, or “Copy text” for any other. You use your own account with the provider." },
+        { title: "Let it guide you", text: "One click gives the assistant your result and what you typed. It sends you page by page to what does not stick yet. Explaining and practising happen on the app's pages." },
+        { title: "Learn on the page", text: "At the top of each page you switch on “Learn with an AI tutor”. After a wrong answer, “Why?” gives the tutor the exercise, your input and the app's message. “Back to the tutor” tells it what you practised." },
+        { title: "Assess again", text: "When the pages of a chapter stick, you do a new round. After the result, the assistant decides how to go on." },
+      ],
+    },
+    rules: {
+      id: "rules",
+      heading: "How the tutor works",
+      intro: "Your assistant gets these rules from the app. You can read them first.",
+      items: [
+        { icon: "❓", title: "It asks instead of solving", text: "The tutor names the idea behind the mistake and asks a guiding question. It does not give the answer." },
+        { icon: "🖼️", title: "It starts with the picture", text: "It explains with the picture on the page and asks first: what do you see?" },
+        { icon: "✏️", title: "Calculating happens on paper", text: "You type the result into the app. In the chat there are estimating and why questions." },
+        { icon: "✅", title: "Done is what you can explain", text: "A page counts as done when three exercises were right and you can explain one of them. Then it asks for an exercise by hand: a photo of the sheet only, without a name. It checks every step and names the first wrong one instead of correcting it." },
+        { icon: "🎬", title: "The video comes last", text: "Exercises come first. It recommends the video when you cannot repeat the explanation after two tries." },
+        { icon: "🧭", title: "After assessing, it keeps it short", text: "It answers with three sentences at most, one question and a link to the next page." },
+      ],
+    },
+    transparency: {
+      id: "transparency",
+      heading: "You see what your tutor gets",
+      text: "On every page and in the self-assessment there is the link “See what your tutor gets”. Parents and teachers can read the whole brief before a child passes it on.",
+      link: "Example: the brief for the self-assessment “Probability”",
+      href: "/mathe-karte/zufall/einschaetzung/tutor/",
+    },
+    flow: {
+      label: "The way your data takes",
+      steps: ["Self-assessment in the app", "One click copies your result", "You paste it into your assistant", "It sends you to the next page"],
+      noServer: "No lernapps.net server in between.",
+    },
+    privacy: {
+      id: "privacy",
+      heading: "Privacy",
+      title: "No AI in lernapps.net",
+      text: "There is no AI built into lernapps.net, and we run no chatbot. The apps only make their learning content readable for your assistant. Everything else happens in your assistant, with your provider, to whom you agreed separately there. lernapps.net learns nothing about it.\n\nThe app sends nothing. One click gives the assistant your result and what you typed, and you can read the brief first. This is voluntary. Everything works without AI too.",
+      link: "To the privacy notice",
+      href: "/privacy/#en-ai",
+    },
+    limits: {
+      id: "limits",
+      heading: "Honest about limits",
+      items: [
+        { title: "An assistant can be wrong.", text: "The checked source is the app's pages. If something does not match, the page counts." },
+        { title: "AI does not replace people.", text: "Learning is also a shared experience: with friends, parents, teachers. An assistant is patient and always there, but it is not in the room when you practise together." },
+        { title: "We cannot check how your assistant behaves.", text: "The rules are a request to it. That is not a guarantee." },
+        { title: "Everything works without AI.", text: "The pages, the exercises and the app's messages (“Not right. First count all possible outcomes …”) work without an assistant." },
+      ],
+    },
+    cta: {
+      title: "Try it.",
+      description: "Do a self-assessment. Afterwards you decide whether to add a tutor.",
+      primary: "Self-assessment of Mathe-Karte",
+      primaryHref: "/mathe-karte/einschaetzung/",
+      secondary: "All apps",
+      secondaryHref: "/apps/en/",
     },
   },
 

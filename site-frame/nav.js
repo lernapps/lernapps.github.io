@@ -42,6 +42,8 @@ export const nav = {
     // Listing is a section of "App bauen" (/apps/build/#eintragen); /apps/enter/ stays, linked from there.
     { label: { de: "App bauen", en: "Build an app" }, href: "/apps/build/" },
     { label: { de: "Tooling", en: "Tooling" }, href: "/tooling/" },
+    // AI for learning, the counterpart of the tooling (AI for building): the learner's own assistant as a tutor.
+    { label: { de: "Tutor", en: "Tutor" }, href: "/tutor/" },
     // What lernapps is made of: for users, for developers, and what makes the platform unique.
     { label: { de: "Features", en: "Features" }, href: "/features/" },
     // The platform as a whole (/docs/): its vision, how it works, and its models.

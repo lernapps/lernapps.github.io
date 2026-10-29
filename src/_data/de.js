@@ -80,6 +80,22 @@ export default {
       ],
     },
 
+    // KI: ein kurzer Abschnitt, nur der Tutor als Karte. Das Bauen mit KI steht weiter unten ("Fundament für Macher") und im Tooling.
+    // Die Details zum Tutor stehen auf /tutor/ (tutor).
+    ki: {
+      id: "ki",
+      heading: "KI ist überall. Auch hier. Und trotzdem geht alles ohne.",
+      lead: "Wir haben die Plattform mit KI und für KI gebaut, vor allem aber für Menschen.",
+      learn: {
+        icon: "🧑‍🏫",
+        role: "Zum Lernen",
+        headline: "Dein eigener Tutor.",
+        text: "Die Lerninhalte der Apps sind für KI-Assistenten lesbar. Dein eigener Assistent kann dich begleiten, führen und unterstützen: geduldig, persönlich und immer da.\n\nlernapps.net erfährt davon nichts.",
+        cta: "So funktioniert der Tutor",
+        ctaHref: "/tutor/",
+      },
+    },
+
     different: {
       heading: "Ein solides Fundament für Macher.",
       intro: "lernapps sind keine Produkte eines Verlags. Eltern und Lehrkräfte bauen sie, weil ihrem Kind oder ihrer Klasse etwas gefehlt hat. lernapps.net gibt ihnen ein Fundament, auf dem daraus gute Apps werden.",
@@ -244,6 +260,111 @@ export default {
         { label: "Das Plattform-Design", href: "/docs/platform-design/" },
         { label: "Der Quellcode", href: "https://github.com/lernapps" },
       ],
+    },
+  },
+
+
+  // ── TUTOR: die Lernbegleitung der Erklär-Apps, parallel zum Tooling (KI beim Bauen) ─
+  // Beschreibt ein Feature des Explainers, keinen Dienst der Plattform: Es gibt keine KI auf lernapps.net, keinen Server und keinen Chatbot.
+  // Die Lerninhalte sind lesbar und referenzierbar; der Assistent des Lernenden nutzt sie, lernapps.net erfährt nichts davon.
+  tutor: {
+    meta: {
+      title: "Tutor — lernapps.net",
+      description: "Dein eigener KI-Assistent als Tutor: Die Lerninhalte der Apps sind für ihn lesbar. Er begleitet dich, führt dich und unterstützt dich. lernapps.net erfährt davon nichts.",
+    },
+    hero: {
+      headline: "Dein Tutor, nicht unserer.",
+      subtitle: "Die Lerninhalte sind für deinen eigenen KI-Assistenten lesbar. Er begleitet dich, führt dich und unterstützt dich. lernapps.net erfährt davon nichts.",
+      jump: [
+        { label: "Dein Tutor", href: "#tutor" },
+        { label: "Ablauf", href: "#ablauf" },
+        { label: "Regeln", href: "#regeln" },
+        { label: "Datenschutz", href: "#datenschutz" },
+        { label: "Grenzen", href: "#grenzen" },
+      ],
+    },
+    about: {
+      id: "tutor",
+      heading: "Ein persönlicher Tutor auf deinem Weg",
+      text: "Jede Seite und jede Aufgabe einer Erklär-App hat eine Adresse und liegt als lesbarer Text vor. Dein KI-Assistent kann sie öffnen, lesen und sich darauf beziehen. So weiß er, was erklärt wird, welche Aufgabe du gelöst hast und was du eingegeben hast.\n\nDamit kann er dich begleiten, führen und unterstützen: geduldig, persönlich und immer da. Das geschieht in deinem Assistenten, bei deinem Anbieter. lernapps.net erfährt davon nichts.",
+      cta: "Selbsteinschätzung ausprobieren",
+      ctaHref: "/mathe-karte/einschaetzung/",
+    },
+    dialog: {
+      label: "Beispiel: Gespräch mit einem Tutor",
+      you: "Du",
+      assistant: "Assistent",
+      lines: [
+        { mine: true, parts: ["Ich habe auf ", { label: "Laplace-Formel", href: "/mathe-karte/zufall/laplace/" }, " geübt:\n- laplace-zaehlen, Nr. 54: richtig im 1. Versuch.\n- laplace-urne, Nr. 56: noch nicht gelöst (1 Versuch, Eingabe 0,16). Die App sagt: „Lies dazu noch einmal den Text über der Aufgabe.“\nSitzung: 1 von 2 richtig."] },
+        { parts: ["Ich schaue mir die Aufgabe 56 direkt an, um dir gezielt zu helfen."] },
+        { step: "Seite geöffnet", link: { label: "Laplace-Formel", href: "/mathe-karte/zufall/laplace/" } },
+        { parts: ["Stark, dass Nummer 54 gleich im ersten Versuch saß! Bei Nummer 56: Deine Zahl 0,16 liegt ganz knapp daneben – vermutlich hast du die Nachkommastellen abgeschnitten, statt auf zwei Stellen zu runden. Rechne noch mal: Wie viele Kugeln liegen insgesamt in der Urne, und wie viele davon sind blau? Dann teile die blauen durch alle und runde sauber auf zwei Nachkommastellen, und tippe das Ergebnis in der App ein."] },
+        { mine: true, parts: ["ah, 0,17 – habe falsch gerundet"] },
+      ],
+      link: { label: "Das ganze Gespräch", href: "https://chat.mistral.ai/work/8d08a4d7-65ce-4a23-80b4-5ed9a581988d" },
+    },
+    process: {
+      id: "ablauf",
+      heading: "So läuft es ab",
+      intro: "So läuft es in der Mathe-Karte, einer Erklär-App.",
+      steps: [
+        { title: "Selbst einschätzen", text: "Du machst die Selbsteinschätzung einer App. Am Ende zeigt sie für jede Seite: „Kannst du wahrscheinlich schon“, „Schau sie dir noch einmal an“ oder „Lies sie genau“. Das Ergebnis bleibt auf deinem Gerät." },
+        { title: "Assistenten wählen", text: "Du wählst deinen Assistenten: Claude, ChatGPT, Mistral Vibe oder „Text kopieren“ für jeden anderen. Du nutzt dein eigenes Konto beim Anbieter." },
+        { title: "Dich führen lassen", text: "Ein Klick gibt dem Assistenten dein Ergebnis und deine Eingaben. Er schickt dich Seite für Seite zu dem, was noch nicht sitzt. Erklärt und geübt wird auf den Seiten der App." },
+        { title: "Auf der Seite lernen", text: "Oben auf jeder Seite schaltest du „Mit einem KI-Tutor lernen“ ein. Nach einer falschen Antwort gibt „Warum?“ dem Tutor die Aufgabe, deine Eingabe und die Meldung der App. „Zurück zum Tutor“ meldet ihm, was du geübt hast." },
+        { title: "Noch einmal einschätzen", text: "Sitzen die Seiten eines Kapitels, machst du eine neue Runde. Der Assistent entscheidet nach dem Ergebnis, wie es weitergeht." },
+      ],
+    },
+    rules: {
+      id: "regeln",
+      heading: "Wie der Tutor arbeitet",
+      intro: "Diese Regeln bekommt dein Assistent von der App. Du kannst sie vorher lesen.",
+      items: [
+        { icon: "❓", title: "Er fragt, statt zu lösen", text: "Der Tutor nennt die Idee hinter dem Fehler und stellt eine Leitfrage. Die Lösung sagt er nicht." },
+        { icon: "🖼️", title: "Er beginnt beim Bild", text: "Er erklärt am Bild der Seite und fragt zuerst: Was siehst du?" },
+        { icon: "✏️", title: "Gerechnet wird auf Papier", text: "Das Ergebnis tippst du in die App. Im Chat gibt es Überschlags- und Warum-Fragen." },
+        { icon: "✅", title: "Geschafft ist, was du erklären kannst", text: "Eine Seite gilt als geschafft, wenn drei Aufgaben richtig waren und du eine davon erklären kannst. Dann bittet er um eine Aufgabe von Hand: ein Foto nur vom Blatt, ohne Namen. Er prüft jeden Schritt und nennt den ersten falschen, statt ihn zu verbessern." },
+        { icon: "🎬", title: "Das Video kommt zuletzt", text: "Zuerst gibt es Aufgaben. Das Video empfiehlt er, wenn du die Erklärung zweimal nicht wiedergeben kannst." },
+        { icon: "🧭", title: "Nach dem Einschätzen fasst er sich kurz", text: "Er antwortet mit höchstens drei Sätzen, einer Frage und einem Link zur nächsten Seite." },
+      ],
+    },
+    transparency: {
+      id: "transparenz",
+      heading: "Du siehst, was dein Tutor bekommt",
+      text: "Auf jeder Seite und bei der Selbsteinschätzung gibt es den Link „Ansehen, was dein Tutor bekommt“. Eltern und Lehrkräfte können den ganzen Auftrag vorher lesen, bevor ein Kind ihn weitergibt.",
+      link: "Beispiel: der Auftrag zur Selbsteinschätzung „Wahrscheinlichkeit“",
+      href: "/mathe-karte/zufall/einschaetzung/tutor/",
+    },
+    flow: {
+      label: "Der Weg deiner Daten",
+      steps: ["Selbsteinschätzung in der App", "Ein Klick kopiert dein Ergebnis", "Du fügst es bei deinem Assistenten ein", "Er schickt dich zur nächsten Seite"],
+      noServer: "Kein Server von lernapps.net dazwischen.",
+    },
+    privacy: {
+      id: "datenschutz",
+      heading: "Datenschutz",
+      title: "Keine KI in lernapps.net",
+      text: "Auf lernapps.net ist keine KI eingebaut, und wir betreiben keinen Chatbot. Die Apps machen ihre Lerninhalte nur für deinen Assistenten lesbar. Alles Weitere geschieht in deinem Assistenten, bei deinem Anbieter, dem du dort separat zugestimmt hast. lernapps.net erfährt davon nichts.\n\nDie App sendet nichts. Ein Klick gibt dem Assistenten dein Ergebnis und deine Eingaben, den Auftrag kannst du vorher lesen. Das ist freiwillig. Ohne KI geht alles auch.",
+      link: "Zur Datenschutzerklärung",
+      href: "/privacy/#de-ki",
+    },
+    limits: {
+      id: "grenzen",
+      heading: "Ehrlich über Grenzen",
+      items: [
+        { title: "Ein Assistent kann sich irren.", text: "Die geprüfte Quelle sind die Seiten der App. Stimmt etwas nicht, gilt die Seite." },
+        { title: "KI ersetzt keine Menschen.", text: "Lernen ist auch eine gemeinsame Erfahrung: mit Freunden, Eltern, Lehrkräften. Ein Assistent ist geduldig und immer da, aber er ist nicht dabei, wenn ihr zusammen übt." },
+        { title: "Wir können nicht prüfen, wie sich dein Assistent verhält.", text: "Die Regeln sind eine Bitte an ihn. Eine Garantie ist das nicht." },
+        { title: "Ohne KI geht alles.", text: "Die Seiten, die Übungen und die Meldungen der App („Leider nicht richtig. Zähle zuerst alle möglichen Ergebnisse …“) funktionieren ohne Assistent." },
+      ],
+    },
+    cta: {
+      title: "Probier es aus.",
+      description: "Mach eine Selbsteinschätzung. Du entscheidest danach, ob du einen Tutor dazunimmst.",
+      primary: "Selbsteinschätzung der Mathe-Karte",
+      primaryHref: "/mathe-karte/einschaetzung/",
+      secondary: "Alle Apps",
+      secondaryHref: "/apps/",
     },
   },
 

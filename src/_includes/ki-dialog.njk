@@ -1,0 +1,24 @@
+{#- An excerpt of a real conversation with a tutor, as text (readable without JavaScript, translatable). Needs K (tutor).
+    It stands for itself, without a title or explanations. Addresses are shown as links with the site's mark, as the
+    assistant's chat shows them, and a "page opened" step shows that the assistant looked at the page. The link at the
+    end goes to the whole conversation on another site; nothing of it is loaded here. -#}
+{%- set Dlg = K.dialog %}
+<figure class="m-0 rounded-2xl border border-slate-200 bg-slate-50 p-5 sm:p-6">
+  <div role="group" aria-label="{{ Dlg.label }}" class="space-y-3">
+    {%- for line in Dlg.lines %}
+    {%- if line.step %}
+    <p class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-slate-600"><span><span class="sr-only">{{ Dlg.assistant }}: </span>{{ line.step }}</span><a href="{{ line.link.href | own }}" class="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-2 py-1 font-semibold text-blue-700 hover:text-blue-800"><img src="{{ '/brand/mark.svg' | own }}" alt="" width="16" height="16" class="inline-block rounded">{{ line.link.label }}</a></p>
+    {%- else %}
+    <div class="flex {% if line.mine %}justify-end{% else %}justify-start{% endif %}">
+      <p class="max-w-full sm:max-w-[85%] whitespace-pre-line rounded-2xl px-4 py-3 leading-relaxed {% if line.mine %}bg-blue-700 text-white{% else %}bg-white border border-slate-200 text-slate-800{% endif %}"><span class="sr-only">{% if line.mine %}{{ Dlg.you }}{% else %}{{ Dlg.assistant }}{% endif %}: </span>
+        {%- for part in line.parts -%}
+        {%- if part.href -%}<a href="{{ part.href | own }}" class="inline-flex items-center gap-1.5 rounded-lg bg-white px-2 py-0.5 font-semibold text-blue-700 hover:text-blue-800 align-baseline"><img src="{{ '/brand/mark.svg' | own }}" alt="" width="16" height="16" class="inline-block rounded">{{ part.label }}</a>
+        {%- else -%}{{ part }}{%- endif -%}
+        {%- endfor -%}
+      </p>
+    </div>
+    {%- endif %}
+    {%- endfor %}
+  </div>
+  <p class="mt-4 text-sm"><a href="{{ Dlg.link.href }}" rel="noopener noreferrer" class="font-semibold text-blue-700 underline underline-offset-2 hover:text-blue-800">{{ Dlg.link.label }} →</a></p>
+</figure>
