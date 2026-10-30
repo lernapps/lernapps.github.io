@@ -95,7 +95,8 @@ links in groups (`nav.groups` in `nav.js`: for learners, for makers, understand 
 needs no script. A closed `<details>` hides its content on every screen and cannot be closed on a phone only, so
 `header()` writes two navigations with the same links, the row (`la-nav--bar`) and the menu (`la-menu`), and
 `frame.css` shows one of them (`display: none` on the other, so that assistive technology reads only one). A new link
-goes into `links` and into exactly one group; `test/nav.test.mjs` checks both.
+goes into `links` and into exactly one group; `test/nav.test.mjs` checks both. A link may have a `menuLabel`: the
+longer name in the menu, where there is more room than in the row ("Katalog" in the row, "App Katalog" in the menu).
 
 ## Dark mode of the tokens (opt-in)
 
