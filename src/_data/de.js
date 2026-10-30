@@ -312,7 +312,7 @@ export default {
       id: "grenzen",
       heading: "Was ein KI-Tutor nicht kann",
       items: [
-        { title: "Menschen ersetzen.", text: "Lernen macht man auch zusammen: mit Freunden, Eltern, Lehrkräften. Ein Assistent ist geduldig und immer da. Aber er sitzt nicht neben dir, wenn ihr gemeinsam übt." },
+        { title: "Menschen ersetzen.", text: "Gemeinsam lernen ist etwas Soziales, und das ist wichtig für uns als Gesellschaft. Ein KI-Assistent ist geduldig und immer da. Kommst du nicht weiter, such dir ruhig auch einen echten Menschen, am besten jemanden, den du magst. Vielleicht schafft ihr es zusammen mit dem KI-Tutor, auch wenn sich der andere gar nicht so genau auskennt." },
         { title: "Fehlerfrei sein.", text: "KI-Modelle werden immer besser, und auch Menschen machen Fehler. Garantieren kann aber niemand, dass dein Tutor sich nie irrt. Geprüft sind die Seiten der App: Widerspricht dein Tutor einer Seite, gilt die Seite." },
         { title: "Sich an jede Regel halten.", text: "Wir können deinen Assistenten nicht kontrollieren. Die Regeln sind eine Bitte an ihn, keine Garantie." },
         { title: "Unverzichtbar sein.", text: "Du brauchst ihn nicht. Die Seiten, die Übungen und die Rückmeldungen der App („Leider nicht richtig. Zähle zuerst alle möglichen Ergebnisse …“) funktionieren auch ohne Assistent." },

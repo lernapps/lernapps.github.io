@@ -312,7 +312,7 @@ export default {
       id: "limits",
       heading: "What an AI tutor cannot do",
       items: [
-        { title: "Replace people.", text: "Learning also happens together: with friends, parents, teachers. An assistant is patient and always there. But it does not sit next to you when you practise together." },
+        { title: "Replace people.", text: "Learning together is a social thing, and that matters for us as a society. An AI assistant is patient and always there. When you are stuck, go ahead and find a real person too, ideally someone you like. Maybe the two of you get there together with the AI tutor, even if the other person does not know the topic that well." },
         { title: "Be free of mistakes.", text: "AI models keep getting better, and people make mistakes too. But nobody can guarantee that your tutor is never wrong. The app's pages are checked: if your tutor contradicts a page, the page counts." },
         { title: "Follow every rule.", text: "We cannot control your assistant. The rules are a request to it, not a guarantee." },
         { title: "Be indispensable.", text: "You do not need it. The pages, the exercises and the app's feedback (“Not right. First count all possible outcomes …”) work without an assistant too." },

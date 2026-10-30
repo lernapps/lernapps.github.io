@@ -20,3 +20,4 @@ Die Seite /tutor/ soll den Nutzen erklären statt Funktionen zu beschreiben, und
 - [x] npm run build, npm test, npm run check grün; Handybreite ohne horizontales Scrollen
 - [x] Rückmeldung 2: Hinweis „Am Beispiel der Mathe-Karte“ entfernt; Regeln auf drei allgemeine gekürzt (Bild und Video sind Regeln einzelner Apps, nicht des Tutors); Transparenz nennt, dass Apps eigene Regeln ergänzen
 - [x] Rückmeldung 3: Grenzen heißen „Was ein KI-Tutor nicht kann“; Mensch zuerst, dann Irrtum (Modelle werden besser, Menschen irren auch, Fehlerfreiheit ist nicht garantiert)
+- [x] Rückmeldung 4: „Menschen ersetzen“ sagt, dass gemeinsames Lernen sozial und für die Gesellschaft wichtig ist, und lädt ein, sich einen Menschen dazuzuholen
