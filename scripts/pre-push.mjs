@@ -21,7 +21,7 @@ import { fileURLToPath } from "node:url";
  * run TypeScript below node_modules/, so not the installed @lernapps/tooling). The same commit as `tooling-ref` and
  * changes.yml@ in .github/workflows/ (test/pre-push.test.mjs).
  */
-export const TOOLING_REF = "9c4a8c1bae384274f143248abd736cbf511f61a1";
+export const TOOLING_REF = "641d9212532bbb0e2d203d7c9b77ee8570fbd8fc";
 
 /** The steps of a scope: [name, command]; each runs after the one before has passed. */
 export function steps(scope) {
