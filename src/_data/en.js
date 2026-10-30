@@ -310,12 +310,12 @@ export default {
     },
     limits: {
       id: "limits",
-      heading: "Honest about limits",
+      heading: "What an AI tutor cannot do",
       items: [
-        { title: "An assistant can be wrong.", text: "The app's pages are checked. If your tutor contradicts a page, the page counts." },
-        { title: "AI does not replace people.", text: "Learning also happens together: with friends, parents, teachers. An assistant is patient and always there. But it does not sit next to you when you practise together." },
-        { title: "We cannot control your assistant.", text: "The rules are a request to it, not a guarantee." },
-        { title: "Everything works without AI.", text: "The pages, the exercises and the app's feedback (“Not right. First count all possible outcomes …”) work without an assistant too." },
+        { title: "Replace people.", text: "Learning also happens together: with friends, parents, teachers. An assistant is patient and always there. But it does not sit next to you when you practise together." },
+        { title: "Be free of mistakes.", text: "AI models keep getting better, and people make mistakes too. But nobody can guarantee that your tutor is never wrong. The app's pages are checked: if your tutor contradicts a page, the page counts." },
+        { title: "Follow every rule.", text: "We cannot control your assistant. The rules are a request to it, not a guarantee." },
+        { title: "Be indispensable.", text: "You do not need it. The pages, the exercises and the app's feedback (“Not right. First count all possible outcomes …”) work without an assistant too." },
       ],
     },
     cta: {

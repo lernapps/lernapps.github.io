@@ -310,12 +310,12 @@ export default {
     },
     limits: {
       id: "grenzen",
-      heading: "Ehrlich über Grenzen",
+      heading: "Was ein KI-Tutor nicht kann",
       items: [
-        { title: "Ein Assistent kann sich irren.", text: "Geprüft sind die Seiten der App. Widerspricht dein Tutor einer Seite, gilt die Seite." },
-        { title: "KI ersetzt keine Menschen.", text: "Lernen macht man auch zusammen: mit Freunden, Eltern, Lehrkräften. Ein Assistent ist geduldig und immer da. Aber er sitzt nicht neben dir, wenn ihr gemeinsam übt." },
-        { title: "Wir können deinen Assistenten nicht kontrollieren.", text: "Die Regeln sind eine Bitte an ihn, keine Garantie." },
-        { title: "Ohne KI geht alles.", text: "Die Seiten, die Übungen und die Rückmeldungen der App („Leider nicht richtig. Zähle zuerst alle möglichen Ergebnisse …“) funktionieren auch ohne Assistent." },
+        { title: "Menschen ersetzen.", text: "Lernen macht man auch zusammen: mit Freunden, Eltern, Lehrkräften. Ein Assistent ist geduldig und immer da. Aber er sitzt nicht neben dir, wenn ihr gemeinsam übt." },
+        { title: "Fehlerfrei sein.", text: "KI-Modelle werden immer besser, und auch Menschen machen Fehler. Garantieren kann aber niemand, dass dein Tutor sich nie irrt. Geprüft sind die Seiten der App: Widerspricht dein Tutor einer Seite, gilt die Seite." },
+        { title: "Sich an jede Regel halten.", text: "Wir können deinen Assistenten nicht kontrollieren. Die Regeln sind eine Bitte an ihn, keine Garantie." },
+        { title: "Unverzichtbar sein.", text: "Du brauchst ihn nicht. Die Seiten, die Übungen und die Rückmeldungen der App („Leider nicht richtig. Zähle zuerst alle möglichen Ergebnisse …“) funktionieren auch ohne Assistent." },
       ],
     },
     cta: {
