@@ -46,9 +46,9 @@ const links = [
 // The same links in groups, for the menu on a phone: one group below the other, each with its name. A group's name
 // differs from the names of its links. Every link is in exactly one group (test/nav.test.mjs).
 const groups = [
-  { label: { de: "Für Lernende", en: "For learners" }, hrefs: ["/apps/", "/practice/", "/tutor/"] },
+  { label: { de: "Für Lernende", en: "For learners" }, hrefs: ["/apps/", "/practice/"] },
   { label: { de: "Für Macher", en: "For makers" }, hrefs: ["/apps/build/", "/tooling/"] },
-  { label: { de: "Verstehen und mitmachen", en: "Understand and join in" }, hrefs: ["/features/", "/docs/", "/join/"] },
+  { label: { de: "Verstehen und mitmachen", en: "Understand and join in" }, hrefs: ["/tutor/", "/features/", "/docs/", "/join/"] },
 ];
 
 export const nav = {
