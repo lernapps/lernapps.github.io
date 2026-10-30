@@ -268,7 +268,6 @@ export default {
     process: {
       id: "ablauf",
       heading: "So läuft es ab",
-      intro: "Am Beispiel der Mathe-Karte:",
       steps: [
         { title: "Finde heraus, wo du stehst", text: "Mach die Selbsteinschätzung. Danach weißt du für jede Seite, ob du sie schon kannst, noch einmal anschauen oder genau lesen solltest. Das Ergebnis bleibt auf deinem Gerät." },
         { title: "Nimm deinen Assistenten", text: "Claude, ChatGPT, Mistral Vibe oder jeden anderen über „Text kopieren“. Du nutzt das Konto, das du schon hast." },
@@ -283,18 +282,15 @@ export default {
       heading: "Ein Tutor, der dich selbst denken lässt",
       intro: "Ein KI-Assistent verrät dir sonst gern einfach die Lösung. Davon lernst du wenig. Darum gibt die App ihm klare Regeln mit.",
       items: [
-        { icon: "circle-help", title: "Fragen statt Lösungen", text: "Er zeigt dir, wo der Denkfehler steckt, und stellt eine Frage, die dich weiterbringt. Die Lösung findest du selbst. So merkst du sie dir." },
-        { icon: "image", title: "Erst hinschauen", text: "Er fängt beim Bild der Seite an und fragt: Was siehst du? Die Erklärung baut auf dem auf, was du schon erkennst." },
-        { icon: "pencil", title: "Rechnen auf Papier", text: "Du rechnest auf Papier und tippst das Ergebnis in die App. Im Chat geht es ums Verstehen: Überschlag und Warum." },
-        { icon: "circle-check", title: "Geschafft ist, was du erklären kannst", text: "Nach drei richtigen Aufgaben erklärst du eine davon. Dann rechnest du eine von Hand und schickst ein Foto vom Blatt, ohne Namen. Er zeigt dir den ersten falschen Schritt. Verbessern tust du ihn selbst." },
-        { icon: "clapperboard", title: "Das Video kommt zuletzt", text: "Erst probierst du es selbst. Klappt die Erklärung zweimal nicht, empfiehlt er dir das Video." },
-        { icon: "compass", title: "Kurz und klar", text: "Nach der Selbsteinschätzung: höchstens drei Sätze, eine Frage und der Link zur nächsten Seite. Kein Textberg." },
+        { icon: "circle-help", title: "Er verrät keine Lösung", text: "Er fragt, was du nicht verstehst, und führt dich mit kurzen Fragen Schritt für Schritt weiter. Den Weg gehst du selbst. Darum bleibt er hängen." },
+        { icon: "book-open", title: "Er hält sich an die App", text: "Er erklärt mit den Seiten und Aufgaben der App, nicht mit erfundenen Beispielen. So passt seine Hilfe zu dem, was du gerade lernst." },
+        { icon: "circle-check", title: "Gelöst wird in der App", text: "Zum Lösen schickt er dich zurück auf die Seite. Dort prüft die App deine Antwort, nicht der Chat." },
       ],
     },
     transparency: {
       id: "transparenz",
       heading: "Nichts davon ist versteckt",
-      text: "Auf jeder Seite und bei der Selbsteinschätzung steht der Link „Ansehen, was dein Tutor bekommt“. Er zeigt den ganzen Auftrag mit allen Regeln. Eltern und Lehrkräfte können ihn lesen, bevor ein Kind ihn weitergibt.",
+      text: "Auf jeder Seite und bei der Selbsteinschätzung steht der Link „Ansehen, was dein Tutor bekommt“. Er zeigt den ganzen Auftrag, auch die Regeln, die eine App für ihr Fach ergänzt. Eltern und Lehrkräfte können ihn lesen, bevor ein Kind ihn weitergibt.",
       link: "Beispiel: der Auftrag zur Selbsteinschätzung „Wahrscheinlichkeit“",
       href: "/mathe-karte/zufall/einschaetzung/tutor/",
     },

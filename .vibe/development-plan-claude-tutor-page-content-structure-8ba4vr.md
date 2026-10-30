@@ -18,3 +18,4 @@ Die Seite /tutor/ soll den Nutzen erklären statt Funktionen zu beschreiben, und
 - [x] Mockup
 - [x] tutor.njk umgebaut, de.js und en.js neu getextet, llms.txt angepasst
 - [x] npm run build, npm test, npm run check grün; Handybreite ohne horizontales Scrollen
+- [x] Rückmeldung 2: Hinweis „Am Beispiel der Mathe-Karte“ entfernt; Regeln auf drei allgemeine gekürzt (Bild und Video sind Regeln einzelner Apps, nicht des Tutors); Transparenz nennt, dass Apps eigene Regeln ergänzen

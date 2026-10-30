@@ -268,7 +268,6 @@ export default {
     process: {
       id: "how",
       heading: "Step by step",
-      intro: "Using Mathe-Karte as an example:",
       steps: [
         { title: "Find out where you stand", text: "Do the self-assessment. Afterwards you know for each page whether you already know it, should have another look or should read it closely. The result stays on your device." },
         { title: "Bring your assistant", text: "Claude, ChatGPT, Mistral Vibe, or any other with “Copy text”. You use the account you already have." },
@@ -283,18 +282,15 @@ export default {
       heading: "A tutor that lets you think for yourself",
       intro: "Left alone, an AI assistant likes to just give you the answer. You learn little from that. So the app gives it clear rules.",
       items: [
-        { icon: "circle-help", title: "Questions instead of answers", text: "It shows you where the mistake in your thinking is and asks a question that moves you on. You find the answer yourself. That is how it sticks." },
-        { icon: "image", title: "Look first", text: "It starts with the picture on the page and asks: what do you see? The explanation builds on what you already notice." },
-        { icon: "pencil", title: "Calculating on paper", text: "You calculate on paper and type the result into the app. The chat is about understanding: estimates and whys." },
-        { icon: "circle-check", title: "Done is what you can explain", text: "After three right exercises, you explain one of them. Then you do one by hand and send a photo of the sheet, without a name. It shows you the first wrong step. You fix it yourself." },
-        { icon: "clapperboard", title: "The video comes last", text: "First you try it yourself. If the explanation does not work twice, it recommends the video." },
-        { icon: "compass", title: "Short and clear", text: "After the self-assessment: three sentences at most, one question and the link to the next page. No wall of text." },
+        { icon: "circle-help", title: "It does not give away the answer", text: "It asks what you do not understand and leads you on step by step with short questions. You walk the way yourself. That is why it sticks." },
+        { icon: "book-open", title: "It sticks to the app", text: "It explains with the app's pages and exercises, not with made-up examples. So its help fits what you are learning right now." },
+        { icon: "circle-check", title: "Solving happens in the app", text: "To solve, it sends you back to the page. There the app checks your answer, not the chat." },
       ],
     },
     transparency: {
       id: "transparency",
       heading: "None of it is hidden",
-      text: "On every page and in the self-assessment there is the link “See what your tutor gets”. It shows the whole brief with all rules. Parents and teachers can read it before a child passes it on.",
+      text: "On every page and in the self-assessment there is the link “See what your tutor gets”. It shows the whole brief, including the rules an app adds for its subject. Parents and teachers can read it before a child passes it on.",
       link: "Example: the brief for the self-assessment “Probability”",
       href: "/mathe-karte/zufall/einschaetzung/tutor/",
     },
