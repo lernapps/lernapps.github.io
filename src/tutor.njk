@@ -9,10 +9,10 @@ permalink: "{{ l.root }}tutor/index.html"
   "Tutor" in the header: the learning companion of the explainer apps, parallel to /tooling/ (AI for building). It
   describes a feature of the explainer, not a service of the platform: there is no AI on lernapps.net. The learning
   content is readable and referable, so the learner's own assistant can accompany, guide and support them, and
-  lernapps.net learns nothing about it. Sections: the tutor with an example conversation, how it works, the rules,
-  what the tutor gets (transparency), privacy, limits. The home page links its anchors (de: #tutor, #ablauf, #regeln,
-  #transparenz, #datenschutz, #grenzen; en: #tutor, #how, #rules, #transparency, #privacy, #limits). Texts: tutor in
-  src/_data/de.js, en.js. The partials ki-dialog.njk and ki-flow.njk read K, which is the same object as T.
+  lernapps.net learns nothing about it. Sections: privacy first, as it is the first question about an AI tutor; how it
+  works (the value, an example conversation, the steps right below it); the rules with what the tutor gets
+  (transparency); limits. Anchors: de #datenschutz, #tutor, #ablauf, #regeln, #transparenz, #grenzen; en #privacy,
+  #tutor, #how, #rules, #transparency, #limits. Texts: tutor in src/_data/de.js, en.js. The partials ki-dialog.njk and ki-flow.njk read K, which is the same object as T.
 -#}
 {%- set T = l.t.tutor -%}
 {%- set K = T -%}
@@ -53,10 +53,33 @@ permalink: "{{ l.root }}tutor/index.html"
       </div>
     </section>
 
-    {# ══════ THE TUTOR — the value, with an example conversation ══════ #}
-    {%- set A = T.about %}
-    <section id="{{ A.id }}" class="bg-white py-16 sm:py-20 scroll-mt-16" aria-labelledby="about-heading">
+    {# ══════ PRIVACY — the first question parents and teachers ask, answered first ══════ #}
+    {%- set P = T.privacy %}
+    <section id="{{ P.id }}" class="bg-white py-16 sm:py-20 scroll-mt-16" aria-labelledby="privacy-heading">
       <div class="max-w-4xl mx-auto px-6">
+        <p class="text-sm font-bold uppercase tracking-wider text-blue-700 mb-2">{{ P.label }}</p>
+        <h2 id="privacy-heading" class="font-extrabold tracking-tight text-slate-900 mb-8" style="font-size: clamp(1.75rem, 4.5vw, 2.5rem); line-height: 1.15;">{{ P.heading }}</h2>
+        <div class="rounded-2xl border border-blue-200 bg-blue-50 p-6 sm:p-8 space-y-6">
+          <div>
+            <h3 class="flex items-center gap-2 text-lg font-semibold text-blue-800 mb-4"><span class="text-blue-600 shrink-0">{% icon "lock", "size-6" %}</span>{{ P.title }}</h3>
+            <div class="space-y-3 max-w-3xl">
+              {%- for p in P.text | paragraphs %}
+              <p class="text-slate-700 leading-relaxed">{{ p }}</p>
+              {%- endfor %}
+            </div>
+          </div>
+          {%- include "ki-flow.njk" %}
+          <p><a href="{{ P.href | own }}" class="font-semibold text-blue-700 underline underline-offset-2 hover:text-blue-800 whitespace-nowrap">{{ P.link }} →</a></p>
+        </div>
+      </div>
+    </section>
+
+    {# ══════ HOW IT WORKS — the value, the example conversation, and right below it the steps ══════ #}
+    {%- set A = T.about %}
+    {%- set S = T.process %}
+    <section id="{{ A.id }}" class="bg-slate-50 py-16 sm:py-20 scroll-mt-16" aria-labelledby="about-heading">
+      <div class="max-w-4xl mx-auto px-6">
+        <p class="text-sm font-bold uppercase tracking-wider text-blue-700 mb-2">{{ A.label }}</p>
         <h2 id="about-heading" class="font-extrabold tracking-tight text-slate-900 mb-6" style="font-size: clamp(1.75rem, 4.5vw, 2.5rem); line-height: 1.15;">{{ A.heading }}</h2>
         <div class="space-y-4 max-w-3xl mb-10">
           {%- for p in A.text | paragraphs %}
@@ -64,31 +87,28 @@ permalink: "{{ l.root }}tutor/index.html"
           {%- endfor %}
         </div>
         {%- include "ki-dialog.njk" %}
+        <div id="{{ S.id }}" class="scroll-mt-16 mt-12">
+          <h3 class="font-bold tracking-tight text-slate-900 mb-2" style="font-size: clamp(1.375rem, 3vw, 1.75rem); line-height: 1.2;">{{ S.heading }}</h3>
+          <p class="text-slate-700 leading-relaxed max-w-3xl mb-6">{{ S.intro }}</p>
+          <ol class="space-y-4 list-none p-0 m-0 max-w-3xl">
+            {%- for st in S.steps %}
+            <li class="flex gap-4 rounded-2xl border border-slate-200 bg-white p-5 sm:p-6">
+              <span class="mt-0.5 shrink-0 w-9 h-9 rounded-full bg-blue-600 text-white flex items-center justify-center text-sm font-bold" aria-hidden="true">{{ loop.index }}</span>
+              <div><h4 class="font-semibold text-slate-900 mb-1">{{ st.title }}</h4><p class="text-slate-600 leading-relaxed">{{ st.text }}</p></div>
+            </li>
+            {%- endfor %}
+          </ol>
+        </div>
         <a href="{{ A.ctaHref | own }}" class="mt-8 inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors">{{ A.cta }} →</a>
       </div>
     </section>
 
-    {# ══════ HOW IT WORKS ══════ #}
-    {%- set S = T.process %}
-    <section id="{{ S.id }}" class="bg-slate-50 py-16 sm:py-20 scroll-mt-16" aria-labelledby="flow-heading">
-      <div class="max-w-5xl mx-auto px-6">
-        <h2 id="flow-heading" class="font-extrabold tracking-tight text-slate-900 mb-4" style="font-size: clamp(1.75rem, 4.5vw, 2.5rem); line-height: 1.15;">{{ S.heading }}</h2>
-        <p class="text-slate-700 leading-relaxed max-w-3xl mb-10" style="font-size: 1.0625rem;">{{ S.intro }}</p>
-        <ol class="space-y-4 list-none p-0 m-0 mb-10 max-w-3xl">
-          {%- for st in S.steps %}
-          <li class="flex gap-4 rounded-2xl border border-slate-200 bg-white p-5 sm:p-6">
-            <span class="mt-0.5 shrink-0 w-9 h-9 rounded-full bg-blue-600 text-white flex items-center justify-center text-sm font-bold" aria-hidden="true">{{ loop.index }}</span>
-            <div><h3 class="font-semibold text-slate-900 mb-1">{{ st.title }}</h3><p class="text-slate-600 leading-relaxed">{{ st.text }}</p></div>
-          </li>
-          {%- endfor %}
-        </ol>
-      </div>
-    </section>
-
-    {# ══════ THE TUTOR'S RULES ══════ #}
+    {# ══════ THE TUTOR'S RULES, and how to check them (transparency) ══════ #}
     {%- set R = T.rules %}
+    {%- set X = T.transparency %}
     <section id="{{ R.id }}" class="bg-slate-800 py-16 sm:py-20 scroll-mt-16" aria-labelledby="rules-heading">
       <div class="max-w-5xl mx-auto px-6">
+        <p class="text-sm font-bold uppercase tracking-wider text-blue-400 mb-2">{{ R.label }}</p>
         <h2 id="rules-heading" class="font-extrabold tracking-tight text-white mb-4" style="font-size: clamp(1.75rem, 4.5vw, 3rem); line-height: 1.15;">{{ R.heading }}</h2>
         <p class="text-slate-300 leading-relaxed max-w-3xl mb-10" style="font-size: 1.0625rem;">{{ R.intro }}</p>
         <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 list-none p-0 m-0">
@@ -100,31 +120,10 @@ permalink: "{{ l.root }}tutor/index.html"
           </li>
           {%- endfor %}
         </ul>
-      </div>
-    </section>
-
-    {# ══════ TRANSPARENCY AND PRIVACY ══════ #}
-    {%- set X = T.transparency %}
-    {%- set P = T.privacy %}
-    <section class="bg-white py-16 sm:py-20" aria-labelledby="transparency-heading">
-      <div class="max-w-4xl mx-auto px-6 space-y-12">
-        <div id="{{ X.id }}" class="scroll-mt-16">
-          <h2 id="transparency-heading" class="font-extrabold tracking-tight text-slate-900 mb-4" style="font-size: clamp(1.5rem, 3.5vw, 2.125rem); line-height: 1.2;">{{ X.heading }}</h2>
-          <p class="text-slate-700 leading-relaxed max-w-3xl" style="font-size: 1.0625rem;">{{ X.text }}</p>
-          <p class="mt-4"><a href="{{ X.href | own }}" class="font-semibold text-blue-700 underline underline-offset-2 hover:text-blue-800">{{ X.link }} →</a></p>
-        </div>
-        <div id="{{ P.id }}" class="scroll-mt-16 space-y-6">
-          {%- include "ki-flow.njk" %}
-          <div class="rounded-2xl border border-blue-200 bg-blue-50 p-6 sm:p-8">
-          <h2 class="flex items-center gap-2 font-extrabold tracking-tight text-slate-900 mb-1" style="font-size: clamp(1.5rem, 3.5vw, 2.125rem); line-height: 1.2;"><span class="text-blue-600 shrink-0">{% icon "lock", "size-7" %}</span>{{ P.heading }}</h2>
-          <h3 class="text-base font-semibold text-blue-800 mb-4">{{ P.title }}</h3>
-          <div class="space-y-3">
-            {%- for p in P.text | paragraphs %}
-            <p class="text-slate-700 leading-relaxed">{{ p }}</p>
-            {%- endfor %}
-          </div>
-          <p class="mt-4"><a href="{{ P.href | own }}" class="font-semibold text-blue-700 underline underline-offset-2 hover:text-blue-800 whitespace-nowrap">{{ P.link }} →</a></p>
-          </div>
+        <div id="{{ X.id }}" class="scroll-mt-16 mt-8 rounded-2xl border border-blue-400 bg-slate-900 p-6 sm:p-8">
+          <h3 class="font-bold text-white mb-3" style="font-size: clamp(1.25rem, 3vw, 1.5rem); line-height: 1.25;">{{ X.heading }}</h3>
+          <p class="text-slate-300 leading-relaxed max-w-3xl">{{ X.text }}</p>
+          <p class="mt-4"><a href="{{ X.href | own }}" class="font-semibold text-blue-300 underline underline-offset-2 hover:text-white">{{ X.link }} →</a></p>
         </div>
       </div>
     </section>
