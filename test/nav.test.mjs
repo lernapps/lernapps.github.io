@@ -20,7 +20,9 @@ test("groups have a name in every language, and no group is named like one of it
   for (const g of nav.groups) {
     for (const lang of LANGUAGES) {
       assert.ok(g.label[lang], `a group has no name in ${lang}`);
-      assert.ok(!g.links.some((l) => l.label[lang] === g.label[lang]), `${g.label[lang]} is also a link`);
+      for (const l of g.links) {
+        for (const text of [l.label[lang], l.menuLabel?.[lang]]) assert.notEqual(text, g.label[lang], `${text} is also a group`);
+      }
     }
   }
 });
@@ -50,4 +52,16 @@ test("header: the menu names its groups and labels each list with its name", () 
     assert.ok(menu.includes(`id="la-menu-${i}">${g.label.de}</p>`));
     assert.ok(menu.includes(`<ul aria-labelledby="la-menu-${i}">`));
   }
+});
+
+test("the menu uses the longer name of a link where there is one, the row uses the short name", () => {
+  const { bar, menu } = parts(header({ site: "/", path: "/tutor/" }));
+  assert.match(bar, />Katalog<\/a>/);
+  assert.match(bar, />Üben<\/a>/);
+  assert.match(menu, />App Katalog<\/a>/);
+  assert.match(menu, />Üben für eine Prüfung<\/a>/);
+  const en = parts(header({ site: "/", path: "/en/tutor/" }));
+  assert.match(en.bar, />Catalog<\/a>/);
+  assert.match(en.menu, />App catalog<\/a>/);
+  assert.match(en.menu, />Practise for a test<\/a>/);
 });

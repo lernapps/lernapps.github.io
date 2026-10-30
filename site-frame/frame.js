@@ -156,11 +156,11 @@ export function header({
 } = {}) {
   const t = texts[lang];
   const current = currentHref(path);
-  const entry = (l) => {
+  const entry = (l, menu = false) => {
     const href = entryHref(l, lang);
     const external = /^https?:/.test(href) ? ' rel="noopener"' : "";
     const cur = pick(l.href, "de") === current ? ' aria-current="page"' : "";
-    return `<a href="${esc(link(href, { site, prefix }))}"${cur}${external}>${esc(pick(l.label, lang))}</a>`;
+    return `<a href="${esc(link(href, { site, prefix }))}"${cur}${external}>${esc(pick(menu && l.menuLabel ? l.menuLabel : l.label, lang))}</a>`;
   };
   const switchItems = otherLanguages(path, lang, languages).map(
     (o) =>
@@ -173,7 +173,7 @@ export function header({
   const groups = nav.groups
     .map(
       (g, i) =>
-        `<div class="la-menu__group"><p class="la-menu__title" id="la-menu-${i}">${esc(pick(g.label, lang))}</p><ul aria-labelledby="la-menu-${i}">${g.links.map((l) => `<li>${entry(l)}</li>`).join("")}</ul></div>`,
+        `<div class="la-menu__group"><p class="la-menu__title" id="la-menu-${i}">${esc(pick(g.label, lang))}</p><ul aria-labelledby="la-menu-${i}">${g.links.map((l) => `<li>${entry(l, true)}</li>`).join("")}</ul></div>`,
     )
     .join("");
   const menuLang = switchItems.length ? `<ul class="la-menu__lang">${switchItems.join("")}</ul>` : "";

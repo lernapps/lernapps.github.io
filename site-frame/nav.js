@@ -25,11 +25,13 @@ export const LANGUAGE_KEY = "lernapps-lang";
 
 // Link texts by language. A link goes to the same page in the language of the page the reader is on, unless
 //   href is { de, en }: a different address per language.
+// label is the text in the row of links on a wide screen; menuLabel, if there is one, is the text in the menu on a
+// phone, where there is more room for a clear name.
 const links = [
   // Two ways for learners: learn a topic with an app of the catalog, or practise for an occasion with an app made
   // to measure (lernapps practice).
-  { label: { de: "Lernen", en: "Learn" }, href: "/apps/" },
-  { label: { de: "Üben", en: "Practise" }, href: "/practice/" },
+  { label: { de: "Katalog", en: "Catalog" }, menuLabel: { de: "App Katalog", en: "App catalog" }, href: "/apps/" },
+  { label: { de: "Üben", en: "Practise" }, menuLabel: { de: "Üben für eine Prüfung", en: "Practise for a test" }, href: "/practice/" },
   // Listing is a section of "App bauen" (/apps/build/#eintragen); /apps/enter/ stays, linked from there.
   { label: { de: "App bauen", en: "Build an app" }, href: "/apps/build/" },
   { label: { de: "Tooling", en: "Tooling" }, href: "/tooling/" },
