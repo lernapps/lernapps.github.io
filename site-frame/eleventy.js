@@ -8,10 +8,10 @@
 // and where its language switch leads; a page that exists in one language only passes it as a second
 // argument to laHead and laHeader: {% laHeader page.url, "de" %}, and gets no language switch. The build's prefix comes from SITE_PATH_PREFIX (pull request
 // previews), the banner from SITE_PREVIEW. Adds the filter "own" for links (see link() in frame.js) and
-// copies tokens.css and frame.css next to the site (STYLES).
+// copies tokens.css, frame.css and page.css next to the site (STYLES, OPT_IN_STYLES).
 import { relative, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { head, header, footer, link, STYLES } from "./frame.js";
+import { head, header, footer, link, STYLES, OPT_IN_STYLES } from "./frame.js";
 
 const here = relative(process.cwd(), dirname(fileURLToPath(import.meta.url))) || ".";
 
@@ -20,7 +20,7 @@ export default function siteFrame(eleventyConfig, { site = "/", source } = {}) {
   const preview = Boolean(process.env.SITE_PREVIEW);
   const opts = { site, prefix };
 
-  eleventyConfig.addPassthroughCopy(Object.fromEntries(Object.entries(STYLES).map(([src, out]) => [`${here}/${src}`, out])));
+  eleventyConfig.addPassthroughCopy(Object.fromEntries(Object.entries({ ...STYLES, ...OPT_IN_STYLES }).map(([src, out]) => [`${here}/${src}`, out])));
   eleventyConfig.addFilter("own", (href) => link(href, opts));
   const pathOf = (url = "/") => site + String(url).replace(/^\//, "");
   const languagesOf = (only) => (only ? [only] : undefined);

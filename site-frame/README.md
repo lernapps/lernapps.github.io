@@ -17,6 +17,7 @@ a change to the navigation or the tokens with its next update pull request.
 | File | What it is |
 |---|---|
 | `tokens.css` | Design tokens as CSS custom properties (`--la-*`): brand colours, text, links, font, widths |
+| `page.css` | Opt-in base of a page of text and the button classes, in the light and the dark scheme (see "Page base and buttons") |
 | `frame.css` | Header, footer, skip link and preview banner, plain CSS on the tokens (class prefix `la-`) |
 | `nav.js` | The navigation and footer links of all sites in every language (`LANGUAGES`), the groups of the navigation links for the menu on a phone, and which path belongs to which repo (`SITES`, `TRANSLATED_SITES`) |
 | `frame.js` | `head()`, `header()`, `footer()`, `link()`, `languageOf()` and `pathIn()`: render the site frame as HTML strings |
@@ -107,3 +108,19 @@ but paints its own background would get light text on white: /practice/ does. A 
 `color-scheme: light dark` for itself and checks every colour of its own next to the tokens. The header, the footer and
 the dark sections are dark in both modes. The pages of the home site do not use the tokens for their page colours; they
 follow the dark mode with their own rules (`uno.config.js`, `src/home.css`).
+
+## Page base and buttons (opt-in)
+
+`page.css` is for pages of text that have no stylesheet of their own for it (vision, 404, notes in docs, practice and
+tooling). A site links it after the tokens: `<link rel="stylesheet" href="/docs/lernapps-page.css">`; the frame serves
+it next to the pages (`OPT_IN_STYLES`) but `head()` does not link it, so start pages and apps that paint their own
+background are not affected. Linking it is the opt-in: no attribute is needed.
+
+- It follows the system's colour scheme (`prefers-color-scheme`) and sets `color-scheme: light dark`, so form controls,
+  scrollbars and the canvas match and the page does not flash white. It sets the dark values of the tokens (the same
+  as `data-la-theme="auto"`), the page colours (`--la-bg`, `--la-box`, `--la-line`), links, tables, quotations, code
+  and `.la-note`.
+- Buttons: `.la-button` (filled) and `.la-button--secondary` (page colours, border 3:1), on a link or a `button`.
+  Text 4.5:1 and the border of a control 3:1 in both schemes; the focus ring is the link colour.
+- `test/page.test.mjs` keeps the dark values equal to those of `tokens.css` and checks the contrast pairs.
+- The home site's utility classes (`bg-white` buttons in light sections) follow the dark mode in `uno.config.js`.

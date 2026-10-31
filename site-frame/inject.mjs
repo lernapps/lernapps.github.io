@@ -17,7 +17,7 @@ import { readFileSync, writeFileSync, readdirSync, copyFileSync, existsSync, mkd
 import { join, relative, dirname, basename } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseArgs } from "node:util";
-import { head, header, footer, link, siteOf, STYLES, languageOf, pathIn } from "./frame.js";
+import { head, header, footer, link, siteOf, STYLES, OPT_IN_STYLES, languageOf, pathIn } from "./frame.js";
 import { LANGUAGES, TRANSLATED_SITES, languageRoot } from "./nav.js";
 
 const { values: a } = parseArgs({
@@ -33,7 +33,7 @@ const preview = Boolean(process.env.SITE_PREVIEW);
 const MARK = "<!-- lernapps-frame -->";
 
 const here = dirname(fileURLToPath(import.meta.url));
-for (const [src, out] of Object.entries(STYLES)) copyFileSync(join(here, src), join(a.out, out));
+for (const [src, out] of Object.entries({ ...STYLES, ...OPT_IN_STYLES })) copyFileSync(join(here, src), join(a.out, out));
 
 const files = (dir) =>
   readdirSync(dir, { withFileTypes: true }).flatMap((e) =>
