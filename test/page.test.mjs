@@ -12,7 +12,7 @@ const vars = (text) => Object.fromEntries([...text.matchAll(/(--la-[a-z-]+):\s*(
 
 const light = vars(tokensCss.match(/:root\s*\{([\s\S]*?)\n\}/)[1]);
 const darkTokens = vars(tokensCss.match(/:root\[data-la-theme="auto"\]\s*\{([\s\S]*?)\}/)[1]);
-const darkPage = vars(pageCss.match(/prefers-color-scheme:\s*dark\)\s*\{\s*:root\s*\{([\s\S]*?)\}/)[1]);
+const darkPage = vars(pageCss.match(/prefers-color-scheme:\s*dark\)\s*\{\s*html:root\s*\{([\s\S]*?)\}/)[1]);
 
 const lum = (hex) => {
   const c = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255).map((v) => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4));
@@ -54,4 +54,8 @@ test("text, links and buttons reach AA, light and dark", () => {
 test("page.css is opt-in: the frame serves it but head() does not link it", () => {
   assert.equal(OPT_IN_STYLES["page.css"], "lernapps-page.css");
   assert.doesNotMatch(head({ site: "/docs/" }), /lernapps-page\.css/);
+});
+
+test("the dark values win over tokens.css whatever the order of the links", () => {
+  assert.match(pageCss, /html:root\s*\{/, "page.css must be more specific than the :root of tokens.css");
 });

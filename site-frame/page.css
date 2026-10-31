@@ -7,8 +7,10 @@
   color-scheme: light dark;
 }
 
+/* html:root is more specific than the :root of tokens.css, which the frame links after the page's own stylesheets:
+   the dark values win whatever the order of the links. */
 @media (prefers-color-scheme: dark) {
-  :root {
+  html:root {
     --la-text: #e2e8f0;
     --la-muted: #b8c4d6;
     --la-link: #93c5fd;
