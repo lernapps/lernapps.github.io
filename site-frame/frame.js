@@ -86,6 +86,9 @@ const currentHref = (path) =>
 /** The files a site serves next to its pages: source in this folder → published name. */
 export const STYLES = { "tokens.css": "lernapps-tokens.css", "frame.css": "lernapps-frame.css" };
 
+/** Served next to the pages as well, but linked only by the sites that want it (the page base, page.css). */
+export const OPT_IN_STYLES = { "page.css": "lernapps-page.css" };
+
 /**
  * The other languages the page exists in, from `languages` (default: all): [{ lang, path }]. A page that has the
  * same address in the other language (a text that exists in one language only) has none.

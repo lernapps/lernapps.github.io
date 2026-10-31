@@ -8,7 +8,8 @@
     "./nav": "./site-frame/nav.js",
     "./eleventy": "./site-frame/eleventy.js",
     "./tokens.css": "./site-frame/tokens.css",
-    "./frame.css": "./site-frame/frame.css"
+    "./frame.css": "./site-frame/frame.css",
+    "./page.css": "./site-frame/page.css"
   },
   "bin": {
     "lernapps-frame": "site-frame/inject.mjs",
