@@ -18,6 +18,7 @@ a change to the navigation or the tokens with its next update pull request.
 |---|---|
 | `tokens.css` | Design tokens as CSS custom properties (`--la-*`): brand colours, text, links, font, widths |
 | `page.css` | Opt-in base of a page of text and the button classes, in the light and the dark scheme (see "Page base and buttons") |
+| `landing.css` | Opt-in look of a landing page: the palette `--lc-*` in light and dark, hero, eyebrow, call to action (see "Landing look") |
 | `frame.css` | Header, footer, skip link and preview banner, plain CSS on the tokens (class prefix `la-`) |
 | `nav.js` | The navigation and footer links of all sites in every language (`LANGUAGES`), the groups of the navigation links for the menu on a phone, and which path belongs to which repo (`SITES`, `TRANSLATED_SITES`) |
 | `frame.js` | `head()`, `header()`, `footer()`, `link()`, `languageOf()` and `pathIn()`: render the site frame as HTML strings |
@@ -124,3 +125,19 @@ background are not affected. Linking it is the opt-in: no attribute is needed.
   Text 4.5:1 and the border of a control 3:1 in both schemes; the focus ring is the link colour.
 - `test/page.test.mjs` keeps the dark values equal to those of `tokens.css` and checks the contrast pairs.
 - The home site's utility classes (`bg-white` buttons in light sections) follow the dark mode in `uno.config.js`.
+
+## Landing look (opt-in)
+
+`landing.css` is for the start pages of the sites and the workshop page: the palette as `--lc-*` tokens (`--lc-bg`,
+`--lc-card`, `--lc-text`, `--lc-muted`, `--lc-border`, `--lc-line`, `--lc-accent`, `--lc-tint`, `--lc-on`, `--lc-hero`,
+`--lc-shadow`) and the rules these pages share: the body and links, `.wrap`, a dark `.hero` with `.eyebrow`, `.cta` with
+its arrow (calm with `prefers-reduced-motion`) and `section.more`. A site links it after the page base:
+
+```html
+<link rel="stylesheet" href="lernapps-page.css">
+<link rel="stylesheet" href="lernapps-landing.css">
+```
+
+Colours that a frame token has come from the token (so the dark values of `page.css` apply); the others are their own steps.
+The cards, steps and lists of a page stay in the page, on the `--lc-*` tokens. There is no `data-theme` switch: the
+system's colour scheme decides. `test/landing.test.mjs` checks the contrast pairs in both schemes.
