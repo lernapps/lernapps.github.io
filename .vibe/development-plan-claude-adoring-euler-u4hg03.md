@@ -32,6 +32,11 @@ its own. The platform design follows in lernapps/docs on the same branch.
 - Next: the same texts in a square with the roles on three corners and a slow change while the page stands still
   (10 s per role, stops on scroll or click), to compare with the tabs (user).
 
+- Headline "Sinnvolle Apps, die etwas bei[[bringen]]." (user, 2026-11-01): not only learning apps (explainers),
+  also training (Textcheck) and play (Kniffel). "sofort helfen" read as advertising; "ohne Haken" stressed the
+  negative. The highlighter on "bringen" carries the second meaning; a mark inside a word starts flush.
+- The square (#112) was closed after a review with simulated users; its screenshots are in that PR's comment.
+
 ## Explore
 - [x] Platform design (E2, D3, D7, D8), landing page, mockups as artifacts
 

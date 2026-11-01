@@ -5,7 +5,7 @@
 // exists in English only.
 export default {
   meta: {
-    title: "lernapps.net — learning apps with no strings attached",
+    title: "lernapps.net — meaningful apps that teach you something",
     description:
       "Small learning apps, made by parents and teachers: free in the browser, no account, no ads, no subscription. And a solid foundation for everyone who wants to build an app themselves.",
   },
@@ -15,7 +15,7 @@ export default {
     // (platform design, E2); the others on the role's page. A quiet line addresses everyone who has worked with a
     // coding agent: they can build an app of their own.
     hero: {
-      headline: "Learning apps that [[help right away]].",
+      headline: "Meaningful apps that [[teach]] you something.",
       subtitle: "Made by teachers and parents, for everyone. Free in the browser, no account.",
       pick: "I am …",
       roles: [
@@ -150,7 +150,7 @@ export default {
         items: [
           { title: "You take over a class at short notice, perhaps outside your subject", text: "Pick subject, topic and grade. The apps explain themselves what to do, even if it isn't your subject.", points: ["Into class by link, QR code or projector", "Runs on tablet, laptop and phone"], link: "Search the catalog", href: "/apps/en/" },
           { title: "The next lesson lacks a fitting exercise", text: "Your AI assistant turns your material into a practice app for exactly your topic. It runs under lernapps.net for a while, without you publishing anything.", link: "Have an exercise made", href: "/practice/en/" },
-          { title: "Your class should do something itself", text: "In the apps the children try things out, decide and practise. They see right away whether it is right, instead of only watching.", link: "Example: probability with the Kniffel trainer", href: "/apps/en/kniffel-trainer/" },
+          { title: "Your class should do something itself", text: "In the apps the children try things out, decide and practise. They see right away whether it is right, instead of only watching.", link: "Example: reading closely with Textcheck", href: "/apps/en/textcheck/" },
           { title: "You are responsible for data protection", text: "Every app runs under lernapps.net, with one privacy notice for all. You can pass it on to your head teacher.", points: ["No account, no cookies, no tracking", "Nothing goes to third parties without a click; what an app loads is checked"], link: "Privacy notice for your school", href: "/en/privacy/" },
           { title: "Some children need you right now", text: "The app accompanies the class while it practises, each child at their own pace and with feedback. So your hands are free for the children who need particular attention." },
         ],
@@ -212,7 +212,7 @@ export default {
           { title: "A test is coming up", text: "Practise exactly the material that will come up, until it sticks. If no app fits, your AI assistant makes one from your worksheets, just for you.", link: "Practise for a test", href: "/practice/en/" },
           { title: "You need someone who explains patiently", text: "In every explainer app you can hand the task to your AI assistant. It gives you hints instead of answers, also in the evening. lernapps.net learns nothing about it.", link: "How the tutor works", href: "/en/tutor/" },
           { title: "You want to practise without anyone watching", text: "No account, no grade. Nobody knows who you are. Mistakes are allowed; that is how you learn." },
-          { title: "You want to try things out yourself", text: "Many apps let you do something: roll dice, move things, decide. So you see for yourself how it works.", link: "Example: Kniffel trainer", href: "/apps/en/kniffel-trainer/" },
+          { title: "You like to play", text: "Some apps let you play and learn along the way, such as probability while playing Yahtzee.", link: "Kniffel trainer", href: "/apps/en/kniffel-trainer/" },
         ],
       },
       thanks: { heading: "Did it help? Say thanks.", text: "On each app's page in the catalog you say thanks with one click. So the people who made it learn that it helped you." },

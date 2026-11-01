@@ -41,12 +41,14 @@ export default function (eleventyConfig) {
       '<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><filter id="rough" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.08" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="1.2" xChannelSelector="R" yChannelSelector="G"/></filter></defs></svg>',
   );
 
-  // A word in [[double brackets]] gets the highlighter (home.css). The text is escaped first; use with "safe".
+  // A word in [[double brackets]] gets the highlighter (home.css); inside a word it starts flush. The text is escaped first; use with "safe".
   eleventyConfig.addFilter("marked", (text) =>
     String(text)
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;")
+      // A mark that starts inside a word ("bei[[bringen]]") sits flush, so the word is not torn apart.
+      .replace(/([\p{L}])\[\[(.+?)\]\]/gu, '$1<mark class="mark mark-join">$2</mark>')
       .replace(/\[\[(.+?)\]\]/g, '<mark class="mark">$1</mark>'),
   );
 

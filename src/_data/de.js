@@ -6,7 +6,7 @@
 // Language: plain German (ISO 24495-1): short sentences, active voice, no jargon, "du".
 export default {
   meta: {
-    title: "lernapps.net — Lern-Apps ohne Haken",
+    title: "lernapps.net — Sinnvolle Apps, die etwas beibringen",
     description:
       "Kleine Lern-Apps, gemacht von Eltern und Lehrkräften: kostenlos im Browser, ohne Konto, ohne Werbung, ohne Abo. Und ein solides Fundament für alle, die selbst eine App bauen wollen.",
   },
@@ -16,7 +16,7 @@ export default {
     // stärksten Motivatoren (Plattform-Design, E2), die übrigen auf der Seite der Rolle. Eine leise Zeile spricht alle
     // an, die schon mit einem Coding-Agenten gearbeitet haben: Sie können eine eigene App bauen.
     hero: {
-      headline: "Lern-Apps, die [[sofort helfen]].",
+      headline: "Sinnvolle Apps, die etwas bei[[bringen]].",
       subtitle: "Gemacht von Lehrkräften und Eltern, für alle. Kostenlos im Browser, ohne Konto.",
       pick: "Ich bin …",
       roles: [
@@ -151,7 +151,7 @@ export default {
         items: [
           { title: "Du übernimmst kurzfristig eine Klasse, vielleicht fachfremd", text: "Wähle Fach, Thema und Klasse. Die Apps erklären selbst, was zu tun ist, auch wenn es nicht dein Fach ist.", points: ["Per Link, QR-Code oder Beamer in die Klasse", "Läuft auf Tablet, Laptop und Handy"], link: "Katalog durchsuchen", href: "/apps/" },
           { title: "Für die nächste Stunde fehlt eine passende Übung", text: "Dein KI-Assistent macht aus deinem Material eine Übungs-App, genau zu deinem Stoff. Sie läuft für eine Weile unter lernapps.net, ohne dass du etwas veröffentlichst.", link: "Eine Übung machen lassen", href: "/practice/" },
-          { title: "Deine Klasse soll selbst etwas tun", text: "In den Apps probieren die Kinder aus, entscheiden und üben. Sie sehen sofort, ob es stimmt, statt nur zuzuschauen.", link: "Beispiel: Wahrscheinlichkeit mit dem Kniffel-Trainer", href: "/apps/kniffel-trainer/" },
+          { title: "Deine Klasse soll selbst etwas tun", text: "In den Apps probieren die Kinder aus, entscheiden und üben. Sie sehen sofort, ob es stimmt, statt nur zuzuschauen.", link: "Beispiel: aufmerksam lesen mit dem Textcheck", href: "/apps/textcheck/" },
           { title: "Du trägst die Verantwortung für den Datenschutz", text: "Jede App läuft unter lernapps.net, mit einer Datenschutzerklärung für alle. Du kannst sie deiner Schulleitung weitergeben.", points: ["Kein Konto, keine Cookies, kein Tracking", "Nichts geht ohne Klick an Dritte; was eine App lädt, wird geprüft"], link: "Datenschutzerklärung für die Schule", href: "/privacy/" },
           { title: "Einige Kinder brauchen gerade dich", text: "Die App begleitet die Klasse beim Üben, jedes Kind in seinem Tempo und mit Rückmeldung. So hast du die Hände frei für die Kinder, die besondere Aufmerksamkeit brauchen." },
         ],
@@ -213,7 +213,7 @@ export default {
           { title: "Bald ist die Arbeit", text: "Üb genau den Stoff, der drankommt, bis er sitzt. Findest du keine passende App, macht dein KI-Assistent dir eine aus deinen Arbeitsblättern, nur für dich.", link: "Für eine Arbeit üben", href: "/practice/" },
           { title: "Du brauchst jemanden, der geduldig erklärt", text: "In jeder Erklär-App kannst du die Aufgabe an deinen KI-Assistenten geben. Er gibt dir Hinweise statt Lösungen, auch abends. lernapps.net erfährt nichts davon.", link: "So funktioniert der Tutor", href: "/tutor/" },
           { title: "Du willst üben, ohne dass jemand zuschaut", text: "Kein Konto, keine Note. Niemand weiß, wer du bist. Fehler sind erlaubt, so lernst du." },
-          { title: "Du willst selbst ausprobieren", text: "Viele Apps lassen dich etwas tun: würfeln, verschieben, entscheiden. So merkst du selbst, wie es funktioniert.", link: "Beispiel: Kniffel-Trainer", href: "/apps/kniffel-trainer/" },
+          { title: "Du spielst gern", text: "Bei manchen Apps spielst du und lernst nebenbei, zum Beispiel Wahrscheinlichkeit beim Kniffeln.", link: "Kniffel-Trainer", href: "/apps/kniffel-trainer/" },
         ],
       },
       thanks: { heading: "Hat es geholfen? Sag Danke.", text: "Auf der Seite jeder App im Katalog sagst du mit einem Klick Danke. So erfahren die, die sie gemacht haben, dass sie dir geholfen hat." },

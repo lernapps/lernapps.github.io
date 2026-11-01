@@ -59,7 +59,7 @@ for (const lang of Object.keys(pages)) {
 test("home: both languages have the same structure", { skip }, () => {
   const de = html("de");
   const en = html("en");
-  for (const re of [/<section /g, /<h2 /g, /<img /g, /<source /g, /<li[ >]/g, /<a /g, /class="mark"/g, /class="tick"/g]) {
+  for (const re of [/<section /g, /<h2 /g, /<img /g, /<source /g, /<li[ >]/g, /<a /g, /class="mark[ "]/g, /class="tick"/g]) {
     assert.equal(count(de, re), count(en, re), String(re));
   }
 });
@@ -106,7 +106,7 @@ test("role pages: both languages have the same structure and every anchor has a 
   for (const r of ["teachers", "parents", "students"]) {
     const de = readFileSync(`_site/${r}/index.html`, "utf8");
     const en = readFileSync(`_site/en/${r}/index.html`, "utf8");
-    for (const re of [/<section /g, /<h2 /g, /<h3 /g, /<li[ >]/g, /<a /g, /class="mark"/g]) assert.equal(count(de, re), count(en, re), `${r}: ${re}`);
+    for (const re of [/<section /g, /<h2 /g, /<h3 /g, /<li[ >]/g, /<a /g, /class="mark[ "]/g]) assert.equal(count(de, re), count(en, re), `${r}: ${re}`);
     for (const s of [de, en]) for (const [, id] of s.matchAll(/href="#([^"]+)"/g)) assert.ok(s.includes(`id="${id}"`), `${r}: #${id} has no target`);
   }
 });
