@@ -162,7 +162,7 @@ export default {
           { title: "You want to make your material digital", text: "Choose the content that gains most from being digital. Step by step you build your own digital collection, which other classes can use too.", points: ["Self-checking: the children see for themselves whether it is right", "Interactivity: try out, move, decide", "AI tutor: accompanies the task, with hints instead of answers"], link: "Build an app", href: "/apps/en/build/" },
         ],
       },
-      thanks: { heading: "Did it help? Say thanks.", text: "lernapps.net is free. A thank-you after the lesson takes one click and shows the people who made the app that it helps." },
+      thanks: { heading: "Did it help? Say thanks.", text: "lernapps.net is free. On each app's page in the catalog you say thanks after the lesson with one click. So the people who made it learn that it helps." },
     },
     parents: {
       name: "Parents",
@@ -192,7 +192,7 @@ export default {
           { title: "You are good at something and want to pass it on", text: "What you know becomes an app, where being digital gains most: the children check their own answers, try things out or ask an AI tutor. Many children learn with it, not only yours, and you hear that it helped.", link: "Build an app", href: "/apps/en/build/" },
         ],
       },
-      thanks: { heading: "Did it help? Say thanks.", text: "lernapps.net is free. A thank-you takes one click and shows the people who made the app that it helps." },
+      thanks: { heading: "Did it help? Say thanks.", text: "lernapps.net is free. On each app's page in the catalog you say thanks with one click. So the people who made it learn that it helps." },
     },
     students: {
       name: "Students",
@@ -215,7 +215,7 @@ export default {
           { title: "You want to try things out yourself", text: "Many apps let you do something: roll dice, move things, decide. So you see for yourself how it works.", link: "Example: Kniffel trainer", href: "/apps/en/kniffel-trainer/" },
         ],
       },
-      thanks: { heading: "Did it help? Say thanks.", text: "One click is enough. So the people who made the app learn that it helped you." },
+      thanks: { heading: "Did it help? Say thanks.", text: "On each app's page in the catalog you say thanks with one click. So the people who made it learn that it helped you." },
     },
     also: "Also for:",
   },

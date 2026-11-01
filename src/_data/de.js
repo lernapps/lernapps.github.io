@@ -163,7 +163,7 @@ export default {
           { title: "Du willst dein Material digital machen", text: "Wähle die Inhalte, die digital am meisten gewinnen. Nach und nach entsteht dein eigener digitaler Bestand, den auch andere Klassen nutzen können.", points: ["Selbstkontrolle: Die Kinder sehen selbst, ob es stimmt", "Interaktivität: ausprobieren, verschieben, entscheiden", "KI-Tutor: begleitet bei der Aufgabe, mit Hinweisen statt Lösungen"], link: "Eine App bauen", href: "/apps/build/" },
         ],
       },
-      thanks: { heading: "Hat es geholfen? Sag Danke.", text: "lernapps.net ist kostenlos. Ein Danke nach der Stunde kostet einen Klick und zeigt denen, die die App gemacht haben, dass sie hilft." },
+      thanks: { heading: "Hat es geholfen? Sag Danke.", text: "lernapps.net ist kostenlos. Auf der Seite jeder App im Katalog sagst du nach der Stunde mit einem Klick Danke. So erfahren die, die sie gemacht haben, dass sie hilft." },
     },
     parents: {
       name: "Eltern",
@@ -193,7 +193,7 @@ export default {
           { title: "Du kannst etwas gut und willst es weitergeben", text: "Aus deinem Wissen wird eine App, dort wo sie digital am meisten gewinnt: Die Kinder kontrollieren sich selbst, probieren aus oder fragen einen KI-Tutor. Viele Kinder lernen damit, nicht nur deins, und du erfährst, dass sie geholfen hat.", link: "Eine App bauen", href: "/apps/build/" },
         ],
       },
-      thanks: { heading: "Hat es geholfen? Sag Danke.", text: "lernapps.net ist kostenlos. Ein Danke kostet einen Klick und zeigt denen, die die App gemacht haben, dass sie hilft." },
+      thanks: { heading: "Hat es geholfen? Sag Danke.", text: "lernapps.net ist kostenlos. Auf der Seite jeder App im Katalog sagst du mit einem Klick Danke. So erfahren die, die sie gemacht haben, dass sie hilft." },
     },
     students: {
       name: "Schüler",
@@ -216,7 +216,7 @@ export default {
           { title: "Du willst selbst ausprobieren", text: "Viele Apps lassen dich etwas tun: würfeln, verschieben, entscheiden. So merkst du selbst, wie es funktioniert.", link: "Beispiel: Kniffel-Trainer", href: "/apps/kniffel-trainer/" },
         ],
       },
-      thanks: { heading: "Hat es geholfen? Sag Danke.", text: "Ein Klick genügt. So erfahren die, die die App gemacht haben, dass sie dir geholfen hat." },
+      thanks: { heading: "Hat es geholfen? Sag Danke.", text: "Auf der Seite jeder App im Katalog sagst du mit einem Klick Danke. So erfahren die, die sie gemacht haben, dass sie dir geholfen hat." },
     },
     also: "Auch für:",
   },
