@@ -30,7 +30,7 @@ Die Plattform ist kostenlos, und niemand verdient daran. Sie lebt davon, dass Me
 ## Wege
 
 - [Eine App finden](https://lernapps.net/apps/): der Katalog, nach Fach und Klasse.
-- [Eine App bauen](https://lernapps.net/tooling/llms.txt): mit dem Skill und dem Plan-Template; der Schnellweg steht unten.
+- [Eine App bauen](https://lernapps.net/tooling/llms.txt): mit dem Plan-Template und den Skills aus dem npm-Paket `@lernapps/tooling`; der Schnellweg steht unten.
 - [Eine App eintragen](https://lernapps.net/apps/llms.txt): die Bedingungen, der Eintrag und der Pull Request.
 - [Features](https://lernapps.net/features/): was die Apps können, was Entwickler beim Bauen bekommen (Grundgerüste oder eigener Stack, Aufnahme in den Katalog, Eigentum und Lizenz) und was die Plattform einzigartig macht, mit den Prinzipien.
 - [Tutor](https://lernapps.net/tutor/): KI beim Lernen. Wie ein Lernender seinen eigenen KI-Assistenten als Tutor zu einer Erklär-App mitbringt: Datenschutz, ein Beispielgespräch und der Ablauf von Selbsteinschätzung bis „Zurück zum Tutor“, die Regeln des Tutors und was er bekommt, Grenzen. Das Bauen mit KI steht im Tooling.
@@ -39,8 +39,8 @@ Die Plattform ist kostenlos, und niemand verdient daran. Sie lebt davon, dass Me
 
 ## Schnellweg: eine App bauen
 
-- [Skill lernapps-app](https://raw.githubusercontent.com/lernapps/tooling/main/skills/process/lernapps-app/SKILL.md): die Regeln jeder App; den Ablauf gibt das Plan-Template vor. Installieren mit `npx skills add lernapps/tooling`.
-- [Plan-Template](https://raw.githubusercontent.com/lernapps/tooling/main/guidance/plan-template.md): der Ablauf von der ersten Frage bis zum Eintrag. Als `.vibe/plans/01-<kurzer Name>.md` speichern und genau befolgen.
+1. Lege einen neuen, leeren Ordner an und führe dort `npx --yes @lernapps/tooling init <kurzer Name>` aus. Der Befehl schreibt das Plan-Template unverändert als `.vibe/plans/01-<kurzer Name>.md` (es wird nichts heruntergeladen, das ein Werkzeug zusammenfassen könnte) und legt die Skills ins Projekt, darunter `lernapps-app` mit den Regeln jeder App.
+2. Lies das Plan-Template vollständig und befolge es genau: Es führt von der ersten Frage bis zum Eintrag.
 
 ## Für KI-Assistenten
 
