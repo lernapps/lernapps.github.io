@@ -32,6 +32,7 @@ Die Plattform ist kostenlos, und niemand verdient daran. Sie lebt davon, dass Me
 - [Eine App finden](https://lernapps.net/apps/): der Katalog, nach Fach und Klasse.
 - [Eine App bauen](https://lernapps.net/tooling/llms.txt): mit dem Skill und dem Plan-Template; der Schnellweg steht unten.
 - [Eine App eintragen](https://lernapps.net/apps/llms.txt): die Bedingungen, der Eintrag und der Pull Request.
+- [Für Lehrkräfte](https://lernapps.net/teachers/), [für Eltern](https://lernapps.net/parents/), [für Schüler](https://lernapps.net/students/): was die Rolle von lernapps.net hat, je ein Abschnitt pro Anlass; für Lehrkräfte und Eltern auch, wie sie eine App für andere bauen.
 - [Features](https://lernapps.net/features/): was die Apps können, was Entwickler beim Bauen bekommen (Grundgerüste oder eigener Stack, Aufnahme in den Katalog, Eigentum und Lizenz) und was die Plattform einzigartig macht, mit den Prinzipien.
 - [Tutor](https://lernapps.net/tutor/): KI beim Lernen. Wie ein Lernender seinen eigenen KI-Assistenten als Tutor zu einer Erklär-App mitbringt: Datenschutz, ein Beispielgespräch und der Ablauf von Selbsteinschätzung bis „Zurück zum Tutor“, die Regeln des Tutors und was er bekommt, Grenzen. Das Bauen mit KI steht im Tooling.
 - [Mitmachen](https://lernapps.net/join/): für Lehrkräfte, Eltern, Lernende, Macher und alle, die an der Plattform mitarbeiten wollen; je mit einem Auftrag für ihren KI-Assistenten.

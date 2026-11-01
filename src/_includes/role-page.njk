@@ -1,0 +1,117 @@
+{#-
+  A role page (teachers.njk, parents.njk, students.njk): everything a role gets from lernapps.net, one section per
+  motivator (platform design, E2). The home page's role card links here ("More for …"). Two parts: using apps (also an
+  app made just for oneself, such as before a test) and building an app for others; the second part has its own tinted
+  band with a blue top edge, and the hero names both parts and jumps to them. A role without the second part (students)
+  shows neither the band nor the jump links. Then a thank-you, and links to the other roles. Anchors: #use, #build.
+  Expects: l (the language), role (teachers, parents or students). Texts: roles in src/_data/de.js, en.js.
+-#}
+{%- set RS = l.t.roles -%}
+{%- set R = RS[role] -%}
+<!doctype html>
+<html lang="{{ l.code }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>{{ R.meta.title }}</title>
+  <meta name="description" content="{{ R.meta.description }}">
+  <link rel="canonical" href="https://lernapps.net/{{ l.root }}{{ role }}/">
+  {%- if site.preview %}
+  <meta name="robots" content="noindex">
+  {%- endif %}
+  {% laHead page.url %}
+  {%- include "counter.njk" %}
+  <link rel="stylesheet" href="{{ '/uno.css' | own }}">
+  <link rel="stylesheet" href="{{ '/home.css' | own }}">
+</head>
+<body>
+  {% iconDefs %}
+  <div class="min-h-screen bg-slate-900 text-white" style="font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;">
+  {% laHeader page.url %}
+
+  <main id="main-content" tabindex="-1" class="outline-none">
+
+    {# ══════ HERO — the role's value, and its two parts ══════ #}
+    <section class="relative overflow-hidden">
+      <div class="absolute inset-0 pointer-events-none" style="background-image: linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px); background-size: 48px 48px;" aria-hidden="true"></div>
+      <div class="relative max-w-4xl mx-auto px-6 py-12 sm:py-20 w-full">
+        <nav aria-label="Breadcrumb" class="text-sm text-slate-300 mb-4"><a href="{{ ('/' + l.root) | own }}" class="text-blue-300 underline underline-offset-2 hover:text-white">{{ RS.home }}</a> / {{ R.crumb }}</nav>
+        <h1 class="font-extrabold leading-tight tracking-tight text-white mb-4 sm:mb-6" style="font-size: clamp(1.9rem, 5.5vw, 3.25rem);">{{ R.headline | marked | safe }}</h1>
+        <p class="text-slate-300 mb-6 sm:mb-8 max-w-2xl" style="font-size: clamp(1.0625rem, 2vw, 1.25rem); line-height: 1.5;">{{ R.subtitle }}</p>
+        <a href="{{ R.primaryHref | own }}" class="inline-flex items-center gap-2 px-5 sm:px-7 py-3 sm:py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors">{{ R.primary }} →</a>
+        {%- if R.build %}
+        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3 list-none p-0 m-0 mt-8 max-w-3xl">
+          {%- for part in [["use", "search", "bg-slate-600"], ["build", "pencil", "bg-blue-600"]] %}
+          <li><a href="#{{ part[0] }}" class="flex items-center gap-3 p-4 rounded-2xl bg-slate-800 border border-slate-700 text-white hover:border-blue-400 transition-colors no-underline">
+            <span class="grid place-items-center size-9 rounded-xl {{ part[2] }} shrink-0">{% icon part[1], "size-5" %}</span>
+            <span><span class="block font-semibold">{{ RS.parts[part[0]] }}</span><span class="block text-sm text-slate-300">{{ R.partHints[part[0]] }}</span></span>
+            <span class="ml-auto text-blue-300" aria-hidden="true">↓</span>
+          </a></li>
+          {%- endfor %}
+        </ul>
+        {%- endif %}
+      </div>
+    </section>
+
+    {# ══════ USE — and BUILD on its own tinted band ══════ #}
+    {%- for part in [["use", "search"], ["build", "pencil"]] %}
+    {%- set G = R[part[0]] %}
+    {%- if G %}
+    <section id="{{ part[0] }}" class="bg-white scroll-mt-16" aria-labelledby="{{ part[0] }}-heading">
+      <div class="{% if part[0] == 'build' %}bg-blue-50 border-t-4 border-blue-600 {% endif %}py-14 sm:py-20">
+      <div class="max-w-5xl mx-auto px-6">
+        <div class="flex gap-4 items-start mb-8">
+          <span class="grid place-items-center size-11 rounded-xl shrink-0 text-white {% if part[0] == 'build' %}bg-blue-600{% else %}bg-slate-700{% endif %}">{% icon part[1], "size-6" %}</span>
+          <div>
+            {%- if R.build %}<p class="text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">{{ RS.parts[part[0]] }}</p>{% endif %}
+            <h2 id="{{ part[0] }}-heading" class="font-extrabold tracking-tight text-slate-900 mb-1" style="font-size: clamp(1.5rem, 4vw, 2.25rem); line-height: 1.15;">{{ G.heading }}</h2>
+            <p class="text-slate-600 leading-relaxed max-w-2xl">{{ G.lead }}</p>
+          </div>
+        </div>
+        <ul class="list-none p-0 m-0">
+          {%- for it in G.items %}
+          <li class="grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] gap-x-10 gap-y-2 border-t-2 border-slate-300 pt-5 pb-7">
+            <h3 class="font-bold text-slate-900 text-lg leading-snug m-0">{{ it.title }}</h3>
+            <div class="min-w-0">
+              <p class="text-slate-600 leading-relaxed m-0 mb-3 max-w-prose">{{ it.text }}</p>
+              {%- if it.points %}
+              <ul class="list-none p-0 m-0 mb-3 grid gap-1 text-slate-600">
+                {%- for pt in it.points %}
+                <li class="flex gap-2"><svg class="tick mt-1" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M3 13 C5 14.5 7 17.5 8.5 21 C11 12 16 6 22 3"/></svg>{{ pt }}</li>
+                {%- endfor %}
+              </ul>
+              {%- endif %}
+              {%- if it.link %}
+              <a href="{{ it.href | own }}" class="font-semibold text-blue-700 underline underline-offset-2 hover:text-blue-800">{{ it.link }} →</a>
+              {%- endif %}
+            </div>
+          </li>
+          {%- endfor %}
+        </ul>
+      </div>
+      </div>
+    </section>
+    {%- endif %}
+    {%- endfor %}
+
+    {# ══════ THANKS, and the other roles ══════ #}
+    <section class="bg-slate-50 py-14 sm:py-16" aria-labelledby="thanks-heading">
+      <div class="max-w-5xl mx-auto px-6">
+        <div class="border-l-4 border-blue-500 pl-5 max-w-2xl">
+          <h2 id="thanks-heading" class="font-bold text-slate-900 text-xl mb-1">{{ R.thanks.heading }}</h2>
+          <p class="text-slate-600 leading-relaxed m-0">{{ R.thanks.text }}</p>
+        </div>
+        <p class="mt-8 text-sm text-slate-600 flex flex-wrap gap-x-5 gap-y-2">{{ RS.also }}
+          {%- for other in ["teachers", "parents", "students"] %}{% if other != role %}
+          <a href="{{ ('/' + l.root + other + '/') | own }}" class="font-semibold text-blue-700 underline underline-offset-2 hover:text-blue-800">{{ RS[other].name }}</a>
+          {%- endif %}{% endfor %}
+        </p>
+      </div>
+    </section>
+  </main>
+
+  {% laFooter page.url %}
+  </div>
+</body>
+</html>
