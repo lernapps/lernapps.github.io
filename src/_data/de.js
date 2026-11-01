@@ -21,7 +21,7 @@ export default {
       pick: "Ich bin …",
       roles: [
         {
-          id: "teachers", icon: "library", tab: "Ich unterrichte", tabShort: "Lehrkräfte",
+          id: "teachers", tab: "Ich unterrichte", tabShort: "Lehrkräfte",
           value: "Apps, mit denen deine Schüler selbst lernen.",
           points: [
             "Du findest in Minuten eine App zu Fach und Klassenstufe, auch für die Vertretung.",
@@ -32,7 +32,7 @@ export default {
           more: "Mehr für Lehrkräfte", moreHref: "/teachers/",
         },
         {
-          id: "parents", icon: "house", tab: "Ich bin Mutter oder Vater", tabShort: "Eltern",
+          id: "parents", tab: "Ich bin Mutter oder Vater", tabShort: "Eltern",
           value: "Hilfe für dein Kind, wo du nicht weiterkommst.",
           points: [
             "Du findest eine App, die deinem Kind Schritt für Schritt erklärt, was es gerade lernt.",
@@ -43,7 +43,7 @@ export default {
           more: "Mehr für Eltern", moreHref: "/parents/",
         },
         {
-          id: "students", icon: "backpack", tab: "Ich gehe zur Schule", tabShort: "Schüler",
+          id: "students", tab: "Ich gehe zur Schule", tabShort: "Schüler",
           value: "Lern in deinem Tempo, bis es sitzt.",
           points: [
             "Such dein Thema und lass es dir Schritt für Schritt erklären.",

@@ -20,7 +20,7 @@ export default {
       pick: "I am …",
       roles: [
         {
-          id: "teachers", icon: "library", tab: "I teach", tabShort: "Teachers",
+          id: "teachers", tab: "I teach", tabShort: "Teachers",
           value: "Apps your students learn with on their own.",
           points: [
             "You find an app for subject and grade in minutes, also for a lesson you cover.",
@@ -31,7 +31,7 @@ export default {
           more: "More for teachers", moreHref: "/en/teachers/",
         },
         {
-          id: "parents", icon: "house", tab: "I'm a parent", tabShort: "Parents",
+          id: "parents", tab: "I'm a parent", tabShort: "Parents",
           value: "Help for your child where you can't help any further.",
           points: [
             "You find an app that explains step by step what your child is learning right now.",
@@ -42,7 +42,7 @@ export default {
           more: "More for parents", moreHref: "/en/parents/",
         },
         {
-          id: "students", icon: "backpack", tab: "I go to school", tabShort: "Students",
+          id: "students", tab: "I go to school", tabShort: "Students",
           value: "Learn at your own pace, until it sticks.",
           points: [
             "Find your topic and have it explained step by step.",

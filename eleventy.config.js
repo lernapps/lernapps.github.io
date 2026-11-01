@@ -12,7 +12,6 @@ export default function (eleventyConfig) {
     "src/.nojekyll",
     "src/llms.txt",
     "src/join.js", // copy buttons of the prompts on /join/
-    "src/roles.js", // the slow change of the roles in the hero of the home page
     "src/home.css", // gallery, highlighter and red ticks of the home page
     "src/media", // screenshots of the apps and the founder's photo
     "src/favicon.svg",

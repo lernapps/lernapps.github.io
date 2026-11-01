@@ -29,11 +29,8 @@ its own. The platform design follows in lernapps/docs on the same branch.
   stay on the role pages). Buttons: "App-Katalog" stays (our term); "Prüfungsvorbereitung" becomes "Für eine Arbeit
   üben". Role name "Schüler" stays for now ("Lernende" is the neutral option).
 - No red accent: ticks are a dark check on a stroke of the highlighter; the chosen tab has a yellow edge (user).
-- Then the same texts in a square with the roles on three corners (teachers top left, parents top right, students
-  bottom right; the corner bottom left empty, its edges dashed), as its own commit, to compare with the tabs (user).
-  A slow change while the page stands still (10 s per role, the edge to the next corner fills up; stops for good on
-  scroll or a click in the square; pauses on hover or focus; none with reduced motion). On a phone the roles sit on
-  the top edge like beads on a string. Without JavaScript the corners still switch the roles (radio inputs).
+- Next: the same texts in a square with the roles on three corners and a slow change while the page stands still
+  (10 s per role, stops on scroll or click), to compare with the tabs (user).
 
 ## Explore
 - [x] Platform design (E2, D3, D7, D8), landing page, mockups as artifacts
