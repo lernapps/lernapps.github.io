@@ -67,16 +67,13 @@
   .tick { background-image: linear-gradient(101deg, transparent 0, #facc15 10%, #facc15 90%, transparent 100%); }
 }
 
-/* ── Roles in the hero: three corners of a square, the chosen role's value inside. Teachers top left, parents top right,
-   students bottom right; the corner bottom left stays empty and its two edges are dashed. The radio inputs come before
-   the square, so the checked one shows its panel, fills its corner and colours its two edges (:checked ~, no
-   JavaScript). roles.js adds the class "running" while the roles change by themselves: then the edge to the next
-   corner fills up as a progress bar instead. On a phone the three roles sit on the top edge like beads on a string.
-   All accents use the highlighter's yellow. The hero is dark in both schemes. ── */
+/* ── Role card in the hero: tabs and panel as one card. The radio inputs come before the tab row and the panels, so
+   the checked one shows its panel and marks its tab (:checked ~, no JavaScript). The chosen tab has the panel's
+   surface and a yellow top edge (the highlighter's), and covers the panel's border, so it merges into the panel. On a phone the three tabs
+   share one row with short labels; the buttons stack at full width. The hero is dark in both schemes. ── */
 .roles {
   --card: #1e293b;
   --card-line: #3b4a61;
-  --hi: #facc15;
 }
 .roles > input {
   position: absolute;
@@ -85,81 +82,54 @@
   height: 1px;
   margin: 0;
 }
-.roles-square {
+.roles-tabs {
   position: relative;
-  margin: 52px 0 8px;
-  padding: 58px 14px 22px;
-  border: 2px solid var(--card-line);
-  border-radius: 14px;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 4px;
+}
+.roles-tabs label {
+  cursor: pointer;
+  padding: 10px 8px;
+  text-align: center;
+  border: 1px solid var(--card-line);
+  border-bottom: 0;
+  border-radius: 12px 12px 0 0;
+  background: rgba(255, 255, 255, 0.03);
+  color: #cbd5e1;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+.roles-tabs label:hover { color: #fff; }
+.roles-long { display: none; }
+.roles-panel {
+  display: none;
+  padding: 20px 18px 22px;
+  border: 1px solid var(--card-line);
+  border-radius: 0 0 16px 16px;
   background: var(--card);
 }
-.roles-glow,
-.roles-progress {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  border-radius: inherit;
-}
-.roles-progress { inset: -2px; }
-.roles-progress i {
-  position: absolute;
-  display: none;
-  background: var(--hi);
-  transform: scale(0);
-}
-.roles-progress .pg-string { display: block; top: 0; height: 3px; }
-.roles-nodes { position: absolute; inset: 0; }
-.roles-node {
-  position: absolute;
-  z-index: 2;
-  top: -1px;
+.roles > input:nth-of-type(1):checked ~ .roles-panels .roles-panel:nth-child(1),
+.roles > input:nth-of-type(2):checked ~ .roles-panels .roles-panel:nth-child(2),
+.roles > input:nth-of-type(3):checked ~ .roles-panels .roles-panel:nth-child(3) {
   display: block;
-  transform: translate(-50%, -50%);
-  cursor: pointer;
-  color: #cbd5e1;
-  font-size: 0.8125rem;
-  font-weight: 700;
 }
-.roles-node:nth-child(1) { left: 16%; }
-.roles-node:nth-child(2) { left: 50%; }
-.roles-node:nth-child(3) { left: 84%; }
-.roles-dot {
-  display: grid;
-  place-items: center;
-  width: 52px;
-  height: 52px;
-  border: 2px solid var(--card-line);
-  border-radius: 50%;
-  background: #0f172a;
-  color: #e2e8f0;
-  transition: background-color 0.2s, border-color 0.2s;
+.roles > input:nth-of-type(1):checked ~ .roles-tabs label:nth-child(1),
+.roles > input:nth-of-type(2):checked ~ .roles-tabs label:nth-child(2),
+.roles > input:nth-of-type(3):checked ~ .roles-tabs label:nth-child(3) {
+  margin-bottom: -1px;
+  padding-bottom: 11px;
+  background: var(--card);
+  color: #fff;
+  box-shadow: inset 0 3px 0 #facc15;
 }
-.roles-node:hover .roles-dot { border-color: #93c5fd; }
-.roles-name { position: absolute; bottom: calc(100% + 6px); white-space: nowrap; }
-.roles > input:nth-of-type(1):checked ~ .roles-square .roles-node:nth-child(1),
-.roles > input:nth-of-type(2):checked ~ .roles-square .roles-node:nth-child(2),
-.roles > input:nth-of-type(3):checked ~ .roles-square .roles-node:nth-child(3) { color: #fff; }
-.roles > input:nth-of-type(1):checked ~ .roles-square .roles-node:nth-child(1) .roles-dot,
-.roles > input:nth-of-type(2):checked ~ .roles-square .roles-node:nth-child(2) .roles-dot,
-.roles > input:nth-of-type(3):checked ~ .roles-square .roles-node:nth-child(3) .roles-dot {
-  background: var(--hi);
-  border-color: var(--hi);
-  color: #0f172a;
-}
-.roles > input:nth-of-type(1):focus-visible ~ .roles-square .roles-node:nth-child(1) .roles-dot,
-.roles > input:nth-of-type(2):focus-visible ~ .roles-square .roles-node:nth-child(2) .roles-dot,
-.roles > input:nth-of-type(3):focus-visible ~ .roles-square .roles-node:nth-child(3) .roles-dot {
+.roles > input:nth-of-type(1):focus-visible ~ .roles-tabs label:nth-child(1),
+.roles > input:nth-of-type(2):focus-visible ~ .roles-tabs label:nth-child(2),
+.roles > input:nth-of-type(3):focus-visible ~ .roles-tabs label:nth-child(3) {
   outline: 3px solid #93c5fd;
-  outline-offset: 3px;
-}
-.roles > input:nth-of-type(1):checked ~ .roles-square .roles-glow { background: radial-gradient(circle at 16% 0, rgba(250, 204, 21, 0.13), transparent 60%); }
-.roles > input:nth-of-type(2):checked ~ .roles-square .roles-glow { background: radial-gradient(circle at 50% 0, rgba(250, 204, 21, 0.13), transparent 60%); }
-.roles > input:nth-of-type(3):checked ~ .roles-square .roles-glow { background: radial-gradient(circle at 84% 0, rgba(250, 204, 21, 0.13), transparent 60%); }
-.roles-panel { display: none; position: relative; }
-.roles > input:nth-of-type(1):checked ~ .roles-square .roles-panel:nth-child(1),
-.roles > input:nth-of-type(2):checked ~ .roles-square .roles-panel:nth-child(2),
-.roles > input:nth-of-type(3):checked ~ .roles-square .roles-panel:nth-child(3) {
-  display: block;
+  outline-offset: -3px;
 }
 .roles-value {
   margin: 0 0 12px;
@@ -218,47 +188,27 @@
   gap: 10px;
   align-items: flex-start;
   max-width: 48rem;
-  margin: 24px 0 0;
+  margin: 20px 0 0;
   color: #cbd5e1;
   font-size: 0.875rem;
   line-height: 1.5;
 }
 .hero-maker .icon { margin-top: 1px; color: #93c5fd; }
-
-/* Wide: the roles on the corners. Without the slow change (no JavaScript, reduced motion, or once stopped) the chosen
-   corner's two edges are yellow. */
-@media (min-width: 720px) {
-  .roles-square {
-    margin: 72px 44px 60px;
-    padding: 64px 84px 72px;
-    border-radius: 4px;
-    border-left-style: dashed;
-    border-bottom-style: dashed;
-  }
-  .roles-node { font-size: 0.9375rem; }
-  .roles-node:nth-child(1) { left: -1px; top: -1px; }
-  .roles-node:nth-child(2) { left: calc(100% + 1px); top: -1px; }
-  .roles-node:nth-child(3) { left: calc(100% + 1px); top: calc(100% + 1px); }
-  .roles-node:nth-child(3) .roles-name { bottom: auto; top: calc(100% + 6px); }
-  .roles-dot { width: 68px; height: 68px; }
-  .roles > input:nth-of-type(1):checked ~ .roles-square .roles-glow { background: radial-gradient(circle at 0 0, rgba(250, 204, 21, 0.13), transparent 60%); }
-  .roles > input:nth-of-type(2):checked ~ .roles-square .roles-glow { background: radial-gradient(circle at 100% 0, rgba(250, 204, 21, 0.13), transparent 60%); }
-  .roles > input:nth-of-type(3):checked ~ .roles-square .roles-glow { background: radial-gradient(circle at 100% 100%, rgba(250, 204, 21, 0.13), transparent 60%); }
-  .roles:not(.running) > input:nth-of-type(1):checked ~ .roles-square { border-top-color: var(--hi); border-left-color: var(--hi); }
-  .roles:not(.running) > input:nth-of-type(2):checked ~ .roles-square { border-top-color: var(--hi); border-right-color: var(--hi); }
-  .roles:not(.running) > input:nth-of-type(3):checked ~ .roles-square { border-right-color: var(--hi); border-bottom-color: var(--hi); }
-  .roles-progress .pg-string { display: none; }
-  .roles-progress .pg-top { display: block; top: 0; left: 0; right: 0; height: 3px; transform-origin: left; }
-  .roles-progress .pg-right { display: block; top: 0; bottom: 0; right: 0; width: 3px; transform-origin: top; }
-  .roles-progress .pg-bottom { display: block; bottom: 0; left: 0; right: 0; height: 3px; transform-origin: right; }
-  .roles-progress .pg-left { display: block; top: 0; bottom: 0; left: 0; width: 3px; transform-origin: bottom; }
+@media (min-width: 640px) {
+  .roles-tabs { display: flex; gap: 6px; }
+  .roles-tabs label { padding: 11px 18px; font-size: 0.9375rem; }
+  .roles-long { display: inline; }
+  .roles-short { display: none; }
+  .roles > input:nth-of-type(1):checked ~ .roles-tabs label:nth-child(1),
+  .roles > input:nth-of-type(2):checked ~ .roles-tabs label:nth-child(2),
+  .roles > input:nth-of-type(3):checked ~ .roles-tabs label:nth-child(3) { padding-bottom: 12px; }
+  .roles-panel { padding: 28px 30px; border-radius: 0 16px 16px 16px; }
   /* Two columns only for four points; three stay one column, so no column ends half empty. */
   .roles-points:has(> li:nth-child(4)) { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 28px; }
   .roles-actions { display: flex; flex-wrap: wrap; gap: 10px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .roles-btn,
-  .roles-dot { transition: none; }
+  .roles-btn { transition: none; }
 }
 
 /* ── Gallery: one app large (stage), the others beside it ── */
