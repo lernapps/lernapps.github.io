@@ -14,7 +14,7 @@ export default {
     hero: {
       headline: "Learning apps with [[no strings]] attached.",
       subtitle: "Free in the browser, ready to go.",
-      badges: ["No account", "No ads", "No subscription", "What you type stays on the device", "Works on phones too"],
+      badges: ["No account", "No ads", "No subscription", "What you type stays on your device", "Works on phones too"],
       primary: "Find an app",
       primaryHref: "/apps/en/",
       secondary: "Build one",
