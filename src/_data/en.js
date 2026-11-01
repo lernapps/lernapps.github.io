@@ -148,7 +148,7 @@ export default {
         heading: "Find and use apps",
         lead: "For the next lesson, without preparing the night before.",
         items: [
-          { title: "You take over a class at short notice, perhaps outside your subject", text: "Pick subject, topic and grade. The apps explain themselves what to do, even if it isn't your subject.", points: ["Into class by link, QR code or projector", "Runs on tablet, laptop and phone"], link: "Apps by subject and grade", href: "/apps/en/" },
+          { title: "You take over a class at short notice, perhaps outside your subject", text: "Pick subject, topic and grade. The apps explain themselves what to do, even if it isn't your subject.", points: ["Into class by link, QR code or projector", "Runs on tablet, laptop and phone"], link: "Search the catalog", href: "/apps/en/" },
           { title: "The next lesson lacks a fitting exercise", text: "Your AI assistant turns your material into a practice app for exactly your topic. It runs under lernapps.net for a while, without you publishing anything.", link: "Have an exercise made", href: "/practice/en/" },
           { title: "Your class should do something itself", text: "In the apps the children try things out, decide and practise. They see right away whether it is right, instead of only watching.", link: "Example: probability with the Kniffel trainer", href: "/apps/en/kniffel-trainer/" },
           { title: "You are responsible for data protection", text: "Every app runs under lernapps.net, with one privacy notice for all. You can pass it on to your head teacher.", points: ["No account, no cookies, no tracking", "Nothing goes to third parties without a click; what an app loads is checked"], link: "Privacy notice for your school", href: "/en/privacy/" },
@@ -179,7 +179,7 @@ export default {
         heading: "An app for your child",
         lead: "When you lack the time or the topic was too long ago.",
         items: [
-          { title: "Your child doesn't understand a topic, and you can't help", text: "Pick topic and grade. The app explains step by step, with pictures, exercises and feedback. You don't need to know the material yourself.", link: "Apps by topic and grade", href: "/apps/en/" },
+          { title: "Your child doesn't understand a topic, and you can't help", text: "Pick topic and grade. The app explains step by step, with pictures, exercises and feedback. You don't need to know the material yourself.", link: "Search the catalog", href: "/apps/en/" },
           { title: "A test is coming up", text: "Take photos of the worksheets. Your AI assistant turns them into a practice app for exactly that material, in a few minutes. The photos go to your assistant only.", link: "Practise for a test", href: "/practice/en/" },
           { title: "You wonder what the app does with your child", text: "All apps run under lernapps.net and follow the same rules. You don't have to judge a stranger's website.", points: ["No ads, no subscription, no in-app purchases", "No account; input stays on the device"], link: "Our rules", href: "/en/features/#principles" },
           { title: "Your child should get on alone", text: "Your child comes back as often as needed and finds the next app alone. A bookmark is enough." },
@@ -208,7 +208,7 @@ export default {
         heading: "How the apps help you",
         lead: "Find your topic, open the app, start.",
         items: [
-          { title: "You don't understand a topic yet", text: "Find your topic and grade. The app explains step by step. You can look at it as often as you like.", link: "Apps by topic", href: "/apps/en/" },
+          { title: "You don't understand a topic yet", text: "Find your topic and grade. The app explains step by step. You can look at it as often as you like.", link: "Search the catalog", href: "/apps/en/" },
           { title: "A test is coming up", text: "Practise exactly the material that will come up, until it sticks. If no app fits, your AI assistant makes one from your worksheets, just for you.", link: "Practise for a test", href: "/practice/en/" },
           { title: "You need someone who explains patiently", text: "In every explainer app you can hand the task to your AI assistant. It gives you hints instead of answers, also in the evening. lernapps.net learns nothing about it.", link: "How the tutor works", href: "/en/tutor/" },
           { title: "You want to practise without anyone watching", text: "No account, no grade. Nobody knows who you are. Mistakes are allowed; that is how you learn." },

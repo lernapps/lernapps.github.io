@@ -149,7 +149,7 @@ export default {
         heading: "Apps finden und einsetzen",
         lead: "Für die nächste Stunde, ohne Vorbereitung am Vorabend.",
         items: [
-          { title: "Du übernimmst kurzfristig eine Klasse, vielleicht fachfremd", text: "Wähle Fach, Thema und Klasse. Die Apps erklären selbst, was zu tun ist, auch wenn es nicht dein Fach ist.", points: ["Per Link, QR-Code oder Beamer in die Klasse", "Läuft auf Tablet, Laptop und Handy"], link: "Apps nach Fach und Klasse", href: "/apps/" },
+          { title: "Du übernimmst kurzfristig eine Klasse, vielleicht fachfremd", text: "Wähle Fach, Thema und Klasse. Die Apps erklären selbst, was zu tun ist, auch wenn es nicht dein Fach ist.", points: ["Per Link, QR-Code oder Beamer in die Klasse", "Läuft auf Tablet, Laptop und Handy"], link: "Katalog durchsuchen", href: "/apps/" },
           { title: "Für die nächste Stunde fehlt eine passende Übung", text: "Dein KI-Assistent macht aus deinem Material eine Übungs-App, genau zu deinem Stoff. Sie läuft für eine Weile unter lernapps.net, ohne dass du etwas veröffentlichst.", link: "Eine Übung machen lassen", href: "/practice/" },
           { title: "Deine Klasse soll selbst etwas tun", text: "In den Apps probieren die Kinder aus, entscheiden und üben. Sie sehen sofort, ob es stimmt, statt nur zuzuschauen.", link: "Beispiel: Wahrscheinlichkeit mit dem Kniffel-Trainer", href: "/apps/kniffel-trainer/" },
           { title: "Du trägst die Verantwortung für den Datenschutz", text: "Jede App läuft unter lernapps.net, mit einer Datenschutzerklärung für alle. Du kannst sie deiner Schulleitung weitergeben.", points: ["Kein Konto, keine Cookies, kein Tracking", "Nichts geht ohne Klick an Dritte; was eine App lädt, wird geprüft"], link: "Datenschutzerklärung für die Schule", href: "/privacy/" },
@@ -180,7 +180,7 @@ export default {
         heading: "Eine App für dein Kind",
         lead: "Wenn dir die Zeit fehlt oder das Thema zu lange her ist.",
         items: [
-          { title: "Dein Kind versteht ein Thema nicht, und du kannst nicht helfen", text: "Wähle Thema und Klasse. Die App erklärt Schritt für Schritt, mit Bildern, Übungen und Rückmeldung. Du musst den Stoff nicht selbst können.", link: "Apps nach Thema und Klasse", href: "/apps/" },
+          { title: "Dein Kind versteht ein Thema nicht, und du kannst nicht helfen", text: "Wähle Thema und Klasse. Die App erklärt Schritt für Schritt, mit Bildern, Übungen und Rückmeldung. Du musst den Stoff nicht selbst können.", link: "Katalog durchsuchen", href: "/apps/" },
           { title: "Bald ist die Arbeit", text: "Fotografiere die Arbeitsblätter. Dein KI-Assistent macht daraus eine Übungs-App genau zum Stoff, in wenigen Minuten. Die Fotos gehen nur an deinen Assistenten.", link: "Für eine Arbeit üben", href: "/practice/" },
           { title: "Du fragst dich, was die App mit deinem Kind macht", text: "Alle Apps laufen unter lernapps.net und folgen denselben Regeln. Du musst keine fremde Seite beurteilen.", points: ["Keine Werbung, kein Abo, keine Käufe in der App", "Kein Konto; Eingaben bleiben auf dem Gerät"], link: "Unsere Regeln", href: "/features/#prinzipien" },
           { title: "Dein Kind soll allein weiterkommen", text: "Dein Kind kommt wieder, so oft es braucht, und findet die nächste App selbst. Ein Lesezeichen genügt." },
@@ -209,7 +209,7 @@ export default {
         heading: "So helfen dir die Apps",
         lead: "Such dein Thema, öffne die App, leg los.",
         items: [
-          { title: "Du verstehst ein Thema noch nicht", text: "Such dein Thema und deine Klasse. Die App erklärt Schritt für Schritt. Du kannst es dir so oft ansehen, wie du willst.", link: "Apps nach Thema", href: "/apps/" },
+          { title: "Du verstehst ein Thema noch nicht", text: "Such dein Thema und deine Klasse. Die App erklärt Schritt für Schritt. Du kannst es dir so oft ansehen, wie du willst.", link: "Katalog durchsuchen", href: "/apps/" },
           { title: "Bald ist die Arbeit", text: "Üb genau den Stoff, der drankommt, bis er sitzt. Findest du keine passende App, macht dein KI-Assistent dir eine aus deinen Arbeitsblättern, nur für dich.", link: "Für eine Arbeit üben", href: "/practice/" },
           { title: "Du brauchst jemanden, der geduldig erklärt", text: "In jeder Erklär-App kannst du die Aufgabe an deinen KI-Assistenten geben. Er gibt dir Hinweise statt Lösungen, auch abends. lernapps.net erfährt nichts davon.", link: "So funktioniert der Tutor", href: "/tutor/" },
           { title: "Du willst üben, ohne dass jemand zuschaut", text: "Kein Konto, keine Note. Niemand weiß, wer du bist. Fehler sind erlaubt, so lernst du." },
