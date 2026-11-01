@@ -10,7 +10,8 @@
     "./tokens.css": "./site-frame/tokens.css",
     "./frame.css": "./site-frame/frame.css",
     "./page.css": "./site-frame/page.css",
-    "./landing.css": "./site-frame/landing.css"
+    "./landing.css": "./site-frame/landing.css",
+    "./dark-utilities": "./site-frame/dark-utilities.js"
   },
   "bin": {
     "lernapps-frame": "site-frame/inject.mjs",

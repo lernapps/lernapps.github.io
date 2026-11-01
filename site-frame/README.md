@@ -19,6 +19,7 @@ a change to the navigation or the tokens with its next update pull request.
 | `tokens.css` | Design tokens as CSS custom properties (`--la-*`): brand colours, text, links, font, widths |
 | `page.css` | Opt-in base of a page of text and the button classes, in the light and the dark scheme (see "Page base and buttons") |
 | `landing.css` | Opt-in look of a landing page: the palette `--lc-*` in light and dark, hero, eyebrow, call to action (see "Landing look") |
+| `dark-utilities.js` | The dark mode of pages built with UnoCSS or Tailwind utility classes with fixed colours, as a CSS string for `preflights` (see "Dark utilities") |
 | `frame.css` | Header, footer, skip link and preview banner, plain CSS on the tokens (class prefix `la-`) |
 | `nav.js` | The navigation and footer links of all sites in every language (`LANGUAGES`), the groups of the navigation links for the menu on a phone, and which path belongs to which repo (`SITES`, `TRANSLATED_SITES`) |
 | `frame.js` | `head()`, `header()`, `footer()`, `link()`, `languageOf()` and `pathIn()`: render the site frame as HTML strings |
@@ -141,3 +142,19 @@ its arrow (calm with `prefers-reduced-motion`) and `section.more`. A site links 
 Colours that a frame token has come from the token (so the dark values of `page.css` apply); the others are their own steps.
 The cards, steps and lists of a page stay in the page, on the `--lc-*` tokens. There is no `data-theme` switch: the
 system's colour scheme decides. `test/landing.test.mjs` checks the contrast pairs in both schemes.
+
+## Dark utilities
+
+Pages built with UnoCSS (or Tailwind) utility classes with fixed colours (the home site, the catalog) get their dark
+mode from one place, as a CSS string for the `preflights` of the UnoCSS config:
+
+```js
+import { darkUtilities } from "@lernapps/site/dark-utilities";
+export default { presets: [presetWind4()], preflights: [{ getCSS: () => darkUtilities }] };
+```
+
+It follows the system (`prefers-color-scheme`) and sets `color-scheme: light dark`. The classes of the pages stay as
+they are: the light sections (`bg-white`, `bg-slate-50`) and what is inside them get dark values, the dark and blue
+sections stay, and a white button or link in a light section takes the colour of a card. Components of a site that
+are not utility classes (a `.panel` in its own stylesheet) are not covered: they use the tokens with
+`data-la-theme="auto"`. `test/dark-utilities.test.mjs` checks the text colours against every dark background.
