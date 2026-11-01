@@ -23,6 +23,12 @@
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
 }
+/* A mark that starts inside a word ("bei|bringen") has no gap on its left, so the word stays one word. */
+.mark-join {
+  padding-left: 0;
+  margin-left: 0;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   @supports (animation-timeline: view()) {
     .mark {
