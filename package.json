@@ -9,7 +9,8 @@
     "./eleventy": "./site-frame/eleventy.js",
     "./tokens.css": "./site-frame/tokens.css",
     "./frame.css": "./site-frame/frame.css",
-    "./page.css": "./site-frame/page.css"
+    "./page.css": "./site-frame/page.css",
+    "./landing.css": "./site-frame/landing.css"
   },
   "bin": {
     "lernapps-frame": "site-frame/inject.mjs",
