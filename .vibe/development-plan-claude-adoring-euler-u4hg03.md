@@ -23,6 +23,15 @@ its own. The platform design follows in lernapps/docs on the same branch.
 - The cat video is dropped for now (user); it stays in the history.
 - The section "Was du davon hast" is dropped: the role card replaces it.
 
+- Review round (simulated teacher, parent, student; user, 2026-11-01): points address the reader actively,
+  alternating a statement ("Du findest …") and a request ("Lass …"); teachers' points have the students as subject.
+  No promises such as "ohne Bedenken"; no overly concrete examples. The building points leave the home page (they
+  stay on the role pages). Buttons: "App-Katalog" stays (our term); "Prüfungsvorbereitung" becomes "Für eine Arbeit
+  üben". Role name "Schüler" stays for now ("Lernende" is the neutral option).
+- No red accent: ticks are a dark check on a stroke of the highlighter; the chosen tab has a yellow edge (user).
+- Next: the same texts in a square with the roles on three corners and a slow change while the page stands still
+  (10 s per role, stops on scroll or click), to compare with the tabs (user).
+
 ## Explore
 - [x] Platform design (E2, D3, D7, D8), landing page, mockups as artifacts
 

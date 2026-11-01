@@ -42,19 +42,34 @@
   .mark { --mark: #facc15; }
 }
 
-/* ── Red ticks like a teacher's pen, before the points of the role card ── */
+/* ── Ticks: a dark check on a stroke of the highlighter, the same yellow as .mark, so they read on dark and on light
+   ground alike. ── */
 .tick {
   flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 20px;
+  margin-top: 1px;
+  background: linear-gradient(101deg, transparent 0, #fde047 10%, #fde047 90%, transparent 100%) 0 70% / 100% 82% no-repeat;
+  border-radius: 0.4em 0.15em 0.45em 0.2em / 0.5em 0.2em 0.45em 0.25em;
+}
+.tick svg {
+  width: 14px;
+  height: 14px;
   fill: none;
-  stroke: #f87171;
+  stroke: #0f172a;
   stroke-width: 3;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
+@media (prefers-color-scheme: dark) {
+  .tick { background-image: linear-gradient(101deg, transparent 0, #facc15 10%, #facc15 90%, transparent 100%); }
+}
 
 /* ── Role card in the hero: tabs and panel as one card. The radio inputs come before the tab row and the panels, so
    the checked one shows its panel and marks its tab (:checked ~, no JavaScript). The chosen tab has the panel's
-   surface and a red top edge, and covers the panel's border, so it merges into the panel. On a phone the three tabs
+   surface and a yellow top edge (the highlighter's), and covers the panel's border, so it merges into the panel. On a phone the three tabs
    share one row with short labels; the buttons stack at full width. The hero is dark in both schemes. ── */
 .roles {
   --card: #1e293b;
@@ -108,7 +123,7 @@
   padding-bottom: 11px;
   background: var(--card);
   color: #fff;
-  box-shadow: inset 0 3px 0 #f87171;
+  box-shadow: inset 0 3px 0 #facc15;
 }
 .roles > input:nth-of-type(1):focus-visible ~ .roles-tabs label:nth-child(1),
 .roles > input:nth-of-type(2):focus-visible ~ .roles-tabs label:nth-child(2),
@@ -133,7 +148,7 @@
   color: #cbd5e1;
 }
 .roles-points li { display: flex; gap: 8px; }
-.roles-points .tick { margin-top: 3px; }
+.roles-points .tick { margin-top: 2px; }
 .roles-actions {
   display: grid;
   gap: 8px;
@@ -188,7 +203,8 @@
   .roles > input:nth-of-type(2):checked ~ .roles-tabs label:nth-child(2),
   .roles > input:nth-of-type(3):checked ~ .roles-tabs label:nth-child(3) { padding-bottom: 12px; }
   .roles-panel { padding: 28px 30px; border-radius: 0 16px 16px 16px; }
-  .roles-points { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 28px; }
+  /* Two columns only for four points; three stay one column, so no column ends half empty. */
+  .roles-points:has(> li:nth-child(4)) { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 28px; }
   .roles-actions { display: flex; flex-wrap: wrap; gap: 10px; }
 }
 @media (prefers-reduced-motion: reduce) {
