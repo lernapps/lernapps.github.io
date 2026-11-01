@@ -38,3 +38,9 @@ test("the replaced text colours reach 4.5:1 on every dark background of a light 
 test("a white button or link in a light section takes the colour of a card", () => {
   assert.match(darkUtilities, /:is\(\.bg-white, \.bg-slate-50\) :is\(a, button\)\.bg-white \{ background-color: #17233b; \}/);
 });
+
+test("a light element with its own text colour gets the dark one, so that what inherits it stays readable", () => {
+  for (const cls of ["text-slate-900", "text-slate-800", "text-slate-700"]) {
+    assert.match(darkUtilities, new RegExp(`:is\\(\\.bg-white, \\.bg-slate-50\\)\\.${cls} \\{ color: #[0-9a-f]{6}; \\}`), cls);
+  }
+});
