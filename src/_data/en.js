@@ -239,19 +239,55 @@ export default {
       id: "users",
       kicker: "For teachers, parents and learners",
       heading: "What the apps can do",
-      intro: "Every app is built on one of three foundations. That is why they work in a similar way everywhere, and every one is made with the same care.",
-      archetypes: [
-        { icon: "circle-help", title: "Quiz", text: "Questions with answers to choose from. After every answer it says why it is right or wrong, and where to read on." },
-        { icon: "book-open", title: "Explainer", text: "Chapters of pages that explain. Every page has exercises. The pages can be read without JavaScript too.", extra: "If you like, add an AI tutor: the app gives your own AI assistant the task, the solution and the typical mistakes. This is optional. The app works entirely without AI and sends nothing itself." },
-        { icon: "gamepad-2", title: "Interactive app", text: "Learning by doing: a game, a training, an experiment. What the learners do is the content." },
+      intro: "Not every app teaches the same way. Some explain, some ask questions, some let you do something. We tell [[three kinds]] apart.",
+      // Three kinds of apps, each with only its own properties and real apps as examples (the screenshots of the
+      // home page's gallery); below them what all of them share.
+      kinds: [
+        {
+          app: "mathe-karte",
+          title: "Explainer",
+          how: "Explains a topic step by step and lets you practise it right away.",
+          alt: "Mathe-Karte: an explainer page on percentages with a calculation and a bar chart",
+          points: [
+            "Based on the curriculum. Every app says what you can do afterwards.",
+            "A wrong answer explains why it is wrong. Then you try again.",
+            "One link takes you to exactly one section or task, as a QR code too.",
+            "If you like, with your own AI assistant as a tutor. The app itself sends nothing.",
+          ],
+          examples: [{ label: "Mathe-Karte", href: "/apps/en/mathe-karte/" }],
+        },
+        {
+          app: "naturwunder-quiz",
+          title: "Quiz",
+          how: "Asks what you know and explains every answer.",
+          alt: "Naturwunder-Quiz: a question on the height of Mount Everest with a photo",
+          points: [
+            "After every answer it says why it is right or wrong.",
+            "A hint shows where to read on.",
+          ],
+          examples: [{ label: "Naturwunder-Quiz", href: "/apps/en/naturwunder-quiz/" }],
+        },
+        {
+          app: "textcheck",
+          title: "Interactive app",
+          how: "You learn by doing something: playing, training, trying out.",
+          alt: "Textcheck: a text about pyramids with one word marked",
+          points: [
+            "You learn along the way, by doing something playful.",
+            "Applies knowledge to everyday life, such as probability in a dice game.",
+          ],
+          examples: [{ label: "Textcheck", href: "/apps/en/textcheck/" }, { label: "Kniffel trainer", href: "/apps/en/kniffel-trainer/" }],
+        },
       ],
-      items: [
-        { title: "Based on the curriculum", text: "The content comes from the state curriculum and the teacher's material. Every app says what you can do afterwards." },
-        { title: "Exercises with feedback", text: "A wrong answer explains why it is wrong. Then you can try again." },
-        { title: "One link takes you right there", text: "To the topic, to the section or to exactly the task the whole class should work on. As a QR code too." },
-        { title: "Made by people", text: "Every app comes from a teacher, a parent or someone who likes to build. We help them build it, but that is no guarantee of quality. You report a mistake in the content with one click on the app's page." },
-        { title: "Accessible", text: "The apps meet WCAG 2.1 AA and work from 360 pixels wide. Where an app can't, it says so in the catalog." },
-        { title: "Runs on every device", text: "In the browser, without installing anything: on the projector, on the class tablets or on a phone at home." },
+      exampleLabel: "Example", examplesLabel: "Examples",
+      sharedHeading: "What all of them share",
+      shared: [
+        { title: "Runs only on your device.", text: "In the browser, without installing anything. What you type stays there." },
+        { title: "Collects no data.", text: "No account, no cookies, no tracking, no ads." },
+        { title: "Ready to use at once.", text: "A link or QR code is enough, on the projector, on tablets or on a phone." },
+        { title: "Part of the platform.", text: "Say thanks and report mistakes with one click on the app's page." },
+        { title: "Accessible.", text: "WCAG 2.1 AA, from 360 pixels wide. Where an app can't, it says so in the catalog." },
+        { title: "Made by people.", text: "By teachers, parents and people who like to build. We help them build, but we don't vouch for the content." },
       ],
       cta: "Find apps",
       ctaHref: "/apps/en/",

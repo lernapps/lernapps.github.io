@@ -240,19 +240,55 @@ export default {
       id: "nutzer",
       kicker: "Für Lehrkräfte, Eltern und Lernende",
       heading: "Was die Apps können",
-      intro: "Jede App baut auf einem von drei Grundgerüsten auf. Darum bedient man sie überall ähnlich, und in jeder steckt dieselbe Sorgfalt.",
-      archetypes: [
-        { icon: "circle-help", title: "Quiz", text: "Fragen mit Antworten zur Auswahl. Nach jeder Antwort steht, warum sie stimmt oder nicht, und wo man weiterlesen kann." },
-        { icon: "book-open", title: "Erklär-App", text: "Kapitel mit Seiten, die erklären. Auf jeder Seite gibt es Übungen. Die Seiten sind auch ohne JavaScript lesbar.", extra: "Wer will, nimmt einen KI-Tutor dazu: Die App gibt dem eigenen KI-Assistenten die Aufgabe, die Lösung und die typischen Fehler. Das ist freiwillig. Die App funktioniert ganz ohne KI und sendet selbst nichts." },
-        { icon: "gamepad-2", title: "Interaktive App", text: "Lernen durch Tun: ein Spiel, ein Training, ein Versuch. Was die Lernenden tun, ist der Inhalt." },
+      intro: "Nicht jede App lehrt auf dieselbe Weise. Manche erklären, manche fragen ab, manche lassen dich etwas tun. Wir unterscheiden [[drei Arten]].",
+      // Three kinds of apps, each with only its own properties and real apps as examples (the screenshots of the
+      // home page's gallery); below them what all of them share.
+      kinds: [
+        {
+          app: "mathe-karte",
+          title: "Erklär-App",
+          how: "Erklärt ein Thema Schritt für Schritt und lässt es gleich üben.",
+          alt: "Mathe-Karte: eine Erklärseite zum Prozentsatz mit Rechnung und Balkenbild",
+          points: [
+            "Am Lehrplan orientiert. Jede App sagt, was man danach kann.",
+            "Eine falsche Antwort erklärt, warum sie falsch ist. Dann versucht man es noch einmal.",
+            "Ein Link führt genau zu einem Abschnitt oder einer Aufgabe, auch als QR-Code.",
+            "Auf Wunsch mit dem eigenen KI-Assistenten als Tutor. Die App selbst sendet nichts.",
+          ],
+          examples: [{ label: "Mathe-Karte", href: "/apps/mathe-karte/" }],
+        },
+        {
+          app: "naturwunder-quiz",
+          title: "Quiz",
+          how: "Fragt Wissen ab und erklärt jede Antwort.",
+          alt: "Naturwunder-Quiz: eine Frage zur Höhe des Mount Everest mit Foto",
+          points: [
+            "Nach jeder Antwort steht, warum sie stimmt oder nicht.",
+            "Ein Hinweis zeigt, wo man weiterlesen kann.",
+          ],
+          examples: [{ label: "Naturwunder-Quiz", href: "/apps/naturwunder-quiz/" }],
+        },
+        {
+          app: "textcheck",
+          title: "Interaktive App",
+          how: "Man lernt, indem man etwas tut: spielen, trainieren, ausprobieren.",
+          alt: "Textcheck: ein Text über Pyramiden mit einem markierten Wort",
+          points: [
+            "Man lernt nebenbei, indem man etwas spielerisch macht.",
+            "Wendet Wissen im Alltag an, etwa Wahrscheinlichkeit beim Würfelspiel.",
+          ],
+          examples: [{ label: "Textcheck", href: "/apps/textcheck/" }, { label: "Kniffel-Trainer", href: "/apps/kniffel-trainer/" }],
+        },
       ],
-      items: [
-        { title: "Am Lehrplan orientiert", text: "Der Inhalt kommt aus dem Lehrplan des Landes und dem Material der Lehrkraft. Jede App sagt, was man danach kann." },
-        { title: "Übungen mit Rückmeldung", text: "Eine falsche Antwort erklärt, warum sie falsch ist. Dann kann man es noch einmal versuchen." },
-        { title: "Ein Link führt genau dorthin", text: "Zum Thema, zum Abschnitt oder zu genau der Aufgabe, die die ganze Klasse rechnen soll. Auch als QR-Code." },
-        { title: "Von Menschen gemacht", text: "Jede App kommt von einer Lehrkraft, einem Elternteil oder jemandem, der gern baut. Wir helfen beim Bauen, aber eine Garantie für die Qualität ist das nicht. Fehler im Inhalt meldest du mit einem Klick auf der Seite der App." },
-        { title: "Barrierearm", text: "Die Apps erfüllen WCAG 2.1 AA und laufen ab 360 Pixel Breite. Wo eine App das nicht kann, sagt sie es im Katalog." },
-        { title: "Läuft auf jedem Gerät", text: "Im Browser, ohne Installation: am Beamer, auf Tablets der Klasse oder auf dem Handy zu Hause." },
+      exampleLabel: "Beispiel", examplesLabel: "Beispiele",
+      sharedHeading: "Das haben alle gemeinsam",
+      shared: [
+        { title: "Läuft nur auf deinem Gerät.", text: "Im Browser, ohne Installation. Was du eingibst, bleibt dort." },
+        { title: "Sammelt keine Daten.", text: "Kein Konto, keine Cookies, kein Tracking, keine Werbung." },
+        { title: "Sofort einsetzbar.", text: "Ein Link oder QR-Code genügt, am Beamer, auf Tablets oder am Handy." },
+        { title: "Teil der Plattform.", text: "Danke sagen und Fehler melden mit einem Klick auf der Seite der App." },
+        { title: "Barrierearm.", text: "WCAG 2.1 AA, ab 360 Pixel Breite. Wo eine App das nicht schafft, steht es im Katalog." },
+        { title: "Von Menschen gemacht.", text: "Von Lehrkräften, Eltern und Leuten, die gern bauen. Wir helfen beim Bauen, garantieren aber nicht für den Inhalt." },
       ],
       cta: "Apps finden",
       ctaHref: "/apps/",

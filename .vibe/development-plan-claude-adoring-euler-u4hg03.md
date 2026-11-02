@@ -37,6 +37,10 @@ its own. The platform design follows in lernapps/docs on the same branch.
   negative. The highlighter on "bringen" carries the second meaning; a mark inside a word starts flush.
 - The square (#112) was closed after a review with simulated users; its screenshots are in that PR's comment.
 
+- Features page, "Was die Apps können" (user, 2026-11-02): apps teach in different ways, hence three kinds; each
+  kind shows only its own properties ("am Lehrplan orientiert" and feedback belong to explainers only) and real apps
+  as examples; what all share (local only, no data, ready at once, part of the platform with thanks) in a box below.
+
 ## Explore
 - [x] Platform design (E2, D3, D7, D8), landing page, mockups as artifacts
 
@@ -50,4 +54,4 @@ its own. The platform design follows in lernapps/docs on the same branch.
 - [x] Screenshots light/dark, 390 and 1440 px: no horizontal overflow
 
 ## Commit
-- [ ] Squash the branch, open the pull request
+- [x] Pull request #109; squashed on merge
