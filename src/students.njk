@@ -1,0 +1,10 @@
+---
+pagination:
+  data: languages
+  size: 1
+  alias: l
+permalink: "{{ l.root }}students/index.html"
+---
+{#- The page for students: see _includes/role-page.njk. -#}
+{%- set role = "students" -%}
+{%- include "role-page.njk" -%}

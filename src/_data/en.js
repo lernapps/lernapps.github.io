@@ -5,31 +5,59 @@
 // exists in English only.
 export default {
   meta: {
-    title: "lernapps.net — learning apps with no strings attached",
+    title: "lernapps.net — meaningful apps that teach you something",
     description:
       "Small learning apps, made by parents and teachers: free in the browser, no account, no ads, no subscription. And a solid foundation for everyone who wants to build an app themselves.",
   },
 
   landing: {
+    // Entry by role: teachers, parents and students see at a glance what they get. Per role the strongest motivators
+    // (platform design, E2); the others on the role's page. A quiet line addresses everyone who has worked with a
+    // coding agent: they can build an app of their own.
     hero: {
-      headline: "Learning apps with [[no strings]] attached.",
-      subtitle: "Free in the browser, ready to go.",
-      badges: ["No account", "No ads", "No subscription", "What you type stays on the device", "Works on phones too"],
-      primary: "Find an app",
-      primaryHref: "/apps/en/",
-      secondary: "Build one",
-      secondaryHref: "#get-involved",
-      // A small joke on the side: the video loads only after the click. Without JavaScript the button stays hidden.
-      cat: {
-        open: "Cat videos instead",
-        label: "Video: Minka the cat and the maths book",
-        description: "Video description: The video is AI-generated. In a child's bedroom a cat sits among toys. It opens a maths book with its paw, looks at the equations, then looks into the camera with a blank face. It shrugs, closes the book and walks back to its place. The video has ambient sound only, nobody speaks.",
-        fallback: "Watch the video (MP4)",
-        endTitle: "Do you feel like Minka?",
-        endText: "Learning does not have to be like this. Here you find apps that really teach something.",
-        primary: "Find an app",
-        primaryHref: "/apps/en/",
-        close: "Close",
+      headline: "Meaningful apps that [[teach]] you something.",
+      subtitle: "Made by teachers and parents, for everyone. Free in the browser, no account.",
+      pick: "I am …",
+      roles: [
+        {
+          id: "teachers", tab: "I teach", tabShort: "Teachers",
+          value: "Apps your students learn with on their own.",
+          points: [
+            "You find an app for subject and grade in minutes, also for a lesson you cover.",
+            "Let your students try things out and practise, each with instant feedback.",
+            "You share no data about your students: no account, no ads, no tracking.",
+          ],
+          actions: [{ label: "App catalog", href: "/apps/en/" }],
+          more: "More for teachers", moreHref: "/en/teachers/",
+        },
+        {
+          id: "parents", tab: "I'm a parent", tabShort: "Parents",
+          value: "Help for your child where you can't help any further.",
+          points: [
+            "You find an app that explains step by step what your child is learning right now.",
+            "Before a test, take a photo of the worksheet: your AI assistant turns it into an exercise.",
+            "You pay nothing, now or later: no ads, no subscription, no sign-up.",
+          ],
+          actions: [{ label: "App catalog", href: "/apps/en/" }, { label: "Practise for a test", href: "/practice/en/" }],
+          more: "More for parents", moreHref: "/en/parents/",
+        },
+        {
+          id: "students", tab: "I go to school", tabShort: "Students",
+          value: "Learn at your own pace, until it sticks.",
+          points: [
+            "Find your topic and have it explained step by step.",
+            "Before a test, practise exactly the material that will come up.",
+            "You get hints from your AI, even a free one, until you manage on your own.",
+            "Try things out: no account, no grade, nobody watching.",
+          ],
+          actions: [{ label: "App catalog", href: "/apps/en/" }, { label: "Practise for a test", href: "/practice/en/" }],
+          more: "More for students", moreHref: "/en/students/",
+        },
+      ],
+      maker: {
+        text: "Have you worked with a coding agent before? Then you can build a learning app of your own. Our foundations and guides give it what it needs, and the app stays yours.",
+        link: "Build an app",
+        href: "/apps/en/build/",
       },
     },
 
@@ -45,17 +73,6 @@ export default {
         { id: "kniffel-trainer", title: "Kniffel-Trainer", field: "Maths", line: "Understand probability by playing Yahtzee.", href: "/apps/en/kniffel-trainer/", altDesktop: "Yahtzee Trainer on a computer: dice and score sheet in explain mode", altPhone: "Yahtzee Trainer on a phone: dice and score sheet" },
         { id: "textcheck", dark: true, title: "Textcheck", field: "German", line: "Read carefully: find the mistakes in a text.", href: "/apps/en/textcheck/", altDesktop: "Textcheck on a computer: a text about pyramids with one word marked", altPhone: "Textcheck on a phone: a text about pyramids with one word marked" },
         { id: "naturwunder-quiz", dark: true, title: "Naturwunder-Quiz", field: "Geography", line: "A geography quiz with an explanation for every answer.", href: "/apps/en/naturwunder-quiz/", altDesktop: "Naturwunder-Quiz on a computer: a question about the height of Mount Everest with a photo", altPhone: "Naturwunder-Quiz on a phone: a question about the height of Mount Everest with a photo" },
-      ],
-    },
-
-    forYou: {
-      id: "for-you",
-      heading: "What you get",
-      privacy: { text: "No account, no cookies, no tracking.", link: "Privacy notice", href: "/privacy/" },
-      items: [
-        { headline: "Covering a lesson in 7b?", text: "Pick subject and grade, share a link or show the QR code. Every child gets feedback, nobody needs an account.", cta: "Apps for class", ctaHref: "/apps/en/" },
-        { headline: "Is your child stuck on a topic?", text: "Apps explain it step by step, with exercises and feedback. Free, and always there to come back to.", cta: "Apps to learn", ctaHref: "/apps/en/" },
-        { headline: "Test next week?", text: "Your AI assistant turns the worksheets into a practice app. In minutes, no subject knowledge needed.", cta: "To practise", ctaHref: "/practice/en/" },
       ],
     },
 
@@ -110,6 +127,99 @@ export default {
     },
   },
 
+  // ── ROLES: one page each for teachers, parents and students ─────────────────
+  // All motivators of the role (platform design, E2). Two parts: using apps (including an app just for oneself, such
+  // as before a test) and building an app for others. The students' page has the first part only.
+  roles: {
+    home: "Home",
+    parts: { use: "Use apps", build: "Build an app for others" },
+    teachers: {
+      name: "Teachers",
+      meta: {
+        title: "For teachers — lernapps.net",
+        description: "Learning apps for class: for topic and grade in minutes, data protection settled, the class tries things out itself. And your own material as an app.",
+      },
+      crumb: "For teachers",
+      headline: "Apps your students [[learn with on their own]].",
+      subtitle: "Small apps to try out and practise, made by colleagues. In the browser, no account, on the devices your school has.",
+      primary: "App catalog", primaryHref: "/apps/en/",
+      partHints: { use: "For the next lesson", build: "From your material" },
+      use: {
+        heading: "Find and use apps",
+        lead: "For the next lesson, without preparing the night before.",
+        items: [
+          { title: "You take over a class at short notice, perhaps outside your subject", text: "Pick subject, topic and grade. The apps explain themselves what to do, even if it isn't your subject.", points: ["Into class by link, QR code or projector", "Runs on tablet, laptop and phone"], link: "Search the catalog", href: "/apps/en/" },
+          { title: "The next lesson lacks a fitting exercise", text: "Your AI assistant turns your material into a practice app for exactly your topic. It runs under lernapps.net for a while, without you publishing anything.", link: "Have an exercise made", href: "/practice/en/" },
+          { title: "Your class should do something itself", text: "In the apps the children try things out, decide and practise. They see right away whether it is right, instead of only watching.", link: "Example: reading closely with Textcheck", href: "/apps/en/textcheck/" },
+          { title: "You are responsible for data protection", text: "Every app runs under lernapps.net, with one privacy notice for all. You can pass it on to your head teacher.", points: ["No account, no cookies, no tracking", "Nothing goes to third parties without a click; what an app loads is checked"], link: "Privacy notice for your school", href: "/en/privacy/" },
+          { title: "Some children need you right now", text: "The app accompanies the class while it practises, each child at their own pace and with feedback. So your hands are free for the children who need particular attention." },
+        ],
+      },
+      build: {
+        heading: "Build an app for others",
+        lead: "Your AI assistant builds, you bring the material and the experience. Other classes learn with it, and the app stays yours.",
+        items: [
+          { title: "You want to make your material digital", text: "Choose the content that gains most from being digital. Step by step you build your own digital collection, which other classes can use too.", points: ["Self-checking: the children see for themselves whether it is right", "Interactivity: try out, move, decide", "AI tutor: accompanies the task, with hints instead of answers"], link: "Build an app", href: "/apps/en/build/" },
+        ],
+      },
+      thanks: { heading: "Did it help? Say thanks.", text: "lernapps.net is free. On each app's page in the catalog you say thanks after the lesson with one click. So the people who made it learn that it helps." },
+    },
+    parents: {
+      name: "Parents",
+      meta: {
+        title: "For parents — lernapps.net",
+        description: "Learning apps for your child: they explain step by step, without ads and without an account. Practice apps before a test. And what you know as an app for many children.",
+      },
+      crumb: "For parents",
+      headline: "Help for your child where you [[can't help any further]].",
+      subtitle: "Small apps that explain and let children practise, made by teachers and parents. Free in the browser, no account.",
+      primary: "App catalog", primaryHref: "/apps/en/",
+      partHints: { use: "For your child, also before a test", build: "From what you know" },
+      use: {
+        heading: "An app for your child",
+        lead: "When you lack the time or the topic was too long ago.",
+        items: [
+          { title: "Your child doesn't understand a topic, and you can't help", text: "Pick topic and grade. The app explains step by step, with pictures, exercises and feedback. You don't need to know the material yourself.", link: "Search the catalog", href: "/apps/en/" },
+          { title: "A test is coming up", text: "Take photos of the worksheets. Your AI assistant turns them into a practice app for exactly that material, in a few minutes. The photos go to your assistant only.", link: "Practise for a test", href: "/practice/en/" },
+          { title: "You wonder what the app does with your child", text: "All apps run under lernapps.net and follow the same rules. You don't have to judge a stranger's website.", points: ["No ads, no subscription, no in-app purchases", "No account; input stays on the device"], link: "Our rules", href: "/en/features/#principles" },
+          { title: "Your child should get on alone", text: "Your child comes back as often as needed and finds the next app alone. A bookmark is enough." },
+        ],
+      },
+      build: {
+        heading: "Build an app for others",
+        lead: "With your AI assistant, no programming needed. Many children learn with it, and the app stays yours.",
+        items: [
+          { title: "You are good at something and want to pass it on", text: "What you know becomes an app, where being digital gains most: the children check their own answers, try things out or ask an AI tutor. Many children learn with it, not only yours, and you hear that it helped.", link: "Build an app", href: "/apps/en/build/" },
+        ],
+      },
+      thanks: { heading: "Did it help? Say thanks.", text: "lernapps.net is free. On each app's page in the catalog you say thanks with one click. So the people who made it learn that it helps." },
+    },
+    students: {
+      name: "Students",
+      meta: {
+        title: "For students — lernapps.net",
+        description: "Learning apps for you: understand a topic at your own pace, practise before a test, with a patient AI tutor. No account, no grade.",
+      },
+      crumb: "For students",
+      headline: "Learn at your own pace, [[until it sticks]].",
+      subtitle: "Small apps to try out and practise. Open one and start, no sign-up.",
+      primary: "App catalog", primaryHref: "/apps/en/",
+      use: {
+        heading: "How the apps help you",
+        lead: "Find your topic, open the app, start.",
+        items: [
+          { title: "You don't understand a topic yet", text: "Find your topic and grade. The app explains step by step. You can look at it as often as you like.", link: "Search the catalog", href: "/apps/en/" },
+          { title: "A test is coming up", text: "Practise exactly the material that will come up, until it sticks. If no app fits, your AI assistant makes one from your worksheets, just for you.", link: "Practise for a test", href: "/practice/en/" },
+          { title: "You need someone who explains patiently", text: "In every explainer app you can hand the task to your AI assistant. It gives you hints instead of answers, also in the evening. lernapps.net learns nothing about it.", link: "How the tutor works", href: "/en/tutor/" },
+          { title: "You want to practise without anyone watching", text: "No account, no grade. Nobody knows who you are. Mistakes are allowed; that is how you learn." },
+          { title: "You like to play", text: "Some apps let you play and learn along the way, such as probability while playing Yahtzee.", link: "Kniffel trainer", href: "/apps/en/kniffel-trainer/" },
+        ],
+      },
+      thanks: { heading: "Did it help? Say thanks.", text: "On each app's page in the catalog you say thanks with one click. So the people who made it learn that it helped you." },
+    },
+    also: "Also for:",
+  },
+
   // ── FEATURES: for users, for developers, and what makes the platform unique ─
   features: {
     meta: {
@@ -129,19 +239,55 @@ export default {
       id: "users",
       kicker: "For teachers, parents and learners",
       heading: "What the apps can do",
-      intro: "Every app is built on one of three foundations. That is why they work in a similar way everywhere, and every one is made with the same care.",
-      archetypes: [
-        { icon: "circle-help", title: "Quiz", text: "Questions with answers to choose from. After every answer it says why it is right or wrong, and where to read on." },
-        { icon: "book-open", title: "Explainer", text: "Chapters of pages that explain. Every page has exercises. The pages can be read without JavaScript too.", extra: "If you like, add an AI tutor: the app gives your own AI assistant the task, the solution and the typical mistakes. This is optional. The app works entirely without AI and sends nothing itself." },
-        { icon: "gamepad-2", title: "Interactive app", text: "Learning by doing: a game, a training, an experiment. What the learners do is the content." },
+      intro: "Not every app teaches the same way. Some explain, some ask questions, some let you do something. We tell [[three kinds]] apart.",
+      // Three kinds of apps, each with only its own properties and real apps as examples (the screenshots of the
+      // home page's gallery); below them what all of them share.
+      kinds: [
+        {
+          app: "mathe-karte",
+          title: "Explainer",
+          how: "Explains a topic step by step and lets you practise it right away.",
+          alt: "Mathe-Karte: an explainer page on percentages with a calculation and a bar chart",
+          points: [
+            "Based on the curriculum. Every app says what you can do afterwards.",
+            "A wrong answer explains why it is wrong. Then you try again.",
+            "One link takes you to exactly one section or task, as a QR code too.",
+            "If you like, with your own AI assistant as a tutor. The app itself sends nothing.",
+          ],
+          examples: [{ label: "Mathe-Karte", href: "/apps/en/mathe-karte/" }],
+        },
+        {
+          app: "naturwunder-quiz",
+          title: "Quiz",
+          how: "Asks what you know and explains every answer.",
+          alt: "Naturwunder-Quiz: a question on the height of Mount Everest with a photo",
+          points: [
+            "After every answer it says why it is right or wrong.",
+            "A hint shows where to read on.",
+          ],
+          examples: [{ label: "Naturwunder-Quiz", href: "/apps/en/naturwunder-quiz/" }],
+        },
+        {
+          app: "textcheck",
+          title: "Interactive app",
+          how: "You learn by doing something: playing, training, trying out.",
+          alt: "Textcheck: a text about pyramids with one word marked",
+          points: [
+            "You learn along the way, by doing something playful.",
+            "Applies knowledge to everyday life, such as probability in a dice game.",
+          ],
+          examples: [{ label: "Textcheck", href: "/apps/en/textcheck/" }, { label: "Kniffel trainer", href: "/apps/en/kniffel-trainer/" }],
+        },
       ],
-      items: [
-        { title: "Based on the curriculum", text: "The content comes from the state curriculum and the teacher's material. Every app says what you can do afterwards." },
-        { title: "Exercises with feedback", text: "A wrong answer explains why it is wrong. Then you can try again." },
-        { title: "One link takes you right there", text: "To the topic, to the section or to exactly the task the whole class should work on. As a QR code too." },
-        { title: "Made by people", text: "Every app comes from a teacher, a parent or someone who likes to build. We help them build it, but that is no guarantee of quality. You report a mistake in the content with one click on the app's page." },
-        { title: "Accessible", text: "The apps meet WCAG 2.1 AA and work from 360 pixels wide. Where an app can't, it says so in the catalog." },
-        { title: "Runs on every device", text: "In the browser, without installing anything: on the projector, on the class tablets or on a phone at home." },
+      exampleLabel: "Example", examplesLabel: "Examples",
+      sharedHeading: "What all of them share",
+      shared: [
+        { title: "Runs only on your device.", text: "In the browser, without installing anything. What you type stays there." },
+        { title: "Collects no data.", text: "No account, no cookies, no tracking, no ads." },
+        { title: "Ready to use at once.", text: "A link or QR code is enough, on the projector, on tablets or on a phone." },
+        { title: "Part of the platform.", text: "Say thanks and report mistakes with one click on the app's page." },
+        { title: "Accessible.", text: "WCAG 2.1 AA, from 360 pixels wide. Where an app can't, it says so in the catalog." },
+        { title: "Made by people.", text: "By teachers, parents and people who like to build. We help them build, but we don't vouch for the content." },
       ],
       cta: "Find apps",
       ctaHref: "/apps/en/",
