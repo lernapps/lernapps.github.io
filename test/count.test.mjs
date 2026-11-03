@@ -36,7 +36,7 @@ test("site-check fails an app that carries the counter, and lets a platform site
         encoding: "utf8",
         env,
       });
-    const app = check("/mathe-karte/");
+    const app = check("/mathe-arithmetik/");
     assert.equal(app.status, 1, app.stdout);
     assert.match(app.stderr, /usage counter outside the platform sites/);
     for (const site of ["/apps/", "/docs/", "/tooling/"]) assert.equal(check(site).status, 0, site);
