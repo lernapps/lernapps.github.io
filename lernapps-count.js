@@ -3,7 +3,7 @@
 // - a visit: the path of the page (data-path of the script tag, else the address without query), and the website
 //   the visitor came from, only its origin ("https://www.google.com", no path or query) and only when it is another
 //   website (not lernapps.net, so nothing about an app); nothing else (no query, title or screen size)
-// - a click on a link marked data-la-count="<name>" (e.g. "app/mathe-karte" on the catalog's "open app" links):
+// - a click on a link marked data-la-count="<name>" (e.g. "app/mathe-arithmetik" on the catalog's "open app" links):
 //   the name as an event
 // It sets nothing in the browser (no cookies, no localStorage) and reads nothing from it. It does not count when
 // the browser asks not to be tracked (Global Privacy Control, Do Not Track), outside https (npm run dev) or in a
