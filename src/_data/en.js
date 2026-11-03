@@ -69,7 +69,7 @@ export default {
       more: "More in the app catalog",
       moreHref: "/apps/en/",
       apps: [
-        { id: "mathe-karte", dark: true, title: "Mathe-Karte", field: "Maths", line: "Maths explained step by step, with pictures and exercises.", href: "/apps/en/mathe-karte/", altDesktop: "Mathe-Karte on a computer: a percentage exercise with the calculation and a bar picture", altPhone: "Mathe-Karte on a phone: the calculation and a bar picture" },
+        { id: "mathe-arithmetik", dark: true, title: "Percentages", field: "Maths", line: "Maths explained step by step, with pictures and exercises.", href: "/apps/en/mathe-arithmetik/", altDesktop: "Percentages on a computer: a percentage exercise with the calculation and a bar picture", altPhone: "Percentages on a phone: the calculation and a bar picture" },
         { id: "kniffel-trainer", title: "Kniffel-Trainer", field: "Maths", line: "Understand probability by playing Yahtzee.", href: "/apps/en/kniffel-trainer/", altDesktop: "Yahtzee Trainer on a computer: dice and score sheet in explain mode", altPhone: "Yahtzee Trainer on a phone: dice and score sheet" },
         { id: "textcheck", dark: true, title: "Textcheck", field: "German", line: "Read carefully: find the mistakes in a text.", href: "/apps/en/textcheck/", altDesktop: "Textcheck on a computer: a text about pyramids with one word marked", altPhone: "Textcheck on a phone: a text about pyramids with one word marked" },
         { id: "naturwunder-quiz", dark: true, title: "Naturwunder-Quiz", field: "Geography", line: "A geography quiz with an explanation for every answer.", href: "/apps/en/naturwunder-quiz/", altDesktop: "Naturwunder-Quiz on a computer: a question about the height of Mount Everest with a photo", altPhone: "Naturwunder-Quiz on a phone: a question about the height of Mount Everest with a photo" },
@@ -244,17 +244,17 @@ export default {
       // home page's gallery); below them what all of them share.
       kinds: [
         {
-          app: "mathe-karte",
+          app: "mathe-arithmetik",
           title: "Explainer",
           how: "Explains a topic step by step and lets you practise it right away.",
-          alt: "Mathe-Karte: an explainer page on percentages with a calculation and a bar chart",
+          alt: "Percentages: an explainer page on percentages with a calculation and a bar chart",
           points: [
             "Based on the curriculum. Every app says what you can do afterwards.",
             "A wrong answer explains why it is wrong. Then you try again.",
             "One link takes you to exactly one section or task, as a QR code too.",
             "If you like, with your own AI assistant as a tutor. The app itself sends nothing.",
           ],
-          examples: [{ label: "Mathe-Karte", href: "/apps/en/mathe-karte/" }],
+          examples: [{ label: "Percentages", href: "/apps/en/mathe-arithmetik/" }],
         },
         {
           app: "naturwunder-quiz",
@@ -396,16 +396,16 @@ export default {
       heading: "Help with exactly your exercise",
       text: "General explanations are everywhere. Your tutor knows more: it can read every page of the app. It sees which exercise you are on and what you typed. So it helps you right at the spot where you are stuck. Patiently, and whenever you need it.",
       cta: "Try the self-assessment",
-      ctaHref: "/mathe-karte/einschaetzung/",
+      ctaHref: "/apps/start/mathe-stochastik/einschaetzung/",
     },
     dialog: {
       label: "Example: a conversation with a tutor",
       you: "You",
       assistant: "Assistant",
       lines: [
-        { mine: true, parts: ["I practised on ", { label: "Laplace formula", href: "/mathe-karte/zufall/laplace/" }, ":\n- laplace-zaehlen, no. 54: right on the first try.\n- laplace-urne, no. 56: not solved yet (1 try, input 0.16). The app says: “Read the text above the exercise again.”\nSession: 1 of 2 right."] },
+        { mine: true, parts: ["I practised on ", { label: "Laplace formula", href: "/apps/start/mathe-stochastik/zufall/laplace/" }, ":\n- laplace-zaehlen, no. 54: right on the first try.\n- laplace-urne, no. 56: not solved yet (1 try, input 0.16). The app says: “Read the text above the exercise again.”\nSession: 1 of 2 right."] },
         { parts: ["I'll look at exercise 56 directly, to help you precisely."] },
-        { step: "Page opened", link: { label: "Laplace formula", href: "/mathe-karte/zufall/laplace/" } },
+        { step: "Page opened", link: { label: "Laplace formula", href: "/apps/start/mathe-stochastik/zufall/laplace/" } },
         { parts: ["Great that number 54 worked on the first try! On number 56: your 0.16 is very close – you probably cut off the decimals instead of rounding to two places. Work it out again: how many balls are in the urn in total, and how many of them are blue? Then divide the blue ones by all of them, round properly to two decimals, and type the result into the app."] },
         { mine: true, parts: ["ah, 0.17 – I rounded wrong"] },
       ],
@@ -438,7 +438,7 @@ export default {
       heading: "None of it is hidden",
       text: "On every page and in the self-assessment there is the link “See what your tutor gets”. It shows the whole brief, including the rules an app adds for its subject. Parents and teachers can read it before a child passes it on.",
       link: "Example: the brief for the self-assessment “Probability”",
-      href: "/mathe-karte/zufall/einschaetzung/tutor/",
+      href: "/apps/start/mathe-stochastik/einschaetzung/tutor/",
     },
     flow: {
       label: "The way your data takes",
@@ -467,8 +467,8 @@ export default {
     cta: {
       title: "Try it.",
       description: "Do the self-assessment. Whether you add a tutor afterwards is up to you.",
-      primary: "Self-assessment of Mathe-Karte",
-      primaryHref: "/mathe-karte/einschaetzung/",
+      primary: "Self-assessment “Probability”",
+      primaryHref: "/apps/start/mathe-stochastik/einschaetzung/",
       secondary: "All apps",
       secondaryHref: "/apps/en/",
     },

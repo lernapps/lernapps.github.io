@@ -70,7 +70,7 @@ export default {
       more: "Mehr im App-Katalog",
       moreHref: "/apps/",
       apps: [
-        { id: "mathe-karte", dark: true, title: "Mathe-Karte", field: "Mathematik", line: "Mathe Schritt für Schritt erklärt, mit Bild und Aufgaben.", href: "/apps/mathe-karte/", altDesktop: "Mathe-Karte am Computer: Aufgabe zum Prozentsatz mit Rechnung und Balkenbild", altPhone: "Mathe-Karte am Handy: Rechnung und Balkenbild" },
+        { id: "mathe-arithmetik", dark: true, title: "Prozentrechnung", field: "Mathematik", line: "Mathe Schritt für Schritt erklärt, mit Bild und Aufgaben.", href: "/apps/mathe-arithmetik/", altDesktop: "Prozentrechnung am Computer: Aufgabe zum Prozentsatz mit Rechnung und Balkenbild", altPhone: "Prozentrechnung am Handy: Rechnung und Balkenbild" },
         { id: "kniffel-trainer", title: "Kniffel-Trainer", field: "Mathematik", line: "Wahrscheinlichkeit spielerisch verstehen beim Kniffeln.", href: "/apps/kniffel-trainer/", altDesktop: "Kniffel-Trainer am Computer: Würfel und Kniffelblock im Erklärmodus", altPhone: "Kniffel-Trainer am Handy: Würfel und Kniffelblock" },
         { id: "textcheck", dark: true, title: "Textcheck", field: "Deutsch", line: "Aufmerksam lesen: Fehler im Text finden.", href: "/apps/textcheck/", altDesktop: "Textcheck am Computer: Text über Pyramiden mit einem markierten Wort", altPhone: "Textcheck am Handy: Text über Pyramiden mit einem markierten Wort" },
         { id: "naturwunder-quiz", dark: true, title: "Naturwunder-Quiz", field: "Erdkunde", line: "Erdkunde-Quiz mit einer Erklärung zu jeder Antwort.", href: "/apps/naturwunder-quiz/", altDesktop: "Naturwunder-Quiz am Computer: Frage zur Höhe des Mount Everest mit Foto", altPhone: "Naturwunder-Quiz am Handy: Frage zur Höhe des Mount Everest mit Foto" },
@@ -245,17 +245,17 @@ export default {
       // home page's gallery); below them what all of them share.
       kinds: [
         {
-          app: "mathe-karte",
+          app: "mathe-arithmetik",
           title: "Erklär-App",
           how: "Erklärt ein Thema Schritt für Schritt und lässt es gleich üben.",
-          alt: "Mathe-Karte: eine Erklärseite zum Prozentsatz mit Rechnung und Balkenbild",
+          alt: "Prozentrechnung: eine Erklärseite zum Prozentsatz mit Rechnung und Balkenbild",
           points: [
             "Am Lehrplan orientiert. Jede App sagt, was man danach kann.",
             "Eine falsche Antwort erklärt, warum sie falsch ist. Dann versucht man es noch einmal.",
             "Ein Link führt genau zu einem Abschnitt oder einer Aufgabe, auch als QR-Code.",
             "Auf Wunsch mit dem eigenen KI-Assistenten als Tutor. Die App selbst sendet nichts.",
           ],
-          examples: [{ label: "Mathe-Karte", href: "/apps/mathe-karte/" }],
+          examples: [{ label: "Prozentrechnung", href: "/apps/mathe-arithmetik/" }],
         },
         {
           app: "naturwunder-quiz",
@@ -397,16 +397,16 @@ export default {
       heading: "Hilfe genau bei deiner Aufgabe",
       text: "Allgemeine Erklärungen findest du überall. Dein Tutor weiß mehr: Er kann jede Seite der App lesen. Er sieht, welche Aufgabe du gerade machst und was du eingegeben hast. Darum hilft er dir genau an der Stelle, an der du hängst. Geduldig, und wann immer du ihn brauchst.",
       cta: "Selbsteinschätzung ausprobieren",
-      ctaHref: "/mathe-karte/einschaetzung/",
+      ctaHref: "/apps/start/mathe-stochastik/einschaetzung/",
     },
     dialog: {
       label: "Beispiel: Gespräch mit einem Tutor",
       you: "Du",
       assistant: "Assistent",
       lines: [
-        { mine: true, parts: ["Ich habe auf ", { label: "Laplace-Formel", href: "/mathe-karte/zufall/laplace/" }, " geübt:\n- laplace-zaehlen, Nr. 54: richtig im 1. Versuch.\n- laplace-urne, Nr. 56: noch nicht gelöst (1 Versuch, Eingabe 0,16). Die App sagt: „Lies dazu noch einmal den Text über der Aufgabe.“\nSitzung: 1 von 2 richtig."] },
+        { mine: true, parts: ["Ich habe auf ", { label: "Laplace-Formel", href: "/apps/start/mathe-stochastik/zufall/laplace/" }, " geübt:\n- laplace-zaehlen, Nr. 54: richtig im 1. Versuch.\n- laplace-urne, Nr. 56: noch nicht gelöst (1 Versuch, Eingabe 0,16). Die App sagt: „Lies dazu noch einmal den Text über der Aufgabe.“\nSitzung: 1 von 2 richtig."] },
         { parts: ["Ich schaue mir die Aufgabe 56 direkt an, um dir gezielt zu helfen."] },
-        { step: "Seite geöffnet", link: { label: "Laplace-Formel", href: "/mathe-karte/zufall/laplace/" } },
+        { step: "Seite geöffnet", link: { label: "Laplace-Formel", href: "/apps/start/mathe-stochastik/zufall/laplace/" } },
         { parts: ["Stark, dass Nummer 54 gleich im ersten Versuch saß! Bei Nummer 56: Deine Zahl 0,16 liegt ganz knapp daneben – vermutlich hast du die Nachkommastellen abgeschnitten, statt auf zwei Stellen zu runden. Rechne noch mal: Wie viele Kugeln liegen insgesamt in der Urne, und wie viele davon sind blau? Dann teile die blauen durch alle und runde sauber auf zwei Nachkommastellen, und tippe das Ergebnis in der App ein."] },
         { mine: true, parts: ["ah, 0,17 – habe falsch gerundet"] },
       ],
@@ -439,7 +439,7 @@ export default {
       heading: "Nichts davon ist versteckt",
       text: "Auf jeder Seite und bei der Selbsteinschätzung steht der Link „Ansehen, was dein Tutor bekommt“. Er zeigt den ganzen Auftrag, auch die Regeln, die eine App für ihr Fach ergänzt. Eltern und Lehrkräfte können ihn lesen, bevor ein Kind ihn weitergibt.",
       link: "Beispiel: der Auftrag zur Selbsteinschätzung „Wahrscheinlichkeit“",
-      href: "/mathe-karte/zufall/einschaetzung/tutor/",
+      href: "/apps/start/mathe-stochastik/einschaetzung/tutor/",
     },
     flow: {
       label: "Der Weg deiner Daten",
@@ -468,8 +468,8 @@ export default {
     cta: {
       title: "Probier es aus.",
       description: "Mach die Selbsteinschätzung. Ob du danach einen Tutor dazunimmst, entscheidest du.",
-      primary: "Selbsteinschätzung der Mathe-Karte",
-      primaryHref: "/mathe-karte/einschaetzung/",
+      primary: "Selbsteinschätzung „Wahrscheinlichkeit“",
+      primaryHref: "/apps/start/mathe-stochastik/einschaetzung/",
       secondary: "Alle Apps",
       secondaryHref: "/apps/",
     },
