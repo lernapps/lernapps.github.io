@@ -33,6 +33,7 @@
   });
 })();</script>
   <link rel="stylesheet" href="/pr-preview/pr-74/uno.css">
+  <link rel="stylesheet" href="/pr-preview/pr-74/home.css">
 </head>
 <body>
   <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><filter id="rough" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.08" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="1.2" xChannelSelector="R" yChannelSelector="G"/></filter></defs></svg>
@@ -67,51 +68,58 @@
       <div class="max-w-5xl mx-auto px-6">
         <p class="text-xs font-semibold text-blue-600 uppercase tracking-wider mb-3">For teachers, parents and learners</p>
         <h2 id="users-heading" class="font-extrabold tracking-tight text-slate-900 mb-4" style="font-size: clamp(1.75rem, 4.5vw, 2.5rem); line-height: 1.15;">What the apps can do</h2>
-        <p class="text-slate-700 leading-relaxed max-w-3xl mb-10" style="font-size: 1.0625rem;">Every app is built on one of three foundations. That is why they work in a similar way everywhere, and every one is made with the same care.</p>
-        <ul class="grid grid-cols-1 md:grid-cols-3 gap-5 list-none p-0 m-0 mb-12">
-          <li class="rounded-2xl border border-blue-200 bg-blue-50 p-6">
-            <span class="text-blue-600"><svg class="icon size-8" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g filter="url(#rough)"><circle cx="12" cy="12" r="10"/> <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/> <path d="M12 17h.01"/></g></svg></span>
-            <h3 class="font-bold text-slate-900 text-lg mt-3 mb-2">Quiz</h3>
-            <p class="text-sm text-slate-700 leading-relaxed">Questions with answers to choose from. After every answer it says why it is right or wrong, and where to read on.</p>
+        <p class="text-slate-700 leading-relaxed max-w-3xl mb-10" style="font-size: 1.0625rem;">Not every app teaches the same way. Some explain, some ask questions, some let you do something. We tell <mark class="mark">three kinds</mark> apart.</p>
+        <ul class="grid grid-cols-1 md:grid-cols-3 gap-5 list-none p-0 m-0">
+          <li class="flex flex-col rounded-2xl border border-slate-300 bg-slate-50 overflow-hidden">
+            <picture><source media="(prefers-color-scheme: dark)" srcset="/pr-preview/pr-74/media/apps/mathe-arithmetik-desktop-dark.webp"><img src="/pr-preview/pr-74/media/apps/mathe-arithmetik-desktop.webp" alt="Percentages: an explainer page on percentages with a calculation and a bar chart" width="1280" height="800" loading="lazy" class="block w-full h-auto object-cover object-left-top border-b border-slate-300" style="aspect-ratio: 16 / 10;"></picture>
+            <div class="flex flex-col flex-1 gap-3 p-5">
+              <h3 class="font-bold text-slate-900 text-lg m-0">Explainer</h3>
+              <p class="font-semibold text-slate-800 m-0">Explains a topic step by step and lets you practise it right away.</p>
+              <ul class="grid gap-2 list-none p-0 m-0 text-sm text-slate-600 leading-relaxed">
+                <li class="flex gap-2 items-start"><span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M20 6 9 17l-5-5"/></svg></span>Based on the curriculum. Every app says what you can do afterwards.</li>
+                <li class="flex gap-2 items-start"><span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M20 6 9 17l-5-5"/></svg></span>A wrong answer explains why it is wrong. Then you try again.</li>
+                <li class="flex gap-2 items-start"><span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M20 6 9 17l-5-5"/></svg></span>One link takes you to exactly one section or task, as a QR code too.</li>
+                <li class="flex gap-2 items-start"><span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M20 6 9 17l-5-5"/></svg></span>If you like, with your own AI assistant as a tutor. The app itself sends nothing.</li>
+              </ul>
+              <p class="mt-auto pt-1 text-sm text-slate-600 m-0">Example: <a href="/apps/en/mathe-arithmetik/" class="font-semibold text-blue-700 underline underline-offset-2 hover:text-blue-800">Percentages</a></p>
+            </div>
           </li>
-          <li class="rounded-2xl border border-blue-200 bg-blue-50 p-6">
-            <span class="text-blue-600"><svg class="icon size-8" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g filter="url(#rough)"><path d="M12 5v16"/> <path d="M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z"/></g></svg></span>
-            <h3 class="font-bold text-slate-900 text-lg mt-3 mb-2">Explainer</h3>
-            <p class="text-sm text-slate-700 leading-relaxed">Chapters of pages that explain. Every page has exercises. The pages can be read without JavaScript too.</p>
-            <p class="mt-3 text-sm text-slate-700 leading-relaxed"><span class="inline-flex align-text-bottom text-blue-600"><svg class="icon size-4" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g filter="url(#rough)"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"/> <path d="M20 2v4"/> <path d="M22 4h-4"/> <circle cx="4" cy="20" r="2"/></g></svg></span> If you like, add an AI tutor: the app gives your own AI assistant the task, the solution and the typical mistakes. This is optional. The app works entirely without AI and sends nothing itself.</p>
+          <li class="flex flex-col rounded-2xl border border-slate-300 bg-slate-50 overflow-hidden">
+            <picture><source media="(prefers-color-scheme: dark)" srcset="/pr-preview/pr-74/media/apps/naturwunder-quiz-desktop-dark.webp"><img src="/pr-preview/pr-74/media/apps/naturwunder-quiz-desktop.webp" alt="Naturwunder-Quiz: a question on the height of Mount Everest with a photo" width="1280" height="800" loading="lazy" class="block w-full h-auto object-cover object-left-top border-b border-slate-300" style="aspect-ratio: 16 / 10;"></picture>
+            <div class="flex flex-col flex-1 gap-3 p-5">
+              <h3 class="font-bold text-slate-900 text-lg m-0">Quiz</h3>
+              <p class="font-semibold text-slate-800 m-0">Asks what you know and explains every answer.</p>
+              <ul class="grid gap-2 list-none p-0 m-0 text-sm text-slate-600 leading-relaxed">
+                <li class="flex gap-2 items-start"><span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M20 6 9 17l-5-5"/></svg></span>After every answer it says why it is right or wrong.</li>
+                <li class="flex gap-2 items-start"><span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M20 6 9 17l-5-5"/></svg></span>A hint shows where to read on.</li>
+              </ul>
+              <p class="mt-auto pt-1 text-sm text-slate-600 m-0">Example: <a href="/apps/en/naturwunder-quiz/" class="font-semibold text-blue-700 underline underline-offset-2 hover:text-blue-800">Naturwunder-Quiz</a></p>
+            </div>
           </li>
-          <li class="rounded-2xl border border-blue-200 bg-blue-50 p-6">
-            <span class="text-blue-600"><svg class="icon size-8" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g filter="url(#rough)"><line x1="6" x2="10" y1="11" y2="11"/> <line x1="8" x2="8" y1="9" y2="13"/> <line x1="15" x2="15.01" y1="12" y2="12"/> <line x1="18" x2="18.01" y1="10" y2="10"/> <path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"/></g></svg></span>
-            <h3 class="font-bold text-slate-900 text-lg mt-3 mb-2">Interactive app</h3>
-            <p class="text-sm text-slate-700 leading-relaxed">Learning by doing: a game, a training, an experiment. What the learners do is the content.</p>
-          </li>
-        </ul>
-        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-6 list-none p-0 m-0">
-          <li class="flex gap-3">
-            <span class="text-blue-600 mt-0.5 shrink-0"><svg class="icon size-5" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g filter="url(#rough)"><path d="M20 6 9 17l-5-5"/></g></svg></span>
-            <div><h3 class="font-semibold text-slate-900 mb-1">Based on the curriculum</h3><p class="text-slate-600 leading-relaxed">The content comes from the state curriculum and the teacher&#39;s material. Every app says what you can do afterwards.</p></div>
-          </li>
-          <li class="flex gap-3">
-            <span class="text-blue-600 mt-0.5 shrink-0"><svg class="icon size-5" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g filter="url(#rough)"><path d="M20 6 9 17l-5-5"/></g></svg></span>
-            <div><h3 class="font-semibold text-slate-900 mb-1">Exercises with feedback</h3><p class="text-slate-600 leading-relaxed">A wrong answer explains why it is wrong. Then you can try again.</p></div>
-          </li>
-          <li class="flex gap-3">
-            <span class="text-blue-600 mt-0.5 shrink-0"><svg class="icon size-5" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g filter="url(#rough)"><path d="M20 6 9 17l-5-5"/></g></svg></span>
-            <div><h3 class="font-semibold text-slate-900 mb-1">One link takes you right there</h3><p class="text-slate-600 leading-relaxed">To the topic, to the section or to exactly the task the whole class should work on. As a QR code too.</p></div>
-          </li>
-          <li class="flex gap-3">
-            <span class="text-blue-600 mt-0.5 shrink-0"><svg class="icon size-5" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g filter="url(#rough)"><path d="M20 6 9 17l-5-5"/></g></svg></span>
-            <div><h3 class="font-semibold text-slate-900 mb-1">Made by people</h3><p class="text-slate-600 leading-relaxed">Every app comes from a teacher, a parent or someone who likes to build. We help them build it, but that is no guarantee of quality. You report a mistake in the content with one click on the app&#39;s page.</p></div>
-          </li>
-          <li class="flex gap-3">
-            <span class="text-blue-600 mt-0.5 shrink-0"><svg class="icon size-5" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g filter="url(#rough)"><path d="M20 6 9 17l-5-5"/></g></svg></span>
-            <div><h3 class="font-semibold text-slate-900 mb-1">Accessible</h3><p class="text-slate-600 leading-relaxed">The apps meet WCAG 2.1 AA and work from 360 pixels wide. Where an app can&#39;t, it says so in the catalog.</p></div>
-          </li>
-          <li class="flex gap-3">
-            <span class="text-blue-600 mt-0.5 shrink-0"><svg class="icon size-5" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g filter="url(#rough)"><path d="M20 6 9 17l-5-5"/></g></svg></span>
-            <div><h3 class="font-semibold text-slate-900 mb-1">Runs on every device</h3><p class="text-slate-600 leading-relaxed">In the browser, without installing anything: on the projector, on the class tablets or on a phone at home.</p></div>
+          <li class="flex flex-col rounded-2xl border border-slate-300 bg-slate-50 overflow-hidden">
+            <picture><source media="(prefers-color-scheme: dark)" srcset="/pr-preview/pr-74/media/apps/textcheck-desktop-dark.webp"><img src="/pr-preview/pr-74/media/apps/textcheck-desktop.webp" alt="Textcheck: a text about pyramids with one word marked" width="1280" height="800" loading="lazy" class="block w-full h-auto object-cover object-left-top border-b border-slate-300" style="aspect-ratio: 16 / 10;"></picture>
+            <div class="flex flex-col flex-1 gap-3 p-5">
+              <h3 class="font-bold text-slate-900 text-lg m-0">Interactive app</h3>
+              <p class="font-semibold text-slate-800 m-0">You learn by doing something: playing, training, trying out.</p>
+              <ul class="grid gap-2 list-none p-0 m-0 text-sm text-slate-600 leading-relaxed">
+                <li class="flex gap-2 items-start"><span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M20 6 9 17l-5-5"/></svg></span>You learn along the way, by doing something playful.</li>
+                <li class="flex gap-2 items-start"><span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M20 6 9 17l-5-5"/></svg></span>Applies knowledge to everyday life, such as probability in a dice game.</li>
+              </ul>
+              <p class="mt-auto pt-1 text-sm text-slate-600 m-0">Examples: <a href="/apps/en/textcheck/" class="font-semibold text-blue-700 underline underline-offset-2 hover:text-blue-800">Textcheck</a>, <a href="/apps/en/kniffel-trainer/" class="font-semibold text-blue-700 underline underline-offset-2 hover:text-blue-800">Kniffel trainer</a></p>
+            </div>
           </li>
         </ul>
+        <div class="mt-8 rounded-2xl bg-slate-900 border border-slate-700 p-6 sm:p-8">
+          <h3 class="font-bold text-white text-lg mt-0 mb-4">What all of them share</h3>
+          <ul class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 list-none p-0 m-0">
+            <li class="flex gap-3 items-start"><span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M20 6 9 17l-5-5"/></svg></span><span><b class="block text-white">Runs only on your device.</b><span class="text-slate-300 text-sm leading-relaxed">In the browser, without installing anything. What you type stays there.</span></span></li>
+            <li class="flex gap-3 items-start"><span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M20 6 9 17l-5-5"/></svg></span><span><b class="block text-white">Collects no data.</b><span class="text-slate-300 text-sm leading-relaxed">No account, no cookies, no tracking, no ads.</span></span></li>
+            <li class="flex gap-3 items-start"><span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M20 6 9 17l-5-5"/></svg></span><span><b class="block text-white">Ready to use at once.</b><span class="text-slate-300 text-sm leading-relaxed">A link or QR code is enough, on the projector, on tablets or on a phone.</span></span></li>
+            <li class="flex gap-3 items-start"><span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M20 6 9 17l-5-5"/></svg></span><span><b class="block text-white">Part of the platform.</b><span class="text-slate-300 text-sm leading-relaxed">Say thanks and report mistakes with one click on the app&#39;s page.</span></span></li>
+            <li class="flex gap-3 items-start"><span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M20 6 9 17l-5-5"/></svg></span><span><b class="block text-white">Accessible.</b><span class="text-slate-300 text-sm leading-relaxed">WCAG 2.1 AA, from 360 pixels wide. Where an app can&#39;t, it says so in the catalog.</span></span></li>
+            <li class="flex gap-3 items-start"><span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M20 6 9 17l-5-5"/></svg></span><span><b class="block text-white">Made by people.</b><span class="text-slate-300 text-sm leading-relaxed">By teachers, parents and people who like to build. We help them build, but we don&#39;t vouch for the content.</span></span></li>
+          </ul>
+        </div>
         <a href="/apps/en/" class="mt-10 inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-colors">Find apps →</a>
       </div>
     </section>
