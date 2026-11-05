@@ -122,7 +122,6 @@ export default {
         {
           quote: "As a brand-new dad, I want to help shape the future of learning today, not only when my child starts school.",
           signature: "Maximilian Mai",
-          role: "Part of lernapps.net",
           photo: "/media/maximilian-mai.webp",
         },
       ],

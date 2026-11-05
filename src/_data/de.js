@@ -123,7 +123,6 @@ export default {
         {
           quote: "Als frischgebackener Papa will ich die Zukunft des Lernens schon heute mitgestalten, nicht erst, wenn mein Kind in die Schule kommt.",
           signature: "Maximilian Mai",
-          role: "Macht bei lernapps.net mit",
           photo: "/media/maximilian-mai.webp",
         },
       ],
