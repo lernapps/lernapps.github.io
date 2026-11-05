@@ -112,9 +112,21 @@ export default {
     },
 
     founder: {
-      quote: "Es fehlt nicht an Tablets und WLAN. Es fehlt ein Ökosystem, das gute Ideen dorthin bringt, wo sie gebraucht werden.",
-      signature: "Oliver Jägle",
-      role: "Gründer von lernapps.net",
+      label: "Wer hinter lernapps.net steht",
+      people: [
+        {
+          quote: "Es fehlt nicht an Tablets und WLAN. Es fehlt ein Ökosystem, das gute Ideen dorthin bringt, wo sie gebraucht werden.",
+          signature: "Oliver Jägle",
+          role: "Gründer von lernapps.net",
+          photo: "/media/oliver-jaegle.webp",
+        },
+        {
+          quote: "Als frischgebackener Papa will ich die Zukunft des Lernens schon heute mitgestalten, nicht erst, wenn mein Kind in die Schule kommt.",
+          signature: "Maximilian Mai",
+          role: "Macht bei lernapps.net mit",
+          photo: "/media/maximilian-mai.webp",
+        },
+      ],
       link: "Mehr über uns",
       linkHref: "/about/",
     },

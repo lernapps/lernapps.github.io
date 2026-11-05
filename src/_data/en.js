@@ -111,9 +111,21 @@ export default {
     },
 
     founder: {
-      quote: "There is no lack of tablets and Wi-Fi. What is missing is an ecosystem that brings good ideas to where they are needed.",
-      signature: "Oliver Jägle",
-      role: "Founder of lernapps.net",
+      label: "Who is behind lernapps.net",
+      people: [
+        {
+          quote: "There is no lack of tablets and Wi-Fi. What is missing is an ecosystem that brings good ideas to where they are needed.",
+          signature: "Oliver Jägle",
+          role: "Founder of lernapps.net",
+          photo: "/media/oliver-jaegle.webp",
+        },
+        {
+          quote: "As a brand-new dad, I want to help shape the future of learning today, not only when my child starts school.",
+          signature: "Maximilian Mai",
+          role: "Part of lernapps.net",
+          photo: "/media/maximilian-mai.webp",
+        },
+      ],
       link: "More about us",
       linkHref: "/about/",
     },
