@@ -170,10 +170,10 @@ permalink: "{{ l.root }}index.html"
     {%- set W = L.founder %}
     <section class="bg-slate-50 py-16 sm:py-20" aria-label="{% for p in W.people %}{{ p.signature }}{% if not loop.last %}, {% endif %}{% endfor %}">
       <div class="max-w-5xl mx-auto px-6">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-10 lg:gap-8">
           {%- for p in W.people %}
-          <figure class="m-0 border-l-4 border-blue-500 pl-6 sm:pl-8">
-            <blockquote class="m-0"><p class="text-slate-800 leading-relaxed" style="font-size: clamp(1.25rem, 2.2vw, 1.5rem); line-height: 1.4;">{{ p.quote }}</p></blockquote>
+          <figure class="m-0 border-l-4 border-blue-500 pl-6 sm:pl-8 flex flex-col justify-between">
+            <blockquote class="m-0"><p class="text-slate-800 leading-relaxed" style="font-size: clamp(1.125rem, 1.6vw, 1.25rem); line-height: 1.45;">{{ p.quote }}</p></blockquote>
             <figcaption class="mt-5 flex items-center gap-4">
               <img src="{{ p.image | own }}" alt="" width="192" height="192" loading="lazy" class="avatar w-14 h-14 rounded-full object-cover shrink-0 border-2 border-slate-300">
               <span><span class="block font-semibold text-slate-900">{{ p.signature }}</span><span class="text-sm text-slate-500">{{ p.role }}</span></span>
