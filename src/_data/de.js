@@ -112,9 +112,10 @@ export default {
     },
 
     founder: {
-      quote: "Es fehlt nicht an Tablets und WLAN. Es fehlt ein Ökosystem, das gute Ideen dorthin bringt, wo sie gebraucht werden.",
-      signature: "Oliver Jägle",
-      role: "Gründer von lernapps.net",
+      people: [
+        { quote: "Es fehlt nicht an Tablets und WLAN. Es fehlt ein Ökosystem, das gute Ideen dorthin bringt, wo sie gebraucht werden.", signature: "Oliver Jägle", role: "Gründer von lernapps.net", image: "/media/oliver-jaegle.webp" },
+        { quote: "Die App übt, die KI erklärt. Und beide halten sich an den Lehrplan.", signature: "Ralf D. Müller", role: "Erschaffer der ersten Lern-App", image: "/media/ralf-mueller.webp" },
+      ],
       link: "Mehr über uns",
       linkHref: "/about/",
     },
