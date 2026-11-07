@@ -114,6 +114,7 @@ export default {
       people: [
         { quote: "There is no lack of tablets and Wi-Fi. What is missing is an ecosystem that brings good ideas to where they are needed.", signature: "Oliver Jägle", role: "Founder of lernapps.net", image: "/media/oliver-jaegle.webp" },
         { quote: "The app gives the practice, the AI does the explaining. And both stick to the curriculum.", signature: "Ralf D. Müller", role: "Creator of the first learning app", image: "/media/ralf-mueller.webp" },
+        { quote: "As a brand-new dad, I want to help shape the future of learning today, not only when my child starts school.", signature: "Maximilian Mai", role: "lernapps.net ambassador", image: "/media/maximilian-mai.webp" },
       ],
       link: "More about us",
       linkHref: "/about/",

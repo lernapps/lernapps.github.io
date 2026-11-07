@@ -115,6 +115,7 @@ export default {
       people: [
         { quote: "Es fehlt nicht an Tablets und WLAN. Es fehlt ein Ökosystem, das gute Ideen dorthin bringt, wo sie gebraucht werden.", signature: "Oliver Jägle", role: "Gründer von lernapps.net", image: "/media/oliver-jaegle.webp" },
         { quote: "Die App übt, die KI erklärt. Und beide halten sich an den Lehrplan.", signature: "Ralf D. Müller", role: "Erschaffer der ersten Lern-App", image: "/media/ralf-mueller.webp" },
+        { quote: "Als frischgebackener Papa will ich die Zukunft des Lernens schon heute mitgestalten, nicht erst, wenn mein Kind in die Schule kommt.", signature: "Maximilian Mai", role: "lernapps.net Botschafter", image: "/media/maximilian-mai.webp" },
       ],
       link: "Mehr über uns",
       linkHref: "/about/",
